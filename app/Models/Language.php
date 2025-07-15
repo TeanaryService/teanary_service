@@ -24,8 +24,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection|AttributeTranslation[] $attributeTranslations
  * @property Collection|AttributeValueTranslation[] $attributeValueTranslations
  * @property Collection|CategoryTranslation[] $categoryTranslations
+ * @property Collection|PaymentMethodTranslation[] $paymentMethodTranslations
  * @property Collection|ProductTranslation[] $productTranslations
  * @property Collection|PromotionTranslation[] $promotionTranslations
+ * @property Collection|ShippingMethodTranslation[] $shippingMethodTranslations
  * @property Collection|SpecificationTranslation[] $specificationTranslations
  * @property Collection|SpecificationValueTranslation[] $specificationValueTranslations
  * @property Collection|UserGroupTranslation[] $userGroupTranslations
@@ -58,6 +60,11 @@ class Language extends Model
         return $this->hasMany(CategoryTranslation::class);
     }
 
+    public function paymentMethodTranslations(): HasMany
+    {
+        return $this->hasMany(PaymentMethodTranslation::class);
+    }
+
     public function productTranslations(): HasMany
     {
         return $this->hasMany(ProductTranslation::class);
@@ -66,6 +73,11 @@ class Language extends Model
     public function promotionTranslations(): HasMany
     {
         return $this->hasMany(PromotionTranslation::class);
+    }
+
+    public function shippingMethodTranslations(): HasMany
+    {
+        return $this->hasMany(ShippingMethodTranslation::class);
     }
 
     public function specificationTranslations(): HasMany

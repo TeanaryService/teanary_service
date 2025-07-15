@@ -79,6 +79,18 @@ class CustomizeFilamentNavigation extends Command
                 'icon' => 'heroicon-o-currency-dollar',
                 'sort' => 401,
             ],
+            'PaymentMethodResource' => [
+                'label' => '支付方式',
+                'group' => '系统设置',
+                'icon' => 'heroicon-o-credit-card',
+                'sort' => 402,
+            ],
+            'ShippingMethodResource' => [
+                'label' => '物流方式',
+                'group' => '系统设置',
+                'icon' => 'heroicon-o-truck',
+                'sort' => 403,
+            ],
         ];
 
         $resourcePath = app_path('Filament/Manager/Resources');

@@ -20,12 +20,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $user_id
  * @property string $order_no
  * @property int|null $currency_id
+ * @property int|null $shipping_method_id
+ * @property int|null $payment_method_id
  * @property float $total
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
  * @property Currency|null $currency
+ * @property PaymentMethod|null $paymentMethod
+ * @property ShippingMethod|null $shippingMethod
  * @property User|null $user
  * @property Collection|OrderItem[] $orderItems
  *
@@ -39,6 +43,8 @@ class Order extends Model
     protected $casts = [
         'user_id' => 'int',
         'currency_id' => 'int',
+        'shipping_method_id' => 'int',
+        'payment_method_id' => 'int',
         'total' => 'float'
     ];
 
@@ -46,6 +52,8 @@ class Order extends Model
         'user_id',
         'order_no',
         'currency_id',
+        'shipping_method_id',
+        'payment_method_id',
         'total',
         'status'
     ];
@@ -53,6 +61,16 @@ class Order extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function shippingMethod(): BelongsTo
+    {
+        return $this->belongsTo(ShippingMethod::class);
     }
 
     public function user(): BelongsTo
