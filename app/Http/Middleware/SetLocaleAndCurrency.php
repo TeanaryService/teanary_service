@@ -18,7 +18,7 @@ class SetLocaleAndCurrency
         // ------------------------------
         $langCode = $request->input('lang') 
             ?? Session::get('lang');
-
+            
         $language = $service->getLanguageByCode($langCode);
         App::setLocale($language->code);
         Session::put('lang', $language->code);

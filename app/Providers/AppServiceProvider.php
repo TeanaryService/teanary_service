@@ -29,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
             fn() => \Livewire\Livewire::mount(\App\Filament\Widgets\LocaleCurrencySwitcher::class)
         );
 
+        Filament::registerRenderHook(
+            'panels::topbar.start',
+            fn() => '<a target="_blank" href="' . route('home') . '">首页</a>'
+        );
+
         Language::observe(LanguageObserver::class);
         Currency::observe(CurrencyObserver::class);
     }

@@ -21,6 +21,14 @@ class LocaleCurrencySwitcherController extends Controller
             session(['currency' => $currency->code]);
         }
 
-        return redirect()->back();
+        $params = [
+            'lang' => session('lang'),
+            'currency' => session('currency'),
+        ];
+
+        $url = url()->previous();
+        $parsed = parse_url($url);
+        $base = $parsed['scheme'] . '://' . $parsed['host'] . (isset($parsed['port']) ? ':' . $parsed['port'] : '') . $parsed['path'];
+        return redirect()->to($base . '?' . http_build_query($params));
     }
 }
