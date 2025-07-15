@@ -15,9 +15,14 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AttributeResource extends Resource
 {
+    protected static ?string $pluralLabel = '属性管理';
+    protected static ?string $label = '属性管理';
+    protected static ?int $navigationSort = 202;
+    protected static ?string $navigationGroup = '商品管理';
+    protected static ?string $navigationLabel = '属性管理';
     protected static ?string $model = Attribute::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
     public static function form(Form $form): Form
     {

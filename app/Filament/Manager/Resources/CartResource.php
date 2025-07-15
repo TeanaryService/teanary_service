@@ -15,9 +15,14 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CartResource extends Resource
 {
+    protected static ?string $pluralLabel = '购物车';
+    protected static ?string $label = '购物车';
+    protected static ?int $navigationSort = 102;
+    protected static ?string $navigationGroup = '商务运营';
+    protected static ?string $navigationLabel = '购物车';
     protected static ?string $model = Cart::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
     public static function form(Form $form): Form
     {

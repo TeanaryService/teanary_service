@@ -15,9 +15,14 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PromotionResource extends Resource
 {
+    protected static ?string $pluralLabel = '促销活动';
+    protected static ?string $label = '促销活动';
+    protected static ?int $navigationSort = 101;
+    protected static ?string $navigationGroup = '商务运营';
+    protected static ?string $navigationLabel = '促销活动';
     protected static ?string $model = Promotion::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
     public static function form(Form $form): Form
     {

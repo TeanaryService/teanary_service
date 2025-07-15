@@ -13,59 +13,71 @@ class CustomizeFilamentNavigation extends Command
     public function handle()
     {
         $configs = [
-            'LanguageResource' => [
-                'label' => '语言管理',
-                'group' => '系统设置',
-                'icon' => 'heroicon-o-language',
-                'sort' => 10,
-            ],
-            'CurrencyResource' => [
-                'label' => '币种管理',
-                'group' => '系统设置',
-                'icon' => 'heroicon-o-currency-dollar',
-                'sort' => 20,
-            ],
-            'UserGroupResource' => [
-                'label' => '用户分组',
-                'group' => '用户管理',
-                'icon' => 'heroicon-o-user-group',
-                'sort' => 10,
-            ],
-            'UserResource' => [
-                'label' => '用户管理',
-                'group' => '用户管理',
-                'icon' => 'heroicon-o-user',
-                'sort' => 20,
-            ],
-            'CategoryResource' => [
-                'label' => '分类管理',
-                'group' => '商品管理',
-                'icon' => 'heroicon-o-rectangle-stack',
-                'sort' => 10,
-            ],
-            'AttributeResource' => [
-                'label' => '属性管理',
-                'group' => '商品管理',
-                'icon' => 'heroicon-o-adjustments-horizontal',
-                'sort' => 20,
-            ],
-            'ProductResource' => [
-                'label' => '商品管理',
-                'group' => '商品管理',
-                'icon' => 'heroicon-o-gift',
-                'sort' => 30,
-            ],
             'OrderResource' => [
                 'label' => '订单管理',
                 'group' => '商务运营',
                 'icon' => 'heroicon-o-receipt-percent',
-                'sort' => 10,
+                'sort' => 100,
             ],
             'PromotionResource' => [
                 'label' => '促销活动',
                 'group' => '商务运营',
                 'icon' => 'heroicon-o-bolt',
-                'sort' => 20,
+                'sort' => 101,
+            ],
+            'CartResource' => [
+                'label' => '购物车',
+                'group' => '商务运营',
+                'icon' => 'heroicon-o-shopping-cart',
+                'sort' => 102,
+            ],
+            'ProductResource' => [
+                'label' => '商品管理',
+                'group' => '商品管理',
+                'icon' => 'heroicon-o-gift',
+                'sort' => 200,
+            ],
+            'CategoryResource' => [
+                'label' => '分类管理',
+                'group' => '商品管理',
+                'icon' => 'heroicon-o-rectangle-stack',
+                'sort' => 201,
+            ],
+            'AttributeResource' => [
+                'label' => '属性管理',
+                'group' => '商品管理',
+                'icon' => 'heroicon-o-adjustments-horizontal',
+                'sort' => 202,
+            ],
+            'SpecificationResource' => [
+                'label' => '规格管理',
+                'group' => '商品管理',
+                'icon' => 'heroicon-o-puzzle-piece',
+                'sort' => 203,
+            ],
+            'UserGroupResource' => [
+                'label' => '用户分组',
+                'group' => '用户管理',
+                'icon' => 'heroicon-o-user-group',
+                'sort' => 300,
+            ],
+            'UserResource' => [
+                'label' => '用户管理',
+                'group' => '用户管理',
+                'icon' => 'heroicon-o-user',
+                'sort' => 301,
+            ],
+            'LanguageResource' => [
+                'label' => '语言管理',
+                'group' => '系统设置',
+                'icon' => 'heroicon-o-language',
+                'sort' => 400,
+            ],
+            'CurrencyResource' => [
+                'label' => '币种管理',
+                'group' => '系统设置',
+                'icon' => 'heroicon-o-currency-dollar',
+                'sort' => 401,
             ],
         ];
 
@@ -87,6 +99,8 @@ class CustomizeFilamentNavigation extends Command
             $content = $this->setStaticProperty($content, 'navigationGroup', "'{$config['group']}'");
             $content = $this->setStaticProperty($content, 'navigationIcon', "'{$config['icon']}'");
             $content = $this->setStaticProperty($content, 'navigationSort', $config['sort']);
+            $content = $this->setStaticProperty($content, 'label', "'{$config['label']}'");
+            $content = $this->setStaticProperty($content, 'pluralLabel', "'{$config['label']}'");
 
             File::put($file->getPathname(), $content);
             $this->info("✅ 已更新: {$fileName}");

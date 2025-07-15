@@ -15,9 +15,14 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderResource extends Resource
 {
+    protected static ?string $pluralLabel = '订单管理';
+    protected static ?string $label = '订单管理';
+    protected static ?int $navigationSort = 100;
+    protected static ?string $navigationGroup = '商务运营';
+    protected static ?string $navigationLabel = '订单管理';
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
 
     public static function form(Form $form): Form
     {

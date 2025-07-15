@@ -15,9 +15,14 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserGroupResource extends Resource
 {
+    protected static ?string $pluralLabel = '用户分组';
+    protected static ?string $label = '用户分组';
+    protected static ?int $navigationSort = 300;
+    protected static ?string $navigationGroup = '用户管理';
+    protected static ?string $navigationLabel = '用户分组';
     protected static ?string $model = UserGroup::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
