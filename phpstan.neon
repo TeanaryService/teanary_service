@@ -1,0 +1,28 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+
+    paths:
+        - app
+        - routes
+        - database
+        - config
+
+    excludePaths:
+        - tests/*
+        - bootstrap/cache/*
+        - storage/*
+        - vendor/*
+
+    scanFiles:
+        - _ide_helper.php
+        - _ide_helper_models.php
+
+    ignoreErrors:
+        - '#Property App\\Models\\.* not found#'
+        - '#Call to an undefined method Illuminate\\Support\\Collection::.*#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::.*#'
+        - '#Access to an undefined property .*#'
+        - '#Method Illuminate\\Database\\Query\\Builder::exists\(\) not found#'
