@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -21,8 +22,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $sku
  * @property int|null $currency_id
  * @property float|null $price
+ * @property float|null $cost
  * @property int $stock
  * @property float|null $weight
+ * @property float|null $length
+ * @property float|null $width
+ * @property float|null $height
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
@@ -30,7 +35,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Product $product
  * @property Collection|CartItem[] $cartItems
  * @property Collection|OrderItem[] $orderItems
- * @property Collection|ProductVariantValue[] $productVariantValues
+ * @property Collection|SpecificationValue[] $specificationValues
+ * @property Collection|Promotion[] $promotions
  *
  * @package App\Models
  */
@@ -43,8 +49,12 @@ class ProductVariant extends Model
         'product_id' => 'int',
         'currency_id' => 'int',
         'price' => 'float',
+        'cost' => 'float',
         'stock' => 'int',
-        'weight' => 'float'
+        'weight' => 'float',
+        'length' => 'float',
+        'width' => 'float',
+        'height' => 'float'
     ];
 
     protected $fillable = [
@@ -52,8 +62,12 @@ class ProductVariant extends Model
         'sku',
         'currency_id',
         'price',
+        'cost',
         'stock',
-        'weight'
+        'weight',
+        'length',
+        'width',
+        'height'
     ];
 
     public function currency(): BelongsTo
@@ -76,8 +90,17 @@ class ProductVariant extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function productVariantValues(): HasMany
+    public function specificationValues(): BelongsToMany
     {
-        return $this->hasMany(ProductVariantValue::class);
+        return $this->belongsToMany(SpecificationValue::class, 'product_variant_specification_values')
+                    ->withPivot('id')
+                    ->withTimestamps();
+    }
+
+    public function promotions(): BelongsToMany
+    {
+        return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
+                    ->withPivot('id')
+                    ->withTimestamps();
     }
 }

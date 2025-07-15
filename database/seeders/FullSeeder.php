@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\Language;
 use App\Models\Currency;
 use App\Models\UserGroup;
-use App\Models\UserGroupTranslation;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
@@ -13,386 +13,272 @@ use App\Models\Attribute;
 use App\Models\AttributeTranslation;
 use App\Models\AttributeValue;
 use App\Models\AttributeValueTranslation;
+use App\Models\Specification;
+use App\Models\SpecificationTranslation;
+use App\Models\SpecificationValue;
+use App\Models\SpecificationValueTranslation;
 use App\Models\Product;
 use App\Models\ProductTranslation;
 use App\Models\ProductCategory;
 use App\Models\ProductPrice;
 use App\Models\ProductVariant;
-use App\Models\ProductVariantValue;
+use App\Models\ProductVariantSpecificationValue;
+use App\Models\ProductSpecification;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Promotion;
 use App\Models\PromotionTranslation;
 use App\Models\PromotionRule;
-use App\Models\PromotionUserGroup;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class FullSeeder extends Seeder
 {
     public function run(): void
     {
-        // ----------------------------
-        // Languages
-        // ----------------------------
-        $en = Language::create([
-            'code' => 'en',
-            'name' => 'English',
-        ]);
+        /**
+         * Languages
+         */
+        $languages = collect([
+            ['code' => 'en', 'name' => 'English'],
+            ['code' => 'zh', 'name' => '中文'],
+        ])->map(fn($data) => Language::create($data));
 
-        $zh = Language::create([
-            'code' => 'zh',
-            'name' => '中文',
-        ]);
+        /**
+         * Currencies
+         */
+        $currencies = collect([
+            ['code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$'],
+            ['code' => 'CNY', 'name' => '人民币', 'symbol' => '¥'],
+        ])->map(fn($data) => Currency::create($data));
 
-        // ----------------------------
-        // Currencies
-        // ----------------------------
-        $usd = Currency::create([
-            'code' => 'USD',
-            'name' => 'US Dollar',
-            'symbol' => '$',
-            'exchange_rate' => 1.0,
-        ]);
-
-        $cny = Currency::create([
-            'code' => 'CNY',
-            'name' => '人民币',
-            'symbol' => '¥',
-            'exchange_rate' => 7.0,
-        ]);
-
-        // ----------------------------
-        // User Groups
-        // ----------------------------
-        $retailGroup = UserGroup::create([
-            'code' => 'retail',
-        ]);
-
-        UserGroupTranslation::create([
-            'user_group_id' => $retailGroup->id,
-            'language_id' => $en->id,
-            'name' => 'Retail Customer',
-        ]);
-
-        UserGroupTranslation::create([
-            'user_group_id' => $retailGroup->id,
-            'language_id' => $zh->id,
-            'name' => '零售客户',
-        ]);
-
-        $vipGroup = UserGroup::create([
-            'code' => 'vip',
-        ]);
-
-        UserGroupTranslation::create([
-            'user_group_id' => $vipGroup->id,
-            'language_id' => $en->id,
-            'name' => 'VIP Customer',
-        ]);
-
-        UserGroupTranslation::create([
-            'user_group_id' => $vipGroup->id,
-            'language_id' => $zh->id,
-            'name' => 'VIP客户',
-        ]);
-
-        // ----------------------------
-        // Users
-        // ----------------------------
-        User::create([
-            'name' => 'John Retail',
-            'email' => 'chat@miexin.com',
-            'password' => Hash::make('dylfj22649978'),
-            'user_group_id' => $retailGroup->id,
-            'default_language_id' => $en->id,
-            'default_currency_id' => $usd->id,
-        ]);
-
-        User::create([
-            'name' => 'Lucy VIP',
-            'email' => 'vip@example.com',
-            'password' => Hash::make('password'),
-            'user_group_id' => $vipGroup->id,
-            'default_language_id' => $zh->id,
-            'default_currency_id' => $cny->id,
-        ]);
-
-        // ----------------------------
-        // Categories
-        // ----------------------------
-        $categories = [
-            [
-                'slug' => 'roses',
-                'en' => 'Roses',
-                'zh' => '玫瑰花',
-            ],
-            [
-                'slug' => 'lilies',
-                'en' => 'Lilies',
-                'zh' => '百合花',
-            ],
-            [
-                'slug' => 'tulips',
-                'en' => 'Tulips',
-                'zh' => '郁金香',
-            ],
-        ];
-
-        $categoryRecords = [];
-
-        foreach ($categories as $cat) {
-            $category = Category::create([
-                'slug' => $cat['slug'],
-            ]);
-
-            CategoryTranslation::create([
-                'category_id' => $category->id,
-                'language_id' => $en->id,
-                'name' => $cat['en'],
-                'description' => "Beautiful {$cat['en']}",
-            ]);
-
-            CategoryTranslation::create([
-                'category_id' => $category->id,
-                'language_id' => $zh->id,
-                'name' => $cat['zh'],
-                'description' => "美丽的{$cat['zh']}",
-            ]);
-
-            $categoryRecords[$cat['slug']] = $category;
-        }
-
-        // ----------------------------
-        // Attributes
-        // ----------------------------
-        $colorAttr = Attribute::create([
-            'code' => 'color',
-            'type' => 'select',
-        ]);
-
-        AttributeTranslation::create([
-            'attribute_id' => $colorAttr->id,
-            'language_id' => $en->id,
-            'name' => 'Color',
-        ]);
-
-        AttributeTranslation::create([
-            'attribute_id' => $colorAttr->id,
-            'language_id' => $zh->id,
-            'name' => '颜色',
-        ]);
-
-        $stemAttr = Attribute::create([
-            'code' => 'stem_count',
-            'type' => 'select',
-        ]);
-
-        AttributeTranslation::create([
-            'attribute_id' => $stemAttr->id,
-            'language_id' => $en->id,
-            'name' => 'Stem Count',
-        ]);
-
-        AttributeTranslation::create([
-            'attribute_id' => $stemAttr->id,
-            'language_id' => $zh->id,
-            'name' => '支数',
-        ]);
-
-        // ----------------------------
-        // Attribute Values
-        // ----------------------------
-        $colors = [
-            ['code' => 'red', 'en' => 'Red', 'zh' => '红色'],
-            ['code' => 'white', 'en' => 'White', 'zh' => '白色'],
-            ['code' => 'pink', 'en' => 'Pink', 'zh' => '粉色'],
-        ];
-
-        $colorValues = [];
-
-        foreach ($colors as $color) {
-            $v = AttributeValue::create([
-                'attribute_id' => $colorAttr->id,
-                'code' => $color['code'],
-            ]);
-
-            AttributeValueTranslation::create([
-                'attribute_value_id' => $v->id,
-                'language_id' => $en->id,
-                'name' => $color['en'],
-            ]);
-
-            AttributeValueTranslation::create([
-                'attribute_value_id' => $v->id,
-                'language_id' => $zh->id,
-                'name' => $color['zh'],
-            ]);
-
-            $colorValues[$color['code']] = $v;
-        }
-
-        $stems = [
-            ['code' => '11', 'en' => '11 stems', 'zh' => '11支'],
-            ['code' => '33', 'en' => '33 stems', 'zh' => '33支'],
-            ['code' => '66', 'en' => '66 stems', 'zh' => '66支'],
-        ];
-
-        $stemValues = [];
-
-        foreach ($stems as $stem) {
-            $v = AttributeValue::create([
-                'attribute_id' => $stemAttr->id,
-                'code' => $stem['code'],
-            ]);
-
-            AttributeValueTranslation::create([
-                'attribute_value_id' => $v->id,
-                'language_id' => $en->id,
-                'name' => $stem['en'],
-            ]);
-
-            AttributeValueTranslation::create([
-                'attribute_value_id' => $v->id,
-                'language_id' => $zh->id,
-                'name' => $stem['zh'],
-            ]);
-
-            $stemValues[$stem['code']] = $v;
-        }
-
-        // ----------------------------
-        // Products (multiple)
-        // ----------------------------
-        $productNames = [
-            [
-                'sku_prefix' => 'ROSE',
-                'name_en' => 'Rose Bouquet',
-                'name_zh' => '玫瑰花束',
-                'category_slug' => 'roses',
-            ],
-            [
-                'sku_prefix' => 'LILY',
-                'name_en' => 'Lily Bouquet',
-                'name_zh' => '百合花束',
-                'category_slug' => 'lilies',
-            ],
-            [
-                'sku_prefix' => 'TULIP',
-                'name_en' => 'Tulip Bouquet',
-                'name_zh' => '郁金香花束',
-                'category_slug' => 'tulips',
-            ],
-        ];
-
-        foreach ($productNames as $productData) {
-            $product = Product::create([
-                'sku' => $productData['sku_prefix'] . '-BASE',
-                'default_currency_id' => $usd->id,
-                'slug' => Str::slug($productData['name_en']),
-                'weight' => 0.5,
-                'stock' => 100,
-                'status' => 'active',
-            ]);
-
-            ProductTranslation::create([
-                'product_id' => $product->id,
-                'language_id' => $en->id,
-                'name' => $productData['name_en'],
-                'short_description' => "Beautiful " . $productData['name_en'],
-                'description' => "A lovely bouquet of fresh flowers.",
-            ]);
-
-            ProductTranslation::create([
-                'product_id' => $product->id,
-                'language_id' => $zh->id,
-                'name' => $productData['name_zh'],
-                'short_description' => "美丽的" . $productData['name_zh'],
-                'description' => "一束美丽的新鲜花卉。",
-            ]);
-
-            ProductCategory::create([
-                'product_id' => $product->id,
-                'category_id' => $categoryRecords[$productData['category_slug']]->id,
-            ]);
-
-            ProductPrice::create([
-                'product_id' => $product->id,
-                'user_group_id' => $retailGroup->id,
-                'currency_id' => $usd->id,
-                'price' => rand(8, 15),
-            ]);
-
-            ProductPrice::create([
-                'product_id' => $product->id,
-                'user_group_id' => $vipGroup->id,
-                'currency_id' => $usd->id,
-                'price' => rand(6, 10),
-            ]);
-
-            // create 2 variants per product
-            $variants = [
-                ['color' => 'red', 'stems' => '11', 'price' => rand(10, 15)],
-                ['color' => 'white', 'stems' => '33', 'price' => rand(18, 25)],
-            ];
-
-            foreach ($variants as $index => $variant) {
-                $variantModel = ProductVariant::create([
-                    'product_id' => $product->id,
-                    'sku' => $productData['sku_prefix'] . '-' . strtoupper($variant['color']) . '-' . $variant['stems'],
-                    'currency_id' => $usd->id,
-                    'price' => $variant['price'],
-                    'stock' => rand(10, 50),
-                    'weight' => 0.6 + $index * 0.2,
-                ]);
-
-                ProductVariantValue::create([
-                    'product_variant_id' => $variantModel->id,
-                    'attribute_value_id' => $colorValues[$variant['color']]->id,
-                ]);
-
-                ProductVariantValue::create([
-                    'product_variant_id' => $variantModel->id,
-                    'attribute_value_id' => $stemValues[$variant['stems']]->id,
+        /**
+         * User Groups
+         */
+        $userGroups = collect([
+            ['name' => 'Retail'],
+            ['name' => 'Wholesale'],
+        ])->map(function ($group) use ($languages) {
+            $ug = UserGroup::create();
+            foreach ($languages as $lang) {
+                $ug->userGroupTranslations()->create([
+                    'language_id' => $lang->id,
+                    'name' => $group['name'] . ' (' . $lang->code . ')',
                 ]);
             }
-        }
+            return $ug;
+        });
 
-        // ----------------------------
-        // Promotions
-        // ----------------------------
-        $promotion = Promotion::create([
-            'code' => 'SAVE10',
-            'type' => 'coupon',
-            'starts_at' => now(),
-            'ends_at' => now()->addMonth(),
-            'active' => true,
-        ]);
+        /**
+         * Users
+         */
+        User::factory(10)->create();
 
-        PromotionTranslation::create([
-            'promotion_id' => $promotion->id,
-            'language_id' => $en->id,
-            'name' => 'Save 10%',
-            'description' => 'Save 10% on orders over $100',
-        ]);
+        /**
+         * Categories
+         */
+        $categories = collect([
+            ['slug' => 'flowers'],
+            ['slug' => 'bouquets'],
+        ])->map(function ($cat) use ($languages) {
+            $category = Category::create($cat);
+            foreach ($languages as $lang) {
+                CategoryTranslation::create([
+                    'category_id' => $category->id,
+                    'language_id' => $lang->id,
+                    'name' => ucfirst($cat['slug']) . ' ' . $lang->code,
+                    'description' => 'Description for ' . $cat['slug'] . ' in ' . $lang->code,
+                ]);
+            }
+            return $category;
+        });
 
-        PromotionTranslation::create([
-            'promotion_id' => $promotion->id,
-            'language_id' => $zh->id,
-            'name' => '节省10%',
-            'description' => '满100美元立减10%',
-        ]);
+        /**
+         * Attributes
+         */
+        $attributes = collect([
+            ['label' => 'stem_length'],
+            ['label' => 'origin'],
+        ])->map(function ($attr) use ($languages) {
+            $a = Attribute::create(); // 不再插入 code
 
-        PromotionRule::create([
-            'promotion_id' => $promotion->id,
-            'condition_type' => 'order_total_min',
-            'condition_value' => 100,
-            'discount_type' => 'percentage',
-            'discount_value' => 10,
-        ]);
+            foreach ($languages as $lang) {
+                AttributeTranslation::create([
+                    'attribute_id' => $a->id,
+                    'language_id' => $lang->id,
+                    'name' => ucfirst($attr['label']) . ' ' . $lang->code,
+                ]);
+            }
 
-        PromotionUserGroup::create([
-            'promotion_id' => $promotion->id,
-            'user_group_id' => $retailGroup->id,
-        ]);
+            return $a;
+        });
+
+        /**
+         * Attribute Values
+         */
+        $attributeValues = $attributes->flatMap(function ($attr) use ($languages) {
+            return collect(['Short', 'Medium', 'Long'])->map(function ($value) use ($attr, $languages) {
+                $av = AttributeValue::create([
+                    'attribute_id' => $attr->id,
+                ]);
+                foreach ($languages as $lang) {
+                    AttributeValueTranslation::create([
+                        'attribute_value_id' => $av->id,
+                        'language_id' => $lang->id,
+                        'name' => $value . ' ' . $lang->code,
+                    ]);
+                }
+                return $av;
+            });
+        });
+
+        /**
+         * Specifications
+         */
+        $specifications = collect([
+            ['label' => 'color'],
+            ['label' => 'size'],
+        ])->map(function ($spec) use ($languages) {
+            $s = Specification::create();
+            foreach ($languages as $lang) {
+                SpecificationTranslation::create([
+                    'specification_id' => $s->id,
+                    'language_id' => $lang->id,
+                    'name' => ucfirst($spec['label']) . ' ' . $lang->code,
+                ]);
+            }
+            return $s;
+        });
+
+        /**
+         * Specification Values
+         */
+        $specificationValues = $specifications->flatMap(function ($spec) use ($languages) {
+            $values = match ($spec->code) {
+                'color' => ['Red', 'Yellow', 'White'],
+                'size' => ['Small', 'Medium', 'Large'],
+                default => ['Default'],
+            };
+
+            return collect($values)->map(function ($value) use ($spec, $languages) {
+                $sv = SpecificationValue::create([
+                    'specification_id' => $spec->id,
+                ]);
+                foreach ($languages as $lang) {
+                    SpecificationValueTranslation::create([
+                        'specification_value_id' => $sv->id,
+                        'language_id' => $lang->id,
+                        'name' => $value . ' ' . $lang->code,
+                    ]);
+                }
+                return $sv;
+            });
+        });
+
+        /**
+         * Products
+         */
+        $products = collect(range(1, 10))->map(function ($i) use (
+            $languages,
+            $categories,
+            $userGroups,
+            $currencies,
+            $specifications,
+            $specificationValues
+        ) {
+            // 创建产品 (SPU)
+            $product = Product::create([
+                'slug' => 'product-' . $i,
+                'status' => \App\Enums\ProductStatusEnum::Active,
+            ]);
+
+            // 多语言翻译
+            foreach ($languages as $lang) {
+                ProductTranslation::create([
+                    'product_id' => $product->id,
+                    'language_id' => $lang->id,
+                    'name' => "Product $i " . $lang->code,
+                    'short_description' => "Short description $i in " . $lang->code,
+                    'description' => "Long description $i in " . $lang->code,
+                ]);
+            }
+
+            // 随机分配分类
+            ProductCategory::create([
+                'product_id' => $product->id,
+                'category_id' => $categories->random()->id,
+            ]);
+
+            // 随机分配属性值
+            $attributeValues = AttributeValue::inRandomOrder()
+                ->take(rand(1, 3))
+                ->pluck('id');
+
+            $product->attributeValues()->attach($attributeValues);
+
+            // Assign random specifications
+            $specsUsed = $specifications->random(rand(1, 2));
+            
+            // Create variants
+            for ($v = 1; $v <= 3; $v++) {
+                $variant = ProductVariant::create([
+                    'product_id' => $product->id,
+                    'sku' => 'P-' . $i . '-V' . $v,
+                    'price' => rand(15, 150),
+                    'stock' => rand(1, 20),
+                    'weight' => rand(50, 200),
+                ]);
+
+                // Link specification values
+                foreach ($specsUsed as $spec) {
+                    $value = $specificationValues
+                        ->where('specification_id', $spec->id)
+                        ->random();
+
+                    ProductVariantSpecificationValue::create([
+                        'product_variant_id' => $variant->id,
+                        'specification_value_id' => $value->id,
+                    ]);
+                }
+            }
+
+            return $product;
+        });
+
+        /**
+         * Promotions
+         */
+        $promotions = collect([
+            ['type' => \App\Enums\PromotionTypeEnum::Coupon->value],
+        ])->map(function ($promo) use ($languages, $userGroups) {
+            $promotion = Promotion::create(array_merge($promo, [
+                'starts_at' => now()->subDays(5),
+                'ends_at' => now()->addDays(10),
+                'active' => true,
+            ]));
+
+            foreach ($languages as $lang) {
+                PromotionTranslation::create([
+                    'promotion_id' => $promotion->id,
+                    'language_id' => $lang->id,
+                    'name' => $promo['type'] . ' Name ' . $lang->code,
+                    'description' => 'Description of ' . $promo['type'] . ' in ' . $lang->code,
+                ]);
+            }
+
+            PromotionRule::create([
+                'promotion_id' => $promotion->id,
+                'condition_type' => \App\Enums\PromotionConditionTypeEnum::OrderTotalMin,
+                'condition_value' => 50,
+                'discount_type' => \App\Enums\PromotionDiscountTypeEnum::Fixed,
+                'discount_value' => 10,
+            ]);
+
+            $promotion->userGroups()->sync($userGroups->pluck('id')->toArray());
+            $promotion->productVariants()->attach(1);
+
+            return $promotion;
+        });
     }
 }

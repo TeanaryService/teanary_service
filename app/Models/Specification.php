@@ -13,29 +13,29 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class Attribute
+ * Class Specification
  * 
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Collection|AttributeTranslation[] $attributeTranslations
- * @property Collection|AttributeValue[] $attributeValues
+ * @property Collection|SpecificationTranslation[] $specificationTranslations
+ * @property Collection|SpecificationValue[] $specificationValues
  *
  * @package App\Models
  */
-class Attribute extends Model
+class Specification extends Model
 {
     use HasFactory;
     public static $snakeAttributes = false;
 
-    public function attributeTranslations(): HasMany
+    public function specificationTranslations(): HasMany
     {
-        return $this->hasMany(AttributeTranslation::class);
+        return $this->hasMany(SpecificationTranslation::class);
     }
 
-    public function attributeValues(): HasMany
+    public function specificationValues(): HasMany
     {
-        return $this->hasMany(AttributeValue::class);
+        return $this->hasMany(SpecificationValue::class);
     }
 }

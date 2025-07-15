@@ -12,53 +12,42 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ProductPrice
+ * Class ProductAttributeValue
  * 
  * @property int $id
  * @property int $product_id
- * @property int $user_group_id
- * @property int $currency_id
- * @property float $price
+ * @property int $attribute_value_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Currency $currency
+ * @property AttributeValue $attributeValue
  * @property Product $product
- * @property UserGroup $userGroup
  *
  * @package App\Models
  */
-class ProductPrice extends Model
+class ProductAttributeValue extends Model
 {
     use HasFactory;
+    protected $table = 'shop_server.product_attribute_value';
     public static $snakeAttributes = false;
 
     protected $casts = [
         'product_id' => 'int',
-        'user_group_id' => 'int',
-        'currency_id' => 'int',
-        'price' => 'float'
+        'attribute_value_id' => 'int'
     ];
 
     protected $fillable = [
         'product_id',
-        'user_group_id',
-        'currency_id',
-        'price'
+        'attribute_value_id'
     ];
 
-    public function currency(): BelongsTo
+    public function attributeValue(): BelongsTo
     {
-        return $this->belongsTo(Currency::class);
+        return $this->belongsTo(AttributeValue::class);
     }
 
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
-    }
-
-    public function userGroup(): BelongsTo
-    {
-        return $this->belongsTo(UserGroup::class);
     }
 }

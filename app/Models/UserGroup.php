@@ -17,11 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Class UserGroup
  * 
  * @property int $id
- * @property string $code
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Collection|ProductPrice[] $productPrices
  * @property Collection|Promotion[] $promotions
  * @property Collection|UserGroupTranslation[] $userGroupTranslations
  * @property Collection|User[] $users
@@ -32,15 +30,6 @@ class UserGroup extends Model
 {
     use HasFactory;
     public static $snakeAttributes = false;
-
-    protected $fillable = [
-        'code'
-    ];
-
-    public function productPrices(): HasMany
-    {
-        return $this->hasMany(ProductPrice::class);
-    }
 
     public function promotions(): BelongsToMany
     {

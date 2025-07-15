@@ -23,11 +23,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Collection|Cart[] $carts
  * @property Collection|Order[] $orders
- * @property Collection|ProductPrice[] $productPrices
  * @property Collection|ProductVariant[] $productVariants
- * @property Collection|Product[] $products
  * @property Collection|User[] $users
  *
  * @package App\Models
@@ -48,29 +45,14 @@ class Currency extends Model
         'exchange_rate'
     ];
 
-    public function carts(): HasMany
-    {
-        return $this->hasMany(Cart::class);
-    }
-
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function productPrices(): HasMany
-    {
-        return $this->hasMany(ProductPrice::class);
-    }
-
     public function productVariants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
-    }
-
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class, 'default_currency_id');
     }
 
     public function users(): HasMany

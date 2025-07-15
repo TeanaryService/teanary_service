@@ -19,11 +19,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property int|null $user_id
  * @property string|null $session_id
- * @property int|null $currency_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Currency|null $currency
  * @property User|null $user
  * @property Collection|CartItem[] $cartItems
  *
@@ -35,20 +33,13 @@ class Cart extends Model
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'user_id' => 'int',
-        'currency_id' => 'int'
+        'user_id' => 'int'
     ];
 
     protected $fillable = [
         'user_id',
-        'session_id',
-        'currency_id'
+        'session_id'
     ];
-
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
-    }
 
     public function user(): BelongsTo
     {

@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection|CategoryTranslation[] $categoryTranslations
  * @property Collection|ProductTranslation[] $productTranslations
  * @property Collection|PromotionTranslation[] $promotionTranslations
+ * @property Collection|SpecificationTranslation[] $specificationTranslations
+ * @property Collection|SpecificationValueTranslation[] $specificationValueTranslations
  * @property Collection|UserGroupTranslation[] $userGroupTranslations
  * @property Collection|User[] $users
  *
@@ -64,6 +66,16 @@ class Language extends Model
     public function promotionTranslations(): HasMany
     {
         return $this->hasMany(PromotionTranslation::class);
+    }
+
+    public function specificationTranslations(): HasMany
+    {
+        return $this->hasMany(SpecificationTranslation::class);
+    }
+
+    public function specificationValueTranslations(): HasMany
+    {
+        return $this->hasMany(SpecificationValueTranslation::class);
     }
 
     public function userGroupTranslations(): HasMany

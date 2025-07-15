@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -40,15 +39,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use HasFactory,Notifiable;
+    use HasFactory;
     public static $snakeAttributes = false;
 
     protected $casts = [
         'email_verified_at' => 'datetime',
         'user_group_id' => 'int',
         'default_language_id' => 'int',
-        'default_currency_id' => 'int',
-        'password' => 'hashed',
+        'default_currency_id' => 'int'
     ];
 
     protected $hidden = [

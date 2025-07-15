@@ -12,41 +12,41 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ProductVariantValue
+ * Class ProductVariantSpecificationValue
  * 
  * @property int $id
  * @property int $product_variant_id
- * @property int $attribute_value_id
+ * @property int $specification_value_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property AttributeValue $attributeValue
  * @property ProductVariant $productVariant
+ * @property SpecificationValue $specificationValue
  *
  * @package App\Models
  */
-class ProductVariantValue extends Model
+class ProductVariantSpecificationValue extends Model
 {
     use HasFactory;
     public static $snakeAttributes = false;
 
     protected $casts = [
         'product_variant_id' => 'int',
-        'attribute_value_id' => 'int'
+        'specification_value_id' => 'int'
     ];
 
     protected $fillable = [
         'product_variant_id',
-        'attribute_value_id'
+        'specification_value_id'
     ];
-
-    public function attributeValue(): BelongsTo
-    {
-        return $this->belongsTo(AttributeValue::class);
-    }
 
     public function productVariant(): BelongsTo
     {
         return $this->belongsTo(ProductVariant::class);
+    }
+
+    public function specificationValue(): BelongsTo
+    {
+        return $this->belongsTo(SpecificationValue::class);
     }
 }

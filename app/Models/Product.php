@@ -10,27 +10,22 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Product
  * 
  * @property int $id
- * @property string $sku
- * @property int|null $default_currency_id
  * @property string $slug
- * @property float|null $weight
- * @property int $stock
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Currency|null $currency
  * @property Collection|CartItem[] $cartItems
  * @property Collection|OrderItem[] $orderItems
+ * @property Collection|AttributeValue[] $attributeValues
  * @property Collection|ProductCategory[] $productCategories
- * @property Collection|ProductPrice[] $productPrices
  * @property Collection|ProductTranslation[] $productTranslations
  * @property Collection|ProductVariant[] $productVariants
  *
@@ -41,25 +36,10 @@ class Product extends Model
     use HasFactory;
     public static $snakeAttributes = false;
 
-    protected $casts = [
-        'default_currency_id' => 'int',
-        'weight' => 'float',
-        'stock' => 'int'
-    ];
-
     protected $fillable = [
-        'sku',
-        'default_currency_id',
         'slug',
-        'weight',
-        'stock',
         'status'
     ];
-
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class, 'default_currency_id');
-    }
 
     public function cartItems(): HasMany
     {
@@ -71,14 +51,16 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function attributeValues(): BelongsToMany
+    {
+        return $this->belongsToMany(AttributeValue::class, 'product_attribute_value')
+                    ->withPivot('id')
+                    ->withTimestamps();
+    }
+
     public function productCategories(): HasMany
     {
         return $this->hasMany(ProductCategory::class);
-    }
-
-    public function productPrices(): HasMany
-    {
-        return $this->hasMany(ProductPrice::class);
     }
 
     public function productTranslations(): HasMany

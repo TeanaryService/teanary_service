@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Class Promotion
  * 
  * @property int $id
- * @property string|null $code
  * @property string $type
  * @property Carbon|null $starts_at
  * @property Carbon|null $ends_at
@@ -25,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property Collection|ProductVariant[] $productVariants
  * @property Collection|PromotionRule[] $promotionRules
  * @property Collection|PromotionTranslation[] $promotionTranslations
  * @property Collection|UserGroup[] $userGroups
@@ -43,12 +43,18 @@ class Promotion extends Model
     ];
 
     protected $fillable = [
-        'code',
         'type',
         'starts_at',
         'ends_at',
         'active'
     ];
+
+    public function productVariants(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductVariant::class, 'promotion_product_variant')
+                    ->withPivot('id')
+                    ->withTimestamps();
+    }
 
     public function promotionRules(): HasMany
     {

@@ -8,66 +8,11 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\PromotionTypeEnum;
 use App\Enums\PromotionConditionTypeEnum;
 use App\Enums\PromotionDiscountTypeEnum;
-use App\Enums\AttributeTypeEnum;
 
 return new class extends Migration
 {
     public function up(): void
     {
-        // // -----------------------------
-        // // Languages
-        // // -----------------------------
-        // Schema::create('languages', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('code', 10)->unique();
-        //     $table->string('name');
-        //     $table->timestamps();
-        // });
-
-        // // -----------------------------
-        // // Currencies
-        // // -----------------------------
-        // Schema::create('currencies', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('code', 10)->unique();
-        //     $table->string('name');
-        //     $table->string('symbol', 10);
-        //     $table->decimal('exchange_rate', 12, 4)->default(1.0);
-        //     $table->timestamps();
-        // });
-
-        // // -----------------------------
-        // // User Groups
-        // // -----------------------------
-        // Schema::create('user_groups', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('code')->unique();
-        //     $table->timestamps();
-        // });
-
-        // Schema::create('user_group_translations', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
-        //     $table->foreignId('language_id')->constrained()->cascadeOnDelete();
-        //     $table->string('name');
-        //     $table->timestamps();
-        // });
-
-        // // -----------------------------
-        // // Users
-        // // -----------------------------
-        // Schema::create('users', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('name');
-        //     $table->string('email')->unique();
-        //     $table->string('password');
-        //     $table->foreignId('user_group_id')->nullable()->constrained()->nullOnDelete();
-        //     $table->foreignId('default_language_id')->nullable()->constrained('languages')->nullOnDelete();
-        //     $table->foreignId('default_currency_id')->nullable()->constrained('currencies')->nullOnDelete();
-        //     $table->rememberToken();
-        //     $table->timestamps();
-        // });
-
         // -----------------------------
         // Categories
         // -----------------------------
@@ -92,11 +37,7 @@ return new class extends Migration
         // -----------------------------
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('sku')->unique();
-            $table->foreignId('default_currency_id')->nullable()->constrained('currencies')->nullOnDelete();
             $table->string('slug')->unique();
-            $table->decimal('weight', 12, 2)->nullable();
-            $table->integer('stock')->default(0);
             $table->enum('status', ProductStatusEnum::values())->default(ProductStatusEnum::default()->value);
             $table->timestamps();
         });
@@ -117,24 +58,11 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
         });
 
-        Schema::create('product_prices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('currency_id')->constrained()->cascadeOnDelete();
-            $table->decimal('price', 12, 2);
-            $table->timestamps();
-
-            $table->unique(['product_id', 'user_group_id', 'currency_id'], 'unique_product_price');
-        });
-
         // -----------------------------
         // Attributes
         // -----------------------------
         Schema::create('attributes', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->enum('type', AttributeTypeEnum::values())->default(AttributeTypeEnum::default()->value);
             $table->timestamps();
         });
 
@@ -149,7 +77,6 @@ return new class extends Migration
         Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
-            $table->string('code')->nullable();
             $table->timestamps();
         });
 
@@ -157,6 +84,45 @@ return new class extends Migration
             $table->id();
             $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
             $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        // -----------------------------
+        // Specifications
+        // -----------------------------
+        Schema::create('specifications', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
+
+        Schema::create('specification_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('specification_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('specification_values', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('specification_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+        });
+
+        Schema::create('specification_value_translations', function (Blueprint $table) {
+            $table->id();
+
+            $table->unsignedBigInteger('specification_value_id');
+            $table->foreign('specification_value_id', 'svt_spec_value_fk')
+                ->references('id')
+                ->on('specification_values')
+                ->cascadeOnDelete();
+
+            $table->foreignId('language_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->string('name');
             $table->timestamps();
         });
@@ -170,17 +136,50 @@ return new class extends Migration
             $table->string('sku')->unique();
             $table->foreignId('currency_id')->nullable()->constrained('currencies')->nullOnDelete();
             $table->decimal('price', 12, 2)->nullable();
+            $table->decimal('cost', 12, 2)->nullable();       // 成本价
             $table->integer('stock')->default(0);
             $table->decimal('weight', 12, 2)->nullable();
+            $table->decimal('length', 12, 2)->nullable();     // 长度
+            $table->decimal('width', 12, 2)->nullable();      // 宽度
+            $table->decimal('height', 12, 2)->nullable();     // 高度
             $table->timestamps();
         });
 
-        Schema::create('product_variant_values', function (Blueprint $table) {
+        Schema::create('product_variant_specification_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
+
+            $table->foreignId('product_variant_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->unsignedBigInteger('specification_value_id');
+            $table->foreign('specification_value_id', 'pvsv_spec_value_fk')
+                ->references('id')
+                ->on('specification_values')
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
+
+        // -----------------------------
+        // Product Attributes
+        // -----------------------------
+        Schema::create('product_attribute_value', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('product_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('attribute_value_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->timestamps();
+
+            $table->unique(['product_id', 'attribute_value_id'], 'product_attribute_value_unique');
+        });
+
 
         // -----------------------------
         // Carts
@@ -189,7 +188,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('session_id')->nullable();
-            $table->foreignId('currency_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
 
@@ -231,7 +229,6 @@ return new class extends Migration
         // -----------------------------
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique()->nullable();
             $table->enum('type', PromotionTypeEnum::values());
             $table->dateTime('starts_at')->nullable();
             $table->dateTime('ends_at')->nullable();
@@ -264,6 +261,15 @@ return new class extends Migration
             $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
+
+        Schema::create('promotion_product_variant', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
+            $table->timestamps();
+
+            $table->unique(['promotion_id', 'product_variant_id'], 'promotion_variant_unique');
+        });
     }
 
     public function down(): void
@@ -271,13 +277,18 @@ return new class extends Migration
         Schema::dropIfExists('promotion_user_group');
         Schema::dropIfExists('promotion_rules');
         Schema::dropIfExists('promotion_translations');
+        Schema::dropIfExists('promotion_product_variant');
         Schema::dropIfExists('promotions');
         Schema::dropIfExists('order_items');
         Schema::dropIfExists('orders');
         Schema::dropIfExists('cart_items');
         Schema::dropIfExists('carts');
-        Schema::dropIfExists('product_variant_values');
+        Schema::dropIfExists('product_variant_specification_values');
         Schema::dropIfExists('product_variants');
+        Schema::dropIfExists('specification_value_translations');
+        Schema::dropIfExists('specification_values');
+        Schema::dropIfExists('specification_translations');
+        Schema::dropIfExists('specifications');
         Schema::dropIfExists('attribute_value_translations');
         Schema::dropIfExists('attribute_values');
         Schema::dropIfExists('attribute_translations');
@@ -285,13 +296,9 @@ return new class extends Migration
         Schema::dropIfExists('product_prices');
         Schema::dropIfExists('product_categories');
         Schema::dropIfExists('product_translations');
+        Schema::dropIfExists('product_attribute_value');
         Schema::dropIfExists('products');
         Schema::dropIfExists('category_translations');
         Schema::dropIfExists('categories');
-        // Schema::dropIfExists('users');
-        // Schema::dropIfExists('user_group_translations');
-        // Schema::dropIfExists('user_groups');
-        // Schema::dropIfExists('currencies');
-        // Schema::dropIfExists('languages');
     }
 };

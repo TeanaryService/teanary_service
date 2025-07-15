@@ -69,7 +69,7 @@ class CustomizeFilamentNavigation extends Command
             ],
         ];
 
-        $resourcePath = app_path('Filament/Resources');
+        $resourcePath = app_path('Filament/Manager/Resources');
         $files = File::files($resourcePath);
 
         foreach ($files as $file) {
@@ -100,13 +100,14 @@ class CustomizeFilamentNavigation extends Command
      */
     protected function setStaticProperty(string $content, string $property, $value): string
     {
-        $pattern = '/protected static\s+\?\s*string\s+\$' . $property . '\s*=\s*[^;]+;/';
+        $type = $property === 'navigationSort' ? 'int' : 'string';
+        $pattern = '/protected static\s+\?\s*' . $type . '\s+\$' . $property . '\s*=\s*[^;]+;/';
 
         if (preg_match($pattern, $content)) {
             // 替换已有属性
             return preg_replace(
                 $pattern,
-                "protected static ?string \$$property = $value;",
+                "protected static ?{$type} \${$property} = {$value};",
                 $content
             );
         } else {
@@ -114,7 +115,7 @@ class CustomizeFilamentNavigation extends Command
             if (preg_match('/\{\s*$/m', $content)) {
                 return preg_replace(
                     '/\{\s*$/m',
-                    "{\n    protected static ?string \$$property = $value;",
+                    "{\n    protected static ?{$type} \${$property} = {$value};",
                     $content,
                     1
                 );

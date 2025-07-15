@@ -38,7 +38,6 @@ return new class extends Migration
         // -----------------------------
         Schema::create('user_groups', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
             $table->timestamps();
         });
 
@@ -65,16 +64,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-
-        // Schema::create('users', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('name');
-        //     $table->string('email')->unique();
-        //     $table->timestamp('email_verified_at')->nullable();
-        //     $table->string('password');
-        //     $table->rememberToken();
-        //     $table->timestamps();
-        // });
+        // return;
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
