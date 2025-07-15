@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('code', 10)->unique();
             $table->string('name');
+            $table->boolean('default')->default(false);
             $table->timestamps();
         });
 
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('symbol', 10);
             $table->decimal('exchange_rate', 12, 4)->default(1.0);
+            $table->boolean('default')->default(false);
             $table->timestamps();
         });
 

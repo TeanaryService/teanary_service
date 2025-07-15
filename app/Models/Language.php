@@ -40,9 +40,14 @@ class Language extends Model
     use HasFactory;
     public static $snakeAttributes = false;
 
+    protected $casts = [
+        'default' => 'bool'
+    ];
+
     protected $fillable = [
         'code',
-        'name'
+        'name',
+        'default'
     ];
 
     public function attributeTranslations(): HasMany

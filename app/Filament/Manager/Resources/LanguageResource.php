@@ -36,9 +36,11 @@ class LanguageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
+                    ->label('语言代码')
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('name')
+                    ->label('语言名称')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -49,8 +51,10 @@ class LanguageResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
+                    ->label('语言代码')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('语言名称')
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

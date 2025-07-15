@@ -6,6 +6,8 @@
 
 namespace App\Models;
 
+use App\Enums\PromotionConditionTypeEnum;
+use App\Enums\PromotionDiscountTypeEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +37,9 @@ class PromotionRule extends Model
     protected $casts = [
         'promotion_id' => 'int',
         'condition_value' => 'float',
-        'discount_value' => 'float'
+        'discount_value' => 'float',
+        'condition_type' => PromotionConditionTypeEnum::class,
+        'discount_type' => PromotionDiscountTypeEnum::class,
     ];
 
     protected $fillable = [

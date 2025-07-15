@@ -36,15 +36,19 @@ class CurrencyResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
+                    ->label('币种代码')
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('name')
+                    ->label('币种名称')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('symbol')
+                    ->label('币种符号')
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('exchange_rate')
+                    ->label('汇率')
                     ->required()
                     ->numeric()
                     ->default(1.0000),
@@ -56,12 +60,16 @@ class CurrencyResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
+                    ->label('币种代码')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('币种名称')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('symbol')
+                    ->label('币种符号')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('exchange_rate')
+                    ->label('汇率')
                     ->numeric()
                     ->sortable(),
                 ...static::getTimestampsColumns()

@@ -41,16 +41,16 @@ class FullSeeder extends Seeder
          * Languages
          */
         $languages = collect([
-            ['code' => 'en', 'name' => 'English'],
-            ['code' => 'zh', 'name' => '中文'],
+            ['code' => 'en', 'name' => 'English', 'default' => true],
+            ['code' => 'zh', 'name' => '中文', 'default' => false],
         ])->map(fn($data) => Language::create($data));
 
         /**
          * Currencies
          */
         $currencies = collect([
-            ['code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$'],
-            ['code' => 'CNY', 'name' => '人民币', 'symbol' => '¥'],
+            ['code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$', 'default' => true],
+            ['code' => 'CNY', 'name' => '人民币', 'symbol' => '¥', 'default' => false],
         ])->map(fn($data) => Currency::create($data));
 
         /**
@@ -190,7 +190,7 @@ class FullSeeder extends Seeder
             // 创建产品 (SPU)
             $product = Product::create([
                 'slug' => 'product-' . $i,
-                'status' => \App\Enums\ProductStatusEnum::Active,
+                'status' => \App\Enums\ProductStatusEnum::default(),
             ]);
 
             // 多语言翻译
@@ -250,7 +250,7 @@ class FullSeeder extends Seeder
          * Promotions
          */
         $promotions = collect([
-            ['type' => \App\Enums\PromotionTypeEnum::Coupon->value],
+            ['type' => \App\Enums\PromotionTypeEnum::Coupon],
         ])->map(function ($promo) use ($languages, $userGroups) {
             $promotion = Promotion::create(array_merge($promo, [
                 'starts_at' => now()->subDays(5),
@@ -262,8 +262,8 @@ class FullSeeder extends Seeder
                 PromotionTranslation::create([
                     'promotion_id' => $promotion->id,
                     'language_id' => $lang->id,
-                    'name' => $promo['type'] . ' Name ' . $lang->code,
-                    'description' => 'Description of ' . $promo['type'] . ' in ' . $lang->code,
+                    'name' => $promo['type']->value . ' Name ' . $lang->code,
+                    'description' => 'Description of ' . $promo['type']->value . ' in ' . $lang->code,
                 ]);
             }
 

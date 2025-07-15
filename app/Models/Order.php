@@ -6,7 +6,10 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
+use App\Observers\OrderObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +38,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
+
+#[ObservedBy([OrderObserver::class])]
+
 class Order extends Model
 {
     use HasFactory;
@@ -45,7 +51,8 @@ class Order extends Model
         'currency_id' => 'int',
         'shipping_method_id' => 'int',
         'payment_method_id' => 'int',
-        'total' => 'float'
+        'total' => 'float',
+        'status' => OrderStatusEnum::class
     ];
 
     protected $fillable = [

@@ -36,11 +36,14 @@ class ShippingMethodResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
+                    ->label('物流方式代码')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('active')
+                    ->label('是否启用')
                     ->required(),
                 Forms\Components\TextInput::make('api_url')
+                    ->label('接口地址')
                     ->maxLength(255)
                     ->default(null),
             ]);
@@ -51,10 +54,13 @@ class ShippingMethodResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
+                    ->label('物流方式代码')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label('是否启用')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('api_url')
+                    ->label('接口地址')
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

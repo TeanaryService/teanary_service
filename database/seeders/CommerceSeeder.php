@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Seeder;
 use App\Models\Language;
 use App\Models\ShippingMethod;
@@ -153,10 +154,10 @@ class CommerceSeeder extends Seeder
 
             $order = Order::create([
                 'user_id' => $user->id,
-                'order_no' => 'ORD-' . strtoupper(uniqid()),
+                // 'order_no' => 'ORD-' . strtoupper(uniqid()),
                 'currency_id' => $currency->id,
                 'total' => 0, // 后面计算
-                'status' => 'pending', // 或用OrderStatusEnum
+                'status' => OrderStatusEnum::default(),
                 'shipping_method_id' => $shippingMethod->id,
                 'payment_method_id' => $paymentMethod->id,
             ]);

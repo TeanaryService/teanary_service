@@ -36,24 +36,31 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('用户名')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('邮箱')
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
+                    ->label('密码')
                     ->password()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\DateTimePicker::make('email_verified_at')
+                    ->label('邮箱验证时间'),
                 Forms\Components\Select::make('user_group_id')
+                    ->label('用户分组')
                     ->relationship('userGroup', 'id')
                     ->default(null),
                 Forms\Components\TextInput::make('default_language_id')
+                    ->label('默认语言ID')
                     ->numeric()
                     ->default(null),
                 Forms\Components\TextInput::make('default_currency_id')
+                    ->label('默认币种ID')
                     ->numeric()
                     ->default(null),
             ]);
@@ -64,19 +71,25 @@ class UserResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('用户名')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('邮箱')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
+                    ->label('邮箱验证时间')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('userGroup.id')
+                    ->label('用户分组ID')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('default_language_id')
+                    ->label('默认语言ID')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('default_currency_id')
+                    ->label('默认币种ID')
                     ->numeric()
                     ->sortable(),
                 ...static::getTimestampsColumns()

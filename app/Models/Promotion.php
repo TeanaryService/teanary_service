@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\PromotionTypeEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -39,7 +40,8 @@ class Promotion extends Model
     protected $casts = [
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
-        'active' => 'bool'
+        'active' => 'bool',
+        'type' => PromotionTypeEnum::class
     ];
 
     protected $fillable = [

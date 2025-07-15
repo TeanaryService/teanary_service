@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources;
 
+use App\Enums\PromotionTypeEnum;
 use App\Filament\Manager\Resources\PromotionResource\Pages;
 use App\Filament\Manager\Resources\PromotionResource\RelationManagers;
 use App\Models\Promotion;
@@ -35,11 +36,19 @@ class PromotionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('type')
+                Forms\Components\Select::make('type')
+                    ->label('活动类型')
+                    ->options(PromotionTypeEnum::options())
+                    ->columnSpanFull()
                     ->required(),
-                Forms\Components\DateTimePicker::make('starts_at'),
-                Forms\Components\DateTimePicker::make('ends_at'),
+                Forms\Components\DateTimePicker::make('starts_at')
+                    ->label('开始时间')
+                    ->displayFormat('Y-m-d H:i:s'),
+                Forms\Components\DateTimePicker::make('ends_at')
+                    ->label('结束时间')
+                    ->displayFormat('Y-m-d H:i:s'),
                 Forms\Components\Toggle::make('active')
+                    ->label('是否启用')
                     ->required(),
             ]);
     }
@@ -48,14 +57,19 @@ class PromotionResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('type')
+                    ->formatStateUsing(fn($state): string => $state->label())
+                    ->label('活动类型'),
                 Tables\Columns\TextColumn::make('starts_at')
+                    ->label('开始时间')
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ends_at')
+                    ->label('结束时间')
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label('是否启用')
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])

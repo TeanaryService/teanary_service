@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources;
 
+use App\Enums\ProductStatusEnum;
 use App\Filament\Manager\Resources\ProductResource\Pages;
 use App\Filament\Manager\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
@@ -36,9 +37,12 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('slug')
+                    ->label('商品标识')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('status')
+                    ->label('商品状态')
+                    ->options(ProductStatusEnum::options())
                     ->required(),
             ]);
     }
@@ -48,9 +52,12 @@ class ProductResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('商品标识')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status'),
-               ...static::getTimestampsColumns()
+                Tables\Columns\TextColumn::make('status')
+                    ->formatStateUsing(fn($state): string => $state->label())
+                    ->label('商品状态'),
+                ...static::getTimestampsColumns()
             ])
             ->filters([
                 //

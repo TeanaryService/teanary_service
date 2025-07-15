@@ -36,9 +36,11 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('parent_id')
+                    ->label('父级ID')
                     ->numeric()
                     ->default(null),
                 Forms\Components\TextInput::make('slug')
+                    ->label('分类标识')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -49,9 +51,11 @@ class CategoryResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('parent_id')
+                    ->label('父级ID')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('分类标识')
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

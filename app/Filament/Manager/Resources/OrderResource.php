@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources;
 
+use App\Enums\OrderStatusEnum;
 use App\Filament\Manager\Resources\OrderResource\Pages;
 use App\Filament\Manager\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
@@ -35,20 +36,28 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('order_no')
+                    ->label('订单号')
+                    ->disabled()
+                    ->columnSpanFull(),
                 Forms\Components\Select::make('user_id')
+                    ->label('用户')
                     ->relationship('user', 'name')
                     ->default(null),
-                Forms\Components\TextInput::make('order_no')
-                    ->required()
-                    ->maxLength(255),
                 Forms\Components\Select::make('currency_id')
+                    ->label('币种')
+                    ->live()
                     ->relationship('currency', 'name')
                     ->default(null),
                 Forms\Components\TextInput::make('total')
+                    ->label('订单总额')
                     ->required()
+                    ->prefix(fn ($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\Select::make('status')
+                    ->label('订单状态')
+                    ->options(OrderStatusEnum::options())
                     ->required(),
             ]);
     }
@@ -58,17 +67,18 @@ class OrderResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('用户'),
                 Tables\Columns\TextColumn::make('order_no')
+                    ->label('订单号')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('currency.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('total')
+                    ->label('订单总额')
+                    ->prefix(fn($record): string => $record->currency->symbol)
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('status')
+                    ->formatStateUsing(fn($state): string => $state->label())
+                    ->label('订单状态'),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

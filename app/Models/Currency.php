@@ -35,14 +35,16 @@ class Currency extends Model
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'exchange_rate' => 'float'
+        'exchange_rate' => 'float',
+        'default' => 'bool'
     ];
 
     protected $fillable = [
         'code',
         'name',
         'symbol',
-        'exchange_rate'
+        'exchange_rate',
+        'default'
     ];
 
     public function orders(): HasMany

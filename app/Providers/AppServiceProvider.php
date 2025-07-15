@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Currency;
+use App\Models\Language;
+use App\Observers\CurrencyObserver;
+use App\Observers\LanguageObserver;
+use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Filament::registerRenderHook(
+            'panels::topbar.end',
+            fn() => \Livewire\Livewire::mount(\App\Livewire\Components\LocaleCurrencySwitcher::class)
+        );
+
+        Language::observe(LanguageObserver::class);
+        Currency::observe(CurrencyObserver::class);
     }
 }

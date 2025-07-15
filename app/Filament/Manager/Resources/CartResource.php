@@ -36,9 +36,11 @@ class CartResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->label('用户')
                     ->relationship('user', 'name')
                     ->default(null),
                 Forms\Components\TextInput::make('session_id')
+                    ->label('会话ID')
                     ->maxLength(255)
                     ->default(null),
             ]);
@@ -49,9 +51,9 @@ class CartResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('用户'),
                 Tables\Columns\TextColumn::make('session_id')
+                    ->label('会话ID')
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])
