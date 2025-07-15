@@ -5,6 +5,9 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\CurrencyResource\Pages;
 use App\Filament\Manager\Resources\CurrencyResource\RelationManagers;
 use App\Models\Currency;
+use App\Traits\HasActions;
+use App\Traits\HasDefaultPagination;
+use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +18,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CurrencyResource extends Resource
 {
+    use HasActions;
+    use HasDefaultPagination;
+    use HasTimestampsColumn;
+
     protected static ?string $pluralLabel = '币种管理';
     protected static ?string $label = '币种管理';
     protected static ?int $navigationSort = 401;
@@ -46,7 +53,7 @@ class CurrencyResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
+        return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
                     ->searchable(),
@@ -57,26 +64,19 @@ class CurrencyResource extends Resource
                 Tables\Columns\TextColumn::make('exchange_rate')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...static::getTimestampsColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ...static::getActions()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    ...static::getBulkActions()
                 ]),
-            ]);
+            ]));
     }
 
     public static function getRelations(): array

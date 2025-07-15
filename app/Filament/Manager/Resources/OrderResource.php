@@ -5,6 +5,9 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\OrderResource\Pages;
 use App\Filament\Manager\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
+use App\Traits\HasActions;
+use App\Traits\HasDefaultPagination;
+use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +18,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderResource extends Resource
 {
+    use HasActions;
+    use HasDefaultPagination;
+    use HasTimestampsColumn;
+
     protected static ?string $pluralLabel = '订单管理';
     protected static ?string $label = '订单管理';
     protected static ?int $navigationSort = 100;
@@ -48,7 +55,7 @@ class OrderResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
+        return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
@@ -62,26 +69,19 @@ class OrderResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...static::getTimestampsColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ...static::getActions()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    ...static::getBulkActions()
                 ]),
-            ]);
+            ]));
     }
 
     public static function getRelations(): array

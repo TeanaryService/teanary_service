@@ -5,6 +5,9 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\PromotionResource\Pages;
 use App\Filament\Manager\Resources\PromotionResource\RelationManagers;
 use App\Models\Promotion;
+use App\Traits\HasActions;
+use App\Traits\HasDefaultPagination;
+use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +18,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PromotionResource extends Resource
 {
+    use HasActions;
+    use HasDefaultPagination;
+    use HasTimestampsColumn;
+
     protected static ?string $pluralLabel = '促销活动';
     protected static ?string $label = '促销活动';
     protected static ?int $navigationSort = 101;
@@ -39,37 +46,30 @@ class PromotionResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
+        return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('starts_at')
-                    ->dateTime()
+                    ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ends_at')
-                    ->dateTime()
+                    ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...static::getTimestampsColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ...static::getActions()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    ...static::getBulkActions()
                 ]),
-            ]);
+            ]));
     }
 
     public static function getRelations(): array
