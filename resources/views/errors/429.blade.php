@@ -1,0 +1,1 @@
+<x-error :code="429" title="休息一下吧" sub_title="您的请求过于频繁，请稍后再试。"/>

@@ -1,0 +1,1 @@
+<x-error :code="402" title="未付款" sub_title="当前操作需要支付，请完成付款后继续。"/>

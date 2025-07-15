@@ -1,53 +1,61 @@
-<div class="flex gap-2 items-center">
+<div class="flex gap-6 items-center">
     {{-- 切换语言 --}}
-    <x-filament::dropdown>
-        <x-slot name="trigger">
-            <x-filament::button icon="heroicon-o-globe-alt" icon-position="after" size="sm">
-                {{ $selectedLanguage->name }}
-            </x-filament::button>
-        </x-slot>
-
-        <x-filament::dropdown.list>
+    <div x-data="{ open: false }" class="relative">
+        <button @click="open = ! open"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            {{ $selectedLanguage->name }}
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1 text-white" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </button>
+        <div x-show="open" @click.away="open = false"
+            class="absolute right-0 mt-2 w-40 bg-white border border-green-200 rounded shadow-lg z-50">
             @foreach ($languages as $lang)
-                <x-filament::dropdown.list.item
-                    x-on:click.prevent="
-                        document.getElementById('change-language-{{ $lang->id }}').submit();
-                    ">
+                <a href="#"
+                    @click.prevent="
+                        document.getElementById('lang-input').value = '{{ $lang->code }}';
+                        document.getElementById('lang-currency-form').submit();
+                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-100">
                     {{ $lang->name }}
-                </x-filament::dropdown.list.item>
-
-                <form id="change-language-{{ $lang->id }}" method="POST"
-                    action="{{ route('locale-currency-switcher.change-language') }}" class="hidden">
-                    @csrf
-                    <input type="hidden" name="lang" value="{{ $lang->code }}">
-                </form>
+                </a>
             @endforeach
-        </x-filament::dropdown.list>
-    </x-filament::dropdown>
+        </div>
+    </div>
 
     {{-- 切换货币 --}}
-    <x-filament::dropdown>
-        <x-slot name="trigger">
-            <x-filament::button size="sm">
-                {{ $selectedCurrency->symbol }} {{ $selectedCurrency->code }}
-            </x-filament::button>
-        </x-slot>
-
-        <x-filament::dropdown.list>
+    <div x-data="{ open: false }" class="relative">
+        <button @click="open = ! open"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+            {{ $selectedCurrency->symbol }} {{ $selectedCurrency->code }}
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1 text-white" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </button>
+        <div x-show="open" @click.away="open = false"
+            class="absolute right-0 mt-2 w-48 bg-white border border-green-200 rounded shadow-lg z-50">
             @foreach ($currencies as $currency)
-                <x-filament::dropdown.list.item
-                    x-on:click.prevent="
-                        document.getElementById('change-currency-{{ $currency->id }}').submit();
-                    ">
-                    {{ $selectedCurrency->symbol }} {{ $currency->code }}
-                </x-filament::dropdown.list.item>
-
-                <form id="change-currency-{{ $currency->id }}" method="POST"
-                    action="{{ route('locale-currency-switcher.change-currency') }}" class="hidden">
-                    @csrf
-                    <input type="hidden" name="currency" value="{{ $currency->code }}">
-                </form>
+                <a href="#"
+                    @click.prevent="
+                        document.getElementById('currency-input').value = '{{ $currency->code }}';
+                        document.getElementById('lang-currency-form').submit();
+                    "
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-100">
+                    {{ $currency->symbol }} {{ $currency->code }}
+                </a>
             @endforeach
-        </x-filament::dropdown.list>
-    </x-filament::dropdown>
+        </div>
+    </div>
+
+    <form id="lang-currency-form" method="POST" action="{{ route('locale-currency-switcher.update') }}" class="hidden">
+        @csrf
+        <input type="hidden" name="lang" id="lang-input">
+        <input type="hidden" name="currency" id="currency-input">
+    </form>
 </div>

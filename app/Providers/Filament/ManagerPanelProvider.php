@@ -2,7 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\SetLocaleAndCurrency;
 use Filament\Facades\Filament;
+use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -31,6 +33,12 @@ class ManagerPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Green,
             ])
+            ->font(
+                'Inter',
+                provider: LocalFontProvider::class,
+            )
+            ->brandLogo(fn() => view('components.layouts.logo'))
+            ->favicon(asset('favicon.ico'))
             ->discoverResources(in: app_path('Filament/Manager/Resources'), for: 'App\\Filament\\Manager\\Resources')
             ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\\Filament\\Manager\\Pages')
             ->pages([
@@ -51,6 +59,7 @@ class ManagerPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetLocaleAndCurrency::class
             ])
             ->authMiddleware([
                 Authenticate::class,
