@@ -51,16 +51,23 @@ return new class extends Migration
 
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('country_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('zone_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('city')->nullable();
-            $table->string('postcode')->nullable();
+
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('company')->nullable();
+
             $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('city')->nullable();
+            $table->string('postcode')->nullable();
+
+            $table->foreignId('country_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('zone_id')->nullable()->constrained()->nullOnDelete();
+
             $table->timestamps();
         });
     }

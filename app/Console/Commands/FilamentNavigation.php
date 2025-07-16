@@ -5,9 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class CustomizeFilamentNavigation extends Command
+class FilamentNavigation extends Command
 {
-    protected $signature = 'app:customize-navigation';
+    protected $signature = 'app:navigation';
     protected $description = '自动汉化、分组、换图标、设置排序（使用属性方式）';
 
     public function handle()
@@ -67,6 +67,12 @@ class CustomizeFilamentNavigation extends Command
                 'icon' => 'heroicon-o-user',
                 'sort' => 301,
             ],
+            'AddressResource' => [
+                'label' => '收货地址',
+                'group' => '用户管理',
+                'icon' => 'heroicon-o-map-pin',
+                'sort' => 302,
+            ],
             'LanguageResource' => [
                 'label' => '语言管理',
                 'group' => '系统设置',
@@ -90,6 +96,18 @@ class CustomizeFilamentNavigation extends Command
                 'group' => '系统设置',
                 'icon' => 'heroicon-o-truck',
                 'sort' => 403,
+            ],
+            'CountryResource' => [
+                'label' => '国家数据',
+                'group' => '系统设置',
+                'icon' => 'heroicon-o-globe-alt',
+                'sort' => 404,
+            ],
+            'ZoneResource' => [
+                'label' => '地区数据',
+                'group' => '系统设置',
+                'icon' => 'heroicon-o-globe-americas',
+                'sort' => 405,
             ],
         ];
 

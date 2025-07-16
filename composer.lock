@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89037a915bcf8c54ae0ae598e339a24e",
+    "content-hash": "58e79d61a60f486e6ebcf127e4ee2e43",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1115,16 +1115,16 @@
         },
         {
             "name": "filament/actions",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/actions.git",
-                "reference": "3fee2c23368e5ee8d4613786b1bed8d98a8073fc"
+                "reference": "9eaddc610d9adc00d738b8b116cea1be35a88f85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/actions/zipball/3fee2c23368e5ee8d4613786b1bed8d98a8073fc",
-                "reference": "3fee2c23368e5ee8d4613786b1bed8d98a8073fc",
+                "url": "https://api.github.com/repos/filamentphp/actions/zipball/9eaddc610d9adc00d738b8b116cea1be35a88f85",
+                "reference": "9eaddc610d9adc00d738b8b116cea1be35a88f85",
                 "shasum": ""
             },
             "require": {
@@ -1164,20 +1164,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2025-07-08T20:42:21+00:00"
+            "time": "2025-07-16T08:51:11+00:00"
         },
         {
             "name": "filament/filament",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/panels.git",
-                "reference": "b432b938c35467b9626978fb8b72578ec4d162ae"
+                "reference": "af470f710de176796a50b17433e1ef3a70676c88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/panels/zipball/b432b938c35467b9626978fb8b72578ec4d162ae",
-                "reference": "b432b938c35467b9626978fb8b72578ec4d162ae",
+                "url": "https://api.github.com/repos/filamentphp/panels/zipball/af470f710de176796a50b17433e1ef3a70676c88",
+                "reference": "af470f710de176796a50b17433e1ef3a70676c88",
                 "shasum": ""
             },
             "require": {
@@ -1229,20 +1229,20 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2025-07-01T09:34:40+00:00"
+            "time": "2025-07-16T08:51:29+00:00"
         },
         {
             "name": "filament/forms",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/forms.git",
-                "reference": "e348d8a92c96fc87b002830848e48559eb0ef715"
+                "reference": "65f81769261ba56a9eafa563ecb25fdfdedb742c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/forms/zipball/e348d8a92c96fc87b002830848e48559eb0ef715",
-                "reference": "e348d8a92c96fc87b002830848e48559eb0ef715",
+                "url": "https://api.github.com/repos/filamentphp/forms/zipball/65f81769261ba56a9eafa563ecb25fdfdedb742c",
+                "reference": "65f81769261ba56a9eafa563ecb25fdfdedb742c",
                 "shasum": ""
             },
             "require": {
@@ -1285,11 +1285,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2025-07-08T20:42:22+00:00"
+            "time": "2025-07-16T08:51:37+00:00"
         },
         {
             "name": "filament/infolists",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/infolists.git",
@@ -1340,7 +1340,7 @@
         },
         {
             "name": "filament/notifications",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/notifications.git",
@@ -1392,7 +1392,7 @@
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/spatie-laravel-media-library-plugin.git",
@@ -1430,16 +1430,16 @@
         },
         {
             "name": "filament/support",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/support.git",
-                "reference": "ec8c7e9e6b49d4f1150a19bfd6fc585c717a857d"
+                "reference": "0bf4856840e160624ba79f43aaaa3ec396140f1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/support/zipball/ec8c7e9e6b49d4f1150a19bfd6fc585c717a857d",
-                "reference": "ec8c7e9e6b49d4f1150a19bfd6fc585c717a857d",
+                "url": "https://api.github.com/repos/filamentphp/support/zipball/0bf4856840e160624ba79f43aaaa3ec396140f1d",
+                "reference": "0bf4856840e160624ba79f43aaaa3ec396140f1d",
                 "shasum": ""
             },
             "require": {
@@ -1485,11 +1485,11 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2025-07-08T20:42:46+00:00"
+            "time": "2025-07-16T08:51:22+00:00"
         },
         {
             "name": "filament/tables",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/tables.git",
@@ -1541,7 +1541,7 @@
         },
         {
             "name": "filament/widgets",
-            "version": "v3.3.31",
+            "version": "v3.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/widgets.git",
@@ -9970,6 +9970,69 @@
                 }
             ],
             "time": "2025-06-25T02:12:12+00:00"
+        },
+        {
+            "name": "orangehill/iseed",
+            "version": "v3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orangehill/iseed.git",
+                "reference": "bfe8f5882641f70b309cd01e30f02e8e9d09b492"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orangehill/iseed/zipball/bfe8f5882641f70b309cd01e30f02e8e9d09b492",
+                "reference": "bfe8f5882641f70b309cd01e30f02e8e9d09b492",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^7.2|^8.0.2"
+            },
+            "require-dev": {
+                "illuminate/filesystem": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "laravel/framework": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "mockery/mockery": "^1.0.0",
+                "phpunit/phpunit": "^8.0|^11.5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Orangehill\\Iseed\\IseedServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Orangehill\\Iseed": "src/"
+                },
+                "classmap": [
+                    "src/Orangehill/Iseed/Exceptions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Tihomir Opacic",
+                    "email": "tihomir.opacic@orangehilldev.com"
+                }
+            ],
+            "description": "Generate a new Laravel database seed file based on data from the existing database table.",
+            "keywords": [
+                "artisan",
+                "generators",
+                "laravel",
+                "seed"
+            ],
+            "support": {
+                "issues": "https://github.com/orangehill/iseed/issues",
+                "source": "https://github.com/orangehill/iseed/tree/v3.1.1"
+            },
+            "time": "2025-03-04T07:56:48+00:00"
         },
         {
             "name": "phar-io/manifest",

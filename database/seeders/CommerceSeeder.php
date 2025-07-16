@@ -17,6 +17,9 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Address;
+use App\Models\Country;
+use App\Models\Zone;
 
 class CommerceSeeder extends Seeder
 {
@@ -112,9 +115,33 @@ class CommerceSeeder extends Seeder
             $paymentMethods->push($payment);
         }
 
-        // ----------- 生成购物车和订单 -----------
+        // ----------- 生成购物车、地址、订单 -----------
         foreach ($users as $user) {
             $currency = $currencies->random();
+
+            // 创建用户地址
+            // 从数据库随机取一个国家
+            $country = Country::inRandomOrder()->first();
+
+            // 如果该国家有 zone，就随机选一个，否则 zone_id 为 null
+            $zone = $country
+                ? Zone::where('country_id', $country->id)->inRandomOrder()->first()
+                : null;
+
+            $address = Address::create([
+                'user_id'    => $user->id,
+                'firstname'  => fake()->firstName,
+                'lastname'   => fake()->lastName,
+                'email'      => $user->email,
+                'telephone'  => fake()->phoneNumber,
+                'company'    => fake()->company,
+                'address_1'  => fake()->streetAddress,
+                'address_2'  => fake()->streetAddress,
+                'city'       => fake()->city,
+                'postcode'   => fake()->postcode,
+                'country_id' => $country?->id,
+                'zone_id'    => $zone?->id,
+            ]);
 
             // 创建购物车
             $cart = Cart::create([
@@ -122,11 +149,11 @@ class CommerceSeeder extends Seeder
                 'session_id' => null,
             ]);
 
-            // 随机添加1-3个商品或变体到购物车
+            // 随机添加 1-3 个商品或变体到购物车
             $cartItemsCount = rand(1, 3);
             for ($i = 0; $i < $cartItemsCount; $i++) {
                 $product = $products->random();
-                // 50%概率使用变体
+
                 if (rand(0, 1)) {
                     $variant = $productVariants->where('product_id', $product->id)->random();
                     $price = $variant->price ?? rand(10, 100);
@@ -154,16 +181,17 @@ class CommerceSeeder extends Seeder
 
             $order = Order::create([
                 'user_id' => $user->id,
-                // 'order_no' => 'ORD-' . strtoupper(uniqid()),
+                'shipping_address_id' => $address->id,
+                'billing_address_id' => $address->id,
+                'order_no' => 'ORD-' . strtoupper(uniqid()),
                 'currency_id' => $currency->id,
-                'total' => 0, // 后面计算
+                'total' => 0, // 后面更新
                 'status' => OrderStatusEnum::default(),
                 'shipping_method_id' => $shippingMethod->id,
                 'payment_method_id' => $paymentMethod->id,
             ]);
 
             $total = 0;
-            // 从购物车复制商品到订单
             foreach ($cart->cartItems as $item) {
                 $price = $item->price;
                 $qty = $item->qty;

@@ -18,15 +18,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * 
  * @property int $id
  * @property int|null $user_id
- * @property int|null $country_id
- * @property int|null $zone_id
- * @property string|null $first_name
- * @property string|null $last_name
- * @property string|null $city
- * @property string|null $postcode
+ * @property string|null $firstname
+ * @property string|null $lastname
+ * @property string|null $email
+ * @property string|null $telephone
+ * @property string|null $company
  * @property string|null $address_1
  * @property string|null $address_2
- * @property string|null $phone
+ * @property string|null $city
+ * @property string|null $postcode
+ * @property int|null $country_id
+ * @property int|null $zone_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
@@ -50,15 +52,17 @@ class Address extends Model
 
     protected $fillable = [
         'user_id',
-        'country_id',
-        'zone_id',
-        'first_name',
-        'last_name',
-        'city',
-        'postcode',
+        'firstname',
+        'lastname',
+        'email',
+        'telephone',
+        'company',
         'address_1',
         'address_2',
-        'phone'
+        'city',
+        'postcode',
+        'country_id',
+        'zone_id'
     ];
 
     public function country(): BelongsTo
