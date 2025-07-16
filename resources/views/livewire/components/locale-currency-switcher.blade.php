@@ -16,7 +16,7 @@
         <div x-show="open" @click.away="open = false"
             class="absolute right-0 mt-2 w-40 bg-white border border-green-200 rounded shadow-lg z-50">
             @foreach ($languages as $lang)
-                <a href="#"
+                <a href="?lang={{ $lang->code }}"
                     @click.prevent="
                         document.getElementById('lang-input').value = '{{ $lang->code }}';
                         document.getElementById('lang-currency-form').submit();
@@ -41,7 +41,7 @@
         <div x-show="open" @click.away="open = false"
             class="absolute right-0 mt-2 w-48 bg-white border border-green-200 rounded shadow-lg z-50">
             @foreach ($currencies as $currency)
-                <a href="#"
+                <a href="?currency={{ $currency->code }}"
                     @click.prevent="
                         document.getElementById('currency-input').value = '{{ $currency->code }}';
                         document.getElementById('lang-currency-form').submit();
