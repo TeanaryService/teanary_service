@@ -155,16 +155,7 @@ class AddressResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('filament_address.user_id'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('firstname')
-                    ->label(__('filament_address.firstname'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('lastname')
-                    ->label(__('filament_address.lastname'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->label(__('filament_address.email'))
-                    ->searchable(),
+                    ->description(fn($record):string => $record->firstname . $record->lastname . "({$record->email})"),
                 Tables\Columns\TextColumn::make('telephone')
                     ->label(__('filament_address.telephone'))
                     ->searchable(),
