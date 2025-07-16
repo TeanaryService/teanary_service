@@ -42,7 +42,7 @@ class FullSeeder extends Seeder
          */
         $languages = collect([
             ['code' => 'en', 'name' => 'English', 'default' => true],
-            ['code' => 'zh', 'name' => '中文', 'default' => false],
+            ['code' => 'zh_CN', 'name' => '中文', 'default' => false],
         ])->map(fn($data) => Language::create($data));
 
         /**
