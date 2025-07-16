@@ -10,8 +10,8 @@ enum PromotionDiscountTypeEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Fixed => '固定金额',
-            self::Percentage => '百分比',
+            self::Fixed => __('promotion.discount_type.fixed'),
+            self::Percentage => __('promotion.discount_type.percentage'),
         };
     }
 
