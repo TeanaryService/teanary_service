@@ -3,6 +3,7 @@
 namespace App\Filament\Manager\Resources\UserGroupResource\Pages;
 
 use App\Filament\Manager\Resources\UserGroupResource;
+use App\Models\UserGroup;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -28,5 +29,22 @@ class EditUserGroup extends EditRecord
         }
         $data['translations'] = $translations;
         return $data;
+    }
+
+    protected function handleRecordUpdate($record, array $data): UserGroup
+    {
+        $translations = $data['translations'] ?? [];
+        unset($data['translations']);
+
+        $record->update($data);
+
+        foreach ($translations as $languageId => $fields) {
+            $record->userGroupTranslations()->updateOrCreate(
+                ['language_id' => $languageId],
+                ['name' => $fields['name'] ?? '']
+            );
+        }
+
+        return $record;
     }
 }

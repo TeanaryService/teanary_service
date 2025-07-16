@@ -108,4 +108,22 @@ class LocaleCurrencyService
         $symbol = $currency ? $currency->symbol : '';
         return $symbol . number_format($converted, $decimals, '.', '');
     }
+
+    /**
+     * 获取 [id => 当前语言name] 的语言选项数组，适用于 Filament options
+     */
+    public function getLanguageOptions(): array
+    {
+        $languages = $this->getLanguages();
+        return $languages->pluck('name', 'id')->toArray();
+    }
+
+    /**
+     * 获取 [id => 当前语言name] 的货币选项数组，适用于 Filament options
+     */
+    public function getCurrencyOptions(): array
+    {
+        $currencies = $this->getCurrencies();
+        return $currencies->pluck('name', 'id')->toArray();
+    }
 }

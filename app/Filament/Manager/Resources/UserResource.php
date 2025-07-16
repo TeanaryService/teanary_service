@@ -5,6 +5,7 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\UserResource\Pages;
 use App\Filament\Manager\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
@@ -51,6 +52,8 @@ class UserResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $service = app(LocaleCurrencyService::class);
+
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
@@ -65,8 +68,18 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->label(__('filament_user.password'))
                     ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn ($state) => !empty($state) ? bcrypt($state) : null)
+                    ->dehydrated(fn ($state) => !empty($state))
+                    ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                    ->same('password_confirmation')
+                    ->autocomplete('new-password'),
+                Forms\Components\TextInput::make('password_confirmation')
+                    ->label(__('filament_user.password_confirmation'))
+                    ->password()
+                    ->maxLength(255)
+                    ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                    ->dehydrated(false),
                 Forms\Components\DateTimePicker::make('email_verified_at')
                     ->label(__('filament_user.email_verified_at')),
                 Forms\Components\Select::make('user_group_id')
@@ -75,15 +88,22 @@ class UserResource extends Resource
                     ->searchable()
                     ->preload()
                     ->default(null),
-                Forms\Components\TextInput::make('default_language_id')
+                Forms\Components\Select::make('default_language_id')
                     ->label(__('filament_user.default_language_id'))
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\TextInput::make('default_currency_id')
+                    ->options($service->getLanguageOptions()),
+                Forms\Components\Select::make('default_currency_id')
                     ->label(__('filament_user.default_currency_id'))
-                    ->numeric()
-                    ->default(null),
+                    ->options($service->getCurrencyOptions()),
             ]);
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        // 编辑时如果密码为空则不更新
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+        return $data;
     }
 
     public static function table(Table $table): Table
@@ -101,17 +121,11 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('userGroup.id')
-                    ->label(__('filament_user.userGroup.id'))
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('default_language_id')
-                    ->label(__('filament_user.default_language_id'))
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('default_currency_id')
-                    ->label(__('filament_user.default_currency_id'))
-                    ->numeric()
-                    ->sortable(),
+                    ->label(__('filament_user.userGroup.id')),
+                Tables\Columns\TextColumn::make('language.name')
+                    ->label(__('filament_user.default_language_id')),
+                Tables\Columns\TextColumn::make('currency.name')
+                    ->label(__('filament_user.default_currency_id')),
                 ...static::getTimestampsColumns()
             ])
             ->filters([
