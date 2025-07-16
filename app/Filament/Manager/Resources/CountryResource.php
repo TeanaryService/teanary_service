@@ -5,6 +5,9 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\CountryResource\Pages;
 use App\Filament\Manager\Resources\CountryResource\RelationManagers;
 use App\Models\Country;
+use App\Traits\HasActions;
+use App\Traits\HasDefaultPagination;
+use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +18,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CountryResource extends Resource
 {
+    use HasActions;
+    use HasDefaultPagination;
+    use HasTimestampsColumn;
+
     protected static ?string $pluralLabel = '国家数据';
     protected static ?string $label = '国家数据';
     protected static ?int $navigationSort = 404;
@@ -29,50 +36,51 @@ class CountryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('iso_code_2')
+                    ->label('二字码')
                     ->maxLength(2)
                     ->default(null),
                 Forms\Components\TextInput::make('iso_code_3')
+                    ->label('三字码')
                     ->maxLength(3)
                     ->default(null),
                 Forms\Components\Toggle::make('postcode_required')
+                    ->label('需要邮编')
                     ->required(),
                 Forms\Components\Toggle::make('active')
+                    ->label('启用')
                     ->required(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
+        return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('iso_code_2')
+                    ->label('二字码')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('iso_code_3')
+                    ->label('三字码')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('postcode_required')
+                    ->label('需要邮编')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label('启用')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...static::getTimestampsColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ...static::getActions()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    ...static::getBulkActions()
                 ]),
-            ]);
+            ]));
     }
 
     public static function getRelations(): array

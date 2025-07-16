@@ -5,6 +5,9 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\ZoneResource\Pages;
 use App\Filament\Manager\Resources\ZoneResource\RelationManagers;
 use App\Models\Zone;
+use App\Traits\HasActions;
+use App\Traits\HasDefaultPagination;
+use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +18,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ZoneResource extends Resource
 {
+    use HasActions;
+    use HasDefaultPagination;
+    use HasTimestampsColumn;
+
     protected static ?string $pluralLabel = '地区数据';
     protected static ?string $label = '地区数据';
     protected static ?int $navigationSort = 405;
@@ -29,47 +36,45 @@ class ZoneResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('country_id')
-                    ->relationship('country', 'id')
+                    ->label('国家')
+                    ->relationship('country', 'iso_code_2')
                     ->required(),
                 Forms\Components\TextInput::make('code')
+                    ->label('地区代码')
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Toggle::make('active')
+                    ->label('启用')
                     ->required(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
+        return static::applyDefaultPagination($table
             ->columns([
-                Tables\Columns\TextColumn::make('country.id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('country.iso_code_2')
+                    ->label('国家')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('code')
+                    ->label('地区代码')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
+                    ->label('启用')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...static::getTimestampsColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ...static::getActions()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    ...static::getBulkActions()
                 ]),
-            ]);
+            ]));
     }
 
     public static function getRelations(): array
