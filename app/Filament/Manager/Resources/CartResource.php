@@ -38,6 +38,8 @@ class CartResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->label('用户')
                     ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('session_id')
                     ->label('会话ID')

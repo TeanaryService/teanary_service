@@ -38,6 +38,8 @@ class AddressResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->label('用户')
                     ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('firstname')
                     ->label('名')
@@ -80,10 +82,14 @@ class AddressResource extends Resource
                 Forms\Components\Select::make('country_id')
                     ->label('国家')
                     ->relationship('country', 'iso_code_2')
+                    ->searchable()
+                    ->preload()
                     ->default(null),
                 Forms\Components\Select::make('zone_id')
                     ->label('地区')
                     ->relationship('zone', 'code')
+                    ->searchable()
+                    ->preload()
                     ->default(null),
             ]);
     }

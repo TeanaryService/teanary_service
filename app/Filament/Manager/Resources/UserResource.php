@@ -54,6 +54,8 @@ class UserResource extends Resource
                 Forms\Components\Select::make('user_group_id')
                     ->label('用户分组')
                     ->relationship('userGroup', 'id')
+                    ->searchable()
+                    ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('default_language_id')
                     ->label('默认语言ID')

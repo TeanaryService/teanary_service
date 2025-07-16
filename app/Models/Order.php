@@ -42,7 +42,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @package App\Models
  */
 
- #[ObservedBy([OrderObserver::class])]
+#[ObservedBy([OrderObserver::class])]
 
 class Order extends Model
 {
@@ -72,9 +72,14 @@ class Order extends Model
         'status'
     ];
 
-    public function address(): BelongsTo
+    public function shippingAddress(): BelongsTo
     {
         return $this->belongsTo(Address::class, 'shipping_address_id');
+    }
+
+    public function billingAddress(): BelongsTo
+    {
+        return $this->belongsTo(Address::class, 'billing_address_id');
     }
 
     public function currency(): BelongsTo

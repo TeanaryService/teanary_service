@@ -43,16 +43,54 @@ class OrderResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->label('用户')
                     ->relationship('user', 'name')
+                    ->default(null)
+                    ->live()
+                    ->searchable()
+                    ->preload()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        // 用户变更时，清空收货地址和帐单地址
+                        $set('shipping_address_id', null);
+                        $set('billing_address_id', null);
+                    }),
+                Forms\Components\Select::make('shipping_address_id')
+                    ->label('收货地址')
+                    ->relationship(
+                        'shippingAddress',
+                        'id',
+                        fn($query, $get) => $query->when($get('user_id'), fn($q, $userId) => $q->where('user_id', $userId))
+                    )
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        if (!$record) return '';
+                        return "{$record->firstname} {$record->lastname} ({$record->address_1}, {$record->city})";
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->default(null),
+                Forms\Components\Select::make('billing_address_id')
+                    ->label('帐单地址')
+                    ->relationship(
+                        'billingAddress',
+                        'id',
+                        fn($query, $get) => $query->when($get('user_id'), fn($q, $userId) => $q->where('user_id', $userId))
+                    )
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        if (!$record) return '';
+                        return "{$record->firstname} {$record->lastname} ({$record->address_1}, {$record->city})";
+                    })
+                    ->searchable()
+                    ->preload()
                     ->default(null),
                 Forms\Components\Select::make('currency_id')
                     ->label('币种')
                     ->live()
+                    ->searchable()
+                    ->preload()
                     ->relationship('currency', 'name')
                     ->default(null),
                 Forms\Components\TextInput::make('total')
                     ->label('订单总额')
                     ->required()
-                    ->prefix(fn ($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
+                    ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
                 Forms\Components\Select::make('status')
@@ -71,6 +109,20 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('order_no')
                     ->label('订单号')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('shippingAddress')
+                    ->label('收货地址')
+                    ->formatStateUsing(function ($record) {
+                        $addr = $record->shippingAddress;
+                        if (!$addr) return '';
+                        return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
+                    }),
+                Tables\Columns\TextColumn::make('billingAddress')
+                    ->label('帐单地址')
+                    ->formatStateUsing(function ($record) {
+                        $addr = $record->billingAddress;
+                        if (!$addr) return '';
+                        return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
+                    }),
                 Tables\Columns\TextColumn::make('total')
                     ->label('订单总额')
                     ->prefix(fn($record): string => $record->currency->symbol)

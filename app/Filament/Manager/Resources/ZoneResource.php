@@ -38,6 +38,8 @@ class ZoneResource extends Resource
                 Forms\Components\Select::make('country_id')
                     ->label('国家')
                     ->relationship('country', 'iso_code_2')
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('code')
                     ->label('地区代码')
