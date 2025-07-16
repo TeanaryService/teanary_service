@@ -37,8 +37,8 @@
                         <x-user-menu />
                     @endauth
                     @guest
-                        <a href="{{ route('filament.personal.auth.register') }}">注册</a>
-                        <a href="{{ route('filament.personal.auth.login') }}">登录</a>
+                        <a href="{{ route('filament.personal.auth.register') }}">{{ __('app.register') }}</a>
+                        <a href="{{ route('filament.personal.auth.login') }}">{{ __('app.login') }}</a>
                     @endguest
 
                     <livewire:components.locale-currency-switcher />

@@ -28,17 +28,13 @@
         <div class="py-1">
             <a href="{{ route('filament.personal.pages.dashboard') }}"
                class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
-                个人中心
+                {{ __('app.profile') }}
             </a>
-            {{-- <a href="{{ route('password.request') }}"
-               class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
-                修改密码
-            </a> --}}
             <form method="POST" action="{{ route('filament.personal.auth.logout') }}">
                 @csrf
                 <button type="submit"
                         class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
-                    退出登录
+                    {{ __('app.logout') }}
                 </button>
             </form>
         </div>
