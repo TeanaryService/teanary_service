@@ -8,7 +8,7 @@ use App\Models\Currency;
 
 class UpdateEcbRates extends Command
 {
-    protected $signature = 'rates:update-ecb';
+    protected $signature = 'app:update-ecb';
     protected $description = 'Fetch currency exchange rates from ECB and update the currencies table';
 
     public function handle()
