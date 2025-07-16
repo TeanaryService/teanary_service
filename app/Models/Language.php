@@ -6,7 +6,9 @@
 
 namespace App\Models;
 
+use App\Observers\LanguageObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,12 +20,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property string $code
  * @property string $name
+ * @property bool $default
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
  * @property Collection|AttributeTranslation[] $attributeTranslations
  * @property Collection|AttributeValueTranslation[] $attributeValueTranslations
  * @property Collection|CategoryTranslation[] $categoryTranslations
+ * @property Collection|CountryTranslation[] $countryTranslations
  * @property Collection|PaymentMethodTranslation[] $paymentMethodTranslations
  * @property Collection|ProductTranslation[] $productTranslations
  * @property Collection|PromotionTranslation[] $promotionTranslations
@@ -32,9 +36,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection|SpecificationValueTranslation[] $specificationValueTranslations
  * @property Collection|UserGroupTranslation[] $userGroupTranslations
  * @property Collection|User[] $users
+ * @property Collection|ZoneTranslation[] $zoneTranslations
  *
  * @package App\Models
  */
+
+ #[ObservedBy([LanguageObserver::class])]
+
 class Language extends Model
 {
     use HasFactory;
@@ -63,6 +71,11 @@ class Language extends Model
     public function categoryTranslations(): HasMany
     {
         return $this->hasMany(CategoryTranslation::class);
+    }
+
+    public function countryTranslations(): HasMany
+    {
+        return $this->hasMany(CountryTranslation::class);
     }
 
     public function paymentMethodTranslations(): HasMany
@@ -103,5 +116,10 @@ class Language extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class, 'default_language_id');
+    }
+
+    public function zoneTranslations(): HasMany
+    {
+        return $this->hasMany(ZoneTranslation::class);
     }
 }

@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Currency;
-use App\Models\Language;
-use App\Observers\CurrencyObserver;
-use App\Observers\LanguageObserver;
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,8 +29,5 @@ class AppServiceProvider extends ServiceProvider
             'panels::topbar.start',
             fn() => '<a target="_blank" href="' . route('home') . '">首页</a>'
         );
-
-        Language::observe(LanguageObserver::class);
-        Currency::observe(CurrencyObserver::class);
     }
 }

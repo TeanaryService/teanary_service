@@ -40,7 +40,6 @@ class Product extends Model
     protected $casts = [
         'status' => ProductStatusEnum::class
     ];
-
     protected $fillable = [
         'slug',
         'status'
@@ -59,8 +58,8 @@ class Product extends Model
     public function attributeValues(): BelongsToMany
     {
         return $this->belongsToMany(AttributeValue::class, 'product_attribute_value')
-                    ->withPivot('id')
-                    ->withTimestamps();
+            ->withPivot('id')
+            ->withTimestamps();
     }
 
     public function productCategories(): HasMany

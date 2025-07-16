@@ -25,11 +25,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $currency_id
  * @property int|null $shipping_method_id
  * @property int|null $payment_method_id
+ * @property int|null $shipping_address_id
+ * @property int|null $billing_address_id
  * @property float $total
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property Address|null $address
  * @property Currency|null $currency
  * @property PaymentMethod|null $paymentMethod
  * @property ShippingMethod|null $shippingMethod
@@ -39,7 +42,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @package App\Models
  */
 
-#[ObservedBy([OrderObserver::class])]
+ #[ObservedBy([OrderObserver::class])]
 
 class Order extends Model
 {
@@ -51,6 +54,8 @@ class Order extends Model
         'currency_id' => 'int',
         'shipping_method_id' => 'int',
         'payment_method_id' => 'int',
+        'shipping_address_id' => 'int',
+        'billing_address_id' => 'int',
         'total' => 'float',
         'status' => OrderStatusEnum::class
     ];
@@ -61,9 +66,16 @@ class Order extends Model
         'currency_id',
         'shipping_method_id',
         'payment_method_id',
+        'shipping_address_id',
+        'billing_address_id',
         'total',
         'status'
     ];
+
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class, 'shipping_address_id');
+    }
 
     public function currency(): BelongsTo
     {

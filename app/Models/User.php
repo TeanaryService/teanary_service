@@ -34,6 +34,7 @@ use Illuminate\Notifications\Notifiable;
  * @property Currency|null $currency
  * @property Language|null $language
  * @property UserGroup|null $userGroup
+ * @property Collection|Address[] $addresses
  * @property Collection|Cart[] $carts
  * @property Collection|Order[] $orders
  *
@@ -80,6 +81,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userGroup(): BelongsTo
     {
         return $this->belongsTo(UserGroup::class);
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 
     public function carts(): HasMany
