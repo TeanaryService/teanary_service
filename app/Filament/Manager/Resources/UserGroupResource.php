@@ -72,9 +72,11 @@ class UserGroupResource extends Resource
                         return TextInput::make("translations.{$lang->id}.name")
                             ->label(__('filament_user_group.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
+                            ->columnSpanFull()
                             ->default($default);
                     })->toArray()
-                )->label(__('filament_user_group.name')),
+                )->columnSpanFull()
+                ->label(__('filament_user_group.name')),
             ]);
     }
 

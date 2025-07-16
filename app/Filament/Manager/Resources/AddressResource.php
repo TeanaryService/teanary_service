@@ -5,6 +5,7 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\AddressResource\Pages;
 use App\Filament\Manager\Resources\AddressResource\RelationManagers;
 use App\Models\Address;
+use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
@@ -81,6 +82,54 @@ class AddressResource extends Resource
                     ->label(__('filament_address.company'))
                     ->maxLength(255)
                     ->default(null),
+                Forms\Components\Select::make('country_id')
+                    ->label(__('filament_address.country_id'))
+                    ->relationship('country', 'name')
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->countryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        // 没有当前语言翻译时，显示第一个翻译的 name
+                        $first = $record->countryTranslations->first();
+                        return $first ? $first->name : $record->name;
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->default(null)
+                    ->afterStateUpdated(function ($set) {
+                        // 选国家后清空地区
+                        $set('zone_id', null);
+                    })
+                    ->reactive(),
+                Forms\Components\Select::make('zone_id')
+                    ->label(__('filament_address.zone_id'))
+                    ->options(function ($get) {
+                        $countryId = $get('country_id');
+                        if (!$countryId) {
+                            return [];
+                        }
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $zones = \App\Models\Zone::where('country_id', $countryId)->with('zoneTranslations')->get();
+                        $options = [];
+                        foreach ($zones as $zone) {
+                            $translation = $zone->zoneTranslations->where('language_id', $lang?->id)->first();
+                            if ($translation && $translation->name) {
+                                $options[$zone->id] = $translation->name;
+                            } else {
+                                $first = $zone->zoneTranslations->first();
+                                $options[$zone->id] = $first ? $first->name : $zone->name;
+                            }
+                        }
+                        return $options;
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->default(null)
+                    ->reactive(),
                 Forms\Components\TextInput::make('address_1')
                     ->label(__('filament_address.address_1'))
                     ->maxLength(255)
@@ -96,18 +145,6 @@ class AddressResource extends Resource
                 Forms\Components\TextInput::make('postcode')
                     ->label(__('filament_address.postcode'))
                     ->maxLength(255)
-                    ->default(null),
-                Forms\Components\Select::make('country_id')
-                    ->label(__('filament_address.country_id'))
-                    ->relationship('country', 'iso_code_2')
-                    ->searchable()
-                    ->preload()
-                    ->default(null),
-                Forms\Components\Select::make('zone_id')
-                    ->label(__('filament_address.zone_id'))
-                    ->relationship('zone', 'code')
-                    ->searchable()
-                    ->preload()
                     ->default(null),
             ]);
     }
@@ -146,12 +183,30 @@ class AddressResource extends Resource
                 Tables\Columns\TextColumn::make('postcode')
                     ->label(__('filament_address.postcode'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('country.iso_code_2')
-                    ->label(__('filament_address.country.iso_code_2'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('zone.code')
-                    ->label(__('filament_address.zone.code'))
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('country.name')
+                    ->label(__('filament_address.country_id'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->country?->countryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->country?->countryTranslations->first();
+                        return $first ? $first->name : $record->country?->name;
+                    }),
+                Tables\Columns\TextColumn::make('zone.name')
+                    ->label(__('filament_address.zone_id'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->zone?->zoneTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->zone?->zoneTranslations->first();
+                        return $first ? $first->name : $record->zone?->name;
+                    }),
                 ...static::getTimestampsColumns()
             ])
             ->filters([
