@@ -22,7 +22,7 @@
     <!-- Styles -->
     @livewireStyles
 
-    <link rel="shortcut icon" type="image/icon" href="/favicon.ico" />
+    <link rel="shortcut icon" type="image/icon" href="{{ asset('/favicon.ico') }}" />
 </head>
 
 <body class="body bg-green-50">
@@ -51,18 +51,10 @@
     <div class="main">
         {{ $slot }}
     </div>
-    <footer class="py-4">
-        {{-- <div class="block text-center md:flex text-sm text-gray-500 justify-center py-6">
-            <p>&copy;昆明咩信科技有限公司</p>
-            <span class="hidden md:block px-2 text-gray-400">|</span>
-            <a target="_blank" href="https://beian.miit.gov.cn/">滇ICP备2025050846号-1</a>
-            <span class="hidden md:block px-2 text-gray-400">|</span>
-            <p class="flex justify-center items-center">
-                <img class="mr-1 w-3 h-3" src="{{ url('wangan.png') }}">
-                <a href="https://beian.mps.gov.cn/#/query/webSearch?code=53011102001494" rel="noreferrer"
-                    target="_blank">滇公网安备53011102001494号</a>
-            </p>
-        </div> --}}
+    <footer class="py-8">
+        <div class="block text-center md:flex text-sm text-gray-500 justify-center py-6">
+            <x-layouts.logo imgClass="w-20 h-20" :showText="false"/>
+        </div>
     </footer>
 
     @livewireScripts
