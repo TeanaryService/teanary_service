@@ -85,6 +85,16 @@ class UserResource extends Resource
                 Forms\Components\Select::make('user_group_id')
                     ->label(__('filament_user.user_group_id'))
                     ->relationship('userGroup', 'id')
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->userGroupTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->userGroupTranslations->first();
+                        return $first ? $first->name : $record->id;
+                    })
                     ->searchable()
                     ->preload()
                     ->default(null),
@@ -120,8 +130,18 @@ class UserResource extends Resource
                     ->label(__('filament_user.email_verified_at'))
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('userGroup.id')
-                    ->label(__('filament_user.userGroup.id')),
+                Tables\Columns\TextColumn::make('userGroup.name')
+                    ->label(__('filament_user.user_group_id'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->userGroup?->userGroupTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->userGroup?->userGroupTranslations->first();
+                        return $first ? $first->name : $record->userGroup?->id;
+                    }),
                 Tables\Columns\TextColumn::make('language.name')
                     ->label(__('filament_user.default_language_id')),
                 Tables\Columns\TextColumn::make('currency.name')
