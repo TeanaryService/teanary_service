@@ -19,7 +19,7 @@
             <div class="flex-1">
                 <img src="{{ asset('images/banner-flowers.png') }}"
                      alt="Bouquet of flowers"
-                     class="w-full h-auto rounded shadow-lg">
+                     class="w-full h-auto rounded-xl shadow-lg">
             </div>
         </div>
     </section>

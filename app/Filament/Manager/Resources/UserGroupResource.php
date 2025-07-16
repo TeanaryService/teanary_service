@@ -5,6 +5,7 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\UserGroupResource\Pages;
 use App\Filament\Manager\Resources\UserGroupResource\RelationManagers;
 use App\Models\UserGroup;
+use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
@@ -13,6 +14,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -51,9 +54,27 @@ class UserGroupResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $model = $form->getModelInstance();
         return $form
             ->schema([
-                //
+                // 多语言 name 字段
+                Forms\Components\Group::make(
+                    $languages->map(function ($lang) use ($model) {
+                        $default = '';
+                        if ($model && $model->exists) {
+                            $translation = $model->userGroupTranslations
+                                ->where('language_id', $lang->id)
+                                ->first();
+                            $default = $translation ? $translation->name : '';
+                        }
+                        
+                        return TextInput::make("translations.{$lang->id}.name")
+                            ->label(__('filament_user_group.name') . " ({$lang->name})")
+                            ->required($lang->is_default ?? false)
+                            ->default($default);
+                    })->toArray()
+                )->label(__('filament_user_group.name')),
             ]);
     }
 
@@ -61,7 +82,17 @@ class UserGroupResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
-               ...static::getTimestampsColumns()
+                // 显示当前语言的 name
+                TextColumn::make('userGroupTranslations.name')
+                    ->label(__('filament_user_group.name'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        return optional(
+                            $record->userGroupTranslations->where('language_id', $lang?->id)->first()
+                        )->name;
+                    }),
+                ...static::getTimestampsColumns()
             ])
             ->filters([
                 //

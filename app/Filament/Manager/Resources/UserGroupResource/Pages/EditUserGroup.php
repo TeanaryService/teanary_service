@@ -16,4 +16,17 @@ class EditUserGroup extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        // 转换 translations 为嵌套数组
+        $translations = [];
+        if (isset($this->record->userGroupTranslations)) {
+            foreach ($this->record->userGroupTranslations as $translation) {
+                $translations[$translation->language_id]['name'] = $translation->name;
+            }
+        }
+        $data['translations'] = $translations;
+        return $data;
+    }
 }
