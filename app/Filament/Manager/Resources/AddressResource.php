@@ -22,71 +22,89 @@ class AddressResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '收货地址';
-    protected static ?string $label = '收货地址';
-    protected static ?int $navigationSort = 302;
-    protected static ?string $navigationGroup = '用户管理';
-    protected static ?string $navigationLabel = '收货地址';
     protected static ?string $model = Address::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+    public static function getLabel(): string
+    {
+        return __('filament.AddressResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.AddressResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.AddressResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.AddressResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.AddressResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.AddressResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->label('用户')
+                    ->label(__('filament_address.user_id'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('firstname')
-                    ->label('名')
+                    ->label(__('filament_address.firstname'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('lastname')
-                    ->label('姓')
+                    ->label(__('filament_address.lastname'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('email')
-                    ->label('邮箱')
+                    ->label(__('filament_address.email'))
                     ->email()
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('telephone')
-                    ->label('电话')
+                    ->label(__('filament_address.telephone'))
                     ->tel()
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('company')
-                    ->label('公司')
+                    ->label(__('filament_address.company'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('address_1')
-                    ->label('地址1')
+                    ->label(__('filament_address.address_1'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('address_2')
-                    ->label('地址2')
+                    ->label(__('filament_address.address_2'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('city')
-                    ->label('城市')
+                    ->label(__('filament_address.city'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('postcode')
-                    ->label('邮编')
+                    ->label(__('filament_address.postcode'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Select::make('country_id')
-                    ->label('国家')
+                    ->label(__('filament_address.country_id'))
                     ->relationship('country', 'iso_code_2')
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\Select::make('zone_id')
-                    ->label('地区')
+                    ->label(__('filament_address.zone_id'))
                     ->relationship('zone', 'code')
                     ->searchable()
                     ->preload()
@@ -99,40 +117,40 @@ class AddressResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('用户')
+                    ->label(__('filament_address.user_id'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('firstname')
-                    ->label('名')
+                    ->label(__('filament_address.firstname'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('lastname')
-                    ->label('姓')
+                    ->label(__('filament_address.lastname'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->label('邮箱')
+                    ->label(__('filament_address.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('telephone')
-                    ->label('电话')
+                    ->label(__('filament_address.telephone'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company')
-                    ->label('公司')
+                    ->label(__('filament_address.company'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address_1')
-                    ->label('地址1')
+                    ->label(__('filament_address.address_1'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address_2')
-                    ->label('地址2')
+                    ->label(__('filament_address.address_2'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
-                    ->label('城市')
+                    ->label(__('filament_address.city'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('postcode')
-                    ->label('邮编')
+                    ->label(__('filament_address.postcode'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('country.iso_code_2')
-                    ->label('国家')
+                    ->label(__('filament_address.country.iso_code_2'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('zone.code')
-                    ->label('地区')
+                    ->label(__('filament_address.zone.code'))
                     ->sortable(),
                 ...static::getTimestampsColumns()
             ])

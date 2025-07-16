@@ -22,27 +22,45 @@ class CartResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '购物车';
-    protected static ?string $label = '购物车';
-    protected static ?int $navigationSort = 102;
-    protected static ?string $navigationGroup = '商务运营';
-    protected static ?string $navigationLabel = '购物车';
     protected static ?string $model = Cart::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    public static function getLabel(): string
+    {
+        return __('filament.CartResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.CartResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.CartResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.CartResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.CartResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.CartResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->label('用户')
+                    ->label(__('filament_cart.user_id'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('session_id')
-                    ->label('会话ID')
+                    ->label(__('filament_cart.session_id'))
                     ->maxLength(255)
                     ->default(null),
             ]);
@@ -53,9 +71,9 @@ class CartResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('用户'),
+                    ->label(__('filament_cart.user_id')),
                 Tables\Columns\TextColumn::make('session_id')
-                    ->label('会话ID')
+                    ->label(__('filament_cart.session_id'))
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

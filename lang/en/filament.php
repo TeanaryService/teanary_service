@@ -1,5 +1,99 @@
 <?php
 
 return [
+    'OrderResource.label' => 'Order Management',
+    'OrderResource.pluralLabel' => 'Order Management',
+    'OrderResource.group' => 'Business Operations',
+    'OrderResource.icon' => 'heroicon-o-receipt-percent',
+    'OrderResource.sort' => 100,
 
+    'PromotionResource.label' => 'Promotions',
+    'PromotionResource.pluralLabel' => 'Promotions',
+    'PromotionResource.group' => 'Business Operations',
+    'PromotionResource.icon' => 'heroicon-o-bolt',
+    'PromotionResource.sort' => 101,
+
+    'CartResource.label' => 'Shopping Cart',
+    'CartResource.pluralLabel' => 'Shopping Cart',
+    'CartResource.group' => 'Business Operations',
+    'CartResource.icon' => 'heroicon-o-shopping-cart',
+    'CartResource.sort' => 102,
+
+    'ProductResource.label' => 'Product Management',
+    'ProductResource.pluralLabel' => 'Product Management',
+    'ProductResource.group' => 'Product Management',
+    'ProductResource.icon' => 'heroicon-o-gift',
+    'ProductResource.sort' => 200,
+
+    'CategoryResource.label' => 'Category Management',
+    'CategoryResource.pluralLabel' => 'Category Management',
+    'CategoryResource.group' => 'Product Management',
+    'CategoryResource.icon' => 'heroicon-o-squares-2x2',
+    'CategoryResource.sort' => 201,
+
+    'AttributeResource.label' => 'Attribute Management',
+    'AttributeResource.pluralLabel' => 'Attribute Management',
+    'AttributeResource.group' => 'Product Management',
+    'AttributeResource.icon' => 'heroicon-o-adjustments-horizontal',
+    'AttributeResource.sort' => 202,
+
+    'SpecificationResource.label' => 'Specification Management',
+    'SpecificationResource.pluralLabel' => 'Specification Management',
+    'SpecificationResource.group' => 'Product Management',
+    'SpecificationResource.icon' => 'heroicon-o-puzzle-piece',
+    'SpecificationResource.sort' => 203,
+
+    'UserGroupResource.label' => 'User Groups',
+    'UserGroupResource.pluralLabel' => 'User Groups',
+    'UserGroupResource.group' => 'User Management',
+    'UserGroupResource.icon' => 'heroicon-o-user-group',
+    'UserGroupResource.sort' => 300,
+
+    'UserResource.label' => 'User Management',
+    'UserResource.pluralLabel' => 'User Management',
+    'UserResource.group' => 'User Management',
+    'UserResource.icon' => 'heroicon-o-user',
+    'UserResource.sort' => 301,
+
+    'AddressResource.label' => 'Shipping Addresses',
+    'AddressResource.pluralLabel' => 'Shipping Addresses',
+    'AddressResource.group' => 'User Management',
+    'AddressResource.icon' => 'heroicon-o-map-pin',
+    'AddressResource.sort' => 302,
+
+    'LanguageResource.label' => 'Language Management',
+    'LanguageResource.pluralLabel' => 'Language Management',
+    'LanguageResource.group' => 'System Settings',
+    'LanguageResource.icon' => 'heroicon-o-language',
+    'LanguageResource.sort' => 400,
+
+    'CurrencyResource.label' => 'Currency Management',
+    'CurrencyResource.pluralLabel' => 'Currency Management',
+    'CurrencyResource.group' => 'System Settings',
+    'CurrencyResource.icon' => 'heroicon-o-currency-dollar',
+    'CurrencyResource.sort' => 401,
+
+    'PaymentMethodResource.label' => 'Payment Methods',
+    'PaymentMethodResource.pluralLabel' => 'Payment Methods',
+    'PaymentMethodResource.group' => 'System Settings',
+    'PaymentMethodResource.icon' => 'heroicon-o-credit-card',
+    'PaymentMethodResource.sort' => 402,
+
+    'ShippingMethodResource.label' => 'Shipping Methods',
+    'ShippingMethodResource.pluralLabel' => 'Shipping Methods',
+    'ShippingMethodResource.group' => 'System Settings',
+    'ShippingMethodResource.icon' => 'heroicon-o-truck',
+    'ShippingMethodResource.sort' => 403,
+
+    'CountryResource.label' => 'Country Data',
+    'CountryResource.pluralLabel' => 'Country Data',
+    'CountryResource.group' => 'System Settings',
+    'CountryResource.icon' => 'heroicon-o-globe-alt',
+    'CountryResource.sort' => 404,
+
+    'ZoneResource.label' => 'Region Data',
+    'ZoneResource.pluralLabel' => 'Region Data',
+    'ZoneResource.group' => 'System Settings',
+    'ZoneResource.icon' => 'heroicon-o-globe-americas',
+    'ZoneResource.sort' => 405,
 ];

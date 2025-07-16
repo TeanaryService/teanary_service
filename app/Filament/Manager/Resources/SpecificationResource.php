@@ -22,14 +22,32 @@ class SpecificationResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '规格管理';
-    protected static ?string $label = '规格管理';
-    protected static ?int $navigationSort = 203;
-    protected static ?string $navigationGroup = '商品管理';
-    protected static ?string $navigationLabel = '规格管理';
     protected static ?string $model = Specification::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
+    public static function getLabel(): string
+    {
+        return __('filament.SpecificationResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.SpecificationResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.SpecificationResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.SpecificationResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.SpecificationResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.SpecificationResource.sort');
+    }
 
     public static function form(Form $form): Form
     {

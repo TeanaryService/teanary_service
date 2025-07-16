@@ -22,32 +22,50 @@ class CountryResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '国家数据';
-    protected static ?string $label = '国家数据';
-    protected static ?int $navigationSort = 404;
-    protected static ?string $navigationGroup = '系统设置';
-    protected static ?string $navigationLabel = '国家数据';
     protected static ?string $model = Country::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
+    public static function getLabel(): string
+    {
+        return __('filament.CountryResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.CountryResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.CountryResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.CountryResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.CountryResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.CountryResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('iso_code_2')
-                    ->label('二字码')
+                    ->label(__('filament_country.iso_code_2'))
                     ->maxLength(2)
                     ->default(null),
                 Forms\Components\TextInput::make('iso_code_3')
-                    ->label('三字码')
+                    ->label(__('filament_country.iso_code_3'))
                     ->maxLength(3)
                     ->default(null),
                 Forms\Components\Toggle::make('postcode_required')
-                    ->label('需要邮编')
+                    ->label(__('filament_country.postcode_required'))
                     ->required(),
                 Forms\Components\Toggle::make('active')
-                    ->label('启用')
+                    ->label(__('filament_country.active'))
                     ->required(),
             ]);
     }
@@ -57,16 +75,16 @@ class CountryResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('iso_code_2')
-                    ->label('二字码')
+                    ->label(__('filament_country.iso_code_2'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('iso_code_3')
-                    ->label('三字码')
+                    ->label(__('filament_country.iso_code_3'))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('postcode_required')
-                    ->label('需要邮编')
+                    ->label(__('filament_country.postcode_required'))
                     ->boolean(),
                 Tables\Columns\IconColumn::make('active')
-                    ->label('启用')
+                    ->label(__('filament_country.active'))
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])

@@ -23,25 +23,43 @@ class ProductResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '商品管理';
-    protected static ?string $label = '商品管理';
-    protected static ?int $navigationSort = 200;
-    protected static ?string $navigationGroup = '商品管理';
-    protected static ?string $navigationLabel = '商品管理';
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-gift';
+    public static function getLabel(): string
+    {
+        return __('filament.ProductResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.ProductResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.ProductResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.ProductResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.ProductResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.ProductResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('slug')
-                    ->label('商品标识')
+                    ->label(__('filament_product.slug'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('status')
-                    ->label('商品状态')
+                    ->label(__('filament_product.status'))
                     ->options(ProductStatusEnum::options())
                     ->required(),
             ]);
@@ -52,11 +70,11 @@ class ProductResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('商品标识')
+                    ->label(__('filament_product.slug'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn($state): string => $state->label())
-                    ->label('商品状态'),
+                    ->label(__('filament_product.status')),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

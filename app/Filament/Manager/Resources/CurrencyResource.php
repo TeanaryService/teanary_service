@@ -22,33 +22,51 @@ class CurrencyResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '币种管理';
-    protected static ?string $label = '币种管理';
-    protected static ?int $navigationSort = 401;
-    protected static ?string $navigationGroup = '系统设置';
-    protected static ?string $navigationLabel = '币种管理';
     protected static ?string $model = Currency::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    public static function getLabel(): string
+    {
+        return __('filament.CurrencyResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.CurrencyResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.CurrencyResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.CurrencyResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.CurrencyResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.CurrencyResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
-                    ->label('币种代码')
+                    ->label(__('filament_currency.code'))
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('name')
-                    ->label('币种名称')
+                    ->label(__('filament_currency.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('symbol')
-                    ->label('币种符号')
+                    ->label(__('filament_currency.symbol'))
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('exchange_rate')
-                    ->label('汇率')
+                    ->label(__('filament_currency.exchange_rate'))
                     ->required()
                     ->numeric()
                     ->default(1.0000),
@@ -60,16 +78,16 @@ class CurrencyResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label('币种代码')
+                    ->label(__('filament_currency.code'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('币种名称')
+                    ->label(__('filament_currency.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('symbol')
-                    ->label('币种符号')
+                    ->label(__('filament_currency.symbol'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('exchange_rate')
-                    ->label('汇率')
+                    ->label(__('filament_currency.exchange_rate'))
                     ->numeric()
                     ->sortable(),
                 ...static::getTimestampsColumns()

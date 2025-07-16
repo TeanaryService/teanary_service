@@ -23,25 +23,43 @@ class OrderResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '订单管理';
-    protected static ?string $label = '订单管理';
-    protected static ?int $navigationSort = 100;
-    protected static ?string $navigationGroup = '商务运营';
-    protected static ?string $navigationLabel = '订单管理';
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
+    public static function getLabel(): string
+    {
+        return __('filament.OrderResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.OrderResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.OrderResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.OrderResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.OrderResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.OrderResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('order_no')
-                    ->label('订单号')
+                    ->label(__('filament_order.order_no'))
                     ->disabled()
                     ->columnSpanFull(),
                 Forms\Components\Select::make('user_id')
-                    ->label('用户')
+                    ->label(__('filament_order.user_id'))
                     ->relationship('user', 'name')
                     ->default(null)
                     ->live()
@@ -53,7 +71,7 @@ class OrderResource extends Resource
                         $set('billing_address_id', null);
                     }),
                 Forms\Components\Select::make('shipping_address_id')
-                    ->label('收货地址')
+                    ->label(__('filament_order.shipping_address_id'))
                     ->relationship(
                         'shippingAddress',
                         'id',
@@ -67,7 +85,7 @@ class OrderResource extends Resource
                     ->preload()
                     ->default(null),
                 Forms\Components\Select::make('billing_address_id')
-                    ->label('帐单地址')
+                    ->label(__('filament_order.billing_address_id'))
                     ->relationship(
                         'billingAddress',
                         'id',
@@ -81,20 +99,20 @@ class OrderResource extends Resource
                     ->preload()
                     ->default(null),
                 Forms\Components\Select::make('currency_id')
-                    ->label('币种')
+                    ->label(__('filament_order.currency_id'))
                     ->live()
                     ->searchable()
                     ->preload()
                     ->relationship('currency', 'name')
                     ->default(null),
                 Forms\Components\TextInput::make('total')
-                    ->label('订单总额')
+                    ->label(__('filament_order.total'))
                     ->required()
                     ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
                 Forms\Components\Select::make('status')
-                    ->label('订单状态')
+                    ->label(__('filament_order.status'))
                     ->options(OrderStatusEnum::options())
                     ->required(),
             ]);
@@ -105,32 +123,32 @@ class OrderResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('用户'),
+                    ->label(__('filament_order.user_id')),
                 Tables\Columns\TextColumn::make('order_no')
-                    ->label('订单号')
+                    ->label(__('filament_order.order_no'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('shippingAddress')
-                    ->label('收货地址')
+                    ->label(__('filament_order.shipping_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->shippingAddress;
                         if (!$addr) return '';
                         return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
                     }),
                 Tables\Columns\TextColumn::make('billingAddress')
-                    ->label('帐单地址')
+                    ->label(__('filament_order.billing_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->billingAddress;
                         if (!$addr) return '';
                         return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
                     }),
                 Tables\Columns\TextColumn::make('total')
-                    ->label('订单总额')
+                    ->label(__('filament_order.total'))
                     ->prefix(fn($record): string => $record->currency->symbol)
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn($state): string => $state->label())
-                    ->label('订单状态'),
+                    ->label(__('filament_order.status')),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

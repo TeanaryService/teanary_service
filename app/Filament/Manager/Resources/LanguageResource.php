@@ -22,25 +22,43 @@ class LanguageResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '语言管理';
-    protected static ?string $label = '语言管理';
-    protected static ?int $navigationSort = 400;
-    protected static ?string $navigationGroup = '系统设置';
-    protected static ?string $navigationLabel = '语言管理';
     protected static ?string $model = Language::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-language';
+    public static function getLabel(): string
+    {
+        return __('filament.LanguageResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.LanguageResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.LanguageResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.LanguageResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.LanguageResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.LanguageResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
-                    ->label('语言代码')
+                    ->label(__('filament_language.code'))
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('name')
-                    ->label('语言名称')
+                    ->label(__('filament_language.name'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -51,10 +69,10 @@ class LanguageResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label('语言代码')
+                    ->label(__('filament_language.code'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('语言名称')
+                    ->label(__('filament_language.name'))
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

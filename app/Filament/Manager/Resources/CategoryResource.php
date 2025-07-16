@@ -22,25 +22,43 @@ class CategoryResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '分类管理';
-    protected static ?string $label = '分类管理';
-    protected static ?int $navigationSort = 201;
-    protected static ?string $navigationGroup = '商品管理';
-    protected static ?string $navigationLabel = '分类管理';
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
+    public static function getLabel(): string
+    {
+        return __('filament.CategoryResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.CategoryResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.CategoryResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.CategoryResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.CategoryResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.CategoryResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('parent_id')
-                    ->label('父级ID')
+                    ->label(__('filament_category.parent_id'))
                     ->numeric()
                     ->default(null),
                 Forms\Components\TextInput::make('slug')
-                    ->label('分类标识')
+                    ->label(__('filament_category.slug'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -51,11 +69,11 @@ class CategoryResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('parent_id')
-                    ->label('父级ID')
+                    ->label(__('filament_category.parent_id'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('分类标识')
+                    ->label(__('filament_category.slug'))
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

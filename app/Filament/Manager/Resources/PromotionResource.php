@@ -23,32 +23,50 @@ class PromotionResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '促销活动';
-    protected static ?string $label = '促销活动';
-    protected static ?int $navigationSort = 101;
-    protected static ?string $navigationGroup = '商务运营';
-    protected static ?string $navigationLabel = '促销活动';
     protected static ?string $model = Promotion::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bolt';
+    public static function getLabel(): string
+    {
+        return __('filament.PromotionResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.PromotionResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.PromotionResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.PromotionResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.PromotionResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.PromotionResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('type')
-                    ->label('活动类型')
+                    ->label(__('filament_promotion.type'))
                     ->options(PromotionTypeEnum::options())
                     ->columnSpanFull()
                     ->required(),
                 Forms\Components\DateTimePicker::make('starts_at')
-                    ->label('开始时间')
+                    ->label(__('filament_promotion.starts_at'))
                     ->displayFormat('Y-m-d H:i:s'),
                 Forms\Components\DateTimePicker::make('ends_at')
-                    ->label('结束时间')
+                    ->label(__('filament_promotion.ends_at'))
                     ->displayFormat('Y-m-d H:i:s'),
                 Forms\Components\Toggle::make('active')
-                    ->label('是否启用')
+                    ->label(__('filament_promotion.active'))
                     ->required(),
             ]);
     }
@@ -59,17 +77,17 @@ class PromotionResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('type')
                     ->formatStateUsing(fn($state): string => $state->label())
-                    ->label('活动类型'),
+                    ->label(__('filament_promotion.type')),
                 Tables\Columns\TextColumn::make('starts_at')
-                    ->label('开始时间')
+                    ->label(__('filament_promotion.starts_at'))
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ends_at')
-                    ->label('结束时间')
+                    ->label(__('filament_promotion.ends_at'))
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('active')
-                    ->label('是否启用')
+                    ->label(__('filament_promotion.active'))
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])

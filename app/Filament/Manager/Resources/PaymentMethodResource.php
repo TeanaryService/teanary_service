@@ -22,28 +22,46 @@ class PaymentMethodResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '支付方式';
-    protected static ?string $label = '支付方式';
-    protected static ?int $navigationSort = 402;
-    protected static ?string $navigationGroup = '系统设置';
-    protected static ?string $navigationLabel = '支付方式';
     protected static ?string $model = PaymentMethod::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+    public static function getLabel(): string
+    {
+        return __('filament.PaymentMethodResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.PaymentMethodResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.PaymentMethodResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.PaymentMethodResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.PaymentMethodResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.PaymentMethodResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
-                    ->label('支付方式代码')
+                    ->label(__('filament_payment_method.code'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('active')
-                    ->label('是否启用')
+                    ->label(__('filament_payment_method.active'))
                     ->required(),
                 Forms\Components\TextInput::make('api_url')
-                    ->label('接口地址')
+                    ->label(__('filament_payment_method.api_url'))
                     ->maxLength(255)
                     ->default(null),
             ]);
@@ -54,13 +72,13 @@ class PaymentMethodResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label('支付方式代码')
+                    ->label(__('filament_payment_method.code'))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
-                    ->label('是否启用')
+                    ->label(__('filament_payment_method.active'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('api_url')
-                    ->label('接口地址')
+                    ->label(__('filament_payment_method.api_url'))
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

@@ -22,47 +22,65 @@ class UserResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '用户管理';
-    protected static ?string $label = '用户管理';
-    protected static ?int $navigationSort = 301;
-    protected static ?string $navigationGroup = '用户管理';
-    protected static ?string $navigationLabel = '用户管理';
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    public static function getLabel(): string
+    {
+        return __('filament.UserResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.UserResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.UserResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.UserResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.UserResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.UserResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('用户名')
+                    ->label(__('filament_user.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-                    ->label('邮箱')
+                    ->label(__('filament_user.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
-                    ->label('密码')
+                    ->label(__('filament_user.password'))
                     ->password()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DateTimePicker::make('email_verified_at')
-                    ->label('邮箱验证时间'),
+                    ->label(__('filament_user.email_verified_at')),
                 Forms\Components\Select::make('user_group_id')
-                    ->label('用户分组')
+                    ->label(__('filament_user.user_group_id'))
                     ->relationship('userGroup', 'id')
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('default_language_id')
-                    ->label('默认语言ID')
+                    ->label(__('filament_user.default_language_id'))
                     ->numeric()
                     ->default(null),
                 Forms\Components\TextInput::make('default_currency_id')
-                    ->label('默认币种ID')
+                    ->label(__('filament_user.default_currency_id'))
                     ->numeric()
                     ->default(null),
             ]);
@@ -73,25 +91,25 @@ class UserResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('用户名')
+                    ->label(__('filament_user.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->label('邮箱')
+                    ->label(__('filament_user.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
-                    ->label('邮箱验证时间')
+                    ->label(__('filament_user.email_verified_at'))
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('userGroup.id')
-                    ->label('用户分组ID')
+                    ->label(__('filament_user.userGroup.id'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('default_language_id')
-                    ->label('默认语言ID')
+                    ->label(__('filament_user.default_language_id'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('default_currency_id')
-                    ->label('默认币种ID')
+                    ->label(__('filament_user.default_currency_id'))
                     ->numeric()
                     ->sortable(),
                 ...static::getTimestampsColumns()

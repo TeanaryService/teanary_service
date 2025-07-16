@@ -1,5 +1,99 @@
 <?php
 
 return [
+    'OrderResource.label' => '订单管理',
+    'OrderResource.pluralLabel' => '订单管理',
+    'OrderResource.group' => '商务运营',
+    'OrderResource.icon' => 'heroicon-o-receipt-percent',
+    'OrderResource.sort' => 100,
 
+    'PromotionResource.label' => '促销活动',
+    'PromotionResource.pluralLabel' => '促销活动',
+    'PromotionResource.group' => '商务运营',
+    'PromotionResource.icon' => 'heroicon-o-bolt',
+    'PromotionResource.sort' => 101,
+
+    'CartResource.label' => '购物车',
+    'CartResource.pluralLabel' => '购物车',
+    'CartResource.group' => '商务运营',
+    'CartResource.icon' => 'heroicon-o-shopping-cart',
+    'CartResource.sort' => 102,
+
+    'ProductResource.label' => '商品管理',
+    'ProductResource.pluralLabel' => '商品管理',
+    'ProductResource.group' => '商品管理',
+    'ProductResource.icon' => 'heroicon-o-gift',
+    'ProductResource.sort' => 200,
+
+    'CategoryResource.label' => '分类管理',
+    'CategoryResource.pluralLabel' => '分类管理',
+    'CategoryResource.group' => '商品管理',
+    'CategoryResource.icon' => 'heroicon-o-squares-2x2',
+    'CategoryResource.sort' => 201,
+
+    'AttributeResource.label' => '属性管理',
+    'AttributeResource.pluralLabel' => '属性管理',
+    'AttributeResource.group' => '商品管理',
+    'AttributeResource.icon' => 'heroicon-o-adjustments-horizontal',
+    'AttributeResource.sort' => 202,
+
+    'SpecificationResource.label' => '规格管理',
+    'SpecificationResource.pluralLabel' => '规格管理',
+    'SpecificationResource.group' => '商品管理',
+    'SpecificationResource.icon' => 'heroicon-o-puzzle-piece',
+    'SpecificationResource.sort' => 203,
+
+    'UserGroupResource.label' => '用户分组',
+    'UserGroupResource.pluralLabel' => '用户分组',
+    'UserGroupResource.group' => '用户管理',
+    'UserGroupResource.icon' => 'heroicon-o-user-group',
+    'UserGroupResource.sort' => 300,
+
+    'UserResource.label' => '用户管理',
+    'UserResource.pluralLabel' => '用户管理',
+    'UserResource.group' => '用户管理',
+    'UserResource.icon' => 'heroicon-o-user',
+    'UserResource.sort' => 301,
+
+    'AddressResource.label' => '收货地址',
+    'AddressResource.pluralLabel' => '收货地址',
+    'AddressResource.group' => '用户管理',
+    'AddressResource.icon' => 'heroicon-o-map-pin',
+    'AddressResource.sort' => 302,
+
+    'LanguageResource.label' => '语言管理',
+    'LanguageResource.pluralLabel' => '语言管理',
+    'LanguageResource.group' => '系统设置',
+    'LanguageResource.icon' => 'heroicon-o-language',
+    'LanguageResource.sort' => 400,
+
+    'CurrencyResource.label' => '币种管理',
+    'CurrencyResource.pluralLabel' => '币种管理',
+    'CurrencyResource.group' => '系统设置',
+    'CurrencyResource.icon' => 'heroicon-o-currency-dollar',
+    'CurrencyResource.sort' => 401,
+
+    'PaymentMethodResource.label' => '支付方式',
+    'PaymentMethodResource.pluralLabel' => '支付方式',
+    'PaymentMethodResource.group' => '系统设置',
+    'PaymentMethodResource.icon' => 'heroicon-o-credit-card',
+    'PaymentMethodResource.sort' => 402,
+
+    'ShippingMethodResource.label' => '物流方式',
+    'ShippingMethodResource.pluralLabel' => '物流方式',
+    'ShippingMethodResource.group' => '系统设置',
+    'ShippingMethodResource.icon' => 'heroicon-o-truck',
+    'ShippingMethodResource.sort' => 403,
+
+    'CountryResource.label' => '国家数据',
+    'CountryResource.pluralLabel' => '国家数据',
+    'CountryResource.group' => '系统设置',
+    'CountryResource.icon' => 'heroicon-o-globe-alt',
+    'CountryResource.sort' => 404,
+
+    'ZoneResource.label' => '地区数据',
+    'ZoneResource.pluralLabel' => '地区数据',
+    'ZoneResource.group' => '系统设置',
+    'ZoneResource.icon' => 'heroicon-o-globe-americas',
+    'ZoneResource.sort' => 405,
 ];

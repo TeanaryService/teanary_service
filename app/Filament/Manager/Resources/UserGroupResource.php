@@ -22,14 +22,32 @@ class UserGroupResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '用户分组';
-    protected static ?string $label = '用户分组';
-    protected static ?int $navigationSort = 300;
-    protected static ?string $navigationGroup = '用户管理';
-    protected static ?string $navigationLabel = '用户分组';
     protected static ?string $model = UserGroup::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    public static function getLabel(): string
+    {
+        return __('filament.UserGroupResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.UserGroupResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.UserGroupResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.UserGroupResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.UserGroupResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.UserGroupResource.sort');
+    }
 
     public static function form(Form $form): Form
     {

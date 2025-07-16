@@ -22,31 +22,49 @@ class ZoneResource extends Resource
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $pluralLabel = '地区数据';
-    protected static ?string $label = '地区数据';
-    protected static ?int $navigationSort = 405;
-    protected static ?string $navigationGroup = '系统设置';
-    protected static ?string $navigationLabel = '地区数据';
     protected static ?string $model = Zone::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-globe-americas';
+    public static function getLabel(): string
+    {
+        return __('filament.ZoneResource.label');
+    }
+    public static function getPluralLabel(): string
+    {
+        return __('filament.ZoneResource.pluralLabel');
+    }
+    public static function getNavigationGroup(): string
+    {
+        return __('filament.ZoneResource.group');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.ZoneResource.label');
+    }
+    public static function getNavigationIcon(): string
+    {
+        return __('filament.ZoneResource.icon');
+    }
+    public static function getNavigationSort(): int
+    {
+        return (int) __('filament.ZoneResource.sort');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('country_id')
-                    ->label('国家')
+                    ->label(__('filament_zone.country_id'))
                     ->relationship('country', 'iso_code_2')
                     ->searchable()
                     ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('code')
-                    ->label('地区代码')
+                    ->label(__('filament_zone.code'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Toggle::make('active')
-                    ->label('启用')
+                    ->label(__('filament_zone.active'))
                     ->required(),
             ]);
     }
@@ -56,13 +74,13 @@ class ZoneResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('country.iso_code_2')
-                    ->label('国家')
+                    ->label(__('filament_zone.country_id'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('code')
-                    ->label('地区代码')
+                    ->label(__('filament_zone.code'))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
-                    ->label('启用')
+                    ->label(__('filament_zone.active'))
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])
