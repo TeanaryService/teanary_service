@@ -29,7 +29,7 @@ class CategoryResource extends Resource
     protected static ?string $navigationLabel = '分类管理';
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     public static function form(Form $form): Form
     {

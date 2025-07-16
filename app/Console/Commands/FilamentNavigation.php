@@ -40,7 +40,7 @@ class FilamentNavigation extends Command
             'CategoryResource' => [
                 'label' => '分类管理',
                 'group' => '商品管理',
-                'icon' => 'heroicon-o-rectangle-stack',
+                'icon' => 'heroicon-o-squares-2x2',
                 'sort' => 201,
             ],
             'AttributeResource' => [
