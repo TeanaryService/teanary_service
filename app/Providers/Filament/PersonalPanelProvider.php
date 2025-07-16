@@ -38,7 +38,7 @@ class PersonalPanelProvider extends PanelProvider
                 'Inter',
                 provider: LocalFontProvider::class,
             )
-            ->brandLogo(fn() => view('components.layouts.logo'))
+            ->brandLogo(fn() => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
             ->favicon(asset('favicon.ico'))
             ->discoverResources(in: app_path('Filament/Personal/Resources'), for: 'App\\Filament\\Personal\\Resources')
             ->discoverPages(in: app_path('Filament/Personal/Pages'), for: 'App\\Filament\\Personal\\Pages')

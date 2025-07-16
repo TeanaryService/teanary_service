@@ -36,7 +36,7 @@ class ManagerPanelProvider extends PanelProvider
                 'Inter',
                 provider: LocalFontProvider::class,
             )
-            ->brandLogo(fn() => view('components.layouts.logo'))
+            ->brandLogo(fn() => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
             ->favicon(asset('favicon.ico'))
             ->discoverResources(in: app_path('Filament/Manager/Resources'), for: 'App\\Filament\\Manager\\Resources')
             ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\\Filament\\Manager\\Pages')

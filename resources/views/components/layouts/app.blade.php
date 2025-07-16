@@ -30,7 +30,7 @@
         <div class="fixed w-full top-0 bg-green-50 z-50">
             <div class="w-full max-w-7xl mx-auto flex justify-between h-16 items-center px-4">
                 <div>
-                    <a href="{{ route('home') }}"><x-layouts.logo /></a>
+                    <a href="{{ route('home') }}"><x-layouts.logo imgClass="w-14 h-14"/></a>
                 </div>
                 <div class="flex gap gap-x-6 whitespace-nowrap items-center">
                     @auth
