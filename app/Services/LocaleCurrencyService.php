@@ -50,4 +50,62 @@ class LocaleCurrencyService
             ?? $currencies->firstWhere('default', true)
             ?? $currencies->first();
     }
+
+    /**
+     * 获取指定币种的汇率
+     */
+    public function getRate(string $code): float
+    {
+        $currency = $this->getCurrencyByCode($code);
+        return $currency ? $currency->exchange_rate : 1.0;
+    }
+
+    /**
+     * 设置指定币种的汇率
+     */
+    public function setRate(string $code, float $rate): bool
+    {
+        $currency = Currency::where('code', $code)->first();
+        if ($currency) {
+            $currency->exchange_rate = $rate;
+            $result = $currency->save();
+            $this->clearCurrenciesCache();
+            return $result;
+        }
+        return false;
+    }
+
+    /**
+     * 刷新所有币种汇率（示例，实际可对接第三方API）
+     */
+    public function refreshRates(array $rates): void
+    {
+        foreach ($rates as $code => $rate) {
+            $this->setRate($code, $rate);
+        }
+    }
+
+    /**
+     * 计算金额的汇率转换（无符号，仅数值）
+     */
+    public function convert(float $amount, string $fromCode, string $toCode): float
+    {
+        $fromRate = $this->getRate($fromCode);
+        $toRate = $this->getRate($toCode);
+        if ($fromRate == 0) {
+            return 0;
+        }
+        return $amount * ($toRate / $fromRate);
+    }
+
+    /**
+     * 计算金额的汇率转换（带目标币种符号，格式化字符串）
+     */
+    public function convertWithSymbol(float $amount, string $fromCode, string $toCode, int $decimals = 2): string
+    {
+        $converted = $this->convert($amount, $fromCode, $toCode);
+        $currency = $this->getCurrencyByCode($toCode);
+        $symbol = $currency ? $currency->symbol : '';
+        return $symbol . number_format($converted, $decimals, '.', '');
+    }
 }

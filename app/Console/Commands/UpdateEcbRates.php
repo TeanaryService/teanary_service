@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use App\Models\Currency;
+use App\Services\LocaleCurrencyService;
 
 class UpdateEcbRates extends Command
 {
@@ -30,8 +30,10 @@ class UpdateEcbRates extends Command
             return;
         }
 
+        $service = new LocaleCurrencyService();
+
         // 找到默认币种
-        $defaultCurrency = Currency::where('default', true)->first();
+        $defaultCurrency = $service->getCurrencies()->firstWhere('default', true);
 
         if (! $defaultCurrency) {
             $this->error('No default currency found in the database.');
@@ -43,7 +45,11 @@ class UpdateEcbRates extends Command
         // ECB 全部是相对 EUR
         // 如果 EUR 是默认货币，直接写入 ECB 汇率即可
         if ($defaultCode === 'EUR') {
-            Currency::where('code', 'EUR')->update(['exchange_rate' => 1.0]);
+            $eur = $service->getCurrencyByCode('EUR');
+            if ($eur) {
+                $eur->exchange_rate = 1.0;
+                $eur->save();
+            }
 
             $updated = 0;
 
@@ -51,12 +57,15 @@ class UpdateEcbRates extends Command
                 $currencyCode = (string) $rateNode['currency'];
                 $rate = (float) $rateNode['rate'];
 
-                Currency::where('code', $currencyCode)
-                    ->update(['exchange_rate' => $rate]);
-
-                $updated++;
+                $currency = $service->getCurrencyByCode($currencyCode);
+                if ($currency) {
+                    $currency->exchange_rate = $rate;
+                    $currency->save();
+                    $updated++;
+                }
             }
 
+            $service->clearCurrenciesCache();
             $this->info("Updated rates for {$updated} currencies relative to EUR.");
 
         } else {
@@ -86,10 +95,11 @@ class UpdateEcbRates extends Command
             // EUR 对默认币汇率
             $eurToDefaultRate = 1 / $eurToDefault;
 
-            // EUR 本身
-            Currency::where('code', 'EUR')->update([
-                'exchange_rate' => $eurToDefaultRate,
-            ]);
+            $eur = $service->getCurrencyByCode('EUR');
+            if ($eur) {
+                $eur->exchange_rate = $eurToDefaultRate;
+                $eur->save();
+            }
 
             $updated = 0;
 
@@ -97,20 +107,24 @@ class UpdateEcbRates extends Command
                 $currencyCode = (string) $rateNode['currency'];
                 $rate = (float) $rateNode['rate'];
 
+                $currency = $service->getCurrencyByCode($currencyCode);
+                if (!$currency) {
+                    continue;
+                }
+
                 if ($currencyCode === $defaultCode) {
-                    Currency::where('code', $currencyCode)
-                        ->update(['exchange_rate' => 1.0]);
+                    $currency->exchange_rate = 1.0;
+                    $currency->save();
                     continue;
                 }
 
                 $convertedRate = $rate / $eurToDefault;
-
-                Currency::where('code', $currencyCode)
-                    ->update(['exchange_rate' => $convertedRate]);
-
+                $currency->exchange_rate = $convertedRate;
+                $currency->save();
                 $updated++;
             }
 
+            $service->clearCurrenciesCache();
             $this->info("Updated rates for {$updated} currencies relative to {$defaultCode}.");
         }
     }
