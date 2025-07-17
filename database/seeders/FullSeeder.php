@@ -197,12 +197,19 @@ class FullSeeder extends Seeder
                 ]);
             }
 
-            // 随机分配属性值
-            $attributeValues = AttributeValue::inRandomOrder()
+            $attributeValues = AttributeValue::with('attribute') // 确保能取到 attribute_id
+                ->inRandomOrder()
                 ->take(rand(1, 3))
-                ->pluck('id');
+                ->get();
 
-            $product->attributeValues()->attach($attributeValues);
+            $product->attributeValues()->attach(
+                $attributeValues->mapWithKeys(function ($value) {
+                    return [
+                        $value->id => ['attribute_id' => $value->attribute_id],
+                    ];
+                })->toArray()
+            );
+
 
             // Assign random specifications
             $specsUsed = $specifications->random(rand(1, 2));

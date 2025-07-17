@@ -16,15 +16,46 @@ class CreateProduct extends CreateRecord
         $translations = $data['translations'] ?? [];
         unset($data['translations']);
 
+        $attributeValues = $data['attributeValues'] ?? [];
+        unset($data['attributeValues']);
+
+        $productCategories = $data['productCategories'] ?? [];
+        unset($data['productCategories']);
+
         $product = static::getModel()::create($data);
 
+        // 处理多语言
         foreach ($translations as $languageId => $fields) {
-            $product->productTranslations()->create([
-                'language_id' => $languageId,
-                'name' => $fields['name'] ?? '',
-                'description' => $fields['description'] ?? '',
-                'short_description' => $fields['short_description'] ?? '',
-            ]);
+            $product->productTranslations()->updateOrCreate(
+                ['language_id' => $languageId],
+                [
+                    'name' => $fields['name'] ?? '',
+                    'description' => $fields['description'] ?? '',
+                    'short_description' => $fields['short_description'] ?? '',
+                ]
+            );
+        }
+
+        // 处理属性值
+        if (!empty($attributeValues)) {
+            $ids = collect($attributeValues)
+                ->filter(fn($item) => !empty($item['attribute_value_id']))
+                ->pluck('attribute_value_id')
+                ->unique()
+                ->values()
+                ->toArray();
+            $product->attributeValues()->sync($ids);
+        }
+
+        // 处理分类
+        if (!empty($productCategories)) {
+            $ids = collect($productCategories)
+                ->filter(fn($item) => !empty($item['category_id']))
+                ->pluck('category_id')
+                ->unique()
+                ->values()
+                ->toArray();
+            $product->productCategories()->sync($ids);
         }
 
         return $product;

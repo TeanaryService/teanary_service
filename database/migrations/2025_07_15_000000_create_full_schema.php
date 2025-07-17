@@ -153,6 +153,7 @@ return new class extends Migration
         });
 
         Schema::create('product_attribute_value', function (Blueprint $table) {
+            $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
             $table->unique(['product_id', 'attribute_value_id'], 'product_attribute_value_unique');

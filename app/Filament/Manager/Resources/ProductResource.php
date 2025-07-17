@@ -59,9 +59,65 @@ class ProductResource extends Resource
         $languages = app(LocaleCurrencyService::class)->getLanguages();
         $model = $form->getModelInstance();
 
+        // 属性选项
+        $attributeOptions = \App\Models\Attribute::with('attributeTranslations')->get()->mapWithKeys(function ($attr) use ($languages) {
+            $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
+            $translation = $attr->attributeTranslations->where('language_id', $lang?->id)->first();
+            $name = $translation && $translation->name ? $translation->name : ($attr->attributeTranslations->first()->name ?? $attr->id);
+            return [$attr->id => $name];
+        })->toArray();
+
+        // 属性值选项（按属性分组）
+        $attributeValueOptions = [];
+        $allAttrValues = \App\Models\AttributeValue::with('attributeValueTranslations')->get();
+        foreach ($allAttrValues as $av) {
+            $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
+            $translation = $av->attributeValueTranslations->where('language_id', $lang?->id)->first();
+            $name = $translation && $translation->name ? $translation->name : ($av->attributeValueTranslations->first()->name ?? $av->id);
+            $attributeValueOptions[$av->attribute_id][$av->id] = $name;
+        }
+
+        // 分类选项
+        $categoryOptions = \App\Models\Category::with('categoryTranslations')->get()->mapWithKeys(function ($cat) use ($languages) {
+            $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
+            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
+            $name = $translation && $translation->name ? $translation->name : ($cat->categoryTranslations->first()->name ?? $cat->id);
+            return [$cat->id => $name];
+        })->toArray();
+
         return $form
             ->schema([
-
+                // 属性
+                Forms\Components\Repeater::make('attributeValues')
+                    ->label(__('filament_product.attribute_values'))
+                    ->schema([
+                        Forms\Components\Select::make('attribute_id')
+                            ->label(__('filament_product.attribute'))
+                            ->options($attributeOptions)
+                            ->required()
+                            ->reactive(),
+                        Forms\Components\Select::make('attribute_value_id')
+                            ->label(__('filament_product.attribute_value'))
+                            ->options(function ($get) use ($attributeValueOptions) {
+                                $attrId = $get('attribute_id');
+                                return $attrId && isset($attributeValueOptions[$attrId])
+                                    ? $attributeValueOptions[$attrId]
+                                    : [];
+                            })
+                            ->required()
+                            ->searchable(),
+                    ]),
+                // 分类
+                Forms\Components\Repeater::make('productCategories')
+                    ->label(__('filament_product.categories'))
+                    ->schema([
+                        Forms\Components\Select::make('category_id')
+                            ->label(__('filament_product.category'))
+                            ->options($categoryOptions)
+                            ->required()
+                            ->searchable(),
+                    ]),
+                // 其他
                 Forms\Components\TextInput::make('slug')
                     ->label(__('filament_product.slug'))
                     ->required()

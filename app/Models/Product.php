@@ -44,7 +44,7 @@ class Product extends Model
         'slug',
         'status'
     ];
-
+    
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
@@ -57,7 +57,8 @@ class Product extends Model
 
     public function attributeValues(): BelongsToMany
     {
-        return $this->belongsToMany(AttributeValue::class, 'product_attribute_value');
+        return $this->belongsToMany(AttributeValue::class, 'product_attribute_value')
+            ->withPivot('attribute_id');
     }
 
     public function productCategories(): BelongsToMany
