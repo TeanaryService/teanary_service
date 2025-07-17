@@ -13,4 +13,9 @@ return [
     'product' => '商品',
     'attach_product_variant' => '添加商品规格',
     'detach_product_variant' => '移除商品规格',
+
+    'user_groups' => '用户组',
+    'user_group' => '用户组',
+    'attach_user_group' => '添加用户组',
+    'detach_user_group' => '移除用户组',
 ];
