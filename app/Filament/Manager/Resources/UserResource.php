@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources;
 
+use App\Filament\Manager\Resources\UserGroupResource\RelationManagers\UsersRelationManager;
 use App\Filament\Manager\Resources\UserResource\Pages;
 use App\Filament\Manager\Resources\UserResource\RelationManagers;
 use App\Models\User;
@@ -69,22 +70,23 @@ class UserResource extends Resource
                     ->label(__('filament_user.password'))
                     ->password()
                     ->maxLength(255)
-                    ->dehydrateStateUsing(fn ($state) => !empty($state) ? bcrypt($state) : null)
-                    ->dehydrated(fn ($state) => !empty($state))
-                    ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                    ->dehydrateStateUsing(fn($state) => !empty($state) ? bcrypt($state) : null)
+                    ->dehydrated(fn($state) => !empty($state))
+                    ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
                     ->same('password_confirmation')
                     ->autocomplete('new-password'),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->label(__('filament_user.password_confirmation'))
                     ->password()
                     ->maxLength(255)
-                    ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                    ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
                     ->dehydrated(false),
                 Forms\Components\DateTimePicker::make('email_verified_at')
                     ->label(__('filament_user.email_verified_at')),
                 Forms\Components\Select::make('user_group_id')
                     ->label(__('filament_user.user_group_id'))
                     ->relationship('userGroup', 'id')
+                    ->hiddenOn([UsersRelationManager::class])
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -132,6 +134,7 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('userGroup.name')
                     ->label(__('filament_user.user_group_id'))
+                    ->hiddenOn([UsersRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);

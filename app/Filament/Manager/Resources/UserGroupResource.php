@@ -4,6 +4,7 @@ namespace App\Filament\Manager\Resources;
 
 use App\Filament\Manager\Resources\UserGroupResource\Pages;
 use App\Filament\Manager\Resources\UserGroupResource\RelationManagers;
+use App\Filament\Manager\Resources\UserGroupResource\RelationManagers\UsersRelationManager;
 use App\Models\UserGroup;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -113,6 +114,7 @@ class UserGroupResource extends Resource
     {
         return [
             //
+            UsersRelationManager::class
         ];
     }
 
