@@ -6,6 +6,7 @@ use App\Enums\PromotionTypeEnum;
 use App\Filament\Manager\Resources\PromotionResource\Pages;
 use App\Filament\Manager\Resources\PromotionResource\RelationManagers;
 use App\Filament\Manager\Resources\PromotionResource\RelationManagers\ProductVariantsRelationManager;
+use App\Filament\Manager\Resources\PromotionResource\RelationManagers\PromotionRulesRelationManager;
 use App\Filament\Manager\Resources\PromotionResource\RelationManagers\UserGroupsRelationManager;
 use App\Models\Promotion;
 use App\Services\LocaleCurrencyService;
@@ -151,7 +152,8 @@ class PromotionResource extends Resource
         return [
             //
             ProductVariantsRelationManager::class,
-            UserGroupsRelationManager::class
+            UserGroupsRelationManager::class,
+            PromotionRulesRelationManager::class
         ];
     }
 

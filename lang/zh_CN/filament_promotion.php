@@ -18,4 +18,13 @@ return [
     'user_group' => '用户组',
     'attach_user_group' => '添加用户组',
     'detach_user_group' => '移除用户组',
+
+    'promotion_rules' => '促销规则',
+    'condition_type' => '条件类型',
+    'condition_value' => '条件值',
+    'discount_type' => '优惠类型',
+    'discount_value' => '优惠值',
+    'add_rule' => '添加规则',
+    'edit_rule' => '编辑规则',
+    'delete_rule' => '删除规则',
 ];
