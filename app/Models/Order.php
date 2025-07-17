@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property ShippingMethod|null $shippingMethod
  * @property User|null $user
  * @property Collection|OrderItem[] $orderItems
+ * @property Collection|OrderShipment[] $orderShipments
  *
  * @package App\Models
  */
@@ -82,6 +83,7 @@ class Order extends Model
         return $this->belongsTo(Address::class, 'billing_address_id');
     }
 
+
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
@@ -105,5 +107,10 @@ class Order extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function orderShipments(): HasMany
+    {
+        return $this->hasMany(OrderShipment::class);
     }
 }

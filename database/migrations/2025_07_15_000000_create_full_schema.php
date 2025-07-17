@@ -294,10 +294,20 @@ return new class extends Migration
             $table->timestamps();
             $table->unique(['promotion_id', 'product_variant_id'], 'promotion_variant_unique');
         });
+
+        Schema::create('order_shipments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete(); // 关联订单
+            $table->foreignId('shipping_method_id')->constrained()->cascadeOnDelete(); // 关联订单
+            $table->string('tracking_number')->nullable();   // 运单号
+            $table->text('notes')->nullable();               // 备注
+            $table->timestamps();
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('order_shipments');
         Schema::dropIfExists('promotion_product_variant');
         Schema::dropIfExists('promotion_user_group');
         Schema::dropIfExists('promotion_rules');

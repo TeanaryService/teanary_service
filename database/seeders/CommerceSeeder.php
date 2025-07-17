@@ -19,6 +19,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Country;
+use App\Models\OrderShipment;
 use App\Models\Zone;
 
 class CommerceSeeder extends Seeder
@@ -208,6 +209,11 @@ class CommerceSeeder extends Seeder
             }
 
             $order->update(['total' => $total]);
+
+            OrderShipment::create([
+                'order_id' => $order->id,
+                'shipping_method_id' => $shippingMethods->random()->id,
+            ]);
         }
     }
 }

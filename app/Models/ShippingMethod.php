@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property Collection|OrderShipment[] $orderShipments
  * @property Collection|Order[] $orders
  * @property Collection|ShippingMethodTranslation[] $shippingMethodTranslations
  *
@@ -47,6 +48,11 @@ class ShippingMethod extends Model
         'api_url',
         'api_token'
     ];
+
+    public function orderShipments(): HasMany
+    {
+        return $this->hasMany(OrderShipment::class);
+    }
 
     public function orders(): HasMany
     {
