@@ -23,7 +23,6 @@ class UpdateEcbRates extends Command
         }
 
         $xml = simplexml_load_string($response->body());
-
         $cube = $xml->Cube->Cube;
         if (! $cube) {
             $this->error('Invalid ECB XML structure.');
@@ -32,8 +31,8 @@ class UpdateEcbRates extends Command
 
         $service = new LocaleCurrencyService();
 
-        // 找到默认币种
-        $defaultCurrency = $service->getCurrencies()->firstWhere('default', true);
+        $currencies = $service->getCurrencies();
+        $defaultCurrency = $currencies->firstWhere('default', true);
 
         if (! $defaultCurrency) {
             $this->error('No default currency found in the database.');
@@ -42,90 +41,58 @@ class UpdateEcbRates extends Command
 
         $defaultCode = $defaultCurrency->code;
 
-        // ECB 全部是相对 EUR
-        // 如果 EUR 是默认货币，直接写入 ECB 汇率即可
-        if ($defaultCode === 'EUR') {
-            $eur = $service->getCurrencyByCode('EUR');
-            if ($eur) {
-                $eur->exchange_rate = 1.0;
-                $eur->save();
+        // Step 1: 构造 ECB 汇率表（EUR -> 其它币）
+        $ecbRates = [];
+        foreach ($cube->Cube as $rateNode) {
+            $currencyCode = (string) $rateNode['currency'];
+            $rate = (float) $rateNode['rate'];
+            $ecbRates[$currencyCode] = $rate;
+        }
+
+        // Step 2: 检查 ECB 是否提供了默认币的汇率
+        if ($defaultCode !== 'EUR' && ! isset($ecbRates[$defaultCode])) {
+            $this->error("Default currency [{$defaultCode}] not found in ECB rates.");
+            return;
+        }
+
+        // Step 3: 设置默认货币汇率为 1.0（作为锚点）
+        $defaultCurrency->exchange_rate = 1.0;
+        $defaultCurrency->save();
+
+        // Step 4: 获取 EUR → 默认币 的汇率，用于推算其它币相对默认币的汇率
+        $eurToDefault = $defaultCode === 'EUR' ? 1.0 : $ecbRates[$defaultCode];
+
+        $updated = 0;
+
+        foreach ($currencies as $currency) {
+            $code = $currency->code;
+
+            if ($code === $defaultCode) {
+                continue; // 默认货币已设为 1.0
             }
 
-            $updated = 0;
-
-            foreach ($cube->Cube as $rateNode) {
-                $currencyCode = (string) $rateNode['currency'];
-                $rate = (float) $rateNode['rate'];
-
-                $currency = $service->getCurrencyByCode($currencyCode);
-                if ($currency) {
-                    $currency->exchange_rate = $rate;
-                    $currency->save();
-                    $updated++;
-                }
-            }
-
-            $service->clearCurrenciesCache();
-            $this->info("Updated rates for {$updated} currencies relative to EUR.");
-
-        } else {
-            /**
-             * 如果默认不是 EUR，例如默认是 USD
-             * 则需要把 ECB 的汇率先转换为相对 USD
-             *
-             * 例如：
-             * EUR → USD = 1 / rate(USD)
-             * 所有其他币种 rate = ECB_rate / rate(USD)
-             */
-
-            // 找到 EUR → USD 的汇率
-            $eurToDefault = null;
-            foreach ($cube->Cube as $rateNode) {
-                if ((string) $rateNode['currency'] === $defaultCode) {
-                    $eurToDefault = (float) $rateNode['rate'];
-                    break;
-                }
-            }
-
-            if (! $eurToDefault) {
-                $this->error("Default currency [{$defaultCode}] not found in ECB rates.");
-                return;
-            }
-
-            // EUR 对默认币汇率
-            $eurToDefaultRate = 1 / $eurToDefault;
-
-            $eur = $service->getCurrencyByCode('EUR');
-            if ($eur) {
-                $eur->exchange_rate = $eurToDefaultRate;
-                $eur->save();
-            }
-
-            $updated = 0;
-
-            foreach ($cube->Cube as $rateNode) {
-                $currencyCode = (string) $rateNode['currency'];
-                $rate = (float) $rateNode['rate'];
-
-                $currency = $service->getCurrencyByCode($currencyCode);
-                if (!$currency) {
-                    continue;
-                }
-
-                if ($currencyCode === $defaultCode) {
-                    $currency->exchange_rate = 1.0;
-                    $currency->save();
-                    continue;
-                }
-
-                $convertedRate = $rate / $eurToDefault;
-                $currency->exchange_rate = $convertedRate;
+            if ($code === 'EUR' && $defaultCode !== 'EUR') {
+                // 如果 EUR 在数据库中，推算 EUR 的汇率
+                $currency->exchange_rate = 1 / $eurToDefault;
                 $currency->save();
                 $updated++;
+                continue;
             }
 
-            $service->clearCurrenciesCache();
-            $this->info("Updated rates for {$updated} currencies relative to {$defaultCode}.");
+            // 其它币种，需存在于 ECB 汇率中
+            if (! isset($ecbRates[$code])) {
+                continue;
+            }
+
+            // rate(币种) = ECB(EUR→币种) / ECB(EUR→默认币)
+            $convertedRate = $ecbRates[$code] / $eurToDefault;
+
+            $currency->exchange_rate = $convertedRate;
+            $currency->save();
+            $updated++;
         }
+
+        $service->clearCurrenciesCache();
+        $this->info("Updated rates for {$updated} currencies relative to {$defaultCode}.");
     }
 }
