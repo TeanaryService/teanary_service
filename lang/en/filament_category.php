@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'parent_id' => 'Parent ID',
+    'name' => 'Category Name',
+    'parent' => 'Parent Category',
     'slug' => 'Category Slug',
 ];

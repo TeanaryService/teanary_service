@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'parent_id' => '父级ID',
+    'name' => '分类名',
+    'parent' => '父级分类',
     'slug' => '分类标识',
 ];

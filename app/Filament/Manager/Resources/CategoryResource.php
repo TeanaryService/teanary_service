@@ -4,6 +4,7 @@ namespace App\Filament\Manager\Resources;
 
 use App\Filament\Manager\Resources\CategoryResource\Pages;
 use App\Filament\Manager\Resources\CategoryResource\RelationManagers;
+use App\Services\LocaleCurrencyService;
 use App\Models\Category;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -51,30 +52,100 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $locale = app()->getLocale();
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $currentId = $form->getModelInstance()?->id;
+
+        // 获取所有一级分类（parent_id 为 null，且不是当前分类）
+        $categories = Category::with('categoryTranslations')
+            ->whereNull('parent_id')
+            ->when($currentId, fn($q) => $q->where('id', '!=', $currentId))
+            ->get();
+
+        $options = [];
+        foreach ($categories as $cat) {
+            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
+            if ($translation && $translation->name) {
+                $options[$cat->id] = $translation->name;
+            } else {
+                $first = $cat->categoryTranslations->first();
+                $options[$cat->id] = $first ? $first->name : $cat->slug;
+            }
+        }
+
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $model = $form->getModelInstance();
+
         return $form
             ->schema([
-                Forms\Components\TextInput::make('parent_id')
-                    ->label(__('filament_category.parent_id'))
-                    ->numeric()
+                Forms\Components\Select::make('parent_id')
+                    ->label(__('filament_category.parent'))
+                    ->options($options)
+                    ->searchable()
+                    ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('slug')
                     ->label(__('filament_category.slug'))
                     ->required()
                     ->maxLength(255),
+
+                // 多语言 name 字段
+                Forms\Components\Group::make(
+                    $languages->map(function ($lang) use ($model) {
+                        $default = '';
+                        if ($model && $model->exists) {
+                            $translation = $model->categoryTranslations
+                                ->where('language_id', $lang->id)
+                                ->first();
+                            $default = $translation ? $translation->name : '';
+                        }
+
+                        return Forms\Components\TextInput::make("translations.{$lang->id}.name")
+                            ->label(__('filament_category.name') . " ({$lang->name})")
+                            ->required($lang->is_default ?? false)
+                            ->columnSpanFull()
+                            ->default($default);
+                    })->toArray()
+                )->columnSpanFull()
+                    ->label(__('filament_category.name')),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $locale = app()->getLocale();
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('parent_id')
-                    ->label(__('filament_category.parent_id'))
-                    ->numeric()
+                    ->label(__('filament_category.parent'))
+                    ->getStateUsing(function ($record) use ($lang) {
+                        $parent = $record->category;
+                        if (!$parent) {
+                            return null;
+                        }
+                        $translation = $parent->categoryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $parent->categoryTranslations->first();
+                        return $first ? $first->name : $parent->slug;
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->label(__('filament_category.slug'))
                     ->searchable(),
+                // 显示当前语言的 name
+                Tables\Columns\TextColumn::make('categoryTranslations.name')
+                    ->label(__('filament_category.name'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        return optional(
+                            $record->categoryTranslations->where('language_id', $lang?->id)->first()
+                        )->name;
+                    }),
                 ...static::getTimestampsColumns()
             ])
             ->filters([
