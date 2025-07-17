@@ -15,4 +15,5 @@ return [
     'zone_id' => '地区',
     'country.iso_code_2' => '国家',
     'zone.code' => '地区',
+    'full_address' => '收货地址'
 ];

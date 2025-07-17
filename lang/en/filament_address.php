@@ -15,4 +15,5 @@ return [
     'zone_id' => 'Zone',
     'country.iso_code_2' => 'Country',
     'zone.code' => 'Zone',
+    'full_address' => 'Address'
 ];

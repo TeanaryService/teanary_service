@@ -154,50 +154,57 @@ class AddressResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament_address.user_id'))
-                    ->description(fn($record):string => $record->firstname . $record->lastname . "({$record->email})"),
-                Tables\Columns\TextColumn::make('telephone')
-                    ->label(__('filament_address.telephone'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company')
-                    ->label(__('filament_address.company'))
-                    ->searchable(),
+                    ->label(__('filament_address.user_id')),
                 Tables\Columns\TextColumn::make('address_1')
-                    ->label(__('filament_address.address_1'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('address_2')
-                    ->label(__('filament_address.address_2'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('city')
-                    ->label(__('filament_address.city'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('postcode')
-                    ->label(__('filament_address.postcode'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('country.name')
-                    ->label(__('filament_address.country_id'))
-                    ->getStateUsing(function ($record) {
+                    ->label(__('filament_address.full_address'))
+                    ->formatStateUsing(function ($record) {
                         $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
-                        $translation = $record->country?->countryTranslations->where('language_id', $lang?->id)->first();
-                        if ($translation && $translation->name) {
-                            return $translation->name;
+                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+
+                        // 国家多语言
+                        $countryName = '';
+                        if ($record->country) {
+                            $countryTranslations = $record->country->countryTranslations ?? collect();
+                            $translation = $countryTranslations->where('language_id', $lang?->id)->first();
+                            $countryName = $translation && $translation->name
+                                ? $translation->name
+                                : ($countryTranslations->first()->name ?? $record->country->name ?? '');
                         }
-                        $first = $record->country?->countryTranslations->first();
-                        return $first ? $first->name : $record->country?->name;
-                    }),
-                Tables\Columns\TextColumn::make('zone.name')
-                    ->label(__('filament_address.zone_id'))
-                    ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
-                        $translation = $record->zone?->zoneTranslations->where('language_id', $lang?->id)->first();
-                        if ($translation && $translation->name) {
-                            return $translation->name;
+
+                        // 地区多语言
+                        $zoneName = '';
+                        if ($record->zone) {
+                            $zoneTranslations = $record->zone->zoneTranslations ?? collect();
+                            $translation = $zoneTranslations->where('language_id', $lang?->id)->first();
+                            $zoneName = $translation && $translation->name
+                                ? $translation->name
+                                : ($zoneTranslations->first()->name ?? $record->zone->name ?? '');
                         }
-                        $first = $record->zone?->zoneTranslations->first();
-                        return $first ? $first->name : $record->zone?->name;
-                    }),
+
+                        // 拼接完整地址
+                        $parts = [];
+                        $fullname = trim("{$record->firstname} {$record->lastname}");
+                        if ($fullname || $record->email) {
+                            $parts[] = trim($fullname . ($record->email ? " ({$record->email})" : ''));
+                        }
+                        if ($record->telephone) $parts[] = __('filament_address.telephone') . ": {$record->telephone}";
+                        if ($record->company) $parts[] = __('filament_address.company') . ": {$record->company}";
+                        $addressLine = trim("{$record->address_1} {$record->address_2}");
+                        if ($addressLine) $parts[] = $addressLine;
+                        $cityLine = trim(implode(' ', array_filter([
+                            $record->city,
+                            $zoneName,
+                            $countryName,
+                            $record->postcode
+                        ])));
+                        if ($cityLine) $parts[] = $cityLine;
+
+                        // 防止所有字段都为空时返回空字符串
+                        return count($parts) ? implode("\n", $parts) : '-';
+                    })
+                    ->limit(100)
+                    ->toggleable(false)
+                    ->wrap(),
                 ...static::getTimestampsColumns()
             ])
             ->filters([
