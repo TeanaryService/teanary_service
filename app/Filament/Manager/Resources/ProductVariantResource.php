@@ -16,6 +16,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
 
 class ProductVariantResource extends Resource
 {
@@ -53,9 +55,36 @@ class ProductVariantResource extends Resource
     public static function form(Form $form): Form
     {
         $service = app(LocaleCurrencyService::class);
+        $languages = $service->getLanguages();
+        $locale = app()->getLocale();
+        $lang = $service->getLanguageByCode($locale);
+
+        // 获取所有规格值及多语言名
+        $specValues = \App\Models\SpecificationValue::with('specificationValueTranslations')->get();
+        $specValueOptions = [];
+        foreach ($specValues as $sv) {
+            $translation = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+            $specValueOptions[$sv->id] = $translation && $translation->name
+                ? $translation->name
+                : ($sv->specificationValueTranslations->first()->name ?? $sv->id);
+        }
 
         return $form
             ->schema([
+                Repeater::make('specificationValues')
+                    ->label(__('filament_product_variant.specification_values'))
+                    ->relationship('specificationValues')
+                    ->schema([
+                        Select::make('id')
+                            ->label(__('filament_product_variant.specification_value'))
+                            ->options($specValueOptions)
+                            ->required(),
+                        // 可以加更多字段，如排序、备注等
+                        // Forms\Components\TextInput::make('remark')->label('备注'),
+                    ])
+                    ->defaultItems(0)
+                    ->addActionLabel('添加规格值')
+                    ->columnSpanFull(),
                 Forms\Components\Select::make('product_id')
                     ->label(__('filament_product_variant.product_id'))
                     ->relationship('product', 'id')
@@ -107,6 +136,28 @@ class ProductVariantResource extends Resource
                     ->numeric()
                     ->default(null),
             ]);
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        // 只保留主表字段，specificationValues 交由 afterSave 处理
+        if (isset($data['specificationValues'])) {
+            // 只取id
+            $data['specificationValues'] = collect($data['specificationValues'])
+                ->pluck('id')
+                ->filter()
+                ->unique()
+                ->values()
+                ->toArray();
+        }
+        return $data;
+    }
+
+    public static function afterSave($record, array $data): void
+    {
+        if (isset($data['specificationValues'])) {
+            $record->specificationValues()->sync($data['specificationValues']);
+        }
     }
 
     public static function table(Table $table): Table

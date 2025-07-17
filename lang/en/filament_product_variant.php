@@ -1,13 +1,15 @@
 <?php
 
 return [
-    'product_id' => '商品',
+    'product_id' => 'Product',
     'sku' => 'SKU',
-    'price' => '价格',
-    'cost' => '成本',
-    'stock' => '库存',
-    'weight' => '重量',
-    'length' => '长度',
-    'width' => '宽度',
-    'height' => '高度',
+    'price' => 'Price',
+    'cost' => 'Cost',
+    'stock' => 'Stock',
+    'weight' => 'Weight',
+    'length' => 'Length',
+    'width' => 'Width',
+    'height' => 'Height',
+    'specification_values' => 'Specification Values',
+    'specification_value' => 'Specification Value',
 ];
