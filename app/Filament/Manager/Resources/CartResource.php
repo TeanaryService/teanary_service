@@ -4,6 +4,7 @@ namespace App\Filament\Manager\Resources;
 
 use App\Filament\Manager\Resources\CartResource\Pages;
 use App\Filament\Manager\Resources\CartResource\RelationManagers;
+use App\Filament\Manager\Resources\CartResource\RelationManagers\CartItemsRelationManager;
 use App\Models\Cart;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -58,6 +59,7 @@ class CartResource extends Resource
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
+                    ->columnSpanFull()
                     ->default(null),
                 // Forms\Components\TextInput::make('session_id')
                 //     ->label(__('filament_cart.session_id'))
@@ -94,6 +96,7 @@ class CartResource extends Resource
     {
         return [
             //
+            CartItemsRelationManager::class
         ];
     }
 

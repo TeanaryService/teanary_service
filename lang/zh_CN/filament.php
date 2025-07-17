@@ -19,6 +19,12 @@ return [
     'CartResource.icon' => 'heroicon-o-shopping-cart',
     'CartResource.sort' => 102,
 
+    'CartItemResource.label' => '购物车商品',
+    'CartItemResource.pluralLabel' => '购物车商品',
+    'CartItemResource.group' => '商务运营',
+    'CartItemResource.icon' => 'heroicon-o-shopping-cart',
+    'CartItemResource.sort' => 103,
+
     'ProductResource.label' => '商品管理',
     'ProductResource.pluralLabel' => '商品管理',
     'ProductResource.group' => '商品管理',

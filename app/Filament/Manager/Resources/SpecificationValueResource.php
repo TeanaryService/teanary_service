@@ -25,6 +25,7 @@ class SpecificationValueResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = SpecificationValue::class;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function getLabel(): string
     {

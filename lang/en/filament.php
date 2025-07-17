@@ -19,6 +19,12 @@ return [
     'CartResource.icon' => 'heroicon-o-shopping-cart',
     'CartResource.sort' => 102,
 
+    'CartItemResource.label' => 'Shopping Cart Item',
+    'CartItemResource.pluralLabel' => 'Shopping Cart Item',
+    'CartItemResource.group' => 'Business Operations',
+    'CartItemResource.icon' => 'heroicon-o-shopping-cart',
+    'CartItemResource.sort' => 103,
+
     'ProductResource.label' => 'Product Management',
     'ProductResource.pluralLabel' => 'Product Management',
     'ProductResource.group' => 'Product Management',

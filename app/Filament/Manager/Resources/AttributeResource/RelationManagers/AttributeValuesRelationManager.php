@@ -33,6 +33,10 @@ class AttributeValuesRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
-        return AttributeValueResource::table($table);
+        return AttributeValueResource::table($table)
+            ->headerActions([
+                Tables\Actions\CreateAction::make()
+                    ->label(__('filament_attribute.attribute_values')),
+            ]);
     }
 }

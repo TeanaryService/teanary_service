@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Manager\Resources\SpecificationResource\RelationManagers;
+namespace App\Filament\Manager\Resources\CartResource\RelationManagers;
 
-use App\Filament\Manager\Resources\SpecificationValueResource;
+use App\Filament\Manager\Resources\CartItemResource;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -12,31 +12,32 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SpecificationValuesRelationManager extends RelationManager
+class CartItemsRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_specification.specification_values');
+        return __('filament_cart.cart_items');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_specification.specification_values');
+        return __('filament_cart.cart_items');
     }
 
-    protected static string $relationship = 'specificationValues';
+
+    protected static string $relationship = 'cartItems';
 
     public function form(Form $form): Form
     {
-        return SpecificationValueResource::form($form);
+        return CartItemResource::form($form);
     }
 
     public function table(Table $table): Table
     {
-        return SpecificationValueResource::table($table)
+        return CartItemResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('filament_specification.specification_values')),
-            ]);;
+                    ->label(__('filament_cart.cart_items')),
+            ]);
     }
 }

@@ -25,6 +25,7 @@ class AttributeValueResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = AttributeValue::class;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function getLabel(): string
     {
