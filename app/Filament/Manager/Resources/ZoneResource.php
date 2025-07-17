@@ -59,7 +59,17 @@ class ZoneResource extends Resource
             ->schema([
                 Forms\Components\Select::make('country_id')
                     ->label(__('filament_zone.country_id'))
-                    ->relationship('country', 'iso_code_2')
+                    ->relationship('country', 'id')
+                    ->getOptionLabelFromRecordUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->countryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->countryTranslations->first();
+                        return $first ? $first->name : $record->iso_code_2;
+                    })
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -96,8 +106,22 @@ class ZoneResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
-                Tables\Columns\TextColumn::make('country.iso_code_2')
+                Tables\Columns\TextColumn::make('country.name')
                     ->label(__('filament_zone.country_id'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $country = $record->country;
+                        if (!$country) {
+                            return null;
+                        }
+                        $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $country->countryTranslations->first();
+                        return $first ? $first->name : $country->iso_code_2;
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('zoneTranslations.name')
                     ->label(__('filament_zone.name'))
