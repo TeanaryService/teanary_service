@@ -172,6 +172,20 @@ class ProductResource extends Resource
                         $first = $record->productTranslations->first();
                         return $first ? $first->name : '';
                     }),
+                Tables\Columns\TextColumn::make('categories')
+                    ->label(__('filament_product.categories'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $names = [];
+                        foreach ($record->productCategories as $cat) {
+                            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
+                            $names[] = $translation && $translation->name
+                                ? $translation->name
+                                : ($cat->categoryTranslations->first()->name ?? '');
+                        }
+                        return implode('，', array_filter($names));
+                    }),
                 Tables\Columns\TextColumn::make('slug')
                     ->label(__('filament_product.slug'))
                     ->searchable(),
