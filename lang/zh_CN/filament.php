@@ -49,6 +49,12 @@ return [
     'SpecificationResource.icon' => 'heroicon-o-puzzle-piece',
     'SpecificationResource.sort' => 204,
 
+    'SpecificationValueResource.label' => '规格值',
+    'SpecificationValueResource.pluralLabel' => '规格值',
+    'SpecificationValueResource.group' => '商品管理',
+    'SpecificationValueResource.icon' => 'heroicon-o-puzzle-piece',
+    'SpecificationValueResource.sort' => 205,
+
     'UserGroupResource.label' => '用户分组',
     'UserGroupResource.pluralLabel' => '用户分组',
     'UserGroupResource.group' => '用户管理',

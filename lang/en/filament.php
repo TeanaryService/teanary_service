@@ -49,6 +49,12 @@ return [
     'SpecificationResource.icon' => 'heroicon-o-puzzle-piece',
     'SpecificationResource.sort' => 204,
 
+    'SpecificationValueResource.label' => 'Specification Value',
+    'SpecificationValueResource.pluralLabel' => 'Specification Value',
+    'SpecificationValueResource.group' => 'Product Management',
+    'SpecificationValueResource.icon' => 'heroicon-o-puzzle-piece',
+    'SpecificationValueResource.sort' => 205,
+
     'UserGroupResource.label' => 'User Groups',
     'UserGroupResource.pluralLabel' => 'User Groups',
     'UserGroupResource.group' => 'User Management',

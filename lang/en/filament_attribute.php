@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Attribute Name'
+    'name' => 'Attribute Name',
+    'attribute_values' => 'Attribute Values'
 ];

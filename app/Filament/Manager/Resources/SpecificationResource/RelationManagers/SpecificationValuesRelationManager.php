@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Manager\Resources\AttributeResource\RelationManagers;
+namespace App\Filament\Manager\Resources\SpecificationResource\RelationManagers;
 
-use App\Filament\Manager\Resources\AttributeValueResource;
+use App\Filament\Manager\Resources\SpecificationValueResource;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -12,27 +12,27 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AttributeValuesRelationManager extends RelationManager
+class SpecificationValuesRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_attribute.attribute_values');
+        return __('filament_specification.specification_values');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_attribute.attribute_values');
+        return __('filament_specification.specification_values');
     }
 
-    protected static string $relationship = 'attributeValues';
+    protected static string $relationship = 'specificationValues';
 
     public function form(Form $form): Form
     {
-        return AttributeValueResource::form($form);
+        return SpecificationValueResource::form($form);
     }
 
     public function table(Table $table): Table
     {
-        return AttributeValueResource::table($table);
+        return SpecificationValueResource::table($table);
     }
 }

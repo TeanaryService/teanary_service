@@ -4,6 +4,7 @@ namespace App\Filament\Manager\Resources;
 
 use App\Filament\Manager\Resources\SpecificationResource\Pages;
 use App\Filament\Manager\Resources\SpecificationResource\RelationManagers;
+use App\Filament\Manager\Resources\SpecificationResource\RelationManagers\SpecificationValuesRelationManager;
 use App\Models\Specification;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -119,6 +120,7 @@ class SpecificationResource extends Resource
     {
         return [
             //
+            SpecificationValuesRelationManager::class
         ];
     }
 

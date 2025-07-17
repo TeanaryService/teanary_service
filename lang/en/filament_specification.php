@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Specification Name'
+    'name' => 'Specification Name',
+    'specification_values' => 'Specification Values'
 ];
