@@ -4,6 +4,7 @@ namespace App\Filament\Manager\Resources;
 
 use App\Filament\Manager\Resources\CountryResource\Pages;
 use App\Filament\Manager\Resources\CountryResource\RelationManagers;
+use App\Filament\Manager\Resources\CountryResource\RelationManagers\ZonesRelationManager;
 use App\Models\Country;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -144,6 +145,7 @@ class CountryResource extends Resource
     {
         return [
             //
+            ZonesRelationManager::class
         ];
     }
 

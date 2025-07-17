@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources;
 
+use App\Filament\Manager\Resources\CountryResource\RelationManagers\ZonesRelationManager;
 use App\Filament\Manager\Resources\ZoneResource\Pages;
 use App\Filament\Manager\Resources\ZoneResource\RelationManagers;
 use App\Models\Zone;
@@ -57,8 +58,28 @@ class ZoneResource extends Resource
 
         return $form
             ->schema([
+                // 多语言 name 字段
+                Forms\Components\Group::make(
+                    $languages->map(function ($lang) use ($model) {
+                        $default = '';
+                        if ($model && $model->exists) {
+                            $translation = $model->zoneTranslations
+                                ->where('language_id', $lang->id)
+                                ->first();
+                            $default = $translation ? $translation->name : '';
+                        }
+
+                        return Forms\Components\TextInput::make("translations.{$lang->id}.name")
+                            ->label(__('filament_zone.name') . " ({$lang->name})")
+                            ->required($lang->is_default ?? false)
+                            ->columnSpanFull()
+                            ->default($default);
+                    })->toArray()
+                )->columnSpanFull()
+                    ->label(__('filament_zone.name')),
                 Forms\Components\Select::make('country_id')
                     ->label(__('filament_zone.country_id'))
+                    ->hiddenOn([ZonesRelationManager::class])
                     ->relationship('country', 'id')
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -80,25 +101,6 @@ class ZoneResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label(__('filament_zone.active'))
                     ->required(),
-                // 多语言 name 字段
-                Forms\Components\Group::make(
-                    $languages->map(function ($lang) use ($model) {
-                        $default = '';
-                        if ($model && $model->exists) {
-                            $translation = $model->zoneTranslations
-                                ->where('language_id', $lang->id)
-                                ->first();
-                            $default = $translation ? $translation->name : '';
-                        }
-
-                        return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_zone.name') . " ({$lang->name})")
-                            ->required($lang->is_default ?? false)
-                            ->columnSpanFull()
-                            ->default($default);
-                    })->toArray()
-                )->columnSpanFull()
-                    ->label(__('filament_zone.name')),
             ]);
     }
 
@@ -108,6 +110,7 @@ class ZoneResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('country.name')
                     ->label(__('filament_zone.country_id'))
+                    ->hiddenOn([ZonesRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
