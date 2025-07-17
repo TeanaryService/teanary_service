@@ -8,5 +8,6 @@ return [
     'currency_id' => '币种',
     'total' => '订单总额',
     'status' => '订单状态',
-    'order_items' => '订单商品'
+    'order_items' => '订单商品',
+    'order_shipments' => '物流'
 ];

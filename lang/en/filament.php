@@ -7,6 +7,12 @@ return [
     'OrderResource.icon' => 'heroicon-o-receipt-percent',
     'OrderResource.sort' => 100,
 
+    'OrderShipmentResource.label' => 'Order Shipment',
+    'OrderShipmentResource.pluralLabel' => 'Order Shipment',
+    'OrderShipmentResource.group' => 'Business Operations',
+    'OrderShipmentResource.icon' => 'heroicon-o-receipt-percent',
+    'OrderShipmentResource.sort' => 100,
+
     'OrderItemResource.label' => 'Order Item',
     'OrderItemResource.pluralLabel' => 'Order Item',
     'OrderItemResource.group' => 'Business Operations',

@@ -7,6 +7,12 @@ return [
     'OrderResource.icon' => 'heroicon-o-receipt-percent',
     'OrderResource.sort' => 100,
 
+    'OrderShipmentResource.label' => '订单物流',
+    'OrderShipmentResource.pluralLabel' => '订单物流',
+    'OrderShipmentResource.group' => '商务运营',
+    'OrderShipmentResource.icon' => 'heroicon-o-receipt-percent',
+    'OrderShipmentResource.sort' => 100,
+
     'OrderItemResource.label' => '订单商品',
     'OrderItemResource.pluralLabel' => '订单商品',
     'OrderItemResource.group' => '商务运营',

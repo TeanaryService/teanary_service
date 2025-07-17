@@ -6,6 +6,7 @@ use App\Enums\OrderStatusEnum;
 use App\Filament\Manager\Resources\OrderResource\Pages;
 use App\Filament\Manager\Resources\OrderResource\RelationManagers;
 use App\Filament\Manager\Resources\OrderResource\RelationManagers\OrderItemsRelationManager;
+use App\Filament\Manager\Resources\OrderResource\RelationManagers\OrderShipmentsRelationManager;
 use App\Models\Order;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -169,7 +170,8 @@ class OrderResource extends Resource
     {
         return [
             //
-            OrderItemsRelationManager::class
+            OrderItemsRelationManager::class,
+            OrderShipmentsRelationManager::class,
         ];
     }
 

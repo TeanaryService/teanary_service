@@ -8,5 +8,6 @@ return [
     'currency_id' => 'Currency',
     'total' => 'Order Total',
     'status' => 'Order Status',
-    'order_items' => 'Order Items'
+    'order_items' => 'Order Items',
+    'order_shipments' => 'Shipments'
 ];
