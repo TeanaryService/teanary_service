@@ -53,8 +53,6 @@ class AttributeValue extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'product_attribute_value')
-                    ->withPivot('id')
-                    ->withTimestamps();
+        return $this->belongsToMany(Product::class, 'product_attribute_value');
     }
 }

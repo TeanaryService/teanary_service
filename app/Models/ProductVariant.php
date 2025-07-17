@@ -84,22 +84,18 @@ class ProductVariant extends Model
 
     public function specifications(): BelongsToMany
     {
-        return $this->belongsToMany(Specification::class, 'product_variant_specification_values')
-            ->using(ProductVariantSpecificationValue::class)
+        return $this->belongsToMany(Specification::class, 'product_variant_specification_value')
             ->withPivot('specification_value_id');
     }
 
     public function specificationValues(): BelongsToMany
     {
-        return $this->belongsToMany(SpecificationValue::class, 'product_variant_specification_values')
-            ->using(ProductVariantSpecificationValue::class)
+        return $this->belongsToMany(SpecificationValue::class, 'product_variant_specification_value')
             ->withPivot('specification_id');
     }
 
     public function promotions(): BelongsToMany
     {
-        return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
-            ->withPivot('id')
-            ->withTimestamps();
+        return $this->belongsToMany(Promotion::class, 'promotion_product_variant');
     }
 }

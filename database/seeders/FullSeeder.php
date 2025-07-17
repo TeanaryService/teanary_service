@@ -19,19 +19,10 @@ use App\Models\SpecificationValue;
 use App\Models\SpecificationValueTranslation;
 use App\Models\Product;
 use App\Models\ProductTranslation;
-use App\Models\ProductCategory;
-use App\Models\ProductPrice;
 use App\Models\ProductVariant;
-use App\Models\ProductVariantSpecificationValue;
-use App\Models\ProductSpecification;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Cart;
-use App\Models\CartItem;
 use App\Models\Promotion;
 use App\Models\PromotionTranslation;
 use App\Models\PromotionRule;
-use Illuminate\Support\Str;
 
 class FullSeeder extends Seeder
 {
@@ -193,6 +184,8 @@ class FullSeeder extends Seeder
                 'status' => \App\Enums\ProductStatusEnum::default(),
             ]);
 
+            $product->productCategories()->attach($categories->random()->id);
+
             // 多语言翻译
             foreach ($languages as $lang) {
                 ProductTranslation::create([
@@ -204,12 +197,6 @@ class FullSeeder extends Seeder
                 ]);
             }
 
-            // 随机分配分类
-            ProductCategory::create([
-                'product_id' => $product->id,
-                'category_id' => $categories->random()->id,
-            ]);
-
             // 随机分配属性值
             $attributeValues = AttributeValue::inRandomOrder()
                 ->take(rand(1, 3))
@@ -219,7 +206,7 @@ class FullSeeder extends Seeder
 
             // Assign random specifications
             $specsUsed = $specifications->random(rand(1, 2));
-            
+
             // Create variants
             for ($v = 1; $v <= 3; $v++) {
                 $variant = ProductVariant::create([
@@ -236,11 +223,7 @@ class FullSeeder extends Seeder
                         ->where('specification_id', $spec->id)
                         ->random();
 
-                    ProductVariantSpecificationValue::create([
-                        'product_variant_id' => $variant->id,
-                        'specification_value_id' => $value->id,
-                        'specification_id' => $value->specification_id,
-                    ]);
+                    $variant->specificationValues()->attach($value->id, ['specification_id' => $value->specification_id]);
                 }
             }
 

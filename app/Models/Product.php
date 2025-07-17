@@ -57,14 +57,12 @@ class Product extends Model
 
     public function attributeValues(): BelongsToMany
     {
-        return $this->belongsToMany(AttributeValue::class, 'product_attribute_value')
-            ->withPivot('id')
-            ->withTimestamps();
+        return $this->belongsToMany(AttributeValue::class, 'product_attribute_value');
     }
 
-    public function productCategories(): HasMany
+    public function productCategories(): BelongsToMany
     {
-        return $this->hasMany(ProductCategory::class);
+        return $this->belongsToMany(Category::class, 'product_category');
     }
 
     public function productTranslations(): HasMany

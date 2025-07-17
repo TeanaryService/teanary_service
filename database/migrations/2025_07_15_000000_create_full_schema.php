@@ -52,8 +52,8 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('product_categories', function (Blueprint $table) {
-            $table->id();
+        //中间表
+        Schema::create('product_category', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
         });
@@ -135,7 +135,8 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('product_variant_specification_values', function (Blueprint $table) {
+        //中间表
+        Schema::create('product_variant_specification_value', function (Blueprint $table) {
             $table->foreignId('product_variant_id')
                 ->constrained()
                 ->cascadeOnDelete();
@@ -152,10 +153,8 @@ return new class extends Migration
         });
 
         Schema::create('product_attribute_value', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
             $table->unique(['product_id', 'attribute_value_id'], 'product_attribute_value_unique');
         });
 
@@ -280,17 +279,13 @@ return new class extends Migration
         });
 
         Schema::create('promotion_user_group', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
         });
 
         Schema::create('promotion_product_variant', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
             $table->unique(['promotion_id', 'product_variant_id'], 'promotion_variant_unique');
         });
 
@@ -320,7 +315,7 @@ return new class extends Migration
         Schema::dropIfExists('shipping_methods');
         Schema::dropIfExists('cart_items');
         Schema::dropIfExists('carts');
-        Schema::dropIfExists('product_variant_specification_values');
+        Schema::dropIfExists('product_variant_specification_value');
         Schema::dropIfExists('product_variants');
         Schema::dropIfExists('specification_value_translations');
         Schema::dropIfExists('specification_values');
@@ -331,7 +326,7 @@ return new class extends Migration
         Schema::dropIfExists('attribute_translations');
         Schema::dropIfExists('attributes');
         Schema::dropIfExists('product_attribute_value');
-        Schema::dropIfExists('product_categories');
+        Schema::dropIfExists('product_category');
         Schema::dropIfExists('product_translations');
         Schema::dropIfExists('products');
         Schema::dropIfExists('category_translations');

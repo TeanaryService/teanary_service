@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -58,8 +59,8 @@ class Category extends Model
         return $this->hasMany(CategoryTranslation::class);
     }
 
-    public function productCategories(): HasMany
+    public function productCategories(): BelongsToMany
     {
-        return $this->hasMany(ProductCategory::class);
+        return $this->belongsToMany(Product::class, 'product_category');
     }
 }
