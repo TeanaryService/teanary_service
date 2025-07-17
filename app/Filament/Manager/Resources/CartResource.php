@@ -59,10 +59,10 @@ class CartResource extends Resource
                     ->searchable()
                     ->preload()
                     ->default(null),
-                Forms\Components\TextInput::make('session_id')
-                    ->label(__('filament_cart.session_id'))
-                    ->maxLength(255)
-                    ->default(null),
+                // Forms\Components\TextInput::make('session_id')
+                //     ->label(__('filament_cart.session_id'))
+                //     ->maxLength(255)
+                //     ->default(null),
             ]);
     }
 
@@ -72,9 +72,9 @@ class CartResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('filament_cart.user_id')),
-                Tables\Columns\TextColumn::make('session_id')
-                    ->label(__('filament_cart.session_id'))
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('session_id')
+                //     ->label(__('filament_cart.session_id'))
+                //     ->searchable(),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

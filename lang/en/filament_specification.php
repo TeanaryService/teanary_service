@@ -1,5 +1,5 @@
 <?php
 
 return [
-    // No fields yet, please add if needed
+    'name' => 'Specification Name'
 ];

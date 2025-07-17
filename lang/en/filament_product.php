@@ -1,7 +1,9 @@
 <?php
 
 return [
+    'name' => 'Product Name',
     'slug' => 'Product Slug',
     'status' => 'Product Status',
-    // Add more fields if needed
+    'description' => 'Product Description',
+    'short_description' => 'Meta Description'
 ];
