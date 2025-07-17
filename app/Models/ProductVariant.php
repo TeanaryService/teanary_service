@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property int $product_id
  * @property string $sku
- * @property int|null $currency_id
  * @property float|null $price
  * @property float|null $cost
  * @property int $stock
@@ -47,7 +46,6 @@ class ProductVariant extends Model
 
     protected $casts = [
         'product_id' => 'int',
-        'currency_id' => 'int',
         'price' => 'float',
         'cost' => 'float',
         'stock' => 'int',
@@ -60,7 +58,6 @@ class ProductVariant extends Model
     protected $fillable = [
         'product_id',
         'sku',
-        'currency_id',
         'price',
         'cost',
         'stock',

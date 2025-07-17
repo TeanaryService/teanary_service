@@ -125,7 +125,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('sku')->unique();
-            $table->foreignId('currency_id')->nullable()->constrained('currencies')->nullOnDelete();
             $table->decimal('price', 12, 2)->nullable();
             $table->decimal('cost', 12, 2)->nullable();
             $table->integer('stock')->default(0);
