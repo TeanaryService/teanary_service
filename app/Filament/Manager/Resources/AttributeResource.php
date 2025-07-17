@@ -4,6 +4,7 @@ namespace App\Filament\Manager\Resources;
 
 use App\Filament\Manager\Resources\AttributeResource\Pages;
 use App\Filament\Manager\Resources\AttributeResource\RelationManagers;
+use App\Filament\Manager\Resources\AttributeResource\RelationManagers\AttributeValuesRelationManager;
 use App\Models\Attribute;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -113,6 +114,7 @@ class AttributeResource extends Resource
     {
         return [
             //
+            AttributeValuesRelationManager::class
         ];
     }
 

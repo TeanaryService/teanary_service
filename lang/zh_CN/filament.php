@@ -37,11 +37,17 @@ return [
     'AttributeResource.icon' => 'heroicon-o-adjustments-horizontal',
     'AttributeResource.sort' => 202,
 
+    'AttributeValueResource.label' => '属性值',
+    'AttributeValueResource.pluralLabel' => '属性值',
+    'AttributeValueResource.group' => '商品管理',
+    'AttributeValueResource.icon' => 'heroicon-o-adjustments-horizontal',
+    'AttributeValueResource.sort' => 203,
+
     'SpecificationResource.label' => '规格管理',
     'SpecificationResource.pluralLabel' => '规格管理',
     'SpecificationResource.group' => '商品管理',
     'SpecificationResource.icon' => 'heroicon-o-puzzle-piece',
-    'SpecificationResource.sort' => 203,
+    'SpecificationResource.sort' => 204,
 
     'UserGroupResource.label' => '用户分组',
     'UserGroupResource.pluralLabel' => '用户分组',

@@ -37,11 +37,17 @@ return [
     'AttributeResource.icon' => 'heroicon-o-adjustments-horizontal',
     'AttributeResource.sort' => 202,
 
+    'AttributeValueResource.label' => 'Attribute Value',
+    'AttributeValueResource.pluralLabel' => 'Attribute Value',
+    'AttributeValueResource.group' => 'Product Management',
+    'AttributeValueResource.icon' => 'heroicon-o-adjustments-horizontal',
+    'AttributeValueResource.sort' => 203,
+
     'SpecificationResource.label' => 'Specification Management',
     'SpecificationResource.pluralLabel' => 'Specification Management',
     'SpecificationResource.group' => 'Product Management',
     'SpecificationResource.icon' => 'heroicon-o-puzzle-piece',
-    'SpecificationResource.sort' => 203,
+    'SpecificationResource.sort' => 204,
 
     'UserGroupResource.label' => 'User Groups',
     'UserGroupResource.pluralLabel' => 'User Groups',
