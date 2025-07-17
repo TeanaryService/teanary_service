@@ -72,6 +72,7 @@
             "php artisan ide-helper:models -M",
             "php artisan ide-helper:meta"
         ],
+        "svg": "php artisan generate:erd ./storage/logs/output.svg --format=svg",
         "analyse": "phpstan analyse --memory-limit=2G",
         "test": [
             "@php artisan config:clear --ansi",
