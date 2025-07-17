@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property Collection|ProductVariant[] $productVariants
  * @property Collection|SpecificationTranslation[] $specificationTranslations
  * @property Collection|SpecificationValue[] $specificationValues
  *
@@ -28,6 +30,13 @@ class Specification extends Model
 {
     use HasFactory;
     public static $snakeAttributes = false;
+
+    public function productVariants(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductVariant::class, 'product_variant_specification_values')
+            ->using(ProductVariantSpecificationValue::class)
+            ->withPivot('specification_value_id');
+    }
 
     public function specificationTranslations(): HasMany
     {

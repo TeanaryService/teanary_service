@@ -30,10 +30,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Currency|null $currency
  * @property Product $product
  * @property Collection|CartItem[] $cartItems
  * @property Collection|OrderItem[] $orderItems
+ * @property Collection|Specification[] $specifications
  * @property Collection|SpecificationValue[] $specificationValues
  * @property Collection|Promotion[] $promotions
  *
@@ -67,11 +67,6 @@ class ProductVariant extends Model
         'height'
     ];
 
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
-    }
-
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -87,17 +82,24 @@ class ProductVariant extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function specifications(): BelongsToMany
+    {
+        return $this->belongsToMany(Specification::class, 'product_variant_specification_values')
+            ->using(ProductVariantSpecificationValue::class)
+            ->withPivot('specification_value_id');
+    }
+
     public function specificationValues(): BelongsToMany
     {
         return $this->belongsToMany(SpecificationValue::class, 'product_variant_specification_values')
-                    ->withPivot('id')
-                    ->withTimestamps();
+            ->using(ProductVariantSpecificationValue::class)
+            ->withPivot('specification_id');
     }
 
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
-                    ->withPivot('id')
-                    ->withTimestamps();
+            ->withPivot('id')
+            ->withTimestamps();
     }
 }

@@ -239,6 +239,7 @@ class FullSeeder extends Seeder
                     ProductVariantSpecificationValue::create([
                         'product_variant_id' => $variant->id,
                         'specification_value_id' => $value->id,
+                        'specification_id' => $value->specification_id,
                     ]);
                 }
             }

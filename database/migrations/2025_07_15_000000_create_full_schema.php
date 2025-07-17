@@ -136,19 +136,19 @@ return new class extends Migration
         });
 
         Schema::create('product_variant_specification_values', function (Blueprint $table) {
-            $table->id();
-
             $table->foreignId('product_variant_id')
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->unsignedBigInteger('specification_value_id');
-            $table->foreign('specification_value_id', 'pvsv_spec_value_fk')
-                ->references('id')
-                ->on('specification_values')
+            $table->foreignId('specification_id')
+                ->constrained()
                 ->cascadeOnDelete();
 
-            $table->timestamps();
+            $table->foreignId('specification_value_id');
+            // 手动添加外键，指定较短的名字，避免超长
+            $table->foreign('specification_value_id', 'pv_sv_spec_value_fk')
+                ->references('id')->on('specification_values')
+                ->cascadeOnDelete();
         });
 
         Schema::create('product_attribute_value', function (Blueprint $table) {

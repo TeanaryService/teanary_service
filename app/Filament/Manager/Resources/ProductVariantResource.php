@@ -73,17 +73,26 @@ class ProductVariantResource extends Resource
             ->schema([
                 Repeater::make('specificationValues')
                     ->label(__('filament_product_variant.specification_values'))
-                    ->relationship('specificationValues')
+                    // 不要加 ->relationship()，Repeater 只做表单收集，不自动保存关联
+                    ->relationship()
                     ->schema([
                         Select::make('id')
                             ->label(__('filament_product_variant.specification_value'))
-                            ->options($specValueOptions)
+                            ->options(function ($get) use ($specValueOptions) {
+                                $all = $get('../../specificationValues') ?? [];
+                                $currentId = $get('id');
+                                $usedIds = [];
+                                foreach ($all as $item) {
+                                    if (isset($item['id']) && $item['id'] !== $currentId) {
+                                        $usedIds[] = $item['id'];
+                                    }
+                                }
+                                return collect($specValueOptions)->except($usedIds)->toArray();
+                            })
                             ->required(),
                         // 可以加更多字段，如排序、备注等
                         // Forms\Components\TextInput::make('remark')->label('备注'),
                     ])
-                    ->defaultItems(0)
-                    ->addActionLabel('添加规格值')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('product_id')
                     ->label(__('filament_product_variant.product_id'))
@@ -99,6 +108,7 @@ class ProductVariantResource extends Resource
                         return $first ? $first->name : $record->id;
                     })
                     ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('sku')
                     ->label(__('filament_product_variant.sku'))
@@ -138,28 +148,7 @@ class ProductVariantResource extends Resource
             ]);
     }
 
-    public static function mutateFormDataBeforeSave(array $data): array
-    {
-        // 只保留主表字段，specificationValues 交由 afterSave 处理
-        if (isset($data['specificationValues'])) {
-            // 只取id
-            $data['specificationValues'] = collect($data['specificationValues'])
-                ->pluck('id')
-                ->filter()
-                ->unique()
-                ->values()
-                ->toArray();
-        }
-        return $data;
-    }
-
-    public static function afterSave($record, array $data): void
-    {
-        if (isset($data['specificationValues'])) {
-            $record->specificationValues()->sync($data['specificationValues']);
-        }
-    }
-
+    
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
@@ -209,6 +198,20 @@ class ProductVariantResource extends Resource
                     ->label(__('filament_product_variant.height'))
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('specificationValues')
+                    ->label(__('filament_product_variant.specification_values'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $names = [];
+                        foreach ($record->specificationValues as $sv) {
+                            $translation = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+                            $names[] = $translation && $translation->name
+                                ? $translation->name
+                                : ($sv->specificationValueTranslations->first()->name ?? '');
+                        }
+                        return implode(', ', array_filter($names));
+                    }),
                 ...static::getTimestampsColumns()
             ])
             ->filters([
@@ -239,4 +242,28 @@ class ProductVariantResource extends Resource
             'edit' => Pages\EditProductVariant::route('/{record}/edit'),
         ];
     }
+
+    // public static function mutateFormDataBeforeSave(array $data): array
+    // {
+    //     // 只保留主表字段，specificationValues 交由 afterSave 处理
+    //     if (isset($data['specificationValues'])) {
+    //         // 只取id，且为 int
+    //         $data['specificationValues'] = collect($data['specificationValues'])
+    //             ->pluck('id')
+    //             ->filter(fn($id) => !empty($id))
+    //             ->unique()
+    //             ->map(fn($id) => (int)$id)
+    //             ->values()
+    //             ->toArray();
+    //     }
+    //     return $data;
+    // }
+
+    // public static function afterSave($record, array $data): void
+    // {
+    //     if (isset($data['specificationValues'])) {
+    //         // 只同步已存在的规格值ID，不创建新规格值
+    //         $record->specificationValues()->sync($data['specificationValues']);
+    //     }
+    // }
 }
