@@ -56,18 +56,24 @@ class ProductResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $languages = app(LocaleCurrencyService::class)->getLanguages();
-        $model = $form->getModelInstance();
+        return $form->schema([
+            ...static::getAttributeValuesRepeater(),
+            ...static::getProductCategoriesRepeater(),
+            ...static::getProductBaseFields(),
+            ...static::getProductTranslationsTabs($form),
+        ]);
+    }
 
-        // 属性选项
-        $attributeOptions = \App\Models\Attribute::with('attributeTranslations')->get()->mapWithKeys(function ($attr) use ($languages) {
+    protected static function getAttributeValuesRepeater(): array
+    {
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $attributeOptions = \App\Models\Attribute::with('attributeTranslations')->get()->mapWithKeys(function ($attr) {
             $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
             $translation = $attr->attributeTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($attr->attributeTranslations->first()->name ?? $attr->id);
             return [$attr->id => $name];
         })->toArray();
 
-        // 属性值选项（按属性分组）
         $attributeValueOptions = [];
         $allAttrValues = \App\Models\AttributeValue::with('attributeValueTranslations')->get();
         foreach ($allAttrValues as $av) {
@@ -77,82 +83,98 @@ class ProductResource extends Resource
             $attributeValueOptions[$av->attribute_id][$av->id] = $name;
         }
 
-        // 分类选项
-        $categoryOptions = \App\Models\Category::with('categoryTranslations')->get()->mapWithKeys(function ($cat) use ($languages) {
+        return [
+            Forms\Components\Repeater::make('attributeValues')
+                ->label(__('filament_product.attribute_values'))
+                ->schema([
+                    Forms\Components\Select::make('attribute_id')
+                        ->label(__('filament_product.attribute'))
+                        ->options($attributeOptions)
+                        ->required()
+                        ->reactive(),
+                    Forms\Components\Select::make('attribute_value_id')
+                        ->label(__('filament_product.attribute_value'))
+                        ->options(function ($get) use ($attributeValueOptions) {
+                            $attrId = $get('attribute_id');
+                            return $attrId && isset($attributeValueOptions[$attrId])
+                                ? $attributeValueOptions[$attrId]
+                                : [];
+                        })
+                        ->required()
+                        ->searchable(),
+                ]),
+        ];
+    }
+
+    protected static function getProductCategoriesRepeater(): array
+    {
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $categoryOptions = \App\Models\Category::with('categoryTranslations')->get()->mapWithKeys(function ($cat) {
             $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($cat->categoryTranslations->first()->name ?? $cat->id);
             return [$cat->id => $name];
         })->toArray();
 
-        return $form
-            ->schema([
-                // 属性
-                Forms\Components\Repeater::make('attributeValues')
-                    ->label(__('filament_product.attribute_values'))
-                    ->schema([
-                        Forms\Components\Select::make('attribute_id')
-                            ->label(__('filament_product.attribute'))
-                            ->options($attributeOptions)
-                            ->required()
-                            ->reactive(),
-                        Forms\Components\Select::make('attribute_value_id')
-                            ->label(__('filament_product.attribute_value'))
-                            ->options(function ($get) use ($attributeValueOptions) {
-                                $attrId = $get('attribute_id');
-                                return $attrId && isset($attributeValueOptions[$attrId])
-                                    ? $attributeValueOptions[$attrId]
-                                    : [];
-                            })
-                            ->required()
-                            ->searchable(),
-                    ]),
-                // 分类
-                Forms\Components\Repeater::make('productCategories')
-                    ->label(__('filament_product.categories'))
-                    ->schema([
-                        Forms\Components\Select::make('category_id')
-                            ->label(__('filament_product.category'))
-                            ->options($categoryOptions)
-                            ->required()
-                            ->searchable(),
-                    ]),
-                // 其他
-                Forms\Components\TextInput::make('slug')
-                    ->label(__('filament_product.slug'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('status')
-                    ->label(__('filament_product.status'))
-                    ->options(ProductStatusEnum::options())
-                    ->required(),
+        return [
+            Forms\Components\Repeater::make('productCategories')
+                ->label(__('filament_product.categories'))
+                ->schema([
+                    Forms\Components\Select::make('category_id')
+                        ->label(__('filament_product.category'))
+                        ->options($categoryOptions)
+                        ->required()
+                        ->searchable(),
+                ]),
+        ];
+    }
 
-                Tabs::make('translations_tabs')
-                    ->tabs(
-                        $languages->map(function ($lang) use ($model) {
-                            $translation = null;
-                            if ($model && $model->exists) {
-                                $translation = $model->productTranslations
-                                    ->where('language_id', $lang->id)
-                                    ->first();
-                            }
-                            return Tabs\Tab::make($lang->name)
-                                ->schema([
-                                    Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                                        ->label(__('filament_product.name'))
-                                        ->required($lang->is_default ?? false)
-                                        ->default($translation ? $translation->name : ''),
-                                    Textarea::make("translations.{$lang->id}.description")
-                                        ->label(__('filament_product.description'))
-                                        ->default($translation ? $translation->description : ''),
-                                    Textarea::make("translations.{$lang->id}.short_description")
-                                        ->label(__('filament_product.short_description'))
-                                        ->default($translation ? $translation->short_description : ''),
-                                ]);
-                        })->toArray()
-                    )
-                    ->columnSpanFull(),
-            ]);
+    protected static function getProductBaseFields(): array
+    {
+        return [
+            Forms\Components\TextInput::make('slug')
+                ->label(__('filament_product.slug'))
+                ->required()
+                ->maxLength(255),
+            Forms\Components\Select::make('status')
+                ->label(__('filament_product.status'))
+                ->options(ProductStatusEnum::options())
+                ->required(),
+        ];
+    }
+
+    protected static function getProductTranslationsTabs(Form $form): array
+    {
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $model = $form->getModelInstance();
+
+        return [
+            Tabs::make('translations_tabs')
+                ->tabs(
+                    $languages->map(function ($lang) use ($model) {
+                        $translation = null;
+                        if ($model && $model->exists) {
+                            $translation = $model->productTranslations
+                                ->where('language_id', $lang->id)
+                                ->first();
+                        }
+                        return Tabs\Tab::make($lang->name)
+                            ->schema([
+                                Forms\Components\TextInput::make("translations.{$lang->id}.name")
+                                    ->label(__('filament_product.name'))
+                                    ->required($lang->is_default ?? false)
+                                    ->default($translation ? $translation->name : ''),
+                                Textarea::make("translations.{$lang->id}.description")
+                                    ->label(__('filament_product.description'))
+                                    ->default($translation ? $translation->description : ''),
+                                Textarea::make("translations.{$lang->id}.short_description")
+                                    ->label(__('filament_product.short_description'))
+                                    ->default($translation ? $translation->short_description : ''),
+                            ]);
+                    })->toArray()
+                )
+                ->columnSpanFull(),
+        ];
     }
 
     public static function table(Table $table): Table
