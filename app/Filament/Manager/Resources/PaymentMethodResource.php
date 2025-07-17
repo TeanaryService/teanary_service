@@ -5,6 +5,7 @@ namespace App\Filament\Manager\Resources;
 use App\Filament\Manager\Resources\PaymentMethodResource\Pages;
 use App\Filament\Manager\Resources\PaymentMethodResource\RelationManagers;
 use App\Models\PaymentMethod;
+use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
@@ -51,19 +52,42 @@ class PaymentMethodResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $model = $form->getModelInstance();
+
         return $form
             ->schema([
+                // 多语言 name 字段
+                Forms\Components\Group::make(
+                    $languages->map(function ($lang) use ($model) {
+                        $default = '';
+                        if ($model && $model->exists) {
+                            $translation = $model->paymentMethodTranslations
+                                ->where('language_id', $lang->id)
+                                ->first();
+                            $default = $translation ? $translation->name : '';
+                        }
+
+                        return Forms\Components\TextInput::make("translations.{$lang->id}.name")
+                            ->label(__('filament_payment_method.name') . " ({$lang->name})")
+                            ->required($lang->is_default ?? false)
+                            ->columnSpanFull()
+                            ->default($default);
+                    })->toArray()
+                )->columnSpanFull()
+                    ->label(__('filament_payment_method.name')),
                 Forms\Components\TextInput::make('code')
                     ->label(__('filament_payment_method.code'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('active')
-                    ->label(__('filament_payment_method.active'))
-                    ->required(),
+
                 Forms\Components\TextInput::make('api_url')
                     ->label(__('filament_payment_method.api_url'))
                     ->maxLength(255)
                     ->default(null),
+                Forms\Components\Toggle::make('active')
+                    ->label(__('filament_payment_method.active'))
+                    ->required(),
             ]);
     }
 
@@ -71,9 +95,18 @@ class PaymentMethodResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
-                Tables\Columns\TextColumn::make('code')
-                    ->label(__('filament_payment_method.code'))
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('paymentMethodTranslations.name')
+                    ->label(__('filament_payment_method.name'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->paymentMethodTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->paymentMethodTranslations->first();
+                        return $first ? $first->name : '';
+                    }),
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('filament_payment_method.active'))
                     ->boolean(),

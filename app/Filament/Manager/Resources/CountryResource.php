@@ -15,6 +15,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Services\LocaleCurrencyService;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\TextInput;
 
 class CountryResource extends Resource
 {
@@ -51,8 +54,31 @@ class CountryResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $model = $form->getModelInstance();
+
         return $form
             ->schema([
+                // 多语言 name 字段
+                Forms\Components\Group::make(
+                    $languages->map(function ($lang) use ($model) {
+                        $default = '';
+                        if ($model && $model->exists) {
+                            $translation = $model->countryTranslations
+                                ->where('language_id', $lang->id)
+                                ->first();
+                            $default = $translation ? $translation->name : '';
+                        }
+
+                        return TextInput::make("translations.{$lang->id}.name")
+                            ->label(__('filament_country.name') . " ({$lang->name})")
+                            ->required($lang->is_default ?? false)
+                            ->columnSpanFull()
+                            ->default($default);
+                    })->toArray()
+                )->columnSpanFull()
+                    ->label(__('filament_country.name')),
+
                 Forms\Components\TextInput::make('iso_code_2')
                     ->label(__('filament_country.iso_code_2'))
                     ->maxLength(2)
@@ -74,6 +100,19 @@ class CountryResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
+                // 多语言 name 列
+                Tables\Columns\TextColumn::make('countryTranslations.name')
+                    ->label(__('filament_country.name'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->countryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->countryTranslations->first();
+                        return $first ? $first->name : '';
+                    }),
                 Tables\Columns\TextColumn::make('iso_code_2')
                     ->label(__('filament_country.iso_code_2'))
                     ->searchable(),
