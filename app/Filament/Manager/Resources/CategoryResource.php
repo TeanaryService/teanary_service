@@ -66,10 +66,10 @@ class CategoryResource extends Resource
         foreach ($categories as $cat) {
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
             if ($translation && $translation->name) {
-                $options[$cat->id] = $translation->name;
+                $options[$cat->id] = $translation->name . "({$cat->id})";
             } else {
                 $first = $cat->categoryTranslations->first();
-                $options[$cat->id] = $first ? $first->name : $cat->slug;
+                $options[$cat->id] = ($first ? $first->name : $cat->slug) . "({$cat->id})";
             }
         }
 
@@ -127,10 +127,10 @@ class CategoryResource extends Resource
                         }
                         $translation = $parent->categoryTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->name) {
-                            return $translation->name;
+                            return $translation->name . "({$parent->id})";
                         }
                         $first = $parent->categoryTranslations->first();
-                        return $first ? $first->name : $parent->slug;
+                        return ($first ? $first->name : $parent->slug) . "({$parent->id})";
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
