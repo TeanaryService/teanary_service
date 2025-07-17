@@ -242,7 +242,7 @@ class FullSeeder extends Seeder
          */
         $promotions = collect([
             ['type' => \App\Enums\PromotionTypeEnum::Coupon],
-        ])->map(function ($promo) use ($languages, $userGroups) {
+        ])->map(function ($promo) use ($languages, $userGroups, $products) {
             $promotion = Promotion::create(array_merge($promo, [
                 'starts_at' => now()->subDays(5),
                 'ends_at' => now()->addDays(10),
@@ -267,7 +267,9 @@ class FullSeeder extends Seeder
             ]);
 
             $promotion->userGroups()->sync($userGroups->pluck('id')->toArray());
-            $promotion->productVariants()->attach(1);
+
+            $product = $products->random();
+            $promotion->productVariants()->attach($product->productVariants->first()->id,['product_id' => $product->id]);
 
             return $promotion;
         });

@@ -286,6 +286,7 @@ return new class extends Migration
 
         Schema::create('promotion_product_variant', function (Blueprint $table) {
             $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
             $table->unique(['promotion_id', 'product_variant_id'], 'promotion_variant_unique');
         });

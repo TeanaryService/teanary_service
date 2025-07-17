@@ -53,7 +53,8 @@ class Promotion extends Model
 
     public function productVariants(): BelongsToMany
     {
-        return $this->belongsToMany(ProductVariant::class, 'promotion_product_variant');
+        return $this->belongsToMany(ProductVariant::class, 'promotion_product_variant')
+            ->withPivot(['product_id']);
     }
 
     public function promotionRules(): HasMany
