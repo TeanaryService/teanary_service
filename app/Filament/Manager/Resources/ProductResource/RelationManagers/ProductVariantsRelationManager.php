@@ -39,4 +39,25 @@ class ProductVariantsRelationManager extends RelationManager
                     ->label(__('filament_product.product_variants')),
             ]);
     }
+
+    protected function configureEditAction(Tables\Actions\EditAction $action): void
+    {
+        $action
+            ->authorize(static fn(RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record))
+            ->form(fn(Form $form): Form => $this->form($form->columns(2)))
+            ->mutateRecordDataUsing(function (array $data, Model $record) {
+                $data['specificationValues'] = $record->specificationValues()
+                    ->with('specification') // 确保有 specification 可访问
+                    ->get()
+                    ->map(function ($value) {
+                        return [
+                            'specification_id' => $value->specification_id,
+                            'specification_value_id' => $value->id,
+                        ];
+                    })
+                    ->toArray();
+
+                return $data;
+            });
+    }
 }
