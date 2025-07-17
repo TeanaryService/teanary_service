@@ -6,6 +6,7 @@ use App\Enums\PromotionTypeEnum;
 use App\Filament\Manager\Resources\PromotionResource\Pages;
 use App\Filament\Manager\Resources\PromotionResource\RelationManagers;
 use App\Models\Promotion;
+use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
@@ -52,8 +53,12 @@ class PromotionResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $languages = app(LocaleCurrencyService::class)->getLanguages();
+        $model = $form->getModelInstance();
+
         return $form
             ->schema([
+
                 Forms\Components\Select::make('type')
                     ->label(__('filament_promotion.type'))
                     ->options(PromotionTypeEnum::options())
@@ -68,6 +73,28 @@ class PromotionResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label(__('filament_promotion.active'))
                     ->required(),
+                Forms\Components\Tabs::make('translations_tabs')
+                    ->tabs(
+                        $languages->map(function ($lang) use ($model) {
+                            $translation = null;
+                            if ($model && $model->exists) {
+                                $translation = $model->promotionTranslations
+                                    ->where('language_id', $lang->id)
+                                    ->first();
+                            }
+                            return Forms\Components\Tabs\Tab::make($lang->name)
+                                ->schema([
+                                    Forms\Components\TextInput::make("translations.{$lang->id}.name")
+                                        ->label(__('filament_promotion.name'))
+                                        ->required($lang->is_default ?? false)
+                                        ->default($translation ? $translation->name : ''),
+                                    Forms\Components\Textarea::make("translations.{$lang->id}.description")
+                                        ->label(__('filament_promotion.description'))
+                                        ->default($translation ? $translation->description : ''),
+                                ]);
+                        })->toArray()
+                    )
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -75,6 +102,19 @@ class PromotionResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
+                // 多语言 name 列
+                Tables\Columns\TextColumn::make('promotionTranslations.name')
+                    ->label(__('filament_promotion.name'))
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->promotionTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->promotionTranslations->first();
+                        return $first ? $first->name : '';
+                    }),
                 Tables\Columns\TextColumn::make('type')
                     ->formatStateUsing(fn($state): string => $state->label())
                     ->label(__('filament_promotion.type')),
