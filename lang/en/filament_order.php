@@ -8,5 +8,5 @@ return [
     'currency_id' => 'Currency',
     'total' => 'Order Total',
     'status' => 'Order Status',
-    // ...add other fields if needed...
+    'order_items' => 'Order Items'
 ];

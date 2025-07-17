@@ -8,5 +8,5 @@ return [
     'currency_id' => '币种',
     'total' => '订单总额',
     'status' => '订单状态',
-    // ...如有其它字段继续添加...
+    'order_items' => '订单商品'
 ];

@@ -7,23 +7,29 @@ return [
     'OrderResource.icon' => 'heroicon-o-receipt-percent',
     'OrderResource.sort' => 100,
 
+    'OrderItemResource.label' => 'Order Item',
+    'OrderItemResource.pluralLabel' => 'Order Item',
+    'OrderItemResource.group' => 'Business Operations',
+    'OrderItemResource.icon' => 'heroicon-o-receipt-percent',
+    'OrderItemResource.sort' => 101,
+
     'PromotionResource.label' => 'Promotions',
     'PromotionResource.pluralLabel' => 'Promotions',
     'PromotionResource.group' => 'Business Operations',
     'PromotionResource.icon' => 'heroicon-o-bolt',
-    'PromotionResource.sort' => 101,
+    'PromotionResource.sort' => 102,
 
     'CartResource.label' => 'Shopping Cart',
     'CartResource.pluralLabel' => 'Shopping Cart',
     'CartResource.group' => 'Business Operations',
     'CartResource.icon' => 'heroicon-o-shopping-cart',
-    'CartResource.sort' => 102,
+    'CartResource.sort' => 103,
 
     'CartItemResource.label' => 'Shopping Cart Item',
     'CartItemResource.pluralLabel' => 'Shopping Cart Item',
     'CartItemResource.group' => 'Business Operations',
     'CartItemResource.icon' => 'heroicon-o-shopping-cart',
-    'CartItemResource.sort' => 103,
+    'CartItemResource.sort' => 104,
 
     'ProductResource.label' => 'Product Management',
     'ProductResource.pluralLabel' => 'Product Management',

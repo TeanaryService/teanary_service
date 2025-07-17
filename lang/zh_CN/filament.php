@@ -7,23 +7,29 @@ return [
     'OrderResource.icon' => 'heroicon-o-receipt-percent',
     'OrderResource.sort' => 100,
 
+    'OrderItemResource.label' => '订单商品',
+    'OrderItemResource.pluralLabel' => '订单商品',
+    'OrderItemResource.group' => '商务运营',
+    'OrderItemResource.icon' => 'heroicon-o-receipt-percent',
+    'OrderItemResource.sort' => 101,
+
     'PromotionResource.label' => '促销活动',
     'PromotionResource.pluralLabel' => '促销活动',
     'PromotionResource.group' => '商务运营',
     'PromotionResource.icon' => 'heroicon-o-bolt',
-    'PromotionResource.sort' => 101,
+    'PromotionResource.sort' => 102,
 
     'CartResource.label' => '购物车',
     'CartResource.pluralLabel' => '购物车',
     'CartResource.group' => '商务运营',
     'CartResource.icon' => 'heroicon-o-shopping-cart',
-    'CartResource.sort' => 102,
+    'CartResource.sort' => 103,
 
     'CartItemResource.label' => '购物车商品',
     'CartItemResource.pluralLabel' => '购物车商品',
     'CartItemResource.group' => '商务运营',
     'CartItemResource.icon' => 'heroicon-o-shopping-cart',
-    'CartItemResource.sort' => 103,
+    'CartItemResource.sort' => 104,
 
     'ProductResource.label' => '商品管理',
     'ProductResource.pluralLabel' => '商品管理',
