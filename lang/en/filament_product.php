@@ -5,5 +5,6 @@ return [
     'slug' => 'Product Slug',
     'status' => 'Product Status',
     'description' => 'Product Description',
-    'short_description' => 'Meta Description'
+    'short_description' => 'Meta Description',
+    'product_variants' => 'Product Variants'
 ];

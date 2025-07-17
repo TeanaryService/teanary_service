@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources;
 
+use App\Filament\Manager\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Filament\Manager\Resources\ProductVariantResource\Pages;
 use App\Filament\Manager\Resources\ProductVariantResource\RelationManagers;
 use App\Models\ProductVariant;
@@ -28,6 +29,7 @@ class ProductVariantResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = ProductVariant::class;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function getLabel(): string
     {
@@ -117,6 +119,7 @@ class ProductVariantResource extends Resource
                 Forms\Components\Select::make('product_id')
                     ->label(__('filament_product_variant.product_id'))
                     ->relationship('product', 'id')
+                    ->hiddenOn([ProductVariantsRelationManager::class])
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -174,6 +177,7 @@ class ProductVariantResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('product.name')
                     ->label(__('filament_product_variant.product_id'))
+                    ->hiddenOn([ProductVariantsRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -239,7 +243,8 @@ class ProductVariantResource extends Resource
                             $items[] = $specName . ':' . $valName;
                         }
                         return implode('，', array_filter($items));
-                    }),
+                    })
+                    ->limit(46),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

@@ -5,6 +5,7 @@ namespace App\Filament\Manager\Resources;
 use App\Enums\ProductStatusEnum;
 use App\Filament\Manager\Resources\ProductResource\Pages;
 use App\Filament\Manager\Resources\ProductResource\RelationManagers;
+use App\Filament\Manager\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Models\Product;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -140,6 +141,7 @@ class ProductResource extends Resource
     {
         return [
             //
+            ProductVariantsRelationManager::class
         ];
     }
 

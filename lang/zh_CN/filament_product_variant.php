@@ -10,6 +10,7 @@ return [
     'length' => '长度',
     'width' => '宽度',
     'height' => '高度',
+    'specification' => '规格',
     'specification_values' => '规格值',
     'specification_value' => '规格值',
 ];
