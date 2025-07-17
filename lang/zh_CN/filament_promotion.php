@@ -7,4 +7,10 @@ return [
     'starts_at' => '开始时间',
     'ends_at' => '结束时间',
     'active' => '是否启用',
+
+    'product_variants' => '促销商品规格',
+    'product_variant' => '商品规格',
+    'product' => '商品',
+    'attach_product_variant' => '添加商品规格',
+    'detach_product_variant' => '移除商品规格',
 ];
