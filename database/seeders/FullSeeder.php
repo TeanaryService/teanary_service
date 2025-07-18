@@ -70,28 +70,37 @@ class FullSeeder extends Seeder
          * Categories
          */
         $categories = collect([
-            ['slug' => 'flowers'],
-            ['slug' => 'bouquets'],
-        ])->map(function ($cat) use ($languages) {
-            $category = Category::create($cat);
+            ['slug' => 'flowers'],        // 鲜花
+            ['slug' => 'bouquets'],       // 花束
+            ['slug' => 'roses'],          // 玫瑰
+            ['slug' => 'sunflowers'],     // 向日葵
+            ['slug' => 'lilies'],         // 百合
+            ['slug' => 'gift-boxes'],     // 礼盒
+            ['slug' => 'wedding-flowers'], // 婚礼用花
+            ['slug' => 'funeral-flowers'], // 丧礼用花
+            ['slug' => 'dried-flowers'],  // 干花
+            ['slug' => 'preserved-flowers'], // 永生花
+        ])
+            ->map(function ($cat) use ($languages) {
+                $category = Category::create($cat);
 
-            //添加图片
-            $image = generateRandomImage();
+                //添加图片
+                $image = generateRandomImage();
 
-            $category->addMedia($image)
-                ->preservingOriginal()
-                ->toMediaCollection('image');
+                $category->addMedia($image)
+                    ->preservingOriginal()
+                    ->toMediaCollection('image');
 
-            foreach ($languages as $lang) {
-                CategoryTranslation::create([
-                    'category_id' => $category->id,
-                    'language_id' => $lang->id,
-                    'name' => ucfirst($cat['slug']) . ' ' . $lang->code,
-                    'description' => 'Description for ' . $cat['slug'] . ' in ' . $lang->code,
-                ]);
-            }
-            return $category;
-        });
+                foreach ($languages as $lang) {
+                    CategoryTranslation::create([
+                        'category_id' => $category->id,
+                        'language_id' => $lang->id,
+                        'name' => ucfirst($cat['slug']) . ' ' . $lang->code,
+                        'description' => 'Description for ' . $cat['slug'] . ' in ' . $lang->code,
+                    ]);
+                }
+                return $category;
+            });
 
         /**
          * Attributes
@@ -178,7 +187,7 @@ class FullSeeder extends Seeder
         /**
          * Products
          */
-        $products = collect(range(1, 10))->map(function ($i) use (
+        $products = collect(range(1, 22))->map(function ($i) use (
             $languages,
             $categories,
             $userGroups,
