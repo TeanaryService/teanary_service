@@ -19,6 +19,7 @@ return [
     'attach_user_group' => 'Add User Group',
     'detach_user_group' => 'Remove User Group',
 
+    'image' => 'Image',
     'promotion_rules' => 'Promotion Rules',
     'condition_type' => 'Condition Type',
     'condition_value' => 'Condition Value',

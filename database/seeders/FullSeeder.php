@@ -271,13 +271,15 @@ class FullSeeder extends Seeder
                 ]);
             }
 
-            PromotionRule::create([
+            $promotionRule = PromotionRule::create([
                 'promotion_id' => $promotion->id,
                 'condition_type' => \App\Enums\PromotionConditionTypeEnum::OrderTotalMin,
                 'condition_value' => 50,
                 'discount_type' => \App\Enums\PromotionDiscountTypeEnum::Fixed,
                 'discount_value' => 10,
             ]);
+            //添加图片
+            $this->attachRandomImagesToProduct(product: $promotionRule, min: 1, max: 1, collection: 'image');
 
             $promotion->userGroups()->sync($userGroups->pluck('id')->toArray());
 

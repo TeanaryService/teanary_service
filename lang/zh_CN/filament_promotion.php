@@ -19,6 +19,7 @@ return [
     'attach_user_group' => '添加用户组',
     'detach_user_group' => '移除用户组',
 
+    'image' => '图片',
     'promotion_rules' => '促销规则',
     'condition_type' => '条件类型',
     'condition_value' => '条件值',

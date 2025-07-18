@@ -8,10 +8,14 @@ namespace App\Models;
 
 use App\Enums\PromotionConditionTypeEnum;
 use App\Enums\PromotionDiscountTypeEnum;
+use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class PromotionRule
@@ -29,9 +33,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  */
-class PromotionRule extends Model
+class PromotionRule extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+    use CascadesMediaDeletes;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
