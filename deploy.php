@@ -55,3 +55,15 @@ after('deploy:vendors', 'npm:build');
 after('deploy:symlink', 'system:reload');
 
 after('deploy:failed', 'deploy:unlock');
+
+task('deploy', [
+    'deploy:prepare',
+    'deploy:vendors',
+    'artisan:storage:link',
+    'artisan:config:cache',
+    // 'artisan:route:cache',
+    'artisan:view:cache',
+    'artisan:event:cache',
+    'artisan:migrate',
+    'deploy:publish',
+]);
