@@ -10,8 +10,8 @@ class ProductDetail extends Component
 {
     public $product;
     public $variants;
-    private $selectedVariantId;
-    private $categoryNames = [];
+    public $selectedVariantId;
+    public $categoryNames = [];
 
     public function mount($id)
     {
