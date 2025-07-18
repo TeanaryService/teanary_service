@@ -104,6 +104,12 @@ class ZoneResource extends Resource
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
+            ->query(
+                fn() => static::getEloquentQuery()
+                    ->with([
+                        'country.countryTranslations',
+                    ])
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('country.name')
                     ->label(__('filament_zone.country_id'))

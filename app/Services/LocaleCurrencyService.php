@@ -88,8 +88,10 @@ class LocaleCurrencyService
     /**
      * 计算金额的汇率转换（无符号，仅数值）
      */
-    public function convert(float $amount, string $fromCode, string $toCode): float
+    public function convert(float $amount,  ?string $toCode, string $fromCode = ''): float
     {
+        $fromCode = $fromCode ?: $this->getDefaultCurrencyCode();
+        $toCode = $toCode ?: $this->getDefaultCurrencyCode();
         $fromRate = $this->getRate($fromCode);
         $toRate = $this->getRate($toCode);
         if ($fromRate == 0) {
@@ -101,12 +103,24 @@ class LocaleCurrencyService
     /**
      * 计算金额的汇率转换（带目标币种符号，格式化字符串）
      */
-    public function convertWithSymbol(float $amount, string $fromCode, string $toCode, int $decimals = 2): string
+    public function convertWithSymbol(float $amount, ?string $toCode, string $fromCode = '', int $decimals = 2): string
     {
-        $converted = $this->convert($amount, $fromCode, $toCode);
+        $fromCode = $fromCode ?: $this->getDefaultCurrencyCode();
+        $toCode = $toCode ?: $this->getDefaultCurrencyCode();
+        $converted = $this->convert($amount,  $toCode, $fromCode);
         $currency = $this->getCurrencyByCode($toCode);
         $symbol = $currency ? $currency->symbol : '';
         return $symbol . number_format($converted, $decimals, '.', '');
+    }
+
+    /**
+     * 获取默认币种 code
+     */
+    public function getDefaultCurrencyCode(): string
+    {
+        $currencies = $this->getCurrencies();
+        $default = $currencies->firstWhere('default', true);
+        return $default ? $default->code : ($currencies->first()->code ?? 'CNY');
     }
 
     /**

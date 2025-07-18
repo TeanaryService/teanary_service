@@ -120,6 +120,14 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
+            ->query(
+                fn() => static::getEloquentQuery()
+                    ->with([
+                        'currency',
+                        'shippingAddress',
+                        'billingAddress'
+                    ])
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('filament_order.user_id')),

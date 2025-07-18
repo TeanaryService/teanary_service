@@ -149,6 +149,13 @@ class AddressResource extends Resource
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
+            ->query(
+                fn() => static::getEloquentQuery()
+                    ->with([
+                        'country.countryTranslations',
+                        'zone.zoneTranslations'
+                    ])
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('filament_address.user_id')),

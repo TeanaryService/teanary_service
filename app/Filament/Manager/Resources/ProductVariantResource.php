@@ -181,6 +181,14 @@ class ProductVariantResource extends Resource
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
+            ->query(
+                fn() => static::getEloquentQuery()
+                    ->with([
+                        'specifications.specificationTranslations',
+                        'specificationValues.specificationValueTranslations',
+                        'specificationValues.specification.specificationTranslations',
+                    ])
+            )
             ->columns([
                 SpatieMediaLibraryImageColumn::make('image')
                     ->label(__('filament_product_variant.image'))

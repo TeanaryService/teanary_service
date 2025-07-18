@@ -185,6 +185,12 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
+            ->query(
+                fn() => static::getEloquentQuery()
+                    ->with([
+                        'productCategories.categoryTranslations',
+                    ])
+            )
             ->columns([
                 SpatieMediaLibraryImageColumn::make('images')
                     ->label(__('filament_product.images'))
