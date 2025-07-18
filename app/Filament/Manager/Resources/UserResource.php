@@ -11,9 +11,11 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -54,6 +56,15 @@ class UserResource extends Resource
 
         return $form
             ->schema([
+                SpatieMediaLibraryFileUpload::make('avatar')
+                    ->label(__('filament_user.avatar'))
+                    ->image()
+                    ->imageEditor()
+                    ->imageCropAspectRatio('1:1')
+                    ->columnSpanFull()
+                    ->required()
+                    ->collection('avatars')
+                    ->avatar(),
                 Forms\Components\TextInput::make('name')
                     ->label(__('filament_user.name'))
                     ->required()
@@ -113,6 +124,11 @@ class UserResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->label(__('filament_user.avatar'))
+                    ->circular()
+                    ->collection('avatars')
+                    ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('filament_user.name'))
                     ->searchable(),
@@ -121,7 +137,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label(__('filament_user.email_verified_at'))
-                    ->dateTime()
+                    ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('userGroup.name')
                     ->label(__('filament_user.user_group_id'))

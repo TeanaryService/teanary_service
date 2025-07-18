@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'avatar' => '头像',
     'name' => '姓名',
     'email' => '邮箱',
     'password' => '密码',

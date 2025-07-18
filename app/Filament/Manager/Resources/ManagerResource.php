@@ -9,9 +9,11 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -50,6 +52,15 @@ class ManagerResource extends Resource
     {
         return $form
             ->schema([
+                SpatieMediaLibraryFileUpload::make('avatar')
+                    ->label(__('filament_manager.avatar'))
+                    ->image()
+                    ->imageEditor()
+                    ->imageCropAspectRatio('1:1')
+                    ->columnSpanFull()
+                    ->required()
+                    ->collection('avatars')
+                    ->avatar(),
                 Forms\Components\TextInput::make('name')
                     ->label(__('filament_manager.name'))
                     ->required()
@@ -81,6 +92,11 @@ class ManagerResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->label(__('filament_manager.avatar'))
+                    ->circular()
+                    ->collection('avatars')
+                    ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('filament_manager.name'))
                     ->searchable(),
@@ -89,7 +105,7 @@ class ManagerResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label(__('filament_manager.email_verified_at'))
-                    ->dateTime()
+                    ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 ...static::getTimestampsColumns()
             ])
