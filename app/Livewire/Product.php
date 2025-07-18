@@ -43,8 +43,7 @@ class Product extends Component
         }
 
         if ($this->search) {
-            $locale = app()->getLocale();
-            $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+            $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
             $query->whereHas('productTranslations', function ($q) use ($lang) {
                 $q->where('language_id', $lang?->id)
                   ->where('name', 'like', '%' . $this->search . '%');

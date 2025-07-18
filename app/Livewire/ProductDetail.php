@@ -15,13 +15,10 @@ class ProductDetail extends Component
 
     public function mount($id)
     {
-        $locale = app()->getLocale();
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
 
         $this->product = Product::with([
-            'productTranslations' => function ($q) use ($lang) {
-                $q->where('language_id', $lang?->id);
-            },
+            'productTranslations',
             'productVariants.specificationValues.specificationValueTranslations',
             'productVariants.media',
             'productCategories.categoryTranslations'

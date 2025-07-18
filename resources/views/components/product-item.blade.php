@@ -1,5 +1,5 @@
 @php
-    $locale = app()->getLocale();
+    $locale = session('lang');
     $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
     $currencyService = app(\App\Services\LocaleCurrencyService::class);
     $currencyCode = session('currency'); // 可根据实际获取当前币种

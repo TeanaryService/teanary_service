@@ -13,8 +13,7 @@ class Home extends Component
 
     public function mount()
     {
-        // $locale = app()->getLocale();
-        // $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        // $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
 
         $this->categories = Category::getCachedCategories();
     }

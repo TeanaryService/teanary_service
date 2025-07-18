@@ -1,9 +1,9 @@
 @php
-    $locale = app()->getLocale();
+    $locale = session('lang');
     $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
     $currencyService = app(\App\Services\LocaleCurrencyService::class);
     $currencyCode = session('currency_code', 'CNY');
-    $translation = $product->productTranslations->first();
+    $translation = $product->productTranslations->where('language_id', $lang->id)->first();
     $name = $translation && $translation->name ? $translation->name : $product->slug;
     $desc = $translation && $translation->description ? $translation->description : '';
     $shortDesc = $translation && $translation->short_description ? $translation->short_description : '';
@@ -112,3 +112,7 @@
         </div>
     @endif
 </div>
+
+@pushOnce('tdk')
+    <x-layouts.tdk title="{{ $name }}" description="{{ $shortDesc }}"/>
+@endPushOnce
