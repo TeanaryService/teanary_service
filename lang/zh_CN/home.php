@@ -12,4 +12,7 @@ return [
     'about_us' => '关于我们',
     'learn_more' => '了解更多',
     'product_view_detail' => '查看详情',
+    'search' => '搜索',
+    'search_placeholder' => '请输入商品名称',
+    'no_products' => '暂无商品',
 ];

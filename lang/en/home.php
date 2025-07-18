@@ -12,4 +12,7 @@ return [
     'about_us' => 'About Us',
     'learn_more' => 'Learn More',
     'product_view_detail' => 'View Details',
+    'search' => 'Search',
+    'search_placeholder' => 'Enter product name',
+    'no_products' => 'No products found',
 ];
