@@ -18,4 +18,5 @@ return [
     'categories' => '分类',
     'select_variant' => '选择规格',
     'buy_now' => '立即购买',
+    'attributes' => '属性',
 ];

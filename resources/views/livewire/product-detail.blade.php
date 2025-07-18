@@ -10,6 +10,8 @@
     $variant = $variants->where('id', $selectedVariantId)->first();
     $image = $variant ? $variant->getFirstMediaUrl('image') : asset('logo.png');
     $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
+    // 商品属性
+    $attributes = $product->attributeValues ?? collect();
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 py-9 min-h-screen">
@@ -31,6 +33,19 @@
                     @endforeach
                 @endif
             </div>
+            {{-- 商品属性 --}}
+            @if($attributes->count())
+                <div class="mb-2 text-gray-700">
+                    <span class="mr-2">{{ __('home.attributes') }}:</span>
+                    @foreach($attributes as $attrValue)
+                        @php
+                            $attrTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
+                            $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->id;
+                        @endphp
+                        <span class="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded mr-1">{{ $attrName }}</span>
+                    @endforeach
+                </div>
+            @endif
             @if ($shortDesc)
                 <div class="mb-4 text-gray-700">{{ $shortDesc }}</div>
             @endif
