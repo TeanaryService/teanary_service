@@ -28,10 +28,9 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
             @foreach ($categories as $category)
                 <a href="{{ route('product', ['category_id' => $category['id']]) }}"
-                   class="bg-white rounded shadow p-4 text-center hover:bg-green-50 transition">
-                    <img src="{{ $category['image_url'] }}"
-                         alt="{{ $category['name'] }}"
-                         class="h-auto w-auto mx-auto mb-2 object-cover rounded">
+                    class="bg-white rounded shadow p-4 text-center hover:bg-green-50 transition">
+                    <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
+                        class="h-auto w-auto mx-auto mb-2 object-cover rounded">
                     <span class="text-green-900 font-semibold">{{ $category['name'] }}</span>
                 </a>
             @endforeach
@@ -52,11 +51,10 @@
                 <p class="text-green-900 mb-4">
                     {{ __('home.about_content') }}
                 </p>
-                <a>{{ __('home.about_us') }}</a>
-                {{-- <a href="{{ route('about') }}"
-                   class="inline-block bg-green-600 text-white px-5 py-3 rounded hover:bg-green-700 transition">
+                <a href="{{ route('about-us') }}"
+                    class="inline-block bg-green-600 text-white px-5 py-3 rounded hover:bg-green-700 transition">
                     {{ __('home.learn_more') }}
-                </a> --}}
+                </a>
             </div>
         </div>
     </section>

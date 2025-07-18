@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\SetLocaleAndCurrency;
+use App\Livewire\AboutUs;
 use App\Livewire\Home;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
@@ -17,6 +18,8 @@ Route::prefix('/')->middleware([SetLocaleAndCurrency::class])->group(function ()
     Route::get('/', Home::class)->name('home');
     Route::get('product', Product::class)->name('product');
     Route::get('product/{id}', ProductDetail::class)->name('product.show');
+
+    Route::get('about-us', AboutUs::class)->name('about-us');
 });
 
 Route::get('login-as/{id}', function (int $id) {
