@@ -293,9 +293,9 @@ class ProductVariantResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProductVariants::route('/'),
-            'create' => Pages\CreateProductVariant::route('/create'),
-            'edit' => Pages\EditProductVariant::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListProductVariants::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateProductVariant::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditProductVariant::class, '/{record}/edit'),
         ];
     }
 }

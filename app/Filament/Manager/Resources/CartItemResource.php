@@ -193,9 +193,9 @@ class CartItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCartItems::route('/'),
-            'create' => Pages\CreateCartItem::route('/create'),
-            'edit' => Pages\EditCartItem::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListCartItems::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateCartItem::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditCartItem::class, '/{record}/edit'),
         ];
     }
 }

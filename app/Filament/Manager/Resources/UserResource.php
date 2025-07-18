@@ -160,7 +160,7 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('login')
                     ->label(__('filament_user.login'))
-                    ->url(fn($record) => route('login-as', ['id' => $record->id]))
+                    ->url(fn($record) => locaRoute('login-as', ['id' => $record->id]))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-key'),
                 ...static::getActions()
@@ -182,9 +182,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListUsers::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateUser::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditUser::class, '/{record}/edit'),
         ];
     }
 }

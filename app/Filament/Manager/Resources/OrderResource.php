@@ -183,9 +183,9 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListOrders::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateOrder::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditOrder::class, '/{record}/edit'),
         ];
     }
 }

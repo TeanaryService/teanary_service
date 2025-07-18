@@ -30,18 +30,19 @@
         <div class="fixed w-full top-0 bg-green-50 z-50">
             <div class="w-full max-w-7xl mx-auto flex justify-between h-16 items-center px-4">
                 <div>
-                    <a href="{{ route('home') }}"><x-layouts.logo imgClass="w-14 h-14"/></a>
+                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="w-14 h-14"/></a>
                 </div>
                 <div class="flex gap gap-x-6 whitespace-nowrap items-center">
                     @auth
                         <x-user-menu />
                     @endauth
                     @guest
-                        <a href="{{ route('filament.personal.auth.register') }}">{{ __('app.register') }}</a>
-                        <a href="{{ route('filament.personal.auth.login') }}">{{ __('app.login') }}</a>
+                        <a href="{{ locaRoute('filament.personal.auth.register') }}">{{ __('app.register') }}</a>
+                        <a href="{{ locaRoute('filament.personal.auth.login') }}">{{ __('app.login') }}</a>
                     @endguest
 
-                    <livewire:components.locale-currency-switcher />
+                    <x-language-switch/>
+                    <x-currency-switch/>
                 </div>
             </div>
         </div>

@@ -155,9 +155,9 @@ class SpecificationValueResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSpecificationValues::route('/'),
-            'create' => Pages\CreateSpecificationValue::route('/create'),
-            'edit' => Pages\EditSpecificationValue::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListSpecificationValues::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateSpecificationValue::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditSpecificationValue::class, '/{record}/edit'),
         ];
     }
 }

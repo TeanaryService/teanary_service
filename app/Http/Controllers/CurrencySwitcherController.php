@@ -5,16 +5,11 @@ namespace App\Http\Controllers;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Http\Request;
 
-class LocaleCurrencySwitcherController extends Controller
+class CurrencySwitcherController extends Controller
 {
     public function update(Request $request)
     {
         $service = new LocaleCurrencyService();
-
-        if ($request->filled('lang')) {
-            $language = $service->getLanguageByCode($request->input('lang'));
-            session(['lang' => $language->code]);
-        }
 
         if ($request->filled('currency')) {
             $currency = $service->getCurrencyByCode($request->input('currency'));
@@ -22,7 +17,6 @@ class LocaleCurrencySwitcherController extends Controller
         }
 
         $params = [
-            'lang' => session('lang'),
             'currency' => session('currency'),
         ];
 

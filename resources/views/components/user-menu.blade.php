@@ -26,11 +26,11 @@
         class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
     >
         <div class="py-1">
-            <a href="{{ route('filament.personal.pages.dashboard') }}"
+            <a href="{{ locaRoute('filament.personal.pages.dashboard') }}"
                class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
                 {{ __('app.profile') }}
             </a>
-            <form method="POST" action="{{ route('filament.personal.auth.logout') }}">
+            <form method="POST" action="{{ locaRoute('filament.personal.auth.logout') }}">
                 @csrf
                 <button type="submit"
                         class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">

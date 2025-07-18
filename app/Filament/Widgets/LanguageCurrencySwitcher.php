@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire\Components;
+namespace App\Filament\Widgets;
 
 use Livewire\Component;
 use App\Services\LocaleCurrencyService;
 
-class LocaleCurrencySwitcher extends Component
+class LanguageCurrencySwitcher extends Component
 {
     public $selectedLanguage;
     public $selectedCurrency;
@@ -19,7 +19,7 @@ class LocaleCurrencySwitcher extends Component
         $this->languages = $service->getLanguages();
         $this->currencies = $service->getCurrencies();
 
-        $languageCode = session('lang');
+        $languageCode = app()->getLocale();
         $this->selectedLanguage = $service->getLanguageByCode($languageCode);
 
         $currencyCode = session('currency');
@@ -29,6 +29,6 @@ class LocaleCurrencySwitcher extends Component
 
     public function render()
     {
-        return view('livewire.components.locale-currency-switcher');
+        return view('filament.widgets.language-currency-switcher');
     }
 }

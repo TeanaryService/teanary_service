@@ -135,9 +135,9 @@ class PaymentMethodResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPaymentMethods::route('/'),
-            'create' => Pages\CreatePaymentMethod::route('/create'),
-            'edit' => Pages\EditPaymentMethod::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListPaymentMethods::class, '/'),
+            'create' => getFilamentUrl(Pages\CreatePaymentMethod::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditPaymentMethod::class, '/{record}/edit'),
         ];
     }
 }

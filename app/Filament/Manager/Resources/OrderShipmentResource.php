@@ -137,9 +137,9 @@ class OrderShipmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrderShipments::route('/'),
-            'create' => Pages\CreateOrderShipment::route('/create'),
-            'edit' => Pages\EditOrderShipment::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListOrderShipments::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateOrderShipment::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditOrderShipment::class, '/{record}/edit'),
         ];
     }
 }

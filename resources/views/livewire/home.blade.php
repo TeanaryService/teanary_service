@@ -10,7 +10,7 @@
                 <p class="text-lg mb-6">
                     {{ __('home.hero_subtitle') }}
                 </p>
-                <a href="{{ route('product') }}"
+                <a href="{{ locaRoute('product') }}"
                     class="inline-block bg-white text-green-700 font-bold px-6 py-3 rounded hover:bg-green-100 transition">
                     {{ __('home.shop_now') }}
                 </a>
@@ -27,7 +27,7 @@
         <h2 class="text-2xl font-bold text-green-700 mb-6">{{ __('home.browse_categories') }}</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
             @foreach ($categories as $category)
-                <a href="{{ route('product', ['category_id' => $category['id']]) }}"
+                <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}"
                     class="bg-white rounded shadow p-4 text-center hover:bg-green-50 transition">
                     <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
                         class="h-auto w-auto mx-auto mb-2 object-cover rounded">
@@ -51,7 +51,7 @@
                 <p class="text-green-900 mb-4">
                     {{ __('home.about_content') }}
                 </p>
-                <a href="{{ route('about-us') }}"
+                <a href="{{ locaRoute('about-us') }}"
                     class="inline-block bg-green-600 text-white px-5 py-3 rounded hover:bg-green-700 transition">
                     {{ __('home.learn_more') }}
                 </a>

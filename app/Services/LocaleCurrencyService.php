@@ -124,6 +124,16 @@ class LocaleCurrencyService
     }
 
     /**
+     * 获取默认语言 code
+     */
+    public function getDefaultLanguageCode(): string
+    {
+        $languages = $this->getLanguages();
+        $default = $languages->firstWhere('default', true);
+        return $default ? $default->code : ($languages->first()->code ?? 'en');
+    }
+
+    /**
      * 获取 [id => 当前语言name] 的语言选项数组，适用于 Filament options
      */
     public function getLanguageOptions(): array

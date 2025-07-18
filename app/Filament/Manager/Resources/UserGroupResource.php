@@ -118,9 +118,9 @@ class UserGroupResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUserGroups::route('/'),
-            'create' => Pages\CreateUserGroup::route('/create'),
-            'edit' => Pages\EditUserGroup::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListUserGroups::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateUserGroup::class, '/create'),
+            'edit' => getFilamentUrl(Pages\EditUserGroup::class, '/{record}/edit'),
         ];
     }
 }

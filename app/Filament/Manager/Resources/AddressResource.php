@@ -234,9 +234,9 @@ class AddressResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAddresses::route('/'),
-            'create' => Pages\CreateAddress::route('/create'),
-            'edit' => Pages\EditAddress::route('/{record}/edit'),
+            'index' => getFilamentUrl(Pages\ListAddresses::class, '/'),
+            'create' => getFilamentUrl(Pages\CreateAddress::class, 'create'),
+            'edit' => getFilamentUrl(Pages\EditAddress::class, '/{record}/edit'),
         ];
     }
 }
