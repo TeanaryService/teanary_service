@@ -44,7 +44,7 @@ if (!function_exists('locaRoute')) {
     function locaRoute(string $name, array $parameters = [], bool $absolute = true): string
     {
         // 获取当前语言
-        $locale = session('lang') ?? app()->getLocale();
+        $locale = app()->getLocale();
 
         // 如果已有 locale 参数（优先）就使用它，否则加上当前 locale
         if (!isset($parameters['locale'])) {

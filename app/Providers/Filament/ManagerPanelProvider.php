@@ -36,7 +36,7 @@ class ManagerPanelProvider extends PanelProvider
         $supported = $service->getLanguages()->pluck('code')->toArray();
 
         if (!in_array($locale, $supported)) {
-            $locale = Session::get('lang') ?? $service->getDefaultLanguageCode();
+            $locale = $service->getDefaultLanguageCode();
         }
 
         return $panel
@@ -53,7 +53,7 @@ class ManagerPanelProvider extends PanelProvider
                 provider: LocalFontProvider::class,
             )
             ->brandLogo(fn() => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
-            ->favicon(asset('favicon.ico'))
+            ->favicon(asset('favicon.png'))
             ->discoverResources(in: app_path('Filament/Manager/Resources'), for: 'App\\Filament\\Manager\\Resources')
             ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\\Filament\\Manager\\Pages')
             ->pages([

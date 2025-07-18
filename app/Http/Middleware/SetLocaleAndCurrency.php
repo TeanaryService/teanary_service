@@ -21,11 +21,11 @@ class SetLocaleAndCurrency
         $supported = $service->getLanguages()->pluck('code')->toArray();
 
         if (!in_array($locale, $supported)) {
-            $locale = Session::get('lang') ?? $service->getDefaultLanguageCode();
+            $locale = $service->getDefaultLanguageCode();
+            return redirect($locale);
         }
         
-        Session::put('lang', $locale);
-        App::setLocale($locale);
+        app()->setLocale($locale);
 
         // ------------------------------
         // 设置货币

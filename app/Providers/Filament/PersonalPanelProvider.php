@@ -36,7 +36,7 @@ class PersonalPanelProvider extends PanelProvider
         $supported = $service->getLanguages()->pluck('code')->toArray();
 
         if (!in_array($locale, $supported)) {
-            $locale = Session::get('lang') ?? $service->getDefaultLanguageCode();
+            $locale = $service->getDefaultLanguageCode();
         }
 
         return $panel
@@ -56,7 +56,7 @@ class PersonalPanelProvider extends PanelProvider
                 provider: LocalFontProvider::class,
             )
             ->brandLogo(fn() => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
-            ->favicon(asset('favicon.ico'))
+            ->favicon(asset('favicon.png'))
             ->discoverResources(in: app_path('Filament/Personal/Resources'), for: 'App\\Filament\\Personal\\Resources')
             ->discoverPages(in: app_path('Filament/Personal/Pages'), for: 'App\\Filament\\Personal\\Pages')
             ->pages([
