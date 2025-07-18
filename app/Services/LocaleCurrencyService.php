@@ -150,4 +150,16 @@ class LocaleCurrencyService
         $currencies = $this->getCurrencies();
         return $currencies->pluck('name', 'id')->toArray();
     }
+
+    /**
+     * 根据传入的 locale 判断并返回支持的语言 code
+     */
+    public function resolveLocale(?string $locale): string
+    {
+        $supported = $this->getLanguages()->pluck('code')->toArray();
+        if (!in_array($locale, $supported)) {
+            return $this->getDefaultLanguageCode();
+        }
+        return $locale;
+    }
 }

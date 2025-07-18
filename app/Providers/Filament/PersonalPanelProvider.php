@@ -19,8 +19,10 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Livewire\Livewire;
 
 class PersonalPanelProvider extends PanelProvider
 {
@@ -28,16 +30,7 @@ class PersonalPanelProvider extends PanelProvider
     {
         $service = new LocaleCurrencyService();
 
-        // ------------------------------
-        // 设置语言
-        // ------------------------------
-        $locale = request()->segment(1); // 取 URI 第一段
-
-        $supported = $service->getLanguages()->pluck('code')->toArray();
-
-        if (!in_array($locale, $supported)) {
-            $locale = $service->getDefaultLanguageCode();
-        }
+        $locale = $service->resolveLocale(request()->segment(1));
 
         return $panel
             ->default()
@@ -82,5 +75,20 @@ class PersonalPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function boot()
+    {
+        $service = new LocaleCurrencyService();
+
+        $locale = $service->resolveLocale(request()->segment(1));
+
+        Route::prefix($locale)
+            ->middleware(['web', Authenticate::class])
+            ->group(function () {
+                Livewire::setUpdateRoute(function ($handle) {
+                    return Route::post('/livewire/update', $handle);
+                });
+            });
     }
 }

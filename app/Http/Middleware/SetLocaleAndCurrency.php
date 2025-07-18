@@ -13,15 +13,9 @@ class SetLocaleAndCurrency
     {
         $service = new LocaleCurrencyService();
 
-        // ------------------------------
-        // 设置语言
-        // ------------------------------
-        $locale = $request->segment(1); // 取 URI 第一段
+        $locale = $service->resolveLocale($request->segment(1));
 
-        $supported = $service->getLanguages()->pluck('code')->toArray();
-
-        if (!in_array($locale, $supported)) {
-            $locale = $service->getDefaultLanguageCode();
+        if ($locale !== $request->segment(1)) {
             return redirect($locale);
         }
         
