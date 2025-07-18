@@ -234,6 +234,9 @@ class FullSeeder extends Seeder
                     'weight' => rand(50, 200),
                 ]);
 
+                //添加图片
+                $this->attachRandomImagesToProduct(product: $variant, min: 1, max: 1, collection: 'image');
+
                 // Link specification values
                 foreach ($specsUsed as $spec) {
                     $value = $specificationValues
@@ -285,7 +288,7 @@ class FullSeeder extends Seeder
         });
     }
 
-    private function attachRandomImagesToProduct($product, $min = 2, $max = 4)
+    private function attachRandomImagesToProduct($product, $min = 2, $max = 4, $collection = 'images')
     {
         $count = rand($min, $max);
 
@@ -294,7 +297,7 @@ class FullSeeder extends Seeder
 
             $product->addMedia($image)
                 ->preservingOriginal()
-                ->toMediaCollection('images');
+                ->toMediaCollection($collection);
         }
     }
 }

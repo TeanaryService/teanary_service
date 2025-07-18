@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class ProductVariantResource extends Resource
 {
@@ -82,6 +84,14 @@ class ProductVariantResource extends Resource
 
         return $form
             ->schema([
+                SpatieMediaLibraryFileUpload::make('image')
+                    ->label(__('filament_product_variant.image'))
+                    ->image()
+                    ->imageEditor()
+                    ->imageCropAspectRatio('1:1')
+                    ->columnSpanFull()
+                    ->required()
+                    ->collection('image'),
                 Repeater::make('specificationValues')
                     ->label(__('filament_product_variant.specification_values'))
                     ->schema([
@@ -172,6 +182,10 @@ class ProductVariantResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('image')
+                    ->label(__('filament_product_variant.image'))
+                    ->collection('image')
+                    ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label(__('filament_product_variant.product_id'))
                     ->hiddenOn([ProductVariantsRelationManager::class])
@@ -205,18 +219,22 @@ class ProductVariantResource extends Resource
                 Tables\Columns\TextColumn::make('weight')
                     ->label(__('filament_product_variant.weight'))
                     ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('length')
                     ->label(__('filament_product_variant.length'))
                     ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('width')
                     ->label(__('filament_product_variant.width'))
                     ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('height')
                     ->label(__('filament_product_variant.height'))
                     ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('specificationValues')
                     ->label(__('filament_product_variant.specification_values'))

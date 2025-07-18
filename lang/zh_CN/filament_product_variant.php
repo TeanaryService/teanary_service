@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'image' => '图片',
     'product_id' => '商品',
     'sku' => 'SKU',
     'price' => '价格',

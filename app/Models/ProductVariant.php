@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class ProductVariant
@@ -39,9 +43,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
-class ProductVariant extends Model
+class ProductVariant extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+    use CascadesMediaDeletes;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
@@ -98,5 +105,13 @@ class ProductVariant extends Model
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
             ->withPivot(['product_id']);
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(350)
+            ->height(350)
+            ->sharpen(10);
     }
 }

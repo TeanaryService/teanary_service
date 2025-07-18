@@ -3,6 +3,7 @@
 use App\Models\Category;
 use App\Models\Manager;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\User;
 use App\Support\MediaLibrary\AvatarPathGenerator;
 use App\Support\MediaLibrary\CategoryPathGenerator;
@@ -109,6 +110,7 @@ return [
         Category::class => CategoryPathGenerator::class,
 
         Product::class => ProductPathGenerator::class,
+        ProductVariant::class => ProductPathGenerator::class,
     ],
 
     /*
