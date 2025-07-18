@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Manager;
 use App\Models\User;
 use App\Support\MediaLibrary\AvatarPathGenerator;
+use App\Support\MediaLibrary\CategoryPathGenerator;
 
 return [
 
@@ -101,6 +103,8 @@ return [
         // 'model_morph_alias' => PathGenerator::class
         User::class => AvatarPathGenerator::class,
         Manager::class => AvatarPathGenerator::class,
+
+        Category::class => CategoryPathGenerator::class,
     ],
 
     /*

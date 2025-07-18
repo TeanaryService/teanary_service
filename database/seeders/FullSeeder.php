@@ -74,6 +74,14 @@ class FullSeeder extends Seeder
             ['slug' => 'bouquets'],
         ])->map(function ($cat) use ($languages) {
             $category = Category::create($cat);
+
+            //添加图片
+            $image = generateRandomImage();
+
+            $category->addMedia($image)
+                ->preservingOriginal()
+                ->toMediaCollection('image');
+
             foreach ($languages as $lang) {
                 CategoryTranslation::create([
                     'category_id' => $category->id,

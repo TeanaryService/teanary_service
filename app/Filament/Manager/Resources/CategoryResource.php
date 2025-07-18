@@ -10,9 +10,11 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -75,6 +77,14 @@ class CategoryResource extends Resource
 
         return $form
             ->schema([
+                SpatieMediaLibraryFileUpload::make('image')
+                    ->label(__('filament_category.image'))
+                    ->image()
+                    ->imageEditor()
+                    ->imageCropAspectRatio('1:1')
+                    ->columnSpanFull()
+                    ->required()
+                    ->collection('image'),
                 Forms\Components\Select::make('parent_id')
                     ->label(__('filament_category.parent'))
                     ->options($options)
@@ -115,6 +125,10 @@ class CategoryResource extends Resource
 
         return static::applyDefaultPagination($table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('image')
+                    ->label(__('filament_category.image'))
+                    ->collection('image')
+                    ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('parent_id')
                     ->label(__('filament_category.parent'))
                     ->getStateUsing(function ($record) use ($lang) {
