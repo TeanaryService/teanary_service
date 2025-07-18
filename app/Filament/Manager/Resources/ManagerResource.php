@@ -51,17 +51,29 @@ class ManagerResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('filament_manager.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label(__('filament_manager.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
+                    ->label(__('filament_manager.password'))
                     ->password()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn($state) => $state ? bcrypt($state) : null)
+                    ->dehydrated(fn($state) => filled($state))
+                    ->required(fn($context) => $context === 'create')
+                    ->confirmed(),
+                Forms\Components\TextInput::make('password_confirmation')
+                    ->label(__('filament_manager.password_confirmation'))
+                    ->password()
+                    ->maxLength(255)
+                    ->required(fn($context) => $context === 'create'),
+                Forms\Components\DateTimePicker::make('email_verified_at')
+                    ->label(__('filament_manager.email_verified_at')),
             ]);
     }
 
@@ -70,10 +82,13 @@ class ManagerResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('filament_manager.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('filament_manager.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
+                    ->label(__('filament_manager.email_verified_at'))
                     ->dateTime()
                     ->sortable(),
                 ...static::getTimestampsColumns()
@@ -82,11 +97,6 @@ class ManagerResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make('login')
-                    ->label(__('filament_user.login'))
-                    ->url(fn($record) => route('login-as', ['id' => $record->id]))
-                    ->openUrlInNewTab()
-                    ->icon('heroicon-o-key'),
                 ...static::getActions()
             ])
             ->bulkActions([
@@ -110,5 +120,14 @@ class ManagerResource extends Resource
             'create' => Pages\CreateManager::route('/create'),
             'edit' => Pages\EditManager::route('/{record}/edit'),
         ];
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        // 编辑时如果密码为空则不更新
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+        return $data;
     }
 }
