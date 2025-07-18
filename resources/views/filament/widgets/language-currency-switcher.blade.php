@@ -9,7 +9,11 @@
 
         <x-filament::dropdown.list>
             @foreach ($languages as $lang)
-                <x-filament::dropdown.list.item href="{{ switch_locale_url($lang->code) }}" tag="a">
+                <x-filament::dropdown.list.item
+                    x-on:click.prevent="
+                        document.getElementById('lang-input').value = '{{ $lang->code }}';
+                        document.getElementById('lang-currency-form').submit();
+                    ">
                     {{ $lang->name }}
                 </x-filament::dropdown.list.item>
             @endforeach

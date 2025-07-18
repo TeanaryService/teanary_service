@@ -8,18 +8,38 @@
     $desc = $translation && $translation->description ? $translation->description : '';
     $shortDesc = $translation && $translation->short_description ? $translation->short_description : '';
     $variant = $variants->where('id', $selectedVariantId)->first();
-    $image = $variant ? $variant->getFirstMediaUrl('image') : asset('logo.png');
+    $images = $variant ? $variant->getMedia('image') : collect();
     $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
-    // 商品属性
     $attributes = $product->attributeValues ?? collect();
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 py-12 min-h-screen bg-white">
     <div class="flex flex-col md:flex-row gap-8">
-        {{-- 商品图片 --}}
+        {{-- 商品图片幻灯片 --}}
         <div class="md:w-1/2 flex justify-center items-center">
-            <img src="{{ $image }}" alt="{{ $name }}"
-                class="rounded-xl shadow-lg w-full object-cover">
+            @if($images->count())
+                <div x-data="{ active: 0 }" class="w-full">
+                    <div class="relative w-full aspect-square overflow-hidden rounded-xl shadow-lg">
+                        @foreach($images as $i => $img)
+                            <img src="{{ $img->getUrl('thumb') }}"
+                                 alt="{{ $name }}"
+                                 class="absolute inset-0 w-full h-full object-cover transition-all duration-500"
+                                 x-show="active === {{ $i }}">
+                        @endforeach
+                    </div>
+                    <div class="flex justify-center gap-2 mt-3">
+                        @foreach($images as $i => $img)
+                            <button type="button"
+                                class="w-4 h-4 rounded-full border-2 border-green-600 {{ $i === 0 ? 'bg-green-600' : 'bg-white' }}"
+                                :class="{ 'bg-green-600': active === {{ $i }}, 'bg-white': active !== {{ $i }} }"
+                                x-on:click="active = {{ $i }}"></button>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <img src="{{ asset('logo.png') }}" alt="{{ $name }}"
+                    class="rounded-xl shadow-lg w-full object-cover">
+            @endif
         </div>
         {{-- 商品信息 --}}
         <div class="md:w-1/2">
@@ -92,3 +112,7 @@
         </div>
     @endif
 </div>
+
+@push('scripts')
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+@endpush

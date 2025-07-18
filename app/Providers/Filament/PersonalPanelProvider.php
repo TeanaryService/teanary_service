@@ -2,8 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Http\Middleware\SetLocaleAndCurrency;
-use App\Services\LocaleCurrencyService;
+use App\Http\Middleware\SetBackLocaleAndCurrency;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -19,24 +18,18 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Livewire\Livewire;
 
 class PersonalPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        $service = new LocaleCurrencyService();
-
-        $locale = $service->resolveLocale(request()->segment(1));
-
         return $panel
             ->default()
             ->id('personal')
-            ->path($locale . '/personal')
+            ->path('personal')
             ->login()
+            ->authGuard('web')
             ->registration()
             ->passwordReset()
             ->emailVerification()
@@ -70,25 +63,10 @@ class PersonalPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                SetLocaleAndCurrency::class
+                SetBackLocaleAndCurrency::class
             ])
             ->authMiddleware([
                 Authenticate::class,
             ]);
-    }
-
-    public function boot()
-    {
-        $service = new LocaleCurrencyService();
-
-        $locale = $service->resolveLocale(request()->segment(1));
-
-        Route::prefix($locale)
-            ->middleware(['web', Authenticate::class])
-            ->group(function () use ($locale) {
-                Livewire::setUpdateRoute(function ($handle) use ($locale) {
-                    return Route::post('/livewire/update', $handle)->name($locale);
-                });
-            });
     }
 }

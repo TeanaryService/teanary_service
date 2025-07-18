@@ -6,19 +6,14 @@ use Closure;
 use Illuminate\Support\Facades\Session;
 use App\Services\LocaleCurrencyService;
 
-class SetLocaleAndCurrency
+class SetBackLocaleAndCurrency
 {
     public function handle($request, Closure $next)
     {
         $service = new LocaleCurrencyService();
 
-        $locale = $service->resolveLocale($request->segment(1));
-
-        if ($locale !== $request->segment(1)) {
-            return redirect($locale);
-        }
+        $locale = $service->resolveLocale(session('lang'));
         
-        session(['lang' => $locale]);
         app()->setLocale($locale);
 
         // ------------------------------

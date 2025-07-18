@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\AboutUs;
 use App\Livewire\Home;
 use App\Livewire\Product;
@@ -20,8 +21,8 @@ Route::get('/', function () use ($service) {
 $supportedLocales = $service->getLanguages()->pluck('code')->toArray(); // 返回 ['en', 'zh', 'fr', ...]
 
 // 路由组
-Route::prefix('{locale}')->group(function () {
-    Route::post('/currency-switcher/update', [\App\Http\Controllers\CurrencySwitcherController::class, 'update'])
+Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
+    Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
 
     Route::get('/', Home::class)->name('home');
