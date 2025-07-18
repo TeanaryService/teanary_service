@@ -192,7 +192,7 @@ class FullSeeder extends Seeder
                 'status' => \App\Enums\ProductStatusEnum::default(),
             ]);
             //添加图片
-            $this->attachRandomImagesToProduct($product);
+            $this->attachRandomImages(model: $product);
 
             $product->productCategories()->attach($categories->random()->id);
 
@@ -235,7 +235,7 @@ class FullSeeder extends Seeder
                 ]);
 
                 //添加图片
-                $this->attachRandomImagesToProduct(product: $variant, min: 1, max: 1, collection: 'image');
+                $this->attachRandomImages(model: $variant, min: 1, max: 1, collection: 'image');
 
                 // Link specification values
                 foreach ($specsUsed as $spec) {
@@ -279,7 +279,7 @@ class FullSeeder extends Seeder
                 'discount_value' => 10,
             ]);
             //添加图片
-            $this->attachRandomImagesToProduct(product: $promotionRule, min: 1, max: 1, collection: 'image');
+            $this->attachRandomImages(model: $promotionRule, min: 1, max: 1, collection: 'image');
 
             $promotion->userGroups()->sync($userGroups->pluck('id')->toArray());
 
@@ -290,14 +290,14 @@ class FullSeeder extends Seeder
         });
     }
 
-    private function attachRandomImagesToProduct($product, $min = 2, $max = 4, $collection = 'images')
+    private function attachRandomImages($model, $min = 2, $max = 4, $collection = 'images')
     {
         $count = rand($min, $max);
 
         for ($i = 0; $i < $count; $i++) {
             $image = generateRandomImage();
 
-            $product->addMedia($image)
+            $model->addMedia($image)
                 ->preservingOriginal()
                 ->toMediaCollection($collection);
         }
