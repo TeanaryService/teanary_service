@@ -160,7 +160,7 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('login')
                     ->label(__('filament_user.login'))
-                    ->url(fn($record) => locaRoute('login-as', ['id' => $record->id]))
+                    ->url(fn($record) => locaRoute('login-as', ['id' => (int)$record->id]))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-key'),
                 ...static::getActions()

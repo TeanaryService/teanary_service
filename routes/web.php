@@ -30,13 +30,14 @@ Route::prefix('{locale}')->group(function () {
 
     Route::get('about-us', AboutUs::class)->name('about-us');
 
-    Route::get('login-as/{id}', function (int $id) {
+    Route::get('login-as/{id}', function (string $locale, int $id) {
+        Auth::logout();
         $user = User::find($id);
         // 更新认证令牌
         Auth::guard('web')->loginUsingId($id);
         // 在会话中存储令牌
         session()->put('auth_token', $user->auth_token);
-        return redirect()->locaRoute('filament.personal.pages.dashboard');
+        return redirect()->route('filament.personal.pages.dashboard');
     })->middleware(['web'])->name('login-as');
 
     Route::fallback(function () {

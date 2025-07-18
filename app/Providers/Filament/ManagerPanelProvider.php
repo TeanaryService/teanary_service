@@ -3,7 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\SetLocaleAndCurrency;
-use Filament\Facades\Filament;
+use App\Services\LocaleCurrencyService;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -19,14 +19,25 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class ManagerPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        $locale = request()->segment(1) ?? App::getLocale();
+        $service = new LocaleCurrencyService();
+
+        // ------------------------------
+        // 设置语言
+        // ------------------------------
+        $locale = request()->segment(1); // 取 URI 第一段
+
+        $supported = $service->getLanguages()->pluck('code')->toArray();
+
+        if (!in_array($locale, $supported)) {
+            $locale = Session::get('lang') ?? $service->getDefaultLanguageCode();
+        }
 
         return $panel
             ->default()
