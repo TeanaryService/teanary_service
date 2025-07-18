@@ -82,9 +82,9 @@ class ManagerPanelProvider extends PanelProvider
 
         Route::prefix($locale)
             ->middleware(['web', Authenticate::class])
-            ->group(function () {
-                Livewire::setUpdateRoute(function ($handle) {
-                    return Route::post('/livewire/update', $handle);
+            ->group(function () use ($locale) {
+                Livewire::setUpdateRoute(function ($handle) use ($locale) {
+                    return Route::post('/livewire/update', $handle)->name($locale);
                 });
             });
     }
