@@ -15,4 +15,7 @@ return [
     'search' => '搜索',
     'search_placeholder' => '请输入商品名称',
     'no_products' => '暂无商品',
+    'categories' => '分类',
+    'select_variant' => '选择规格',
+    'buy_now' => '立即购买',
 ];

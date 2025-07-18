@@ -1,3 +1,79 @@
-<div>
-    {{-- Because she competes with no one, no one can compete with her. --}}
+@php
+    $locale = app()->getLocale();
+    $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+    $currencyService = app(\App\Services\LocaleCurrencyService::class);
+    $currencyCode = session('currency_code', 'CNY');
+    $translation = $product->productTranslations->first();
+    $name = $translation && $translation->name ? $translation->name : $product->slug;
+    $desc = $translation && $translation->description ? $translation->description : '';
+    $shortDesc = $translation && $translation->short_description ? $translation->short_description : '';
+    $variant = $variants->where('id', $selectedVariantId)->first();
+    $image = $variant ? $variant->getFirstMediaUrl('image') : asset('logo.png');
+    $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
+@endphp
+
+<div class="max-w-7xl mx-auto px-6 py-9 min-h-screen">
+    <div class="flex flex-col md:flex-row gap-8">
+        {{-- 商品图片 --}}
+        <div class="md:w-1/2 flex justify-center items-center">
+            <img src="{{ $image }}" alt="{{ $name }}"
+                class="rounded-xl shadow-lg w-full object-cover">
+        </div>
+        {{-- 商品信息 --}}
+        <div class="md:w-1/2">
+            <h1 class="text-3xl font-bold text-green-700 mb-2">{{ $name }}</h1>
+            <div class="mb-2 text-gray-500">
+                @if ($categoryNames)
+                    <span class="mr-2">{{ __('home.categories') }}:</span>
+                    @foreach ($categoryNames as $catName)
+                        <span
+                            class="inline-block bg-green-100 text-green-800 px-2 py-1 rounded mr-1">{{ $catName }}</span>
+                    @endforeach
+                @endif
+            </div>
+            @if ($shortDesc)
+                <div class="mb-4 text-gray-700">{{ $shortDesc }}</div>
+            @endif
+            <div class="mb-4">
+                <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
+            </div>
+            {{-- 规格选择 --}}
+            @if ($variants->count() > 1)
+                <div class="mb-4">
+                    <label class="block mb-2 font-semibold text-gray-700">{{ __('home.select_variant') }}</label>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach ($variants as $v)
+                            @php
+                                $specs = $v->specificationValues
+                                    ->map(function ($sv) use ($lang) {
+                                        $trans = $sv->specificationValueTranslations
+                                            ->where('language_id', $lang?->id)
+                                            ->first();
+                                        return $trans && $trans->name ? $trans->name : $sv->id;
+                                    })
+                                    ->implode(' / ');
+                            @endphp
+                            <button wire:click="selectVariant({{ $v->id }})"
+                                class="px-4 py-2 rounded border {{ $selectedVariantId == $v->id ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700' }}">
+                                {{ $specs ?: $v->sku }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+            {{-- 购买按钮 --}}
+            <div class="mt-6">
+                <button
+                    class="w-full px-6 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition">
+                    {{ __('home.buy_now') }}
+                </button>
+            </div>
+        </div>
+    </div>
+    {{-- 商品详情描述 --}}
+    @if ($desc)
+        <div class="mt-10 prose max-w-none text-gray-800">
+            {!! nl2br(e($desc)) !!}
+        </div>
+    @endif
 </div>

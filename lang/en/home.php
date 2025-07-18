@@ -15,4 +15,7 @@ return [
     'search' => 'Search',
     'search_placeholder' => 'Enter product name',
     'no_products' => 'No products found',
+    'categories' => 'Categories',
+    'select_variant' => 'Select Variant',
+    'buy_now' => 'Buy Now',
 ];

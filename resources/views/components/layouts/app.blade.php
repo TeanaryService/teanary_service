@@ -60,7 +60,7 @@
                         </a>
                     @endguest
 
-                    <div class="flex items-center gap-x-4">
+                    <div class="flex items-center gap-x-8">
                         <x-language-switch />
                         <x-currency-switch />
                     </div>
