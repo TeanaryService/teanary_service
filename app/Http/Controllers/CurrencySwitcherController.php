@@ -16,13 +16,7 @@ class CurrencySwitcherController extends Controller
             session(['currency' => $currency->code]);
         }
 
-        $params = [
-            'currency' => session('currency'),
-        ];
-
-        $url = url()->previous();
-        $parsed = parse_url($url);
-        $base = $parsed['scheme'] . '://' . $parsed['host'] . (isset($parsed['port']) ? ':' . $parsed['port'] : '') . $parsed['path'];
-        return redirect()->to($base . '?' . http_build_query($params));
+        // 简单刷新上一个页面
+        return redirect()->back();
     }
 }
