@@ -24,6 +24,7 @@ class CategoryResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Category::class;
+    protected static ?int $navigationSort = 202;
 
     public static function getLabel(): string
     {
@@ -44,10 +45,6 @@ class CategoryResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.CategoryResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.CategoryResource.sort');
     }
 
     public static function form(Form $form): Form

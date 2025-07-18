@@ -27,6 +27,7 @@ class CountryResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Country::class;
+    protected static ?int $navigationSort = 405;
 
     public static function getLabel(): string
     {
@@ -47,10 +48,6 @@ class CountryResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.CountryResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.CountryResource.sort');
     }
 
     public static function form(Form $form): Form

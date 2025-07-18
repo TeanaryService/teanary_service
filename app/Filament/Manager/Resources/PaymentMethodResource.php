@@ -24,6 +24,7 @@ class PaymentMethodResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = PaymentMethod::class;
+    protected static ?int $navigationSort = 403;
 
     public static function getLabel(): string
     {
@@ -44,10 +45,6 @@ class PaymentMethodResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.PaymentMethodResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.PaymentMethodResource.sort');
     }
 
     public static function form(Form $form): Form

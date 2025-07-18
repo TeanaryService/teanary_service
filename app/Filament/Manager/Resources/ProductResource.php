@@ -28,6 +28,7 @@ class ProductResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Product::class;
+    protected static ?int $navigationSort = 200;
 
     public static function getLabel(): string
     {
@@ -48,10 +49,6 @@ class ProductResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.ProductResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.ProductResource.sort');
     }
 
     public static function form(Form $form): Form

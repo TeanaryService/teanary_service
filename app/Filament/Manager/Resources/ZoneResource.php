@@ -25,6 +25,7 @@ class ZoneResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Zone::class;
+    protected static ?int $navigationSort = 406;
 
     public static function getLabel(): string
     {
@@ -45,10 +46,6 @@ class ZoneResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.ZoneResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.ZoneResource.sort');
     }
 
     public static function form(Form $form): Form

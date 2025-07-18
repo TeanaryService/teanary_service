@@ -27,6 +27,7 @@ class UserGroupResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = UserGroup::class;
+    protected static ?int $navigationSort = 301;
 
     public static function getLabel(): string
     {
@@ -47,10 +48,6 @@ class UserGroupResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.UserGroupResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.UserGroupResource.sort');
     }
 
     public static function form(Form $form): Form

@@ -26,6 +26,7 @@ class SpecificationValueResource extends Resource
 
     protected static ?string $model = SpecificationValue::class;
     protected static bool $shouldRegisterNavigation = false;
+    protected static ?int $navigationSort = 206;
 
     public static function getLabel(): string
     {
@@ -46,10 +47,6 @@ class SpecificationValueResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.SpecificationValueResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.SpecificationValueResource.sort');
     }
 
     public static function form(Form $form): Form

@@ -28,6 +28,7 @@ class PromotionResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Promotion::class;
+    protected static ?int $navigationSort = 102;
 
     public static function getLabel(): string
     {
@@ -48,10 +49,6 @@ class PromotionResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.PromotionResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.PromotionResource.sort');
     }
 
     public static function form(Form $form): Form

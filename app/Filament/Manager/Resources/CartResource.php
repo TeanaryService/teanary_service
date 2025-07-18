@@ -24,6 +24,7 @@ class CartResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Cart::class;
+    protected static ?int $navigationSort = 103;
 
     public static function getLabel(): string
     {
@@ -44,10 +45,6 @@ class CartResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.CartResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.CartResource.sort');
     }
 
     public static function form(Form $form): Form

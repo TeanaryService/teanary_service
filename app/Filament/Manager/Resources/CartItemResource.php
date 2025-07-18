@@ -26,8 +26,8 @@ class CartItemResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = CartItem::class;
-
     protected static bool $shouldRegisterNavigation = false;
+    protected static ?int $navigationSort = 104;
 
     public static function getLabel(): string
     {
@@ -48,10 +48,6 @@ class CartItemResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.CartItemResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.CartItemResource.sort');
     }
 
     public static function form(Form $form): Form

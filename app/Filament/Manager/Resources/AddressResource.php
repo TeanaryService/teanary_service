@@ -24,6 +24,7 @@ class AddressResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Address::class;
+    protected static ?int $navigationSort = 302;
 
     public static function getLabel(): string
     {
@@ -44,10 +45,6 @@ class AddressResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.AddressResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.AddressResource.sort');
     }
 
     public static function form(Form $form): Form

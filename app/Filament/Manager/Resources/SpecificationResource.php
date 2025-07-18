@@ -27,6 +27,7 @@ class SpecificationResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Specification::class;
+    protected static ?int $navigationSort = 205;
 
     public static function getLabel(): string
     {
@@ -47,10 +48,6 @@ class SpecificationResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.SpecificationResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.SpecificationResource.sort');
     }
 
     public static function form(Form $form): Form

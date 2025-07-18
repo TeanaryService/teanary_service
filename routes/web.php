@@ -23,3 +23,7 @@ Route::get('login-as/{id}', function (int $id) {
     session()->put('auth_token', $user->auth_token);
     return redirect()->route('filament.personal.pages.dashboard');
 })->middleware(['web'])->name('login-as');
+
+Route::fallback(function () {
+    return abort(404);
+});

@@ -27,6 +27,7 @@ class AttributeResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Attribute::class;
+    protected static ?int $navigationSort = 203;
 
     public static function getLabel(): string
     {
@@ -47,10 +48,6 @@ class AttributeResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.AttributeResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.AttributeResource.sort');
     }
 
     public static function form(Form $form): Form

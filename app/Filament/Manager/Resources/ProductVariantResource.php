@@ -30,6 +30,7 @@ class ProductVariantResource extends Resource
 
     protected static ?string $model = ProductVariant::class;
     protected static bool $shouldRegisterNavigation = false;
+    protected static ?int $navigationSort = 201;
 
     public static function getLabel(): string
     {
@@ -50,10 +51,6 @@ class ProductVariantResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.ProductVariantResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.ProductVariantResource.sort');
     }
 
     public static function form(Form $form): Form

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Manager\Resources;
 
-use App\Filament\Manager\Resources\LanguageResource\Pages;
-use App\Filament\Manager\Resources\LanguageResource\RelationManagers;
-use App\Models\Language;
+use App\Filament\Manager\Resources\ManagerResource\Pages;
+use App\Filament\Manager\Resources\ManagerResource\RelationManagers;
+use App\Models\Manager;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
@@ -16,48 +16,52 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class LanguageResource extends Resource
+class ManagerResource extends Resource
 {
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
-    protected static ?string $model = Language::class;
-    protected static ?int $navigationSort = 401;
+    protected static ?string $model = Manager::class;
+    protected static ?int $navigationSort = 400;
 
     public static function getLabel(): string
     {
-        return __('filament.LanguageResource.label');
+        return __('filament.ManagerResource.label');
     }
     public static function getPluralLabel(): string
     {
-        return __('filament.LanguageResource.pluralLabel');
+        return __('filament.ManagerResource.pluralLabel');
     }
     public static function getNavigationGroup(): string
     {
-        return __('filament.LanguageResource.group');
+        return __('filament.ManagerResource.group');
     }
     public static function getNavigationLabel(): string
     {
-        return __('filament.LanguageResource.label');
+        return __('filament.ManagerResource.label');
     }
     public static function getNavigationIcon(): string
     {
-        return __('filament.LanguageResource.icon');
+        return __('filament.ManagerResource.icon');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label(__('filament_language.code'))
-                    ->required()
-                    ->maxLength(10),
                 Forms\Components\TextInput::make('name')
-                    ->label(__('filament_language.name'))
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\DateTimePicker::make('email_verified_at'),
             ]);
     }
 
@@ -65,18 +69,24 @@ class LanguageResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
-                Tables\Columns\TextColumn::make('code')
-                    ->label(__('filament_language.code'))
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('filament_language.name'))
                     ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                    ->dateTime()
+                    ->sortable(),
                 ...static::getTimestampsColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('login')
+                    ->label(__('filament_user.login'))
+                    ->url(fn($record) => route('login-as', ['id' => $record->id]))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-key'),
                 ...static::getActions()
             ])
             ->bulkActions([
@@ -96,9 +106,9 @@ class LanguageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLanguages::route('/'),
-            'create' => Pages\CreateLanguage::route('/create'),
-            'edit' => Pages\EditLanguage::route('/{record}/edit'),
+            'index' => Pages\ListManagers::route('/'),
+            'create' => Pages\CreateManager::route('/create'),
+            'edit' => Pages\EditManager::route('/{record}/edit'),
         ];
     }
 }

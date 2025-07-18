@@ -24,6 +24,7 @@ class ShippingMethodResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = ShippingMethod::class;
+    protected static ?int $navigationSort = 404;
 
     public static function getLabel(): string
     {
@@ -44,10 +45,6 @@ class ShippingMethodResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.ShippingMethodResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.ShippingMethodResource.sort');
     }
 
     public static function form(Form $form): Form

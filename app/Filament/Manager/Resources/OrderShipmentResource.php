@@ -26,6 +26,7 @@ class OrderShipmentResource extends Resource
 
     protected static ?string $model = OrderShipment::class;
     protected static bool $shouldRegisterNavigation = false;
+    protected static ?int $navigationSort = 100;
 
     public static function getLabel(): string
     {
@@ -46,10 +47,6 @@ class OrderShipmentResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.OrderShipmentResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.OrderShipmentResource.sort');
     }
 
     public static function form(Form $form): Form

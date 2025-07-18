@@ -26,6 +26,7 @@ class OrderResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Order::class;
+    protected static ?int $navigationSort = 100;
 
     public static function getLabel(): string
     {
@@ -46,10 +47,6 @@ class OrderResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.OrderResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.OrderResource.sort');
     }
 
     public static function form(Form $form): Form

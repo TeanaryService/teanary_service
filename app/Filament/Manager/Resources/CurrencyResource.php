@@ -23,6 +23,7 @@ class CurrencyResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Currency::class;
+    protected static ?int $navigationSort = 402;
 
     public static function getLabel(): string
     {
@@ -43,10 +44,6 @@ class CurrencyResource extends Resource
     public static function getNavigationIcon(): string
     {
         return __('filament.CurrencyResource.icon');
-    }
-    public static function getNavigationSort(): int
-    {
-        return (int) __('filament.CurrencyResource.sort');
     }
 
     public static function form(Form $form): Form
