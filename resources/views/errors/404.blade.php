@@ -1,1 +1,1 @@
-<x-error :code="404" title="哎呀!页面不见了" sub_title="您访问的页面可能已被删除、移动或暂时不可用。"/>
+<x-error :code="404"/>

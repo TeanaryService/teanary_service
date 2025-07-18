@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Http\Middleware\SetLocaleAndCurrency;
 use Filament\Facades\Filament;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -59,7 +58,6 @@ class ManagerPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                SetLocaleAndCurrency::class
             ])
             ->authMiddleware([
                 Authenticate::class,

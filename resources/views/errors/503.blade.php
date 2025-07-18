@@ -1,1 +1,1 @@
-<x-error :code="503" title="系统维护" sub_title="系统维护中，请稍后访问。感谢您的耐心等待！"/>
+<x-error :code="503"/>

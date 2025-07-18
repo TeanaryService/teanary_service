@@ -1,1 +1,1 @@
-<x-error :code="403" title="无权访问" sub_title="您没有权限访问此资源，如有疑问请联系管理员。"/>
+<x-error :code="403"/>

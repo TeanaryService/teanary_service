@@ -1,1 +1,1 @@
-<x-error :code="500" title="服务器出问题了" sub_title="服务器发生错误，请稍后再试或联系技术支持。"/>
+<x-error :code="500"/>

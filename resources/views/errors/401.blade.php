@@ -1,1 +1,1 @@
-<x-error :code="401" title="无权访问" sub_title="您尚未登录或登录已过期，请重新登录后再试。"/>
+<x-error :code="401"/>

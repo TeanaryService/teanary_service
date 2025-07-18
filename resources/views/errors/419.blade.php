@@ -1,1 +1,1 @@
-<x-error :code="419" title="页面已过期" sub_title="页面已过期，请刷新页面或重新提交表单。"/>
+<x-error :code="419"/>
