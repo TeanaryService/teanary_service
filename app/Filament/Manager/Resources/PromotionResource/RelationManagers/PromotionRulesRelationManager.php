@@ -57,12 +57,12 @@ class PromotionRulesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('condition_type')
                     ->label(__('filament_promotion.condition_type'))
-                    ->formatStateUsing(fn($state) => $state instanceof \BackedEnum ? $state->label() : $state),
+                    ->formatStateUsing(fn(PromotionConditionTypeEnum $state):string =>  $state->label() ),
                 Tables\Columns\TextColumn::make('condition_value')
                     ->label(__('filament_promotion.condition_value')),
                 Tables\Columns\TextColumn::make('discount_type')
                     ->label(__('filament_promotion.discount_type'))
-                    ->formatStateUsing(fn($state) => $state instanceof \BackedEnum ? $state->label() : $state),
+                    ->formatStateUsing(fn(PromotionDiscountTypeEnum $state):string => $state->label()),
                 Tables\Columns\TextColumn::make('discount_value')
                     ->label(__('filament_promotion.discount_value')),
             ])
