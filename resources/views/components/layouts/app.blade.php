@@ -2,26 +2,28 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta name="application-name" content="{{ config('app.name') }}">
-    <meta content="ie=edge,chrome=1" http-equiv="X-UA-Compatible" />
-    <meta name="google" value="notranslate">
-    <meta name="renderer" content="webkit">
-    <meta name="force-rendering" content="webkit">
-    {{-- Start of Baidu Transcode --}}
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <meta http-equiv="Cache-Control" content="no-transform" />
-    <meta name="MobileOptimized" content="width" />
-    <meta name="HandheldFriendly" content="true" />
-    {{-- End of Baidu Transcode --}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="application-name" content="{{ config('app.name') }}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="author" content="{{ config('app.name') }}">
+    <meta name="theme-color" content="#16a34a">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta name="google" value="notranslate">
 
+    {{-- SEO TDK --}}
     @stack('tdk')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <!-- Styles -->
     @livewireStyles
-
     <link rel="shortcut icon" type="image/icon" href="{{ asset('/favicon.png') }}" />
 </head>
 
@@ -76,13 +78,6 @@
     <footer class="py-8">
         <div class="block text-center md:flex text-sm text-gray-500 justify-center py-6">
             <x-layouts.logo imgClass="w-20 h-20" :showText="false" />
-        </div>
-    </footer>
-
-    @livewireScripts
-</body>
-
-</html>
         </div>
     </footer>
 
