@@ -11,51 +11,37 @@ use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Class User
+ * Class Manager
  * 
  * @property int $id
  * @property string $name
  * @property string $email
  * @property string $password
  * @property Carbon|null $email_verified_at
- * @property int|null $user_group_id
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
- * @property Currency|null $currency
- * @property Language|null $language
- * @property UserGroup|null $userGroup
- * @property Collection|Address[] $addresses
- * @property Collection|Cart[] $carts
- * @property Collection|Order[] $orders
  *
  * @package App\Models
  */
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasAvatar, HasMedia
+class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
     use InteractsWithMedia;
     use CascadesMediaDeletes;
 
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'user_group_id' => 'int',
+        'email_verified_at' => 'datetime'
     ];
 
     protected $hidden = [
@@ -68,29 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         'email',
         'password',
         'email_verified_at',
-        'user_group_id',
         'remember_token'
     ];
-
-    public function userGroup(): BelongsTo
-    {
-        return $this->belongsTo(UserGroup::class);
-    }
-
-    public function addresses(): HasMany
-    {
-        return $this->hasMany(Address::class);
-    }
-
-    public function carts(): HasMany
-    {
-        return $this->hasMany(Cart::class);
-    }
-
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class);
-    }
 
     public function getFilamentAvatarUrl(): ?string
     {

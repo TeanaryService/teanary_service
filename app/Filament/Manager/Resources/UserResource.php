@@ -100,12 +100,6 @@ class UserResource extends Resource
                     ->searchable()
                     ->preload()
                     ->default(null),
-                Forms\Components\Select::make('default_language_id')
-                    ->label(__('filament_user.default_language_id'))
-                    ->options($service->getLanguageOptions()),
-                Forms\Components\Select::make('default_currency_id')
-                    ->label(__('filament_user.default_currency_id'))
-                    ->options($service->getCurrencyOptions()),
             ]);
     }
 
@@ -145,16 +139,17 @@ class UserResource extends Resource
                         $first = $record->userGroup?->userGroupTranslations->first();
                         return $first ? $first->name : $record->userGroup?->id;
                     }),
-                Tables\Columns\TextColumn::make('language.name')
-                    ->label(__('filament_user.default_language_id')),
-                Tables\Columns\TextColumn::make('currency.name')
-                    ->label(__('filament_user.default_currency_id')),
                 ...static::getTimestampsColumns()
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('login')
+                    ->label(__('filament_user.login'))
+                    ->url(fn($record) => route('login-as', ['id' => $record->id]))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-key'),
                 ...static::getActions()
             ])
             ->bulkActions([

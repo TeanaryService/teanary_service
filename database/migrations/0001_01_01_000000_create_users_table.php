@@ -61,8 +61,6 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('user_group_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('default_language_id')->nullable()->constrained('languages')->nullOnDelete();
-            $table->foreignId('default_currency_id')->nullable()->constrained('currencies')->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -82,6 +80,16 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::create('managers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -90,6 +98,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('managers');
         Schema::dropIfExists('user_group_translations');
         Schema::dropIfExists('user_groups');
         Schema::dropIfExists('password_reset_tokens');

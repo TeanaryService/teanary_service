@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Manager;
 use App\Models\User;
 use App\Support\MediaLibrary\AvatarPathGenerator;
 
@@ -99,6 +100,7 @@ return [
         // or
         // 'model_morph_alias' => PathGenerator::class
         User::class => AvatarPathGenerator::class,
+        Manager::class => AvatarPathGenerator::class,
     ],
 
     /*

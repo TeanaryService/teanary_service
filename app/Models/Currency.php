@@ -62,9 +62,4 @@ class Currency extends Model
     {
         return $this->hasMany(ProductVariant::class);
     }
-
-    public function users(): HasMany
-    {
-        return $this->hasMany(User::class, 'default_currency_id');
-    }
 }

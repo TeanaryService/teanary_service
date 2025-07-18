@@ -295,6 +295,8 @@ return [
             'sessions',
             'media',
 
+            'user',
+
             //中间表
             'product_category',
             'product_variant_specification_value',

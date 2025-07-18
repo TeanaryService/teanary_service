@@ -113,11 +113,6 @@ class Language extends Model
         return $this->hasMany(UserGroupTranslation::class);
     }
 
-    public function users(): HasMany
-    {
-        return $this->hasMany(User::class, 'default_language_id');
-    }
-
     public function zoneTranslations(): HasMany
     {
         return $this->hasMany(ZoneTranslation::class);

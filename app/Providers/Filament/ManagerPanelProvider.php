@@ -29,6 +29,7 @@ class ManagerPanelProvider extends PanelProvider
             ->id('manamer')
             ->path('m')
             ->login()
+            ->authGuard('manager')
             ->colors([
                 'primary' => Color::Green,
             ])
