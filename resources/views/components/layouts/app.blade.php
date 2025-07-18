@@ -30,8 +30,36 @@
         <div class="fixed w-full top-0 bg-green-50 z-50">
             <div class="w-full max-w-7xl mx-auto flex justify-between h-16 items-center px-4">
                 <div>
-                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="w-14 h-14"/></a>
+                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="w-14 h-14" /></a>
                 </div>
+
+                <!-- 搜索框 -->
+                <div x-data="{ open: false }" class="relative">
+                    <!-- 搜索按钮（移动端） -->
+                    <button @click="open = !open"
+                        class="sm:hidden p-2 rounded-full text-gray-600 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        <!-- Heroicons search icon -->
+                        <x-heroicon-o-magnifying-glass class="w-5 h-5" />
+                    </button>
+
+                    <!-- 搜索表单 -->
+                    <form method="GET" action="{{ locaRoute('product') }}" :class="{ 'block': open, 'hidden': !open }"
+                        class="absolute top-10 left-0 sm:static sm:block bg-white sm:bg-transparent shadow sm:shadow-none rounded-full sm:rounded-none p-0 transition-all z-50 sm:z-auto">
+
+                        <div
+                            class="flex items-center border-2 border-gray-300 rounded-full bg-white overflow-hidden focus-within:ring-2 focus-within:ring-green-400">
+                            <!-- 搜索按钮（桌面端） -->
+                            <button type="submit" class="px-3 text-gray-600 hover:text-green-600">
+                                <x-heroicon-o-magnifying-glass class="w-5 h-5" />
+                            </button>
+
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="{{ __('app.search_placeholder') }}"
+                                class="p-2 text-sm w-auto focus:outline-none bg-white">
+                        </div>
+                    </form>
+                </div>
+
                 <div class="flex gap gap-x-6 whitespace-nowrap items-center">
                     @auth
                         <x-user-menu />
@@ -41,8 +69,8 @@
                         <a href="{{ route('filament.personal.auth.login') }}">{{ __('app.login') }}</a>
                     @endguest
 
-                    <x-language-switch/>
-                    <x-currency-switch/>
+                    <x-language-switch />
+                    <x-currency-switch />
                 </div>
             </div>
         </div>
@@ -54,7 +82,7 @@
     </div>
     <footer class="py-8">
         <div class="block text-center md:flex text-sm text-gray-500 justify-center py-6">
-            <x-layouts.logo imgClass="w-20 h-20" :showText="false"/>
+            <x-layouts.logo imgClass="w-20 h-20" :showText="false" />
         </div>
     </footer>
 
