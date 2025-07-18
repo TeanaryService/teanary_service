@@ -11,4 +11,5 @@ return [
     'about_content' => 'KM Flora 提供来自优质花农的新鲜切花，无论日常还是特殊时刻，我们都为您送上美丽。',
     'about_us' => '关于我们',
     'learn_more' => '了解更多',
+    'product_view_detail' => '查看详情',
 ];

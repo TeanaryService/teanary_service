@@ -3,6 +3,7 @@
 use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\Home;
 use App\Livewire\Product;
+use App\Livewire\ProductDetail;
 use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ Route::post('/locale-currency-switcher/update', [\App\Http\Controllers\LocaleCur
 Route::prefix('/')->middleware([SetLocaleAndCurrency::class])->group(function () {
     Route::get('/', Home::class)->name('home');
     Route::get('product', Product::class)->name('product');
+    Route::get('product/{id}', ProductDetail::class)->name('product.show');
 });
 
 Route::get('login-as/{id}', function (int $id) {
