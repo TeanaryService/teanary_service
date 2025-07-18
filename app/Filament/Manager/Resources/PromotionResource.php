@@ -157,9 +157,9 @@ class PromotionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListPromotions::class, '/'),
-            'create' => getFilamentUrl(Pages\CreatePromotion::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditPromotion::class, '/{record}/edit'),
+            'index' => Pages\ListPromotions::route('/'),
+            'create' => Pages\CreatePromotion::route('/create'),
+            'edit' => Pages\EditPromotion::route('/{record}/edit'),
         ];
     }
 }

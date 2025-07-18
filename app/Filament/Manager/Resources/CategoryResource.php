@@ -182,9 +182,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListCategories::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateCategory::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditCategory::class, '/{record}/edit'),
+            'index' => Pages\ListCategories::route('/'),
+            'create' => Pages\CreateCategory::route('/create'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

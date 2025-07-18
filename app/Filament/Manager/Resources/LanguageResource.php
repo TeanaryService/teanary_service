@@ -96,9 +96,9 @@ class LanguageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListLanguages::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateLanguage::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditLanguage::class, '/{record}/edit'),
+            'index' => Pages\ListLanguages::route('/'),
+            'create' => Pages\CreateLanguage::route('/create'),
+            'edit' => Pages\EditLanguage::route('/{record}/edit'),
         ];
     }
 }

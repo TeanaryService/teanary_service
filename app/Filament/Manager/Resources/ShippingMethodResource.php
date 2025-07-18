@@ -138,9 +138,9 @@ class ShippingMethodResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListShippingMethods::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateShippingMethod::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditShippingMethod::class, '/{record}/edit'),
+            'index' => Pages\ListShippingMethods::route('/'),
+            'create' => Pages\CreateShippingMethod::route('/create'),
+            'edit' => Pages\EditShippingMethod::route('/{record}/edit'),
         ];
     }
 }

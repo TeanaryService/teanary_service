@@ -132,9 +132,9 @@ class ManagerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListManagers::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateManager::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditManager::class, '/{record}/edit'),
+            'index' => Pages\ListManagers::route('/'),
+            'create' => Pages\CreateManager::route('/create'),
+            'edit' => Pages\EditManager::route('/{record}/edit'),
         ];
     }
 

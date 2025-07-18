@@ -169,9 +169,9 @@ class ZoneResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListZones::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateZone::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditZone::class, '/{record}/edit'),
+            'index' => Pages\ListZones::route('/'),
+            'create' => Pages\CreateZone::route('/create'),
+            'edit' => Pages\EditZone::route('/{record}/edit'),
         ];
     }
 }

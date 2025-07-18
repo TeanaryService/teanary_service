@@ -74,20 +74,3 @@ if (!function_exists('switch_locale_url')) {
         return url(implode('/', $segments));
     }
 }
-
-if (!function_exists('getFilamentUrl')) {
-    /**
-     * 获取带语言前缀的 Filament 页面 URL
-     *
-     * @param class-string $page  Filament Page 类名
-     * @param string $uri         页面的子路径（默认 '/'）
-     * @param array $params       其他参数（会合并 locale 参数）
-     * @return string
-     */
-    function getFilamentUrl($page, string $uri = '/', array $params = [])
-    {
-        $locale = session('lang') ?? App::getLocale();
-
-        return $page::route($uri, array_merge(['locale' => $locale], $params));
-    }
-}

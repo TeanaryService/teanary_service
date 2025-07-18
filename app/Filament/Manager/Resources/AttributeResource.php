@@ -118,9 +118,9 @@ class AttributeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListAttributes::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateAttribute::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditAttribute::class, '/{record}/edit'),
+            'index' => Pages\ListAttributes::route('/'),
+            'create' => Pages\CreateAttribute::route('/create'),
+            'edit' => Pages\EditAttribute::route('/{record}/edit'),
         ];
     }
 }

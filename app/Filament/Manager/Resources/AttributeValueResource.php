@@ -153,9 +153,9 @@ class AttributeValueResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListAttributeValues::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateAttributeValue::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditAttributeValue::class, '/{record}/edit'),
+            'index' => Pages\ListAttributeValues::route('/'),
+            'create' => Pages\CreateAttributeValue::route('/create'),
+            'edit' => Pages\EditAttributeValue::route('/{record}/edit'),
         ];
     }
 }

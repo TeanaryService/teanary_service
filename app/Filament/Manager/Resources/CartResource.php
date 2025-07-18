@@ -100,9 +100,9 @@ class CartResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListCarts::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateCart::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditCart::class, '/{record}/edit'),
+            'index' => Pages\ListCarts::route('/'),
+            'create' => Pages\CreateCart::route('/create'),
+            'edit' => Pages\EditCart::route('/{record}/edit'),
         ];
     }
 }

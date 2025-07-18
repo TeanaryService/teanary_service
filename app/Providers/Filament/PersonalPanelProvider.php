@@ -16,15 +16,18 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\App;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class PersonalPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $locale = request()->segment(1) ?? App::getLocale();
+
         return $panel
             ->id('personal')
-            ->path('personal')
+            ->path($locale . '/personal')
             ->login()
             ->registration()
             ->passwordReset()

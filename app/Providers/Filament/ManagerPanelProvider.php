@@ -18,6 +18,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
@@ -25,10 +26,12 @@ class ManagerPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $locale = request()->segment(1) ?? App::getLocale();
+
         return $panel
             ->default()
             ->id('manamer')
-            ->path('{locale}/m')
+            ->path($locale . '/manager')
             ->login()
             ->authGuard('manager')
             ->colors([

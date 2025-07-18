@@ -182,9 +182,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListUsers::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateUser::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditUser::class, '/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

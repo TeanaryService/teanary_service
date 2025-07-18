@@ -149,9 +149,9 @@ class CountryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListCountries::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateCountry::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditCountry::class, '/{record}/edit'),
+            'index' => Pages\ListCountries::route('/'),
+            'create' => Pages\CreateCountry::route('/create'),
+            'edit' => Pages\EditCountry::route('/{record}/edit'),
         ];
     }
 }

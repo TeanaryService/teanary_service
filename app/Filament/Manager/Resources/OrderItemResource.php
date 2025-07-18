@@ -191,9 +191,9 @@ class OrderItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListOrderItems::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateOrderItem::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditOrderItem::class, '/{record}/edit'),
+            'index' => Pages\ListOrderItems::route('/'),
+            'create' => Pages\CreateOrderItem::route('/create'),
+            'edit' => Pages\EditOrderItem::route('/{record}/edit'),
         ];
     }
 }

@@ -124,9 +124,9 @@ class SpecificationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => getFilamentUrl(Pages\ListSpecifications::class, '/'),
-            'create' => getFilamentUrl(Pages\CreateSpecification::class, '/create'),
-            'edit' => getFilamentUrl(Pages\EditSpecification::class, '/{record}/edit'),
+            'index' => Pages\ListSpecifications::route('/'),
+            'create' => Pages\CreateSpecification::route('/create'),
+            'edit' => Pages\EditSpecification::route('/{record}/edit'),
         ];
     }
 }

@@ -1,13 +1,11 @@
 <?php
 
-use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\AboutUs;
 use App\Livewire\Home;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
 use App\Models\User;
 use App\Services\LocaleCurrencyService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
