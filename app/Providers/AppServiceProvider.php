@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
         Filament::registerRenderHook(
             'panels::topbar.start',
-            fn() => '<a class="text-md font-bold" target="_blank" href="' . switch_locale_url('home') . '">首页</a>'
+            fn() => '<a class="text-md font-bold" target="_blank" href="' . locaRoute('home') . '">首页</a>'
         );
     }
 }
