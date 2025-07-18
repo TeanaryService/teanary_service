@@ -1,5 +1,5 @@
 <div class="bg-gray-50 min-h-screen py-10">
-    <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-7xl mx-auto px-6">
         <div class="flex flex-col md:flex-row gap-8">
             {{-- 分类侧栏 --}}
             <aside class="md:w-1/4">

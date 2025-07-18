@@ -14,7 +14,7 @@
     $attributes = $product->attributeValues ?? collect();
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 py-9 min-h-screen">
+<div class="max-w-7xl mx-auto px-6 py-12 min-h-screen bg-white">
     <div class="flex flex-col md:flex-row gap-8">
         {{-- 商品图片 --}}
         <div class="md:w-1/2 flex justify-center items-center">
