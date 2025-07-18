@@ -41,4 +41,17 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function ($user) {
+            // 生成临时头像
+            $image = generateRandomImage();
+
+            // 添加到媒体库（collection 名要与你注册的一致）
+            $user->addMedia($image)
+                ->preservingOriginal()
+                ->toMediaCollection('avatars');
+        });
+    }
 }

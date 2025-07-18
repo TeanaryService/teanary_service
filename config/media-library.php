@@ -1,26 +1,7 @@
 <?php
 
-use App\Models\Brand;
-use App\Models\Log;
-use App\Models\Manager;
-use App\Models\OrderReturn;
-use App\Models\OrderShipment;
-use App\Models\Product;
-use App\Models\ProductStock;
-use App\Models\ProductVariant;
-use App\Models\PurchaseOrder;
-use App\Models\StockCheck;
-use App\Models\Team;
 use App\Models\User;
-use App\Models\WarehouseTransfer;
 use App\Support\MediaLibrary\AvatarPathGenerator;
-use App\Support\MediaLibrary\BrandLogoPathGenerator;
-use App\Support\MediaLibrary\CredentialPathGenerator;
-use App\Support\MediaLibrary\LogPathGenerator;
-use App\Support\MediaLibrary\OrderReturnPathGenerator;
-use App\Support\MediaLibrary\ProductPathGenerator;
-use App\Support\MediaLibrary\ProductVariantPathGenerator;
-use App\Support\MediaLibrary\QrCodePathGenerator;
 
 return [
 
@@ -118,22 +99,6 @@ return [
         // or
         // 'model_morph_alias' => PathGenerator::class
         User::class => AvatarPathGenerator::class,
-        Manager::class => AvatarPathGenerator::class,
-        Team::class => AvatarPathGenerator::class,
-
-        Brand::class => BrandLogoPathGenerator::class,
-        ProductVariant::class => ProductVariantPathGenerator::class,
-        Product::class => ProductPathGenerator::class,
-
-        // 二维码
-        OrderShipment::class => QrCodePathGenerator::class, //发货单
-        ProductStock::class => QrCodePathGenerator::class, //库存
-        StockCheck::class => QrCodePathGenerator::class, //盘点单
-        WarehouseTransfer::class => QrCodePathGenerator::class, //调拔单
-        PurchaseOrder::class => QrCodePathGenerator::class, //采购单
-
-        // 日志
-        Log::class => LogPathGenerator::class
     ],
 
     /*
