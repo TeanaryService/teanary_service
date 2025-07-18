@@ -8,7 +8,7 @@
     $desc = $translation && $translation->description ? $translation->description : '';
     $shortDesc = $translation && $translation->short_description ? $translation->short_description : '';
     $variant = $variants->where('id', $selectedVariantId)->first();
-    $images = $variant ? $variant->getMedia('image') : collect();
+    $images = $product->getMedia('images');
     $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
     $attributes = $product->attributeValues ?? collect();
 @endphp
@@ -21,7 +21,7 @@
                 <div x-data="{ active: 0 }" class="w-full">
                     <div class="relative w-full aspect-square overflow-hidden rounded-xl shadow-lg">
                         @foreach($images as $i => $img)
-                            <img src="{{ $img->getUrl('thumb') }}"
+                            <img src="{{ $img->getUrl() }}"
                                  alt="{{ $name }}"
                                  class="absolute inset-0 w-full h-full object-cover transition-all duration-500"
                                  x-show="active === {{ $i }}">
@@ -112,7 +112,3 @@
         </div>
     @endif
 </div>
-
-@push('scripts')
-<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-@endpush
