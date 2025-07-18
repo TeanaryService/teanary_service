@@ -8,8 +8,8 @@ use App\Services\LocaleCurrencyService;
 
 class ProductDetail extends Component
 {
-    private $product;
-    private $variants = [];
+    public $product;
+    public $variants;
     private $selectedVariantId;
     private $categoryNames = [];
 

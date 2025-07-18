@@ -89,7 +89,7 @@
                                     ->implode(' / ');
                             @endphp
                             <button wire:click="selectVariant({{ $v->id }})"
-                                class="px-4 py-2 rounded border {{ $selectedVariantId == $v->id ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700' }}">
+                                class="px-4 py-2 rounded border cursor-pointer {{ $selectedVariantId == $v->id ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700' }}">
                                 {{ $specs ?: $v->sku }}
                             </button>
                         @endforeach
