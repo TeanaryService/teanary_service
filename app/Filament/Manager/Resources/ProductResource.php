@@ -12,6 +12,7 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class ProductResource extends Resource
 {
@@ -54,6 +56,12 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
+            SpatieMediaLibraryFileUpload::make('images')
+                ->label(__('filament_product.images'))
+                ->multiple()
+                ->columnSpanFull()
+                ->collection('images')
+                ->reorderable(),
             ...static::getAttributeValuesRepeater(),
             ...static::getProductCategoriesRepeater(),
             ...static::getProductBaseFields(),
@@ -178,6 +186,11 @@ class ProductResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('images')
+                    ->label(__('filament_product.images'))
+                    ->stacked()
+                    ->collection('images')
+                    ->conversion('thumb'),
                 // 多语言 name 列
                 Tables\Columns\TextColumn::make('productTranslations.name')
                     ->label(__('filament_product.name'))

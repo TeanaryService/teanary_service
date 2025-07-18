@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'images' => '主图',
     'name' => '商品名',
     'slug' => '商品标识',
     'status' => '商品状态',

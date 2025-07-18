@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'images' => 'Master Images',
     'name' => 'Product Name',
     'slug' => 'Product Slug',
     'status' => 'Product Status',

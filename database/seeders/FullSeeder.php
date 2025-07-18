@@ -191,6 +191,8 @@ class FullSeeder extends Seeder
                 'slug' => 'product-' . $i,
                 'status' => \App\Enums\ProductStatusEnum::default(),
             ]);
+            //添加图片
+            $this->attachRandomImagesToProduct($product);
 
             $product->productCategories()->attach($categories->random()->id);
 
@@ -277,9 +279,22 @@ class FullSeeder extends Seeder
             $promotion->userGroups()->sync($userGroups->pluck('id')->toArray());
 
             $product = $products->random();
-            $promotion->productVariants()->attach($product->productVariants->first()->id,['product_id' => $product->id]);
+            $promotion->productVariants()->attach($product->productVariants->first()->id, ['product_id' => $product->id]);
 
             return $promotion;
         });
+    }
+
+    private function attachRandomImagesToProduct($product, $min = 2, $max = 4)
+    {
+        $count = rand($min, $max);
+
+        for ($i = 0; $i < $count; $i++) {
+            $image = generateRandomImage();
+
+            $product->addMedia($image)
+                ->preservingOriginal()
+                ->toMediaCollection('images');
+        }
     }
 }

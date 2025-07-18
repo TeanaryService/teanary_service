@@ -2,9 +2,11 @@
 
 use App\Models\Category;
 use App\Models\Manager;
+use App\Models\Product;
 use App\Models\User;
 use App\Support\MediaLibrary\AvatarPathGenerator;
 use App\Support\MediaLibrary\CategoryPathGenerator;
+use App\Support\MediaLibrary\ProductPathGenerator;
 
 return [
 
@@ -105,6 +107,8 @@ return [
         Manager::class => AvatarPathGenerator::class,
 
         Category::class => CategoryPathGenerator::class,
+
+        Product::class => ProductPathGenerator::class,
     ],
 
     /*
