@@ -24,5 +24,11 @@ return [
     'cart' => '购物车',
     'empty_cart' => '购物车还没有商品',
     'total' => '商品总价',
-    'checkout' => '结账'
+    'checkout' => '结账',
+    'product' => '商品',
+    'specification' => '规格',
+    'price' => '单价',
+    'qty' => '数量',
+    'select_all' => '全选',
+    'inverse_select' => '反选'
 ];

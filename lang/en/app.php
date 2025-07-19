@@ -25,5 +25,11 @@ return [
     'empty_cart' => 'No items in cart',
     'total' => 'Subtotal',
     'go_to_check' => 'Checkout',
+    'product' => 'Product',
+    'specification' => 'Specification',
+    'price' => 'Price',
+    'qty' => 'Qty',
+    'select_all' => 'Select All',
+    'inverse_select' => 'Inverse',
 
 ];

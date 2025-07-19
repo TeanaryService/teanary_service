@@ -24,8 +24,7 @@ class SetLocaleAndCurrency
         // ------------------------------
         // 设置货币
         // ------------------------------
-        $currencyCode = $request->query('currency')
-            ?? Session::get('currency');
+        $currencyCode = Session::get('currency', $service->getDefaultCurrencyCode());
 
         $currency = $service->getCurrencyByCode($currencyCode);
         Session::put('currency', $currency->code);
