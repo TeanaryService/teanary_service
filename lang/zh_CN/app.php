@@ -30,5 +30,7 @@ return [
     'price' => '单价',
     'qty' => '数量',
     'select_all' => '全选',
-    'inverse_select' => '反选'
+    'inverse_select' => '反选',
+    'cookie_message' => '我们使用 Cookie 以提升您的浏览体验，分析流量并个性化内容。继续浏览即表示您同意我们的 Cookie 政策。',
+    'cookie_accept' => '同意'
 ];

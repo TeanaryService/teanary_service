@@ -31,5 +31,6 @@ return [
     'qty' => 'Qty',
     'select_all' => 'Select All',
     'inverse_select' => 'Inverse',
-
+    'cookie_message' => 'We use cookies to improve your experience, analyze traffic, and personalize content. By continuing, you agree to our cookie policy.',
+    'cookie_accept' => 'Accept',
 ];

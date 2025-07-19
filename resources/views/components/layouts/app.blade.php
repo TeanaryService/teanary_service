@@ -80,6 +80,7 @@
     </div>
 
     <x-footer />
+    @livewire('components.cookie-consent')
 </body>
 
 </html>
