@@ -158,7 +158,7 @@
 
     {{-- Tab 切换 --}}
     <div class="py-6">
-        <div class="flex border-b mb-4">
+        <div class="flex border-b mb-4 border-green-600">
             <a href="?tab=desc"
                 class="px-4 py-2 font-semibold {{ $tab == 'desc' ? 'border-b-2 border-green-600 text-green-700' : 'text-gray-500' }}">{{ __('home.product_description') }}</a>
             <a href="?tab=reviews"
@@ -171,9 +171,7 @@
                 </div>
             @endif
         @else
-            <div class="px-6">
-                @livewire('components.product-reviews', ['productId' => $product->id], key('product-reviews-' . $product->id))
-            </div>
+            @livewire('components.product-reviews', ['productId' => $product->id], key('product-reviews-' . $product->id))
         @endif
     </div>
 

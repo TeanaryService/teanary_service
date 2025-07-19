@@ -112,6 +112,8 @@ class ProductReviewResource extends Resource
                 Forms\Components\TextInput::make('rating')
                     ->label(__('filament_product_review.rating'))
                     ->required()
+                    ->maxValue(5)
+                    ->minValue(1)
                     ->numeric()
                     ->default(5),
                 Forms\Components\Textarea::make('content')
