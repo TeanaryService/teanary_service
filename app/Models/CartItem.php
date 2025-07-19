@@ -39,7 +39,6 @@ class CartItem extends Model
         'product_id' => 'int',
         'product_variant_id' => 'int',
         'qty' => 'int',
-        'price' => 'float'
     ];
 
     protected $fillable = [
@@ -47,7 +46,6 @@ class CartItem extends Model
         'product_id',
         'product_variant_id',
         'qty',
-        'price'
     ];
 
     public function cart(): BelongsTo

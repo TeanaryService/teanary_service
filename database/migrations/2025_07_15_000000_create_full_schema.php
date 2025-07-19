@@ -199,7 +199,6 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_variant_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('qty')->default(1);
-            $table->decimal('price', 12, 2);
             $table->timestamps();
         });
 

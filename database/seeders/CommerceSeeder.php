@@ -163,7 +163,6 @@ class CommerceSeeder extends Seeder
                         'product_id' => $product->id,
                         'product_variant_id' => $variant->id,
                         'qty' => rand(1, 5),
-                        'price' => $price,
                     ]);
                 } else {
                     CartItem::create([
@@ -171,7 +170,6 @@ class CommerceSeeder extends Seeder
                         'product_id' => $product->id,
                         'product_variant_id' => null,
                         'qty' => rand(1, 5),
-                        'price' => rand(10, 100),
                     ]);
                 }
             }

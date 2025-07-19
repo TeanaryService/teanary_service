@@ -113,11 +113,6 @@ class CartItemResource extends Resource
                     ->required()
                     ->numeric()
                     ->default(1),
-                Forms\Components\TextInput::make('price')
-                    ->label(__('filament_cart_item.price'))
-                    ->required()
-                    ->numeric()
-                    ->prefix('￥'),
             ]);
     }
 
@@ -163,10 +158,6 @@ class CartItemResource extends Resource
                 Tables\Columns\TextColumn::make('qty')
                     ->label(__('filament_cart_item.qty'))
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->label(__('filament_cart_item.price'))
-                    ->money('CNY')
                     ->sortable(),
                 ...static::getTimestampsColumns()
             ])
