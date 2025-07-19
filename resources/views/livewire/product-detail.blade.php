@@ -72,6 +72,37 @@
             <div class="mb-4">
                 <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
             </div>
+            {{-- 规格参数 --}}
+            @if($variant)
+                <div class="mb-4 text-gray-700">
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-2">
+                        @if($variant->weight)
+                            <div>
+                                <span class="font-semibold">{{ __('home.weight') }}:</span>
+                                <span>{{ rtrim(rtrim(number_format($variant->weight, 2), '0'), '.') }} g</span>
+                            </div>
+                        @endif
+                        @if($variant->length)
+                            <div>
+                                <span class="font-semibold">{{ __('home.length') }}:</span>
+                                <span>{{ rtrim(rtrim(number_format($variant->length, 2), '0'), '.') }} cm</span>
+                            </div>
+                        @endif
+                        @if($variant->width)
+                            <div>
+                                <span class="font-semibold">{{ __('home.width') }}:</span>
+                                <span>{{ rtrim(rtrim(number_format($variant->width, 2), '0'), '.') }} cm</span>
+                            </div>
+                        @endif
+                        @if($variant->height)
+                            <div>
+                                <span class="font-semibold">{{ __('home.height') }}:</span>
+                                <span>{{ rtrim(rtrim(number_format($variant->height, 2), '0'), '.') }} cm</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endif
             {{-- 规格选择 --}}
             @if ($variants->count() > 1)
                 <div class="mb-4">

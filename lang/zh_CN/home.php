@@ -19,4 +19,8 @@ return [
     'select_variant' => '选择规格',
     'buy_now' => '立即购买',
     'attributes' => '属性',
+    'weight' => '重量',
+    'length' => '长度',
+    'width' => '宽度',
+    'height' => '高度',
 ];

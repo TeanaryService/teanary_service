@@ -32,7 +32,8 @@
         <div class="fixed w-full top-0 bg-white border-b border-gray-200 z-50">
             <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
                 <div class="hidden md:block">
-                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-12 max-h-12 md:max-w-18 md:max-h-18" /></a>
+                    <a href="{{ locaRoute('home') }}"><x-layouts.logo
+                            imgClass="max-w-12 max-h-12 md:max-w-18 md:max-h-18" /></a>
                 </div>
 
                 <!-- 搜索框 -->
@@ -74,11 +75,8 @@
     <div class="main">
         {{ $slot }}
     </div>
-    <footer class="py-8">
-        <div class="block text-center md:flex text-sm text-gray-500 justify-center py-6">
-            <x-layouts.logo imgClass="w-20 h-20" :showText="false" />
-        </div>
-    </footer>
+
+    <x-footer />
 
     @livewireScripts
 </body>

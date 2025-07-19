@@ -19,4 +19,8 @@ return [
     'select_variant' => 'Select Variant',
     'buy_now' => 'Buy Now',
     'attributes' => 'Attributes',
+    'weight' => 'Weight',
+    'length' => 'Length',
+    'width' => 'Width',
+    'height' => 'Height',
 ];
