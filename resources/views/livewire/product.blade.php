@@ -1,5 +1,46 @@
-<div class="bg-gray-50 min-h-screen py-10">
+@php
+    // 构建面包屑
+    $breadcrumbs = [
+        [
+            'label' => __('app.categories'),
+            'url' => locaRoute('product'),
+        ]
+    ];
+    if ($categoryId && !empty($categories)) {
+        $category = null;
+        $parent = null;
+        foreach ($categories as $cat) {
+            if ($cat['id'] == $categoryId) {
+                $category = $cat;
+                break;
+            }
+            foreach ($cat['children'] ?? [] as $child) {
+                if ($child['id'] == $categoryId) {
+                    $parent = $cat;
+                    $category = $child;
+                    break 2;
+                }
+            }
+        }
+        if ($parent) {
+            $breadcrumbs[] = [
+                'label' => $parent['name'],
+                'url' => locaRoute('product', ['category_id' => $parent['id']]),
+            ];
+        }
+        if ($category) {
+            $breadcrumbs[] = [
+                'label' => $category['name'],
+                'url' => '',
+            ];
+        }
+    }
+@endphp
+
+<div class="bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto px-6">
+        <x-breadcrumbs :items="$breadcrumbs" />
+
         <div class="flex flex-col md:flex-row gap-8">
             {{-- 分类侧栏 --}}
             <aside class="md:w-1/4">
@@ -29,13 +70,13 @@
 
                 {{-- 属性筛选 --}}
                 <form method="GET" action="{{ locaRoute('product') }}" class="mt-8">
-                    @foreach($attributes as $attr)
+                    @foreach ($attributes as $attr)
                         <div class="mb-4">
                             <div class="font-semibold text-gray-700 mb-2">{{ $attr['name'] }}</div>
-                            @foreach($attr['values'] as $val)
+                            @foreach ($attr['values'] as $val)
                                 <label class="flex items-center mb-1 cursor-pointer">
-                                    <input type="checkbox" name="attributes[{{ $attr['id'] }}][]" value="{{ $val['id'] }}"
-                                        @if(isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array)$attributeFilters[$attr['id']])) checked @endif
+                                    <input type="checkbox" name="attributes[{{ $attr['id'] }}][]"
+                                        value="{{ $val['id'] }}" @if (isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array) $attributeFilters[$attr['id']])) checked @endif
                                         class="mr-2 rounded border-gray-300 text-green-600 focus:ring-green-500">
                                     <span class="text-gray-600">{{ $val['name'] }}</span>
                                 </label>
@@ -77,9 +118,11 @@
     if ($categoryId && !empty($categories)) {
         $locale = session('lang');
         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
-        $category = collect($categories)->flatMap(function($cat) {
-            return array_merge([$cat], $cat['children']->toArray() ?? []);
-        })->firstWhere('id', $categoryId);
+        $category = collect($categories)
+            ->flatMap(function ($cat) {
+                return array_merge([$cat], $cat['children']->toArray() ?? []);
+            })
+            ->firstWhere('id', $categoryId);
         if ($category) {
             $seoTitle = $category['name'];
             $seoDesc = $category['name'];
@@ -96,7 +139,7 @@
         foreach ($attributeFilters as $attrId => $valueIds) {
             $attr = collect($attributes)->firstWhere('id', $attrId);
             if ($attr && !empty($valueIds)) {
-                foreach ((array)$valueIds as $vid) {
+                foreach ((array) $valueIds as $vid) {
                     $val = collect($attr['values'])->firstWhere('id', $vid);
                     if ($val) {
                         $filterNames[] = $attr['name'] . ':' . $val['name'];
@@ -107,7 +150,7 @@
         if ($filterNames) {
             $strFilterName = implode(',', $filterNames);
             $seoKeywords .= $strFilterName;
-            
+
             $seoTitle = $strFilterName . $seoTitle;
             $seoDesc .= $strFilterName;
         }
@@ -115,10 +158,6 @@
 @endphp
 
 @pushOnce('seo')
-    <x-layouts.seo 
-        title="{{ $seoTitle }}" 
-        description="{{ $seoDesc }}" 
-        image="{{ $seoImage }}"
-        keywords="{{ $seoKeywords }}"
-    />
+    <x-layouts.seo title="{{ $seoTitle }}" description="{{ $seoDesc }}" image="{{ $seoImage }}"
+        keywords="{{ $seoKeywords }}" />
 @endPushOnce

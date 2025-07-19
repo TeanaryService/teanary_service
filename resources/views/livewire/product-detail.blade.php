@@ -11,27 +11,42 @@
     $images = $product->getMedia('images');
     $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
     $attributes = $product->attributeValues ?? collect();
+
+    $breadcrumbs = [
+        [
+            'label' => __('app.categories'),
+            'url' => locaRoute('product'),
+        ],
+        [
+            'label' => $name,
+            'url' => ''
+        ]
+    ];
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 py-12 min-h-screen bg-white">
+<div class="max-w-7xl mx-auto px-6 py-2 min-h-screen bg-white">
+    <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col md:flex-row gap-8">
         {{-- 商品图片幻灯片 --}}
         <div class="md:w-1/2 flex justify-center items-center">
-            @if($images->count())
+            @if ($images->count())
                 <div x-data="{ active: 0 }" class="w-full">
                     <div class="relative w-full aspect-square overflow-hidden rounded-xl shadow-lg">
-                        @foreach($images as $i => $img)
-                            <img src="{{ $img->getUrl() }}"
-                                 alt="{{ $name }}"
-                                 class="absolute inset-0 w-full h-full object-cover transition-all duration-500"
-                                 x-show="active === {{ $i }}">
+                        @foreach ($images as $i => $img)
+                            <img src="{{ $img->getUrl() }}" alt="{{ $name }}"
+                                class="absolute inset-0 w-full h-full object-cover transition-all duration-500"
+                                x-show="active === {{ $i }}">
                         @endforeach
                     </div>
                     <div class="flex justify-center gap-2 mt-3">
-                        @foreach($images as $i => $img)
+                        @foreach ($images as $i => $img)
                             <button type="button"
                                 class="w-4 h-4 rounded-full border-2 border-green-600 {{ $i === 0 ? 'bg-green-600' : 'bg-white' }}"
-                                :class="{ 'bg-green-600': active === {{ $i }}, 'bg-white': active !== {{ $i }} }"
+                                :class="{
+                                    'bg-green-600': active === {{ $i }},
+                                    'bg-white': active !==
+                                        {{ $i }}
+                                }"
                                 x-on:click="active = {{ $i }}"></button>
                         @endforeach
                     </div>
@@ -54,15 +69,18 @@
                 @endif
             </div>
             {{-- 商品属性 --}}
-            @if($attributes->count())
+            @if ($attributes->count())
                 <div class="mb-2 text-gray-700">
                     <span class="mr-2">{{ __('home.attributes') }}:</span>
-                    @foreach($attributes as $attrValue)
+                    @foreach ($attributes as $attrValue)
                         @php
-                            $attrTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
+                            $attrTrans = $attrValue->attributeValueTranslations
+                                ->where('language_id', $lang?->id)
+                                ->first();
                             $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->id;
                         @endphp
-                        <span class="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded mr-1">{{ $attrName }}</span>
+                        <span
+                            class="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded mr-1">{{ $attrName }}</span>
                     @endforeach
                 </div>
             @endif
@@ -73,28 +91,28 @@
                 <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
             </div>
             {{-- 规格参数 --}}
-            @if($variant)
+            @if ($variant)
                 <div class="mb-4 text-gray-700">
                     <div class="grid grid-cols-2 gap-x-6 gap-y-2">
-                        @if($variant->weight)
+                        @if ($variant->weight)
                             <div>
                                 <span class="font-semibold">{{ __('home.weight') }}:</span>
                                 <span>{{ rtrim(rtrim(number_format($variant->weight, 2), '0'), '.') }} g</span>
                             </div>
                         @endif
-                        @if($variant->length)
+                        @if ($variant->length)
                             <div>
                                 <span class="font-semibold">{{ __('home.length') }}:</span>
                                 <span>{{ rtrim(rtrim(number_format($variant->length, 2), '0'), '.') }} cm</span>
                             </div>
                         @endif
-                        @if($variant->width)
+                        @if ($variant->width)
                             <div>
                                 <span class="font-semibold">{{ __('home.width') }}:</span>
                                 <span>{{ rtrim(rtrim(number_format($variant->width, 2), '0'), '.') }} cm</span>
                             </div>
                         @endif
-                        @if($variant->height)
+                        @if ($variant->height)
                             <div>
                                 <span class="font-semibold">{{ __('home.height') }}:</span>
                                 <span>{{ rtrim(rtrim(number_format($variant->height, 2), '0'), '.') }} cm</span>
@@ -145,5 +163,6 @@
 </div>
 
 @pushOnce('seo')
-    <x-layouts.seo title="{{ $name }}" description="{{ $shortDesc }}" image="{{ $images->first()->getUrl() }}"/>
+    <x-layouts.seo title="{{ $name }}" description="{{ $shortDesc }}"
+        image="{{ $images->first()->getUrl() }}" />
 @endPushOnce
