@@ -19,9 +19,10 @@
         ],
         [
             'label' => $name,
-            'url' => ''
-        ]
+            'url' => '',
+        ],
     ];
+    $tab = request()->input('tab', 'desc');
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 py-2 min-h-screen bg-white">
@@ -154,12 +155,28 @@
             </div>
         </div>
     </div>
-    {{-- 商品详情描述 --}}
-    @if ($desc)
-        <div class="mt-10 prose max-w-none text-gray-800">
-            {!! nl2br(e($desc)) !!}
+
+    {{-- Tab 切换 --}}
+    <div class="py-6">
+        <div class="flex border-b mb-4">
+            <a href="?tab=desc"
+                class="px-4 py-2 font-semibold {{ $tab == 'desc' ? 'border-b-2 border-green-600 text-green-700' : 'text-gray-500' }}">{{ __('home.product_description') }}</a>
+            <a href="?tab=reviews"
+                class="px-4 py-2 font-semibold {{ $tab == 'reviews' ? 'border-b-2 border-green-600 text-green-700' : 'text-gray-500' }}">{{ __('home.product_reviews') }}</a>
         </div>
-    @endif
+        @if ($tab == 'desc')
+            @if ($desc)
+                <div class="prose max-w-none text-gray-800 px-6">
+                    {!! nl2br(e($desc)) !!}
+                </div>
+            @endif
+        @else
+            <div class="px-6">
+                @livewire('components.product-reviews', ['productId' => $product->id], key('product-reviews-' . $product->id))
+            </div>
+        @endif
+    </div>
+
 </div>
 
 @pushOnce('seo')

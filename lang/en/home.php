@@ -26,4 +26,13 @@ return [
     'height' => 'Height',
     'product_list_seo_title' => 'All Products',
     'product_list_seo_desc' => 'KM Flora global flower delivery, premium fresh cut flowers and bouquets, shop online, worldwide shipping.',
+    'product_description' => 'Product Description',
+    'product_reviews' => 'Product Reviews',
+    'review_placeholder' => 'Please enter your review...',
+    'submit_review' => 'Submit Review',
+    'login_to_review' => 'Login to post a review',
+    'no_reviews' => 'No reviews yet',
+    'review_submitted' => 'Review submitted, will be shown after approval.',
+    'anonymous' => 'Anonymous',
+    'rating' => 'Rating'
 ];

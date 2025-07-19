@@ -26,4 +26,13 @@ return [
     'height' => '高度',
     'product_list_seo_title' => '全部商品',
     'product_list_seo_desc' => 'KM Flora 全球鲜花速递，精选鲜切花与花束，在线选购，全球配送。',
+    'product_description' => '商品详情',
+    'product_reviews' => '商品评价',
+    'review_placeholder' => '请填写您的评价内容...',
+    'submit_review' => '提交评价',
+    'login_to_review' => '登录后可发表评价',
+    'no_reviews' => '暂无评价',
+    'review_submitted' => '评价已提交，待审核后显示。',
+    'anonymous' => '匿名用户',
+    'rating' => '评分'
 ];
