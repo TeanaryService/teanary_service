@@ -155,23 +155,14 @@ class CommerceSeeder extends Seeder
             for ($i = 0; $i < $cartItemsCount; $i++) {
                 $product = $products->random();
 
-                if (rand(0, 1)) {
-                    $variant = $productVariants->where('product_id', $product->id)->random();
-                    $price = $variant->price ?? rand(10, 100);
-                    CartItem::create([
-                        'cart_id' => $cart->id,
-                        'product_id' => $product->id,
-                        'product_variant_id' => $variant->id,
-                        'qty' => rand(1, 5),
-                    ]);
-                } else {
-                    CartItem::create([
-                        'cart_id' => $cart->id,
-                        'product_id' => $product->id,
-                        'product_variant_id' => null,
-                        'qty' => rand(1, 5),
-                    ]);
-                }
+                $variant = $productVariants->where('product_id', $product->id)->random();
+                $price = $variant->price ?? rand(10, 100);
+                CartItem::create([
+                    'cart_id' => $cart->id,
+                    'product_id' => $product->id,
+                    'product_variant_id' => $variant->id,
+                    'qty' => rand(1, 5),
+                ]);
             }
 
             // 创建订单
@@ -192,7 +183,7 @@ class CommerceSeeder extends Seeder
 
             $total = 0;
             foreach ($cart->cartItems as $item) {
-                $price = $item->price;
+                $price = $item->productVariant->price;
                 $qty = $item->qty;
 
                 OrderItem::create([

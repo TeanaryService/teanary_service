@@ -12,6 +12,10 @@
     $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
     $attributes = $product->attributeValues ?? collect();
 
+    $productId = $product->id;
+    $variantId = $selectedVariantId;
+    $qty = 1;
+
     $breadcrumbs = [
         [
             'label' => __('app.categories'),
@@ -147,9 +151,15 @@
                 </div>
             @endif
             {{-- 购买按钮 --}}
-            <div class="mt-6">
+            <div class="mt-6 flex items-center gap gap-4">
                 <button
+                    wire:click="$dispatch('cart:add', { productId: {{ $productId }}, variantId: {{ $variantId }}, qty: {{ $qty }} })"
                     class="w-full px-6 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition">
+                    {{ __('home.addCart') }}
+                </button>
+
+                <button
+                    class="w-full px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">
                     {{ __('home.buy_now') }}
                 </button>
             </div>

@@ -24,6 +24,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @livewireScripts
     <link rel="shortcut icon" type="image/icon" href="{{ asset('/favicon.png') }}" />
 </head>
 
@@ -44,6 +45,8 @@
                 </div>
 
                 <div class="flex items-center gap-x-4 h-10">
+                    @livewire('components.cart-dropdown')
+
                     @auth
                         <x-user-menu />
                     @endauth
@@ -77,8 +80,6 @@
     </div>
 
     <x-footer />
-
-    @livewireScripts
 </body>
 
 </html>
