@@ -20,6 +20,8 @@ return [
     'follow_us' => '关注我们',
     'rights_reserved' => '保留所有权利。',
     'home' => '首页',
+    'address' => '中国·云南·昆明',
+    'sub_name' => '中国·斗南',
 
     'cart' => '购物车',
     'empty_cart' => '购物车还没有商品',

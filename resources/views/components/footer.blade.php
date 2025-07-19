@@ -28,9 +28,9 @@
             <div>
                 <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.contact_us') }}</h3>
                 <ul class="space-y-1 text-gray-500">
-                    <li>📧 example@example.com</li>
-                    <li>📞 +86 123 4567 890</li>
-                    <li>📍 云南省昆明市五华区</li>
+                    <li>📧 business@kmflora.com</li>
+                    <li>📞 +86 18184839903</li>
+                    <li>📍 {{ __('app.address') }}</li>
                 </ul>
             </div>
 

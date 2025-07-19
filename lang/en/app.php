@@ -20,6 +20,9 @@ return [
     'follow_us' => 'Follow Us',
     'rights_reserved' => 'All rights reserved.',
     'home' => 'Home',
+    'address' => 'Kunming · Yunnan · China',
+    'sub_name' => 'DouNan,China',
+
 
     'cart' => 'Shopping Cart',
     'empty_cart' => 'No items in cart',

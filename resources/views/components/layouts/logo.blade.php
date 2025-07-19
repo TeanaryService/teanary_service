@@ -9,7 +9,8 @@
 
     @if ($showText)
         <div class="hidden lg:block">
-            <p class="text-xl font-bold">{{ config('app.name') }}</p>
+            <p class="text-xl font-bold mb-1">{{ config('app.name') }}</p>
+            <p class="text-md">{{ __('app.sub_name') }}</p>
         </div>
     @endif
 </div>
