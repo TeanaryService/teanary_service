@@ -24,4 +24,6 @@ return [
     'length' => 'Length',
     'width' => 'Width',
     'height' => 'Height',
+    'product_list_seo_title' => 'All Products',
+    'product_list_seo_desc' => 'KM Flora global flower delivery, premium fresh cut flowers and bouquets, shop online, worldwide shipping.',
 ];

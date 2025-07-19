@@ -24,4 +24,6 @@ return [
     'length' => '长度',
     'width' => '宽度',
     'height' => '高度',
+    'product_list_seo_title' => '全部商品',
+    'product_list_seo_desc' => 'KM Flora 全球鲜花速递，精选鲜切花与花束，在线选购，全球配送。',
 ];
