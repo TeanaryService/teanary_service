@@ -44,12 +44,12 @@
                 </button>
             </form>
         @else
-            <div class="mb-4 bg-gray-50 rounded-lg p-6 shadow flex flex-col items-center">
+            <div class="mb-4 bg-gray-50 rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
                 <a href="{{ route('filament.personal.auth.login') }}"
-                    class="text-green-600 font-semibold mr-4">{{ __('app.login') }}</a>
+                    class="text-green-600 font-semibold">{{ __('app.login') }}</a>
                 <a href="{{ route('filament.personal.auth.register') }}"
                     class="text-green-600 font-semibold">{{ __('app.register') }}</a>
-                <span class="text-gray-500 ml-2 mt-2">{{ __('home.login_to_review') }}</span>
+                <span class="text-gray-500">{{ __('home.login_to_review') }}</span>
             </div>
         @endauth
     </div>
