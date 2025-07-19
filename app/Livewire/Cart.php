@@ -86,8 +86,9 @@ class Cart extends Component
 
     public function checkout()
     {
+        $locale = app()->getLocale();
         // 跳转到结账页面
-        return redirect()->route('checkout');
+        return redirect()->route('checkout', ['locale' => $locale]);
     }
 
     public function render()
