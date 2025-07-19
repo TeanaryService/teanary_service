@@ -4,9 +4,11 @@
 ])
 
 <div class="flex items-center justify-start md:justify-center gap-x-4">
-    <img class="rounded-lg {{ $imgClass }}" src="{{ asset('logo.png') }}" />
+    <img class="h-auto w-auto rounded-lg object-contain {{ $imgClass }}"
+        src="{{ asset('logo.png') }}" alt="Logo" />
+
     @if ($showText)
-        <div class="hidden md:block">
+        <div class="hidden lg:block">
             <p class="text-xl font-bold">{{ config('app.name') }}</p>
         </div>
     @endif

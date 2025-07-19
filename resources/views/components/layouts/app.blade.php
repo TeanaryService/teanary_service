@@ -30,46 +30,45 @@
 <body class="body bg-green-50">
     <div>
         <div class="fixed w-full top-0 bg-white border-b border-gray-200 z-50">
-            <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-6">
-                <div>
-                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="w-16 h-16" /></a>
+            <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
+                <div class="hidden md:block">
+                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-12 max-h-12 md:max-w-18 md:max-h-18" /></a>
                 </div>
 
                 <!-- 搜索框 -->
-                <div x-data="{ open: false }" class="relative flex-1 max-w-lg mx-12">
-                    <form method="GET" action="{{ locaRoute('product') }}" class="hidden sm:block w-full">
-                        <div class="relative">
-                            <input type="text" name="search" value="{{ request('search') }}"
-                                placeholder="{{ __('app.search_placeholder') }}"
-                                class="w-full px-4 py-3 pl-12 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                            <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                                <x-heroicon-o-magnifying-glass class="w-5 h-5" />
-                            </button>
-                        </div>
-                    </form>
+                <x-search-input />
+
+                <div class="block md:hidden">
+                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-18 max-h-18" /></a>
                 </div>
 
-                <div class="flex items-center gap-x-8">
+                <div class="flex items-center gap-x-4 h-10">
                     @auth
                         <x-user-menu />
                     @endauth
                     @guest
                         <a href="{{ route('filament.personal.auth.login') }}"
-                            class="text-gray-700 hover:text-green-600 font-medium">{{ __('app.login') }}</a>
+                            class="text-green-600 hover:text-green-800 font-medium flex items-center gap gap-x-2">
+                            <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
+                            <span class="hidden md:block">
+                                {{ __('app.login') }}
+                            </span>
+                        </a>
                         <a href="{{ route('filament.personal.auth.register') }}"
-                            class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700">
-                            {{ __('app.register') }}
+                            class="inline-flex items-center justify-center px-2 md:px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 h-10 gap gap-x-2">
+                            <x-heroicon-o-plus-circle class="w-6 h-6" />
+                            <span class="hidden md:block">{{ __('app.register') }}</span>
                         </a>
                     @endguest
 
-                    <div class="flex items-center gap-x-8">
+                    <div class="flex items-center gap-x-4 h-10">
                         <x-language-switch />
                         <x-currency-switch />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="h-16 w-full"></div>
+        <div class="h-20 w-full"></div>
     </div>
 
     <div class="main">
