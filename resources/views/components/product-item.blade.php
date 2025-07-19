@@ -28,7 +28,7 @@
             <img src="{{ $image }}" alt="{{ $name }}" 
                 class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300">
         </div>
-        <div class="p-6">
+        <div class="p-2 md:p-4">
             <h3 class="text-lg font-medium text-gray-900 mb-2">{{ $name }}</h3>
             @if ($priceText)
                 <p class="text-lg font-bold text-green-600">{{ $priceText }}</p>

@@ -25,7 +25,7 @@
     {{-- Categories Quick Access --}}
     <section class="max-w-7xl mx-auto py-20 px-6">
         <h2 class="text-3xl font-bold text-gray-900 mb-12">{{ __('home.browse_categories') }}</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
             @foreach ($categories as $category)
                 <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}"
                     class="group">
