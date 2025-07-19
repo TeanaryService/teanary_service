@@ -38,4 +38,38 @@ class Attribute extends Model
     {
         return $this->hasMany(AttributeValue::class);
     }
+
+    /**
+     * 获取所有属性及属性值（多语言），永久缓存
+     * @param int|null $langId
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getCachedAttributes(?int $langId = null)
+    {
+        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+
+        return \Illuminate\Support\Facades\Cache::rememberForever("attributes.with.translations.{$langId}", function () use ($langId) {
+            return static::with([
+                'attributeTranslations' => function ($q) use ($langId) {
+                    $q->where('language_id', $langId);
+                },
+                'attributeValues.attributeValueTranslations' => function ($q) use ($langId) {
+                    $q->where('language_id', $langId);
+                }
+            ])->get()->map(function ($attr) use ($langId) {
+                $trans = $attr->attributeTranslations->first();
+                return [
+                    'id' => $attr->id,
+                    'name' => $trans ? $trans->name : $attr->id,
+                    'values' => $attr->attributeValues->map(function ($val) use ($langId) {
+                        $valTrans = $val->attributeValueTranslations->first();
+                        return [
+                            'id' => $val->id,
+                            'name' => $valTrans ? $valTrans->name : $val->id,
+                        ];
+                    })->values(),
+                ];
+            });
+        });
+    }
 }

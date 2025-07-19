@@ -14,13 +14,17 @@ class Product extends Component
     private $search;
     private $categories = [];
     private $products = [];
+    private $attributeFilters = [];
+    private $allAttributes = [];
 
     public function mount(Request $request)
     {
         $this->categoryId = $request->input('category_id');
         $this->search = $request->input('search');
+        $this->attributeFilters = $request->input('attributes', []);
 
-        $this->categories = Category::getCachedCategories();
+        $this->categories = \App\Models\Category::getCachedCategories();
+        $this->allAttributes = \App\Models\Attribute::getCachedAttributes();
 
         // 如果提供了category_id但在分类树中找不到，则返回404
         if ($this->categoryId) {
@@ -34,7 +38,7 @@ class Product extends Component
             }
         }
 
-        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories']);
+        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues']);
 
         if ($this->categoryId) {
             $query->whereHas('productCategories', function ($q) {
@@ -43,11 +47,20 @@ class Product extends Component
         }
 
         if ($this->search) {
-            $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
+            $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
             $query->whereHas('productTranslations', function ($q) use ($lang) {
                 $q->where('language_id', $lang?->id)
                   ->where('name', 'like', '%' . $this->search . '%');
             });
+        }
+
+        // 属性筛选
+        foreach ($this->attributeFilters as $attrId => $valueIds) {
+            if (!empty($valueIds)) {
+                $query->whereHas('attributeValues', function ($q) use ($valueIds) {
+                    $q->whereIn('attribute_value_id', (array)$valueIds);
+                });
+            }
         }
 
         $this->products = $query->latest('id')->paginate(16);
@@ -57,9 +70,11 @@ class Product extends Component
     {
         return view('livewire.product', [
             'categories' => $this->categories,
+            'attributes' => $this->allAttributes,
             'products' => $this->products,
             'categoryId' => $this->categoryId,
             'search' => $this->search,
+            'attributeFilters' => $this->attributeFilters,
         ]);
     }
 }

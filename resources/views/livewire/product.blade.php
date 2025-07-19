@@ -26,6 +26,27 @@
                         </li>
                     @endforeach
                 </ul>
+
+                {{-- 属性筛选 --}}
+                <form method="GET" action="{{ locaRoute('product') }}" class="mt-8">
+                    @foreach($attributes as $attr)
+                        <div class="mb-4">
+                            <div class="font-semibold text-gray-700 mb-2">{{ $attr['name'] }}</div>
+                            @foreach($attr['values'] as $val)
+                                <label class="flex items-center mb-1 cursor-pointer">
+                                    <input type="checkbox" name="attributes[{{ $attr['id'] }}][]" value="{{ $val['id'] }}"
+                                        @if(isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array)$attributeFilters[$attr['id']])) checked @endif
+                                        class="mr-2 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                    <span class="text-gray-600">{{ $val['name'] }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                    @endforeach
+                    <button type="submit"
+                        class="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold mt-2">
+                        {{ __('home.search') }}
+                    </button>
+                </form>
             </aside>
 
             {{-- 商品列表 --}}
