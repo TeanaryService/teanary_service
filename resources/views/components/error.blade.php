@@ -68,7 +68,7 @@
         </style>
     @endPushOnce
 
-    @pushOnce('tdk')
-        <x-layouts.tdk title="{{ $title ?? __('error.title_' . $code) }}" description="{{ $subTitle ?? __('error.sub_title_' . $code) }}" />
+    @pushOnce('seo')
+        <x-layouts.seo title="{{ $title ?? __('error.title_' . $code) }}" description="{{ $subTitle ?? __('error.sub_title_' . $code) }}" />
     @endPushOnce
 </x-layouts.app>

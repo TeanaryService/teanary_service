@@ -19,8 +19,8 @@
     <meta name="force-rendering" content="webkit">
     <meta name="google" value="notranslate">
 
-    {{-- SEO TDK --}}
-    @stack('tdk')
+    {{-- SEO --}}
+    @stack('seo')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles

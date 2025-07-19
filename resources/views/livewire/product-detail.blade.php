@@ -144,6 +144,6 @@
     @endif
 </div>
 
-@pushOnce('tdk')
-    <x-layouts.tdk title="{{ $name }}" description="{{ $shortDesc }}"/>
+@pushOnce('seo')
+    <x-layouts.seo title="{{ $name }}" description="{{ $shortDesc }}" image="{{ $images->first()->getUrl() }}"/>
 @endPushOnce

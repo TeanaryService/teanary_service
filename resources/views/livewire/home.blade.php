@@ -67,7 +67,7 @@
     </section>
 </div>
 
-@pushOnce('tdk')
-    <x-layouts.tdk title="{{ __('app.site_title') }}" description="{{ __('app.site_description') }}"
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('app.site_title') }}" description="{{ __('app.site_description') }}"
         keywords="{{ __('app.site_keywords') }}" />
 @endPushOnce

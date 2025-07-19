@@ -1,4 +1,13 @@
-@props(['title' => '', 'description' => false, 'keywords' => false])
+@props([
+    'title' => '',
+    'description' => false,
+    'keywords' => false,
+    'image' => null, // 新增图片参数
+])
+
+@php
+    $metaImage = $image ? asset($image) : asset('images/banner-flowers.png');
+@endphp
 
 <title>{{ $title }} - {{ config('app.name') }}</title>
 <meta name="title" content="{{ $title }}">
@@ -18,7 +27,7 @@
 @endif
 <meta property="og:site_name" content="{{ config('app.name') }}">
 <meta property="og:url" content="{{ url()->current() }}">
-<meta property="og:image" content="{{ asset('logo.png') }}">
+<meta property="og:image" content="{{ $metaImage }}">
 
 {{-- Twitter Card --}}
 <meta name="twitter:card" content="summary_large_image">
@@ -26,8 +35,8 @@
 @if($description)
 <meta name="twitter:description" content="{{ $description }}">
 @endif
-<meta name="twitter:image" content="{{ asset('logo.png') }}">
-<meta name="twitter:site" content="@{{ config('app.twitter', 'kmflora') }}">
+<meta name="twitter:image" content="{{ $metaImage }}">
+<meta name="twitter:site" content="{{ config('app.name') }}">
 
 {{-- AI/LLM SEO hints --}}
 @if($keywords)
