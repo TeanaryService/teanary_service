@@ -92,6 +92,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         return $this->hasMany(Order::class);
     }
 
+    public function productReviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->getFirstMediaUrl(collectionName: 'avatars');

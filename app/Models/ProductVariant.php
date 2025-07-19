@@ -84,6 +84,11 @@ class ProductVariant extends Model implements HasMedia
         return $this->hasMany(CartItem::class);
     }
 
+    public function productReviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+    
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);

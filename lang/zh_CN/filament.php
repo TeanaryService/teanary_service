@@ -36,6 +36,11 @@ return [
     'ProductResource.group' => '商品管理',
     'ProductResource.icon' => 'heroicon-o-gift',
 
+    'ProductReviewResource.label' => '商品评价',
+    'ProductReviewResource.pluralLabel' => '商品评价',
+    'ProductReviewResource.group' => '商品管理',
+    'ProductReviewResource.icon' => 'heroicon-o-chat-bubble-oval-left',
+
     'ProductVariantResource.label' => '商品规格',
     'ProductVariantResource.pluralLabel' => '商品规格',
     'ProductVariantResource.group' => '商品管理',

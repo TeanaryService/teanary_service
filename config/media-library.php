@@ -3,12 +3,14 @@
 use App\Models\Category;
 use App\Models\Manager;
 use App\Models\Product;
+use App\Models\ProductReview;
 use App\Models\ProductVariant;
 use App\Models\PromotionRule;
 use App\Models\User;
 use App\Support\MediaLibrary\AvatarPathGenerator;
 use App\Support\MediaLibrary\CategoryPathGenerator;
 use App\Support\MediaLibrary\ProductPathGenerator;
+use App\Support\MediaLibrary\ProductReviewPathGenerator;
 use App\Support\MediaLibrary\PromotionRulePathGenerator;
 
 return [
@@ -113,6 +115,7 @@ return [
 
         Product::class => ProductPathGenerator::class,
         ProductVariant::class => ProductPathGenerator::class,
+        ProductReview::class => ProductReviewPathGenerator::class,
 
         PromotionRule::class => PromotionRulePathGenerator::class,
     ],

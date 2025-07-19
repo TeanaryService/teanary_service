@@ -256,6 +256,21 @@ class FullSeeder extends Seeder
                 }
             }
 
+            // 添加 5-10 个评价
+            $users = \App\Models\User::all();
+
+            collect(range(1, rand(5, 10)))->each(function () use ($product, $users) {
+                $review = \App\Models\ProductReview::create([
+                    'product_id' => $product->id,
+                    'user_id' => $users->isNotEmpty() ? $users->random()->id : null,
+                    'rating' => rand(1, 5),
+                    'content' => fake()->paragraph,
+                    'is_approved' => true,
+                ]);
+
+                $this->attachRandomImages(model: $review, collection: 'images');
+            });
+
             return $product;
         });
 

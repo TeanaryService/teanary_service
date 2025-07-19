@@ -135,6 +135,30 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('product_reviews', function (Blueprint $table) {
+            $table->id();
+
+            // 外键关联商品
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+
+            //可选关联规格
+            $table->foreignId('product_variants')->nullable()->constrained()->onDelete('set null');
+
+            // 可选：关联用户
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+
+            // 星级评分，1~5
+            $table->unsignedTinyInteger('rating')->default(5);
+
+            // 评价内容
+            $table->text('content')->nullable();
+
+            // 是否显示（通过审核）
+            $table->boolean('is_approved')->default(false);
+
+            $table->timestamps();
+        });
+
         //中间表
         Schema::create('product_variant_specification_value', function (Blueprint $table) {
             $table->foreignId('product_variant_id')
@@ -318,6 +342,7 @@ return new class extends Migration
         Schema::dropIfExists('cart_items');
         Schema::dropIfExists('carts');
         Schema::dropIfExists('product_variant_specification_value');
+        Schema::dropIfExists('product_reviews');
         Schema::dropIfExists('product_variants');
         Schema::dropIfExists('specification_value_translations');
         Schema::dropIfExists('specification_values');
