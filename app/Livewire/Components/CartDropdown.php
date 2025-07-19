@@ -4,7 +4,6 @@ namespace App\Livewire\Components;
 
 use Livewire\Component;
 use App\Models\Cart;
-use App\Models\ProductVariant;
 use App\Models\CartItem;
 use App\Services\LocaleCurrencyService;
 
@@ -82,12 +81,12 @@ class CartDropdown extends Component
 
     public function render()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
-        $currencyService = app(LocaleCurrencyService::class);
-        $currencyCode = session('currency_code', 'CNY');
+        $service = app(LocaleCurrencyService::class);
+
+        $lang = $service->getLanguageByCode(session('lang'));
         return view('livewire.components.cart-dropdown', [
             'cartItems' => $this->cartItems,
-            'cartTotal' => $currencyService->convertWithSymbol($this->cartTotal, $currencyCode),
+            'cartTotal' => $this->cartTotal,
             'lang' => $lang,
         ]);
     }

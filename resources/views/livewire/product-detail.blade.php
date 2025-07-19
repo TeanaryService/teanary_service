@@ -2,7 +2,7 @@
     $locale = session('lang');
     $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
     $currencyService = app(\App\Services\LocaleCurrencyService::class);
-    $currencyCode = session('currency_code', 'CNY');
+    $currencyCode = session('currency');
     $translation = $product->productTranslations->where('language_id', $lang->id)->first();
     $name = $translation && $translation->name ? $translation->name : $product->slug;
     $desc = $translation && $translation->description ? $translation->description : '';

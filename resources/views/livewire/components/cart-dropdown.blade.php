@@ -27,34 +27,22 @@
 
         <!-- Items -->
         <div class="max-h-96 overflow-y-auto divide-y divide-gray-100">
+            @php
+                $currencyService = app(\App\Services\LocaleCurrencyService::class);
+                $currencyCode = session('currency');
+            @endphp
             @forelse($cartItems as $item)
                 @php
                     $product = $item->product;
                     $variant = $item->productVariant;
                     $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-                    $name =
-                        $translation && $translation->name
-                            ? $translation->name
-                            : $product->productTranslations->first()->name ?? $product->slug;
-                    $image = $variant
-                        ? $variant->getFirstMediaUrl('image', 'thumb')
-                        : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?:
-                        asset('logo.png'));
-                    $specs = $variant
-                        ? $variant->specificationValues
-                            ->map(function ($sv) use ($lang) {
-                                $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-                                return $trans && $trans->name ? $trans->name : $sv->id;
-                            })
-                            ->implode(' / ')
-                        : '';
-                    $price =
-                        $variant && $variant->price
-                            ? app(\App\Services\LocaleCurrencyService::class)->convertWithSymbol(
-                                $variant->price,
-                                session('currency_code', 'CNY'),
-                            )
-                            : '';
+                    $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
+                    $image = $variant ? $variant->getFirstMediaUrl('image', 'thumb') : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?: asset('logo.png'));
+                    $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
+                        $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+                        return $trans && $trans->name ? $trans->name : $sv->id;
+                    })->implode(' / ') : '';
+                    $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
                 @endphp
 
                 <div class="flex items-start gap-4 p-4">
@@ -96,7 +84,7 @@
         <div class="p-4 border-t bg-gray-50 border-green-100">
             <div class="flex justify-between items-center text-green-800 font-bold mb-3 text-base">
                 <span>{{ __('app.total') }}</span>
-                <span>{{ $cartTotal }}</span>
+                <span>{{ $currencyService->convertWithSymbol($cartTotal, $currencyCode) }}</span>
             </div>
             <a href="{{ locaRoute('cart') }}"
                 class="w-full block text-center bg-green-600 text-white py-2.5 rounded-lg font-semibold hover:bg-green-700 transition">
