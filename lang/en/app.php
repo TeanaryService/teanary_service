@@ -20,4 +20,10 @@ return [
     'follow_us' => 'Follow Us',
     'rights_reserved' => 'All rights reserved.',
     'home' => 'Home',
+
+    'cart' => 'Shopping Cart',
+    'empty_cart' => 'No items in cart',
+    'total' => 'Subtotal',
+    'go_to_check' => 'Checkout',
+
 ];

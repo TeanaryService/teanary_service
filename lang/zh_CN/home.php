@@ -34,5 +34,6 @@ return [
     'no_reviews' => '暂无评价',
     'review_submitted' => '评价已提交，待审核后显示。',
     'anonymous' => '匿名用户',
-    'rating' => '评分'
+    'rating' => '评分',
+    'addCart' => '加入购物车'
 ];

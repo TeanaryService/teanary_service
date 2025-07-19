@@ -20,4 +20,9 @@ return [
     'follow_us' => '关注我们',
     'rights_reserved' => '保留所有权利。',
     'home' => '首页',
+
+    'cart' => '购物车',
+    'empty_cart' => '购物车还没有商品',
+    'total' => '商品总价',
+    'checkout' => '结账'
 ];

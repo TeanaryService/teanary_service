@@ -34,5 +34,6 @@ return [
     'no_reviews' => 'No reviews yet',
     'review_submitted' => 'Review submitted, will be shown after approval.',
     'anonymous' => 'Anonymous',
-    'rating' => 'Rating'
+    'rating' => 'Rating',
+    'addCart' => 'Add To Cart'
 ];

@@ -99,7 +99,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->getFirstMediaUrl(collectionName: 'avatars');
+        return $this->getFirstMediaUrl(collectionName: 'avatars', conversionName: 'thumb');
     }
 
     public function canAccessPanel(Panel $panel): bool
