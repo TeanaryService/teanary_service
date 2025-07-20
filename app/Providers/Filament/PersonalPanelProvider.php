@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Auth\EditProfile;
+use App\Filament\Personal\Pages\Auth\EditProfile as AuthEditProfile;
 use App\Http\Middleware\SetBackLocaleAndCurrency;
 use Filament\FontProviders\LocalFontProvider;
 use Filament\Http\Middleware\Authenticate;
@@ -30,7 +30,7 @@ class PersonalPanelProvider extends PanelProvider
             ->id('personal')
             ->path('account')
             ->login()
-            ->profile(page: EditProfile::class, isSimple: false)
+            ->profile(page: AuthEditProfile::class, isSimple: false)
             ->authGuard('web')
             ->registration()
             ->passwordReset()
