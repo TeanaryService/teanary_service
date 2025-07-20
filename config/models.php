@@ -302,7 +302,7 @@ return [
             'product_variant_specification_value',
             'product_attribute_value',
             'promotion_product_variant',
-            'promotion_user_group'
+            // 'promotion_user_group'
         ],
 
         /*

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\PromotionService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,6 +27,9 @@ class Test extends Command
      */
     public function handle()
     {
+        $service = app(PromotionService::class);
+        dd($service->getAvailablePromotions()->toArray());
+
         $email = 'xcalder@foxmail.com';
         //
         Mail::raw('这是一封测试邮件，你的 Laravel 邮件系统已配置成功！', function ($message) use ($email) {

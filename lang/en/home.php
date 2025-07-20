@@ -35,5 +35,15 @@ return [
     'review_submitted' => 'Review submitted, will be shown after approval.',
     'anonymous' => 'Anonymous',
     'rating' => 'Rating',
-    'addCart' => 'Add To Cart'
+    'addCart' => 'Add To Cart',
+
+    // Promotions
+    'promotions' => 'Promotions',
+    'promotion_rule_order_total_min' => 'Order total over',
+    'promotion_discount_fixed' => 'Save',
+    'promotion_rule_order_qty_min' => 'Minimum quantity',
+    'promotion_discount_percentage' => 'Discount',
+    'promotion_starts_at' => 'Start Time',
+    'promotion_ends_at' => 'End Time',
+    'promotion_text' => ':condition :condition_value :discount :discount_value',
 ];

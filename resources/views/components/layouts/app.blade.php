@@ -29,51 +29,49 @@
 </head>
 
 <body class="body bg-white">
-    <div>
-        <div class="fixed w-full top-0 bg-white border-b border-gray-200 z-50">
-            <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
-                <div class="hidden md:block">
-                    <a href="{{ locaRoute('home') }}"><x-layouts.logo
-                            imgClass="max-w-12 max-h-12 md:max-w-18 md:max-h-18" /></a>
-                </div>
+    <div class="fixed w-full top-0 bg-white border-b border-gray-200 z-50">
+        <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
+            <div class="hidden md:block">
+                <a href="{{ locaRoute('home') }}"><x-layouts.logo
+                        imgClass="max-w-12 max-h-12 md:max-w-18 md:max-h-18" /></a>
+            </div>
 
-                <!-- 搜索框 -->
-                <x-search-input />
+            <!-- 搜索框 -->
+            <x-search-input />
 
-                <div class="block md:hidden">
-                    <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-18 max-h-18" /></a>
-                </div>
+            <div class="block md:hidden">
+                <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-18 max-h-18" /></a>
+            </div>
+
+            <div class="flex items-center gap-x-4 h-10">
+                @livewire('components.cart-dropdown')
+
+                @auth
+                    <x-user-menu />
+                @endauth
+                @guest
+                    <a href="{{ route('filament.personal.auth.login') }}"
+                        class="text-green-600 hover:text-green-800 font-medium flex items-center gap gap-x-2">
+                        <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
+                        <span class="hidden md:block">
+                            {{ __('app.login') }}
+                        </span>
+                    </a>
+                    <a href="{{ route('filament.personal.auth.register') }}"
+                        class="inline-flex items-center justify-center px-2 md:px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 h-10 gap gap-x-2">
+                        <x-heroicon-o-plus-circle class="w-6 h-6" />
+                        <span class="hidden md:block">{{ __('app.register') }}</span>
+                    </a>
+                @endguest
 
                 <div class="flex items-center gap-x-4 h-10">
-                    @livewire('components.cart-dropdown')
-
-                    @auth
-                        <x-user-menu />
-                    @endauth
-                    @guest
-                        <a href="{{ route('filament.personal.auth.login') }}"
-                            class="text-green-600 hover:text-green-800 font-medium flex items-center gap gap-x-2">
-                            <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
-                            <span class="hidden md:block">
-                                {{ __('app.login') }}
-                            </span>
-                        </a>
-                        <a href="{{ route('filament.personal.auth.register') }}"
-                            class="inline-flex items-center justify-center px-2 md:px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 h-10 gap gap-x-2">
-                            <x-heroicon-o-plus-circle class="w-6 h-6" />
-                            <span class="hidden md:block">{{ __('app.register') }}</span>
-                        </a>
-                    @endguest
-
-                    <div class="flex items-center gap-x-4 h-10">
-                        <x-language-switch />
-                        <x-currency-switch />
-                    </div>
+                    <x-language-switch />
+                    <x-currency-switch />
                 </div>
             </div>
         </div>
-        <div class="h-20 w-full"></div>
     </div>
+    <div class="h-20 w-full"></div>
 
     <div class="main">
         {{ $slot }}

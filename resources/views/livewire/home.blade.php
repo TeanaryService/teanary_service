@@ -22,17 +22,19 @@
         </div>
     </section>
 
+    <x-promotion-list />
+
     {{-- Categories Quick Access --}}
     <section class="max-w-7xl mx-auto py-20 px-6">
         <h2 class="text-3xl font-bold text-gray-900 mb-12">{{ __('home.browse_categories') }}</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
             @foreach ($categories as $category)
-                <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}"
-                    class="group">
+                <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}" class="group">
                     <div class="bg-white rounded-xl shadow-sm p-6 transition duration-200 group-hover:shadow-md">
                         <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
                             class="h-auto w-auto mx-auto mb-4 object-cover rounded-lg">
-                        <span class="text-gray-900 font-medium block text-center group-hover:text-green-600">{{ $category['name'] }}</span>
+                        <span
+                            class="text-gray-900 font-medium block text-center group-hover:text-green-600">{{ $category['name'] }}</span>
                     </div>
                 </a>
             @endforeach
@@ -61,7 +63,7 @@
                 </a>
             </div>
             <div class="hidden md:block md:w-1/2 bg-gray-100 rounded-2xl p-12">
-                <x-layouts.logo imgClass="w-full max-w-sm mx-auto" :showText="false"/>
+                <x-layouts.logo imgClass="w-full max-w-sm mx-auto" :showText="false" />
             </div>
         </div>
     </section>

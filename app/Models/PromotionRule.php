@@ -8,8 +8,10 @@ namespace App\Models;
 
 use App\Enums\PromotionConditionTypeEnum;
 use App\Enums\PromotionDiscountTypeEnum;
+use App\Observers\PromotionRuleObserver;
 use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,6 +35,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  *
  * @package App\Models
  */
+
+#[ObservedBy([PromotionRuleObserver::class])]
+
 class PromotionRule extends Model implements HasMedia
 {
     use HasFactory;

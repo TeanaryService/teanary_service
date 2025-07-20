@@ -35,5 +35,15 @@ return [
     'review_submitted' => '评价已提交，待审核后显示。',
     'anonymous' => '匿名用户',
     'rating' => '评分',
-    'addCart' => '加入购物车'
+    'addCart' => '加入购物车',
+
+    // 促销相关
+    'promotions' => '促销活动',
+    'promotion_rule_order_total_min' => '订单满',
+    'promotion_discount_fixed' => '减',
+    'promotion_rule_order_qty_min' => '购买数量满',
+    'promotion_discount_percentage' => '打折',
+    'promotion_starts_at' => '开始时间',
+    'promotion_ends_at' => '结束时间',
+    'promotion_text' => ':condition :condition_value :discount :discount_value',
 ];

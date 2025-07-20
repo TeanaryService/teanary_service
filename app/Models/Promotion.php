@@ -7,7 +7,9 @@
 namespace App\Models;
 
 use App\Enums\PromotionTypeEnum;
+use App\Observers\PromotionObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +34,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
+
+#[ObservedBy([PromotionObserver::class])]
+
 class Promotion extends Model
 {
     use HasFactory;
@@ -69,6 +74,7 @@ class Promotion extends Model
 
     public function userGroups(): BelongsToMany
     {
-        return $this->belongsToMany(UserGroup::class);
+        return $this->belongsToMany(UserGroup::class)
+            ->using(PromotionUserGroup::class);
     }
 }
