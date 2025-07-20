@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Services\LocaleCurrencyService;
+use App\Services\PromotionService;
 
 class CartDropdown extends Component
 {
@@ -20,9 +21,16 @@ class CartDropdown extends Component
     public function mount()
     {
         $cart = $this->getCart();
-        $this->cartItems = $cart ? $cart->cartItems()->with(['product.productTranslations', 'productVariant.specificationValues.specificationValueTranslations', 'productVariant.media'])->get() : collect();
+        $service = app(PromotionService::class);
+        $user = auth()->user();
+        $this->cartItems = $cart ? $cart->cartItems()->with(['product.productTranslations', 'productVariant.specificationValues.specificationValueTranslations', 'productVariant.media'])->get()->map(function ($item) use ($service, $user) {
+            $promo = $item->productVariant ? $service->calculateVariantPrice($item->productVariant, $item->qty, $user) : ['final_price' => $item->productVariant->price ?? 0, 'promotion' => null];
+            $item->final_price = $promo['final_price'];
+            $item->promotion = $promo['promotion'];
+            return $item;
+        }) : collect();
         $this->cartTotal = $this->cartItems->sum(function ($item) {
-            return $item->qty * ($item->productVariant->price ?? $item->product->productVariants->first()->price ?? 0);
+            return $item->qty * ($item->final_price ?? $item->productVariant->price ?? $item->product->productVariants->first()->price ?? 0);
         });
     }
 

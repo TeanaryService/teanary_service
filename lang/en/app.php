@@ -58,4 +58,6 @@ return [
     'no_items_to_checkout' => 'No Items to Checkout',
     'return_to_cart' => 'Return to Cart',
 
+    'discount_percent' => ':percent% off',
+    'discount_amount' => 'Save :amount',
 ];

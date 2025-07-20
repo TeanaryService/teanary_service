@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use App\Enums\OrderStatusEnum;
 use App\Services\LocaleCurrencyService;
+use App\Services\PromotionService;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -60,7 +61,21 @@ class Checkout extends Component
         }
 
         $this->processCheckoutItems();
-        
+
+        // 订单促销处理
+        $orderModel = new \App\Models\Order();
+        $orderModel->user_id = auth()->id();
+        $orderModel->orderItems = collect($this->processedItems)->map(function($item) {
+            return (object)[
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+            ];
+        });
+        $promoService = app(PromotionService::class);
+        $orderPromo = $promoService->calculateOrderTotal($orderModel);
+        $this->total = $orderPromo['final_total'];
+        $this->orderPromotion = $orderPromo['promotion'] ?? null;
+
         if (auth()->check()) {
             $this->addresses = auth()->user()->addresses;
             $this->shippingAddress = $this->addresses->first()?->id;
@@ -79,39 +94,41 @@ class Checkout extends Component
 
     protected function processCheckoutItems()
     {
-        $this->total = 0;
+        $this->processedItems = [];
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
-        
+        $promoService = app(PromotionService::class);
+        $user = auth()->user();
         foreach ($this->checkoutItems as $item) {
             $variant = ProductVariant::with([
                 'product.productTranslations',
                 'specificationValues.specificationValueTranslations',
                 'media'
             ])->find($item['product_variant_id']);
-            
+
             if ($variant) {
                 $product = $variant->product;
                 $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
                 $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
-                
-                // 处理规格值的翻译
+
                 $specs = $variant->specificationValues->map(function ($sv) use ($lang) {
                     $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
                     return $trans && $trans->name ? $trans->name : $sv->id;
                 })->implode(' / ');
 
+                $promo = $promoService->calculateVariantPrice($variant, $item['qty'], $user);
+
                 $this->processedItems[] = [
                     'product_id' => $item['product_id'],
                     'product_variant_id' => $item['product_variant_id'],
                     'qty' => $item['qty'],
-                    'price' => $variant->price,
+                    'price' => $promo['final_price'],
                     'product_name' => $name,
                     'specs' => $specs,
                     'image' => $variant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.png'),
-                    'subtotal' => $variant->price * $item['qty']
+                    'subtotal' => $promo['final_price'] * $item['qty'],
+                    'promotion' => $promo['promotion'],
+                    'original_price' => $variant->price,
                 ];
-                
-                $this->total += $variant->price * $item['qty'];
             }
         }
     }
@@ -247,6 +264,7 @@ class Checkout extends Component
             'addresses' => $addresses,
             'countries' => $this->countries,
             'zones' => $this->zones,
+            'orderPromotion' => $this->orderPromotion ?? null,
         ]);
     }
 }

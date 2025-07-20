@@ -28,16 +28,19 @@ class PromotionService
         $appliedPromotion = null;
 
         foreach ($promotions as $promotion) {
-            foreach ($promotion->promotionRules as $rule) {
+            // 修正：获取模型对象
+            $promotionModel = Promotion::find($promotion['id']);
+            if (!$promotionModel) continue;
+            foreach ($promotionModel->promotionRules as $rule) {
                 if ($this->checkRule($rule, $basePrice, $qty)) {
                     $discount = $this->getDiscountAmount($rule, $basePrice, $qty);
                     $priceAfterDiscount = max(0, $basePrice - $discount);
                     if ($priceAfterDiscount < $finalPrice) {
                         $finalPrice = $priceAfterDiscount;
                         $appliedPromotion = [
-                            'id' => $promotion->id,
-                            'name' => $promotion->promotionTranslations->first()?->name ?? '',
-                            'description' => $promotion->promotionTranslations->first()?->description ?? '',
+                            'id' => $promotionModel->id,
+                            'name' => $promotionModel->promotionTranslations->first()?->name ?? '',
+                            'description' => $promotionModel->promotionTranslations->first()?->description ?? '',
                             'discount' => $discount,
                             'final_price' => $finalPrice,
                             'rule' => $rule->toArray(),
@@ -71,16 +74,19 @@ class PromotionService
         $appliedPromotion = null;
 
         foreach ($promotions as $promotion) {
-            foreach ($promotion->promotionRules as $rule) {
+            // 修正：获取模型对象
+            $promotionModel = Promotion::find($promotion['id']);
+            if (!$promotionModel) continue;
+            foreach ($promotionModel->promotionRules as $rule) {
                 if ($this->checkRule($rule, $baseTotal, $order->orderItems->sum('qty'))) {
                     $discount = $this->getDiscountAmount($rule, $baseTotal, $order->orderItems->sum('qty'));
                     $totalAfterDiscount = max(0, $baseTotal - $discount);
                     if ($totalAfterDiscount < $finalTotal) {
                         $finalTotal = $totalAfterDiscount;
                         $appliedPromotion = [
-                            'id' => $promotion->id,
-                            'name' => $promotion->promotionTranslations->first()?->name ?? '',
-                            'description' => $promotion->promotionTranslations->first()?->description ?? '',
+                            'id' => $promotionModel->id,
+                            'name' => $promotionModel->promotionTranslations->first()?->name ?? '',
+                            'description' => $promotionModel->promotionTranslations->first()?->description ?? '',
                             'discount' => $discount,
                             'final_total' => $finalTotal,
                             'rule' => $rule->toArray(),
@@ -89,7 +95,6 @@ class PromotionService
                 }
             }
         }
-
         return [
             'final_total' => $finalTotal,
             'promotion' => $appliedPromotion,
@@ -154,10 +159,13 @@ class PromotionService
     public function getAvailablePromotionsForVariant(ProductVariant $variant, ?User $user = null, ?int $langId = null)
     {
         $promotions = $this->getAvailablePromotions($user, $langId);
+
         return $promotions->filter(function ($promotion) use ($variant) {
             // 只筛选绑定了该规格的促销
             $promotionModel = Promotion::find($promotion['id']);
-            return $promotionModel && $promotionModel->productVariants->contains('id', $variant->id);
+            return $promotionModel && $promotionModel->productVariants->contains(function ($pv) use ($variant) {
+                return $pv->pivot->product_variant_id === $variant->id;
+            });
         })->values();
     }
 
@@ -182,10 +190,13 @@ class PromotionService
      */
     protected function checkRule(PromotionRule $rule, float $base, int $qty): bool
     {
-        switch ($rule->condition_type->value ?? $rule->condition_type) {
-            case 'amount':
+        // PromotionConditionTypeEnum: order_total_min, order_qty_min
+        $type = $rule->condition_type->value;
+
+        switch ($type) {
+            case 'order_total_min':
                 return $base >= $rule->condition_value;
-            case 'qty':
+            case 'order_qty_min':
                 return $qty >= $rule->condition_value;
             default:
                 return false;
@@ -197,10 +208,12 @@ class PromotionService
      */
     protected function getDiscountAmount(PromotionRule $rule, float $base, int $qty): float
     {
-        switch ($rule->discount_type->value ?? $rule->discount_type) {
-            case 'amount':
+        // PromotionDiscountTypeEnum: fixed, percentage
+        $type =  $rule->discount_type->value;
+        switch ($type) {
+            case 'fixed':
                 return $rule->discount_value;
-            case 'percent':
+            case 'percentage':
                 return $base * ($rule->discount_value / 100);
             default:
                 return 0;

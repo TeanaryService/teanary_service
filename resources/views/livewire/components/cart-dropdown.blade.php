@@ -43,6 +43,8 @@
                         return $trans && $trans->name ? $trans->name : $sv->id;
                     })->implode(' / ') : '';
                     $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
+                    $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
+                    $promotion = $item->promotion ?? null;
                 @endphp
 
                 <div class="flex items-start gap-4 p-4">
@@ -53,7 +55,17 @@
                         @if ($specs)
                             <div class="text-xs text-gray-500">{{ $specs }}</div>
                         @endif
-                        <div class="text-green-700 font-bold">{{ $price }}</div>
+                        <div>
+                            @if ($promotion)
+                                <span class="text-green-700 font-bold">{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
+                                <span class="text-gray-400 line-through ml-2">{{ $price }}</span>
+                                <span class="ml-2 text-xs text-red-500 font-semibold">
+                                    {{ $promotion['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $promotion['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotion['discount'], $currencyCode)]) }}
+                                </span>
+                            @else
+                                <span class="text-green-700 font-bold">{{ $price }}</span>
+                            @endif
+                        </div>
 
                         <div class="flex items-center gap-1 mt-2">
                             <button wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})"

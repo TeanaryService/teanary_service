@@ -60,5 +60,8 @@ return [
     'email' => '邮箱',
     'company' => '公司',
     'city' => '城市',
-    'postcode' => '邮编'
+    'postcode' => '邮编',
+
+    'discount_percent' => ':percent%折扣',
+    'discount_amount' => '立减:amount',
 ];

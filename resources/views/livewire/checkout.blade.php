@@ -189,7 +189,16 @@
                                     </td>
                                     <td class="px-2 py-2 text-gray-500">{{ $item['specs'] }}</td>
                                     <td class="px-2 py-2 text-green-700 font-semibold">
-                                        {{ $currencyService->convertWithSymbol($item['price'], $currencyCode) }}</td>
+                                        @if ($item['promotion'])
+                                            <span>{{ $currencyService->convertWithSymbol($item['price'], $currencyCode) }}</span>
+                                            <span class="text-gray-400 line-through ml-2">{{ $currencyService->convertWithSymbol($item['original_price'], $currencyCode) }}</span>
+                                            <span class="ml-2 text-xs text-red-500 font-semibold">
+                                                {{ $item['promotion']['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $item['promotion']['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($item['promotion']['discount'], $currencyCode)]) }}
+                                            </span>
+                                        @else
+                                            <span>{{ $currencyService->convertWithSymbol($item['price'], $currencyCode) }}</span>
+                                        @endif
+                                    </td>
                                     <td class="px-2 py-2">{{ $item['qty'] }}</td>
                                     <td class="px-2 py-2 text-green-700 font-semibold">
                                         {{ $currencyService->convertWithSymbol($item['subtotal'], $currencyCode) }}
@@ -210,7 +219,17 @@
                         <span
                             class="text-green-700 text-2xl font-bold">{{ $currencyService->convertWithSymbol($total, $currencyCode) }}</span>
                     </div>
-
+                    @if ($orderPromotion)
+                        <div class="mt-2 p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700">
+                            <div class="font-semibold">{{ $orderPromotion['name'] }}</div>
+                            <div class="text-xs">{{ $orderPromotion['description'] }}</div>
+                            <div class="mt-1">
+                                {{ $orderPromotion['rule']['discount_type'] == 'percent' 
+                                    ? __('app.discount_percent', ['percent' => $orderPromotion['rule']['discount_value']]) 
+                                    : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($orderPromotion['discount'], $currencyCode)]) }}
+                            </div>
+                        </div>
+                    @endif
                     <button wire:click="createOrder"
                         class="w-full py-3 bg-green-600 text-white font-bold text-lg rounded-lg hover:bg-green-700 transition shadow">
                         {{ __('app.place_order') }}

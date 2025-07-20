@@ -34,6 +34,8 @@
                                 return $trans && $trans->name ? $trans->name : $sv->id;
                             })->implode(' / ') : '';
                             $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
+                            $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
+                            $promotion = $item->promotion ?? null;
                         @endphp
                         <tr class="bg-gray-50 rounded-lg shadow-sm">
                             <td class="py-2 px-2 align-middle">
@@ -44,7 +46,17 @@
                                 <span class="font-semibold text-gray-900">{{ $name }}</span>
                             </td>
                             <td class="py-2 px-2 text-xs text-gray-500 align-middle">{{ $specs }}</td>
-                            <td class="py-2 px-2 font-bold text-green-700 align-middle">{{ $price }}</td>
+                            <td class="py-2 px-2 font-bold text-green-700 align-middle">
+                                @if ($promotion)
+                                    <span>{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
+                                    <span class="text-gray-400 line-through ml-2">{{ $price }}</span>
+                                    <span class="ml-2 text-xs text-red-500 font-semibold">
+                                        {{ $promotion['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $promotion['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotion['discount'], $currencyCode)]) }}
+                                    </span>
+                                @else
+                                    <span>{{ $price }}</span>
+                                @endif
+                            </td>
                             <td class="py-2 px-2 align-middle">
                                 <div class="flex items-center gap-1">
                                     <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})" class="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">-</button>
@@ -53,7 +65,7 @@
                                 </div>
                             </td>
                             <td class="py-2 px-2 font-bold text-green-700 align-middle">
-                                {{ $currencyService->convertWithSymbol($item->qty * ($variant->price ?? 0), $currencyCode) }}
+                                {{ $currencyService->convertWithSymbol($item->qty * $finalPrice, $currencyCode) }}
                             </td>
                             <td class="py-2 px-2 align-middle">
                                 <button type="button" wire:click="removeItem({{ $item->id }})" class="text-red-500 hover:text-red-700 transition">
