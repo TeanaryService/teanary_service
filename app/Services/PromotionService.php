@@ -97,131 +97,76 @@ class PromotionService
     }
 
     /**
-     * 获取可用促销信息列表（用于广告），永久缓存
+     * 总缓存所有促销（含翻译、规则、userGroups），永久缓存
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getAllPromotionsCached()
+    {
+        return \Illuminate\Support\Facades\Cache::rememberForever('promotions.all', function () {
+            return Promotion::with([
+                'promotionTranslations',
+                'promotionRules',
+                'userGroups'
+            ])->get();
+        });
+    }
+
+    /**
+     * 获取可用促销信息列表（用于广告），从总缓存筛选
      * @param User|null $user
-     * @return Collection
+     * @param int|null $langId
+     * @return \Illuminate\Support\Collection
      */
-    public function getAvailablePromotions(?User $user = null): Collection
+    public function getAvailablePromotions(?User $user = null, ?int $langId = null)
     {
         $now = now();
-        $langId = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
         $userGroupId = $user?->user_group_id;
-        $cacheKey = "promotions.available.{$langId}." . ($userGroupId ?? 'all');
-        return \Illuminate\Support\Facades\Cache::rememberForever($cacheKey, function () use ($user, $userGroupId, $now, $langId) {
-            $query = Promotion::with([
-                    'promotionTranslations' => function ($q) use ($langId) {
-                        $q->where('language_id', $langId);
-                    },
-                    'promotionRules'
-                ])
-                ->where('active', true)
-                ->where(function ($q) use ($now) {
-                    $q->whereNull('starts_at')->orWhere('starts_at', '<=', $now);
-                })
-                ->where(function ($q) use ($now) {
-                    $q->whereNull('ends_at')->orWhere('ends_at', '>=', $now);
-                });
 
-            if ($user) {
-                $query->where(function ($q) use ($userGroupId) {
-                    $q->whereDoesntHave('userGroups')
-                      ->orWhereHas('userGroups', function ($q2) use ($userGroupId) {
-                          $q2->where('id', $userGroupId);
-                      });
-                });
+        return static::getAllPromotionsCached()->filter(function ($promotion) use ($now, $userGroupId) {
+            if (!$promotion->active) return false;
+            if ($promotion->starts_at && $promotion->starts_at > $now) return false;
+            if ($promotion->ends_at && $promotion->ends_at < $now) return false;
+            if ($promotion->userGroups->count() > 0 && $userGroupId) {
+                return $promotion->userGroups->contains('id', $userGroupId);
             }
-
-            return $query->get()->map(function ($promotion) {
-                return [
-                    'id' => $promotion->id,
-                    'name' => $promotion->promotionTranslations->first()?->name ?? '',
-                    'description' => $promotion->promotionTranslations->first()?->description ?? '',
-                    'type' => $promotion->type->value ?? '',
-                    'starts_at' => $promotion->starts_at,
-                    'ends_at' => $promotion->ends_at,
-                    'rules' => $promotion->promotionRules->map(function ($rule) {
-                        return $rule->toArray();
-                    })->values(),
-                ];
-            });
-        });
+            // 向上兼容：无userGroups绑定时所有用户可用
+            return true;
+        })->map(function ($promotion) use ($langId) {
+            $trans = $promotion->promotionTranslations->where('language_id', $langId)->first();
+            return [
+                'id' => $promotion->id,
+                'name' => $trans?->name ?? '',
+                'description' => $trans?->description ?? '',
+                'type' => $promotion->type->value ?? '',
+                'starts_at' => $promotion->starts_at,
+                'ends_at' => $promotion->ends_at,
+                'rules' => $promotion->promotionRules->map(function ($rule) {
+                    return $rule->toArray();
+                })->values(),
+            ];
+        })->values();
     }
 
     /**
-     * 获取商品规格可用促销，永久缓存
+     * 获取商品规格可用促销，从总缓存筛选
      */
-    public function getAvailablePromotionsForVariant(ProductVariant $variant, ?User $user = null): Collection
+    public function getAvailablePromotionsForVariant(ProductVariant $variant, ?User $user = null, ?int $langId = null)
     {
-        $now = now();
-        $langId = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
-        $userGroupId = $user?->user_group_id;
-        $cacheKey = "promotions.variant.{$variant->id}.{$langId}." . ($userGroupId ?? 'all');
-        return \Illuminate\Support\Facades\Cache::rememberForever($cacheKey, function () use ($variant, $user, $userGroupId, $now, $langId) {
-            $query = Promotion::with([
-                    'promotionRules',
-                    'promotionTranslations' => function ($q) use ($langId) {
-                        $q->where('language_id', $langId);
-                    }
-                ])
-                ->where('active', true)
-                ->where(function ($q) use ($now) {
-                    $q->whereNull('starts_at')->orWhere('starts_at', '<=', $now);
-                })
-                ->where(function ($q) use ($now) {
-                    $q->whereNull('ends_at')->orWhere('ends_at', '>=', $now);
-                })
-                ->whereHas('productVariants', function ($q) use ($variant) {
-                    $q->where('product_variant_id', $variant->id);
-                });
-
-            if ($user) {
-                $query->where(function ($q) use ($userGroupId) {
-                    $q->whereDoesntHave('userGroups')
-                      ->orWhereHas('userGroups', function ($q2) use ($userGroupId) {
-                          $q2->where('id', $userGroupId);
-                      });
-                });
-            }
-
-            return $query->get();
-        });
+        $promotions = $this->getAvailablePromotions($user, $langId);
+        return $promotions->filter(function ($promotion) use ($variant) {
+            // 只筛选绑定了该规格的促销
+            $promotionModel = Promotion::find($promotion['id']);
+            return $promotionModel && $promotionModel->productVariants->contains('id', $variant->id);
+        })->values();
     }
 
     /**
-     * 获取订单可用促销，永久缓存
+     * 获取订单可用促销，从总缓存筛选
      */
-    public function getAvailablePromotionsForOrder(Order $order, ?User $user = null): Collection
+    public function getAvailablePromotionsForOrder(Order $order, ?User $user = null, ?int $langId = null)
     {
-        $now = now();
-        $langId = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
-        $userGroupId = $user?->user_group_id;
-        $cacheKey = "promotions.order.{$order->id}.{$langId}." . ($userGroupId ?? 'all');
-        return \Illuminate\Support\Facades\Cache::rememberForever($cacheKey, function () use ($order, $user, $userGroupId, $now, $langId) {
-            $query = Promotion::with([
-                    'promotionRules',
-                    'promotionTranslations' => function ($q) use ($langId) {
-                        $q->where('language_id', $langId);
-                    }
-                ])
-                ->where('active', true)
-                ->where(function ($q) use ($now) {
-                    $q->whereNull('starts_at')->orWhere('starts_at', '<=', $now);
-                })
-                ->where(function ($q) use ($now) {
-                    $q->whereNull('ends_at')->orWhere('ends_at', '>=', $now);
-                });
-
-            if ($user) {
-                $query->where(function ($q) use ($userGroupId) {
-                    $q->whereDoesntHave('userGroups')
-                      ->orWhereHas('userGroups', function ($q2) use ($userGroupId) {
-                          $q2->where('id', $userGroupId);
-                      });
-                });
-            }
-
-            return $query->get();
-        });
+        return $this->getAvailablePromotions($user, $langId);
     }
 
     /**
@@ -229,11 +174,7 @@ class PromotionService
      */
     public static function clearPromotionCache()
     {
-        Cache::tags(['promotion'])->flush();
-        // 或者遍历删除所有相关key
-        // Cache::forget('promotions.available.all');
-        // Cache::forget('promotions.variant.*');
-        // Cache::forget('promotions.order.*');
+        \Illuminate\Support\Facades\Cache::forget('promotions.all');
     }
 
     /**

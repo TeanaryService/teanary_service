@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -10,3 +11,6 @@ Artisan::command('inspire', function () {
 Schedule::command('app:update-ecb')
     ->timezone('Europe/Berlin')
     ->at('18:00');
+
+Schedule::command('app:clear-cache-if-expired')
+    ->everyMinute();
