@@ -203,48 +203,6 @@ return new class extends Migration
         });
 
         // -----------------------------
-        // Shipping Methods
-        // -----------------------------
-        Schema::create('shipping_methods', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->boolean('active')->default(true);
-            $table->string('api_url')->nullable();
-            $table->string('api_token')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('shipping_method_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('shipping_method_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
-
-        // -----------------------------
-        // Payment Methods
-        // -----------------------------
-        Schema::create('payment_methods', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->boolean('active')->default(true);
-            $table->string('api_url')->nullable();
-            $table->string('api_token')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('payment_method_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('payment_method_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
-
-        // -----------------------------
         // Orders
         // -----------------------------
         Schema::create('orders', function (Blueprint $table) {
@@ -252,11 +210,10 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('order_no')->unique();
             $table->foreignId('currency_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('shipping_method_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('payment_method_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('shipping_address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->foreignId('billing_address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->decimal('total', 12, 2)->default(0);
+            $table->string('payment_method')->nullable();
             $table->enum('status', OrderStatusEnum::values())->default(OrderStatusEnum::default()->value);
             $table->timestamps();
         });
@@ -317,7 +274,7 @@ return new class extends Migration
         Schema::create('order_shipments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->cascadeOnDelete(); // 关联订单
-            $table->foreignId('shipping_method_id')->constrained()->cascadeOnDelete(); // 关联订单
+            $table->string('shipping_method')->nullable(); // 物流方式
             $table->string('tracking_number')->nullable();   // 运单号
             $table->text('notes')->nullable();               // 备注
             $table->timestamps();
@@ -334,10 +291,6 @@ return new class extends Migration
         Schema::dropIfExists('promotions');
         Schema::dropIfExists('order_items');
         Schema::dropIfExists('orders');
-        Schema::dropIfExists('payment_method_translations');
-        Schema::dropIfExists('payment_methods');
-        Schema::dropIfExists('shipping_method_translations');
-        Schema::dropIfExists('shipping_methods');
         Schema::dropIfExists('cart_items');
         Schema::dropIfExists('carts');
         Schema::dropIfExists('product_variant_specification_value');

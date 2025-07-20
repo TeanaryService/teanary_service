@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentMethodEnum;
+use App\Enums\ShippingMethodEnum;
 use Illuminate\Database\Seeder;
 use App\Models\Language;
 use App\Models\ShippingMethod;
@@ -56,24 +58,6 @@ class CommerceSeeder extends Seeder
             ],
         ];
 
-        $shippingMethods = collect();
-        foreach ($shippingsData as $sd) {
-            $shipping = ShippingMethod::updateOrCreate(
-                ['code' => $sd['code']],
-                ['active' => $sd['active'], 'api_url' => $sd['api_url'], 'api_token' => $sd['api_token']]
-            );
-            foreach ($languages as $lang) {
-                $code = $lang->code;
-                if (isset($sd['translations'][$code])) {
-                    ShippingMethodTranslation::updateOrCreate(
-                        ['shipping_method_id' => $shipping->id, 'language_id' => $lang->id],
-                        ['name' => $sd['translations'][$code]['name'], 'description' => $sd['translations'][$code]['description']]
-                    );
-                }
-            }
-            $shippingMethods->push($shipping);
-        }
-
         // ----------- 支付方式 -----------
         $paymentsData = [
             [
@@ -97,24 +81,6 @@ class CommerceSeeder extends Seeder
                 ],
             ],
         ];
-
-        $paymentMethods = collect();
-        foreach ($paymentsData as $pd) {
-            $payment = PaymentMethod::updateOrCreate(
-                ['code' => $pd['code']],
-                ['active' => $pd['active'], 'api_url' => $pd['api_url'], 'api_token' => $pd['api_token']]
-            );
-            foreach ($languages as $lang) {
-                $code = $lang->code;
-                if (isset($pd['translations'][$code])) {
-                    PaymentMethodTranslation::updateOrCreate(
-                        ['payment_method_id' => $payment->id, 'language_id' => $lang->id],
-                        ['name' => $pd['translations'][$code]['name'], 'description' => $pd['translations'][$code]['description']]
-                    );
-                }
-            }
-            $paymentMethods->push($payment);
-        }
 
         // ----------- 生成购物车、地址、订单 -----------
         foreach ($users as $user) {
@@ -166,8 +132,8 @@ class CommerceSeeder extends Seeder
             }
 
             // 创建订单
-            $shippingMethod = $shippingMethods->random();
-            $paymentMethod = $paymentMethods->random();
+            $shippingMethod = ShippingMethodEnum::random();
+            $paymentMethod = PaymentMethodEnum::random();
 
             $order = Order::create([
                 'user_id' => $user->id,
@@ -177,8 +143,7 @@ class CommerceSeeder extends Seeder
                 'currency_id' => $currency->id,
                 'total' => 0, // 后面更新
                 'status' => OrderStatusEnum::default(),
-                'shipping_method_id' => $shippingMethod->id,
-                'payment_method_id' => $paymentMethod->id,
+                'payment_method' => $paymentMethod,
             ]);
 
             $total = 0;
@@ -201,7 +166,7 @@ class CommerceSeeder extends Seeder
 
             OrderShipment::create([
                 'order_id' => $order->id,
-                'shipping_method_id' => $shippingMethods->random()->id,
+                'shipping_method' => ShippingMethodEnum::random(),
             ]);
         }
     }

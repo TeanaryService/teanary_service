@@ -9,5 +9,6 @@ return [
     'total' => 'Order Total',
     'status' => 'Order Status',
     'order_items' => 'Order Items',
-    'order_shipments' => 'Shipments'
+    'order_shipments' => 'Shipments',
+    'payment_method' => 'Payment Method'
 ];

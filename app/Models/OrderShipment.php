@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\ShippingMethodEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,14 +17,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * 
  * @property int $id
  * @property int $order_id
- * @property int $shipping_method_id
  * @property string|null $tracking_number
  * @property string|null $notes
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
  * @property Order $order
- * @property ShippingMethod $shippingMethod
  *
  * @package App\Models
  */
@@ -34,12 +33,12 @@ class OrderShipment extends Model
 
     protected $casts = [
         'order_id' => 'int',
-        'shipping_method_id' => 'int'
+        'shipping_method' => ShippingMethodEnum::class
     ];
 
     protected $fillable = [
         'order_id',
-        'shipping_method_id',
+        'shipping_method',
         'tracking_number',
         'notes'
     ];
@@ -47,10 +46,5 @@ class OrderShipment extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
-    }
-
-    public function shippingMethod(): BelongsTo
-    {
-        return $this->belongsTo(ShippingMethod::class);
     }
 }

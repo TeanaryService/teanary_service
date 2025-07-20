@@ -18,12 +18,12 @@
             </div>
             <div class="mb-2 text-gray-700">
                 <span>{{ __('personal.shipping_method') }}:
-                    {{ $order->shippingMethod->shippingMethodTranslations->where('language_id', $lang?->id)->first()?->name ?? ($order->shippingMethod->code ?? '-') }}
+                    {{ $order->shipping_method ? $order->shipping_method->label() : '_' }}
                 </span>
             </div>
             <div class="mb-2 text-gray-700">
                 <span>{{ __('personal.payment_method') }}:
-                    {{ $order->paymentMethod->paymentMethodTranslations->where('language_id', $lang?->id)->first()?->name ?? ($order->paymentMethod->code ?? '-') }}
+                    {{ $order->payment_method ? $order->payment_method->label() : '_'}}
                 </span>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Manager\Resources;
 
+use App\Enums\ShippingMethodEnum;
 use App\Filament\Manager\Resources\OrderResource\RelationManagers\OrderShipmentsRelationManager;
 use App\Filament\Manager\Resources\OrderShipmentResource\Pages;
 use App\Filament\Manager\Resources\OrderShipmentResource\RelationManagers;
@@ -60,21 +61,9 @@ class OrderShipmentResource extends Resource
                     ->relationship('order', 'id')
                     ->hiddenOn([OrderShipmentsRelationManager::class])
                     ->required(),
-                Forms\Components\Select::make('shipping_method_id')
-                    ->label(__('filament_order_shipment.shipping_method_id'))
-                    ->relationship('shippingMethod', 'id')
-                    ->getOptionLabelFromRecordUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
-                        $translation = $record->shippingMethodTranslations->where('language_id', $lang?->id)->first();
-                        if ($translation && $translation->name) {
-                            return $translation->name;
-                        }
-                        $first = $record->shippingMethodTranslations->first();
-                        return $first ? $first->name : $record->id;
-                    })
-                    ->searchable()
-                    ->preload()
+                Forms\Components\Select::make('shipping_method')
+                    ->label(__('filament_order_shipment.shipping_method'))
+                    ->options(ShippingMethodEnum::options())
                     ->required(),
                 Forms\Components\TextInput::make('tracking_number')
                     ->label(__('filament_order_shipment.tracking_number'))
@@ -95,19 +84,11 @@ class OrderShipmentResource extends Resource
                     ->numeric()
                     ->hiddenOn([OrderShipmentsRelationManager::class])
                     ->sortable(),
-                Tables\Columns\TextColumn::make('shippingMethod.name')
-                    ->label(__('filament_order_shipment.shipping_method_id'))
+                Tables\Columns\TextColumn::make('shipping_method')
+                    ->label(__('filament_order_shipment.shipping_method'))
+                    // ->getStateUsing(fn(ShippingMethodEnum $state):string => $state->label()),
                     ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
-                        $shippingMethod = $record->shippingMethod;
-                        if (!$shippingMethod) return null;
-                        $translation = $shippingMethod->shippingMethodTranslations->where('language_id', $lang?->id)->first();
-                        if ($translation && $translation->name) {
-                            return $translation->name;
-                        }
-                        $first = $shippingMethod->shippingMethodTranslations->first();
-                        return $first ? $first->name : $shippingMethod->id;
+                        return $record->shipping_method->label();
                     }),
                 Tables\Columns\TextColumn::make('tracking_number')
                     ->label(__('filament_order_shipment.tracking_number'))

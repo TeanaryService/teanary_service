@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentMethodEnum;
 use App\Observers\OrderObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -23,8 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $user_id
  * @property string $order_no
  * @property int|null $currency_id
- * @property int|null $shipping_method_id
- * @property int|null $payment_method_id
+ * @property int|null $payment_method
  * @property int|null $shipping_address_id
  * @property int|null $billing_address_id
  * @property float $total
@@ -53,8 +53,7 @@ class Order extends Model
     protected $casts = [
         'user_id' => 'int',
         'currency_id' => 'int',
-        'shipping_method_id' => 'int',
-        'payment_method_id' => 'int',
+        'payment_method' => PaymentMethodEnum::class,
         'shipping_address_id' => 'int',
         'billing_address_id' => 'int',
         'total' => 'float',
@@ -65,8 +64,7 @@ class Order extends Model
         'user_id',
         'order_no',
         'currency_id',
-        'shipping_method_id',
-        'payment_method_id',
+        'payment_method',
         'shipping_address_id',
         'billing_address_id',
         'total',
@@ -87,16 +85,6 @@ class Order extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
-    }
-
-    public function paymentMethod(): BelongsTo
-    {
-        return $this->belongsTo(PaymentMethod::class);
-    }
-
-    public function shippingMethod(): BelongsTo
-    {
-        return $this->belongsTo(ShippingMethod::class);
     }
 
     public function user(): BelongsTo

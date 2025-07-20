@@ -39,8 +39,6 @@ class OrderDetailPage extends Page
         $this->order = Order::with([
             'orderItems.product.productTranslations',
             'orderItems.productVariant.specificationValues.specificationValueTranslations',
-            'shippingMethod.shippingMethodTranslations',
-            'paymentMethod.paymentMethodTranslations',
         ])
             ->where('user_id', auth()->id())
             ->findOrFail($id);

@@ -3,6 +3,7 @@
 namespace App\Filament\Manager\Resources;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentMethodEnum;
 use App\Filament\Manager\Resources\OrderResource\Pages;
 use App\Filament\Manager\Resources\OrderResource\RelationManagers;
 use App\Filament\Manager\Resources\OrderResource\RelationManagers\OrderItemsRelationManager;
@@ -55,8 +56,10 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('order_no')
                     ->label(__('filament_order.order_no'))
-                    ->disabled()
-                    ->columnSpanFull(),
+                    ->disabled(),
+                Forms\Components\Select::make('payment_method')
+                    ->label(__('filament_order.payment_method'))
+                    ->options(PaymentMethodEnum::options()),
                 Forms\Components\Select::make('user_id')
                     ->label(__('filament_order.user_id'))
                     ->relationship('user', 'name')
