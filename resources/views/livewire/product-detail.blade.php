@@ -9,7 +9,7 @@
     $shortDesc = $translation && $translation->short_description ? $translation->short_description : '';
     $variant = $variants->where('id', $selectedVariantId)->first();
     $images = $product->getMedia('images');
-    $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
+    $price = isset($finalPrice) ? $currencyService->convertWithSymbol($finalPrice, $currencyCode) : ($variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '');
     $attributes = $product->attributeValues ?? collect();
 
     $productId = $product->id;
@@ -94,7 +94,20 @@
                 <div class="mb-4 text-gray-700">{{ $shortDesc }}</div>
             @endif
             <div class="mb-4">
-                <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
+                @if (!empty($promotionInfo))
+                    <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
+                    <span class="text-gray-400 line-through ml-2">{{ $currencyService->convertWithSymbol($variant->price, $currencyCode) }}</span>
+                    <span class="ml-2 text-xs text-red-500 font-semibold">
+                        {{ $promotionInfo['rule']['discount_type'] == 'percentage'
+                            ? __('app.discount_percent', ['percent' => $promotionInfo['rule']['discount_value']])
+                            : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotionInfo['discount'], $currencyCode)]) }}
+                    </span>
+                    @if ($promotionInfo['description'])
+                        <div class="text-xs text-red-600 mt-1">{{ $promotionInfo['description'] }}</div>
+                    @endif
+                @else
+                    <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
+                @endif
             </div>
             {{-- 规格参数 --}}
             @if ($variant)

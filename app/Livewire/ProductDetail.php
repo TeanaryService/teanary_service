@@ -84,12 +84,24 @@ class ProductDetail extends Component
 
     public function render()
     {
+        $variant = $this->variants->where('id', $this->selectedVariantId)->first();
+        $promotionInfo = null;
+        $finalPrice = $variant?->price ?? 0;
+        if ($variant) {
+            $promoService = app(\App\Services\PromotionService::class);
+            $promo = $promoService->calculateVariantPrice($variant, $this->qty, auth()->user());
+            $promotionInfo = $promo['promotion'];
+            $finalPrice = $promo['final_price'];
+        }
+
         return view('livewire.product-detail', [
             'product' => $this->product,
             'variants' => $this->variants,
             'selectedVariantId' => $this->selectedVariantId,
             'categoryNames' => $this->categoryNames,
             'qty' => $this->qty,
+            'promotionInfo' => $promotionInfo,
+            'finalPrice' => $finalPrice,
         ]);
     }
 }

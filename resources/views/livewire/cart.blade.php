@@ -53,6 +53,9 @@
                                     <span class="ml-2 text-xs text-red-500 font-semibold">
                                         {{ $promotion['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $promotion['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotion['discount'], $currencyCode)]) }}
                                     </span>
+                                    @if ($promotion['description'])
+                                        <div class="text-xs text-red-600 mt-1">{{ $promotion['description'] }}</div>
+                                    @endif
                                 @else
                                     <span>{{ $price }}</span>
                                 @endif

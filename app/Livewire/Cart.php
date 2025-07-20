@@ -17,7 +17,22 @@ class Cart extends Component
     public function mount()
     {
         $cart = $this->getCart();
-        $this->cartItems = $cart ? $cart->cartItems()->with(['product.productTranslations', 'productVariant.specificationValues.specificationValueTranslations', 'productVariant.media'])->get() : collect();
+        $promoService = app(\App\Services\PromotionService::class);
+        $user = auth()->user();
+        $this->cartItems = $cart
+            ? $cart->cartItems()->with([
+                'product.productTranslations',
+                'productVariant.specificationValues.specificationValueTranslations',
+                'productVariant.media'
+            ])->get()->map(function ($item) use ($promoService, $user) {
+                $promo = $item->productVariant
+                    ? $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user)
+                    : ['final_price' => $item->productVariant->price ?? 0, 'promotion' => null];
+                $item->final_price = $promo['final_price'];
+                $item->promotion = $promo['promotion'];
+                return $item;
+            })
+            : collect();
         $this->selected = $this->cartItems->pluck('id')->toArray();
         $this->calcTotal();
     }
@@ -80,7 +95,7 @@ class Cart extends Component
     public function calcTotal()
     {
         $this->total = $this->cartItems->whereIn('id', $this->selected)->sum(function ($item) {
-            return $item->qty * ($item->productVariant->price ?? 0);
+            return $item->qty * ($item->final_price ?? $item->productVariant->price ?? 0);
         });
     }
 
