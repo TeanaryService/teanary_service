@@ -1,5 +1,7 @@
 <div class="bg-gray-50">
 
+    <x-promotion-list />
+
     {{-- Hero Banner --}}
     <section class="w-full bg-white py-20">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
@@ -21,8 +23,6 @@
             </div>
         </div>
     </section>
-
-    <x-promotion-list />
 
     {{-- Categories Quick Access --}}
     <section class="max-w-7xl mx-auto py-20 px-6">

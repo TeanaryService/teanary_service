@@ -5,7 +5,7 @@
     $currencyCode = session('currency');
 @endphp
 
-<div class="w-full max-w-7xl mx-auto">
+<div class="w-full max-w-7xl mx-auto py-9">
     @if (count($promotions))
         <div class="bg-green-50 border-l-4 border-green-400 p-6 rounded-2xl shadow-md mb-10">
             <h2 class="text-2xl font-bold text-green-800 mb-4">{{ __('home.promotions') }}</h2>
