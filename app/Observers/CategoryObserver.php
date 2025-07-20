@@ -36,9 +36,6 @@ class CategoryObserver
      */
     protected function clearCategoryCache(): void
     {
-        $languages = app(\App\Services\LocaleCurrencyService::class)->getLanguages();
-        foreach ($languages as $lang) {
-            Cache::forget("categories.with.translations.{$lang->id}");
-        }
+        \Illuminate\Support\Facades\Cache::forget("categories.with.translations");
     }
 }

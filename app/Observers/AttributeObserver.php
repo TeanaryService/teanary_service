@@ -11,10 +11,7 @@ class AttributeObserver
      */
     protected function clearAttributeCache(): void
     {
-        $languages = app(\App\Services\LocaleCurrencyService::class)->getLanguages();
-        foreach ($languages as $lang) {
-            \Illuminate\Support\Facades\Cache::forget("attributes.with.translations.{$lang->id}");
-        }
+        \Illuminate\Support\Facades\Cache::forget("attributes.with.translations");
     }
 
     /**

@@ -6,7 +6,9 @@
 
 namespace App\Models;
 
+use App\Observers\ZoneObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +31,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
+
+#[ObservedBy([ZoneObserver::class])]
+
 class Zone extends Model
 {
     use HasFactory;
@@ -68,12 +73,12 @@ class Zone extends Model
         return \Illuminate\Support\Facades\Cache::rememberForever("zones.with.translations", function () {
             return static::with('zoneTranslations')
                 ->get()
-                ->map(function($zone) {
+                ->map(function ($zone) {
                     return [
                         'id' => $zone->id,
                         'country_id' => $zone->country_id,
                         'translations' => $zone->zoneTranslations
-                            ->mapWithKeys(function($trans) {
+                            ->mapWithKeys(function ($trans) {
                                 return [$trans->language_id => $trans->name];
                             })->toArray(),
                         'default_name' => $zone->name
@@ -94,7 +99,7 @@ class Zone extends Model
 
         return collect($zones)
             ->where('country_id', $countryId)
-            ->map(function($zone) use ($langId) {
+            ->map(function ($zone) use ($langId) {
                 return [
                     'id' => $zone['id'],
                     'name' => $zone['translations'][$langId] ?? $zone['default_name']

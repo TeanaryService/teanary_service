@@ -49,32 +49,35 @@ class Attribute extends Model
      * @param int|null $langId
      * @return \Illuminate\Support\Collection
      */
-    public static function getCachedAttributes(?int $langId = null)
+    public static function getCachedAttributes()
     {
-        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
-
-        return \Illuminate\Support\Facades\Cache::rememberForever("attributes.with.translations.{$langId}", function () use ($langId) {
+        return \Illuminate\Support\Facades\Cache::rememberForever("attributes.with.translations", function () {
             return static::with([
-                'attributeTranslations' => function ($q) use ($langId) {
-                    $q->where('language_id', $langId);
-                },
-                'attributeValues.attributeValueTranslations' => function ($q) use ($langId) {
-                    $q->where('language_id', $langId);
-                }
-            ])->get()->map(function ($attr) use ($langId) {
-                $trans = $attr->attributeTranslations->first();
-                return [
-                    'id' => $attr->id,
-                    'name' => $trans ? $trans->name : $attr->id,
-                    'values' => $attr->attributeValues->map(function ($val) use ($langId) {
-                        $valTrans = $val->attributeValueTranslations->first();
-                        return [
-                            'id' => $val->id,
-                            'name' => $valTrans ? $valTrans->name : $val->id,
-                        ];
-                    })->values(),
-                ];
-            });
+                'attributeTranslations',
+                'attributeValues.attributeValueTranslations'
+            ])->get();
+        });
+    }
+
+    /**
+     * 获取当前语言下的属性及属性值
+     */
+    public static function getAttributesForLanguage($langId)
+    {
+        $attributes = static::getCachedAttributes();
+        return $attributes->map(function ($attr) use ($langId) {
+            $trans = $attr->attributeTranslations->where('language_id', $langId)->first();
+            return [
+                'id' => $attr->id,
+                'name' => $trans ? $trans->name : $attr->id,
+                'values' => $attr->attributeValues->map(function ($val) use ($langId) {
+                    $valTrans = $val->attributeValueTranslations->where('language_id', $langId)->first();
+                    return [
+                        'id' => $val->id,
+                        'name' => $valTrans ? $valTrans->name : $val->id,
+                    ];
+                })->values(),
+            ];
         });
     }
 }

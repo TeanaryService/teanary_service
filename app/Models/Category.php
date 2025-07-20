@@ -90,27 +90,29 @@ class Category extends Model implements HasMedia
      * @param int|null $langId
      * @return \Illuminate\Support\Collection
      */
-    public static function getCachedCategories(?int $langId = null)
+    public static function getCachedCategories()
     {
-        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
-
-        return \Illuminate\Support\Facades\Cache::rememberForever("categories.with.translations.{$langId}", function () use ($langId) {
+        return \Illuminate\Support\Facades\Cache::rememberForever("categories.with.translations", function () {
             return static::with([
-                'categories.categories', // 递归加载子分类（第二层）
+                'categories.categories',
                 'media',
-                'categoryTranslations' => function ($q) use ($langId) {
-                    $q->where('language_id', $langId);
-                },
+                'categoryTranslations',
                 'categories.media',
-                'categories.categoryTranslations' => function ($q) use ($langId) {
-                    $q->where('language_id', $langId);
-                },
+                'categories.categoryTranslations',
             ])
                 ->whereNull('parent_id')
-                ->get()
-                ->map(function ($cat) use ($langId) {
-                    return static::formatCategory($cat, $langId);
-                });
+                ->get();
+        });
+    }
+
+    /**
+     * 获取当前语言下的分类（含递归子分类）
+     */
+    public static function getCategoriesForLanguage($langId)
+    {
+        $categories = static::getCachedCategories();
+        return $categories->map(function ($cat) use ($langId) {
+            return static::formatCategory($cat, $langId);
         });
     }
 
@@ -123,7 +125,7 @@ class Category extends Model implements HasMedia
      */
     protected static function formatCategory($category, int $langId): array
     {
-        $translation = $category->categoryTranslations->first();
+        $translation = $category->categoryTranslations->where('language_id', $langId)->first();
 
         return [
             'id' => $category->id,
