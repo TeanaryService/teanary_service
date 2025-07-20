@@ -33,14 +33,14 @@
         <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
             <div class="hidden md:block">
                 <a href="{{ locaRoute('home') }}"><x-layouts.logo
-                        imgClass="max-w-12 max-h-12 md:max-w-18 md:max-h-18" /></a>
+                        imgClass="max-w-12 max-h-12 md:max-w-14 md:max-h-14" /></a>
             </div>
 
             <!-- 搜索框 -->
             <x-search-input />
 
             <div class="block md:hidden">
-                <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-18 max-h-18" /></a>
+                <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
             </div>
 
             <div class="flex items-center gap-x-4 h-10">
