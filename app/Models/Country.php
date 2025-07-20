@@ -60,4 +60,43 @@ class Country extends Model
     {
         return $this->hasMany(Zone::class);
     }
+
+    /**
+     * 获取所有国家数据缓存(包含所有语言)
+     */
+    public static function getCachedCountries()
+    {
+        return \Illuminate\Support\Facades\Cache::rememberForever("countries.with.translations", function () {
+            return static::with('countryTranslations')
+                ->get()
+                ->map(function($country) {
+                    return [
+                        'id' => $country->id,
+                        'translations' => $country->countryTranslations
+                            ->mapWithKeys(function($trans) {
+                                return [$trans->language_id => $trans->name];
+                            })->toArray(),
+                        'default_name' => $country->name
+                    ];
+                })
+                ->values()
+                ->toArray();
+        });
+    }
+
+    /**
+     * 从缓存获取指定语言的国家列表
+     */
+    public static function getCountriesByLanguage(?int $langId = null)
+    {
+        $countries = self::getCachedCountries();
+        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+
+        return collect($countries)->map(function($country) use ($langId) {
+            return [
+                'id' => $country['id'],
+                'name' => $country['translations'][$langId] ?? $country['default_name']
+            ];
+        })->sortBy('name')->values()->toArray();
+    }
 }

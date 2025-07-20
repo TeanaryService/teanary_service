@@ -2,12 +2,251 @@
 
 namespace App\Livewire;
 
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\ProductVariant;
+use App\Enums\OrderStatusEnum;
+use App\Services\LocaleCurrencyService;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Checkout extends Component
 {
+    public $checkoutItems = [];
+    public $processedItems = [];
+    public $total = 0;
+    public $shippingAddress;
+    public $billingAddress;
+    public $paymentMethod;
+    public $addresses;
+    public $showAddressForm = false;
+    
+    // 新增地址表单数据
+    public $address = [
+        'firstname' => '',
+        'lastname' => '',
+        'telephone' => '',
+        'address_1' => '',
+        'address_2' => '',
+        'city' => '',
+        'postcode' => '',
+        'country_id' => '',
+        'zone_id' => ''
+    ];
+    
+    public $countries = [];
+    public $zones = [];
+
+    protected $rules = [
+        'address.firstname' => 'required|string|max:255',
+        'address.lastname' => 'required|string|max:255',
+        'address.email' => 'nullable|email|max:255',
+        'address.telephone' => 'required|string|max:255',
+        'address.company' => 'nullable|string|max:255',
+        'address.address_1' => 'required|string|max:255',
+        'address.address_2' => 'nullable|string|max:255',
+        'address.city' => 'required|string|max:255',
+        'address.postcode' => 'required|string|max:20',
+        'address.country_id' => 'required|exists:countries,id',
+        'address.zone_id' => 'required|exists:zones,id',
+    ];
+
+    public function mount()
+    {
+        $this->checkoutItems = session('checkout_items', []);
+        
+        if (empty($this->checkoutItems)) {
+            return redirect()->route('cart', ['locale' => app()->getLocale()]);
+        }
+
+        $this->processCheckoutItems();
+        
+        if (auth()->check()) {
+            $this->addresses = auth()->user()->addresses;
+            $this->shippingAddress = $this->addresses->first()?->id;
+        }
+        
+        // 使用缓存获取国家列表
+        $locale = app()->getLocale();
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $this->countries = \App\Models\Country::getCountriesByLanguage($lang?->id);
+        
+        // 如果已有地址的国家ID，加载对应的地区数据
+        if (!empty($this->address['country_id'])) {
+            $this->updatedAddressCountryId($this->address['country_id']);
+        }
+    }
+
+    protected function processCheckoutItems()
+    {
+        $this->total = 0;
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
+        
+        foreach ($this->checkoutItems as $item) {
+            $variant = ProductVariant::with([
+                'product.productTranslations',
+                'specificationValues.specificationValueTranslations',
+                'media'
+            ])->find($item['product_variant_id']);
+            
+            if ($variant) {
+                $product = $variant->product;
+                $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
+                $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
+                
+                // 处理规格值的翻译
+                $specs = $variant->specificationValues->map(function ($sv) use ($lang) {
+                    $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+                    return $trans && $trans->name ? $trans->name : $sv->id;
+                })->implode(' / ');
+
+                $this->processedItems[] = [
+                    'product_id' => $item['product_id'],
+                    'product_variant_id' => $item['product_variant_id'],
+                    'qty' => $item['qty'],
+                    'price' => $variant->price,
+                    'product_name' => $name,
+                    'specs' => $specs,
+                    'image' => $variant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.png'),
+                    'subtotal' => $variant->price * $item['qty']
+                ];
+                
+                $this->total += $variant->price * $item['qty'];
+            }
+        }
+    }
+
+    public function updatedAddressCountryId($value)
+    {
+        if (!$value) {
+            $this->zones = [];
+            $this->address['zone_id'] = '';
+            return;
+        }
+
+        $locale = app()->getLocale();
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $this->zones = \App\Models\Zone::getZonesByCountryAndLanguage($value, $lang?->id);
+        
+        // 重置地区选择
+        $this->address['zone_id'] = '';
+        
+        // 如果只有一个地区，自动选中
+        if (count($this->zones) === 1) {
+            $this->address['zone_id'] = $this->zones[0]['id'];
+        }
+    }
+
+    public function toggleAddressForm()
+    {
+        $this->showAddressForm = !$this->showAddressForm;
+    }
+
+    public function saveAddress()
+    {
+        try {
+            $this->validate();
+            $address = auth()->user()->addresses()->create($this->address);
+            $this->addresses = auth()->user()->addresses()->get();
+            $this->shippingAddress = $address->id;
+            $this->showAddressForm = false;
+            $this->address = [
+                'firstname' => '',
+                'lastname' => '',
+                'email' => '',
+                'telephone' => '',
+                'company' => '',
+                'address_1' => '',
+                'address_2' => '',
+                'city' => '',
+                'postcode' => '',
+                'country_id' => '',
+                'zone_id' => ''
+            ];
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
+    }
+
+    public function createOrder()
+    {
+        if (!$this->shippingAddress) {
+            session()->flash('error', __('Please select a shipping address'));
+            return;
+        }
+        
+        if (empty($this->processedItems)) {
+            return redirect()->route('cart');
+        }
+
+        $order = Order::create([
+            'user_id' => auth()->id(),
+            'order_no' => 'ORD-' . Str::upper(Str::random(8)),
+            'shipping_address_id' => $this->shippingAddress,
+            'billing_address_id' => $this->billingAddress,
+            'payment_method' => $this->paymentMethod,
+            'total' => $this->total,
+            'status' => OrderStatusEnum::Pending
+        ]);
+
+        foreach ($this->processedItems as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['product_id'],
+                'product_variant_id' => $item['product_variant_id'],
+                'qty' => $item['qty'],
+                'price' => $item['price']
+            ]);
+        }
+
+        return redirect()->route('order.success', ['order' => $order->id]);
+    }
+
+    protected function getAddressLabel($address)
+    {
+        $locale = app()->getLocale();
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        
+        // 获取国家多语言名称
+        $countryName = '';
+        if ($address->country) {
+            $translation = $address->country->countryTranslations->where('language_id', $lang?->id)->first();
+            $countryName = $translation && $translation->name 
+                ? $translation->name 
+                : ($address->country->countryTranslations->first()->name ?? $address->country->name);
+        }
+        
+        // 获取地区多语言名称
+        $zoneName = '';
+        if ($address->zone) {
+            $translation = $address->zone->zoneTranslations->where('language_id', $lang?->id)->first();
+            $zoneName = $translation && $translation->name 
+                ? $translation->name 
+                : ($address->zone->zoneTranslations->first()->name ?? $address->zone->name);
+        }
+        
+        return [
+            'country' => $countryName,
+            'zone' => $zoneName
+        ];
+    }
+
     public function render()
     {
-        return view('livewire.checkout');
+        $addresses = $this->addresses ? $this->addresses->map(function($address) {
+            $translations = $this->getAddressLabel($address);
+            $address->country_name = $translations['country'];
+            $address->zone_name = $translations['zone'];
+            return $address;
+        }) : collect();
+
+        return view('livewire.checkout', [
+            'items' => $this->processedItems,
+            'total' => $this->total,
+            'lang' => app(LocaleCurrencyService::class)->getLanguageByCode(session('lang')),
+            'addresses' => $addresses,
+            'countries' => $this->countries,
+            'zones' => $this->zones,
+        ]);
     }
 }

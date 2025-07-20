@@ -87,7 +87,18 @@ class Cart extends Component
     public function checkout()
     {
         $locale = app()->getLocale();
-        // 跳转到结账页面
+        
+        // 只传递必要的商品信息
+        $selectedItems = $this->cartItems->whereIn('id', $this->selected)
+            ->map(function($item) {
+                return [
+                    'product_id' => $item->product_id,
+                    'product_variant_id' => $item->product_variant_id,
+                    'qty' => $item->qty,
+                ];
+            })->toArray();
+    
+        session()->flash('checkout_items', $selectedItems);
         return redirect()->route('checkout', ['locale' => $locale]);
     }
 

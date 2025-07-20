@@ -27,6 +27,8 @@ return [
     'cart' => 'Shopping Cart',
     'empty_cart' => 'No items in cart',
     'total' => 'Subtotal',
+    'subtotal' => 'Subtotal',
+    'place_order' => 'Place Order',
     'go_to_check' => 'Checkout',
     'product' => 'Product',
     'specification' => 'Specification',
@@ -36,4 +38,24 @@ return [
     'inverse_select' => 'Inverse',
     'cookie_message' => 'We use cookies to improve your experience, analyze traffic, and personalize content. By continuing, you agree to our cookie policy.',
     'cookie_accept' => 'Accept',
+
+    //Checkout
+    'shipping_address' => 'Shipping Address',
+    'add_new_address' => 'Add New Address',
+    'cancel' => 'Cancel',
+    'firstname' => 'First Name',
+    'lastname' => 'Last Name',
+    'telephone' => 'Phone Number',
+    'address_1' => 'Detailed Address',
+    'country' => 'Country',
+    'zone' => 'Province/Region',
+    'select_country' => 'Please Select a Country',
+    'select_zone' => 'Please Select a Province/Region',
+    'save_address' => 'Save Address',
+    'no_addresses' => 'No Shipping Address Yet',
+    'order_items' => 'Order Items',
+    'order_summary' => 'Order Summary',
+    'no_items_to_checkout' => 'No Items to Checkout',
+    'return_to_cart' => 'Return to Cart',
+
 ];

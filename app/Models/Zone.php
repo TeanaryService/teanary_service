@@ -59,4 +59,49 @@ class Zone extends Model
     {
         return $this->hasMany(ZoneTranslation::class);
     }
+
+    /**
+     * 获取所有地区数据缓存(包含所有语言)
+     */
+    public static function getCachedZones()
+    {
+        return \Illuminate\Support\Facades\Cache::rememberForever("zones.with.translations", function () {
+            return static::with('zoneTranslations')
+                ->get()
+                ->map(function($zone) {
+                    return [
+                        'id' => $zone->id,
+                        'country_id' => $zone->country_id,
+                        'translations' => $zone->zoneTranslations
+                            ->mapWithKeys(function($trans) {
+                                return [$trans->language_id => $trans->name];
+                            })->toArray(),
+                        'default_name' => $zone->name
+                    ];
+                })
+                ->values()
+                ->toArray();
+        });
+    }
+
+    /**
+     * 从缓存获取指定国家和语言的地区列表
+     */
+    public static function getZonesByCountryAndLanguage(int $countryId, ?int $langId = null)
+    {
+        $zones = self::getCachedZones();
+        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+
+        return collect($zones)
+            ->where('country_id', $countryId)
+            ->map(function($zone) use ($langId) {
+                return [
+                    'id' => $zone['id'],
+                    'name' => $zone['translations'][$langId] ?? $zone['default_name']
+                ];
+            })
+            ->sortBy('name')
+            ->values()
+            ->toArray();
+    }
 }
