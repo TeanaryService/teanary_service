@@ -1,0 +1,22 @@
+<?php
+
+return [
+    'my_orders' => '我的订单',
+    'order_no' => '订单号',
+    'order_status' => '订单状态',
+    'order_status_all' => '全部',
+    'order_status_pending' => '待付款',
+    'order_status_paid' => '已付款',
+    'order_status_shipped' => '已发货',
+    'order_status_completed' => '已完成',
+    'order_status_cancelled' => '已取消',
+    'order_total' => '订单总额',
+    'order_created_at' => '下单时间',
+    'shipping_method' => '配送方式',
+    'payment_method' => '支付方式',
+    'order_items' => '商品列表',
+    'view_detail' => '查看详情',
+    'order_detail' => '订单详情',
+    'no_orders' => '暂无订单',
+    'no_order_detail' => '订单不存在或已删除',
+];
