@@ -12,6 +12,8 @@ return [
     'about_content' => 'KM Flora offers fresh cut flowers from top-quality growers. Whether it’s a daily treat or a special occasion, we deliver beauty to you.',
     'learn_more' => 'Learn More',
     'search' => 'Search',
+    'qty' => 'Quantity',
+    'storage' => 'Storage: :storage',
 
     // Product Related
     'product_view_detail' => 'View Details',

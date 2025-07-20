@@ -15,6 +15,7 @@
     $productId = $product->id;
     $variantId = $selectedVariantId;
     $qty = 1;
+    $maxQty = $variant && $variant->stock ? $variant->stock : 1;
 
     $breadcrumbs = [
         [
@@ -150,6 +151,18 @@
                     </div>
                 </div>
             @endif
+            {{-- 购买数量 --}}
+            <div class="mb-4 flex items-center gap-2">
+                <span class="font-semibold text-gray-700">{{ __('home.qty') }}:</span>
+                <button type="button" class="px-2 py-1 bg-gray-200 rounded"
+                    wire:click="decrementQty">-</button>
+                <input type="number" min="1" max="{{ $maxQty }}" wire:model.lazy="qty"
+                    wire:change="updateQty($event.target.value)"
+                    class="w-16 text-center border rounded px-2 py-1" />
+                <button type="button" class="px-2 py-1 bg-gray-200 rounded"
+                    wire:click="incrementQty">+</button>
+                <span class="text-gray-400 ml-2 text-sm">{{ __('home.storage', ['storage' => $maxQty]) }}</span>
+            </div>
             {{-- 购买按钮 --}}
             <div class="mt-6 flex items-center gap gap-4">
                 <button
@@ -159,6 +172,7 @@
                 </button>
 
                 <button
+                    wire:click="buyNow"
                     class="w-full px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">
                     {{ __('home.buy_now') }}
                 </button>

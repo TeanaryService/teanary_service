@@ -36,6 +36,8 @@ return [
     'anonymous' => '匿名用户',
     'rating' => '评分',
     'addCart' => '加入购物车',
+    'qty' => '数量',
+    'storage' => '库存: :storage',
 
     // 促销相关
     'promotions' => '促销活动',

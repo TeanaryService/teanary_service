@@ -12,6 +12,7 @@ class ProductDetail extends Component
     public $variants;
     public $selectedVariantId;
     public $categoryNames = [];
+    public $qty = 1;
 
     public function mount($id)
     {
@@ -39,6 +40,46 @@ class ProductDetail extends Component
     public function selectVariant($variantId)
     {
         $this->selectedVariantId = $variantId;
+        // 切换规格时重置数量为1
+        $this->qty = 1;
+    }
+
+    public function updateQty($qty)
+    {
+        $variant = $this->variants->where('id', $this->selectedVariantId)->first();
+        $max = $variant ? $variant->stock : 1;
+        $this->qty = max(1, min($qty, $max));
+    }
+
+    public function decrementQty()
+    {
+        $variant = $this->variants->where('id', $this->selectedVariantId)->first();
+        $min = 1;
+        $this->qty = max($min, $this->qty - 1);
+    }
+
+    public function incrementQty()
+    {
+        $variant = $this->variants->where('id', $this->selectedVariantId)->first();
+        $max = $variant ? $variant->stock : 1;
+        $this->qty = min($max, $this->qty + 1);
+    }
+
+    public function buyNow()
+    {
+        $variant = $this->variants->where('id', $this->selectedVariantId)->first();
+        $max = $variant ? $variant->stock : 1;
+        $qty = max(1, min($this->qty, $max));
+
+        $selectedItems = [[
+            'product_id' => $this->product->id,
+            'product_variant_id' => $this->selectedVariantId,
+            'qty' => $qty,
+        ]];
+
+        session()->flash('checkout_items', $selectedItems);
+        $locale = app()->getLocale();
+        return redirect()->route('checkout', ['locale' => $locale]);
     }
 
     public function render()
@@ -48,6 +89,7 @@ class ProductDetail extends Component
             'variants' => $this->variants,
             'selectedVariantId' => $this->selectedVariantId,
             'categoryNames' => $this->categoryNames,
+            'qty' => $this->qty,
         ]);
     }
 }
