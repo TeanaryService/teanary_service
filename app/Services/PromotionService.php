@@ -19,6 +19,13 @@ class PromotionService
      * @param User|null $user
      * @return array ['final_price' => float, 'promotion' => array|null]
      */
+    protected function getPromotionFromCache($promotionId)
+    {
+        // 从缓存获取所有促销模型对象
+        $allPromotions = static::getAllPromotionsCached();
+        return $allPromotions->firstWhere('id', $promotionId);
+    }
+
     public function calculateVariantPrice(ProductVariant $variant, int $qty = 1, ?User $user = null): array
     {
         $basePrice = $variant->price ?? 0;
@@ -26,10 +33,11 @@ class PromotionService
 
         $finalPrice = $basePrice;
         $appliedPromotion = null;
+        $langId = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
         foreach ($promotions as $promotion) {
-            // 修正：获取模型对象
-            $promotionModel = Promotion::find($promotion['id']);
+            // 优先用缓存
+            $promotionModel = $this->getPromotionFromCache($promotion['id']);
             if (!$promotionModel) continue;
             foreach ($promotionModel->promotionRules as $rule) {
                 if ($this->checkRule($rule, $basePrice, $qty)) {
@@ -37,10 +45,11 @@ class PromotionService
                     $priceAfterDiscount = max(0, $basePrice - $discount);
                     if ($priceAfterDiscount < $finalPrice) {
                         $finalPrice = $priceAfterDiscount;
+                        $trans = $promotionModel->promotionTranslations->where('language_id', $langId)->first();
                         $appliedPromotion = [
                             'id' => $promotionModel->id,
-                            'name' => $promotionModel->promotionTranslations->first()?->name ?? '',
-                            'description' => $promotionModel->promotionTranslations->first()?->description ?? '',
+                            'name' => $trans?->name ?? $promotionModel->promotionTranslations->first()?->name ?? '',
+                            'description' => $trans?->description ?? $promotionModel->promotionTranslations->first()?->description ?? '',
                             'discount' => $discount,
                             'final_price' => $finalPrice,
                             'rule' => $rule->toArray(),
@@ -72,10 +81,11 @@ class PromotionService
 
         $finalTotal = $baseTotal;
         $appliedPromotion = null;
+        $langId = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
         foreach ($promotions as $promotion) {
-            // 修正：获取模型对象
-            $promotionModel = Promotion::find($promotion['id']);
+            // 优先用缓存
+            $promotionModel = $this->getPromotionFromCache($promotion['id']);
             if (!$promotionModel) continue;
             foreach ($promotionModel->promotionRules as $rule) {
                 if ($this->checkRule($rule, $baseTotal, $order->orderItems->sum('qty'))) {
@@ -83,10 +93,11 @@ class PromotionService
                     $totalAfterDiscount = max(0, $baseTotal - $discount);
                     if ($totalAfterDiscount < $finalTotal) {
                         $finalTotal = $totalAfterDiscount;
+                        $trans = $promotionModel->promotionTranslations->where('language_id', $langId)->first();
                         $appliedPromotion = [
                             'id' => $promotionModel->id,
-                            'name' => $promotionModel->promotionTranslations->first()?->name ?? '',
-                            'description' => $promotionModel->promotionTranslations->first()?->description ?? '',
+                            'name' => $trans?->name ?? $promotionModel->promotionTranslations->first()?->name ?? '',
+                            'description' => $trans?->description ?? $promotionModel->promotionTranslations->first()?->description ?? '',
                             'discount' => $discount,
                             'final_total' => $finalTotal,
                             'rule' => $rule->toArray(),
@@ -161,8 +172,8 @@ class PromotionService
         $promotions = $this->getAvailablePromotions($user, $langId);
 
         return $promotions->filter(function ($promotion) use ($variant) {
-            // 只筛选绑定了该规格的促销
-            $promotionModel = Promotion::find($promotion['id']);
+            // 优先用缓存
+            $promotionModel = $this->getPromotionFromCache($promotion['id']);
             return $promotionModel && $promotionModel->productVariants->contains(function ($pv) use ($variant) {
                 return $pv->pivot->product_variant_id === $variant->id;
             });
