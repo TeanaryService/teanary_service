@@ -29,11 +29,11 @@ class PersonalPanelProvider extends PanelProvider
             ->id('personal')
             ->path('personal')
             ->login()
+            ->profile(isSimple: false)
             ->authGuard('web')
             ->registration()
             ->passwordReset()
             ->emailVerification()
-            ->profile(isSimple: false)
             ->colors([
                 'primary' => Color::Green,
             ])
