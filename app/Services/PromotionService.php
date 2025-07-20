@@ -167,13 +167,20 @@ class PromotionService
     /**
      * 获取商品规格可用促销，从总缓存筛选
      */
-    public function getAvailablePromotionsForVariant(ProductVariant $variant, ?User $user = null, ?int $langId = null)
-    {
+    public function getAvailablePromotionsForVariant(
+        ProductVariant $variant,
+        ?User $user = null,
+        ?int $langId = null,
+    ) {
         $promotions = $this->getAvailablePromotions($user, $langId);
 
         return $promotions->filter(function ($promotion) use ($variant) {
-            // 优先用缓存
-            $promotionModel = $this->getPromotionFromCache($promotion['id']);
+            $promotionModel = RequestQueryCacheService::remember("promotion_{$promotion['id']}", function () use ($promotion) {
+                return Promotion::with(['productVariants' => function ($q) {
+                    $q->withPivot('product_variant_id');
+                }])->find($promotion['id']);
+            });
+
             return $promotionModel && $promotionModel->productVariants->contains(function ($pv) use ($variant) {
                 return $pv->pivot->product_variant_id === $variant->id;
             });

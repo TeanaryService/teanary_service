@@ -22,7 +22,8 @@ class ProductDetail extends Component
             'productTranslations',
             'productVariants.specificationValues.specificationValueTranslations',
             'productVariants.media',
-            'productCategories.categoryTranslations'
+            'productCategories.categoryTranslations',
+            'attributeValues.attributeValueTranslations'
         ])->findOrFail($id);
 
         $this->variants = $this->product->productVariants;

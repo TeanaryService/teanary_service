@@ -88,7 +88,7 @@ class ProductVariant extends Model implements HasMedia
     {
         return $this->hasMany(ProductReview::class);
     }
-    
+
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
@@ -109,7 +109,7 @@ class ProductVariant extends Model implements HasMedia
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
-            ->withPivot(['product_id']);
+            ->withPivot(['product_id', 'product_variant_id', 'promotion_id']);
     }
 
     public function registerMediaConversions(?Media $media = null): void
