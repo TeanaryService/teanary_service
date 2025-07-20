@@ -28,7 +28,7 @@
     <link rel="shortcut icon" type="image/icon" href="{{ asset('/favicon.png') }}" />
 </head>
 
-<body class="body bg-green-50">
+<body class="body bg-white">
     <div>
         <div class="fixed w-full top-0 bg-white border-b border-gray-200 z-50">
             <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
