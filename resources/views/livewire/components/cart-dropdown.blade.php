@@ -74,7 +74,7 @@
                             </button>
                             <input type="number" wire:change="updateQty({{ $item->id }}, $event.target.value)"
                                 value="{{ $item->qty }}" min="1"
-                                class="w-12 text-center border rounded text-md">
+                                class="w-14 text-center border rounded text-md">
                             <button wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})"
                                 class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded hover:bg-gray-200">
                                 +

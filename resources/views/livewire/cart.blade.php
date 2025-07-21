@@ -62,9 +62,9 @@
                             </td>
                             <td class="py-2 px-2 align-middle">
                                 <div class="flex items-center gap-1">
-                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})" class="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">-</button>
-                                    <input type="number" wire:change="updateQty({{ $item->id }}, $event.target.value)" value="{{ $item->qty }}" min="1" class="w-14 text-center border rounded font-semibold">
-                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})" class="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">+</button>
+                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})" class="px-2 w-10 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">-</button>
+                                    <input type="number" wire:change="updateQty({{ $item->id }}, $event.target.value)" value="{{ $item->qty }}" min="1" class="w-14 py-1 text-center border rounded font-semibold">
+                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})" class="px-2 w-10 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">+</button>
                                 </div>
                             </td>
                             <td class="py-2 px-2 font-bold text-green-700 align-middle">

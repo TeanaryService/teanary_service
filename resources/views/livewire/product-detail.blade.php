@@ -167,12 +167,12 @@
             {{-- 购买数量 --}}
             <div class="mb-4 flex items-center gap-2">
                 <span class="font-semibold text-gray-700">{{ __('home.qty') }}:</span>
-                <button type="button" class="px-2 py-1 bg-gray-200 rounded"
+                <button type="button" class="w-10 py-1 bg-gray-200 rounded"
                     wire:click="decrementQty">-</button>
                 <input type="number" min="1" max="{{ $maxQty }}" wire:model.lazy="qty"
                     wire:change="updateQty($event.target.value)"
-                    class="w-16 text-center border rounded px-2 py-1" />
-                <button type="button" class="px-2 py-1 bg-gray-200 rounded"
+                    class="w-16 text-center border rounded px-2 py-0.5" />
+                <button type="button" class="w-10 py-1 bg-gray-200 rounded"
                     wire:click="incrementQty">+</button>
                 <span class="text-gray-400 ml-2 text-sm">{{ __('home.storage', ['storage' => $maxQty]) }}</span>
             </div>
