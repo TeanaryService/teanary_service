@@ -38,13 +38,13 @@ class PaypalGateway implements PaymentGatewayInterface
         //处理金额/货币
         $currencyService = app(LocaleCurrencyService::class);
         $currentCurrency = session('currency', $currencyService->getDefaultCurrencyCode());
-        $total = $currencyService->convert($order['total'], $currentCurrency);
+        $total = $currencyService->convert($order['total'], 'USD', $currentCurrency);
 
         $request->body = [
             'intent' => 'CAPTURE',
             'purchase_units' => [[
                 'amount' => [
-                    'currency_code' => $currentCurrency,
+                    'currency_code' => 'USD',
                     'value' => $total,
                 ],
                 'description' => $order['name'],
