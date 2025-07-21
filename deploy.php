@@ -3,55 +3,68 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 
-// Config
-set('keep_releases', 2);
+// 配置
 set('repository', 'git@gitee.com:new-cms/kmflora_service.git');
+set('keep_releases', 2);
+set('default_stage', 'production');
 
+// 共享和可写
 add('shared_files', []);
 add('shared_dirs', []);
-add('writable_dirs', []);
+add('writable_dirs', ['storage', 'bootstrap/cache']);
 
-// Hosts
+// 主机配置
 host('flower')
     ->set('hostname', '107.174.127.181')
-    ->set('port', '22')
-    ->set('http_user', 'www')
-    ->set('branch', 'main')
+    ->set('port', 22)
     ->set('remote_user', 'root')
     ->setIdentityFile('~/.ssh/vpn')
-    ->set('deploy_path', '/home/wwwroot/flower');
+    ->set('deploy_path', '/home/wwwroot/flower')
+    ->set('branch', 'main')
+    ->set('http_user', 'www');
 
-// Hooks
-desc('laravel resource build');
+// ⏬ 自定义任务
+
+desc('构建前端资源');
 task('npm:build', function () {
-    cd('{{release_or_current_path}}');
-    run('rm package-lock.json && npm install && npm run build && rm -rf node_modules tests printer_server && mv public/vendor/livewire public/');
+    within('{{release_or_current_path}}', function () {
+        run('rm -f package-lock.json');
+        run('npm install');
+        run('npm run build');
+        run('rm -rf node_modules tests printer_server');
+        run('mv public/vendor/livewire public/');
+    });
 });
 
-desc('run test');
+desc('运行系统测试');
 task('artisan:app:test', function () {
-    cd('{{release_or_current_path}}');
-    run('php artisan app:test');
+    within('{{release_or_current_path}}', function () {
+        run('php artisan app:test');
+    });
 });
 
-desc('Cache the framework bootstrap files');
-task('artisan:filament:optimize', artisan('filament:optimize'));
+desc('Filament 缓存优化');
+task('artisan:filament:optimize', function () {
+    run('{{bin/php}} {{release_or_current_path}}/artisan filament:optimize');
+    run('{{bin/php}} {{release_or_current_path}}/artisan filament:cache-components');
+});
 
-// 开发环境可以 fresh + seed
+desc('重置数据库并填充 (开发环境专用)');
 task('artisan:migrate:fresh:seed', function () {
-    cd('{{release_or_current_path}}');
-    run('sudo -u www php artisan migrate:fresh --seed');
+    run('sudo -u www php {{release_or_current_path}}/artisan migrate:fresh --seed');
 });
 
-desc('system reload');
+desc('重载系统服务');
 task('system:reload', function () {
     run('sudo supervisorctl reload');
     run('sudo lnmp php-fpm reload');
-})->oncePerNode();
+})->once(); // 每个部署只执行一次（一次 per node）
 
-// Events
+// ⏬ Hook 任务顺序
+
 after('deploy:vendors', 'npm:build');
-
 after('deploy:symlink', 'system:reload');
-
+after('deploy:symlink', 'artisan:optimize');
+after('deploy:symlink', 'artisan:filament:optimize');
 after('deploy:failed', 'deploy:unlock');
+after('deploy:failed', 'deploy:rollback');
