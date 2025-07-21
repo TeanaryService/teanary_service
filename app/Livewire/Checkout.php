@@ -8,6 +8,8 @@ use App\Models\ProductVariant;
 use App\Enums\OrderStatusEnum;
 use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
+use App\Services\PaymentService;
+use App\Services\ShippingService;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -37,6 +39,8 @@ class Checkout extends Component
     
     public $countries = [];
     public $zones = [];
+    public $paymentMethods = [];
+    public $shippingMethods = [];
 
     protected $rules = [
         'address.firstname' => 'required|string|max:255',
@@ -76,11 +80,9 @@ class Checkout extends Component
         $this->total = $orderPromo['final_total'];
         $this->orderPromotion = $orderPromo['promotion'] ?? null;
 
-        if (auth()->check()) {
-            $this->addresses = auth()->user()->addresses;
-            $this->shippingAddress = $this->addresses->first()?->id;
-        }
-        
+        // 地址获取（支持未登录）
+        $this->loadAddresses();
+
         // 使用缓存获取国家列表
         $locale = app()->getLocale();
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -89,6 +91,21 @@ class Checkout extends Component
         // 如果已有地址的国家ID，加载对应的地区数据
         if (!empty($this->address['country_id'])) {
             $this->updatedAddressCountryId($this->address['country_id']);
+        }
+
+        // 获取支付方式和配送方式
+        $this->updatePaymentMethods();
+        $this->updateShippingMethods();
+    }
+
+    protected function loadAddresses()
+    {
+        if (auth()->check()) {
+            $this->addresses = \App\Models\Address::where('user_id', auth()->id())->get();
+            $this->shippingAddress = $this->addresses->first()?->id;
+        } else {
+            $this->addresses = \App\Models\Address::where('session_id', session()->getId())->get();
+            $this->shippingAddress = $this->addresses->first()?->id;
         }
     }
 
@@ -159,12 +176,41 @@ class Checkout extends Component
         $this->showAddressForm = !$this->showAddressForm;
     }
 
+    public function updatedShippingAddress($value)
+    {
+        $this->updatePaymentMethods();
+        $this->updateShippingMethods();
+    }
+
+    protected function updatePaymentMethods()
+    {
+        $address = null;
+        if ($this->shippingAddress && $this->addresses) {
+            $address = $this->addresses->where('id', $this->shippingAddress)->first();
+        }
+        $this->paymentMethods = app(\App\Services\PaymentService::class)->getAvailableMethods($address);
+    }
+
+    protected function updateShippingMethods()
+    {
+        $address = null;
+        if ($this->shippingAddress && $this->addresses) {
+            $address = $this->addresses->where('id', $this->shippingAddress)->first();
+        }
+        $this->shippingMethods = app(ShippingService::class)->getAvailableMethods($address);
+    }
+
     public function saveAddress()
     {
         try {
             $this->validate();
-            $address = auth()->user()->addresses()->create($this->address);
-            $this->addresses = auth()->user()->addresses()->get();
+            $data = $this->address;
+            $data['session_id'] = session()->getId();
+            if (auth()->check()) {
+                $data['user_id'] = auth()->id();
+            }
+            $address = \App\Models\Address::create($data);
+            $this->loadAddresses();
             $this->shippingAddress = $address->id;
             $this->showAddressForm = false;
             $this->address = [
@@ -180,6 +226,8 @@ class Checkout extends Component
                 'country_id' => '',
                 'zone_id' => ''
             ];
+            $this->updatePaymentMethods();
+            $this->updateShippingMethods();
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }
@@ -265,6 +313,8 @@ class Checkout extends Component
             'countries' => $this->countries,
             'zones' => $this->zones,
             'orderPromotion' => $this->orderPromotion ?? null,
+            'paymentMethods' => $this->paymentMethods,
+            'shippingMethods' => $this->shippingMethods,
         ]);
     }
 }

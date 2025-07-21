@@ -230,6 +230,29 @@
                             </div>
                         </div>
                     @endif
+
+                    {{-- 支付方式选择 --}}
+                    <div class="mt-4">
+                        <label class="block mb-2 font-semibold text-gray-700">{{ __('app.payment_method') }}</label>
+                        <select wire:model="paymentMethod" class="w-full p-3 rounded-lg border-gray-300">
+                            <option value="">{{ __('app.select_payment_method') }}</option>
+                            @foreach ($paymentMethods as $method)
+                                <option value="{{ $method->value }}">{{ $method->label() }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- 配送方式选择 --}}
+                    <div class="mt-4">
+                        <label class="block mb-2 font-semibold text-gray-700">{{ __('app.shipping_method') }}</label>
+                        <select wire:model="shippingMethod" class="w-full p-3 rounded-lg border-gray-300">
+                            <option value="">{{ __('app.select_shipping_method') }}</option>
+                            @foreach ($shippingMethods as $method)
+                                <option value="{{ $method->value }}">{{ $method->label() }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <button wire:click="createOrder"
                         class="w-full py-3 bg-green-600 text-white font-bold text-lg rounded-lg hover:bg-green-700 transition shadow">
                         {{ __('app.place_order') }}

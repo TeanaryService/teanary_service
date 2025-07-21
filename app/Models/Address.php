@@ -62,7 +62,8 @@ class Address extends Model
         'city',
         'postcode',
         'country_id',
-        'zone_id'
+        'zone_id',
+        'session_id'
     ];
 
     public function country(): BelongsTo
