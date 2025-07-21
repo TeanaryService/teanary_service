@@ -27,6 +27,8 @@ return [
     'cart' => 'Shopping Cart',
     'empty_cart' => 'No items in cart',
     'total' => 'Subtotal',
+    'promotion_discount' => 'Promotion Discount',
+    'shipping_fee' => 'Shipping Fee',
     'subtotal' => 'Subtotal',
     'place_order' => 'Place Order',
     'go_to_check' => 'Checkout',

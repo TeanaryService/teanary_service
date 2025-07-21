@@ -113,6 +113,12 @@ class OrderResource extends Resource
                     ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
+                Forms\Components\TextInput::make('shipping_fee')
+                    ->label(__('filament_order.shipping_fee'))
+                    ->required()
+                    ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
+                    ->numeric()
+                    ->default(0.00),
                 Forms\Components\Select::make('status')
                     ->label(__('filament_order.status'))
                     ->options(OrderStatusEnum::options())
@@ -153,6 +159,11 @@ class OrderResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('total')
                     ->label(__('filament_order.total'))
+                    ->prefix(fn($record): string => $record->currency->symbol)
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('shipping_fee')
+                    ->label(__('filament_order.shipping_fee'))
                     ->prefix(fn($record): string => $record->currency->symbol)
                     ->numeric()
                     ->sortable(),

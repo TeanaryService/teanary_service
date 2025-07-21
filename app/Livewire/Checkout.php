@@ -44,6 +44,10 @@ class Checkout extends Component
     public $paymentMethods = [];
     public $shippingMethods = [];
 
+    public $shippingMethod;
+    public $shippingFee = 0;
+    public $shippingDescription = '';
+
     protected $rules = [
         'address.firstname' => 'required|string|max:255',
         'address.lastname' => 'required|string|max:255',
@@ -98,6 +102,12 @@ class Checkout extends Component
         // 获取支付方式和配送方式
         $this->updatePaymentMethods();
         $this->updateShippingMethods();
+
+        // 默认选中第一个配送方式
+        if (!empty($this->shippingMethods)) {
+            $this->shippingMethod = $this->shippingMethods[0]['value'];
+            $this->updatedShippingMethod($this->shippingMethod);
+        }
     }
 
     protected function loadAddresses()
@@ -180,23 +190,19 @@ class Checkout extends Component
 
     public function updatedShippingAddress($value)
     {
-        // 更新支付和配送方式
         $this->updatePaymentMethods();
         $this->updateShippingMethods();
 
         // 重新计算订单优惠
-        $orderModel = new \App\Models\Order();
-        $orderModel->user_id = auth()->id();
-        $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
-            return (object)[
-                'qty' => $item['qty'],
-                'price' => $item['price'],
-            ];
-        });
-        $promoService = app(PromotionService::class);
-        $orderPromo = $promoService->calculateOrderTotal($orderModel);
-        $this->total = $orderPromo['final_total'];
-        $this->orderPromotion = $orderPromo['promotion'] ?? null;
+        $this->recalculateOrderTotal();
+    }
+
+    public function updatedShippingMethod($value)
+    {
+        $method = collect($this->shippingMethods)->firstWhere('value', $value);
+        $this->shippingFee = $method['fee'] ?? 0;
+        $this->shippingDescription = $method['description'] ?? '';
+        $this->recalculateOrderTotal();
     }
 
     protected function updatePaymentMethods()
@@ -215,6 +221,28 @@ class Checkout extends Component
             $address = $this->addresses->where('id', $this->shippingAddress)->first();
         }
         $this->shippingMethods = app(ShippingService::class)->getAvailableMethods($address);
+
+        // 若当前选中的配送方式不存在于新列表，重置为第一个
+        if (!$this->shippingMethod || !collect($this->shippingMethods)->pluck('value')->contains($this->shippingMethod)) {
+            $this->shippingMethod = $this->shippingMethods[0]['value'] ?? null;
+        }
+        $this->updatedShippingMethod($this->shippingMethod);
+    }
+
+    protected function recalculateOrderTotal()
+    {
+        $orderModel = new \App\Models\Order();
+        $orderModel->user_id = auth()->id();
+        $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
+            return (object)[
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+            ];
+        });
+        $promoService = app(PromotionService::class);
+        $orderPromo = $promoService->calculateOrderTotal($orderModel);
+        $this->total = $orderPromo['final_total'] + floatval($this->shippingFee);
+        $this->orderPromotion = $orderPromo['promotion'] ?? null;
     }
 
     public function saveAddress()
@@ -245,6 +273,7 @@ class Checkout extends Component
             ];
             $this->updatePaymentMethods();
             $this->updateShippingMethods();
+            $this->recalculateOrderTotal();
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }
@@ -267,6 +296,8 @@ class Checkout extends Component
             'shipping_address_id' => $this->shippingAddress,
             'billing_address_id' => $this->billingAddress,
             'payment_method' => $this->paymentMethod,
+            'shipping_method' => $this->shippingMethod,
+            'shipping_fee' => $this->shippingFee,
             'total' => $this->total,
             'status' => OrderStatusEnum::Pending
         ]);

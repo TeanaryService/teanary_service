@@ -7,6 +7,7 @@ return [
     'billing_address_id' => 'Billing Address',
     'currency_id' => 'Currency',
     'total' => 'Order Total',
+    'shipping_fee' => 'Shipping Fee',
     'status' => 'Order Status',
     'order_items' => 'Order Items',
     'order_shipments' => 'Shipments',

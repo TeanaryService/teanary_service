@@ -26,6 +26,8 @@ return [
     'cart' => '购物车',
     'empty_cart' => '购物车还没有商品',
     'total' => '商品总价',
+    'promotion_discount' => '优惠',
+    'shipping_fee' => '邮费',
     'subtotal' => '小计',
     'place_order' => '提交订单',
     'checkout' => '结账',

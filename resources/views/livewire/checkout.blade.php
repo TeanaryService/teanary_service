@@ -215,10 +215,23 @@
             <div>
                 <div class="bg-white shadow rounded-xl p-6 space-y-6">
                     <h2 class="text-xl font-semibold text-gray-800">{{ __('app.order_summary') }}</h2>
-                    <div class="flex justify-between text-lg font-semibold border-t pt-4">
+                    <div class="flex justify-between text-base font-semibold border-t pt-4">
+                        <span>{{ __('app.subtotal') }}</span>
+                        <span>{{ $currencyService->convertWithSymbol($orderPromotion ? ($total - $shippingFee) : ($total - $shippingFee), $currencyCode) }}</span>
+                    </div>
+                    @if ($orderPromotion)
+                        <div class="flex justify-between text-base font-semibold">
+                            <span>{{ __('app.promotion_discount') }}</span>
+                            <span class="text-red-600">-{{ $currencyService->convertWithSymbol($orderPromotion['discount'], $currencyCode) }}</span>
+                        </div>
+                    @endif
+                    <div class="flex justify-between text-base font-semibold">
+                        <span>{{ __('app.shipping_fee') }}</span>
+                        <span>{{ $currencyService->convertWithSymbol($shippingFee, $currencyCode) }}</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold border-t pt-4">
                         <span>{{ __('app.total') }}</span>
-                        <span
-                            class="text-green-700 text-2xl font-bold">{{ $currencyService->convertWithSymbol($total, $currencyCode) }}</span>
+                        <span class="text-green-700 text-2xl">{{ $currencyService->convertWithSymbol($total, $currencyCode) }}</span>
                     </div>
                     @if ($orderPromotion)
                         <div class="mt-2 p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700">
@@ -248,12 +261,17 @@
                     {{-- 配送方式选择 --}}
                     <div class="mt-4">
                         <label class="block mb-2 font-semibold text-gray-700">{{ __('app.shipping_method') }}</label>
-                        <select wire:model="shippingMethod" class="w-full p-3 rounded-lg border-gray-300">
+                        <select wire:model="shippingMethod" wire:change="updatedShippingMethod($event.target.value)" class="w-full p-3 rounded-lg border-gray-300">
                             <option value="">{{ __('app.select_shipping_method') }}</option>
                             @foreach ($shippingMethods as $method)
-                                <option value="{{ $method->value }}">{{ $method->label() }}</option>
+                                <option value="{{ $method['value'] }}">
+                                    {{ $method['label'] }}（{{ $method['description'] }}，+{{ $currencyService->convertWithSymbol($method['fee'], $currencyCode) }}）
+                                </option>
                             @endforeach
                         </select>
+                        @if ($shippingDescription)
+                            <div class="text-xs text-gray-500 mt-1">{{ $shippingDescription }}</div>
+                        @endif
                     </div>
 
                     <button wire:click="createOrder"

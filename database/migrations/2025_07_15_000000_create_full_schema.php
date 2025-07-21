@@ -213,6 +213,7 @@ return new class extends Migration
             $table->foreignId('shipping_address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->foreignId('billing_address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->decimal('total', 12, 2)->default(0);
+            $table->decimal('shipping_fee', 12, 2)->default(0);
             $table->string('payment_method')->nullable();
             $table->enum('status', OrderStatusEnum::values())->default(OrderStatusEnum::default()->value);
             $table->timestamps();
