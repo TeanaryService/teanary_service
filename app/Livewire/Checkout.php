@@ -24,6 +24,8 @@ class Checkout extends Component
     public $addresses;
     public $showAddressForm = false;
 
+    public $orderPromotion;
+
     // 新增地址表单数据
     public $address = [
         'firstname' => '',
