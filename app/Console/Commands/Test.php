@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\PaymentMethodEnum;
 use App\Enums\ShippingMethodEnum;
 use App\Models\Address;
 use App\Models\CountryTranslation;
+use App\Models\Order;
 use App\Models\ZoneTranslation;
+use App\Services\PaymentService;
 use App\Services\PromotionService;
 use App\Services\ShippingService;
 use App\Services\TranslationService;
@@ -34,6 +37,12 @@ class Test extends Command
      */
     public function handle()
     {
+        $order = Order::first();
+        $order->name = config('app.name') . __('app.order_items');
+        $paymentMethod = PaymentMethodEnum::fromValue('paypal');
+        $redirectUrl = app(PaymentService::class)->createPayment($paymentMethod, $order->toArray());
+        dd($redirectUrl);
+
         $service = app(ShippingService::class);
         $result = $service->getAvailableMethods(Address::first());
         dd($result);

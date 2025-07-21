@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentMethodEnum;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Services\LocaleCurrencyService;
@@ -323,8 +324,10 @@ class Checkout extends Component
         $cartItemIds = collect($this->checkoutItems)->pluck('cart_item_id')->all();
         CartItem::whereIn('id', $cartItemIds)->delete();
 
-        $locale = app()->getLocale();
-        return redirect()->route('order.success', ['order' => $order->id, 'locale' => $locale]);
+        $order->name = config('app.name') . __('app.order_items');
+        $paymentMethod = PaymentMethodEnum::fromValue($this->paymentMethod);
+        $redirectUrl = app(paymentService::class)->createPayment($paymentMethod, $order->toArray());
+        return redirect()->away($redirectUrl);
     }
 
     protected function getAddressLabel($address)

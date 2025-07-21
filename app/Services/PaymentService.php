@@ -4,17 +4,32 @@ namespace App\Services;
 
 use App\Models\Address;
 use App\Enums\PaymentMethodEnum;
+use App\Services\Payments\PaymentManager;
+use Illuminate\Support\Facades\Log;
 
 class PaymentService
 {
     /**
      * 获取可用支付方式列表
-     * @param Address|null $address
-     * @return array
      */
     public function getAvailableMethods(?Address $address = null): array
     {
-        // 目前不做任何判断，返回所有支付方式
         return PaymentMethodEnum::cases();
+    }
+
+    public function createPayment(PaymentMethodEnum $method, array $order): string
+    {
+        try {
+            $gateway = PaymentManager::gateway($method);
+            return $gateway->create($order);
+        } catch (\Throwable $e) {
+            Log::error('支付创建失败', [
+                'method' => $method->value,
+                'order' => $order,
+                'message' => $e->getMessage(),
+            ]);
+
+            return locaRoute('payment.failure');
+        }
     }
 }

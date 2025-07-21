@@ -33,6 +33,11 @@ class Cart extends Component
                 return $item;
             })
             : collect();
+
+        if ($this->cartItems->isEmpty()) {
+            return redirect()->route('home', ['locale' => app()->getLocale()]);
+        }
+
         $this->selected = $this->cartItems->pluck('id')->toArray();
         $this->calcTotal();
     }
@@ -102,10 +107,10 @@ class Cart extends Component
     public function checkout()
     {
         $locale = app()->getLocale();
-        
+
         // 只传递必要的商品信息
         $selectedItems = $this->cartItems->whereIn('id', $this->selected)
-            ->map(function($item) {
+            ->map(function ($item) {
                 return [
                     'cart_item_id' => $item->id,
                     'product_id' => $item->product_id,
@@ -113,7 +118,7 @@ class Cart extends Component
                     'qty' => $item->qty,
                 ];
             })->toArray();
-    
+
         session()->flash('checkout_items', $selectedItems);
         return redirect()->route('checkout', ['locale' => $locale]);
     }

@@ -284,7 +284,7 @@
     @else
         <div class="text-center py-10">
             <p class="text-gray-500">{{ __('app.no_items_to_checkout') }}</p>
-            <a href="{{ route('cart') }}" class="text-green-600 hover:underline mt-2 inline-block">
+            <a href="{{ locaRoute('cart') }}" class="text-green-600 hover:underline mt-2 inline-block">
                 {{ __('app.return_to_cart') }}
             </a>
         </div>
