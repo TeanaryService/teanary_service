@@ -6,6 +6,8 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use App\Enums\OrderStatusEnum;
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
 use App\Services\PaymentService;
@@ -151,7 +153,7 @@ class Checkout extends Component
                     'length' => $variant->length,
                     'width' => $variant->width,
                     'height' => $variant->height,
-                    
+
                     'product_id' => $item['product_id'],
                     'product_variant_id' => $item['product_variant_id'],
                     'qty' => $item['qty'],
@@ -317,7 +319,12 @@ class Checkout extends Component
             ]);
         }
 
-        return redirect()->route('order.success', ['order' => $order->id]);
+        //下单后删除购物车
+        $cartItemIds = collect($this->checkoutItems)->pluck('cart_item_id')->all();
+        CartItem::whereIn('id', $cartItemIds)->delete();
+
+        $locale = app()->getLocale();
+        return redirect()->route('order.success', ['order' => $order->id, 'locale' => $locale]);
     }
 
     protected function getAddressLabel($address)

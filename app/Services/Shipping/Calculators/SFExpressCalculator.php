@@ -119,7 +119,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
         ];
 
         $response = Http::asForm()
-            ->timeout(15)
+            ->timeout(30)
             ->post($this->endpoint, $payload);
 
         if ($response->successful()) {

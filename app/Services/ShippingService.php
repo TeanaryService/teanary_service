@@ -15,9 +15,7 @@ class ShippingService
         foreach (ShippingMethodEnum::cases() as $method) {
             $calculator = ShippingCalculatorFactory::make($method);
 
-            $calculated = $calculator && $address
-                ? $calculator->calculate($processedItems, $address)
-                : ['description' => __('shipping.description.placeholder'), 'fee' => 0.00];
+            $calculated = $calculator->calculate($processedItems, $address);
 
             $methods[] = [
                 'value' => $method->value,

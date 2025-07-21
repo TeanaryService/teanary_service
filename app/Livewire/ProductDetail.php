@@ -73,6 +73,7 @@ class ProductDetail extends Component
         $qty = max(1, min($this->qty, $max));
 
         $selectedItems = [[
+            'cart_item_id' => 0,
             'product_id' => $this->product->id,
             'product_variant_id' => $this->selectedVariantId,
             'qty' => $qty,

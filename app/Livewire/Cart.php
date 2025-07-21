@@ -107,6 +107,7 @@ class Cart extends Component
         $selectedItems = $this->cartItems->whereIn('id', $this->selected)
             ->map(function($item) {
                 return [
+                    'cart_item_id' => $item->id,
                     'product_id' => $item->product_id,
                     'product_variant_id' => $item->product_variant_id,
                     'qty' => $item->qty,
