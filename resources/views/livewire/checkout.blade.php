@@ -145,8 +145,8 @@
                                     <label
                                         class="flex items-start p-4 border rounded-lg hover:border-green-500 transition cursor-pointer"
                                         :class="{ 'ring-2 ring-green-500': shippingAddress == {{ $address->id }} }">
-                                        <input type="radio" wire:model="shippingAddress" value="{{ $address->id }}"
-                                            class="mt-1">
+                                        <input type="radio" wire:model.live="shippingAddress"
+                                            value="{{ $address->id }}" class="mt-1">
                                         <div class="ml-4 space-y-1">
                                             <div class="font-medium text-gray-900">{{ $address->firstname }}
                                                 {{ $address->lastname }}</div>
@@ -191,7 +191,8 @@
                                     <td class="px-2 py-2 text-green-700 font-semibold">
                                         @if ($item['promotion'])
                                             <span>{{ $currencyService->convertWithSymbol($item['price'], $currencyCode) }}</span>
-                                            <span class="text-gray-400 line-through ml-2">{{ $currencyService->convertWithSymbol($item['original_price'], $currencyCode) }}</span>
+                                            <span
+                                                class="text-gray-400 line-through ml-2">{{ $currencyService->convertWithSymbol($item['original_price'], $currencyCode) }}</span>
                                             <span class="ml-2 text-xs text-red-500 font-semibold">
                                                 {{ $item['promotion']['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $item['promotion']['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($item['promotion']['discount'], $currencyCode)]) }}
                                             </span>
@@ -224,9 +225,11 @@
                             <div class="font-semibold">{{ $orderPromotion['name'] }}</div>
                             <div class="text-xs">{{ $orderPromotion['description'] }}</div>
                             <div class="mt-1">
-                                {{ $orderPromotion['rule']['discount_type'] == 'percent' 
-                                    ? __('app.discount_percent', ['percent' => $orderPromotion['rule']['discount_value']]) 
-                                    : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($orderPromotion['discount'], $currencyCode)]) }}
+                                {{ $orderPromotion['rule']['discount_type'] == 'percent'
+                                    ? __('app.discount_percent', ['percent' => $orderPromotion['rule']['discount_value']])
+                                    : __('app.discount_amount', [
+                                        'amount' => $currencyService->convertWithSymbol($orderPromotion['discount'], $currencyCode),
+                                    ]) }}
                             </div>
                         </div>
                     @endif

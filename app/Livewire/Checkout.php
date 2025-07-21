@@ -23,7 +23,7 @@ class Checkout extends Component
     public $paymentMethod;
     public $addresses;
     public $showAddressForm = false;
-    
+
     // 新增地址表单数据
     public $address = [
         'firstname' => '',
@@ -36,7 +36,7 @@ class Checkout extends Component
         'country_id' => '',
         'zone_id' => ''
     ];
-    
+
     public $countries = [];
     public $zones = [];
     public $paymentMethods = [];
@@ -59,7 +59,7 @@ class Checkout extends Component
     public function mount()
     {
         $this->checkoutItems = session('checkout_items', []);
-        
+
         if (empty($this->checkoutItems)) {
             return redirect()->route('cart', ['locale' => app()->getLocale()]);
         }
@@ -69,7 +69,7 @@ class Checkout extends Component
         // 订单促销处理
         $orderModel = new \App\Models\Order();
         $orderModel->user_id = auth()->id();
-        $orderModel->orderItems = collect($this->processedItems)->map(function($item) {
+        $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
             return (object)[
                 'qty' => $item['qty'],
                 'price' => $item['price'],
@@ -87,7 +87,7 @@ class Checkout extends Component
         $locale = app()->getLocale();
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
         $this->countries = \App\Models\Country::getCountriesByLanguage($lang?->id);
-        
+
         // 如果已有地址的国家ID，加载对应的地区数据
         if (!empty($this->address['country_id'])) {
             $this->updatedAddressCountryId($this->address['country_id']);
@@ -161,10 +161,10 @@ class Checkout extends Component
         $locale = app()->getLocale();
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
         $this->zones = \App\Models\Zone::getZonesByCountryAndLanguage($value, $lang?->id);
-        
+
         // 重置地区选择
         $this->address['zone_id'] = '';
-        
+
         // 如果只有一个地区，自动选中
         if (count($this->zones) === 1) {
             $this->address['zone_id'] = $this->zones[0]['id'];
@@ -178,8 +178,23 @@ class Checkout extends Component
 
     public function updatedShippingAddress($value)
     {
+        // 更新支付和配送方式
         $this->updatePaymentMethods();
         $this->updateShippingMethods();
+
+        // 重新计算订单优惠
+        $orderModel = new \App\Models\Order();
+        $orderModel->user_id = auth()->id();
+        $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
+            return (object)[
+                'qty' => $item['qty'],
+                'price' => $item['price'],
+            ];
+        });
+        $promoService = app(PromotionService::class);
+        $orderPromo = $promoService->calculateOrderTotal($orderModel);
+        $this->total = $orderPromo['final_total'];
+        $this->orderPromotion = $orderPromo['promotion'] ?? null;
     }
 
     protected function updatePaymentMethods()
@@ -239,7 +254,7 @@ class Checkout extends Component
             session()->flash('error', __('Please select a shipping address'));
             return;
         }
-        
+
         if (empty($this->processedItems)) {
             return redirect()->route('cart');
         }
@@ -271,25 +286,25 @@ class Checkout extends Component
     {
         $locale = app()->getLocale();
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
-        
+
         // 获取国家多语言名称
         $countryName = '';
         if ($address->country) {
             $translation = $address->country->countryTranslations->where('language_id', $lang?->id)->first();
-            $countryName = $translation && $translation->name 
-                ? $translation->name 
+            $countryName = $translation && $translation->name
+                ? $translation->name
                 : ($address->country->countryTranslations->first()->name ?? $address->country->name);
         }
-        
+
         // 获取地区多语言名称
         $zoneName = '';
         if ($address->zone) {
             $translation = $address->zone->zoneTranslations->where('language_id', $lang?->id)->first();
-            $zoneName = $translation && $translation->name 
-                ? $translation->name 
+            $zoneName = $translation && $translation->name
+                ? $translation->name
                 : ($address->zone->zoneTranslations->first()->name ?? $address->zone->name);
         }
-        
+
         return [
             'country' => $countryName,
             'zone' => $zoneName
@@ -298,7 +313,7 @@ class Checkout extends Component
 
     public function render()
     {
-        $addresses = $this->addresses ? $this->addresses->map(function($address) {
+        $addresses = $this->addresses ? $this->addresses->map(function ($address) {
             $translations = $this->getAddressLabel($address);
             $address->country_name = $translations['country'];
             $address->zone_name = $translations['zone'];
