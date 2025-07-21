@@ -79,7 +79,7 @@ class ProductDetail extends Component
             'qty' => $qty,
         ]];
 
-        session()->flash('checkout_items', $selectedItems);
+        session()->put('checkout_items', $selectedItems);
         $locale = app()->getLocale();
         return redirect()->route('checkout', ['locale' => $locale]);
     }

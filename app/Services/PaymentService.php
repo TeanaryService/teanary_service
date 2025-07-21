@@ -14,6 +14,9 @@ class PaymentService
      */
     public function getAvailableMethods(?Address $address = null): array
     {
+        if (!$address) {
+            return [];
+        }
         return PaymentMethodEnum::cases();
     }
 

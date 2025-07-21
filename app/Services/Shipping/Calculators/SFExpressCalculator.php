@@ -30,8 +30,11 @@ class SFExpressCalculator implements ShippingCalculatorInterface
         }
     }
 
-    public function calculate(array $processedItems, Address $address): array
+    public function calculate(array $processedItems, ?Address $address): array
     {
+        if (!$address) {
+            return [];
+        }
         try {
             $requestData = $this->buildRequestData($processedItems, $address);
             $result = $this->request('COM_RECE_IUOP_ESTIMATE_FEE', $requestData);
@@ -40,7 +43,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
             if (empty($data['success'])) {
                 return [];
             }
-            
+
             $currencyService = app(LocaleCurrencyService::class);
             $forCode = $data['msgData']['currency'];
             $fee = $currencyService->convert((float)$data['msgData']['totalFee'], $currencyService->getDefaultCurrencyCode(), $forCode);

@@ -17,6 +17,10 @@ class ShippingService
 
             $calculated = $calculator->calculate($processedItems, $address);
 
+            if (empty($calculated)) {
+                continue;
+            }
+
             $methods[] = [
                 'value' => $method->value,
                 'label' => $method->label(),

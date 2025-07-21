@@ -6,5 +6,5 @@ use App\Models\Address;
 
 interface ShippingCalculatorInterface
 {
-    public function calculate(array $processedItems, Address $address): array;
+    public function calculate(array $processedItems, ?Address $address): array;
 }

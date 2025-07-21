@@ -119,7 +119,7 @@ class Cart extends Component
                 ];
             })->toArray();
 
-        session()->flash('checkout_items', $selectedItems);
+        session()->put('checkout_items', $selectedItems);
         return redirect()->route('checkout', ['locale' => $locale]);
     }
 
