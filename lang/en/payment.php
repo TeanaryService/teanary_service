@@ -3,7 +3,6 @@
 return [
     'method' => [
         'paypal' => 'PayPal',
-        'stripe' => 'Stripe',
     ],
 
     'success_title' => 'Payment Successful!',
