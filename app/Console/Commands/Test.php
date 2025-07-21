@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\ShippingMethodEnum;
+use App\Models\Address;
 use App\Models\CountryTranslation;
 use App\Models\ZoneTranslation;
 use App\Services\PromotionService;
+use App\Services\ShippingService;
 use App\Services\TranslationService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -31,12 +34,16 @@ class Test extends Command
      */
     public function handle()
     {
+        $service = app(ShippingService::class);
+        $result = $service->getAvailableMethods(Address::first());
+        dd($result);
+        
         dd(1233);
         $service = app(TranslationService::class);
         // $result = $service->translate('今天是个好天气', 'zh_CN', 'en_gb');
         // dd($result);
 
-        ZoneTranslation::where('language_id', 1)->chunk(100, function (Collection $zoneTranslations) use($service){
+        ZoneTranslation::where('language_id', 1)->chunk(100, function (Collection $zoneTranslations) use ($service) {
             foreach ($zoneTranslations as $zoneTranslation) {
                 $result = $service->translate($zoneTranslation->name, 'en', 'zh');
                 $this->info($result);
@@ -50,7 +57,7 @@ class Test extends Command
             }
         });
         dd('zone');
-        CountryTranslation::where('language_id', 1)->chunk(100, function (Collection $countryTranslations) use($service){
+        CountryTranslation::where('language_id', 1)->chunk(100, function (Collection $countryTranslations) use ($service) {
             foreach ($countryTranslations as $countryTranslation) {
                 $result = $service->translate($countryTranslation->name, 'en', 'zh');
                 $this->info($result);

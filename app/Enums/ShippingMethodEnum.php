@@ -31,8 +31,16 @@ enum ShippingMethodEnum: string
     {
         return match ($this) {
             self::SF_INTERNATIONAL => [
-                'endpoint' => 'https://api.sf-express.com',
-                'fields' => ['access_code', 'checkword', 'account']
+                'sandBox' => [
+                    'partnerId' => 'YL7U5E9T',
+                    'checkword' => 'YphQd6pGMyLtHAZxo2TNrrGA3XxK9oTS',
+                    'endpoint' => 'http://sfapi-sbox.sf-express.com/std/service'
+                ],
+                'prod' => [
+                    'partnerId' => 'YL7U5E9T',
+                    'checkword' => 'dZyLxDx5Z5b68gUCo5sdxUSbeT9tGAqb',
+                    'endpoint' => 'https://sfapi.sf-express.com/std/service'
+                ]
             ],
         };
     }

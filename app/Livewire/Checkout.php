@@ -147,6 +147,11 @@ class Checkout extends Component
                 $promo = $promoService->calculateVariantPrice($variant, $item['qty'], $user);
 
                 $this->processedItems[] = [
+                    'weight' => $variant->weight,
+                    'length' => $variant->length,
+                    'width' => $variant->width,
+                    'height' => $variant->height,
+                    
                     'product_id' => $item['product_id'],
                     'product_variant_id' => $item['product_variant_id'],
                     'qty' => $item['qty'],
@@ -220,7 +225,7 @@ class Checkout extends Component
         if ($this->shippingAddress && $this->addresses) {
             $address = $this->addresses->where('id', $this->shippingAddress)->first();
         }
-        $this->shippingMethods = app(ShippingService::class)->getAvailableMethods($address);
+        $this->shippingMethods = app(ShippingService::class)->getAvailableMethods($this->processedItems, $address);
 
         // 若当前选中的配送方式不存在于新列表，重置为第一个
         if (!$this->shippingMethod || !collect($this->shippingMethods)->pluck('value')->contains($this->shippingMethod)) {
