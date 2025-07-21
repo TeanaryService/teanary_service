@@ -20,15 +20,11 @@ class PaypalGateway implements PaymentGatewayInterface
         if (app()->environment('production')) {
             $clientId = $config['prod']['client_id'];
             $clientSecret = $config['prod']['secret'];
-            $environment =  $config['prod']['mode'] === 'live'
-                ? new ProductionEnvironment($clientId, $clientSecret)
-                : new SandboxEnvironment($clientId, $clientSecret);
+            $environment =  new ProductionEnvironment($clientId, $clientSecret);
         } else {
             $clientId = $config['sandBox']['client_id'];
             $clientSecret = $config['sandBox']['secret'];
-            $environment =  $config['sandBox']['mode'] === 'live'
-                ? new ProductionEnvironment($clientId, $clientSecret)
-                : new SandboxEnvironment($clientId, $clientSecret);
+            $environment =  new SandboxEnvironment($clientId, $clientSecret);
         }
 
         $this->client = new PayPalHttpClient($environment);
