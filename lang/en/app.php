@@ -46,7 +46,8 @@ return [
     'firstname' => 'First Name',
     'lastname' => 'Last Name',
     'telephone' => 'Phone Number',
-    'address_1' => 'Detailed Address',
+    'address_1' => 'Detailed Address1',
+    'address_2' => 'Detailed Address2',
     'country' => 'Country',
     'zone' => 'Province/Region',
     'select_country' => 'Please Select a Country',
@@ -60,4 +61,9 @@ return [
 
     'discount_percent' => ':percent% off',
     'discount_amount' => 'Save :amount',
+
+    'payment_method' => 'Payment Method',
+    'select_payment_method' => 'Select Payment Method',
+    'shipping_method' => 'Shipping Method',
+    'select_shipping_method' => 'Select Shipping Method'
 ];

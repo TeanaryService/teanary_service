@@ -64,4 +64,9 @@ return [
 
     'discount_percent' => ':percent%折扣',
     'discount_amount' => '立减:amount',
+
+    'payment_method' => '支付方式',
+    'select_payment_method' => '选择支付方式',
+    'shipping_method' => '快递方式',
+    'select_shipping_method' => '选择快递方式'
 ];
