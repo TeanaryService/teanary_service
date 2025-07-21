@@ -2,8 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\CountryTranslation;
+use App\Models\ZoneTranslation;
 use App\Services\PromotionService;
+use App\Services\TranslationService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 
 class Test extends Command
@@ -27,6 +31,40 @@ class Test extends Command
      */
     public function handle()
     {
+        dd(1233);
+        $service = app(TranslationService::class);
+        // $result = $service->translate('今天是个好天气', 'zh_CN', 'en_gb');
+        // dd($result);
+
+        ZoneTranslation::where('language_id', 1)->chunk(100, function (Collection $zoneTranslations) use($service){
+            foreach ($zoneTranslations as $zoneTranslation) {
+                $result = $service->translate($zoneTranslation->name, 'en', 'zh');
+                $this->info($result);
+                ZoneTranslation::create([
+                    'language_id' => 2,
+                    'zone_id' => $zoneTranslation->zone_id,
+                    'name' => $result,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        });
+        dd('zone');
+        CountryTranslation::where('language_id', 1)->chunk(100, function (Collection $countryTranslations) use($service){
+            foreach ($countryTranslations as $countryTranslation) {
+                $result = $service->translate($countryTranslation->name, 'en', 'zh');
+                $this->info($result);
+                CountryTranslation::create([
+                    'language_id' => 2,
+                    'country_id' => $countryTranslation->country_id,
+                    'name' => $result,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        });
+        dd('country');
+
         $service = app(PromotionService::class);
         dd($service->getAvailablePromotions()->toArray());
 
