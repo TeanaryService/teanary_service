@@ -73,10 +73,12 @@ class CartDropdown extends Component
         if ($cartItem && $qty > 0) {
             $cartItem->qty = $qty;
             $cartItem->save();
+            session()->flash('success', __('app.edit_cart_success'));
         } elseif ($cartItem && $qty <= 0) {
             $cartItem->delete();
+            session()->flash('success', __('app.delete_cart_success'));
         }
-        session()->flash('success', __('app.edit_cart_success'));
+
         $this->mount();
     }
 
