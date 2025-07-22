@@ -71,7 +71,9 @@
             </div>
         </div>
     </div>
-    <div class="h-20 w-full"></div>
+    <div class="h-20 w-full">
+        <x-flash-messages />
+    </div>
 
     <div class="main">
         {{ $slot }}

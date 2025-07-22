@@ -70,5 +70,9 @@ return [
     'payment_method' => '支付方式',
     'select_payment_method' => '选择支付方式',
     'shipping_method' => '快递方式',
-    'select_shipping_method' => '选择快递方式'
+    'select_shipping_method' => '选择快递方式',
+
+    'add_cart_success' => '添加到购物车成功~',
+    'edit_cart_success' => '修改购物车商品成功~',
+    'delete_cart_success' => '删除购物车商品成功~',
 ];

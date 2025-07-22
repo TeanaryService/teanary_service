@@ -63,6 +63,7 @@ class CartDropdown extends Component
                 'qty' => $qty,
             ]);
         }
+        session()->flash('success', __('app.add_cart_success'));
         $this->mount();
     }
 
@@ -75,6 +76,7 @@ class CartDropdown extends Component
         } elseif ($cartItem && $qty <= 0) {
             $cartItem->delete();
         }
+        session()->flash('success', __('app.edit_cart_success'));
         $this->mount();
     }
 
@@ -83,6 +85,7 @@ class CartDropdown extends Component
         $cartItem = CartItem::find($itemId);
         if ($cartItem) {
             $cartItem->delete();
+            session()->flash('success', __('app.delete_cart_success'));
         }
         $this->mount();
     }

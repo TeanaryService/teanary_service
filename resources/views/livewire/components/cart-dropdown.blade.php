@@ -36,13 +36,26 @@
                     $product = $item->product;
                     $variant = $item->productVariant;
                     $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-                    $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
-                    $image = $variant ? $variant->getFirstMediaUrl('image', 'thumb') : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?: asset('logo.png'));
-                    $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
-                        $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-                        return $trans && $trans->name ? $trans->name : $sv->id;
-                    })->implode(' / ') : '';
-                    $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
+                    $name =
+                        $translation && $translation->name
+                            ? $translation->name
+                            : $product->productTranslations->first()->name ?? $product->slug;
+                    $image = $variant
+                        ? $variant->getFirstMediaUrl('image', 'thumb')
+                        : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?:
+                        asset('logo.png'));
+                    $specs = $variant
+                        ? $variant->specificationValues
+                            ->map(function ($sv) use ($lang) {
+                                $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+                                return $trans && $trans->name ? $trans->name : $sv->id;
+                            })
+                            ->implode(' / ')
+                        : '';
+                    $price =
+                        $variant && $variant->price
+                            ? $currencyService->convertWithSymbol($variant->price, $currencyCode)
+                            : '';
                     $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
                     $promotion = $item->promotion ?? null;
                 @endphp
@@ -57,7 +70,8 @@
                         @endif
                         <div>
                             @if ($promotion)
-                                <span class="text-green-700 font-bold">{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
+                                <span
+                                    class="text-green-700 font-bold">{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
                                 <span class="text-gray-400 line-through ml-2">{{ $price }}</span>
                                 <span class="ml-2 text-xs text-red-500 font-semibold">
                                     {{ $promotion['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $promotion['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotion['discount'], $currencyCode)]) }}
@@ -104,4 +118,6 @@
             </a>
         </div>
     </div>
+
+    <x-flash-messages />
 </div>
