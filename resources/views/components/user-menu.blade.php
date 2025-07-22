@@ -12,7 +12,7 @@
     <div x-show="open" @click.away="open = false" x-transition
         class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-green-300">
         <div class="py-1">
-            <a href="{{ route('filament.personal.pages.dashboard') }}"
+            <a target="_blank" href="{{ route('filament.personal.pages.dashboard') }}"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-700">
                 {{ __('app.profile') }}
             </a>
