@@ -101,9 +101,8 @@ class AddressResource extends Resource
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
 
         return $table
-            // ->query(fn (Builder $query) => $query->where('user_id', auth()->id()))
-            ->query(
-                fn() => static::getEloquentQuery()->where('user_id', auth()->id())
+            ->modifyQueryUsing(
+                fn(Builder $query): Builder => $query->where('user_id', auth()->id())
             )
             ->columns([
                 Tables\Columns\TextColumn::make('firstname')

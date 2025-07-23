@@ -181,8 +181,8 @@ class ProductVariantResource extends Resource
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
-            ->query(
-                fn() => static::getEloquentQuery()
+            ->modifyQueryUsing(
+                fn(Builder $query): Builder => $query
                     ->with([
                         'specifications.specificationTranslations',
                         'specificationValues.specificationValueTranslations',
