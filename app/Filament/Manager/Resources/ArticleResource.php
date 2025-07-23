@@ -10,10 +10,12 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -55,6 +57,13 @@ class ArticleResource extends Resource
 
         return $form
             ->schema([
+                SpatieMediaLibraryFileUpload::make('image')
+                    ->label(__('filament_article.image'))
+                    ->image()
+                    ->imageEditor()
+                    ->columnSpanFull()
+                    ->required()
+                    ->collection('image'),
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->label(__('filament_article.slug'))
@@ -109,6 +118,10 @@ class ArticleResource extends Resource
                     ])
             )
             ->columns([
+                SpatieMediaLibraryImageColumn::make('image')
+                    ->label(__('filament_article.image'))
+                    ->collection('image')
+                    ->conversion('thumb'),
                 // 多语言 name 列
                 Tables\Columns\TextColumn::make('articleTranslations.title')
                     ->label(__('filament_article.title'))

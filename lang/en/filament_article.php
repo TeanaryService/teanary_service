@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'image' => 'Cover',
     'title' => 'filament_article.title',
     'slug' => 'filament_article.slug',
     'summary' => 'filament_article.summary',

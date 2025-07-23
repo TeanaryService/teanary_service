@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Manager;
 use App\Models\Product;
@@ -7,6 +8,7 @@ use App\Models\ProductReview;
 use App\Models\ProductVariant;
 use App\Models\PromotionRule;
 use App\Models\User;
+use App\Support\MediaLibrary\ArticlePathGenerator;
 use App\Support\MediaLibrary\AvatarPathGenerator;
 use App\Support\MediaLibrary\CategoryPathGenerator;
 use App\Support\MediaLibrary\ProductPathGenerator;
@@ -118,6 +120,8 @@ return [
         ProductReview::class => ProductReviewPathGenerator::class,
 
         PromotionRule::class => PromotionRulePathGenerator::class,
+
+        Article::class => ArticlePathGenerator::class,
     ],
 
     /*

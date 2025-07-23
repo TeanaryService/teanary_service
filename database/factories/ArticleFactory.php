@@ -28,6 +28,14 @@ class ArticleFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function ($article) {
+            //封面
+            $image = generateRandomImage();
+
+            // 添加到媒体库（collection 名要与你注册的一致）
+            $article->addMedia($image)
+                ->preservingOriginal()
+                ->toMediaCollection('image');
+
             // 多语言翻译
             $languages = app(LocaleCurrencyService::class)->getLanguages();
             foreach ($languages as $locale) {

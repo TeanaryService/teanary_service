@@ -25,7 +25,7 @@ class ProductObserver
     }
 
     /**
-     * Handle the Promotion "deleting" event.
+     * Handle the Product "deleting" event.
      */
     public function deleting(Product $product): void
     {

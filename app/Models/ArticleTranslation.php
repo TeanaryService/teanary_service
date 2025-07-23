@@ -6,7 +6,9 @@
 
 namespace App\Models;
 
+use App\Observers\ArticleTranslationObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +29,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  */
+
+#[ObservedBy([ArticleTranslationObserver::class])]
+
 class ArticleTranslation extends Model
 {
     use HasFactory;

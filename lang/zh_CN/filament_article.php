@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'image' => '封面',
     'title' => '标题',
     'slug' => '标识符',
     'summary' => '摘要',

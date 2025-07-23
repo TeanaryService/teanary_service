@@ -6,12 +6,18 @@
 
 namespace App\Models;
 
+use App\Observers\ArticleObserver;
+use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class Article
@@ -28,9 +34,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
-class Article extends Model
+
+#[ObservedBy([ArticleObserver::class])]
+
+class Article extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+    use CascadesMediaDeletes;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
@@ -52,5 +64,13 @@ class Article extends Model
     public function articleTranslations(): HasMany
     {
         return $this->hasMany(ArticleTranslation::class);
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(200)
+            ->height(200)
+            ->sharpen(10);
     }
 }
