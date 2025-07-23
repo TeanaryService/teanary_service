@@ -9,7 +9,7 @@
             ? $translation->name
             : $product->productTranslations->first()->name ?? $product->slug;
     $variants = $product->productVariants;
-    $image = $variants->first() ? $variants->first()->getFirstMediaUrl('image', 'thumb') : asset('logo.png');
+    $image = $product->getFirstMediaUrl('images', 'thumb');
     $prices = $variants->pluck('price')->filter()->sort()->values();
     if ($prices->count() === 1) {
         $converted = $currencyService->convertWithSymbol(amount: $prices->first(), toCode: $currencyCode);

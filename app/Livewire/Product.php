@@ -39,7 +39,7 @@ class Product extends Component
             }
         }
 
-        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues']);
+        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues', 'media']);
 
         if ($this->categoryId) {
             $query->whereHas('productCategories', function ($q) {

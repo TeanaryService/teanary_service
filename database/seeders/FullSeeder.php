@@ -23,6 +23,8 @@ use App\Models\ProductVariant;
 use App\Models\Promotion;
 use App\Models\PromotionTranslation;
 use App\Models\PromotionRule;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class FullSeeder extends Seeder
 {
@@ -207,12 +209,13 @@ class FullSeeder extends Seeder
 
             // 多语言翻译
             foreach ($languages as $lang) {
+                $imageUrl = $this->urlImage();
                 ProductTranslation::create([
                     'product_id' => $product->id,
                     'language_id' => $lang->id,
                     'name' => "Product $i " . $lang->code,
                     'short_description' => "Short description $i in " . $lang->code,
-                    'description' => "Long description $i in " . $lang->code,
+                    'description' => "Long <img src='$imageUrl'> description $i in " . $lang->code,
                 ]);
             }
 
@@ -325,5 +328,20 @@ class FullSeeder extends Seeder
                 ->preservingOriginal()
                 ->toMediaCollection($collection);
         }
+    }
+
+    private function urlImage()
+    {
+        $image = generateRandomImage();
+
+        $newPath = storage_path('app/public/product/description');
+        if (!File::isDirectory($newPath)) {
+            File::makeDirectory($newPath);
+        }
+
+        $newFile = $newPath . "/" . Str::random(40) . '.jpg';
+        File::copy($image, $newFile);
+        $imageUrl = Str::replace(storage_path('app/public'), 'storage', $newFile);
+        return asset($imageUrl);
     }
 }

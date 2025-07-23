@@ -19,6 +19,7 @@ class ProductDetail extends Component
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
 
         $this->product = Product::with([
+            'media',
             'productTranslations',
             'productVariants.specificationValues.specificationValueTranslations',
             'productVariants.media',

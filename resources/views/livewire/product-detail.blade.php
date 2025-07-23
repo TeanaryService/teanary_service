@@ -204,7 +204,7 @@
         @if ($tab == 'desc')
             @if ($desc)
                 <div class="prose max-w-none text-gray-800 px-6">
-                    {!! nl2br(e($desc)) !!}
+                    {!! $desc !!}
                 </div>
             @endif
         @else
