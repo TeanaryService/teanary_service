@@ -18,3 +18,8 @@
         {{ $articles->links() }}
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('article.title') }}" description="{{ __('article.description') }}"
+        keywords="{{ __('article.keywords') }}" />
+@endPushOnce

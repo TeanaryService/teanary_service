@@ -7,3 +7,7 @@
     <div class="text-gray-600">{{ $translation?->summary }}</div>
     <div class="prose max-w-full">{!! $translation?->content !!}</div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ $translation?->title }}" description="{{ $translation?->summary }}"/>
+@endPushOnce
