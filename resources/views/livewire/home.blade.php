@@ -57,7 +57,7 @@
                 <p class="text-xl text-gray-600 leading-relaxed mb-8">
                     {{ __('home.about_content') }}
                 </p>
-                <a href="{{ locaRoute('about-us') }}"
+                <a href="{{ locaRoute('article.index') }}"
                     class="inline-block bg-teal-600 text-white font-medium px-8 py-4 rounded-lg hover:bg-teal-700 transition-colors">
                     {{ __('home.learn_more') }}
                 </a>

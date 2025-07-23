@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\SetLocaleAndCurrency;
-use App\Livewire\AboutUs;
 use App\Livewire\ArticleDetail;
 use App\Livewire\ArticleList;
 use App\Livewire\Cart;
@@ -41,8 +40,6 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
     Route::get('payment/success', Success::class)->name('payment.success');
     Route::get('payment/cancel', Cancel::class)->name('payment.cancel');
     Route::get('payment/failure', Failure::class)->name('payment.failure');
-
-    Route::get('about-us', AboutUs::class)->name('about-us');
 
     Route::get('articles', ArticleList::class)->name('article.index');
     Route::get('articles/{slug}', ArticleDetail::class)->name('article.show');
