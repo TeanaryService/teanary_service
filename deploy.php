@@ -4,7 +4,7 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 // 配置
-set('repository', 'git@gitee.com:new-cms/kmflora_service.git');
+set('repository', 'git@gitee.com:new-cms/teanary_service.git');
 set('keep_releases', 2);
 set('default_stage', 'production');
 
@@ -14,12 +14,12 @@ add('shared_dirs', []);
 add('writable_dirs', ['storage', 'bootstrap/cache']);
 
 // 主机配置
-host('flower')
+host('teanary')
     ->set('hostname', '107.174.127.181')
     ->set('port', 22)
     ->set('remote_user', 'root')
     ->setIdentityFile('~/.ssh/vpn')
-    ->set('deploy_path', '/home/wwwroot/flower')
+    ->set('deploy_path', '/home/wwwroot/teanary')
     ->set('branch', 'main')
     ->set('http_user', 'www');
 

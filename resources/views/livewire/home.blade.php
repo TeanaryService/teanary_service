@@ -18,7 +18,7 @@
                 </a>
             </div>
             <div class="flex-1">
-                <img src="{{ asset('images/banner-flowers.png') }}" alt="{{ __('home.hero_image_alt') }}"
+                <img src="{{ asset('images/banner-tea.png') }}" alt="{{ __('home.hero_image_alt') }}"
                     class="w-full h-auto rounded-2xl shadow-xl">
             </div>
         </div>

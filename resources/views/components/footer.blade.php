@@ -28,7 +28,7 @@
             <div>
                 <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.contact_us') }}</h3>
                 <ul class="space-y-1 text-gray-500">
-                    <li>📧 business@kmflora.com</li>
+                    <li>📧 hello@teanary.com</li>
                     <li>📞 +86 18184839903</li>
                     <li>📍 {{ __('app.address') }}</li>
                 </ul>

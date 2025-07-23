@@ -6,7 +6,7 @@
 ])
 
 @php
-    $metaImage = $image ? asset($image) : asset('images/banner-flowers.png');
+    $metaImage = $image ? asset($image) : asset('images/banner-tea.png');
 @endphp
 
 <title>{{ $title }} - {{ config('app.name') }}</title>

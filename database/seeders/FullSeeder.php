@@ -72,16 +72,16 @@ class FullSeeder extends Seeder
          * Categories
          */
         $categories = collect([
-            ['slug' => 'flowers'],        // 鲜花
-            ['slug' => 'bouquets'],       // 花束
-            ['slug' => 'roses'],          // 玫瑰
-            ['slug' => 'sunflowers'],     // 向日葵
-            ['slug' => 'lilies'],         // 百合
-            ['slug' => 'gift-boxes'],     // 礼盒
-            ['slug' => 'wedding-flowers'], // 婚礼用花
-            ['slug' => 'funeral-flowers'], // 丧礼用花
-            ['slug' => 'dried-flowers'],  // 干花
-            ['slug' => 'preserved-flowers'], // 永生花
+            ['slug' => 'green-tea'],          // 绿茶
+            ['slug' => 'black-tea'],          // 红茶（黑茶在国外叫 Black Tea）
+            ['slug' => 'oolong-tea'],         // 乌龙茶
+            ['slug' => 'pu-erh-tea'],         // 普洱茶
+            ['slug' => 'white-tea'],          // 白茶
+            ['slug' => 'flower-tea'],         // 花草茶（如菊花、茉莉）
+            ['slug' => 'tea-gift-boxes'],     // 茶礼盒
+            ['slug' => 'aged-tea'],           // 老茶/陈茶（收藏级）
+            ['slug' => 'tea-tools'],          // 茶具
+            ['slug' => 'sampler-sets'],       // 组合体验装（多款混合试喝）
         ])
             ->map(function ($cat) use ($languages) {
                 $category = Category::create($cat);
