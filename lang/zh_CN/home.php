@@ -41,7 +41,7 @@ return [
 
     // 促销相关
     'promotions' => '茶礼优惠',
-    'promotion_rule_order_total_min' => '订单满',
+    'promotion_rule_order_total_min' => '订单',
     'promotion_discount_fixed' => '立减',
     'promotion_rule_order_qty_min' => '购买数量满',
     'promotion_discount_percentage' => '折扣',
