@@ -72,6 +72,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         'remember_token'
     ];
 
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
+
     public function userGroup(): BelongsTo
     {
         return $this->belongsTo(UserGroup::class);

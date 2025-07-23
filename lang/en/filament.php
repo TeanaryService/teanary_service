@@ -31,6 +31,11 @@ return [
     'CartItemResource.group' => 'Business Operations',
     'CartItemResource.icon' => 'heroicon-o-shopping-cart',
 
+    'ArticleResource.label' => 'Article',
+    'ArticleResource.pluralLabel' => 'Article',
+    'ArticleResource.group' => 'Business Operations',
+    'ArticleResource.icon' => 'heroicon-o-pencil-square',
+
     'ProductResource.label' => 'Product Management',
     'ProductResource.pluralLabel' => 'Product Management',
     'ProductResource.group' => 'Product Management',

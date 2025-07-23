@@ -66,7 +66,7 @@ class FullSeeder extends Seeder
         /**
          * Users
          */
-        User::factory(10)->create();
+        User::factory(10)->hasArticles()->create();
 
         /**
          * Categories

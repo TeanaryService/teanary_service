@@ -31,6 +31,11 @@ return [
     'CartItemResource.group' => '商务运营',
     'CartItemResource.icon' => 'heroicon-o-shopping-cart',
 
+    'ArticleResource.label' => '文章',
+    'ArticleResource.pluralLabel' => '文章',
+    'ArticleResource.group' => '商务运营',
+    'ArticleResource.icon' => 'heroicon-o-pencil-square',
+
     'ProductResource.label' => '商品管理',
     'ProductResource.pluralLabel' => '商品管理',
     'ProductResource.group' => '商品管理',
