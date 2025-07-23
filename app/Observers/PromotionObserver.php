@@ -26,6 +26,16 @@ class PromotionObserver
     }
 
     /**
+     * Handle the Promotion "deleting" event.
+     */
+    public function deleting(Promotion $promotion): void
+    {
+        $promotion->promotionRules()->each(function ($rule) {
+            $rule->delete();
+        });
+    }
+
+    /**
      * Handle the Promotion "deleted" event.
      */
     public function deleted(Promotion $promotion): void

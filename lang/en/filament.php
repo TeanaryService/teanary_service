@@ -36,6 +36,11 @@ return [
     'ProductResource.group' => 'Product Management',
     'ProductResource.icon' => 'heroicon-o-gift',
 
+    'ProductReviewResource.label' => 'Product Review',
+    'ProductReviewResource.pluralLabel' => 'Product Review',
+    'ProductReviewResource.group' => 'Product Management',
+    'ProductReviewResource.icon' => 'heroicon-o-chat-bubble-oval-left',
+
     'ProductVariantResource.label' => 'Product Variant',
     'ProductVariantResource.pluralLabel' => 'Product Variant',
     'ProductVariantResource.group' => 'Product Management',

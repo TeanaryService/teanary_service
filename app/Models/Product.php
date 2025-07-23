@@ -7,8 +7,10 @@
 namespace App\Models;
 
 use App\Enums\ProductStatusEnum;
+use App\Observers\ProductObserver;
 use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +38,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  *
  * @package App\Models
  */
+
+#[ObservedBy([ProductObserver::class])]
+
 class Product extends Model implements HasMedia
 {
     use HasFactory;
