@@ -4,7 +4,7 @@
 @endphp
 
 <div class="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-white">
-    <h1 class="text-3xl font-extrabold text-green-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
+    <h1 class="text-3xl font-extrabold text-teal-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
     <form wire:submit.prevent="checkout">
         <div class="bg-white rounded-xl shadow-lg p-8">
             <table class="w-full text-left mb-6 border-separate border-spacing-y-2">
@@ -46,7 +46,7 @@
                                 <span class="font-semibold text-gray-900">{{ $name }}</span>
                             </td>
                             <td class="py-2 px-2 text-xs text-gray-500 align-middle">{{ $specs }}</td>
-                            <td class="py-2 px-2 font-bold text-green-700 align-middle">
+                            <td class="py-2 px-2 font-bold text-teal-700 align-middle">
                                 @if ($promotion)
                                     <span>{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
                                     <span class="text-gray-400 line-through ml-2">{{ $price }}</span>
@@ -67,7 +67,7 @@
                                     <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})" class="px-2 w-10 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">+</button>
                                 </div>
                             </td>
-                            <td class="py-2 px-2 font-bold text-green-700 align-middle">
+                            <td class="py-2 px-2 font-bold text-teal-700 align-middle">
                                 {{ $currencyService->convertWithSymbol($item->qty * $finalPrice, $currencyCode) }}
                             </td>
                             <td class="py-2 px-2 align-middle">
@@ -92,12 +92,12 @@
                         {{ __('app.inverse_select') }}
                     </button>
                 </div>
-                <div class="text-2xl font-extrabold text-green-700">
+                <div class="text-2xl font-extrabold text-teal-700">
                     {{ __('app.total') }}: {{ $currencyService->convertWithSymbol($total, $currencyCode) }}
                 </div>
             </div>
             <div class="mt-8 flex justify-end">
-                <button type="submit" class="px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition text-lg shadow">
+                <button type="submit" class="px-8 py-3 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 transition text-lg shadow">
                     {{ __('app.checkout') }}
                 </button>
             </div>

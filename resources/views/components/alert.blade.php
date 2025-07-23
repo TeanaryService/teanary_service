@@ -4,7 +4,7 @@
     $baseClasses =
         'fixed top-20 right-6 z-50 max-w-xs w-full px-5 py-4 rounded-xl shadow-xl text-sm flex items-start space-x-3 border-l-4';
     $types = [
-        'success' => 'bg-green-50 text-green-800 border-green-500',
+        'success' => 'bg-teal-50 text-teal-800 border-teal-500',
         'error' => 'bg-red-50 text-red-800 border-red-500',
         'warning' => 'bg-yellow-50 text-yellow-800 border-yellow-500',
         'info' => 'bg-blue-50 text-blue-800 border-blue-500',
@@ -12,7 +12,7 @@
 
     $icons = [
         'success' =>
-            '<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',
+            '<svg class="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',
         'error' =>
             '<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>',
         'warning' =>

@@ -47,9 +47,9 @@
                     <div class="flex justify-center gap-2 mt-3">
                         @foreach ($images as $i => $img)
                             <button type="button"
-                                class="w-4 h-4 rounded-full border-2 border-green-600 {{ $i === 0 ? 'bg-green-600' : 'bg-white' }}"
+                                class="w-4 h-4 rounded-full border-2 border-teal-600 {{ $i === 0 ? 'bg-teal-600' : 'bg-white' }}"
                                 :class="{
-                                    'bg-green-600': active === {{ $i }},
+                                    'bg-teal-600': active === {{ $i }},
                                     'bg-white': active !==
                                         {{ $i }}
                                 }"
@@ -64,13 +64,13 @@
         </div>
         {{-- 商品信息 --}}
         <div class="md:w-1/2">
-            <h1 class="text-3xl font-bold text-green-700 mb-2">{{ $name }}</h1>
+            <h1 class="text-3xl font-bold text-teal-700 mb-2">{{ $name }}</h1>
             <div class="mb-2 text-gray-500">
                 @if ($categoryNames)
                     <span class="mr-2">{{ __('home.categories') }}:</span>
                     @foreach ($categoryNames as $catName)
                         <span
-                            class="inline-block bg-green-100 text-green-800 px-2 py-1 rounded mr-1">{{ $catName }}</span>
+                            class="inline-block bg-teal-100 text-teal-800 px-2 py-1 rounded mr-1">{{ $catName }}</span>
                     @endforeach
                 @endif
             </div>
@@ -95,7 +95,7 @@
             @endif
             <div class="mb-4">
                 @if (!empty($promotionInfo))
-                    <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
+                    <span class="text-2xl font-bold text-teal-700">{{ $price }}</span>
                     <span class="text-gray-400 line-through ml-2">{{ $currencyService->convertWithSymbol($variant->price, $currencyCode) }}</span>
                     <span class="ml-2 text-xs text-red-500 font-semibold">
                         {{ $promotionInfo['rule']['discount_type'] == 'percentage'
@@ -106,7 +106,7 @@
                         <div class="text-xs text-red-600 mt-1">{{ $promotionInfo['description'] }}</div>
                     @endif
                 @else
-                    <span class="text-2xl font-bold text-green-700">{{ $price }}</span>
+                    <span class="text-2xl font-bold text-teal-700">{{ $price }}</span>
                 @endif
             </div>
             {{-- 规格参数 --}}
@@ -157,7 +157,7 @@
                                     ->implode(' / ');
                             @endphp
                             <button wire:click="selectVariant({{ $v->id }})"
-                                class="px-4 py-2 rounded border cursor-pointer {{ $selectedVariantId == $v->id ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700' }}">
+                                class="px-4 py-2 rounded border cursor-pointer {{ $selectedVariantId == $v->id ? 'bg-teal-600 text-white' : 'bg-gray-100 text-gray-700' }}">
                                 {{ $specs ?: $v->sku }}
                             </button>
                         @endforeach
@@ -180,7 +180,7 @@
             <div class="mt-6 flex items-center gap gap-4">
                 <button
                     wire:click="$dispatch('cart:add', { productId: {{ $productId }}, variantId: {{ $variantId }}, qty: {{ $qty }} })"
-                    class="w-full px-6 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition">
+                    class="w-full px-6 py-3 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 transition">
                     {{ __('home.addCart') }}
                 </button>
 
@@ -195,11 +195,11 @@
 
     {{-- Tab 切换 --}}
     <div class="py-6">
-        <div class="flex border-b mb-4 border-green-600">
+        <div class="flex border-b mb-4 border-teal-600">
             <a href="?tab=desc"
-                class="px-4 py-2 font-semibold {{ $tab == 'desc' ? 'border-b-2 border-green-600 text-green-700' : 'text-gray-500' }}">{{ __('home.product_description') }}</a>
+                class="px-4 py-2 font-semibold {{ $tab == 'desc' ? 'border-b-2 border-teal-600 text-teal-700' : 'text-gray-500' }}">{{ __('home.product_description') }}</a>
             <a href="?tab=reviews"
-                class="px-4 py-2 font-semibold {{ $tab == 'reviews' ? 'border-b-2 border-green-600 text-green-700' : 'text-gray-500' }}">{{ __('home.product_reviews') }}</a>
+                class="px-4 py-2 font-semibold {{ $tab == 'reviews' ? 'border-b-2 border-teal-600 text-teal-700' : 'text-gray-500' }}">{{ __('home.product_reviews') }}</a>
         </div>
         @if ($tab == 'desc')
             @if ($desc)

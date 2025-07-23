@@ -1,7 +1,7 @@
 <div x-data="{ open: false }" class="relative" @click.outside="open = false">
     <!-- Cart Icon -->
     <button x-on:click="open = !open" class="relative flex items-center">
-        <x-heroicon-o-shopping-cart class="w-7 h-7 text-green-700" />
+        <x-heroicon-o-shopping-cart class="w-7 h-7 text-teal-700" />
         @if ($cartItems->count())
             <span
                 class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
@@ -18,9 +18,9 @@
         class="fixed md:absolute left-0 mt-3 w-screen md:w-76 lg:w-96 bg-white rounded-xl shadow-xl z-50 border border-gray-200 overflow-hidden">
 
         <!-- Header -->
-        <div class="p-4 bg-gray-50 border-b border-green-100 flex justify-between items-center">
-            <h3 class="font-bold text-green-700">{{ __('app.cart') }}</h3>
-            <button x-on:click="open = false" class="text-gray-400 hover:text-green-600">
+        <div class="p-4 bg-gray-50 border-b border-teal-100 flex justify-between items-center">
+            <h3 class="font-bold text-teal-700">{{ __('app.cart') }}</h3>
+            <button x-on:click="open = false" class="text-gray-400 hover:text-teal-600">
                 <x-heroicon-o-x-mark class="w-5 h-5" />
             </button>
         </div>
@@ -64,20 +64,20 @@
                     <img src="{{ $image }}" alt="{{ $name }}"
                         class="w-16 h-16 object-cover rounded-lg border border-gray-200">
                     <div class="flex-1 space-y-1">
-                        <div class="font-semibold text-green-900 line-clamp-2">{{ $name }}</div>
+                        <div class="font-semibold text-teal-900 line-clamp-2">{{ $name }}</div>
                         @if ($specs)
                             <div class="text-xs text-gray-500">{{ $specs }}</div>
                         @endif
                         <div>
                             @if ($promotion)
                                 <span
-                                    class="text-green-700 font-bold">{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
+                                    class="text-teal-700 font-bold">{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
                                 <span class="text-gray-400 line-through ml-2">{{ $price }}</span>
                                 <span class="ml-2 text-xs text-red-500 font-semibold">
                                     {{ $promotion['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $promotion['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotion['discount'], $currencyCode)]) }}
                                 </span>
                             @else
-                                <span class="text-green-700 font-bold">{{ $price }}</span>
+                                <span class="text-teal-700 font-bold">{{ $price }}</span>
                             @endif
                         </div>
 
@@ -107,13 +107,13 @@
         </div>
 
         <!-- Total & Action -->
-        <div class="p-4 border-t bg-gray-50 border-green-100">
-            <div class="flex justify-between items-center text-green-800 font-bold mb-3 text-base">
+        <div class="p-4 border-t bg-gray-50 border-teal-100">
+            <div class="flex justify-between items-center text-teal-800 font-bold mb-3 text-base">
                 <span>{{ __('app.total') }}</span>
                 <span>{{ $currencyService->convertWithSymbol($cartTotal, $currencyCode) }}</span>
             </div>
             <a href="{{ locaRoute('cart') }}"
-                class="w-full block text-center bg-green-600 text-white py-2.5 rounded-lg font-semibold hover:bg-green-700 transition">
+                class="w-full block text-center bg-teal-600 text-white py-2.5 rounded-lg font-semibold hover:bg-teal-700 transition">
                 {{ __('app.checkout') }}
             </a>
         </div>

@@ -51,14 +51,14 @@
                 @endauth
                 @guest
                     <a href="{{ route('filament.personal.auth.login') }}"
-                        class="text-green-600 hover:text-green-800 font-medium flex items-center gap gap-x-2">
+                        class="text-teal-600 hover:text-teal-800 font-medium flex items-center gap gap-x-2">
                         <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
                         <span class="hidden md:block">
                             {{ __('app.login') }}
                         </span>
                     </a>
                     <a href="{{ route('filament.personal.auth.register') }}"
-                        class="inline-flex items-center justify-center px-2 md:px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 h-10 gap gap-x-2">
+                        class="inline-flex items-center justify-center px-2 md:px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 h-10 gap gap-x-2">
                         <x-heroicon-o-plus-circle class="w-6 h-6" />
                         <span class="hidden md:block">{{ __('app.register') }}</span>
                     </a>

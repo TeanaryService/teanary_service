@@ -14,7 +14,7 @@
                 <div class="relative">
                     <input type="text" name="search" value="{{ request('search') }}"
                         placeholder="{{ __('app.search_placeholder') }}"
-                        class="w-full px-4 py-3 pl-10 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        class="w-full px-4 py-3 pl-10 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
                     <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                         <x-heroicon-o-magnifying-glass class="w-5 h-5" />
                     </button>
@@ -28,7 +28,7 @@
         <div class="relative">
             <input type="text" name="search" value="{{ request('search') }}"
                 placeholder="{{ __('app.search_placeholder') }}"
-                class="w-full px-4 py-3 pl-12 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                class="w-full px-4 py-3 pl-12 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
             <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                 <x-heroicon-o-magnifying-glass class="w-5 h-5" />
             </button>

@@ -1,7 +1,7 @@
 <div class="rating">
     <div class="mb-6">
         @if (session('review_submitted'))
-            <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+            <div class="bg-teal-100 text-teal-800 px-4 py-2 rounded mb-4">
                 {{ session('review_submitted') }}
             </div>
         @endif
@@ -35,20 +35,20 @@
                 </div>
                 <div class="mb-4">
                     <textarea wire:model="content" rows="3"
-                        class="w-full border rounded px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                        class="w-full border rounded px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
                         placeholder="{{ __('home.review_placeholder') }}"></textarea>
                 </div>
                 <button type="submit"
-                    class="bg-green-600 text-white px-6 py-2 rounded font-bold hover:bg-green-700 w-full">
+                    class="bg-teal-600 text-white px-6 py-2 rounded font-bold hover:bg-teal-700 w-full">
                     {{ __('home.submit_review') }}
                 </button>
             </form>
         @else
             <div class="mb-4 bg-gray-50 rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
                 <a href="{{ route('filament.personal.auth.login') }}"
-                    class="text-green-600 font-semibold">{{ __('app.login') }}</a>
+                    class="text-teal-600 font-semibold">{{ __('app.login') }}</a>
                 <a href="{{ route('filament.personal.auth.register') }}"
-                    class="text-green-600 font-semibold">{{ __('app.register') }}</a>
+                    class="text-teal-600 font-semibold">{{ __('app.register') }}</a>
                 <span class="text-gray-500">{{ __('home.login_to_review') }}</span>
             </div>
         @endauth
@@ -57,9 +57,9 @@
     <div class="bg-white rounded-lg shadow p-6">
         <h3 class="text-lg font-bold mb-4">{{ __('home.product_reviews') }}</h3>
         @forelse($reviews as $review)
-            <div class="border-b py-4 border-green-100">
+            <div class="border-b py-4 border-teal-100">
                 <div class="flex items-center gap-2 mb-1">
-                    <span class="font-semibold text-green-700">{{ $review->user->name ?? __('home.anonymous') }}</span>
+                    <span class="font-semibold text-teal-700">{{ $review->user->name ?? __('home.anonymous') }}</span>
                     <span class="flex items-center">
                         @for ($i = 1; $i <= 5; $i++)
                             <svg class="w-4 h-4 {{ $review->rating >= $i ? 'text-yellow-400' : 'text-gray-300' }}"

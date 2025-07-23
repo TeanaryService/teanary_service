@@ -17,10 +17,10 @@
             <div>
                 <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.quick_links') }}</h3>
                 <ul class="space-y-1">
-                    <li><a href="{{ locaRoute('home') }}" class="hover:text-green-600">{{ __('app.home') }}</a></li>
-                    <li><a href="{{ locaRoute('product') }}" class="hover:text-green-600">{{ __('app.categories') }}</a></li>
-                    <li><a href="{{ route('filament.personal.auth.login') }}" class="hover:text-green-600">{{ __('app.login') }}</a></li>
-                    <li><a href="{{ route('filament.personal.auth.register') }}" class="hover:text-green-600">{{ __('app.register') }}</a></li>
+                    <li><a href="{{ locaRoute('home') }}" class="hover:text-teal-600">{{ __('app.home') }}</a></li>
+                    <li><a href="{{ locaRoute('product') }}" class="hover:text-teal-600">{{ __('app.categories') }}</a></li>
+                    <li><a href="{{ route('filament.personal.auth.login') }}" class="hover:text-teal-600">{{ __('app.login') }}</a></li>
+                    <li><a href="{{ route('filament.personal.auth.register') }}" class="hover:text-teal-600">{{ __('app.register') }}</a></li>
                 </ul>
             </div>
 
@@ -38,13 +38,13 @@
             <div>
                 <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.follow_us') }}</h3>
                 <div class="flex gap-4">
-                    <a href="#" class="hover:text-green-600" aria-label="Facebook">
+                    <a href="#" class="hover:text-teal-600" aria-label="Facebook">
                         <x-heroicon-o-globe-alt class="w-6 h-6" />
                     </a>
-                    <a href="#" class="hover:text-green-600" aria-label="WeChat">
+                    <a href="#" class="hover:text-teal-600" aria-label="WeChat">
                         <x-heroicon-o-chat-bubble-left-ellipsis class="w-6 h-6" />
                     </a>
-                    <a href="#" class="hover:text-green-600" aria-label="Instagram">
+                    <a href="#" class="hover:text-teal-600" aria-label="Instagram">
                         <x-heroicon-o-camera class="w-6 h-6" />
                     </a>
                 </div>

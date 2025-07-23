@@ -4,7 +4,7 @@
         <div class="max-w-xl px-4 text-center relative">
             {{-- 大标题 --}}
             <h1
-                class="text-9xl font-black bg-gradient-to-r from-green-500 via-green-900 to-green-500 bg-clip-text text-transparent animate-pulse">
+                class="text-9xl font-black bg-gradient-to-r from-teal-500 via-teal-900 to-teal-500 bg-clip-text text-transparent animate-pulse">
                 {{ $code }}
             </h1>
 
@@ -26,7 +26,7 @@
                     {{ __('error.back') }}
                 </a>
                 <a href="{{ locaRoute('home') }}"
-                    class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 flex items-center gap-2">
+                    class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition duration-200 flex items-center gap-2">
                     <x-heroicon-o-home class="w-6 h-6" />
                     {{ __('error.home') }}
                 </a>
@@ -36,7 +36,7 @@
             <div class="mt-12 select-none pointer-events-none opacity-75">
                 <div class="relative">
                     <div class="absolute -top-16 left-1/2 transform -translate-x-1/2">
-                        <svg class="w-32 h-32 text-green-100" fill="currentColor" viewBox="0 0 200 200">
+                        <svg class="w-32 h-32 text-teal-100" fill="currentColor" viewBox="0 0 200 200">
                             <path
                                 d="M100 0C44.8 0 0 44.8 0 100s44.8 100 100 100 100-44.8 100-100S155.2 0 100 0zm0 180c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z" />
                         </svg>

@@ -13,7 +13,7 @@
                     {{ __('home.hero_subtitle') }}
                 </p>
                 <a href="{{ locaRoute('product') }}"
-                    class="inline-block bg-green-600 text-white font-medium px-8 py-4 rounded-lg hover:bg-green-700 transition-colors">
+                    class="inline-block bg-teal-600 text-white font-medium px-8 py-4 rounded-lg hover:bg-teal-700 transition-colors">
                     {{ __('home.shop_now') }}
                 </a>
             </div>
@@ -34,7 +34,7 @@
                         <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
                             class="h-auto w-auto mx-auto mb-4 object-cover rounded-lg">
                         <span
-                            class="text-gray-900 font-medium block text-center group-hover:text-green-600">{{ $category['name'] }}</span>
+                            class="text-gray-900 font-medium block text-center group-hover:text-teal-600">{{ $category['name'] }}</span>
                     </div>
                 </a>
             @endforeach
@@ -58,7 +58,7 @@
                     {{ __('home.about_content') }}
                 </p>
                 <a href="{{ locaRoute('about-us') }}"
-                    class="inline-block bg-green-600 text-white font-medium px-8 py-4 rounded-lg hover:bg-green-700 transition-colors">
+                    class="inline-block bg-teal-600 text-white font-medium px-8 py-4 rounded-lg hover:bg-teal-700 transition-colors">
                     {{ __('home.learn_more') }}
                 </a>
             </div>

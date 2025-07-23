@@ -4,7 +4,7 @@
 @endphp
 
 <div class="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-white">
-    <h1 class="text-3xl font-bold text-green-700 mb-8">{{ __('app.checkout') }}</h1>
+    <h1 class="text-3xl font-bold text-teal-700 mb-8">{{ __('app.checkout') }}</h1>
 
     @if (!empty($items))
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -16,7 +16,7 @@
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-semibold text-gray-800">{{ __('app.shipping_address') }}</h2>
                         <button wire:click="toggleAddressForm" type="button"
-                            class="text-green-600 hover:text-green-700 font-medium">
+                            class="text-teal-600 hover:text-teal-700 font-medium">
                             {{ $showAddressForm ? __('app.cancel') : __('app.add_new_address') }}
                         </button>
                     </div>
@@ -26,7 +26,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.email') }}</label>
                                 <input type="email" wire:model="address.email"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.email')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -34,7 +34,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.telephone') }}</label>
                                 <input type="text" wire:model="address.telephone"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.telephone')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -42,7 +42,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.firstname') }}</label>
                                 <input type="text" wire:model="address.firstname"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.firstname')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -50,7 +50,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.lastname') }}</label>
                                 <input type="text" wire:model="address.lastname"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.lastname')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -59,7 +59,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.company') }}</label>
                                 <input type="text" wire:model="address.company"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.company')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -67,7 +67,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.address_1') }}</label>
                                 <input type="text" wire:model="address.address_1"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.address_1')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -75,7 +75,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.address_2') }}</label>
                                 <input type="text" wire:model="address.address_2"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.address_2')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -83,7 +83,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.country') }}</label>
                                 <select wire:model.live="address.country_id"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                     <option value="">{{ __('app.select_country') }}</option>
                                     @foreach ($countries as $country)
                                         <option value="{{ $country['id'] }}">{{ $country['name'] }}</option>
@@ -96,7 +96,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.zone') }}</label>
                                 <select wire:model="address.zone_id"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500"
                                     @if (!$address['country_id']) disabled @endif>
                                     <option value="">{{ __('app.select_zone') }}</option>
                                     @if ($zones)
@@ -112,7 +112,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.city') }}</label>
                                 <input type="text" wire:model="address.city"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.city')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -120,7 +120,7 @@
                             <div>
                                 <label class="text-sm font-medium text-gray-700">{{ __('app.postcode') }}</label>
                                 <input type="text" wire:model="address.postcode"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500">
+                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
                                 @error('address.postcode')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
@@ -128,7 +128,7 @@
 
                             <div class="md:col-span-2">
                                 <button type="submit"
-                                    class="w-full py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition font-semibold">
+                                    class="w-full py-3 text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition font-semibold">
                                     {{ __('app.save_address') }}
                                 </button>
                             </div>
@@ -143,8 +143,8 @@
                             @if ($addresses)
                                 @foreach ($addresses as $address)
                                     <label
-                                        class="flex items-start p-4 border rounded-lg hover:border-green-500 transition cursor-pointer"
-                                        :class="{ 'ring-2 ring-green-500': shippingAddress == {{ $address->id }} }">
+                                        class="flex items-start p-4 border rounded-lg hover:border-teal-500 transition cursor-pointer"
+                                        :class="{ 'ring-2 ring-teal-500': shippingAddress == {{ $address->id }} }">
                                         <input type="radio" wire:model.live="shippingAddress"
                                             value="{{ $address->id }}" class="mt-1">
                                         <div class="ml-4 space-y-1">
@@ -188,7 +188,7 @@
                                         <span class="text-gray-900 font-medium">{{ $item['product_name'] }}</span>
                                     </td>
                                     <td class="px-2 py-2 text-gray-500">{{ $item['specs'] }}</td>
-                                    <td class="px-2 py-2 text-green-700 font-semibold">
+                                    <td class="px-2 py-2 text-teal-700 font-semibold">
                                         @if ($item['promotion'])
                                             <span>{{ $currencyService->convertWithSymbol($item['price'], $currencyCode) }}</span>
                                             <span
@@ -201,7 +201,7 @@
                                         @endif
                                     </td>
                                     <td class="px-2 py-2">{{ $item['qty'] }}</td>
-                                    <td class="px-2 py-2 text-green-700 font-semibold">
+                                    <td class="px-2 py-2 text-teal-700 font-semibold">
                                         {{ $currencyService->convertWithSymbol($item['subtotal'], $currencyCode) }}
                                     </td>
                                 </tr>
@@ -231,7 +231,7 @@
                     </div>
                     <div class="flex justify-between text-lg font-bold border-t pt-4">
                         <span>{{ __('app.total') }}</span>
-                        <span class="text-green-700 text-2xl">{{ $currencyService->convertWithSymbol($total, $currencyCode) }}</span>
+                        <span class="text-teal-700 text-2xl">{{ $currencyService->convertWithSymbol($total, $currencyCode) }}</span>
                     </div>
                     @if ($orderPromotion)
                         <div class="mt-2 p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700">
@@ -275,7 +275,7 @@
                     </div>
 
                     <button wire:click="createOrder"
-                        class="w-full py-3 bg-green-600 text-white font-bold text-lg rounded-lg hover:bg-green-700 transition shadow">
+                        class="w-full py-3 bg-teal-600 text-white font-bold text-lg rounded-lg hover:bg-teal-700 transition shadow">
                         {{ __('app.place_order') }}
                     </button>
                 </div>
@@ -284,7 +284,7 @@
     @else
         <div class="text-center py-10">
             <p class="text-gray-500">{{ __('app.no_items_to_checkout') }}</p>
-            <a href="{{ locaRoute('cart') }}" class="text-green-600 hover:underline mt-2 inline-block">
+            <a href="{{ locaRoute('cart') }}" class="text-teal-600 hover:underline mt-2 inline-block">
                 {{ __('app.return_to_cart') }}
             </a>
         </div>

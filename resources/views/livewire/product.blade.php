@@ -49,7 +49,7 @@
                     @foreach ($categories as $category)
                         <li>
                             <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}"
-                                class="block px-4 py-2 rounded hover:bg-green-100 {{ $categoryId == $category['id'] ? 'bg-green-200 font-bold' : 'text-gray-700' }}">
+                                class="block px-4 py-2 rounded hover:bg-teal-100 {{ $categoryId == $category['id'] ? 'bg-teal-200 font-bold' : 'text-gray-700' }}">
                                 {{ $category['name'] }}
                             </a>
                             @if (!empty($category['children']))
@@ -57,7 +57,7 @@
                                     @foreach ($category['children'] as $child)
                                         <li>
                                             <a href="{{ locaRoute('product', ['category_id' => $child['id']]) }}"
-                                                class="block px-3 py-1 rounded hover:bg-green-50 {{ $categoryId == $child['id'] ? 'bg-green-200 font-bold' : 'text-gray-600' }}">
+                                                class="block px-3 py-1 rounded hover:bg-teal-50 {{ $categoryId == $child['id'] ? 'bg-teal-200 font-bold' : 'text-gray-600' }}">
                                                 {{ $child['name'] }}
                                             </a>
                                         </li>
@@ -77,14 +77,14 @@
                                 <label class="flex items-center mb-1 cursor-pointer">
                                     <input type="checkbox" name="attributes[{{ $attr['id'] }}][]"
                                         value="{{ $val['id'] }}" @if (isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array) $attributeFilters[$attr['id']])) checked @endif
-                                        class="mr-2 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        class="mr-2 rounded border-gray-300 text-teal-600 focus:ring-teal-500">
                                     <span class="text-gray-600">{{ $val['name'] }}</span>
                                 </label>
                             @endforeach
                         </div>
                     @endforeach
                     <button type="submit"
-                        class="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold mt-2">
+                        class="w-full px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-semibold mt-2">
                         {{ __('home.search') }}
                     </button>
                 </form>

@@ -31,7 +31,7 @@ class ManagerPanelProvider extends PanelProvider
             ->login()
             ->authGuard('manager')
             ->colors([
-                'primary' => Color::Green,
+                'primary' => Color::Teal,
             ])
             ->font(
                 'Inter',

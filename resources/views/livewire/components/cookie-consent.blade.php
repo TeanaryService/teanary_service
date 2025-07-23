@@ -8,7 +8,7 @@
                 </div>
                 <div>
                     <button wire:click="accept"
-                        class="px-6 py-2 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition">
+                        class="px-6 py-2 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 transition">
                         {{ __('app.cookie_accept') }}
                     </button>
                 </div>

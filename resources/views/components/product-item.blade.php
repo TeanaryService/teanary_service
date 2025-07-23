@@ -31,7 +31,7 @@
         <div class="p-2 md:p-4">
             <h3 class="text-lg font-medium text-gray-900 mb-2">{{ $name }}</h3>
             @if ($priceText)
-                <p class="text-lg font-bold text-green-600">{{ $priceText }}</p>
+                <p class="text-lg font-bold text-teal-600">{{ $priceText }}</p>
             @endif
             <p class="mt-2 text-sm text-gray-500">{{ __('home.product_view_detail') }}</p>
         </div>

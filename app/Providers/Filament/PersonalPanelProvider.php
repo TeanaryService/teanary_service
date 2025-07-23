@@ -36,7 +36,7 @@ class PersonalPanelProvider extends PanelProvider
             ->passwordReset()
             ->emailVerification()
             ->colors([
-                'primary' => Color::Green,
+                'primary' => Color::Teal,
             ])
             ->font(
                 'Inter',

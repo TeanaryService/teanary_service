@@ -7,22 +7,22 @@
 
 <div class="w-full max-w-7xl mx-auto py-9 px-6">
     @if (count($promotions))
-        <div class="bg-green-50 border-l-4 border-green-400 p-6 rounded-2xl shadow-md mb-10">
-            <h2 class="text-2xl font-bold text-green-800 mb-4">{{ __('home.promotions') }}</h2>
+        <div class="bg-teal-50 border-l-4 border-teal-400 p-6 rounded-2xl shadow-md mb-10">
+            <h2 class="text-2xl font-bold text-teal-800 mb-4">{{ __('home.promotions') }}</h2>
 
             <ul class="space-y-6">
                 @foreach ($promotions as $promotion)
                     <li
                         class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
                         <div class="flex-1">
-                            <div class="text-green-900 font-semibold text-lg">{{ $promotion['name'] }}</div>
+                            <div class="text-teal-900 font-semibold text-lg">{{ $promotion['name'] }}</div>
 
                             @if (!empty($promotion['description']))
                                 <p class="text-gray-600 text-sm mt-1">{{ $promotion['description'] }}</p>
                             @endif
 
                             @if (!empty($promotion['rules']))
-                                <ul class="mt-3 text-sm text-green-700 list-disc pl-5 space-y-1">
+                                <ul class="mt-3 text-sm text-teal-700 list-disc pl-5 space-y-1">
                                     @foreach ($promotion['rules'] as $rule)
                                         <li>
                                             {{ __('home.promotion_text', [
