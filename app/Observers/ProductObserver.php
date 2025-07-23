@@ -3,9 +3,11 @@
 namespace App\Observers;
 
 use App\Models\Product;
+use App\Traits\HandlesEditorUploads;
 
 class ProductObserver
 {
+    use HandlesEditorUploads;
     /**
      * Handle the Product "created" event.
      */
@@ -33,6 +35,11 @@ class ProductObserver
 
         $product->productReviews()->each(function ($review) {
             $review->delete();
+        });
+
+        //删除正文文件
+        $product->productTranslations()->each(function ($translation) {
+            $this->deleteEditorUploadsFromHtml($translation->description);
         });
     }
 

@@ -12,6 +12,7 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -169,9 +170,9 @@ class ProductResource extends Resource
                                     ->label(__('filament_product.name'))
                                     ->required($lang->is_default ?? false)
                                     ->default($translation ? $translation->name : ''),
-                                Textarea::make("translations.{$lang->id}.description")
-                                    ->label(__('filament_product.description'))
-                                    ->default($translation ? $translation->description : ''),
+
+                                reusableRichEditor("translations.{$lang->id}.description", $translation?->description ?? '', __('filament_product.description'), $lang->id),
+
                                 Textarea::make("translations.{$lang->id}.short_description")
                                     ->label(__('filament_product.short_description'))
                                     ->default($translation ? $translation->short_description : ''),
