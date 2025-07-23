@@ -22,6 +22,7 @@ class ArticleFactory extends Factory
         return [
             //
             'slug' => Str::random(10),
+            'is_published' => 1
         ];
     }
 

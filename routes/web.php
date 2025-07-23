@@ -2,6 +2,8 @@
 
 use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\AboutUs;
+use App\Livewire\ArticleDetail;
+use App\Livewire\ArticleList;
 use App\Livewire\Cart;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
@@ -41,6 +43,9 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
     Route::get('payment/failure', Failure::class)->name('payment.failure');
 
     Route::get('about-us', AboutUs::class)->name('about-us');
+
+    Route::get('articles', ArticleList::class)->name('article.index');
+    Route::get('articles/{slug}', ArticleDetail::class)->name('article.show');
 
     Route::get('login-as/{id}', function (string $locale, int $id) {
         Auth::logout();
