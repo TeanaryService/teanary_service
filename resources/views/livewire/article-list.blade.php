@@ -17,7 +17,7 @@
                 type="text"
                 wire:model.debounce.300ms="search"
                 wire:keydown.enter="$refresh"
-                placeholder="{{ __('请输入关键词搜索文章') }}"
+                placeholder="{{ __('app.article_search_placeholder') }}"
                 class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-teal-300"
             >
             @if($search)

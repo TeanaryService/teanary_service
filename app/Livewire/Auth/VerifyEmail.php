@@ -33,7 +33,7 @@ class VerifyEmail extends Component
         }
 
         // 可选：验证成功后自动登录跳转
-        session()->flash('message', '邮箱验证成功！');
+        session()->flash('message', __('auth.verify_email_success'));
         redirect()->route('home', ['locale' => $locale]);
     }
 

@@ -36,7 +36,7 @@ class Profile extends Component
 
         $user->save();
 
-        session()->flash('success', '资料更新成功！');
+        session()->flash('success', __('app.edit_user_success'));
     }
 
     public function render()

@@ -47,7 +47,7 @@ class ResetPassword extends Component
         if ($status === Password::PASSWORD_RESET) {
             $this->success = true;
         } else {
-            $this->addError('email', __($status));
+            $this->addError('email', __("password.{$status}"));
         }
     }
 

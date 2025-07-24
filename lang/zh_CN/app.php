@@ -15,6 +15,7 @@ return [
     'login' => '登录',
     'logout' => '退出',
     'register' => '注册',
+    'password' => '密码',
     'profile' => '个人中心',
     'quick_links' => '快捷链接',
     'follow_us' => '关注我们',
@@ -22,6 +23,12 @@ return [
     'home' => '首页',
     'address' => '中国·云南·昆明',
     'sub_name' => '中国·昆明',
+
+    'password_confirmation' => '确认密码',
+    'already_have_account' => '已有账号？登录',
+    'nickname' => '昵称',
+    'readonly' => '不可修改',
+    'save_changes' => '保存修改',
 
     'cart' => '购物车',
     'empty_cart' => '购物车还没有商品',
@@ -75,4 +82,8 @@ return [
     'add_cart_success' => '添加到购物车成功~',
     'edit_cart_success' => '修改购物车商品成功~',
     'delete_cart_success' => '删除购物车商品成功~',
+
+    'edit_user_success' => '个人资料更新成功~',
+
+    'article_search_placeholder' => '搜索你感兴趣的茶叶文章...'
 ];

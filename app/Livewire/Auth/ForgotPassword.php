@@ -27,10 +27,7 @@ class ForgotPassword extends Component
         if ($status === Password::RESET_LINK_SENT) {
             $this->success = true;
         } else {
-            $message = match ($status) {
-                Password::INVALID_USER => '该邮箱未注册。',
-                default => '发送失败，请稍后重试。',
-            };
+            $message = __("passwords.{$status}");
             $this->addError('email', $message);
         }
     }

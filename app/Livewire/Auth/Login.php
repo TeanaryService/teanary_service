@@ -27,7 +27,7 @@ class Login extends Component
             $locale = app()->getLocale();
             return redirect()->route('home', ['locale' => $locale]);
         } else {
-            $this->addError('email', '账号或密码错误');
+            $this->addError('email', __('auth.failed'));
         }
     }
 
