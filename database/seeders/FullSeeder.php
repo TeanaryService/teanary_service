@@ -34,16 +34,27 @@ class FullSeeder extends Seeder
          * Languages
          */
         $languages = collect([
-            ['code' => 'en', 'name' => 'English', 'default' => true],
-            ['code' => 'zh_CN', 'name' => '中文', 'default' => false],
+            ['code' => 'en',    'name' => 'English',  'default' => true],
+            ['code' => 'zh_CN', 'name' => '中文',       'default' => false],
+            ['code' => 'es',    'name' => 'Español',  'default' => false],
+            ['code' => 'fr',    'name' => 'Français', 'default' => false],
+            ['code' => 'de',    'name' => 'Deutsch',  'default' => false],
+            ['code' => 'ja',    'name' => '日本語',     'default' => false],
+            ['code' => 'ko',    'name' => '한국어',     'default' => false],
+            ['code' => 'ru', 'name' => 'Русский', 'default' => false],
         ])->map(fn($data) => Language::create($data));
 
         /**
          * Currencies
          */
         $currencies = collect([
-            ['code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$', 'default' => true],
-            ['code' => 'CNY', 'name' => '人民币', 'symbol' => '¥', 'default' => false],
+            ['code' => 'USD', 'name' => 'US Dollar',       'symbol' => '$',   'default' => true],
+            ['code' => 'EUR', 'name' => 'Euro',            'symbol' => '€',   'default' => false],
+            ['code' => 'GBP', 'name' => 'British Pound',   'symbol' => '£',   'default' => false],
+            ['code' => 'CNY', 'name' => 'Chinese Yuan',    'symbol' => '¥',   'default' => false],
+            ['code' => 'JPY', 'name' => 'Japanese Yen',    'symbol' => '¥',   'default' => false],
+            ['code' => 'KRW', 'name' => 'Korean Won',      'symbol' => '₩',   'default' => false],
+            ['code' => 'AUD', 'name' => 'Australian Dollar', 'symbol' => 'A$', 'default' => false],
         ])->map(fn($data) => Currency::create($data));
 
         /**

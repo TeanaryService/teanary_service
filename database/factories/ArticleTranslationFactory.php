@@ -17,7 +17,7 @@ class ArticleTranslationFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'summary' => $this->faker->paragraph(),
+            'summary' => $this->faker->sentence(),
             'content' => '<p>' . implode('</p><p>', $this->faker->paragraphs(3)) . '</p>',
         ];
     }

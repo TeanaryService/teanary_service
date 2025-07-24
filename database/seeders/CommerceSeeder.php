@@ -34,54 +34,6 @@ class CommerceSeeder extends Seeder
         $products = Product::all();
         $productVariants = ProductVariant::all();
 
-        // ----------- 物流方式 -----------
-        $shippingsData = [
-            [
-                'code' => 'dhl',
-                'active' => true,
-                'api_url' => 'https://api.dhl.com',
-                'api_token' => 'dhl-token',
-                'translations' => [
-                    'en' => ['name' => 'DHL', 'description' => 'DHL Express Shipping'],
-                    'zh' => ['name' => 'DHL', 'description' => 'DHL 快递'],
-                ],
-            ],
-            [
-                'code' => 'fedex',
-                'active' => true,
-                'api_url' => 'https://api.fedex.com',
-                'api_token' => 'fedex-token',
-                'translations' => [
-                    'en' => ['name' => 'FedEx', 'description' => 'FedEx Shipping Service'],
-                    'zh' => ['name' => '联邦快递', 'description' => 'FedEx 快递服务'],
-                ],
-            ],
-        ];
-
-        // ----------- 支付方式 -----------
-        $paymentsData = [
-            [
-                'code' => 'alipay',
-                'active' => true,
-                'api_url' => 'https://openapi.alipay.com',
-                'api_token' => 'alipay-token',
-                'translations' => [
-                    'en' => ['name' => 'Alipay', 'description' => 'Alipay Payment'],
-                    'zh' => ['name' => '支付宝', 'description' => '支付宝支付'],
-                ],
-            ],
-            [
-                'code' => 'paypal',
-                'active' => true,
-                'api_url' => 'https://api.paypal.com',
-                'api_token' => 'paypal-token',
-                'translations' => [
-                    'en' => ['name' => 'PayPal', 'description' => 'PayPal Payment Gateway'],
-                    'zh' => ['name' => '贝宝', 'description' => 'PayPal 支付网关'],
-                ],
-            ],
-        ];
-
         // ----------- 生成购物车、地址、订单 -----------
         foreach ($users as $user) {
             $currency = $currencies->random();

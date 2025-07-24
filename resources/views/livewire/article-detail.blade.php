@@ -47,5 +47,5 @@
 </div>
 
 @pushOnce('seo')
-    <x-layouts.seo title="{{ $translation?->title }}" description="{{ $translation?->summary }}" />
+    <x-layouts.seo title="{{ $translation?->title }}" description="{{ $translation?->summary }}" image="{{ $cover }}"/>
 @endPushOnce
