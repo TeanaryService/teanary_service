@@ -68,13 +68,13 @@ class UserGroupResource extends Resource
                         }
                         
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_user_group.name') . " ({$lang->name})")
+                            ->label(__('filament.user_group.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                ->label(__('filament_user_group.name')),
+                ->label(__('filament.user_group.name')),
             ]);
     }
 
@@ -84,7 +84,7 @@ class UserGroupResource extends Resource
             ->columns([
                 // 显示当前语言的 name
                 TextColumn::make('userGroupTranslations.name')
-                    ->label(__('filament_user_group.name'))
+                    ->label(__('filament.user_group.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);

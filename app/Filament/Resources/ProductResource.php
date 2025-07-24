@@ -58,7 +58,7 @@ class ProductResource extends Resource
     {
         return $form->schema([
             SpatieMediaLibraryFileUpload::make('images')
-                ->label(__('filament_product.images'))
+                ->label(__('filament.product.images'))
                 ->multiple()
                 ->columnSpanFull()
                 ->collection('images')
@@ -91,15 +91,15 @@ class ProductResource extends Resource
 
         return [
             Forms\Components\Repeater::make('attributeValues')
-                ->label(__('filament_product.attribute_values'))
+                ->label(__('filament.product.attribute_values'))
                 ->schema([
                     Forms\Components\Select::make('attribute_id')
-                        ->label(__('filament_product.attribute'))
+                        ->label(__('filament.product.attribute'))
                         ->options($attributeOptions)
                         ->required()
                         ->reactive(),
                     Forms\Components\Select::make('attribute_value_id')
-                        ->label(__('filament_product.attribute_value'))
+                        ->label(__('filament.product.attribute_value'))
                         ->options(function ($get) use ($attributeValueOptions) {
                             $attrId = $get('attribute_id');
                             return $attrId && isset($attributeValueOptions[$attrId])
@@ -124,10 +124,10 @@ class ProductResource extends Resource
 
         return [
             Forms\Components\Repeater::make('productCategories')
-                ->label(__('filament_product.categories'))
+                ->label(__('filament.product.categories'))
                 ->schema([
                     Forms\Components\Select::make('category_id')
-                        ->label(__('filament_product.category'))
+                        ->label(__('filament.product.category'))
                         ->options($categoryOptions)
                         ->required()
                         ->searchable(),
@@ -139,11 +139,11 @@ class ProductResource extends Resource
     {
         return [
             Forms\Components\TextInput::make('slug')
-                ->label(__('filament_product.slug'))
+                ->label(__('filament.product.slug'))
                 ->required()
                 ->maxLength(255),
             Forms\Components\Select::make('status')
-                ->label(__('filament_product.status'))
+                ->label(__('filament.product.status'))
                 ->options(ProductStatusEnum::options())
                 ->required(),
         ];
@@ -167,14 +167,14 @@ class ProductResource extends Resource
                         return Tabs\Tab::make($lang->name)
                             ->schema([
                                 Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                                    ->label(__('filament_product.name'))
+                                    ->label(__('filament.product.name'))
                                     ->required($lang->is_default ?? false)
                                     ->default($translation ? $translation->name : ''),
 
-                                reusableRichEditor("translations.{$lang->id}.description", $translation?->description ?? '', __('filament_product.description'), $lang->id),
+                                reusableRichEditor("translations.{$lang->id}.description", $translation?->description ?? '', __('filament.product.description'), $lang->id),
 
                                 Textarea::make("translations.{$lang->id}.short_description")
-                                    ->label(__('filament_product.short_description'))
+                                    ->label(__('filament.product.short_description'))
                                     ->default($translation ? $translation->short_description : ''),
                             ]);
                     })->toArray()
@@ -194,13 +194,13 @@ class ProductResource extends Resource
             )
             ->columns([
                 SpatieMediaLibraryImageColumn::make('images')
-                    ->label(__('filament_product.images'))
+                    ->label(__('filament.product.images'))
                     ->stacked()
                     ->collection('images')
                     ->conversion('thumb'),
                 // 多语言 name 列
                 Tables\Columns\TextColumn::make('productTranslations.name')
-                    ->label(__('filament_product.name'))
+                    ->label(__('filament.product.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -212,7 +212,7 @@ class ProductResource extends Resource
                         return $first ? $first->name : '';
                     }),
                 Tables\Columns\TextColumn::make('categories')
-                    ->label(__('filament_product.categories'))
+                    ->label(__('filament.product.categories'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -226,11 +226,11 @@ class ProductResource extends Resource
                         return implode('，', array_filter($names));
                     }),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label(__('filament_product.slug'))
+                    ->label(__('filament.product.slug'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn($state): string => $state->label())
-                    ->label(__('filament_product.status')),
+                    ->label(__('filament.product.status')),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

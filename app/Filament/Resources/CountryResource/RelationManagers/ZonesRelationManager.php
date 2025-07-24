@@ -16,12 +16,12 @@ class ZonesRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_country.zones');
+        return __('filament.country.zones');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_country.zones');
+        return __('filament.country.zones');
     }
 
     protected static string $relationship = 'zones';
@@ -36,7 +36,7 @@ class ZonesRelationManager extends RelationManager
         return ZoneResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('filament_country.zones')),
+                    ->label(__('filament.country.zones')),
             ]);
     }
 }

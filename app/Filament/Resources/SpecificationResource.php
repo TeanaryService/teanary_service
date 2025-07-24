@@ -69,13 +69,13 @@ class SpecificationResource extends Resource
                         }
 
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_specification.name') . " ({$lang->name})")
+                            ->label(__('filament.specification.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                    ->label(__('filament_specification.name')),
+                    ->label(__('filament.specification.name')),
                 // ...existing code...
             ]);
     }
@@ -86,7 +86,7 @@ class SpecificationResource extends Resource
             ->columns([
                 // 多语言 name 列
                 Tables\Columns\TextColumn::make('specificationTranslations.name')
-                    ->label(__('filament_specification.name'))
+                    ->label(__('filament.specification.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);

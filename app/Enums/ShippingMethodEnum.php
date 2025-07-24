@@ -9,7 +9,7 @@ enum ShippingMethodEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::SF_INTERNATIONAL => __('shipping.method.sf_international'),
+            self::SF_INTERNATIONAL => __('app.shipping.method.sf_international'),
         };
     }
 

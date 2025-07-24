@@ -29,9 +29,9 @@ class CustomVerifyEmail extends BaseVerifyEmail
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('验证你的邮箱地址'))
-            ->line(__('点击下面的按钮以验证你的邮箱。'))
-            ->action(__('验证邮箱'), $this->verificationUrl($notifiable))
-            ->line(__('如果你没有创建账号，则无需采取进一步操作。'));
+            ->subject(__('app.email_verify_subject'))
+            ->line(__('app.email_verify_line1'))
+            ->action(__('app.email_verify_action'), $this->verificationUrl($notifiable))
+            ->line(__('app.email_verify_line2'));
     }
 }

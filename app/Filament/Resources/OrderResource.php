@@ -55,13 +55,13 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('order_no')
-                    ->label(__('filament_order.order_no'))
+                    ->label(__('filament.order.order_no'))
                     ->disabled(),
                 Forms\Components\Select::make('payment_method')
-                    ->label(__('filament_order.payment_method'))
+                    ->label(__('filament.order.payment_method'))
                     ->options(PaymentMethodEnum::options()),
                 Forms\Components\Select::make('user_id')
-                    ->label(__('filament_order.user_id'))
+                    ->label(__('filament.order.user_id'))
                     ->relationship('user', 'name')
                     ->default(null)
                     ->live()
@@ -73,7 +73,7 @@ class OrderResource extends Resource
                         $set('billing_address_id', null);
                     }),
                 Forms\Components\Select::make('shipping_address_id')
-                    ->label(__('filament_order.shipping_address_id'))
+                    ->label(__('filament.order.shipping_address_id'))
                     ->relationship(
                         'shippingAddress',
                         'id',
@@ -87,7 +87,7 @@ class OrderResource extends Resource
                     ->preload()
                     ->default(null),
                 Forms\Components\Select::make('billing_address_id')
-                    ->label(__('filament_order.billing_address_id'))
+                    ->label(__('filament.order.billing_address_id'))
                     ->relationship(
                         'billingAddress',
                         'id',
@@ -101,26 +101,26 @@ class OrderResource extends Resource
                     ->preload()
                     ->default(null),
                 Forms\Components\Select::make('currency_id')
-                    ->label(__('filament_order.currency_id'))
+                    ->label(__('filament.order.currency_id'))
                     ->live()
                     ->searchable()
                     ->preload()
                     ->relationship('currency', 'name')
                     ->default(null),
                 Forms\Components\TextInput::make('total')
-                    ->label(__('filament_order.total'))
+                    ->label(__('filament.order.total'))
                     ->required()
                     ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
                 Forms\Components\TextInput::make('shipping_fee')
-                    ->label(__('filament_order.shipping_fee'))
+                    ->label(__('filament.order.shipping_fee'))
                     ->required()
                     ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
                 Forms\Components\Select::make('status')
-                    ->label(__('filament_order.status'))
+                    ->label(__('filament.order.status'))
                     ->options(OrderStatusEnum::options())
                     ->required(),
             ]);
@@ -139,37 +139,37 @@ class OrderResource extends Resource
             )
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament_order.user_id')),
+                    ->label(__('filament.order.user_id')),
                 Tables\Columns\TextColumn::make('order_no')
-                    ->label(__('filament_order.order_no'))
+                    ->label(__('filament.order.order_no'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('shippingAddress')
-                    ->label(__('filament_order.shipping_address_id'))
+                    ->label(__('filament.order.shipping_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->shippingAddress;
                         if (!$addr) return '';
                         return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
                     }),
                 Tables\Columns\TextColumn::make('billingAddress')
-                    ->label(__('filament_order.billing_address_id'))
+                    ->label(__('filament.order.billing_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->billingAddress;
                         if (!$addr) return '';
                         return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
                     }),
                 Tables\Columns\TextColumn::make('total')
-                    ->label(__('filament_order.total'))
+                    ->label(__('filament.order.total'))
                     ->prefix(fn($record): string => $record->currency ? $record->currency->symbol : '')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('shipping_fee')
-                    ->label(__('filament_order.shipping_fee'))
+                    ->label(__('filament.order.shipping_fee'))
                     ->prefix(fn($record): string => $record->currency ? $record->currency->symbol : '')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn($state): string => $state->label())
-                    ->label(__('filament_order.status')),
+                    ->label(__('filament.order.status')),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

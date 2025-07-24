@@ -67,15 +67,15 @@ class ZoneResource extends Resource
                         }
 
                         return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_zone.name') . " ({$lang->name})")
+                            ->label(__('filament.zone.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                    ->label(__('filament_zone.name')),
+                    ->label(__('filament.zone.name')),
                 Forms\Components\Select::make('country_id')
-                    ->label(__('filament_zone.country_id'))
+                    ->label(__('filament.zone.country_id'))
                     ->hiddenOn([ZonesRelationManager::class])
                     ->relationship('country', 'id')
                     ->getOptionLabelFromRecordUsing(function ($record) {
@@ -92,11 +92,11 @@ class ZoneResource extends Resource
                     ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('code')
-                    ->label(__('filament_zone.code'))
+                    ->label(__('filament.zone.code'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Toggle::make('active')
-                    ->label(__('filament_zone.active'))
+                    ->label(__('filament.zone.active'))
                     ->required(),
             ]);
     }
@@ -112,7 +112,7 @@ class ZoneResource extends Resource
             )
             ->columns([
                 Tables\Columns\TextColumn::make('country.name')
-                    ->label(__('filament_zone.country_id'))
+                    ->label(__('filament.zone.country_id'))
                     ->hiddenOn([ZonesRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -130,7 +130,7 @@ class ZoneResource extends Resource
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('zoneTranslations.name')
-                    ->label(__('filament_zone.name'))
+                    ->label(__('filament.zone.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -142,7 +142,7 @@ class ZoneResource extends Resource
                         return $first ? $first->name : '';
                     }),
                 Tables\Columns\IconColumn::make('active')
-                    ->label(__('filament_zone.active'))
+                    ->label(__('filament.zone.active'))
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])

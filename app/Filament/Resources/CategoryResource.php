@@ -78,7 +78,7 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('image')
-                    ->label(__('filament_category.image'))
+                    ->label(__('filament.category.image'))
                     ->image()
                     ->imageEditor()
                     ->imageCropAspectRatio('1:1')
@@ -86,13 +86,13 @@ class CategoryResource extends Resource
                     ->required()
                     ->collection('image'),
                 Forms\Components\Select::make('parent_id')
-                    ->label(__('filament_category.parent'))
+                    ->label(__('filament.category.parent'))
                     ->options($options)
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('slug')
-                    ->label(__('filament_category.slug'))
+                    ->label(__('filament.category.slug'))
                     ->required()
                     ->maxLength(255),
 
@@ -108,13 +108,13 @@ class CategoryResource extends Resource
                         }
 
                         return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_category.name') . " ({$lang->name})")
+                            ->label(__('filament.category.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                    ->label(__('filament_category.name')),
+                    ->label(__('filament.category.name')),
             ]);
     }
 
@@ -126,11 +126,11 @@ class CategoryResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('image')
-                    ->label(__('filament_category.image'))
+                    ->label(__('filament.category.image'))
                     ->collection('image')
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('parent_id')
-                    ->label(__('filament_category.parent'))
+                    ->label(__('filament.category.parent'))
                     ->getStateUsing(function ($record) use ($lang) {
                         $parent = $record->category;
                         if (!$parent) {
@@ -145,11 +145,11 @@ class CategoryResource extends Resource
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label(__('filament_category.slug'))
+                    ->label(__('filament.category.slug'))
                     ->searchable(),
                 // 显示当前语言的 name
                 Tables\Columns\TextColumn::make('categoryTranslations.name')
-                    ->label(__('filament_category.name'))
+                    ->label(__('filament.category.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);

@@ -56,12 +56,12 @@ class OrderItemResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('order_id')
-                    ->label(__('filament_order_item.order_id'))
+                    ->label(__('filament.order_item.order_id'))
                     ->relationship('order', 'id')
                     ->hiddenOn([OrderItemsRelationManager::class])
                     ->required(),
                 Forms\Components\Select::make('product_id')
-                    ->label(__('filament_order_item.product_id'))
+                    ->label(__('filament.order_item.product_id'))
                     ->relationship('product', 'id')
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -81,7 +81,7 @@ class OrderItemResource extends Resource
                         $set('product_variant_id', null);
                     }),
                 Forms\Components\Select::make('product_variant_id')
-                    ->label(__('filament_order_item.product_variant_id'))
+                    ->label(__('filament.order_item.product_variant_id'))
                     ->options(function ($get) {
                         $productId = $get('product_id');
                         if (!$productId) {
@@ -108,11 +108,11 @@ class OrderItemResource extends Resource
                     ->default(null)
                     ->reactive(),
                 Forms\Components\TextInput::make('qty')
-                    ->label(__('filament_order_item.qty'))
+                    ->label(__('filament.order_item.qty'))
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('price')
-                    ->label(__('filament_order_item.price'))
+                    ->label(__('filament.order_item.price'))
                     ->required()
                     ->numeric()
                     ->prefix('￥'),
@@ -124,12 +124,12 @@ class OrderItemResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('order.id')
-                    ->label(__('filament_order_item.order_id'))
+                    ->label(__('filament.order_item.order_id'))
                     ->numeric()
                     ->hiddenOn([OrderItemsRelationManager::class])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')
-                    ->label(__('filament_order_item.product_id'))
+                    ->label(__('filament.order_item.product_id'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -143,7 +143,7 @@ class OrderItemResource extends Resource
                         return $first ? $first->name : $product->id;
                     }),
                 Tables\Columns\TextColumn::make('productVariant.id')
-                    ->label(__('filament_order_item.product_variant_id'))
+                    ->label(__('filament.order_item.product_variant_id'))
                     ->getStateUsing(function ($record) {
                         $variant = $record->productVariant;
                         if (!$variant) return null;
@@ -159,11 +159,11 @@ class OrderItemResource extends Resource
                         return implode(' / ', array_filter($specNames)) ?: $variant->id;
                     }),
                 Tables\Columns\TextColumn::make('qty')
-                    ->label(__('filament_order_item.qty'))
+                    ->label(__('filament.order_item.qty'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->label(__('filament_order_item.price'))
+                    ->label(__('filament.order_item.price'))
                     ->money('CNY')
                     ->sortable(),
                 ...static::getTimestampsColumns()

@@ -57,20 +57,20 @@ class OrderShipmentResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('order_id')
-                    ->label(__('filament_order_shipment.order_id'))
+                    ->label(__('filament.order_shipment.order_id'))
                     ->relationship('order', 'id')
                     ->hiddenOn([OrderShipmentsRelationManager::class])
                     ->required(),
                 Forms\Components\Select::make('shipping_method')
-                    ->label(__('filament_order_shipment.shipping_method'))
+                    ->label(__('filament.order_shipment.shipping_method'))
                     ->options(ShippingMethodEnum::options())
                     ->required(),
                 Forms\Components\TextInput::make('tracking_number')
-                    ->label(__('filament_order_shipment.tracking_number'))
+                    ->label(__('filament.order_shipment.tracking_number'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Textarea::make('notes')
-                    ->label(__('filament_order_shipment.notes'))
+                    ->label(__('filament.order_shipment.notes'))
                     ->columnSpanFull(),
             ]);
     }
@@ -80,18 +80,18 @@ class OrderShipmentResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('order.id')
-                    ->label(__('filament_order_shipment.order_id'))
+                    ->label(__('filament.order_shipment.order_id'))
                     ->numeric()
                     ->hiddenOn([OrderShipmentsRelationManager::class])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('shipping_method')
-                    ->label(__('filament_order_shipment.shipping_method'))
+                    ->label(__('filament.order_shipment.shipping_method'))
                     // ->getStateUsing(fn(ShippingMethodEnum $state):string => $state->label()),
                     ->getStateUsing(function ($record) {
                         return $record->shipping_method->label();
                     }),
                 Tables\Columns\TextColumn::make('tracking_number')
-                    ->label(__('filament_order_shipment.tracking_number'))
+                    ->label(__('filament.order_shipment.tracking_number'))
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

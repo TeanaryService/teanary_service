@@ -16,12 +16,12 @@ class OrderShipmentsRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_order.order_shipments');
+        return __('filament.order.order_shipments');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_order.order_shipments');
+        return __('filament.order.order_shipments');
     }
 
     protected static string $relationship = 'orderShipments';
@@ -36,7 +36,7 @@ class OrderShipmentsRelationManager extends RelationManager
         return OrderShipmentResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('filament_order.order_shipments')),
+                    ->label(__('filament.order.order_shipments')),
             ]);
     }
 }

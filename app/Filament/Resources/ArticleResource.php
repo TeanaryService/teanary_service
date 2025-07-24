@@ -58,7 +58,7 @@ class ArticleResource extends Resource
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('image')
-                    ->label(__('filament_article.image'))
+                    ->label(__('filament.article.image'))
                     ->image()
                     ->imageEditor()
                     ->imageCropAspectRatio('16:9')
@@ -67,16 +67,16 @@ class ArticleResource extends Resource
                     ->collection('image'),
                 Forms\Components\TextInput::make('slug')
                     ->required()
-                    ->label(__('filament_article.slug'))
+                    ->label(__('filament.article.slug'))
                     ->maxLength(255),
                 Forms\Components\Select::make('user_id')
-                    ->label(__('filament_article.user_id'))
+                    ->label(__('filament.article.user_id'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\Toggle::make('is_published')
-                    ->label(__('filament_article.is_published'))
+                    ->label(__('filament.article.is_published'))
                     ->required(),
 
                 Tabs::make('translations_tabs')
@@ -91,16 +91,16 @@ class ArticleResource extends Resource
                             return Tabs\Tab::make($lang->name)
                                 ->schema([
                                     Forms\Components\TextInput::make("translations.{$lang->id}.title")
-                                        ->label(__('filament_article.title'))
+                                        ->label(__('filament.article.title'))
                                         ->required($lang->is_default ?? false)
                                         ->default($translation ? $translation->title : ''),
 
                                     Forms\Components\TextInput::make("translations.{$lang->id}.summary")
-                                        ->label(__('filament_article.summary'))
+                                        ->label(__('filament.article.summary'))
                                         ->required($lang->is_default ?? false)
                                         ->default($translation ? $translation->summary : ''),
 
-                                    reusableRichEditor("translations.{$lang->id}.content", $translation?->content ?? '', __('filament_article.content'), $lang->id),
+                                    reusableRichEditor("translations.{$lang->id}.content", $translation?->content ?? '', __('filament.article.content'), $lang->id),
 
                                 ]);
                         })->toArray()
@@ -120,12 +120,12 @@ class ArticleResource extends Resource
             )
             ->columns([
                 SpatieMediaLibraryImageColumn::make('image')
-                    ->label(__('filament_article.image'))
+                    ->label(__('filament.article.image'))
                     ->collection('image')
                     ->conversion('thumb'),
                 // 多语言 name 列
                 Tables\Columns\TextColumn::make('articleTranslations.title')
-                    ->label(__('filament_article.title'))
+                    ->label(__('filament.article.title'))
                     ->limit(64)
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -138,13 +138,13 @@ class ArticleResource extends Resource
                         return $first ? $first->title : '';
                     }),
                 Tables\Columns\TextColumn::make('slug')
-                    ->label(__('filament_article.slug'))
+                    ->label(__('filament.article.slug'))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_published')
-                    ->label(__('filament_article.is_published'))
+                    ->label(__('filament.article.is_published'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament_article.user_id')),
+                    ->label(__('filament.article.user_id')),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

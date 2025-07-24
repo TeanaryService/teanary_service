@@ -16,12 +16,12 @@ class CartItemsRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_cart.cart_items');
+        return __('filament.cart.cart_items');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_cart.cart_items');
+        return __('filament.cart.cart_items');
     }
 
 
@@ -37,7 +37,7 @@ class CartItemsRelationManager extends RelationManager
         return CartItemResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('filament_cart.cart_items')),
+                    ->label(__('filament.cart.cart_items')),
             ]);
     }
 }

@@ -52,14 +52,14 @@ class CartResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->label(__('filament_cart.user_id'))
+                    ->label(__('filament.cart.user_id'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->columnSpanFull()
                     ->default(null),
                 // Forms\Components\TextInput::make('session_id')
-                //     ->label(__('filament_cart.session_id'))
+                //     ->label(__('filament.cart.session_id'))
                 //     ->maxLength(255)
                 //     ->default(null),
             ]);
@@ -70,9 +70,9 @@ class CartResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament_cart.user_id')),
+                    ->label(__('filament.cart.user_id')),
                 // Tables\Columns\TextColumn::make('session_id')
-                //     ->label(__('filament_cart.session_id'))
+                //     ->label(__('filament.cart.session_id'))
                 //     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

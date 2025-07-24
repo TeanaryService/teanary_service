@@ -19,12 +19,12 @@ class UserGroupsRelationManager extends RelationManager
 
     public static function getLabel(): string
     {
-        return __('filament_promotion.user_groups');
+        return __('filament.promotion.user_groups');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_promotion.user_groups');
+        return __('filament.promotion.user_groups');
     }
 
     public function form(Form $form): Form
@@ -41,7 +41,7 @@ class UserGroupsRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\Select::make('user_group_id')
-                    ->label(__('filament_promotion.user_group'))
+                    ->label(__('filament.promotion.user_group'))
                     ->options($userGroupOptions)
                     ->required()
                     ->columnSpanFull()
@@ -58,7 +58,7 @@ class UserGroupsRelationManager extends RelationManager
             ->recordTitleAttribute('user_group_id')
             ->columns([
                 Tables\Columns\TextColumn::make('userGroup')
-                    ->label(__('filament_promotion.user_group'))
+                    ->label(__('filament.promotion.user_group'))
                     ->getStateUsing(function ($record) use ($lang) {
                         $group = $record->userGroup ?? $record;
                         if (!$group) return null;
@@ -73,14 +73,14 @@ class UserGroupsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('filament_promotion.attach_user_group'))
+                    ->label(__('filament.promotion.attach_user_group'))
                     ->action(function (array $data, $livewire) {
                         $livewire->getOwnerRecord()->userGroups()->attach($data['user_group_id']);
                     }),
             ])
             ->actions([
                 Tables\Actions\DeleteAction::make()
-                    ->label(__('filament_promotion.detach_user_group'))
+                    ->label(__('filament.promotion.detach_user_group'))
                     ->action(function ($record, $livewire) {
                         $livewire->getOwnerRecord()->userGroups()->detach($record->user_group_id);
                     }),
@@ -88,7 +88,7 @@ class UserGroupsRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->label(__('filament_promotion.detach_user_group'))
+                        ->label(__('filament.promotion.detach_user_group'))
                         ->action(function ($records, $livewire) {
                             $ids = $records->pluck('user_group_id')->all();
                             $livewire->getOwnerRecord()->userGroups()->detach($ids);

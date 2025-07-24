@@ -58,7 +58,7 @@ class SpecificationValueResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('specification_id')
-                    ->label(__('filament_specification_value.specification_id'))
+                    ->label(__('filament.specification_value.specification_id'))
                     ->relationship('specification', 'id')
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -87,13 +87,13 @@ class SpecificationValueResource extends Resource
                         }
 
                         return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_specification_value.name') . " ({$lang->name})")
+                            ->label(__('filament.specification_value.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                    ->label(__('filament_specification_value.name')),
+                    ->label(__('filament.specification_value.name')),
             ]);
     }
 
@@ -102,7 +102,7 @@ class SpecificationValueResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('specification.name')
-                    ->label(__('filament_specification_value.specification_id'))
+                    ->label(__('filament.specification_value.specification_id'))
                     ->hiddenOn([SpecificationValuesRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -119,7 +119,7 @@ class SpecificationValueResource extends Resource
                         return $first ? $first->name : $spec->id;
                     }),
                 Tables\Columns\TextColumn::make('specificationValueTranslations.name')
-                    ->label(__('filament_specification_value.name'))
+                    ->label(__('filament.specification_value.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);

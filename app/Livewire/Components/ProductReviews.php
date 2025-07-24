@@ -42,7 +42,7 @@ class ProductReviews extends Component
         ]);
 
         $this->reset('rating', 'content', 'variantId');
-        session()->flash('review_submitted', __('home.review_submitted'));
+        session()->flash('review_submitted', __('app.review_submitted'));
     }
 
     public function render()

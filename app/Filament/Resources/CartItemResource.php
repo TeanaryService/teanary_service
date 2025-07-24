@@ -55,12 +55,12 @@ class CartItemResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('cart_id')
-                    ->label(__('filament_cart_item.cart_id'))
+                    ->label(__('filament.cart_item.cart_id'))
                     ->relationship('cart', 'id')
                     ->hiddenOn([CartItemsRelationManager::class])
                     ->required(),
                 Forms\Components\Select::make('product_id')
-                    ->label(__('filament_cart_item.product_id'))
+                    ->label(__('filament.cart_item.product_id'))
                     ->relationship('product', 'id')
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -81,7 +81,7 @@ class CartItemResource extends Resource
                         $set('product_variant_id', null);
                     }),
                 Forms\Components\Select::make('product_variant_id')
-                    ->label(__('filament_cart_item.product_variant_id'))
+                    ->label(__('filament.cart_item.product_variant_id'))
                     ->options(function ($get) {
                         $productId = $get('product_id');
                         if (!$productId) {
@@ -109,7 +109,7 @@ class CartItemResource extends Resource
                     ->default(null)
                     ->reactive(),
                 Forms\Components\TextInput::make('qty')
-                    ->label(__('filament_cart_item.qty'))
+                    ->label(__('filament.cart_item.qty'))
                     ->required()
                     ->numeric()
                     ->default(1),
@@ -121,12 +121,12 @@ class CartItemResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('cart.id')
-                    ->label(__('filament_cart_item.cart_id'))
+                    ->label(__('filament.cart_item.cart_id'))
                     ->numeric()
                     ->hiddenOn([CartItemsRelationManager::class])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')
-                    ->label(__('filament_cart_item.product_id'))
+                    ->label(__('filament.cart_item.product_id'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -140,7 +140,7 @@ class CartItemResource extends Resource
                         return $first ? $first->name : $product->id;
                     }),
                 Tables\Columns\TextColumn::make('productVariant.id')
-                    ->label(__('filament_cart_item.product_variant_id'))
+                    ->label(__('filament.cart_item.product_variant_id'))
                     ->getStateUsing(function ($record) {
                         $variant = $record->productVariant;
                         if (!$variant) return null;
@@ -156,7 +156,7 @@ class CartItemResource extends Resource
                         return implode(' / ', array_filter($specNames)) ?: $variant->id;
                     }),
                 Tables\Columns\TextColumn::make('qty')
-                    ->label(__('filament_cart_item.qty'))
+                    ->label(__('filament.cart_item.qty'))
                     ->numeric()
                     ->sortable(),
                 ...static::getTimestampsColumns()

@@ -290,7 +290,7 @@ class Checkout extends Component
     public function createOrder()
     {
         if (!$this->shippingAddress) {
-            session()->flash('error', __('Please select a shipping address'));
+            session()->flash('error', __('app.select_shipping_address'));
             return;
         }
 

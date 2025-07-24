@@ -51,19 +51,19 @@ class CurrencyResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
-                    ->label(__('filament_currency.code'))
+                    ->label(__('filament.currency.code'))
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('name')
-                    ->label(__('filament_currency.name'))
+                    ->label(__('filament.currency.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('symbol')
-                    ->label(__('filament_currency.symbol'))
+                    ->label(__('filament.currency.symbol'))
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('exchange_rate')
-                    ->label(__('filament_currency.exchange_rate'))
+                    ->label(__('filament.currency.exchange_rate'))
                     ->required()
                     ->numeric()
                     ->default(1.0000),
@@ -75,16 +75,16 @@ class CurrencyResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label(__('filament_currency.code'))
+                    ->label(__('filament.currency.code'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('filament_currency.name'))
+                    ->label(__('filament.currency.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('symbol')
-                    ->label(__('filament_currency.symbol'))
+                    ->label(__('filament.currency.symbol'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('exchange_rate')
-                    ->label(__('filament_currency.exchange_rate'))
+                    ->label(__('filament.currency.exchange_rate'))
                     ->numeric()
                     ->sortable(),
                 ...static::getTimestampsColumns()

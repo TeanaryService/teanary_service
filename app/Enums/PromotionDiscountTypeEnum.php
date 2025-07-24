@@ -10,8 +10,8 @@ enum PromotionDiscountTypeEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Fixed => __('promotion.discount_type.fixed'),
-            self::Percentage => __('promotion.discount_type.percentage'),
+            self::Fixed => __('app.promotion.discount_type.fixed'),
+            self::Percentage => __('app.promotion.discount_type.percentage'),
         };
     }
 

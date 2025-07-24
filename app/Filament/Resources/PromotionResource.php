@@ -60,18 +60,18 @@ class PromotionResource extends Resource
             ->schema([
 
                 Forms\Components\Select::make('type')
-                    ->label(__('filament_promotion.type'))
+                    ->label(__('filament.promotion.type'))
                     ->options(PromotionTypeEnum::options())
                     ->columnSpanFull()
                     ->required(),
                 Forms\Components\DateTimePicker::make('starts_at')
-                    ->label(__('filament_promotion.starts_at'))
+                    ->label(__('filament.promotion.starts_at'))
                     ->displayFormat('Y-m-d H:i:s'),
                 Forms\Components\DateTimePicker::make('ends_at')
-                    ->label(__('filament_promotion.ends_at'))
+                    ->label(__('filament.promotion.ends_at'))
                     ->displayFormat('Y-m-d H:i:s'),
                 Forms\Components\Toggle::make('active')
-                    ->label(__('filament_promotion.active'))
+                    ->label(__('filament.promotion.active'))
                     ->required(),
                 Forms\Components\Tabs::make('translations_tabs')
                     ->tabs(
@@ -85,11 +85,11 @@ class PromotionResource extends Resource
                             return Forms\Components\Tabs\Tab::make($lang->name)
                                 ->schema([
                                     Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                                        ->label(__('filament_promotion.name'))
+                                        ->label(__('filament.promotion.name'))
                                         ->required($lang->is_default ?? false)
                                         ->default($translation ? $translation->name : ''),
                                     Forms\Components\Textarea::make("translations.{$lang->id}.description")
-                                        ->label(__('filament_promotion.description'))
+                                        ->label(__('filament.promotion.description'))
                                         ->default($translation ? $translation->description : ''),
                                 ]);
                         })->toArray()
@@ -104,7 +104,7 @@ class PromotionResource extends Resource
             ->columns([
                 // 多语言 name 列
                 Tables\Columns\TextColumn::make('promotionTranslations.name')
-                    ->label(__('filament_promotion.name'))
+                    ->label(__('filament.promotion.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -117,17 +117,17 @@ class PromotionResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('type')
                     ->formatStateUsing(fn($state): string => $state->label())
-                    ->label(__('filament_promotion.type')),
+                    ->label(__('filament.promotion.type')),
                 Tables\Columns\TextColumn::make('starts_at')
-                    ->label(__('filament_promotion.starts_at'))
+                    ->label(__('filament.promotion.starts_at'))
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ends_at')
-                    ->label(__('filament_promotion.ends_at'))
+                    ->label(__('filament.promotion.ends_at'))
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('active')
-                    ->label(__('filament_promotion.active'))
+                    ->label(__('filament.promotion.active'))
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])

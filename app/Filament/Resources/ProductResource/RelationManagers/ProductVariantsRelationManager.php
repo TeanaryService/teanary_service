@@ -16,12 +16,12 @@ class ProductVariantsRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_product.product_variants');
+        return __('filament.product.product_variants');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_product.product_variants');
+        return __('filament.product.product_variants');
     }
 
     protected static string $relationship = 'productVariants';
@@ -36,7 +36,7 @@ class ProductVariantsRelationManager extends RelationManager
         return ProductVariantResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('filament_product.product_variants')),
+                    ->label(__('filament.product.product_variants')),
             ]);
     }
 

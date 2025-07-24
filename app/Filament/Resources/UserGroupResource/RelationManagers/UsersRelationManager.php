@@ -16,12 +16,12 @@ class UsersRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_user_group.users');
+        return __('filament.user_group.users');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_user_group.users');
+        return __('filament.user_group.users');
     }
 
     protected static string $relationship = 'users';

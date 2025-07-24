@@ -57,7 +57,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('avatar')
-                    ->label(__('filament_user.avatar'))
+                    ->label(__('filament.user.avatar'))
                     ->image()
                     ->imageEditor()
                     ->imageCropAspectRatio('1:1')
@@ -66,16 +66,16 @@ class UserResource extends Resource
                     ->collection('avatars')
                     ->avatar(),
                 Forms\Components\TextInput::make('name')
-                    ->label(__('filament_user.name'))
+                    ->label(__('filament.user.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-                    ->label(__('filament_user.email'))
+                    ->label(__('filament.user.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
-                    ->label(__('filament_user.password'))
+                    ->label(__('filament.user.password'))
                     ->password()
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn($state) => !empty($state) ? bcrypt($state) : null)
@@ -84,15 +84,15 @@ class UserResource extends Resource
                     ->same('password_confirmation')
                     ->autocomplete('new-password'),
                 Forms\Components\TextInput::make('password_confirmation')
-                    ->label(__('filament_user.password_confirmation'))
+                    ->label(__('filament.user.password_confirmation'))
                     ->password()
                     ->maxLength(255)
                     ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
                     ->dehydrated(false),
                 Forms\Components\DateTimePicker::make('email_verified_at')
-                    ->label(__('filament_user.email_verified_at')),
+                    ->label(__('filament.user.email_verified_at')),
                 Forms\Components\Select::make('user_group_id')
-                    ->label(__('filament_user.user_group_id'))
+                    ->label(__('filament.user.user_group_id'))
                     ->relationship('userGroup', 'id')
                     ->hiddenOn([UsersRelationManager::class])
                     ->getOptionLabelFromRecordUsing(function ($record) {
@@ -125,22 +125,22 @@ class UserResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('avatar')
-                    ->label(__('filament_user.avatar'))
+                    ->label(__('filament.user.avatar'))
                     ->circular()
                     ->collection('avatars')
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('filament_user.name'))
+                    ->label(__('filament.user.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->label(__('filament_user.email'))
+                    ->label(__('filament.user.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
-                    ->label(__('filament_user.email_verified_at'))
+                    ->label(__('filament.user.email_verified_at'))
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('userGroup.name')
-                    ->label(__('filament_user.user_group_id'))
+                    ->label(__('filament.user.user_group_id'))
                     ->hiddenOn([UsersRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -159,7 +159,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('login')
-                    ->label(__('filament_user.login'))
+                    ->label(__('filament.user.login'))
                     ->url(fn($record) => locaRoute('login-as', ['id' => (int)$record->id]))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-key'),

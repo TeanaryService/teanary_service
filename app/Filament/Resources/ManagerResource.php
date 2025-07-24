@@ -53,7 +53,7 @@ class ManagerResource extends Resource
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('avatar')
-                    ->label(__('filament_manager.avatar'))
+                    ->label(__('filament.manager.avatar'))
                     ->image()
                     ->imageEditor()
                     ->imageCropAspectRatio('1:1')
@@ -62,16 +62,16 @@ class ManagerResource extends Resource
                     ->collection('avatars')
                     ->avatar(),
                 Forms\Components\TextInput::make('name')
-                    ->label(__('filament_manager.name'))
+                    ->label(__('filament.manager.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-                    ->label(__('filament_manager.email'))
+                    ->label(__('filament.manager.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
-                    ->label(__('filament_manager.password'))
+                    ->label(__('filament.manager.password'))
                     ->password()
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn($state) => $state ? bcrypt($state) : null)
@@ -79,12 +79,12 @@ class ManagerResource extends Resource
                     ->required(fn($context) => $context === 'create')
                     ->confirmed(),
                 Forms\Components\TextInput::make('password_confirmation')
-                    ->label(__('filament_manager.password_confirmation'))
+                    ->label(__('filament.manager.password_confirmation'))
                     ->password()
                     ->maxLength(255)
                     ->required(fn($context) => $context === 'create'),
                 Forms\Components\DateTimePicker::make('email_verified_at')
-                    ->label(__('filament_manager.email_verified_at')),
+                    ->label(__('filament.manager.email_verified_at')),
             ]);
     }
 
@@ -93,18 +93,18 @@ class ManagerResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('avatar')
-                    ->label(__('filament_manager.avatar'))
+                    ->label(__('filament.manager.avatar'))
                     ->circular()
                     ->collection('avatars')
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('filament_manager.name'))
+                    ->label(__('filament.manager.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->label(__('filament_manager.email'))
+                    ->label(__('filament.manager.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
-                    ->label(__('filament_manager.email_verified_at'))
+                    ->label(__('filament.manager.email_verified_at'))
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
                 ...static::getTimestampsColumns()

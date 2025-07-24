@@ -57,7 +57,7 @@ class AttributeValueResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('attribute_id')
-                    ->label(__('filament_attribute_value.attribute'))
+                    ->label(__('filament.attribute_value.attribute'))
                     ->relationship('attribute', 'id')
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -87,13 +87,13 @@ class AttributeValueResource extends Resource
                         }
 
                         return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_attribute_value.name') . " ({$lang->name})")
+                            ->label(__('filament.attribute_value.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                    ->label(__('filament_attribute_value.name')),
+                    ->label(__('filament.attribute_value.name')),
             ]);
     }
 
@@ -103,7 +103,7 @@ class AttributeValueResource extends Resource
             ->columns([
                 // 显示当前语言的 name
                 Tables\Columns\TextColumn::make('attributeValueTranslations.name')
-                    ->label(__('filament_attribute_value.name'))
+                    ->label(__('filament.attribute_value.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -112,7 +112,7 @@ class AttributeValueResource extends Resource
                         )->name;
                     }),
                 Tables\Columns\TextColumn::make('attribute.name')
-                    ->label(__('filament_attribute_value.attribute'))
+                    ->label(__('filament.attribute_value.attribute'))
                     ->hiddenOn([AttributeValuesRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();

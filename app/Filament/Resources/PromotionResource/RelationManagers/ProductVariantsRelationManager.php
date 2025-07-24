@@ -19,12 +19,12 @@ class ProductVariantsRelationManager extends RelationManager
 
     public static function getLabel(): string
     {
-        return __('filament_product.product_variants');
+        return __('filament.product.product_variants');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_product.product_variants');
+        return __('filament.product.product_variants');
     }
 
     public function form(Form $form): Form

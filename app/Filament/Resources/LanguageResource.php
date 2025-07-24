@@ -51,11 +51,11 @@ class LanguageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
-                    ->label(__('filament_language.code'))
+                    ->label(__('filament.language.code'))
                     ->required()
                     ->maxLength(10),
                 Forms\Components\TextInput::make('name')
-                    ->label(__('filament_language.name'))
+                    ->label(__('filament.language.name'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -66,10 +66,10 @@ class LanguageResource extends Resource
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label(__('filament_language.code'))
+                    ->label(__('filament.language.code'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('filament_language.name'))
+                    ->label(__('filament.language.name'))
                     ->searchable(),
                 ...static::getTimestampsColumns()
             ])

@@ -85,7 +85,7 @@ class ProductVariantResource extends Resource
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('image')
-                    ->label(__('filament_product_variant.image'))
+                    ->label(__('filament.product_variant.image'))
                     ->image()
                     ->imageEditor()
                     ->imageCropAspectRatio('1:1')
@@ -93,10 +93,10 @@ class ProductVariantResource extends Resource
                     ->required()
                     ->collection('image'),
                 Repeater::make('specificationValues')
-                    ->label(__('filament_product_variant.specification_values'))
+                    ->label(__('filament.product_variant.specification_values'))
                     ->schema([
                         Select::make('specification_id')
-                            ->label(__('filament_product_variant.specification'))
+                            ->label(__('filament.product_variant.specification'))
                             ->options(function ($get) use ($specOptions) {
                                 // 禁止重复选择同一规格
                                 $all = $get('../../specificationValues') ?? [];
@@ -112,7 +112,7 @@ class ProductVariantResource extends Resource
                             ->required()
                             ->reactive(),
                         Select::make('specification_value_id')
-                            ->label(__('filament_product_variant.specification_value'))
+                            ->label(__('filament.product_variant.specification_value'))
                             ->options(function ($get) use ($specValueOptions) {
                                 $specId = $get('specification_id');
                                 return $specId && isset($specValueOptions[$specId])
@@ -124,7 +124,7 @@ class ProductVariantResource extends Resource
                     ])
                     ->columnSpanFull(),
                 Forms\Components\Select::make('product_id')
-                    ->label(__('filament_product_variant.product_id'))
+                    ->label(__('filament.product_variant.product_id'))
                     ->relationship('product', 'id')
                     ->hiddenOn([ProductVariantsRelationManager::class])
                     ->getOptionLabelFromRecordUsing(function ($record) {
@@ -141,38 +141,38 @@ class ProductVariantResource extends Resource
                     ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('sku')
-                    ->label(__('filament_product_variant.sku'))
+                    ->label(__('filament.product_variant.sku'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('price')
-                    ->label(__('filament_product_variant.price'))
+                    ->label(__('filament.product_variant.price'))
                     ->numeric()
                     ->default(null)
                     ->prefix('￥'),
                 Forms\Components\TextInput::make('cost')
-                    ->label(__('filament_product_variant.cost'))
+                    ->label(__('filament.product_variant.cost'))
                     ->numeric()
                     ->default(null)
                     ->prefix('￥'),
                 Forms\Components\TextInput::make('stock')
-                    ->label(__('filament_product_variant.stock'))
+                    ->label(__('filament.product_variant.stock'))
                     ->required()
                     ->numeric()
                     ->default(0),
                 Forms\Components\TextInput::make('weight')
-                    ->label(__('filament_product_variant.weight'))
+                    ->label(__('filament.product_variant.weight'))
                     ->numeric()
                     ->default(null),
                 Forms\Components\TextInput::make('length')
-                    ->label(__('filament_product_variant.length'))
+                    ->label(__('filament.product_variant.length'))
                     ->numeric()
                     ->default(null),
                 Forms\Components\TextInput::make('width')
-                    ->label(__('filament_product_variant.width'))
+                    ->label(__('filament.product_variant.width'))
                     ->numeric()
                     ->default(null),
                 Forms\Components\TextInput::make('height')
-                    ->label(__('filament_product_variant.height'))
+                    ->label(__('filament.product_variant.height'))
                     ->numeric()
                     ->default(null),
             ]);
@@ -191,11 +191,11 @@ class ProductVariantResource extends Resource
             )
             ->columns([
                 SpatieMediaLibraryImageColumn::make('image')
-                    ->label(__('filament_product_variant.image'))
+                    ->label(__('filament.product_variant.image'))
                     ->collection('image')
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('product.name')
-                    ->label(__('filament_product_variant.product_id'))
+                    ->label(__('filament.product_variant.product_id'))
                     ->hiddenOn([ProductVariantsRelationManager::class])
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -210,42 +210,42 @@ class ProductVariantResource extends Resource
                         return $first ? $first->name : $product->id;
                     }),
                 Tables\Columns\TextColumn::make('sku')
-                    ->label(__('filament_product_variant.sku'))
+                    ->label(__('filament.product_variant.sku'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->label(__('filament_product_variant.price'))
+                    ->label(__('filament.product_variant.price'))
                     ->money('CNY')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cost')
-                    ->label(__('filament_product_variant.cost'))
+                    ->label(__('filament.product_variant.cost'))
                     ->money('CNY')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('stock')
-                    ->label(__('filament_product_variant.stock'))
+                    ->label(__('filament.product_variant.stock'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('weight')
-                    ->label(__('filament_product_variant.weight'))
+                    ->label(__('filament.product_variant.weight'))
                     ->numeric()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('length')
-                    ->label(__('filament_product_variant.length'))
+                    ->label(__('filament.product_variant.length'))
                     ->numeric()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('width')
-                    ->label(__('filament_product_variant.width'))
+                    ->label(__('filament.product_variant.width'))
                     ->numeric()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('height')
-                    ->label(__('filament_product_variant.height'))
+                    ->label(__('filament.product_variant.height'))
                     ->numeric()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('specificationValues')
-                    ->label(__('filament_product_variant.specification_values'))
+                    ->label(__('filament.product_variant.specification_values'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);

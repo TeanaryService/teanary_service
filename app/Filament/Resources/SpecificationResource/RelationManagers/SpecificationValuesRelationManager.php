@@ -16,12 +16,12 @@ class SpecificationValuesRelationManager extends RelationManager
 {
     public static function getLabel(): string
     {
-        return __('filament_specification.specification_values');
+        return __('filament.specification.specification_values');
     }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return __('filament_specification.specification_values');
+        return __('filament.specification.specification_values');
     }
 
     protected static string $relationship = 'specificationValues';
@@ -36,7 +36,7 @@ class SpecificationValuesRelationManager extends RelationManager
         return SpecificationValueResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('filament_specification.specification_values')),
+                    ->label(__('filament.specification.specification_values')),
             ]);;
     }
 }

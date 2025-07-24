@@ -69,27 +69,27 @@ class CountryResource extends Resource
                         }
 
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_country.name') . " ({$lang->name})")
+                            ->label(__('filament.country.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                    ->label(__('filament_country.name')),
+                    ->label(__('filament.country.name')),
 
                 Forms\Components\TextInput::make('iso_code_2')
-                    ->label(__('filament_country.iso_code_2'))
+                    ->label(__('filament.country.iso_code_2'))
                     ->maxLength(2)
                     ->default(null),
                 Forms\Components\TextInput::make('iso_code_3')
-                    ->label(__('filament_country.iso_code_3'))
+                    ->label(__('filament.country.iso_code_3'))
                     ->maxLength(3)
                     ->default(null),
                 Forms\Components\Toggle::make('postcode_required')
-                    ->label(__('filament_country.postcode_required'))
+                    ->label(__('filament.country.postcode_required'))
                     ->required(),
                 Forms\Components\Toggle::make('active')
-                    ->label(__('filament_country.active'))
+                    ->label(__('filament.country.active'))
                     ->required(),
             ]);
     }
@@ -100,7 +100,7 @@ class CountryResource extends Resource
             ->columns([
                 // 多语言 name 列
                 Tables\Columns\TextColumn::make('countryTranslations.name')
-                    ->label(__('filament_country.name'))
+                    ->label(__('filament.country.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -112,16 +112,16 @@ class CountryResource extends Resource
                         return $first ? $first->name : '';
                     }),
                 Tables\Columns\TextColumn::make('iso_code_2')
-                    ->label(__('filament_country.iso_code_2'))
+                    ->label(__('filament.country.iso_code_2'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('iso_code_3')
-                    ->label(__('filament_country.iso_code_3'))
+                    ->label(__('filament.country.iso_code_3'))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('postcode_required')
-                    ->label(__('filament_country.postcode_required'))
+                    ->label(__('filament.country.postcode_required'))
                     ->boolean(),
                 Tables\Columns\IconColumn::make('active')
-                    ->label(__('filament_country.active'))
+                    ->label(__('filament.country.active'))
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])

@@ -68,13 +68,13 @@ class AttributeResource extends Resource
                         }
 
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament_attribute.name') . " ({$lang->name})")
+                            ->label(__('filament.attribute.name') . " ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                    ->label(__('filament_attribute.name')),
+                    ->label(__('filament.attribute.name')),
             ]);
     }
 
@@ -84,7 +84,7 @@ class AttributeResource extends Resource
             ->columns([
                 // 显示当前语言的 name
                 TextColumn::make('attributeTranslations.name')
-                    ->label(__('filament_attribute.name'))
+                    ->label(__('filament.attribute.name'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);

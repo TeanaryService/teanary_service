@@ -56,13 +56,13 @@ class ProductReviewResource extends Resource
         return $form
             ->schema([
                 SpatieMediaLibraryFileUpload::make('images')
-                    ->label(__('filament_product_review.images'))
+                    ->label(__('filament.product_review.images'))
                     ->multiple()
                     ->columnSpanFull()
                     ->collection('images')
                     ->reorderable(),
                 Forms\Components\Select::make('product_id')
-                    ->label(__('filament_product_review.product'))
+                    ->label(__('filament.product_review.product'))
                     ->options(
                         \App\Models\Product::with('productTranslations')->get()->mapWithKeys(function ($product) use ($lang) {
                             $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -80,7 +80,7 @@ class ProductReviewResource extends Resource
                         $set('product_variant_id', null);
                     }),
                 Forms\Components\Select::make('product_variant_id')
-                    ->label(__('filament_product_review.product_variant'))
+                    ->label(__('filament.product_review.product_variant'))
                     ->options(function ($get) use ($lang) {
                         $productId = $get('product_id');
                         if (!$productId) {
@@ -104,23 +104,23 @@ class ProductReviewResource extends Resource
                     ->default(null)
                     ->reactive(),
                 Forms\Components\Select::make('user_id')
-                    ->label(__('filament_product_review.user'))
+                    ->label(__('filament.product_review.user'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('rating')
-                    ->label(__('filament_product_review.rating'))
+                    ->label(__('filament.product_review.rating'))
                     ->required()
                     ->maxValue(5)
                     ->minValue(1)
                     ->numeric()
                     ->default(5),
                 Forms\Components\Textarea::make('content')
-                    ->label(__('filament_product_review.content'))
+                    ->label(__('filament.product_review.content'))
                     ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_approved')
-                    ->label(__('filament_product_review.is_approved'))
+                    ->label(__('filament.product_review.is_approved'))
                     ->required(),
             ]);
     }
@@ -136,12 +136,12 @@ class ProductReviewResource extends Resource
             )
             ->columns([
                 SpatieMediaLibraryImageColumn::make('images')
-                    ->label(__('filament_product_review.images'))
+                    ->label(__('filament.product_review.images'))
                     ->stacked()
                     ->collection('images')
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('product.name')
-                    ->label(__('filament_product_review.product'))
+                    ->label(__('filament.product_review.product'))
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -153,7 +153,7 @@ class ProductReviewResource extends Resource
                             : ($product->productTranslations->first()->name ?? $product->slug);
                     }),
                 Tables\Columns\TextColumn::make('productVariant.sku')
-                    ->label(__('filament_product_review.product_variant'))
+                    ->label(__('filament.product_review.product_variant'))
                     ->getStateUsing(function ($record) {
                         $variant = $record->productVariant;
                         if (!$variant) return null;
@@ -166,13 +166,13 @@ class ProductReviewResource extends Resource
                         return $specs ?: $variant->sku;
                     }),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament_product_review.user')),
+                    ->label(__('filament.product_review.user')),
                 Tables\Columns\TextColumn::make('rating')
-                    ->label(__('filament_product_review.rating'))
+                    ->label(__('filament.product_review.rating'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_approved')
-                    ->label(__('filament_product_review.is_approved'))
+                    ->label(__('filament.product_review.is_approved'))
                     ->boolean(),
                 ...static::getTimestampsColumns()
             ])

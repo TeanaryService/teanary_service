@@ -52,35 +52,35 @@ class AddressResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->label(__('filament_address.user_id'))
+                    ->label(__('filament.address.user_id'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->default(null),
                 Forms\Components\TextInput::make('firstname')
-                    ->label(__('filament_address.firstname'))
+                    ->label(__('filament.address.firstname'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('lastname')
-                    ->label(__('filament_address.lastname'))
+                    ->label(__('filament.address.lastname'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('email')
-                    ->label(__('filament_address.email'))
+                    ->label(__('filament.address.email'))
                     ->email()
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('telephone')
-                    ->label(__('filament_address.telephone'))
+                    ->label(__('filament.address.telephone'))
                     ->tel()
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('company')
-                    ->label(__('filament_address.company'))
+                    ->label(__('filament.address.company'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Select::make('country_id')
-                    ->label(__('filament_address.country_id'))
+                    ->label(__('filament.address.country_id'))
                     ->relationship('country', 'name')
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
@@ -102,7 +102,7 @@ class AddressResource extends Resource
                     })
                     ->reactive(),
                 Forms\Components\Select::make('zone_id')
-                    ->label(__('filament_address.zone_id'))
+                    ->label(__('filament.address.zone_id'))
                     ->options(function ($get) {
                         $countryId = $get('country_id');
                         if (!$countryId) {
@@ -128,19 +128,19 @@ class AddressResource extends Resource
                     ->default(null)
                     ->reactive(),
                 Forms\Components\TextInput::make('address_1')
-                    ->label(__('filament_address.address_1'))
+                    ->label(__('filament.address.address_1'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('address_2')
-                    ->label(__('filament_address.address_2'))
+                    ->label(__('filament.address.address_2'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('city')
-                    ->label(__('filament_address.city'))
+                    ->label(__('filament.address.city'))
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('postcode')
-                    ->label(__('filament_address.postcode'))
+                    ->label(__('filament.address.postcode'))
                     ->maxLength(255)
                     ->default(null),
             ]);
@@ -158,9 +158,9 @@ class AddressResource extends Resource
             )
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament_address.user_id')),
+                    ->label(__('filament.address.user_id')),
                 Tables\Columns\TextColumn::make('address_1')
-                    ->label(__('filament_address.full_address'))
+                    ->label(__('filament.address.full_address'))
                     ->formatStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -191,8 +191,8 @@ class AddressResource extends Resource
                         if ($fullname || $record->email) {
                             $parts[] = trim($fullname . ($record->email ? " ({$record->email})" : ''));
                         }
-                        if ($record->telephone) $parts[] = __('filament_address.telephone') . ": {$record->telephone}";
-                        if ($record->company) $parts[] = __('filament_address.company') . ": {$record->company}";
+                        if ($record->telephone) $parts[] = __('filament.address.telephone') . ": {$record->telephone}";
+                        if ($record->company) $parts[] = __('filament.address.company') . ": {$record->company}";
                         $addressLine = trim("{$record->address_1} {$record->address_2}");
                         if ($addressLine) $parts[] = $addressLine;
                         $cityLine = trim(implode(' ', array_filter([
