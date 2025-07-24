@@ -47,12 +47,10 @@ class Product extends Component
             });
         }
 
+        // 使用 Scout 进行搜索
         if ($this->search) {
-            $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
-            $query->whereHas('productTranslations', function ($q) use ($lang) {
-                $q->where('language_id', $lang?->id)
-                  ->where('name', 'like', '%' . $this->search . '%');
-            });
+            $ids = ProductModel::search($this->search)->keys();
+            $query->whereIn('id', $ids);
         }
 
         // 属性筛选
