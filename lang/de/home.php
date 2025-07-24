@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // Startseite
+    'hero_title' => 'Premium chinesischer Tee weltweit geliefert',
+    'hero_subtitle' => 'Entdecken Sie Grün-, Schwarz-, Oolong- und Pu-erh-Tees aus den Bergen von Yunnan. Genießen Sie Gelassenheit in jeder Tasse.',
+    'shop_now' => 'Tees entdecken',
+    'hero_image_alt' => 'Lose Teeblätter und Teezubehör',
+    'browse_categories' => 'Teekategorien durchsuchen',
+    'featured_products' => 'Ausgewählte Tees',
+    'about_title' => 'Über Teanary',
+    'about_content' => 'Teanary bringt Ihnen handverlesene Tees aus den besten Gärten von Yunnan. Wir glauben, dass Tee mehr als nur ein Getränk ist – es ist eine Möglichkeit, zur Ruhe zu kommen und sich neu zu verbinden.',
+    'learn_more' => 'Mehr erfahren',
+    'search' => 'Suchen',
+    'qty' => 'Menge',
+    'storage' => 'Auf Lager: :storage',
+
+    // Produktbezogen
+    'product_view_detail' => 'Details ansehen',
+    'no_products' => 'Keine Teeprodukte verfügbar.',
+    'categories' => 'Teekategorien',
+    'select_variant' => 'Paket wählen',
+    'buy_now' => 'Jetzt kaufen',
+    'attributes' => 'Produktdetails',
+    'weight' => 'Gewicht',
+    'length' => 'Länge',
+    'width' => 'Breite',
+    'height' => 'Höhe',
+    'product_list_seo_title' => 'Alle Tees',
+    'product_list_seo_desc' => 'Entdecken Sie authentische chinesische Tees bei Teanary. Von Grün- und Schwarztee bis Oolong und Pu-erh – genießen Sie weltweiten Versand und zeitlosen Geschmack.',
+    'product_description' => 'Beschreibung',
+    'product_reviews' => 'Tee-Bewertungen',
+    'review_placeholder' => 'Teilen Sie Ihre Teeerfahrung...',
+    'submit_review' => 'Bewertung absenden',
+    'login_to_review' => 'Bitte melden Sie sich an, um eine Bewertung abzugeben',
+    'no_reviews' => 'Noch keine Bewertungen',
+    'review_submitted' => 'Ihre Bewertung wurde eingereicht und erscheint nach Freigabe.',
+    'anonymous' => 'Tee-Liebhaber',
+    'rating' => 'Bewertung',
+    'addCart' => 'Zum Teekarton hinzufügen',
+
+    // Aktionen
+    'promotions' => 'Teeaktionen',
+    'promotion_rule_order_total_min' => 'Bestellwert über',
+    'promotion_discount_fixed' => 'Sparen',
+    'promotion_rule_order_qty_min' => 'Mindestmenge',
+    'promotion_discount_percentage' => 'Rabatt',
+    'promotion_starts_at' => 'Startet am',
+    'promotion_ends_at' => 'Endet am',
+    'promotion_text' => 'Ab einem Einkauf von :condition_value — :discount :discount_value',
+];

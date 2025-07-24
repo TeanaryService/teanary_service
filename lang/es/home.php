@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // Página principal
+    'hero_title' => 'Té chino premium entregado en todo el mundo',
+    'hero_subtitle' => 'Descubre tés verdes, negros, oolong y Pu-erh de las montañas de Yunnan. Disfruta serenidad en cada taza.',
+    'shop_now' => 'Explorar tés',
+    'hero_image_alt' => 'Té de hoja suelta y utensilios de té',
+    'browse_categories' => 'Explorar categorías de té',
+    'featured_products' => 'Tés destacados',
+    'about_title' => 'Sobre Teanary',
+    'about_content' => 'Teanary te trae tés seleccionados a mano de los mejores jardines de Yunnan. Creemos que el té es más que una bebida — es una forma de desacelerar y reconectar.',
+    'learn_more' => 'Saber más',
+    'search' => 'Buscar',
+    'qty' => 'Cantidad',
+    'storage' => 'En stock: :storage',
+
+    // Relacionado con productos
+    'product_view_detail' => 'Ver detalles',
+    'no_products' => 'No hay productos de té disponibles.',
+    'categories' => 'Categorías de té',
+    'select_variant' => 'Seleccionar paquete',
+    'buy_now' => 'Comprar ahora',
+    'attributes' => 'Detalles del producto',
+    'weight' => 'Peso',
+    'length' => 'Longitud',
+    'width' => 'Ancho',
+    'height' => 'Altura',
+    'product_list_seo_title' => 'Todos los tés',
+    'product_list_seo_desc' => 'Explora tés chinos auténticos en Teanary. Desde verde y negro hasta oolong y Pu-erh, disfruta envío mundial y sabor atemporal.',
+    'product_description' => 'Descripción',
+    'product_reviews' => 'Reseñas de té',
+    'review_placeholder' => 'Comparte tu experiencia con el té...',
+    'submit_review' => 'Enviar reseña',
+    'login_to_review' => 'Por favor, inicie sesión para dejar una reseña',
+    'no_reviews' => 'Aún no hay reseñas',
+    'review_submitted' => 'Tu reseña ha sido enviada y aparecerá tras la aprobación.',
+    'anonymous' => 'Amante del té',
+    'rating' => 'Calificación',
+    'addCart' => 'Agregar a la caja de té',
+
+    // Promociones
+    'promotions' => 'Promociones de té',
+    'promotion_rule_order_total_min' => 'Total del pedido superior a',
+    'promotion_discount_fixed' => 'Ahorra',
+    'promotion_rule_order_qty_min' => 'Cantidad mínima',
+    'promotion_discount_percentage' => 'Descuento',
+    'promotion_starts_at' => 'Comienza el',
+    'promotion_ends_at' => 'Termina el',
+    'promotion_text' => 'Gasta :condition_value o más — :discount :discount_value',
+];

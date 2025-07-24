@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // Home Page
+    'hero_title' => '프리미엄 중국 차, 전 세계 배송',
+    'hero_subtitle' => '윈난 산지의 녹차, 홍차, 우롱차, 보이차를 만나보세요. 한 잔의 평온함을 느껴보세요.',
+    'shop_now' => '차 둘러보기',
+    'hero_image_alt' => '잎차와 다기',
+    'browse_categories' => '차 카테고리 둘러보기',
+    'featured_products' => '추천 차',
+    'about_title' => '티너리 소개',
+    'about_content' => '티너리는 윈난 최고의 정원에서 엄선한 차를 전합니다. 차는 단순한 음료가 아니라, 삶을 느리게 하고 재충전하는 방법이라고 믿습니다.',
+    'learn_more' => '더 알아보기',
+    'search' => '검색',
+    'qty' => '수량',
+    'storage' => '재고: :storage',
+
+    // Product Related
+    'product_view_detail' => '상세 보기',
+    'no_products' => '등록된 차 상품이 없습니다.',
+    'categories' => '차 카테고리',
+    'select_variant' => '패키지 선택',
+    'buy_now' => '바로 구매',
+    'attributes' => '상품 정보',
+    'weight' => '중량',
+    'length' => '길이',
+    'width' => '너비',
+    'height' => '높이',
+    'product_list_seo_title' => '전체 차',
+    'product_list_seo_desc' => '티너리에서 진정한 중국 차를 만나보세요. 녹차, 홍차, 우롱차, 보이차까지, 전 세계 배송과 변함없는 맛.',
+    'product_description' => '상품 설명',
+    'product_reviews' => '차 후기',
+    'review_placeholder' => '차 경험을 공유해 주세요...',
+    'submit_review' => '후기 등록',
+    'login_to_review' => '후기를 남기려면 로그인해 주세요',
+    'no_reviews' => '아직 후기가 없습니다',
+    'review_submitted' => '후기가 등록되었습니다. 승인 후 표시됩니다.',
+    'anonymous' => '차 애호가',
+    'rating' => '평점',
+    'addCart' => '티 박스에 담기',
+
+    // Promotions
+    'promotions' => '차 프로모션',
+    'promotion_rule_order_total_min' => '주문 금액',
+    'promotion_discount_fixed' => '할인',
+    'promotion_rule_order_qty_min' => '최소 수량',
+    'promotion_discount_percentage' => '할인율',
+    'promotion_starts_at' => '시작일',
+    'promotion_ends_at' => '종료일',
+    'promotion_text' => ':condition_value 이상 구매 시 — :discount :discount_value',
+];
