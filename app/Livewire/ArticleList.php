@@ -16,7 +16,7 @@ class ArticleList extends Component
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
 
         $articles = Article::query()
-            ->with(['articleTranslations' => fn ($q) => $q->where('language_id', $lang?->id)])
+            ->with(['media', 'articleTranslations' => fn ($q) => $q->where('language_id', $lang?->id)])
             ->where('is_published', true)
             ->latest()
             ->paginate(10);

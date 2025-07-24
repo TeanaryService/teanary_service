@@ -61,6 +61,7 @@ class ArticleResource extends Resource
                     ->label(__('filament_article.image'))
                     ->image()
                     ->imageEditor()
+                    ->imageCropAspectRatio('16:9')
                     ->columnSpanFull()
                     ->required()
                     ->collection('image'),
