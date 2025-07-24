@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Notifications\CustomVerifyEmail;
 use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
@@ -50,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     use HasFactory, Notifiable;
     use InteractsWithMedia;
     use CascadesMediaDeletes;
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new CustomVerifyEmail());
+    }
 
     public static $snakeAttributes = false;
 

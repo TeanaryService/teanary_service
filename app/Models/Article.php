@@ -54,17 +54,18 @@ class Article extends Model implements HasMedia
     {
         $array = $this->toArray();
 
-        // 合并所有翻译的 title 和 content
+        // 合并所有翻译的 title 和 content，并移除 HTML 标签
         $translations = $this->articleTranslations;
         $mergedText = '';
         foreach ($translations as $translation) {
-            $mergedText .= ($translation->title ?? '') . ' ';
-            $mergedText .= ($translation->content ?? '') . ' ';
+            $mergedText .= strip_tags($translation->title ?? '') . ' ';
+            $mergedText .= strip_tags($translation->content ?? '') . ' ';
         }
         $array['content'] = trim($mergedText);
 
         return $array;
     }
+
 
     public static $snakeAttributes = false;
 

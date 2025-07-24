@@ -45,9 +45,9 @@
             </form>
         @else
             <div class="mb-4 bg-gray-50 rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
-                <a href="{{ route('filament.personal.auth.login') }}"
+                <a href="{{ locaRoute('auth.login') }}"
                     class="text-teal-600 font-semibold">{{ __('app.login') }}</a>
-                <a href="{{ route('filament.personal.auth.register') }}"
+                <a href="{{ locaRoute('auth.register') }}"
                     class="text-teal-600 font-semibold">{{ __('app.register') }}</a>
                 <span class="text-gray-500">{{ __('home.login_to_review') }}</span>
             </div>

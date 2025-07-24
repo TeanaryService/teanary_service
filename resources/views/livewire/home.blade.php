@@ -1,5 +1,4 @@
 <div class="bg-gray-50">
-
     <x-promotion-list />
 
     {{-- Hero Banner --}}

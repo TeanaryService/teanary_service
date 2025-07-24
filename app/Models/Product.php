@@ -116,8 +116,8 @@ class Product extends Model implements HasMedia
         $translations = $this->productTranslations;
         $mergedText = '';
         foreach ($translations as $translation) {
-            $mergedText .= ($translation->name ?? '') . ' ';
-            $mergedText .= ($translation->description ?? '') . ' ';
+            $mergedText .= strip_tags($translation->name ?? '') . ' ';
+            $mergedText .= strip_tags($translation->description ?? '') . ' ';
         }
         $array['content'] = trim($mergedText);
 

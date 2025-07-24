@@ -10,7 +10,7 @@
             {{ __('payment.failed_message') }}
         </p>
 
-        <a href="{{ route('filament.personal.pages.orders') }}"
+        <a href="{{ locaRoute('user.orders') }}"
             class="inline-block bg-red-600 hover:bg-red-700 text-white font-medium px-5 py-2 rounded-lg shadow transition">
             {{ __('payment.view_order') }}
         </a>

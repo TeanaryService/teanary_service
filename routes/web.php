@@ -3,6 +3,12 @@
 use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\ArticleDetail;
 use App\Livewire\ArticleList;
+use App\Livewire\Auth\EmailVerificationPrompt;
+use App\Livewire\Auth\ForgotPassword;
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Register;
+use App\Livewire\Auth\ResetPassword;
+use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Cart;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
@@ -11,6 +17,9 @@ use App\Livewire\Payment\Failure;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
+use App\Livewire\User\Addresses;
+use App\Livewire\User\Orders;
+use App\Livewire\User\Profile;
 use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +37,19 @@ $supportedLocales = $service->getLanguages()->pluck('code')->toArray(); // 返�
 
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
+    //Auth
+    Route::get('login', Login::class)->name('auth.login');
+    Route::get('register', Register::class)->name('auth.register');
+    Route::get('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
+    Route::get('reset-password/{token}', ResetPassword::class)
+        ->middleware('guest')
+        ->name('auth.password.reset');
+    Route::post('logout', function () {
+        Auth::logout();
+        $locale = app()->getLocale();
+        return redirect()->route('home', ['locale' => $locale]);
+    })->name('auth.logout');
+
     Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
 
@@ -51,8 +73,30 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
         Auth::guard('web')->loginUsingId($id);
         // 在会话中存储令牌
         session()->put('auth_token', $user->auth_token);
-        return redirect()->route('filament.personal.pages.dashboard');
+        return redirect()->route('user.profile', ['locale' => app()->getLocale()]);
     })->middleware(['web'])->name('login-as');
+
+    Route::middleware(['auth'])->group(function () {
+        // 邮箱验证提示页
+        Route::get('email-verification/prompt', EmailVerificationPrompt::class)
+            ->name('verification.notice');
+
+        // 邮箱验证链接处理页
+        Route::get('email-verification/verify/{id}/{hash}', VerifyEmail::class)
+            ->middleware(['signed', 'throttle:6,1'])
+            ->name('verification.verify');
+
+        Route::middleware(['verified'])->group(function () {
+            Route::get('profile', Profile::class)
+                ->name('user.profile');
+
+            Route::get('orders', Orders::class)
+                ->name('user.orders');
+
+            Route::get('addresses', Addresses::class)
+                ->name('address');
+        });
+    });
 
     Route::fallback(function () {
         return abort(404);

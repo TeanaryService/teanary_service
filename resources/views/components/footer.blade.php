@@ -19,8 +19,8 @@
                 <ul class="space-y-1">
                     <li><a href="{{ locaRoute('home') }}" class="hover:text-teal-600">{{ __('app.home') }}</a></li>
                     <li><a href="{{ locaRoute('product') }}" class="hover:text-teal-600">{{ __('app.categories') }}</a></li>
-                    <li><a href="{{ route('filament.personal.auth.login') }}" class="hover:text-teal-600">{{ __('app.login') }}</a></li>
-                    {{-- <li><a href="{{ route('filament.personal.auth.register') }}" class="hover:text-teal-600">{{ __('app.register') }}</a></li> --}}
+                    <li><a href="{{ locaRoute('auth.login') }}" class="hover:text-teal-600">{{ __('app.login') }}</a></li>
+                    {{-- <li><a href="{{ locaRoute('auth.register') }}" class="hover:text-teal-600">{{ __('app.register') }}</a></li> --}}
                     <li><a href="{{ locaRoute('article.index') }}" class="hover:text-teal-600">{{ __('article.base_name') }}</a></li>
                 </ul>
             </div>
