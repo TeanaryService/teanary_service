@@ -3,7 +3,7 @@
     <x-promotion-list />
 
     {{-- Hero Banner --}}
-    <section class="w-full bg-white py-20">
+    <section class="w-full bg-white py-10">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
             <div class="flex-1 max-w-xl">
                 <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
@@ -25,9 +25,9 @@
     </section>
 
     {{-- Categories Quick Access --}}
-    <section class="max-w-7xl mx-auto py-20 px-6">
-        <h2 class="text-3xl font-bold text-gray-900 mb-12">{{ __('home.browse_categories') }}</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+    <section class="max-w-7xl mx-auto py-10 px-6">
+        <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.browse_categories') }}</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
             @foreach ($categories as $category)
                 <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}" class="group">
                     <div class="bg-white rounded-xl shadow-sm p-6 transition duration-200 group-hover:shadow-md">
@@ -42,16 +42,16 @@
     </section>
 
     {{-- Featured Products --}}
-    <section class="bg-white py-20">
+    <section class="bg-white py-10">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-gray-900 mb-12">{{ __('home.featured_products') }}</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.featured_products') }}</h2>
             @livewire('components.featured-products')
         </div>
     </section>
 
     {{-- About Store --}}
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+    <section class="py-10">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-10">
             <div class="md:w-1/2">
                 <h2 class="text-4xl font-bold text-gray-900 mb-6">{{ __('home.about_title') }}</h2>
                 <p class="text-xl text-gray-600 leading-relaxed mb-8">
@@ -62,7 +62,7 @@
                     {{ __('home.learn_more') }}
                 </a>
             </div>
-            <div class="hidden md:block md:w-1/2 bg-gray-100 rounded-2xl p-12">
+            <div class="hidden md:block md:w-1/2 bg-gray-100 rounded-2xl p-10">
                 <x-layouts.logo imgClass="w-full max-w-sm mx-auto" :showText="false" />
             </div>
         </div>

@@ -37,27 +37,31 @@ class Test extends Command
      */
     public function handle()
     {
-        $order = Order::first();
-        $order->name = config('app.name') . __('app.order_items');
-        $paymentMethod = PaymentMethodEnum::fromValue('paypal');
-        $redirectUrl = app(PaymentService::class)->createPayment($paymentMethod, $order->toArray());
-        dd($redirectUrl);
+        // $order = Order::first();
+        // $order->name = config('app.name') . __('app.order_items');
+        // $paymentMethod = PaymentMethodEnum::fromValue('paypal');
+        // $redirectUrl = app(PaymentService::class)->createPayment($paymentMethod, $order->toArray());
+        // dd($redirectUrl);
 
-        $service = app(ShippingService::class);
-        $result = $service->getAvailableMethods(Address::first());
-        dd($result);
-        
-        dd(1233);
+        // $service = app(ShippingService::class);
+        // $result = $service->getAvailableMethods(Address::first());
+        // dd($result);
+
+        // dd(1233);
+
         $service = app(TranslationService::class);
         // $result = $service->translate('今天是个好天气', 'zh_CN', 'en_gb');
         // dd($result);
 
         ZoneTranslation::where('language_id', 1)->chunk(100, function (Collection $zoneTranslations) use ($service) {
             foreach ($zoneTranslations as $zoneTranslation) {
-                $result = $service->translate($zoneTranslation->name, 'en', 'zh');
+                $result = $service->translate($zoneTranslation->name, 'en', 'ru');
+                if (empty($result)) {
+                    continue;
+                }
                 $this->info($result);
                 ZoneTranslation::create([
-                    'language_id' => 2,
+                    'language_id' => 8,
                     'zone_id' => $zoneTranslation->zone_id,
                     'name' => $result,
                     'created_at' => now(),
@@ -66,12 +70,13 @@ class Test extends Command
             }
         });
         dd('zone');
+
         CountryTranslation::where('language_id', 1)->chunk(100, function (Collection $countryTranslations) use ($service) {
             foreach ($countryTranslations as $countryTranslation) {
-                $result = $service->translate($countryTranslation->name, 'en', 'zh');
+                $result = $service->translate($countryTranslation->name, 'en', 'ru');
                 $this->info($result);
                 CountryTranslation::create([
-                    'language_id' => 2,
+                    'language_id' => 8,
                     'country_id' => $countryTranslation->country_id,
                     'name' => $result,
                     'created_at' => now(),

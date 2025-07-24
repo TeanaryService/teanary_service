@@ -4575,6 +4575,13674 @@ class CountryTranslationsTableSeeder extends Seeder
                 'created_at' => '2025-07-21 15:30:04',
                 'updated_at' => '2025-07-21 15:30:04',
             ),
+            6 => 
+            array (
+                'id' => 507,
+                'country_id' => 1,
+                'language_id' => 3,
+                'name' => 'Afganistán',
+                'created_at' => '2025-07-24 11:58:17',
+                'updated_at' => '2025-07-24 11:58:17',
+            ),
+            7 => 
+            array (
+                'id' => 508,
+                'country_id' => 2,
+                'language_id' => 3,
+                'name' => 'Albania',
+                'created_at' => '2025-07-24 11:58:18',
+                'updated_at' => '2025-07-24 11:58:18',
+            ),
+            8 => 
+            array (
+                'id' => 509,
+                'country_id' => 3,
+                'language_id' => 3,
+                'name' => 'Argelia',
+                'created_at' => '2025-07-24 11:58:18',
+                'updated_at' => '2025-07-24 11:58:18',
+            ),
+            9 => 
+            array (
+                'id' => 510,
+                'country_id' => 4,
+                'language_id' => 3,
+                'name' => 'Samoa Americana',
+                'created_at' => '2025-07-24 11:58:19',
+                'updated_at' => '2025-07-24 11:58:19',
+            ),
+            10 => 
+            array (
+                'id' => 511,
+                'country_id' => 5,
+                'language_id' => 3,
+                'name' => 'Andorra',
+                'created_at' => '2025-07-24 11:58:19',
+                'updated_at' => '2025-07-24 11:58:19',
+            ),
+            11 => 
+            array (
+                'id' => 512,
+                'country_id' => 6,
+                'language_id' => 3,
+                'name' => 'Angola',
+                'created_at' => '2025-07-24 11:58:20',
+                'updated_at' => '2025-07-24 11:58:20',
+            ),
+            12 => 
+            array (
+                'id' => 513,
+                'country_id' => 7,
+                'language_id' => 3,
+                'name' => 'Anguilla',
+                'created_at' => '2025-07-24 11:58:20',
+                'updated_at' => '2025-07-24 11:58:20',
+            ),
+            13 => 
+            array (
+                'id' => 514,
+                'country_id' => 8,
+                'language_id' => 3,
+                'name' => 'Antártida',
+                'created_at' => '2025-07-24 11:58:21',
+                'updated_at' => '2025-07-24 11:58:21',
+            ),
+            14 => 
+            array (
+                'id' => 515,
+                'country_id' => 9,
+                'language_id' => 3,
+                'name' => 'Antigua y Barbuda',
+                'created_at' => '2025-07-24 11:58:21',
+                'updated_at' => '2025-07-24 11:58:21',
+            ),
+            15 => 
+            array (
+                'id' => 516,
+                'country_id' => 10,
+                'language_id' => 3,
+                'name' => 'Argentina',
+                'created_at' => '2025-07-24 11:58:22',
+                'updated_at' => '2025-07-24 11:58:22',
+            ),
+            16 => 
+            array (
+                'id' => 517,
+                'country_id' => 11,
+                'language_id' => 3,
+                'name' => 'Armenia',
+                'created_at' => '2025-07-24 11:58:22',
+                'updated_at' => '2025-07-24 11:58:22',
+            ),
+            17 => 
+            array (
+                'id' => 518,
+                'country_id' => 12,
+                'language_id' => 3,
+                'name' => 'Aruba',
+                'created_at' => '2025-07-24 11:58:23',
+                'updated_at' => '2025-07-24 11:58:23',
+            ),
+            18 => 
+            array (
+                'id' => 519,
+                'country_id' => 13,
+                'language_id' => 3,
+                'name' => 'Australia',
+                'created_at' => '2025-07-24 11:58:23',
+                'updated_at' => '2025-07-24 11:58:23',
+            ),
+            19 => 
+            array (
+                'id' => 520,
+                'country_id' => 14,
+                'language_id' => 3,
+                'name' => 'Alemania',
+                'created_at' => '2025-07-24 11:58:24',
+                'updated_at' => '2025-07-24 11:58:24',
+            ),
+            20 => 
+            array (
+                'id' => 521,
+                'country_id' => 15,
+                'language_id' => 3,
+                'name' => 'Azerbaiyán',
+                'created_at' => '2025-07-24 11:58:24',
+                'updated_at' => '2025-07-24 11:58:24',
+            ),
+            21 => 
+            array (
+                'id' => 522,
+                'country_id' => 16,
+                'language_id' => 3,
+                'name' => 'Las Bahamas',
+                'created_at' => '2025-07-24 11:58:25',
+                'updated_at' => '2025-07-24 11:58:25',
+            ),
+            22 => 
+            array (
+                'id' => 523,
+                'country_id' => 17,
+                'language_id' => 3,
+                'name' => 'Bahréin',
+                'created_at' => '2025-07-24 11:58:25',
+                'updated_at' => '2025-07-24 11:58:25',
+            ),
+            23 => 
+            array (
+                'id' => 524,
+                'country_id' => 18,
+                'language_id' => 3,
+                'name' => 'Bangladesh',
+                'created_at' => '2025-07-24 11:58:26',
+                'updated_at' => '2025-07-24 11:58:26',
+            ),
+            24 => 
+            array (
+                'id' => 525,
+                'country_id' => 19,
+                'language_id' => 3,
+                'name' => 'Barbados',
+                'created_at' => '2025-07-24 11:58:26',
+                'updated_at' => '2025-07-24 11:58:26',
+            ),
+            25 => 
+            array (
+                'id' => 526,
+                'country_id' => 20,
+                'language_id' => 3,
+                'name' => 'Bielorrusia',
+                'created_at' => '2025-07-24 11:58:26',
+                'updated_at' => '2025-07-24 11:58:26',
+            ),
+            26 => 
+            array (
+                'id' => 527,
+                'country_id' => 21,
+                'language_id' => 3,
+                'name' => 'Bélgica',
+                'created_at' => '2025-07-24 11:58:26',
+                'updated_at' => '2025-07-24 11:58:26',
+            ),
+            27 => 
+            array (
+                'id' => 528,
+                'country_id' => 22,
+                'language_id' => 3,
+                'name' => 'Belice',
+                'created_at' => '2025-07-24 11:58:27',
+                'updated_at' => '2025-07-24 11:58:27',
+            ),
+            28 => 
+            array (
+                'id' => 529,
+                'country_id' => 23,
+                'language_id' => 3,
+                'name' => 'Benín',
+                'created_at' => '2025-07-24 11:58:27',
+                'updated_at' => '2025-07-24 11:58:27',
+            ),
+            29 => 
+            array (
+                'id' => 530,
+                'country_id' => 24,
+                'language_id' => 3,
+                'name' => 'Bermudas',
+                'created_at' => '2025-07-24 11:58:28',
+                'updated_at' => '2025-07-24 11:58:28',
+            ),
+            30 => 
+            array (
+                'id' => 531,
+                'country_id' => 25,
+                'language_id' => 3,
+                'name' => 'Bután',
+                'created_at' => '2025-07-24 11:58:28',
+                'updated_at' => '2025-07-24 11:58:28',
+            ),
+            31 => 
+            array (
+                'id' => 532,
+                'country_id' => 26,
+                'language_id' => 3,
+                'name' => 'Bolivia',
+                'created_at' => '2025-07-24 11:58:28',
+                'updated_at' => '2025-07-24 11:58:28',
+            ),
+            32 => 
+            array (
+                'id' => 533,
+                'country_id' => 27,
+                'language_id' => 3,
+                'name' => 'Bosnia y Herzegovina',
+                'created_at' => '2025-07-24 11:58:29',
+                'updated_at' => '2025-07-24 11:58:29',
+            ),
+            33 => 
+            array (
+                'id' => 534,
+                'country_id' => 28,
+                'language_id' => 3,
+                'name' => 'Botswana',
+                'created_at' => '2025-07-24 11:58:29',
+                'updated_at' => '2025-07-24 11:58:29',
+            ),
+            34 => 
+            array (
+                'id' => 535,
+                'country_id' => 29,
+                'language_id' => 3,
+                'name' => 'Isla Bouvet',
+                'created_at' => '2025-07-24 11:58:30',
+                'updated_at' => '2025-07-24 11:58:30',
+            ),
+            35 => 
+            array (
+                'id' => 536,
+                'country_id' => 30,
+                'language_id' => 3,
+                'name' => 'Brasil',
+                'created_at' => '2025-07-24 11:58:30',
+                'updated_at' => '2025-07-24 11:58:30',
+            ),
+            36 => 
+            array (
+                'id' => 537,
+                'country_id' => 31,
+                'language_id' => 3,
+                'name' => 'Territorio Británico del Océano Índico',
+                'created_at' => '2025-07-24 11:58:31',
+                'updated_at' => '2025-07-24 11:58:31',
+            ),
+            37 => 
+            array (
+                'id' => 538,
+                'country_id' => 32,
+                'language_id' => 3,
+                'name' => 'Brunéi',
+                'created_at' => '2025-07-24 11:58:31',
+                'updated_at' => '2025-07-24 11:58:31',
+            ),
+            38 => 
+            array (
+                'id' => 539,
+                'country_id' => 33,
+                'language_id' => 3,
+                'name' => 'Bulgaria',
+                'created_at' => '2025-07-24 11:58:31',
+                'updated_at' => '2025-07-24 11:58:31',
+            ),
+            39 => 
+            array (
+                'id' => 540,
+                'country_id' => 34,
+                'language_id' => 3,
+                'name' => 'Burkina Faso',
+                'created_at' => '2025-07-24 11:58:32',
+                'updated_at' => '2025-07-24 11:58:32',
+            ),
+            40 => 
+            array (
+                'id' => 541,
+                'country_id' => 35,
+                'language_id' => 3,
+                'name' => 'Burundi',
+                'created_at' => '2025-07-24 11:58:32',
+                'updated_at' => '2025-07-24 11:58:32',
+            ),
+            41 => 
+            array (
+                'id' => 542,
+                'country_id' => 36,
+                'language_id' => 3,
+                'name' => 'Camboya',
+                'created_at' => '2025-07-24 11:58:33',
+                'updated_at' => '2025-07-24 11:58:33',
+            ),
+            42 => 
+            array (
+                'id' => 543,
+                'country_id' => 37,
+                'language_id' => 3,
+                'name' => 'Camerún',
+                'created_at' => '2025-07-24 11:58:33',
+                'updated_at' => '2025-07-24 11:58:33',
+            ),
+            43 => 
+            array (
+                'id' => 544,
+                'country_id' => 38,
+                'language_id' => 3,
+                'name' => 'Canadá',
+                'created_at' => '2025-07-24 11:58:33',
+                'updated_at' => '2025-07-24 11:58:33',
+            ),
+            44 => 
+            array (
+                'id' => 545,
+                'country_id' => 39,
+                'language_id' => 3,
+                'name' => 'Cabo Verde',
+                'created_at' => '2025-07-24 11:58:34',
+                'updated_at' => '2025-07-24 11:58:34',
+            ),
+            45 => 
+            array (
+                'id' => 546,
+                'country_id' => 40,
+                'language_id' => 3,
+                'name' => 'Islas Caimán',
+                'created_at' => '2025-07-24 11:58:34',
+                'updated_at' => '2025-07-24 11:58:34',
+            ),
+            46 => 
+            array (
+                'id' => 547,
+                'country_id' => 41,
+                'language_id' => 3,
+                'name' => 'República Centroafricana',
+                'created_at' => '2025-07-24 11:58:35',
+                'updated_at' => '2025-07-24 11:58:35',
+            ),
+            47 => 
+            array (
+                'id' => 548,
+                'country_id' => 42,
+                'language_id' => 3,
+                'name' => 'Chad',
+                'created_at' => '2025-07-24 11:58:35',
+                'updated_at' => '2025-07-24 11:58:35',
+            ),
+            48 => 
+            array (
+                'id' => 549,
+                'country_id' => 43,
+                'language_id' => 3,
+                'name' => 'Chile',
+                'created_at' => '2025-07-24 11:58:36',
+                'updated_at' => '2025-07-24 11:58:36',
+            ),
+            49 => 
+            array (
+                'id' => 550,
+                'country_id' => 44,
+                'language_id' => 3,
+                'name' => 'China',
+                'created_at' => '2025-07-24 11:58:36',
+                'updated_at' => '2025-07-24 11:58:36',
+            ),
+            50 => 
+            array (
+                'id' => 551,
+                'country_id' => 45,
+                'language_id' => 3,
+                'name' => 'Isla de Navidad',
+                'created_at' => '2025-07-24 11:58:36',
+                'updated_at' => '2025-07-24 11:58:36',
+            ),
+            51 => 
+            array (
+                'id' => 552,
+                'country_id' => 46,
+                'language_id' => 3,
+            'name' => 'Islas Cocos (Keeling)',
+                'created_at' => '2025-07-24 11:58:37',
+                'updated_at' => '2025-07-24 11:58:37',
+            ),
+            52 => 
+            array (
+                'id' => 553,
+                'country_id' => 47,
+                'language_id' => 3,
+                'name' => 'Colombia',
+                'created_at' => '2025-07-24 11:58:37',
+                'updated_at' => '2025-07-24 11:58:37',
+            ),
+            53 => 
+            array (
+                'id' => 554,
+                'country_id' => 48,
+                'language_id' => 3,
+                'name' => 'Comoras',
+                'created_at' => '2025-07-24 11:58:38',
+                'updated_at' => '2025-07-24 11:58:38',
+            ),
+            54 => 
+            array (
+                'id' => 555,
+                'country_id' => 49,
+                'language_id' => 3,
+                'name' => 'Congo',
+                'created_at' => '2025-07-24 11:58:38',
+                'updated_at' => '2025-07-24 11:58:38',
+            ),
+            55 => 
+            array (
+                'id' => 556,
+                'country_id' => 50,
+                'language_id' => 3,
+                'name' => 'Islas Cook',
+                'created_at' => '2025-07-24 11:58:39',
+                'updated_at' => '2025-07-24 11:58:39',
+            ),
+            56 => 
+            array (
+                'id' => 557,
+                'country_id' => 51,
+                'language_id' => 3,
+                'name' => 'Costa Rica',
+                'created_at' => '2025-07-24 11:58:39',
+                'updated_at' => '2025-07-24 11:58:39',
+            ),
+            57 => 
+            array (
+                'id' => 558,
+                'country_id' => 52,
+                'language_id' => 3,
+                'name' => 'Costa de Marfil',
+                'created_at' => '2025-07-24 11:58:39',
+                'updated_at' => '2025-07-24 11:58:39',
+            ),
+            58 => 
+            array (
+                'id' => 559,
+                'country_id' => 53,
+                'language_id' => 3,
+                'name' => 'Croacia',
+                'created_at' => '2025-07-24 11:58:40',
+                'updated_at' => '2025-07-24 11:58:40',
+            ),
+            59 => 
+            array (
+                'id' => 560,
+                'country_id' => 54,
+                'language_id' => 3,
+                'name' => 'Cuba',
+                'created_at' => '2025-07-24 11:58:40',
+                'updated_at' => '2025-07-24 11:58:40',
+            ),
+            60 => 
+            array (
+                'id' => 561,
+                'country_id' => 55,
+                'language_id' => 3,
+                'name' => 'Chipre',
+                'created_at' => '2025-07-24 11:58:41',
+                'updated_at' => '2025-07-24 11:58:41',
+            ),
+            61 => 
+            array (
+                'id' => 562,
+                'country_id' => 56,
+                'language_id' => 3,
+                'name' => 'República Checa',
+                'created_at' => '2025-07-24 11:58:41',
+                'updated_at' => '2025-07-24 11:58:41',
+            ),
+            62 => 
+            array (
+                'id' => 563,
+                'country_id' => 57,
+                'language_id' => 3,
+                'name' => 'Dinamarca',
+                'created_at' => '2025-07-24 11:58:42',
+                'updated_at' => '2025-07-24 11:58:42',
+            ),
+            63 => 
+            array (
+                'id' => 564,
+                'country_id' => 58,
+                'language_id' => 3,
+                'name' => 'Djibouti',
+                'created_at' => '2025-07-24 11:58:42',
+                'updated_at' => '2025-07-24 11:58:42',
+            ),
+            64 => 
+            array (
+                'id' => 565,
+                'country_id' => 59,
+                'language_id' => 3,
+                'name' => 'República Dominicana',
+                'created_at' => '2025-07-24 11:58:42',
+                'updated_at' => '2025-07-24 11:58:42',
+            ),
+            65 => 
+            array (
+                'id' => 566,
+                'country_id' => 60,
+                'language_id' => 3,
+                'name' => 'República Dominicana',
+                'created_at' => '2025-07-24 11:58:43',
+                'updated_at' => '2025-07-24 11:58:43',
+            ),
+            66 => 
+            array (
+                'id' => 567,
+                'country_id' => 61,
+                'language_id' => 3,
+                'name' => 'Timor-Leste',
+                'created_at' => '2025-07-24 11:58:43',
+                'updated_at' => '2025-07-24 11:58:43',
+            ),
+            67 => 
+            array (
+                'id' => 568,
+                'country_id' => 62,
+                'language_id' => 3,
+                'name' => 'Ecuador',
+                'created_at' => '2025-07-24 11:58:44',
+                'updated_at' => '2025-07-24 11:58:44',
+            ),
+            68 => 
+            array (
+                'id' => 569,
+                'country_id' => 63,
+                'language_id' => 3,
+                'name' => 'Egipto',
+                'created_at' => '2025-07-24 11:58:44',
+                'updated_at' => '2025-07-24 11:58:44',
+            ),
+            69 => 
+            array (
+                'id' => 570,
+                'country_id' => 64,
+                'language_id' => 3,
+                'name' => 'El Salvador',
+                'created_at' => '2025-07-24 11:58:44',
+                'updated_at' => '2025-07-24 11:58:44',
+            ),
+            70 => 
+            array (
+                'id' => 571,
+                'country_id' => 65,
+                'language_id' => 3,
+                'name' => 'Guinea Ecuatorial',
+                'created_at' => '2025-07-24 11:58:45',
+                'updated_at' => '2025-07-24 11:58:45',
+            ),
+            71 => 
+            array (
+                'id' => 572,
+                'country_id' => 66,
+                'language_id' => 3,
+                'name' => 'Eritrea',
+                'created_at' => '2025-07-24 11:58:45',
+                'updated_at' => '2025-07-24 11:58:45',
+            ),
+            72 => 
+            array (
+                'id' => 573,
+                'country_id' => 67,
+                'language_id' => 3,
+                'name' => 'Estonia',
+                'created_at' => '2025-07-24 11:58:46',
+                'updated_at' => '2025-07-24 11:58:46',
+            ),
+            73 => 
+            array (
+                'id' => 574,
+                'country_id' => 68,
+                'language_id' => 3,
+                'name' => 'Etiopía',
+                'created_at' => '2025-07-24 11:58:46',
+                'updated_at' => '2025-07-24 11:58:46',
+            ),
+            74 => 
+            array (
+                'id' => 575,
+                'country_id' => 69,
+                'language_id' => 3,
+                'name' => 'Islas Malvinas',
+                'created_at' => '2025-07-24 11:58:47',
+                'updated_at' => '2025-07-24 11:58:47',
+            ),
+            75 => 
+            array (
+                'id' => 576,
+                'country_id' => 70,
+                'language_id' => 3,
+                'name' => 'Islas Feroe',
+                'created_at' => '2025-07-24 11:58:48',
+                'updated_at' => '2025-07-24 11:58:48',
+            ),
+            76 => 
+            array (
+                'id' => 577,
+                'country_id' => 71,
+                'language_id' => 3,
+                'name' => 'Fiji',
+                'created_at' => '2025-07-24 11:58:49',
+                'updated_at' => '2025-07-24 11:58:49',
+            ),
+            77 => 
+            array (
+                'id' => 578,
+                'country_id' => 72,
+                'language_id' => 3,
+                'name' => 'Finlandia',
+                'created_at' => '2025-07-24 11:58:49',
+                'updated_at' => '2025-07-24 11:58:49',
+            ),
+            78 => 
+            array (
+                'id' => 579,
+                'country_id' => 73,
+                'language_id' => 3,
+                'name' => 'Francia, Metropolitana',
+                'created_at' => '2025-07-24 11:58:50',
+                'updated_at' => '2025-07-24 11:58:50',
+            ),
+            79 => 
+            array (
+                'id' => 580,
+                'country_id' => 74,
+                'language_id' => 3,
+                'name' => 'Guyana Francesa',
+                'created_at' => '2025-07-24 11:58:50',
+                'updated_at' => '2025-07-24 11:58:50',
+            ),
+            80 => 
+            array (
+                'id' => 581,
+                'country_id' => 75,
+                'language_id' => 3,
+                'name' => 'Polinesia Francesa',
+                'created_at' => '2025-07-24 11:58:51',
+                'updated_at' => '2025-07-24 11:58:51',
+            ),
+            81 => 
+            array (
+                'id' => 582,
+                'country_id' => 76,
+                'language_id' => 3,
+                'name' => 'Territorios meridionales franceses',
+                'created_at' => '2025-07-24 11:58:51',
+                'updated_at' => '2025-07-24 11:58:51',
+            ),
+            82 => 
+            array (
+                'id' => 583,
+                'country_id' => 77,
+                'language_id' => 3,
+                'name' => 'Gabón',
+                'created_at' => '2025-07-24 11:58:52',
+                'updated_at' => '2025-07-24 11:58:52',
+            ),
+            83 => 
+            array (
+                'id' => 584,
+                'country_id' => 78,
+                'language_id' => 3,
+                'name' => 'El Gambia',
+                'created_at' => '2025-07-24 11:58:52',
+                'updated_at' => '2025-07-24 11:58:52',
+            ),
+            84 => 
+            array (
+                'id' => 585,
+                'country_id' => 79,
+                'language_id' => 3,
+                'name' => 'Georgia',
+                'created_at' => '2025-07-24 11:58:52',
+                'updated_at' => '2025-07-24 11:58:52',
+            ),
+            85 => 
+            array (
+                'id' => 586,
+                'country_id' => 80,
+                'language_id' => 3,
+                'name' => 'Alemania',
+                'created_at' => '2025-07-24 11:58:53',
+                'updated_at' => '2025-07-24 11:58:53',
+            ),
+            86 => 
+            array (
+                'id' => 587,
+                'country_id' => 81,
+                'language_id' => 3,
+                'name' => 'Ghana',
+                'created_at' => '2025-07-24 11:58:53',
+                'updated_at' => '2025-07-24 11:58:53',
+            ),
+            87 => 
+            array (
+                'id' => 588,
+                'country_id' => 82,
+                'language_id' => 3,
+                'name' => 'Gibraltar',
+                'created_at' => '2025-07-24 11:58:54',
+                'updated_at' => '2025-07-24 11:58:54',
+            ),
+            88 => 
+            array (
+                'id' => 589,
+                'country_id' => 83,
+                'language_id' => 3,
+                'name' => 'Grecia',
+                'created_at' => '2025-07-24 11:58:54',
+                'updated_at' => '2025-07-24 11:58:54',
+            ),
+            89 => 
+            array (
+                'id' => 590,
+                'country_id' => 84,
+                'language_id' => 3,
+                'name' => 'Groenlandia',
+                'created_at' => '2025-07-24 11:58:55',
+                'updated_at' => '2025-07-24 11:58:55',
+            ),
+            90 => 
+            array (
+                'id' => 591,
+                'country_id' => 85,
+                'language_id' => 3,
+                'name' => 'Granada',
+                'created_at' => '2025-07-24 11:58:55',
+                'updated_at' => '2025-07-24 11:58:55',
+            ),
+            91 => 
+            array (
+                'id' => 592,
+                'country_id' => 86,
+                'language_id' => 3,
+                'name' => 'Guadalupe',
+                'created_at' => '2025-07-24 11:58:55',
+                'updated_at' => '2025-07-24 11:58:55',
+            ),
+            92 => 
+            array (
+                'id' => 593,
+                'country_id' => 87,
+                'language_id' => 3,
+                'name' => 'Guam',
+                'created_at' => '2025-07-24 11:58:56',
+                'updated_at' => '2025-07-24 11:58:56',
+            ),
+            93 => 
+            array (
+                'id' => 594,
+                'country_id' => 88,
+                'language_id' => 3,
+                'name' => 'Guatemala',
+                'created_at' => '2025-07-24 11:58:56',
+                'updated_at' => '2025-07-24 11:58:56',
+            ),
+            94 => 
+            array (
+                'id' => 595,
+                'country_id' => 89,
+                'language_id' => 3,
+                'name' => 'Guinea',
+                'created_at' => '2025-07-24 11:58:57',
+                'updated_at' => '2025-07-24 11:58:57',
+            ),
+            95 => 
+            array (
+                'id' => 596,
+                'country_id' => 90,
+                'language_id' => 3,
+                'name' => 'Guinea-Bissau',
+                'created_at' => '2025-07-24 11:58:57',
+                'updated_at' => '2025-07-24 11:58:57',
+            ),
+            96 => 
+            array (
+                'id' => 597,
+                'country_id' => 91,
+                'language_id' => 3,
+                'name' => 'Guyana',
+                'created_at' => '2025-07-24 11:58:58',
+                'updated_at' => '2025-07-24 11:58:58',
+            ),
+            97 => 
+            array (
+                'id' => 598,
+                'country_id' => 92,
+                'language_id' => 3,
+                'name' => 'Haití',
+                'created_at' => '2025-07-24 11:58:58',
+                'updated_at' => '2025-07-24 11:58:58',
+            ),
+            98 => 
+            array (
+                'id' => 599,
+                'country_id' => 93,
+                'language_id' => 3,
+                'name' => 'Islas Heard y McDonald',
+                'created_at' => '2025-07-24 11:58:59',
+                'updated_at' => '2025-07-24 11:58:59',
+            ),
+            99 => 
+            array (
+                'id' => 600,
+                'country_id' => 94,
+                'language_id' => 3,
+                'name' => 'Honduras',
+                'created_at' => '2025-07-24 11:58:59',
+                'updated_at' => '2025-07-24 11:58:59',
+            ),
+            100 => 
+            array (
+                'id' => 601,
+                'country_id' => 95,
+                'language_id' => 3,
+                'name' => 'de Hong Kong',
+                'created_at' => '2025-07-24 11:58:59',
+                'updated_at' => '2025-07-24 11:58:59',
+            ),
+            101 => 
+            array (
+                'id' => 602,
+                'country_id' => 96,
+                'language_id' => 3,
+                'name' => 'Hungría',
+                'created_at' => '2025-07-24 11:59:00',
+                'updated_at' => '2025-07-24 11:59:00',
+            ),
+            102 => 
+            array (
+                'id' => 603,
+                'country_id' => 97,
+                'language_id' => 3,
+                'name' => 'Islandia',
+                'created_at' => '2025-07-24 11:59:00',
+                'updated_at' => '2025-07-24 11:59:00',
+            ),
+            103 => 
+            array (
+                'id' => 604,
+                'country_id' => 98,
+                'language_id' => 3,
+                'name' => 'La India',
+                'created_at' => '2025-07-24 11:59:01',
+                'updated_at' => '2025-07-24 11:59:01',
+            ),
+            104 => 
+            array (
+                'id' => 605,
+                'country_id' => 99,
+                'language_id' => 3,
+                'name' => 'Indonesia',
+                'created_at' => '2025-07-24 11:59:01',
+                'updated_at' => '2025-07-24 11:59:01',
+            ),
+            105 => 
+            array (
+                'id' => 606,
+                'country_id' => 100,
+                'language_id' => 3,
+            'name' => 'Irán (República Islámica del)',
+                'created_at' => '2025-07-24 11:59:02',
+                'updated_at' => '2025-07-24 11:59:02',
+            ),
+            106 => 
+            array (
+                'id' => 607,
+                'country_id' => 101,
+                'language_id' => 3,
+                'name' => 'Irak',
+                'created_at' => '2025-07-24 11:59:02',
+                'updated_at' => '2025-07-24 11:59:02',
+            ),
+            107 => 
+            array (
+                'id' => 608,
+                'country_id' => 102,
+                'language_id' => 3,
+                'name' => 'Irlanda',
+                'created_at' => '2025-07-24 11:59:03',
+                'updated_at' => '2025-07-24 11:59:03',
+            ),
+            108 => 
+            array (
+                'id' => 609,
+                'country_id' => 103,
+                'language_id' => 3,
+                'name' => 'Israel',
+                'created_at' => '2025-07-24 11:59:03',
+                'updated_at' => '2025-07-24 11:59:03',
+            ),
+            109 => 
+            array (
+                'id' => 610,
+                'country_id' => 104,
+                'language_id' => 3,
+                'name' => 'Italia',
+                'created_at' => '2025-07-24 11:59:03',
+                'updated_at' => '2025-07-24 11:59:03',
+            ),
+            110 => 
+            array (
+                'id' => 611,
+                'country_id' => 105,
+                'language_id' => 3,
+                'name' => 'Jamaica',
+                'created_at' => '2025-07-24 11:59:04',
+                'updated_at' => '2025-07-24 11:59:04',
+            ),
+            111 => 
+            array (
+                'id' => 612,
+                'country_id' => 106,
+                'language_id' => 3,
+                'name' => 'Japón',
+                'created_at' => '2025-07-24 11:59:04',
+                'updated_at' => '2025-07-24 11:59:04',
+            ),
+            112 => 
+            array (
+                'id' => 613,
+                'country_id' => 107,
+                'language_id' => 3,
+                'name' => 'Jordania',
+                'created_at' => '2025-07-24 11:59:04',
+                'updated_at' => '2025-07-24 11:59:04',
+            ),
+            113 => 
+            array (
+                'id' => 614,
+                'country_id' => 108,
+                'language_id' => 3,
+                'name' => 'Kazajstán',
+                'created_at' => '2025-07-24 11:59:05',
+                'updated_at' => '2025-07-24 11:59:05',
+            ),
+            114 => 
+            array (
+                'id' => 615,
+                'country_id' => 109,
+                'language_id' => 3,
+                'name' => 'Kenia',
+                'created_at' => '2025-07-24 11:59:05',
+                'updated_at' => '2025-07-24 11:59:05',
+            ),
+            115 => 
+            array (
+                'id' => 616,
+                'country_id' => 110,
+                'language_id' => 3,
+                'name' => 'Kiribati',
+                'created_at' => '2025-07-24 11:59:06',
+                'updated_at' => '2025-07-24 11:59:06',
+            ),
+            116 => 
+            array (
+                'id' => 617,
+                'country_id' => 111,
+                'language_id' => 3,
+                'name' => 'Corea del Norte',
+                'created_at' => '2025-07-24 11:59:06',
+                'updated_at' => '2025-07-24 11:59:06',
+            ),
+            117 => 
+            array (
+                'id' => 618,
+                'country_id' => 112,
+                'language_id' => 3,
+                'name' => 'Corea del Sur',
+                'created_at' => '2025-07-24 11:59:07',
+                'updated_at' => '2025-07-24 11:59:07',
+            ),
+            118 => 
+            array (
+                'id' => 619,
+                'country_id' => 113,
+                'language_id' => 3,
+                'name' => 'Kuwait',
+                'created_at' => '2025-07-24 11:59:07',
+                'updated_at' => '2025-07-24 11:59:07',
+            ),
+            119 => 
+            array (
+                'id' => 620,
+                'country_id' => 114,
+                'language_id' => 3,
+                'name' => 'Kirguistán',
+                'created_at' => '2025-07-24 11:59:08',
+                'updated_at' => '2025-07-24 11:59:08',
+            ),
+            120 => 
+            array (
+                'id' => 621,
+                'country_id' => 115,
+                'language_id' => 3,
+            'name' => 'República Democrática Popular Lao (la)',
+                'created_at' => '2025-07-24 11:59:08',
+                'updated_at' => '2025-07-24 11:59:08',
+            ),
+            121 => 
+            array (
+                'id' => 622,
+                'country_id' => 116,
+                'language_id' => 3,
+                'name' => 'Letonia',
+                'created_at' => '2025-07-24 11:59:08',
+                'updated_at' => '2025-07-24 11:59:08',
+            ),
+            122 => 
+            array (
+                'id' => 623,
+                'country_id' => 117,
+                'language_id' => 3,
+                'name' => 'Líbano',
+                'created_at' => '2025-07-24 11:59:09',
+                'updated_at' => '2025-07-24 11:59:09',
+            ),
+            123 => 
+            array (
+                'id' => 624,
+                'country_id' => 118,
+                'language_id' => 3,
+                'name' => 'Lesotho',
+                'created_at' => '2025-07-24 11:59:09',
+                'updated_at' => '2025-07-24 11:59:09',
+            ),
+            124 => 
+            array (
+                'id' => 625,
+                'country_id' => 119,
+                'language_id' => 3,
+                'name' => 'Liberia',
+                'created_at' => '2025-07-24 11:59:10',
+                'updated_at' => '2025-07-24 11:59:10',
+            ),
+            125 => 
+            array (
+                'id' => 626,
+                'country_id' => 120,
+                'language_id' => 3,
+                'name' => 'Libia',
+                'created_at' => '2025-07-24 11:59:10',
+                'updated_at' => '2025-07-24 11:59:10',
+            ),
+            126 => 
+            array (
+                'id' => 627,
+                'country_id' => 121,
+                'language_id' => 3,
+                'name' => 'Liechtenstein',
+                'created_at' => '2025-07-24 11:59:10',
+                'updated_at' => '2025-07-24 11:59:10',
+            ),
+            127 => 
+            array (
+                'id' => 628,
+                'country_id' => 122,
+                'language_id' => 3,
+                'name' => 'Lituania',
+                'created_at' => '2025-07-24 11:59:11',
+                'updated_at' => '2025-07-24 11:59:11',
+            ),
+            128 => 
+            array (
+                'id' => 629,
+                'country_id' => 123,
+                'language_id' => 3,
+                'name' => 'Luxemburgo',
+                'created_at' => '2025-07-24 11:59:11',
+                'updated_at' => '2025-07-24 11:59:11',
+            ),
+            129 => 
+            array (
+                'id' => 630,
+                'country_id' => 124,
+                'language_id' => 3,
+                'name' => 'Macao',
+                'created_at' => '2025-07-24 11:59:12',
+                'updated_at' => '2025-07-24 11:59:12',
+            ),
+            130 => 
+            array (
+                'id' => 631,
+                'country_id' => 125,
+                'language_id' => 3,
+                'name' => 'Macedonia del Norte',
+                'created_at' => '2025-07-24 11:59:12',
+                'updated_at' => '2025-07-24 11:59:12',
+            ),
+            131 => 
+            array (
+                'id' => 632,
+                'country_id' => 126,
+                'language_id' => 3,
+                'name' => 'Madagascar',
+                'created_at' => '2025-07-24 11:59:13',
+                'updated_at' => '2025-07-24 11:59:13',
+            ),
+            132 => 
+            array (
+                'id' => 633,
+                'country_id' => 127,
+                'language_id' => 3,
+                'name' => 'Malawi',
+                'created_at' => '2025-07-24 11:59:13',
+                'updated_at' => '2025-07-24 11:59:13',
+            ),
+            133 => 
+            array (
+                'id' => 634,
+                'country_id' => 128,
+                'language_id' => 3,
+                'name' => 'Malasia',
+                'created_at' => '2025-07-24 11:59:13',
+                'updated_at' => '2025-07-24 11:59:13',
+            ),
+            134 => 
+            array (
+                'id' => 635,
+                'country_id' => 129,
+                'language_id' => 3,
+                'name' => 'Maldivas',
+                'created_at' => '2025-07-24 11:59:14',
+                'updated_at' => '2025-07-24 11:59:14',
+            ),
+            135 => 
+            array (
+                'id' => 636,
+                'country_id' => 130,
+                'language_id' => 3,
+                'name' => 'Malí',
+                'created_at' => '2025-07-24 11:59:14',
+                'updated_at' => '2025-07-24 11:59:14',
+            ),
+            136 => 
+            array (
+                'id' => 637,
+                'country_id' => 131,
+                'language_id' => 3,
+                'name' => 'Malta',
+                'created_at' => '2025-07-24 11:59:15',
+                'updated_at' => '2025-07-24 11:59:15',
+            ),
+            137 => 
+            array (
+                'id' => 638,
+                'country_id' => 132,
+                'language_id' => 3,
+                'name' => 'Islas Marshall',
+                'created_at' => '2025-07-24 11:59:15',
+                'updated_at' => '2025-07-24 11:59:15',
+            ),
+            138 => 
+            array (
+                'id' => 639,
+                'country_id' => 133,
+                'language_id' => 3,
+                'name' => 'Martinica',
+                'created_at' => '2025-07-24 11:59:15',
+                'updated_at' => '2025-07-24 11:59:15',
+            ),
+            139 => 
+            array (
+                'id' => 640,
+                'country_id' => 134,
+                'language_id' => 3,
+                'name' => 'Mauritania',
+                'created_at' => '2025-07-24 11:59:16',
+                'updated_at' => '2025-07-24 11:59:16',
+            ),
+            140 => 
+            array (
+                'id' => 641,
+                'country_id' => 135,
+                'language_id' => 3,
+                'name' => 'Mauricio',
+                'created_at' => '2025-07-24 11:59:16',
+                'updated_at' => '2025-07-24 11:59:16',
+            ),
+            141 => 
+            array (
+                'id' => 642,
+                'country_id' => 136,
+                'language_id' => 3,
+                'name' => 'Mayotte',
+                'created_at' => '2025-07-24 11:59:17',
+                'updated_at' => '2025-07-24 11:59:17',
+            ),
+            142 => 
+            array (
+                'id' => 643,
+                'country_id' => 137,
+                'language_id' => 3,
+                'name' => 'México',
+                'created_at' => '2025-07-24 11:59:17',
+                'updated_at' => '2025-07-24 11:59:17',
+            ),
+            143 => 
+            array (
+                'id' => 644,
+                'country_id' => 138,
+                'language_id' => 3,
+                'name' => 'Micronesia, Estados Federados de',
+                'created_at' => '2025-07-24 11:59:18',
+                'updated_at' => '2025-07-24 11:59:18',
+            ),
+            144 => 
+            array (
+                'id' => 645,
+                'country_id' => 139,
+                'language_id' => 3,
+                'name' => 'Moldova, República de',
+                'created_at' => '2025-07-24 11:59:18',
+                'updated_at' => '2025-07-24 11:59:18',
+            ),
+            145 => 
+            array (
+                'id' => 646,
+                'country_id' => 140,
+                'language_id' => 3,
+                'name' => 'Mónaco',
+                'created_at' => '2025-07-24 11:59:18',
+                'updated_at' => '2025-07-24 11:59:18',
+            ),
+            146 => 
+            array (
+                'id' => 647,
+                'country_id' => 141,
+                'language_id' => 3,
+                'name' => 'Mongolia',
+                'created_at' => '2025-07-24 11:59:19',
+                'updated_at' => '2025-07-24 11:59:19',
+            ),
+            147 => 
+            array (
+                'id' => 648,
+                'country_id' => 142,
+                'language_id' => 3,
+                'name' => 'Montserrat',
+                'created_at' => '2025-07-24 11:59:19',
+                'updated_at' => '2025-07-24 11:59:19',
+            ),
+            148 => 
+            array (
+                'id' => 649,
+                'country_id' => 143,
+                'language_id' => 3,
+                'name' => 'Marruecos',
+                'created_at' => '2025-07-24 11:59:20',
+                'updated_at' => '2025-07-24 11:59:20',
+            ),
+            149 => 
+            array (
+                'id' => 650,
+                'country_id' => 144,
+                'language_id' => 3,
+                'name' => 'Mozambique',
+                'created_at' => '2025-07-24 11:59:20',
+                'updated_at' => '2025-07-24 11:59:20',
+            ),
+            150 => 
+            array (
+                'id' => 651,
+                'country_id' => 145,
+                'language_id' => 3,
+                'name' => 'Birmania',
+                'created_at' => '2025-07-24 11:59:21',
+                'updated_at' => '2025-07-24 11:59:21',
+            ),
+            151 => 
+            array (
+                'id' => 652,
+                'country_id' => 146,
+                'language_id' => 3,
+                'name' => 'Namibia',
+                'created_at' => '2025-07-24 11:59:21',
+                'updated_at' => '2025-07-24 11:59:21',
+            ),
+            152 => 
+            array (
+                'id' => 653,
+                'country_id' => 147,
+                'language_id' => 3,
+                'name' => 'Nauru',
+                'created_at' => '2025-07-24 11:59:22',
+                'updated_at' => '2025-07-24 11:59:22',
+            ),
+            153 => 
+            array (
+                'id' => 654,
+                'country_id' => 148,
+                'language_id' => 3,
+                'name' => 'Nepal',
+                'created_at' => '2025-07-24 11:59:22',
+                'updated_at' => '2025-07-24 11:59:22',
+            ),
+            154 => 
+            array (
+                'id' => 655,
+                'country_id' => 149,
+                'language_id' => 3,
+                'name' => 'Países Bajos',
+                'created_at' => '2025-07-24 11:59:23',
+                'updated_at' => '2025-07-24 11:59:23',
+            ),
+            155 => 
+            array (
+                'id' => 656,
+                'country_id' => 150,
+                'language_id' => 3,
+                'name' => 'Antillas Neerlandesas',
+                'created_at' => '2025-07-24 11:59:23',
+                'updated_at' => '2025-07-24 11:59:23',
+            ),
+            156 => 
+            array (
+                'id' => 657,
+                'country_id' => 151,
+                'language_id' => 3,
+                'name' => 'Nueva Caledonia',
+                'created_at' => '2025-07-24 11:59:23',
+                'updated_at' => '2025-07-24 11:59:23',
+            ),
+            157 => 
+            array (
+                'id' => 658,
+                'country_id' => 152,
+                'language_id' => 3,
+                'name' => 'Nueva Zelanda',
+                'created_at' => '2025-07-24 11:59:24',
+                'updated_at' => '2025-07-24 11:59:24',
+            ),
+            158 => 
+            array (
+                'id' => 659,
+                'country_id' => 153,
+                'language_id' => 3,
+                'name' => 'Nicaragua',
+                'created_at' => '2025-07-24 11:59:24',
+                'updated_at' => '2025-07-24 11:59:24',
+            ),
+            159 => 
+            array (
+                'id' => 660,
+                'country_id' => 154,
+                'language_id' => 3,
+                'name' => 'Níger',
+                'created_at' => '2025-07-24 11:59:24',
+                'updated_at' => '2025-07-24 11:59:24',
+            ),
+            160 => 
+            array (
+                'id' => 661,
+                'country_id' => 155,
+                'language_id' => 3,
+                'name' => 'Nigeria',
+                'created_at' => '2025-07-24 11:59:25',
+                'updated_at' => '2025-07-24 11:59:25',
+            ),
+            161 => 
+            array (
+                'id' => 662,
+                'country_id' => 156,
+                'language_id' => 3,
+                'name' => 'Niue',
+                'created_at' => '2025-07-24 11:59:25',
+                'updated_at' => '2025-07-24 11:59:25',
+            ),
+            162 => 
+            array (
+                'id' => 663,
+                'country_id' => 157,
+                'language_id' => 3,
+                'name' => 'Isla Norfolk',
+                'created_at' => '2025-07-24 11:59:26',
+                'updated_at' => '2025-07-24 11:59:26',
+            ),
+            163 => 
+            array (
+                'id' => 664,
+                'country_id' => 158,
+                'language_id' => 3,
+                'name' => 'Islas Marianas del Norte',
+                'created_at' => '2025-07-24 11:59:26',
+                'updated_at' => '2025-07-24 11:59:26',
+            ),
+            164 => 
+            array (
+                'id' => 665,
+                'country_id' => 159,
+                'language_id' => 3,
+                'name' => 'Noruega',
+                'created_at' => '2025-07-24 11:59:27',
+                'updated_at' => '2025-07-24 11:59:27',
+            ),
+            165 => 
+            array (
+                'id' => 666,
+                'country_id' => 160,
+                'language_id' => 3,
+                'name' => 'Omán',
+                'created_at' => '2025-07-24 11:59:27',
+                'updated_at' => '2025-07-24 11:59:27',
+            ),
+            166 => 
+            array (
+                'id' => 667,
+                'country_id' => 161,
+                'language_id' => 3,
+                'name' => 'Pakistán',
+                'created_at' => '2025-07-24 11:59:27',
+                'updated_at' => '2025-07-24 11:59:27',
+            ),
+            167 => 
+            array (
+                'id' => 668,
+                'country_id' => 162,
+                'language_id' => 3,
+                'name' => 'Palau',
+                'created_at' => '2025-07-24 11:59:28',
+                'updated_at' => '2025-07-24 11:59:28',
+            ),
+            168 => 
+            array (
+                'id' => 669,
+                'country_id' => 163,
+                'language_id' => 3,
+                'name' => 'Panamá',
+                'created_at' => '2025-07-24 11:59:28',
+                'updated_at' => '2025-07-24 11:59:28',
+            ),
+            169 => 
+            array (
+                'id' => 670,
+                'country_id' => 164,
+                'language_id' => 3,
+                'name' => 'Papúa Nueva Guinea',
+                'created_at' => '2025-07-24 11:59:29',
+                'updated_at' => '2025-07-24 11:59:29',
+            ),
+            170 => 
+            array (
+                'id' => 671,
+                'country_id' => 165,
+                'language_id' => 3,
+                'name' => 'Paraguay',
+                'created_at' => '2025-07-24 11:59:29',
+                'updated_at' => '2025-07-24 11:59:29',
+            ),
+            171 => 
+            array (
+                'id' => 672,
+                'country_id' => 166,
+                'language_id' => 3,
+                'name' => 'Perú',
+                'created_at' => '2025-07-24 11:59:30',
+                'updated_at' => '2025-07-24 11:59:30',
+            ),
+            172 => 
+            array (
+                'id' => 673,
+                'country_id' => 167,
+                'language_id' => 3,
+                'name' => 'Filipinas',
+                'created_at' => '2025-07-24 11:59:30',
+                'updated_at' => '2025-07-24 11:59:30',
+            ),
+            173 => 
+            array (
+                'id' => 674,
+                'country_id' => 168,
+                'language_id' => 3,
+                'name' => 'Pitcairn',
+                'created_at' => '2025-07-24 11:59:31',
+                'updated_at' => '2025-07-24 11:59:31',
+            ),
+            174 => 
+            array (
+                'id' => 675,
+                'country_id' => 169,
+                'language_id' => 3,
+                'name' => 'Polonia',
+                'created_at' => '2025-07-24 11:59:31',
+                'updated_at' => '2025-07-24 11:59:31',
+            ),
+            175 => 
+            array (
+                'id' => 676,
+                'country_id' => 170,
+                'language_id' => 3,
+                'name' => 'España',
+                'created_at' => '2025-07-24 11:59:32',
+                'updated_at' => '2025-07-24 11:59:32',
+            ),
+            176 => 
+            array (
+                'id' => 677,
+                'country_id' => 171,
+                'language_id' => 3,
+                'name' => 'Puerto Rico',
+                'created_at' => '2025-07-24 11:59:32',
+                'updated_at' => '2025-07-24 11:59:32',
+            ),
+            177 => 
+            array (
+                'id' => 678,
+                'country_id' => 172,
+                'language_id' => 3,
+                'name' => 'Qatar',
+                'created_at' => '2025-07-24 11:59:32',
+                'updated_at' => '2025-07-24 11:59:32',
+            ),
+            178 => 
+            array (
+                'id' => 679,
+                'country_id' => 173,
+                'language_id' => 3,
+                'name' => 'Reunión',
+                'created_at' => '2025-07-24 11:59:33',
+                'updated_at' => '2025-07-24 11:59:33',
+            ),
+            179 => 
+            array (
+                'id' => 680,
+                'country_id' => 174,
+                'language_id' => 3,
+                'name' => 'Rumanía',
+                'created_at' => '2025-07-24 11:59:33',
+                'updated_at' => '2025-07-24 11:59:33',
+            ),
+            180 => 
+            array (
+                'id' => 681,
+                'country_id' => 175,
+                'language_id' => 3,
+            'name' => 'Federación de Rusia (la)',
+                'created_at' => '2025-07-24 11:59:34',
+                'updated_at' => '2025-07-24 11:59:34',
+            ),
+            181 => 
+            array (
+                'id' => 682,
+                'country_id' => 176,
+                'language_id' => 3,
+                'name' => 'Ruanda',
+                'created_at' => '2025-07-24 11:59:34',
+                'updated_at' => '2025-07-24 11:59:34',
+            ),
+            182 => 
+            array (
+                'id' => 683,
+                'country_id' => 177,
+                'language_id' => 3,
+                'name' => 'San Cristóbal y Nevis',
+                'created_at' => '2025-07-24 11:59:35',
+                'updated_at' => '2025-07-24 11:59:35',
+            ),
+            183 => 
+            array (
+                'id' => 684,
+                'country_id' => 178,
+                'language_id' => 3,
+                'name' => 'Santa Lucía',
+                'created_at' => '2025-07-24 11:59:36',
+                'updated_at' => '2025-07-24 11:59:36',
+            ),
+            184 => 
+            array (
+                'id' => 685,
+                'country_id' => 179,
+                'language_id' => 3,
+                'name' => 'San Vicente y las Granadinas',
+                'created_at' => '2025-07-24 11:59:36',
+                'updated_at' => '2025-07-24 11:59:36',
+            ),
+            185 => 
+            array (
+                'id' => 686,
+                'country_id' => 180,
+                'language_id' => 3,
+                'name' => 'Samoa',
+                'created_at' => '2025-07-24 11:59:36',
+                'updated_at' => '2025-07-24 11:59:36',
+            ),
+            186 => 
+            array (
+                'id' => 687,
+                'country_id' => 181,
+                'language_id' => 3,
+                'name' => 'San Marino',
+                'created_at' => '2025-07-24 11:59:37',
+                'updated_at' => '2025-07-24 11:59:37',
+            ),
+            187 => 
+            array (
+                'id' => 688,
+                'country_id' => 182,
+                'language_id' => 3,
+                'name' => 'Santo Tomé y Príncipe',
+                'created_at' => '2025-07-24 11:59:37',
+                'updated_at' => '2025-07-24 11:59:37',
+            ),
+            188 => 
+            array (
+                'id' => 689,
+                'country_id' => 183,
+                'language_id' => 3,
+                'name' => 'Arabia Saudita',
+                'created_at' => '2025-07-24 11:59:38',
+                'updated_at' => '2025-07-24 11:59:38',
+            ),
+            189 => 
+            array (
+                'id' => 690,
+                'country_id' => 184,
+                'language_id' => 3,
+                'name' => 'Senegal',
+                'created_at' => '2025-07-24 11:59:38',
+                'updated_at' => '2025-07-24 11:59:38',
+            ),
+            190 => 
+            array (
+                'id' => 691,
+                'country_id' => 185,
+                'language_id' => 3,
+                'name' => 'Seychelles',
+                'created_at' => '2025-07-24 11:59:39',
+                'updated_at' => '2025-07-24 11:59:39',
+            ),
+            191 => 
+            array (
+                'id' => 692,
+                'country_id' => 186,
+                'language_id' => 3,
+                'name' => 'Sierra Leona',
+                'created_at' => '2025-07-24 11:59:39',
+                'updated_at' => '2025-07-24 11:59:39',
+            ),
+            192 => 
+            array (
+                'id' => 693,
+                'country_id' => 187,
+                'language_id' => 3,
+                'name' => 'Singapur',
+                'created_at' => '2025-07-24 11:59:40',
+                'updated_at' => '2025-07-24 11:59:40',
+            ),
+            193 => 
+            array (
+                'id' => 694,
+                'country_id' => 188,
+                'language_id' => 3,
+                'name' => 'República Eslovaca',
+                'created_at' => '2025-07-24 11:59:40',
+                'updated_at' => '2025-07-24 11:59:40',
+            ),
+            194 => 
+            array (
+                'id' => 695,
+                'country_id' => 189,
+                'language_id' => 3,
+                'name' => 'Eslovenia',
+                'created_at' => '2025-07-24 11:59:40',
+                'updated_at' => '2025-07-24 11:59:40',
+            ),
+            195 => 
+            array (
+                'id' => 696,
+                'country_id' => 190,
+                'language_id' => 3,
+                'name' => 'Islas Salomón',
+                'created_at' => '2025-07-24 11:59:41',
+                'updated_at' => '2025-07-24 11:59:41',
+            ),
+            196 => 
+            array (
+                'id' => 697,
+                'country_id' => 191,
+                'language_id' => 3,
+                'name' => 'Somalia',
+                'created_at' => '2025-07-24 11:59:41',
+                'updated_at' => '2025-07-24 11:59:41',
+            ),
+            197 => 
+            array (
+                'id' => 698,
+                'country_id' => 192,
+                'language_id' => 3,
+                'name' => 'Sudáfrica',
+                'created_at' => '2025-07-24 11:59:42',
+                'updated_at' => '2025-07-24 11:59:42',
+            ),
+            198 => 
+            array (
+                'id' => 699,
+                'country_id' => 193,
+                'language_id' => 3,
+                'name' => 'Georgia del Sur y Islas Sandwich del Sur',
+                'created_at' => '2025-07-24 11:59:42',
+                'updated_at' => '2025-07-24 11:59:42',
+            ),
+            199 => 
+            array (
+                'id' => 700,
+                'country_id' => 194,
+                'language_id' => 3,
+                'name' => 'España',
+                'created_at' => '2025-07-24 11:59:42',
+                'updated_at' => '2025-07-24 11:59:42',
+            ),
+            200 => 
+            array (
+                'id' => 701,
+                'country_id' => 195,
+                'language_id' => 3,
+                'name' => 'Sri Lanka',
+                'created_at' => '2025-07-24 11:59:43',
+                'updated_at' => '2025-07-24 11:59:43',
+            ),
+            201 => 
+            array (
+                'id' => 702,
+                'country_id' => 196,
+                'language_id' => 3,
+                'name' => 'Santa Elena',
+                'created_at' => '2025-07-24 11:59:43',
+                'updated_at' => '2025-07-24 11:59:43',
+            ),
+            202 => 
+            array (
+                'id' => 703,
+                'country_id' => 197,
+                'language_id' => 3,
+                'name' => 'San Pedro y Miquelón',
+                'created_at' => '2025-07-24 11:59:44',
+                'updated_at' => '2025-07-24 11:59:44',
+            ),
+            203 => 
+            array (
+                'id' => 704,
+                'country_id' => 198,
+                'language_id' => 3,
+                'name' => 'Sudán',
+                'created_at' => '2025-07-24 11:59:44',
+                'updated_at' => '2025-07-24 11:59:44',
+            ),
+            204 => 
+            array (
+                'id' => 705,
+                'country_id' => 199,
+                'language_id' => 3,
+                'name' => 'Suriname',
+                'created_at' => '2025-07-24 11:59:45',
+                'updated_at' => '2025-07-24 11:59:45',
+            ),
+            205 => 
+            array (
+                'id' => 706,
+                'country_id' => 200,
+                'language_id' => 3,
+                'name' => 'Islas Svalbard y Jan Mayen',
+                'created_at' => '2025-07-24 11:59:45',
+                'updated_at' => '2025-07-24 11:59:45',
+            ),
+            206 => 
+            array (
+                'id' => 707,
+                'country_id' => 201,
+                'language_id' => 3,
+                'name' => 'eswatini',
+                'created_at' => '2025-07-24 11:59:45',
+                'updated_at' => '2025-07-24 11:59:45',
+            ),
+            207 => 
+            array (
+                'id' => 708,
+                'country_id' => 202,
+                'language_id' => 3,
+                'name' => 'Suecia',
+                'created_at' => '2025-07-24 11:59:46',
+                'updated_at' => '2025-07-24 11:59:46',
+            ),
+            208 => 
+            array (
+                'id' => 709,
+                'country_id' => 203,
+                'language_id' => 3,
+                'name' => 'Suiza',
+                'created_at' => '2025-07-24 11:59:46',
+                'updated_at' => '2025-07-24 11:59:46',
+            ),
+            209 => 
+            array (
+                'id' => 710,
+                'country_id' => 204,
+                'language_id' => 3,
+                'name' => 'República Árabe Siria',
+                'created_at' => '2025-07-24 11:59:47',
+                'updated_at' => '2025-07-24 11:59:47',
+            ),
+            210 => 
+            array (
+                'id' => 711,
+                'country_id' => 205,
+                'language_id' => 3,
+                'name' => 'Taiwán',
+                'created_at' => '2025-07-24 11:59:48',
+                'updated_at' => '2025-07-24 11:59:48',
+            ),
+            211 => 
+            array (
+                'id' => 712,
+                'country_id' => 206,
+                'language_id' => 3,
+                'name' => 'Tayikistán',
+                'created_at' => '2025-07-24 11:59:48',
+                'updated_at' => '2025-07-24 11:59:48',
+            ),
+            212 => 
+            array (
+                'id' => 713,
+                'country_id' => 207,
+                'language_id' => 3,
+                'name' => 'Tanzania, República Unida de',
+                'created_at' => '2025-07-24 11:59:49',
+                'updated_at' => '2025-07-24 11:59:49',
+            ),
+            213 => 
+            array (
+                'id' => 714,
+                'country_id' => 208,
+                'language_id' => 3,
+                'name' => 'Tailandia',
+                'created_at' => '2025-07-24 11:59:49',
+                'updated_at' => '2025-07-24 11:59:49',
+            ),
+            214 => 
+            array (
+                'id' => 715,
+                'country_id' => 209,
+                'language_id' => 3,
+                'name' => 'Togo',
+                'created_at' => '2025-07-24 11:59:49',
+                'updated_at' => '2025-07-24 11:59:49',
+            ),
+            215 => 
+            array (
+                'id' => 716,
+                'country_id' => 210,
+                'language_id' => 3,
+                'name' => 'Tokelau',
+                'created_at' => '2025-07-24 11:59:50',
+                'updated_at' => '2025-07-24 11:59:50',
+            ),
+            216 => 
+            array (
+                'id' => 717,
+                'country_id' => 211,
+                'language_id' => 3,
+                'name' => 'Tonga',
+                'created_at' => '2025-07-24 11:59:50',
+                'updated_at' => '2025-07-24 11:59:50',
+            ),
+            217 => 
+            array (
+                'id' => 718,
+                'country_id' => 212,
+                'language_id' => 3,
+                'name' => 'Trinidad y Tobago',
+                'created_at' => '2025-07-24 11:59:51',
+                'updated_at' => '2025-07-24 11:59:51',
+            ),
+            218 => 
+            array (
+                'id' => 719,
+                'country_id' => 213,
+                'language_id' => 3,
+                'name' => 'Túnez',
+                'created_at' => '2025-07-24 11:59:51',
+                'updated_at' => '2025-07-24 11:59:51',
+            ),
+            219 => 
+            array (
+                'id' => 720,
+                'country_id' => 214,
+                'language_id' => 3,
+                'name' => 'República de Turquía',
+                'created_at' => '2025-07-24 11:59:52',
+                'updated_at' => '2025-07-24 11:59:52',
+            ),
+            220 => 
+            array (
+                'id' => 721,
+                'country_id' => 215,
+                'language_id' => 3,
+                'name' => 'Turkmenistán',
+                'created_at' => '2025-07-24 11:59:52',
+                'updated_at' => '2025-07-24 11:59:52',
+            ),
+            221 => 
+            array (
+                'id' => 722,
+                'country_id' => 216,
+                'language_id' => 3,
+                'name' => 'Islas Turcas y Caicos',
+                'created_at' => '2025-07-24 11:59:52',
+                'updated_at' => '2025-07-24 11:59:52',
+            ),
+            222 => 
+            array (
+                'id' => 723,
+                'country_id' => 217,
+                'language_id' => 3,
+                'name' => 'Tuvalu',
+                'created_at' => '2025-07-24 11:59:53',
+                'updated_at' => '2025-07-24 11:59:53',
+            ),
+            223 => 
+            array (
+                'id' => 724,
+                'country_id' => 218,
+                'language_id' => 3,
+                'name' => 'Uganda',
+                'created_at' => '2025-07-24 11:59:53',
+                'updated_at' => '2025-07-24 11:59:53',
+            ),
+            224 => 
+            array (
+                'id' => 725,
+                'country_id' => 219,
+                'language_id' => 3,
+                'name' => 'Ucrania',
+                'created_at' => '2025-07-24 11:59:54',
+                'updated_at' => '2025-07-24 11:59:54',
+            ),
+            225 => 
+            array (
+                'id' => 726,
+                'country_id' => 220,
+                'language_id' => 3,
+                'name' => 'Emiratos Árabes Unidos',
+                'created_at' => '2025-07-24 11:59:54',
+                'updated_at' => '2025-07-24 11:59:54',
+            ),
+            226 => 
+            array (
+                'id' => 727,
+                'country_id' => 221,
+                'language_id' => 3,
+                'name' => 'Reino Unido',
+                'created_at' => '2025-07-24 11:59:54',
+                'updated_at' => '2025-07-24 11:59:54',
+            ),
+            227 => 
+            array (
+                'id' => 728,
+                'country_id' => 222,
+                'language_id' => 3,
+                'name' => 'Estados Unidos',
+                'created_at' => '2025-07-24 11:59:55',
+                'updated_at' => '2025-07-24 11:59:55',
+            ),
+            228 => 
+            array (
+                'id' => 729,
+                'country_id' => 223,
+                'language_id' => 3,
+                'name' => 'Islas Menores de los Estados Unidos',
+                'created_at' => '2025-07-24 11:59:55',
+                'updated_at' => '2025-07-24 11:59:55',
+            ),
+            229 => 
+            array (
+                'id' => 730,
+                'country_id' => 224,
+                'language_id' => 3,
+                'name' => 'Uruguay',
+                'created_at' => '2025-07-24 11:59:56',
+                'updated_at' => '2025-07-24 11:59:56',
+            ),
+            230 => 
+            array (
+                'id' => 731,
+                'country_id' => 225,
+                'language_id' => 3,
+                'name' => 'Uzbekistán',
+                'created_at' => '2025-07-24 11:59:56',
+                'updated_at' => '2025-07-24 11:59:56',
+            ),
+            231 => 
+            array (
+                'id' => 732,
+                'country_id' => 226,
+                'language_id' => 3,
+                'name' => 'Vanuatú',
+                'created_at' => '2025-07-24 11:59:56',
+                'updated_at' => '2025-07-24 11:59:56',
+            ),
+            232 => 
+            array (
+                'id' => 733,
+                'country_id' => 227,
+                'language_id' => 3,
+            'name' => 'Estado de la Ciudad del Vaticano (Santa Sede)',
+                'created_at' => '2025-07-24 11:59:57',
+                'updated_at' => '2025-07-24 11:59:57',
+            ),
+            233 => 
+            array (
+                'id' => 734,
+                'country_id' => 228,
+                'language_id' => 3,
+                'name' => 'Venezuela',
+                'created_at' => '2025-07-24 11:59:57',
+                'updated_at' => '2025-07-24 11:59:57',
+            ),
+            234 => 
+            array (
+                'id' => 735,
+                'country_id' => 229,
+                'language_id' => 3,
+                'name' => 'Viet Nam',
+                'created_at' => '2025-07-24 11:59:58',
+                'updated_at' => '2025-07-24 11:59:58',
+            ),
+            235 => 
+            array (
+                'id' => 736,
+                'country_id' => 230,
+                'language_id' => 3,
+            'name' => 'Islas Vírgenes (británicas)',
+                'created_at' => '2025-07-24 11:59:58',
+                'updated_at' => '2025-07-24 11:59:58',
+            ),
+            236 => 
+            array (
+                'id' => 737,
+                'country_id' => 231,
+                'language_id' => 3,
+            'name' => 'Islas Vírgenes (Estados Unidos)',
+                'created_at' => '2025-07-24 11:59:59',
+                'updated_at' => '2025-07-24 11:59:59',
+            ),
+            237 => 
+            array (
+                'id' => 738,
+                'country_id' => 232,
+                'language_id' => 3,
+                'name' => 'Islas Wallis y Futuna',
+                'created_at' => '2025-07-24 12:00:00',
+                'updated_at' => '2025-07-24 12:00:00',
+            ),
+            238 => 
+            array (
+                'id' => 739,
+                'country_id' => 233,
+                'language_id' => 3,
+                'name' => 'Sáhara Occidental',
+                'created_at' => '2025-07-24 12:00:01',
+                'updated_at' => '2025-07-24 12:00:01',
+            ),
+            239 => 
+            array (
+                'id' => 740,
+                'country_id' => 234,
+                'language_id' => 3,
+                'name' => 'Yemen',
+                'created_at' => '2025-07-24 12:00:01',
+                'updated_at' => '2025-07-24 12:00:01',
+            ),
+            240 => 
+            array (
+                'id' => 741,
+                'country_id' => 235,
+                'language_id' => 3,
+                'name' => 'República Democrática del Congo',
+                'created_at' => '2025-07-24 12:00:01',
+                'updated_at' => '2025-07-24 12:00:01',
+            ),
+            241 => 
+            array (
+                'id' => 742,
+                'country_id' => 236,
+                'language_id' => 3,
+                'name' => 'Zambia',
+                'created_at' => '2025-07-24 12:00:02',
+                'updated_at' => '2025-07-24 12:00:02',
+            ),
+            242 => 
+            array (
+                'id' => 743,
+                'country_id' => 237,
+                'language_id' => 3,
+                'name' => 'Zimbabué',
+                'created_at' => '2025-07-24 12:00:02',
+                'updated_at' => '2025-07-24 12:00:02',
+            ),
+            243 => 
+            array (
+                'id' => 744,
+                'country_id' => 238,
+                'language_id' => 3,
+                'name' => 'Montenegro',
+                'created_at' => '2025-07-24 12:00:03',
+                'updated_at' => '2025-07-24 12:00:03',
+            ),
+            244 => 
+            array (
+                'id' => 745,
+                'country_id' => 239,
+                'language_id' => 3,
+                'name' => 'Serbia',
+                'created_at' => '2025-07-24 12:00:04',
+                'updated_at' => '2025-07-24 12:00:04',
+            ),
+            245 => 
+            array (
+                'id' => 746,
+                'country_id' => 240,
+                'language_id' => 3,
+                'name' => 'Islas Aaland',
+                'created_at' => '2025-07-24 12:00:04',
+                'updated_at' => '2025-07-24 12:00:04',
+            ),
+            246 => 
+            array (
+                'id' => 747,
+                'country_id' => 241,
+                'language_id' => 3,
+                'name' => 'Bonaire, San Eustatio y Saba',
+                'created_at' => '2025-07-24 12:00:05',
+                'updated_at' => '2025-07-24 12:00:05',
+            ),
+            247 => 
+            array (
+                'id' => 748,
+                'country_id' => 242,
+                'language_id' => 3,
+                'name' => 'Curacao',
+                'created_at' => '2025-07-24 12:00:05',
+                'updated_at' => '2025-07-24 12:00:05',
+            ),
+            248 => 
+            array (
+                'id' => 749,
+                'country_id' => 243,
+                'language_id' => 3,
+                'name' => 'Territorio palestino ocupado',
+                'created_at' => '2025-07-24 12:00:05',
+                'updated_at' => '2025-07-24 12:00:05',
+            ),
+            249 => 
+            array (
+                'id' => 750,
+                'country_id' => 244,
+                'language_id' => 3,
+                'name' => 'Sudán del Sur',
+                'created_at' => '2025-07-24 12:00:06',
+                'updated_at' => '2025-07-24 12:00:06',
+            ),
+            250 => 
+            array (
+                'id' => 751,
+                'country_id' => 245,
+                'language_id' => 3,
+                'name' => 'San Bartolomeo',
+                'created_at' => '2025-07-24 12:00:06',
+                'updated_at' => '2025-07-24 12:00:06',
+            ),
+            251 => 
+            array (
+                'id' => 752,
+                'country_id' => 246,
+                'language_id' => 3,
+            'name' => 'San Martín (parte francesa)',
+                'created_at' => '2025-07-24 12:00:06',
+                'updated_at' => '2025-07-24 12:00:06',
+            ),
+            252 => 
+            array (
+                'id' => 753,
+                'country_id' => 247,
+                'language_id' => 3,
+                'name' => 'Islas Canarias',
+                'created_at' => '2025-07-24 12:00:07',
+                'updated_at' => '2025-07-24 12:00:07',
+            ),
+            253 => 
+            array (
+                'id' => 754,
+                'country_id' => 248,
+                'language_id' => 3,
+            'name' => 'Isla de la Ascensión (británica)',
+                'created_at' => '2025-07-24 12:00:07',
+                'updated_at' => '2025-07-24 12:00:07',
+            ),
+            254 => 
+            array (
+                'id' => 755,
+                'country_id' => 249,
+                'language_id' => 3,
+                'name' => 'Kosovo, República de',
+                'created_at' => '2025-07-24 12:00:08',
+                'updated_at' => '2025-07-24 12:00:08',
+            ),
+            255 => 
+            array (
+                'id' => 756,
+                'country_id' => 250,
+                'language_id' => 3,
+                'name' => 'Isla de Man',
+                'created_at' => '2025-07-24 12:00:08',
+                'updated_at' => '2025-07-24 12:00:08',
+            ),
+            256 => 
+            array (
+                'id' => 757,
+                'country_id' => 251,
+                'language_id' => 3,
+                'name' => 'Tristán da Cunha',
+                'created_at' => '2025-07-24 12:00:09',
+                'updated_at' => '2025-07-24 12:00:09',
+            ),
+            257 => 
+            array (
+                'id' => 758,
+                'country_id' => 252,
+                'language_id' => 3,
+                'name' => 'Guernsey',
+                'created_at' => '2025-07-24 12:00:09',
+                'updated_at' => '2025-07-24 12:00:09',
+            ),
+            258 => 
+            array (
+                'id' => 759,
+                'country_id' => 253,
+                'language_id' => 3,
+                'name' => 'Jersey',
+                'created_at' => '2025-07-24 12:00:10',
+                'updated_at' => '2025-07-24 12:00:10',
+            ),
+            259 => 
+            array (
+                'id' => 760,
+                'country_id' => 1,
+                'language_id' => 4,
+                'name' => 'L\'Afghanistan',
+                'created_at' => '2025-07-24 12:00:33',
+                'updated_at' => '2025-07-24 12:00:33',
+            ),
+            260 => 
+            array (
+                'id' => 761,
+                'country_id' => 2,
+                'language_id' => 4,
+                'name' => 'Albanie',
+                'created_at' => '2025-07-24 12:00:33',
+                'updated_at' => '2025-07-24 12:00:33',
+            ),
+            261 => 
+            array (
+                'id' => 762,
+                'country_id' => 3,
+                'language_id' => 4,
+                'name' => 'Algérie',
+                'created_at' => '2025-07-24 12:00:33',
+                'updated_at' => '2025-07-24 12:00:33',
+            ),
+            262 => 
+            array (
+                'id' => 763,
+                'country_id' => 4,
+                'language_id' => 4,
+                'name' => 'Samoa américaines',
+                'created_at' => '2025-07-24 12:00:34',
+                'updated_at' => '2025-07-24 12:00:34',
+            ),
+            263 => 
+            array (
+                'id' => 764,
+                'country_id' => 5,
+                'language_id' => 4,
+                'name' => 'Andorre',
+                'created_at' => '2025-07-24 12:00:34',
+                'updated_at' => '2025-07-24 12:00:34',
+            ),
+            264 => 
+            array (
+                'id' => 765,
+                'country_id' => 6,
+                'language_id' => 4,
+                'name' => 'L\'Angola',
+                'created_at' => '2025-07-24 12:00:35',
+                'updated_at' => '2025-07-24 12:00:35',
+            ),
+            265 => 
+            array (
+                'id' => 766,
+                'country_id' => 7,
+                'language_id' => 4,
+                'name' => 'Anguilla',
+                'created_at' => '2025-07-24 12:00:35',
+                'updated_at' => '2025-07-24 12:00:35',
+            ),
+            266 => 
+            array (
+                'id' => 767,
+                'country_id' => 8,
+                'language_id' => 4,
+                'name' => 'Antarctique',
+                'created_at' => '2025-07-24 12:00:36',
+                'updated_at' => '2025-07-24 12:00:36',
+            ),
+            267 => 
+            array (
+                'id' => 768,
+                'country_id' => 9,
+                'language_id' => 4,
+                'name' => 'Antigua et Barbuda',
+                'created_at' => '2025-07-24 12:00:36',
+                'updated_at' => '2025-07-24 12:00:36',
+            ),
+            268 => 
+            array (
+                'id' => 769,
+                'country_id' => 10,
+                'language_id' => 4,
+                'name' => 'Argentine',
+                'created_at' => '2025-07-24 12:00:37',
+                'updated_at' => '2025-07-24 12:00:37',
+            ),
+            269 => 
+            array (
+                'id' => 770,
+                'country_id' => 11,
+                'language_id' => 4,
+                'name' => 'Arménie',
+                'created_at' => '2025-07-24 12:00:37',
+                'updated_at' => '2025-07-24 12:00:37',
+            ),
+            270 => 
+            array (
+                'id' => 771,
+                'country_id' => 12,
+                'language_id' => 4,
+                'name' => 'Aruba',
+                'created_at' => '2025-07-24 12:00:38',
+                'updated_at' => '2025-07-24 12:00:38',
+            ),
+            271 => 
+            array (
+                'id' => 772,
+                'country_id' => 13,
+                'language_id' => 4,
+                'name' => 'Australie',
+                'created_at' => '2025-07-24 12:00:38',
+                'updated_at' => '2025-07-24 12:00:38',
+            ),
+            272 => 
+            array (
+                'id' => 773,
+                'country_id' => 14,
+                'language_id' => 4,
+                'name' => 'Autriche',
+                'created_at' => '2025-07-24 12:00:38',
+                'updated_at' => '2025-07-24 12:00:38',
+            ),
+            273 => 
+            array (
+                'id' => 774,
+                'country_id' => 15,
+                'language_id' => 4,
+                'name' => 'Azerbaïdjan',
+                'created_at' => '2025-07-24 12:00:39',
+                'updated_at' => '2025-07-24 12:00:39',
+            ),
+            274 => 
+            array (
+                'id' => 775,
+                'country_id' => 16,
+                'language_id' => 4,
+                'name' => 'Les Bahamas',
+                'created_at' => '2025-07-24 12:00:39',
+                'updated_at' => '2025-07-24 12:00:39',
+            ),
+            275 => 
+            array (
+                'id' => 776,
+                'country_id' => 17,
+                'language_id' => 4,
+                'name' => 'Bahreïn',
+                'created_at' => '2025-07-24 12:00:40',
+                'updated_at' => '2025-07-24 12:00:40',
+            ),
+            276 => 
+            array (
+                'id' => 777,
+                'country_id' => 18,
+                'language_id' => 4,
+                'name' => 'Bangladesh',
+                'created_at' => '2025-07-24 12:00:41',
+                'updated_at' => '2025-07-24 12:00:41',
+            ),
+            277 => 
+            array (
+                'id' => 778,
+                'country_id' => 19,
+                'language_id' => 4,
+                'name' => 'Barbade',
+                'created_at' => '2025-07-24 12:00:41',
+                'updated_at' => '2025-07-24 12:00:41',
+            ),
+            278 => 
+            array (
+                'id' => 779,
+                'country_id' => 20,
+                'language_id' => 4,
+                'name' => 'Biélorussie',
+                'created_at' => '2025-07-24 12:00:42',
+                'updated_at' => '2025-07-24 12:00:42',
+            ),
+            279 => 
+            array (
+                'id' => 780,
+                'country_id' => 21,
+                'language_id' => 4,
+                'name' => 'Belgique',
+                'created_at' => '2025-07-24 12:00:42',
+                'updated_at' => '2025-07-24 12:00:42',
+            ),
+            280 => 
+            array (
+                'id' => 781,
+                'country_id' => 22,
+                'language_id' => 4,
+                'name' => 'Belize',
+                'created_at' => '2025-07-24 12:00:42',
+                'updated_at' => '2025-07-24 12:00:42',
+            ),
+            281 => 
+            array (
+                'id' => 782,
+                'country_id' => 23,
+                'language_id' => 4,
+                'name' => 'Bénin',
+                'created_at' => '2025-07-24 12:00:43',
+                'updated_at' => '2025-07-24 12:00:43',
+            ),
+            282 => 
+            array (
+                'id' => 783,
+                'country_id' => 24,
+                'language_id' => 4,
+                'name' => 'Bermudes',
+                'created_at' => '2025-07-24 12:00:43',
+                'updated_at' => '2025-07-24 12:00:43',
+            ),
+            283 => 
+            array (
+                'id' => 784,
+                'country_id' => 25,
+                'language_id' => 4,
+                'name' => 'Bhoutan',
+                'created_at' => '2025-07-24 12:00:44',
+                'updated_at' => '2025-07-24 12:00:44',
+            ),
+            284 => 
+            array (
+                'id' => 785,
+                'country_id' => 26,
+                'language_id' => 4,
+                'name' => 'Bolivie',
+                'created_at' => '2025-07-24 12:00:44',
+                'updated_at' => '2025-07-24 12:00:44',
+            ),
+            285 => 
+            array (
+                'id' => 786,
+                'country_id' => 27,
+                'language_id' => 4,
+                'name' => 'Bosnie-Herzégovine',
+                'created_at' => '2025-07-24 12:00:44',
+                'updated_at' => '2025-07-24 12:00:44',
+            ),
+            286 => 
+            array (
+                'id' => 787,
+                'country_id' => 28,
+                'language_id' => 4,
+                'name' => 'Botswana',
+                'created_at' => '2025-07-24 12:00:45',
+                'updated_at' => '2025-07-24 12:00:45',
+            ),
+            287 => 
+            array (
+                'id' => 788,
+                'country_id' => 29,
+                'language_id' => 4,
+                'name' => 'île Bouvet',
+                'created_at' => '2025-07-24 12:00:45',
+                'updated_at' => '2025-07-24 12:00:45',
+            ),
+            288 => 
+            array (
+                'id' => 789,
+                'country_id' => 30,
+                'language_id' => 4,
+                'name' => 'Brésil',
+                'created_at' => '2025-07-24 12:00:46',
+                'updated_at' => '2025-07-24 12:00:46',
+            ),
+            289 => 
+            array (
+                'id' => 790,
+                'country_id' => 31,
+                'language_id' => 4,
+                'name' => 'Territoire britannique de l\'océan Indien',
+                'created_at' => '2025-07-24 12:00:46',
+                'updated_at' => '2025-07-24 12:00:46',
+            ),
+            290 => 
+            array (
+                'id' => 791,
+                'country_id' => 32,
+                'language_id' => 4,
+                'name' => 'Brunéi',
+                'created_at' => '2025-07-24 12:00:47',
+                'updated_at' => '2025-07-24 12:00:47',
+            ),
+            291 => 
+            array (
+                'id' => 792,
+                'country_id' => 33,
+                'language_id' => 4,
+                'name' => 'Bulgarie',
+                'created_at' => '2025-07-24 12:00:47',
+                'updated_at' => '2025-07-24 12:00:47',
+            ),
+            292 => 
+            array (
+                'id' => 793,
+                'country_id' => 34,
+                'language_id' => 4,
+                'name' => 'Burkina Faso',
+                'created_at' => '2025-07-24 12:00:47',
+                'updated_at' => '2025-07-24 12:00:47',
+            ),
+            293 => 
+            array (
+                'id' => 794,
+                'country_id' => 35,
+                'language_id' => 4,
+                'name' => 'Burundi',
+                'created_at' => '2025-07-24 12:00:48',
+                'updated_at' => '2025-07-24 12:00:48',
+            ),
+            294 => 
+            array (
+                'id' => 795,
+                'country_id' => 36,
+                'language_id' => 4,
+                'name' => 'Cambodge',
+                'created_at' => '2025-07-24 12:00:48',
+                'updated_at' => '2025-07-24 12:00:48',
+            ),
+            295 => 
+            array (
+                'id' => 796,
+                'country_id' => 37,
+                'language_id' => 4,
+                'name' => 'Cameroun',
+                'created_at' => '2025-07-24 12:00:49',
+                'updated_at' => '2025-07-24 12:00:49',
+            ),
+            296 => 
+            array (
+                'id' => 797,
+                'country_id' => 38,
+                'language_id' => 4,
+                'name' => 'Canada',
+                'created_at' => '2025-07-24 12:00:50',
+                'updated_at' => '2025-07-24 12:00:50',
+            ),
+            297 => 
+            array (
+                'id' => 798,
+                'country_id' => 39,
+                'language_id' => 4,
+                'name' => 'Cap Vert',
+                'created_at' => '2025-07-24 12:00:50',
+                'updated_at' => '2025-07-24 12:00:50',
+            ),
+            298 => 
+            array (
+                'id' => 799,
+                'country_id' => 40,
+                'language_id' => 4,
+                'name' => 'îles Caïmans',
+                'created_at' => '2025-07-24 12:00:50',
+                'updated_at' => '2025-07-24 12:00:50',
+            ),
+            299 => 
+            array (
+                'id' => 800,
+                'country_id' => 41,
+                'language_id' => 4,
+                'name' => 'République centrafricaine',
+                'created_at' => '2025-07-24 12:00:51',
+                'updated_at' => '2025-07-24 12:00:51',
+            ),
+            300 => 
+            array (
+                'id' => 801,
+                'country_id' => 42,
+                'language_id' => 4,
+                'name' => 'Tchad',
+                'created_at' => '2025-07-24 12:00:51',
+                'updated_at' => '2025-07-24 12:00:51',
+            ),
+            301 => 
+            array (
+                'id' => 802,
+                'country_id' => 43,
+                'language_id' => 4,
+                'name' => 'Chili',
+                'created_at' => '2025-07-24 12:00:52',
+                'updated_at' => '2025-07-24 12:00:52',
+            ),
+            302 => 
+            array (
+                'id' => 803,
+                'country_id' => 44,
+                'language_id' => 4,
+                'name' => 'Chine',
+                'created_at' => '2025-07-24 12:00:52',
+                'updated_at' => '2025-07-24 12:00:52',
+            ),
+            303 => 
+            array (
+                'id' => 804,
+                'country_id' => 45,
+                'language_id' => 4,
+                'name' => 'île de Noël',
+                'created_at' => '2025-07-24 12:00:53',
+                'updated_at' => '2025-07-24 12:00:53',
+            ),
+            304 => 
+            array (
+                'id' => 805,
+                'country_id' => 46,
+                'language_id' => 4,
+            'name' => 'Îles Cocos (Keeling)',
+                'created_at' => '2025-07-24 12:00:53',
+                'updated_at' => '2025-07-24 12:00:53',
+            ),
+            305 => 
+            array (
+                'id' => 806,
+                'country_id' => 47,
+                'language_id' => 4,
+                'name' => 'Colombie',
+                'created_at' => '2025-07-24 12:00:53',
+                'updated_at' => '2025-07-24 12:00:53',
+            ),
+            306 => 
+            array (
+                'id' => 807,
+                'country_id' => 48,
+                'language_id' => 4,
+                'name' => 'Comores',
+                'created_at' => '2025-07-24 12:00:54',
+                'updated_at' => '2025-07-24 12:00:54',
+            ),
+            307 => 
+            array (
+                'id' => 808,
+                'country_id' => 49,
+                'language_id' => 4,
+                'name' => 'Congo',
+                'created_at' => '2025-07-24 12:00:54',
+                'updated_at' => '2025-07-24 12:00:54',
+            ),
+            308 => 
+            array (
+                'id' => 809,
+                'country_id' => 50,
+                'language_id' => 4,
+                'name' => 'Îles Cook',
+                'created_at' => '2025-07-24 12:00:55',
+                'updated_at' => '2025-07-24 12:00:55',
+            ),
+            309 => 
+            array (
+                'id' => 810,
+                'country_id' => 51,
+                'language_id' => 4,
+                'name' => 'Le Costa Rica',
+                'created_at' => '2025-07-24 12:00:55',
+                'updated_at' => '2025-07-24 12:00:55',
+            ),
+            310 => 
+            array (
+                'id' => 811,
+                'country_id' => 52,
+                'language_id' => 4,
+                'name' => 'Côte d\'Ivoire',
+                'created_at' => '2025-07-24 12:00:56',
+                'updated_at' => '2025-07-24 12:00:56',
+            ),
+            311 => 
+            array (
+                'id' => 812,
+                'country_id' => 53,
+                'language_id' => 4,
+                'name' => 'Croatie',
+                'created_at' => '2025-07-24 12:00:56',
+                'updated_at' => '2025-07-24 12:00:56',
+            ),
+            312 => 
+            array (
+                'id' => 813,
+                'country_id' => 54,
+                'language_id' => 4,
+                'name' => 'Cuba',
+                'created_at' => '2025-07-24 12:00:57',
+                'updated_at' => '2025-07-24 12:00:57',
+            ),
+            313 => 
+            array (
+                'id' => 814,
+                'country_id' => 55,
+                'language_id' => 4,
+                'name' => 'Chypre',
+                'created_at' => '2025-07-24 12:00:57',
+                'updated_at' => '2025-07-24 12:00:57',
+            ),
+            314 => 
+            array (
+                'id' => 815,
+                'country_id' => 56,
+                'language_id' => 4,
+                'name' => 'République tchèque',
+                'created_at' => '2025-07-24 12:00:57',
+                'updated_at' => '2025-07-24 12:00:57',
+            ),
+            315 => 
+            array (
+                'id' => 816,
+                'country_id' => 57,
+                'language_id' => 4,
+                'name' => 'Danemark',
+                'created_at' => '2025-07-24 12:00:58',
+                'updated_at' => '2025-07-24 12:00:58',
+            ),
+            316 => 
+            array (
+                'id' => 817,
+                'country_id' => 58,
+                'language_id' => 4,
+                'name' => 'Djibouti',
+                'created_at' => '2025-07-24 12:00:58',
+                'updated_at' => '2025-07-24 12:00:58',
+            ),
+            317 => 
+            array (
+                'id' => 818,
+                'country_id' => 59,
+                'language_id' => 4,
+                'name' => 'Dominique',
+                'created_at' => '2025-07-24 12:00:59',
+                'updated_at' => '2025-07-24 12:00:59',
+            ),
+            318 => 
+            array (
+                'id' => 819,
+                'country_id' => 60,
+                'language_id' => 4,
+                'name' => 'République dominicaine',
+                'created_at' => '2025-07-24 12:00:59',
+                'updated_at' => '2025-07-24 12:00:59',
+            ),
+            319 => 
+            array (
+                'id' => 820,
+                'country_id' => 61,
+                'language_id' => 4,
+                'name' => 'Timor-Leste',
+                'created_at' => '2025-07-24 12:01:00',
+                'updated_at' => '2025-07-24 12:01:00',
+            ),
+            320 => 
+            array (
+                'id' => 821,
+                'country_id' => 62,
+                'language_id' => 4,
+                'name' => 'Équateur',
+                'created_at' => '2025-07-24 12:01:00',
+                'updated_at' => '2025-07-24 12:01:00',
+            ),
+            321 => 
+            array (
+                'id' => 822,
+                'country_id' => 63,
+                'language_id' => 4,
+                'name' => 'Égypte',
+                'created_at' => '2025-07-24 12:01:01',
+                'updated_at' => '2025-07-24 12:01:01',
+            ),
+            322 => 
+            array (
+                'id' => 823,
+                'country_id' => 64,
+                'language_id' => 4,
+                'name' => 'Le Salvador',
+                'created_at' => '2025-07-24 12:01:01',
+                'updated_at' => '2025-07-24 12:01:01',
+            ),
+            323 => 
+            array (
+                'id' => 824,
+                'country_id' => 65,
+                'language_id' => 4,
+                'name' => 'Guinée équatoriale',
+                'created_at' => '2025-07-24 12:01:02',
+                'updated_at' => '2025-07-24 12:01:02',
+            ),
+            324 => 
+            array (
+                'id' => 825,
+                'country_id' => 66,
+                'language_id' => 4,
+                'name' => 'Érythrée',
+                'created_at' => '2025-07-24 12:01:02',
+                'updated_at' => '2025-07-24 12:01:02',
+            ),
+            325 => 
+            array (
+                'id' => 826,
+                'country_id' => 67,
+                'language_id' => 4,
+                'name' => 'Estonie',
+                'created_at' => '2025-07-24 12:01:03',
+                'updated_at' => '2025-07-24 12:01:03',
+            ),
+            326 => 
+            array (
+                'id' => 827,
+                'country_id' => 68,
+                'language_id' => 4,
+                'name' => 'Éthiopie',
+                'created_at' => '2025-07-24 12:01:03',
+                'updated_at' => '2025-07-24 12:01:03',
+            ),
+            327 => 
+            array (
+                'id' => 828,
+                'country_id' => 69,
+                'language_id' => 4,
+            'name' => 'Îles Falkland (Malvinas)',
+                'created_at' => '2025-07-24 12:01:03',
+                'updated_at' => '2025-07-24 12:01:03',
+            ),
+            328 => 
+            array (
+                'id' => 829,
+                'country_id' => 70,
+                'language_id' => 4,
+                'name' => 'Îles Féroé',
+                'created_at' => '2025-07-24 12:01:04',
+                'updated_at' => '2025-07-24 12:01:04',
+            ),
+            329 => 
+            array (
+                'id' => 830,
+                'country_id' => 71,
+                'language_id' => 4,
+                'name' => 'Fidji',
+                'created_at' => '2025-07-24 12:01:04',
+                'updated_at' => '2025-07-24 12:01:04',
+            ),
+            330 => 
+            array (
+                'id' => 831,
+                'country_id' => 72,
+                'language_id' => 4,
+                'name' => 'Finlande',
+                'created_at' => '2025-07-24 12:01:05',
+                'updated_at' => '2025-07-24 12:01:05',
+            ),
+            331 => 
+            array (
+                'id' => 832,
+                'country_id' => 73,
+                'language_id' => 4,
+                'name' => 'France, métropolitaine',
+                'created_at' => '2025-07-24 12:01:05',
+                'updated_at' => '2025-07-24 12:01:05',
+            ),
+            332 => 
+            array (
+                'id' => 833,
+                'country_id' => 74,
+                'language_id' => 4,
+                'name' => 'Guyane française',
+                'created_at' => '2025-07-24 12:01:05',
+                'updated_at' => '2025-07-24 12:01:05',
+            ),
+            333 => 
+            array (
+                'id' => 834,
+                'country_id' => 75,
+                'language_id' => 4,
+                'name' => 'Polynésie française',
+                'created_at' => '2025-07-24 12:01:06',
+                'updated_at' => '2025-07-24 12:01:06',
+            ),
+            334 => 
+            array (
+                'id' => 835,
+                'country_id' => 76,
+                'language_id' => 4,
+                'name' => 'Territoires du Sud français',
+                'created_at' => '2025-07-24 12:01:07',
+                'updated_at' => '2025-07-24 12:01:07',
+            ),
+            335 => 
+            array (
+                'id' => 836,
+                'country_id' => 77,
+                'language_id' => 4,
+                'name' => 'Gabon',
+                'created_at' => '2025-07-24 12:01:07',
+                'updated_at' => '2025-07-24 12:01:07',
+            ),
+            336 => 
+            array (
+                'id' => 837,
+                'country_id' => 78,
+                'language_id' => 4,
+                'name' => 'La Gambie',
+                'created_at' => '2025-07-24 12:01:08',
+                'updated_at' => '2025-07-24 12:01:08',
+            ),
+            337 => 
+            array (
+                'id' => 838,
+                'country_id' => 79,
+                'language_id' => 4,
+                'name' => 'Géorgie',
+                'created_at' => '2025-07-24 12:01:08',
+                'updated_at' => '2025-07-24 12:01:08',
+            ),
+            338 => 
+            array (
+                'id' => 839,
+                'country_id' => 80,
+                'language_id' => 4,
+                'name' => 'Allemagne',
+                'created_at' => '2025-07-24 12:01:08',
+                'updated_at' => '2025-07-24 12:01:08',
+            ),
+            339 => 
+            array (
+                'id' => 840,
+                'country_id' => 81,
+                'language_id' => 4,
+                'name' => 'Ghana',
+                'created_at' => '2025-07-24 12:01:09',
+                'updated_at' => '2025-07-24 12:01:09',
+            ),
+            340 => 
+            array (
+                'id' => 841,
+                'country_id' => 82,
+                'language_id' => 4,
+                'name' => 'Gibraltar',
+                'created_at' => '2025-07-24 12:01:09',
+                'updated_at' => '2025-07-24 12:01:09',
+            ),
+            341 => 
+            array (
+                'id' => 842,
+                'country_id' => 83,
+                'language_id' => 4,
+                'name' => 'Grèce',
+                'created_at' => '2025-07-24 12:01:10',
+                'updated_at' => '2025-07-24 12:01:10',
+            ),
+            342 => 
+            array (
+                'id' => 843,
+                'country_id' => 84,
+                'language_id' => 4,
+                'name' => 'Groenland',
+                'created_at' => '2025-07-24 12:01:10',
+                'updated_at' => '2025-07-24 12:01:10',
+            ),
+            343 => 
+            array (
+                'id' => 844,
+                'country_id' => 85,
+                'language_id' => 4,
+                'name' => 'Grenade',
+                'created_at' => '2025-07-24 12:01:11',
+                'updated_at' => '2025-07-24 12:01:11',
+            ),
+            344 => 
+            array (
+                'id' => 845,
+                'country_id' => 86,
+                'language_id' => 4,
+                'name' => 'Guadeloupe',
+                'created_at' => '2025-07-24 12:01:11',
+                'updated_at' => '2025-07-24 12:01:11',
+            ),
+            345 => 
+            array (
+                'id' => 846,
+                'country_id' => 87,
+                'language_id' => 4,
+                'name' => 'Guam',
+                'created_at' => '2025-07-24 12:01:11',
+                'updated_at' => '2025-07-24 12:01:11',
+            ),
+            346 => 
+            array (
+                'id' => 847,
+                'country_id' => 88,
+                'language_id' => 4,
+                'name' => 'au Guatemala',
+                'created_at' => '2025-07-24 12:01:12',
+                'updated_at' => '2025-07-24 12:01:12',
+            ),
+            347 => 
+            array (
+                'id' => 848,
+                'country_id' => 89,
+                'language_id' => 4,
+                'name' => 'Guinée',
+                'created_at' => '2025-07-24 12:01:12',
+                'updated_at' => '2025-07-24 12:01:12',
+            ),
+            348 => 
+            array (
+                'id' => 849,
+                'country_id' => 90,
+                'language_id' => 4,
+                'name' => 'Guinée-Bissau',
+                'created_at' => '2025-07-24 12:01:13',
+                'updated_at' => '2025-07-24 12:01:13',
+            ),
+            349 => 
+            array (
+                'id' => 850,
+                'country_id' => 91,
+                'language_id' => 4,
+                'name' => 'Guyane',
+                'created_at' => '2025-07-24 12:01:13',
+                'updated_at' => '2025-07-24 12:01:13',
+            ),
+            350 => 
+            array (
+                'id' => 851,
+                'country_id' => 92,
+                'language_id' => 4,
+                'name' => 'Haïti',
+                'created_at' => '2025-07-24 12:01:14',
+                'updated_at' => '2025-07-24 12:01:14',
+            ),
+            351 => 
+            array (
+                'id' => 852,
+                'country_id' => 93,
+                'language_id' => 4,
+                'name' => 'Îles Heard et McDonald',
+                'created_at' => '2025-07-24 12:01:14',
+                'updated_at' => '2025-07-24 12:01:14',
+            ),
+            352 => 
+            array (
+                'id' => 853,
+                'country_id' => 94,
+                'language_id' => 4,
+                'name' => 'Honduras',
+                'created_at' => '2025-07-24 12:01:15',
+                'updated_at' => '2025-07-24 12:01:15',
+            ),
+            353 => 
+            array (
+                'id' => 854,
+                'country_id' => 95,
+                'language_id' => 4,
+                'name' => 'à Hong Kong',
+                'created_at' => '2025-07-24 12:01:15',
+                'updated_at' => '2025-07-24 12:01:15',
+            ),
+            354 => 
+            array (
+                'id' => 855,
+                'country_id' => 96,
+                'language_id' => 4,
+                'name' => 'Hongrie',
+                'created_at' => '2025-07-24 12:01:16',
+                'updated_at' => '2025-07-24 12:01:16',
+            ),
+            355 => 
+            array (
+                'id' => 856,
+                'country_id' => 97,
+                'language_id' => 4,
+                'name' => 'Islande',
+                'created_at' => '2025-07-24 12:01:16',
+                'updated_at' => '2025-07-24 12:01:16',
+            ),
+            356 => 
+            array (
+                'id' => 857,
+                'country_id' => 98,
+                'language_id' => 4,
+                'name' => 'Inde',
+                'created_at' => '2025-07-24 12:01:16',
+                'updated_at' => '2025-07-24 12:01:16',
+            ),
+            357 => 
+            array (
+                'id' => 858,
+                'country_id' => 99,
+                'language_id' => 4,
+                'name' => 'Indonésie',
+                'created_at' => '2025-07-24 12:01:17',
+                'updated_at' => '2025-07-24 12:01:17',
+            ),
+            358 => 
+            array (
+                'id' => 859,
+                'country_id' => 100,
+                'language_id' => 4,
+            'name' => 'Iran (République islamique d\')',
+                'created_at' => '2025-07-24 12:01:17',
+                'updated_at' => '2025-07-24 12:01:17',
+            ),
+            359 => 
+            array (
+                'id' => 860,
+                'country_id' => 101,
+                'language_id' => 4,
+                'name' => 'Irak',
+                'created_at' => '2025-07-24 12:01:18',
+                'updated_at' => '2025-07-24 12:01:18',
+            ),
+            360 => 
+            array (
+                'id' => 861,
+                'country_id' => 102,
+                'language_id' => 4,
+                'name' => 'Irlande',
+                'created_at' => '2025-07-24 12:01:18',
+                'updated_at' => '2025-07-24 12:01:18',
+            ),
+            361 => 
+            array (
+                'id' => 862,
+                'country_id' => 103,
+                'language_id' => 4,
+                'name' => 'Israël',
+                'created_at' => '2025-07-24 12:01:19',
+                'updated_at' => '2025-07-24 12:01:19',
+            ),
+            362 => 
+            array (
+                'id' => 863,
+                'country_id' => 104,
+                'language_id' => 4,
+                'name' => 'Italie',
+                'created_at' => '2025-07-24 12:01:19',
+                'updated_at' => '2025-07-24 12:01:19',
+            ),
+            363 => 
+            array (
+                'id' => 864,
+                'country_id' => 105,
+                'language_id' => 4,
+                'name' => 'Jamaïque',
+                'created_at' => '2025-07-24 12:01:20',
+                'updated_at' => '2025-07-24 12:01:20',
+            ),
+            364 => 
+            array (
+                'id' => 865,
+                'country_id' => 106,
+                'language_id' => 4,
+                'name' => 'Japon',
+                'created_at' => '2025-07-24 12:01:20',
+                'updated_at' => '2025-07-24 12:01:20',
+            ),
+            365 => 
+            array (
+                'id' => 866,
+                'country_id' => 107,
+                'language_id' => 4,
+                'name' => 'Jordanie',
+                'created_at' => '2025-07-24 12:01:20',
+                'updated_at' => '2025-07-24 12:01:20',
+            ),
+            366 => 
+            array (
+                'id' => 867,
+                'country_id' => 108,
+                'language_id' => 4,
+                'name' => 'Kazakhstan',
+                'created_at' => '2025-07-24 12:01:21',
+                'updated_at' => '2025-07-24 12:01:21',
+            ),
+            367 => 
+            array (
+                'id' => 868,
+                'country_id' => 109,
+                'language_id' => 4,
+                'name' => 'Kenya',
+                'created_at' => '2025-07-24 12:01:21',
+                'updated_at' => '2025-07-24 12:01:21',
+            ),
+            368 => 
+            array (
+                'id' => 869,
+                'country_id' => 110,
+                'language_id' => 4,
+                'name' => 'Kiribati',
+                'created_at' => '2025-07-24 12:01:22',
+                'updated_at' => '2025-07-24 12:01:22',
+            ),
+            369 => 
+            array (
+                'id' => 870,
+                'country_id' => 111,
+                'language_id' => 4,
+                'name' => 'Corée du Nord',
+                'created_at' => '2025-07-24 12:01:22',
+                'updated_at' => '2025-07-24 12:01:22',
+            ),
+            370 => 
+            array (
+                'id' => 871,
+                'country_id' => 112,
+                'language_id' => 4,
+                'name' => 'Corée du Sud',
+                'created_at' => '2025-07-24 12:01:24',
+                'updated_at' => '2025-07-24 12:01:24',
+            ),
+            371 => 
+            array (
+                'id' => 872,
+                'country_id' => 113,
+                'language_id' => 4,
+                'name' => 'Koweït',
+                'created_at' => '2025-07-24 12:01:25',
+                'updated_at' => '2025-07-24 12:01:25',
+            ),
+            372 => 
+            array (
+                'id' => 873,
+                'country_id' => 114,
+                'language_id' => 4,
+                'name' => 'Kirghizistan',
+                'created_at' => '2025-07-24 12:01:25',
+                'updated_at' => '2025-07-24 12:01:25',
+            ),
+            373 => 
+            array (
+                'id' => 874,
+                'country_id' => 115,
+                'language_id' => 4,
+            'name' => 'République démocratique populaire lao (la)',
+                'created_at' => '2025-07-24 12:01:25',
+                'updated_at' => '2025-07-24 12:01:25',
+            ),
+            374 => 
+            array (
+                'id' => 875,
+                'country_id' => 116,
+                'language_id' => 4,
+                'name' => 'Lettonie',
+                'created_at' => '2025-07-24 12:01:26',
+                'updated_at' => '2025-07-24 12:01:26',
+            ),
+            375 => 
+            array (
+                'id' => 876,
+                'country_id' => 117,
+                'language_id' => 4,
+                'name' => 'Liban',
+                'created_at' => '2025-07-24 12:01:26',
+                'updated_at' => '2025-07-24 12:01:26',
+            ),
+            376 => 
+            array (
+                'id' => 877,
+                'country_id' => 118,
+                'language_id' => 4,
+                'name' => 'Lesotho',
+                'created_at' => '2025-07-24 12:01:27',
+                'updated_at' => '2025-07-24 12:01:27',
+            ),
+            377 => 
+            array (
+                'id' => 878,
+                'country_id' => 119,
+                'language_id' => 4,
+                'name' => 'Libéria',
+                'created_at' => '2025-07-24 12:01:27',
+                'updated_at' => '2025-07-24 12:01:27',
+            ),
+            378 => 
+            array (
+                'id' => 879,
+                'country_id' => 120,
+                'language_id' => 4,
+                'name' => 'Libye',
+                'created_at' => '2025-07-24 12:01:27',
+                'updated_at' => '2025-07-24 12:01:27',
+            ),
+            379 => 
+            array (
+                'id' => 880,
+                'country_id' => 121,
+                'language_id' => 4,
+                'name' => 'Liechtenstein',
+                'created_at' => '2025-07-24 12:01:28',
+                'updated_at' => '2025-07-24 12:01:28',
+            ),
+            380 => 
+            array (
+                'id' => 881,
+                'country_id' => 122,
+                'language_id' => 4,
+                'name' => 'Lituanie',
+                'created_at' => '2025-07-24 12:01:28',
+                'updated_at' => '2025-07-24 12:01:28',
+            ),
+            381 => 
+            array (
+                'id' => 882,
+                'country_id' => 123,
+                'language_id' => 4,
+                'name' => 'Luxembourg',
+                'created_at' => '2025-07-24 12:01:29',
+                'updated_at' => '2025-07-24 12:01:29',
+            ),
+            382 => 
+            array (
+                'id' => 883,
+                'country_id' => 124,
+                'language_id' => 4,
+                'name' => 'Macao',
+                'created_at' => '2025-07-24 12:01:29',
+                'updated_at' => '2025-07-24 12:01:29',
+            ),
+            383 => 
+            array (
+                'id' => 884,
+                'country_id' => 125,
+                'language_id' => 4,
+                'name' => 'Macédoine du Nord',
+                'created_at' => '2025-07-24 12:01:30',
+                'updated_at' => '2025-07-24 12:01:30',
+            ),
+            384 => 
+            array (
+                'id' => 885,
+                'country_id' => 126,
+                'language_id' => 4,
+                'name' => 'Madagascar',
+                'created_at' => '2025-07-24 12:01:30',
+                'updated_at' => '2025-07-24 12:01:30',
+            ),
+            385 => 
+            array (
+                'id' => 886,
+                'country_id' => 127,
+                'language_id' => 4,
+                'name' => 'Malawi',
+                'created_at' => '2025-07-24 12:01:31',
+                'updated_at' => '2025-07-24 12:01:31',
+            ),
+            386 => 
+            array (
+                'id' => 887,
+                'country_id' => 128,
+                'language_id' => 4,
+                'name' => 'Malaisie',
+                'created_at' => '2025-07-24 12:01:31',
+                'updated_at' => '2025-07-24 12:01:31',
+            ),
+            387 => 
+            array (
+                'id' => 888,
+                'country_id' => 129,
+                'language_id' => 4,
+                'name' => 'Maldives',
+                'created_at' => '2025-07-24 12:01:32',
+                'updated_at' => '2025-07-24 12:01:32',
+            ),
+            388 => 
+            array (
+                'id' => 889,
+                'country_id' => 130,
+                'language_id' => 4,
+                'name' => 'Mali',
+                'created_at' => '2025-07-24 12:01:32',
+                'updated_at' => '2025-07-24 12:01:32',
+            ),
+            389 => 
+            array (
+                'id' => 890,
+                'country_id' => 131,
+                'language_id' => 4,
+                'name' => 'Malte',
+                'created_at' => '2025-07-24 12:01:33',
+                'updated_at' => '2025-07-24 12:01:33',
+            ),
+            390 => 
+            array (
+                'id' => 891,
+                'country_id' => 132,
+                'language_id' => 4,
+                'name' => 'Îles Marshall',
+                'created_at' => '2025-07-24 12:01:33',
+                'updated_at' => '2025-07-24 12:01:33',
+            ),
+            391 => 
+            array (
+                'id' => 892,
+                'country_id' => 133,
+                'language_id' => 4,
+                'name' => 'Martinique',
+                'created_at' => '2025-07-24 12:01:33',
+                'updated_at' => '2025-07-24 12:01:33',
+            ),
+            392 => 
+            array (
+                'id' => 893,
+                'country_id' => 134,
+                'language_id' => 4,
+                'name' => 'Mauritanie',
+                'created_at' => '2025-07-24 12:01:34',
+                'updated_at' => '2025-07-24 12:01:34',
+            ),
+            393 => 
+            array (
+                'id' => 894,
+                'country_id' => 135,
+                'language_id' => 4,
+                'name' => 'Maurice',
+                'created_at' => '2025-07-24 12:01:34',
+                'updated_at' => '2025-07-24 12:01:34',
+            ),
+            394 => 
+            array (
+                'id' => 895,
+                'country_id' => 136,
+                'language_id' => 4,
+                'name' => 'Mayotte',
+                'created_at' => '2025-07-24 12:01:35',
+                'updated_at' => '2025-07-24 12:01:35',
+            ),
+            395 => 
+            array (
+                'id' => 896,
+                'country_id' => 137,
+                'language_id' => 4,
+                'name' => 'Mexique',
+                'created_at' => '2025-07-24 12:01:35',
+                'updated_at' => '2025-07-24 12:01:35',
+            ),
+            396 => 
+            array (
+                'id' => 897,
+                'country_id' => 138,
+                'language_id' => 4,
+                'name' => 'Micronésie, États fédérés de',
+                'created_at' => '2025-07-24 12:01:36',
+                'updated_at' => '2025-07-24 12:01:36',
+            ),
+            397 => 
+            array (
+                'id' => 898,
+                'country_id' => 139,
+                'language_id' => 4,
+                'name' => 'Moldavie, République de',
+                'created_at' => '2025-07-24 12:01:36',
+                'updated_at' => '2025-07-24 12:01:36',
+            ),
+            398 => 
+            array (
+                'id' => 899,
+                'country_id' => 140,
+                'language_id' => 4,
+                'name' => 'Monaco',
+                'created_at' => '2025-07-24 12:01:37',
+                'updated_at' => '2025-07-24 12:01:37',
+            ),
+            399 => 
+            array (
+                'id' => 900,
+                'country_id' => 141,
+                'language_id' => 4,
+                'name' => 'Mongolie',
+                'created_at' => '2025-07-24 12:01:37',
+                'updated_at' => '2025-07-24 12:01:37',
+            ),
+            400 => 
+            array (
+                'id' => 901,
+                'country_id' => 142,
+                'language_id' => 4,
+                'name' => 'Montserrat',
+                'created_at' => '2025-07-24 12:01:38',
+                'updated_at' => '2025-07-24 12:01:38',
+            ),
+            401 => 
+            array (
+                'id' => 902,
+                'country_id' => 143,
+                'language_id' => 4,
+                'name' => 'Maroc',
+                'created_at' => '2025-07-24 12:01:38',
+                'updated_at' => '2025-07-24 12:01:38',
+            ),
+            402 => 
+            array (
+                'id' => 903,
+                'country_id' => 144,
+                'language_id' => 4,
+                'name' => 'Mozambique',
+                'created_at' => '2025-07-24 12:01:39',
+                'updated_at' => '2025-07-24 12:01:39',
+            ),
+            403 => 
+            array (
+                'id' => 904,
+                'country_id' => 145,
+                'language_id' => 4,
+                'name' => 'le Myanmar',
+                'created_at' => '2025-07-24 12:01:39',
+                'updated_at' => '2025-07-24 12:01:39',
+            ),
+            404 => 
+            array (
+                'id' => 905,
+                'country_id' => 146,
+                'language_id' => 4,
+                'name' => 'Namibie',
+                'created_at' => '2025-07-24 12:01:39',
+                'updated_at' => '2025-07-24 12:01:39',
+            ),
+            405 => 
+            array (
+                'id' => 906,
+                'country_id' => 147,
+                'language_id' => 4,
+                'name' => 'Nauru',
+                'created_at' => '2025-07-24 12:01:40',
+                'updated_at' => '2025-07-24 12:01:40',
+            ),
+            406 => 
+            array (
+                'id' => 907,
+                'country_id' => 148,
+                'language_id' => 4,
+                'name' => 'Népal',
+                'created_at' => '2025-07-24 12:01:40',
+                'updated_at' => '2025-07-24 12:01:40',
+            ),
+            407 => 
+            array (
+                'id' => 908,
+                'country_id' => 149,
+                'language_id' => 4,
+                'name' => 'Pays-Bas',
+                'created_at' => '2025-07-24 12:01:41',
+                'updated_at' => '2025-07-24 12:01:41',
+            ),
+            408 => 
+            array (
+                'id' => 909,
+                'country_id' => 150,
+                'language_id' => 4,
+                'name' => 'Antilles néerlandaises',
+                'created_at' => '2025-07-24 12:01:41',
+                'updated_at' => '2025-07-24 12:01:41',
+            ),
+            409 => 
+            array (
+                'id' => 910,
+                'country_id' => 151,
+                'language_id' => 4,
+                'name' => 'Nouvelle-Calédonie',
+                'created_at' => '2025-07-24 12:01:42',
+                'updated_at' => '2025-07-24 12:01:42',
+            ),
+            410 => 
+            array (
+                'id' => 911,
+                'country_id' => 152,
+                'language_id' => 4,
+                'name' => 'Nouvelle-Zélande',
+                'created_at' => '2025-07-24 12:01:42',
+                'updated_at' => '2025-07-24 12:01:42',
+            ),
+            411 => 
+            array (
+                'id' => 912,
+                'country_id' => 153,
+                'language_id' => 4,
+                'name' => 'au Nicaragua',
+                'created_at' => '2025-07-24 12:01:43',
+                'updated_at' => '2025-07-24 12:01:43',
+            ),
+            412 => 
+            array (
+                'id' => 913,
+                'country_id' => 154,
+                'language_id' => 4,
+                'name' => 'Niger',
+                'created_at' => '2025-07-24 12:01:43',
+                'updated_at' => '2025-07-24 12:01:43',
+            ),
+            413 => 
+            array (
+                'id' => 914,
+                'country_id' => 155,
+                'language_id' => 4,
+                'name' => 'Nigéria',
+                'created_at' => '2025-07-24 12:01:43',
+                'updated_at' => '2025-07-24 12:01:43',
+            ),
+            414 => 
+            array (
+                'id' => 915,
+                'country_id' => 156,
+                'language_id' => 4,
+                'name' => 'Niue',
+                'created_at' => '2025-07-24 12:01:44',
+                'updated_at' => '2025-07-24 12:01:44',
+            ),
+            415 => 
+            array (
+                'id' => 916,
+                'country_id' => 157,
+                'language_id' => 4,
+                'name' => 'île Norfolk',
+                'created_at' => '2025-07-24 12:01:44',
+                'updated_at' => '2025-07-24 12:01:44',
+            ),
+            416 => 
+            array (
+                'id' => 917,
+                'country_id' => 158,
+                'language_id' => 4,
+                'name' => 'Îles Mariannes du Nord',
+                'created_at' => '2025-07-24 12:01:45',
+                'updated_at' => '2025-07-24 12:01:45',
+            ),
+            417 => 
+            array (
+                'id' => 918,
+                'country_id' => 159,
+                'language_id' => 4,
+                'name' => 'Norvège',
+                'created_at' => '2025-07-24 12:01:45',
+                'updated_at' => '2025-07-24 12:01:45',
+            ),
+            418 => 
+            array (
+                'id' => 919,
+                'country_id' => 160,
+                'language_id' => 4,
+                'name' => 'Oman',
+                'created_at' => '2025-07-24 12:01:45',
+                'updated_at' => '2025-07-24 12:01:45',
+            ),
+            419 => 
+            array (
+                'id' => 920,
+                'country_id' => 161,
+                'language_id' => 4,
+                'name' => 'Pakistan',
+                'created_at' => '2025-07-24 12:01:46',
+                'updated_at' => '2025-07-24 12:01:46',
+            ),
+            420 => 
+            array (
+                'id' => 921,
+                'country_id' => 162,
+                'language_id' => 4,
+                'name' => 'Palau',
+                'created_at' => '2025-07-24 12:01:46',
+                'updated_at' => '2025-07-24 12:01:46',
+            ),
+            421 => 
+            array (
+                'id' => 922,
+                'country_id' => 163,
+                'language_id' => 4,
+                'name' => 'Panama',
+                'created_at' => '2025-07-24 12:01:47',
+                'updated_at' => '2025-07-24 12:01:47',
+            ),
+            422 => 
+            array (
+                'id' => 923,
+                'country_id' => 164,
+                'language_id' => 4,
+                'name' => 'Papouasie-Nouvelle-Guinée',
+                'created_at' => '2025-07-24 12:01:47',
+                'updated_at' => '2025-07-24 12:01:47',
+            ),
+            423 => 
+            array (
+                'id' => 924,
+                'country_id' => 165,
+                'language_id' => 4,
+                'name' => 'Paraguay',
+                'created_at' => '2025-07-24 12:01:48',
+                'updated_at' => '2025-07-24 12:01:48',
+            ),
+            424 => 
+            array (
+                'id' => 925,
+                'country_id' => 166,
+                'language_id' => 4,
+                'name' => 'Pérou',
+                'created_at' => '2025-07-24 12:01:48',
+                'updated_at' => '2025-07-24 12:01:48',
+            ),
+            425 => 
+            array (
+                'id' => 926,
+                'country_id' => 167,
+                'language_id' => 4,
+                'name' => 'Philippines',
+                'created_at' => '2025-07-24 12:01:48',
+                'updated_at' => '2025-07-24 12:01:48',
+            ),
+            426 => 
+            array (
+                'id' => 927,
+                'country_id' => 168,
+                'language_id' => 4,
+                'name' => 'Pitcairn',
+                'created_at' => '2025-07-24 12:01:49',
+                'updated_at' => '2025-07-24 12:01:49',
+            ),
+            427 => 
+            array (
+                'id' => 928,
+                'country_id' => 169,
+                'language_id' => 4,
+                'name' => 'Pologne',
+                'created_at' => '2025-07-24 12:01:49',
+                'updated_at' => '2025-07-24 12:01:49',
+            ),
+            428 => 
+            array (
+                'id' => 929,
+                'country_id' => 170,
+                'language_id' => 4,
+                'name' => 'le Portugal',
+                'created_at' => '2025-07-24 12:01:50',
+                'updated_at' => '2025-07-24 12:01:50',
+            ),
+            429 => 
+            array (
+                'id' => 930,
+                'country_id' => 171,
+                'language_id' => 4,
+                'name' => 'Porto Rico',
+                'created_at' => '2025-07-24 12:01:50',
+                'updated_at' => '2025-07-24 12:01:50',
+            ),
+            430 => 
+            array (
+                'id' => 931,
+                'country_id' => 172,
+                'language_id' => 4,
+                'name' => 'Qatar',
+                'created_at' => '2025-07-24 12:01:51',
+                'updated_at' => '2025-07-24 12:01:51',
+            ),
+            431 => 
+            array (
+                'id' => 932,
+                'country_id' => 173,
+                'language_id' => 4,
+                'name' => 'Réunion',
+                'created_at' => '2025-07-24 12:01:51',
+                'updated_at' => '2025-07-24 12:01:51',
+            ),
+            432 => 
+            array (
+                'id' => 933,
+                'country_id' => 174,
+                'language_id' => 4,
+                'name' => 'Roumanie',
+                'created_at' => '2025-07-24 12:01:52',
+                'updated_at' => '2025-07-24 12:01:52',
+            ),
+            433 => 
+            array (
+                'id' => 934,
+                'country_id' => 175,
+                'language_id' => 4,
+            'name' => 'Fédération de Russie (la)',
+                'created_at' => '2025-07-24 12:01:52',
+                'updated_at' => '2025-07-24 12:01:52',
+            ),
+            434 => 
+            array (
+                'id' => 935,
+                'country_id' => 176,
+                'language_id' => 4,
+                'name' => 'Rwanda',
+                'created_at' => '2025-07-24 12:01:52',
+                'updated_at' => '2025-07-24 12:01:52',
+            ),
+            435 => 
+            array (
+                'id' => 936,
+                'country_id' => 177,
+                'language_id' => 4,
+                'name' => 'Saint-Kitts-et-Nevis',
+                'created_at' => '2025-07-24 12:01:53',
+                'updated_at' => '2025-07-24 12:01:53',
+            ),
+            436 => 
+            array (
+                'id' => 937,
+                'country_id' => 178,
+                'language_id' => 4,
+                'name' => 'Sainte-Lucie',
+                'created_at' => '2025-07-24 12:01:53',
+                'updated_at' => '2025-07-24 12:01:53',
+            ),
+            437 => 
+            array (
+                'id' => 938,
+                'country_id' => 179,
+                'language_id' => 4,
+                'name' => 'Saint-Vincent et les Grenadines',
+                'created_at' => '2025-07-24 12:01:55',
+                'updated_at' => '2025-07-24 12:01:55',
+            ),
+            438 => 
+            array (
+                'id' => 939,
+                'country_id' => 180,
+                'language_id' => 4,
+                'name' => 'Samoa',
+                'created_at' => '2025-07-24 12:01:55',
+                'updated_at' => '2025-07-24 12:01:55',
+            ),
+            439 => 
+            array (
+                'id' => 940,
+                'country_id' => 181,
+                'language_id' => 4,
+                'name' => 'Saint-Marin',
+                'created_at' => '2025-07-24 12:01:56',
+                'updated_at' => '2025-07-24 12:01:56',
+            ),
+            440 => 
+            array (
+                'id' => 941,
+                'country_id' => 182,
+                'language_id' => 4,
+                'name' => 'Sao Tomé et Principe',
+                'created_at' => '2025-07-24 12:01:56',
+                'updated_at' => '2025-07-24 12:01:56',
+            ),
+            441 => 
+            array (
+                'id' => 942,
+                'country_id' => 183,
+                'language_id' => 4,
+                'name' => 'Arabie Saoudite',
+                'created_at' => '2025-07-24 12:01:57',
+                'updated_at' => '2025-07-24 12:01:57',
+            ),
+            442 => 
+            array (
+                'id' => 943,
+                'country_id' => 184,
+                'language_id' => 4,
+                'name' => 'Sénégal',
+                'created_at' => '2025-07-24 12:01:57',
+                'updated_at' => '2025-07-24 12:01:57',
+            ),
+            443 => 
+            array (
+                'id' => 944,
+                'country_id' => 185,
+                'language_id' => 4,
+                'name' => 'Seychelles',
+                'created_at' => '2025-07-24 12:01:58',
+                'updated_at' => '2025-07-24 12:01:58',
+            ),
+            444 => 
+            array (
+                'id' => 945,
+                'country_id' => 186,
+                'language_id' => 4,
+                'name' => 'Sierra Leone',
+                'created_at' => '2025-07-24 12:01:58',
+                'updated_at' => '2025-07-24 12:01:58',
+            ),
+            445 => 
+            array (
+                'id' => 946,
+                'country_id' => 187,
+                'language_id' => 4,
+                'name' => 'Singapour',
+                'created_at' => '2025-07-24 12:01:58',
+                'updated_at' => '2025-07-24 12:01:58',
+            ),
+            446 => 
+            array (
+                'id' => 947,
+                'country_id' => 188,
+                'language_id' => 4,
+                'name' => 'République slovaque',
+                'created_at' => '2025-07-24 12:01:59',
+                'updated_at' => '2025-07-24 12:01:59',
+            ),
+            447 => 
+            array (
+                'id' => 948,
+                'country_id' => 189,
+                'language_id' => 4,
+                'name' => 'Slovénie',
+                'created_at' => '2025-07-24 12:01:59',
+                'updated_at' => '2025-07-24 12:01:59',
+            ),
+            448 => 
+            array (
+                'id' => 949,
+                'country_id' => 190,
+                'language_id' => 4,
+                'name' => 'Îles Salomon',
+                'created_at' => '2025-07-24 12:02:00',
+                'updated_at' => '2025-07-24 12:02:00',
+            ),
+            449 => 
+            array (
+                'id' => 950,
+                'country_id' => 191,
+                'language_id' => 4,
+                'name' => 'Somalie',
+                'created_at' => '2025-07-24 12:02:00',
+                'updated_at' => '2025-07-24 12:02:00',
+            ),
+            450 => 
+            array (
+                'id' => 951,
+                'country_id' => 192,
+                'language_id' => 4,
+                'name' => 'Afrique du Sud',
+                'created_at' => '2025-07-24 12:02:01',
+                'updated_at' => '2025-07-24 12:02:01',
+            ),
+            451 => 
+            array (
+                'id' => 952,
+                'country_id' => 193,
+                'language_id' => 4,
+                'name' => 'Géorgie du Sud et îles Sandwich du Sud',
+                'created_at' => '2025-07-24 12:02:01',
+                'updated_at' => '2025-07-24 12:02:01',
+            ),
+            452 => 
+            array (
+                'id' => 953,
+                'country_id' => 194,
+                'language_id' => 4,
+                'name' => 'Espagne',
+                'created_at' => '2025-07-24 12:02:02',
+                'updated_at' => '2025-07-24 12:02:02',
+            ),
+            453 => 
+            array (
+                'id' => 954,
+                'country_id' => 195,
+                'language_id' => 4,
+                'name' => 'Sri Lanka',
+                'created_at' => '2025-07-24 12:02:02',
+                'updated_at' => '2025-07-24 12:02:02',
+            ),
+            454 => 
+            array (
+                'id' => 955,
+                'country_id' => 196,
+                'language_id' => 4,
+                'name' => 'Sainte-Hélène',
+                'created_at' => '2025-07-24 12:02:02',
+                'updated_at' => '2025-07-24 12:02:02',
+            ),
+            455 => 
+            array (
+                'id' => 956,
+                'country_id' => 197,
+                'language_id' => 4,
+                'name' => 'Saint-Pierre et Miquelon',
+                'created_at' => '2025-07-24 12:02:03',
+                'updated_at' => '2025-07-24 12:02:03',
+            ),
+            456 => 
+            array (
+                'id' => 957,
+                'country_id' => 198,
+                'language_id' => 4,
+                'name' => 'Soudan',
+                'created_at' => '2025-07-24 12:02:03',
+                'updated_at' => '2025-07-24 12:02:03',
+            ),
+            457 => 
+            array (
+                'id' => 958,
+                'country_id' => 199,
+                'language_id' => 4,
+                'name' => 'Suriname',
+                'created_at' => '2025-07-24 12:02:04',
+                'updated_at' => '2025-07-24 12:02:04',
+            ),
+            458 => 
+            array (
+                'id' => 959,
+                'country_id' => 200,
+                'language_id' => 4,
+                'name' => 'Svalbard et îles Jan Mayen',
+                'created_at' => '2025-07-24 12:02:04',
+                'updated_at' => '2025-07-24 12:02:04',
+            ),
+            459 => 
+            array (
+                'id' => 960,
+                'country_id' => 201,
+                'language_id' => 4,
+                'name' => 'Eswatini',
+                'created_at' => '2025-07-24 12:02:05',
+                'updated_at' => '2025-07-24 12:02:05',
+            ),
+            460 => 
+            array (
+                'id' => 961,
+                'country_id' => 202,
+                'language_id' => 4,
+                'name' => 'Suède',
+                'created_at' => '2025-07-24 12:02:05',
+                'updated_at' => '2025-07-24 12:02:05',
+            ),
+            461 => 
+            array (
+                'id' => 962,
+                'country_id' => 203,
+                'language_id' => 4,
+                'name' => 'Suisse',
+                'created_at' => '2025-07-24 12:02:06',
+                'updated_at' => '2025-07-24 12:02:06',
+            ),
+            462 => 
+            array (
+                'id' => 963,
+                'country_id' => 204,
+                'language_id' => 4,
+                'name' => 'République arabe syrienne',
+                'created_at' => '2025-07-24 12:02:06',
+                'updated_at' => '2025-07-24 12:02:06',
+            ),
+            463 => 
+            array (
+                'id' => 964,
+                'country_id' => 205,
+                'language_id' => 4,
+                'name' => 'Taïwan',
+                'created_at' => '2025-07-24 12:02:06',
+                'updated_at' => '2025-07-24 12:02:06',
+            ),
+            464 => 
+            array (
+                'id' => 965,
+                'country_id' => 206,
+                'language_id' => 4,
+                'name' => 'Tadjikistan',
+                'created_at' => '2025-07-24 12:02:07',
+                'updated_at' => '2025-07-24 12:02:07',
+            ),
+            465 => 
+            array (
+                'id' => 966,
+                'country_id' => 207,
+                'language_id' => 4,
+                'name' => 'Tanzanie, République-Unie de',
+                'created_at' => '2025-07-24 12:02:07',
+                'updated_at' => '2025-07-24 12:02:07',
+            ),
+            466 => 
+            array (
+                'id' => 967,
+                'country_id' => 208,
+                'language_id' => 4,
+                'name' => 'Thaïlande',
+                'created_at' => '2025-07-24 12:02:08',
+                'updated_at' => '2025-07-24 12:02:08',
+            ),
+            467 => 
+            array (
+                'id' => 968,
+                'country_id' => 209,
+                'language_id' => 4,
+                'name' => 'Togo',
+                'created_at' => '2025-07-24 12:02:08',
+                'updated_at' => '2025-07-24 12:02:08',
+            ),
+            468 => 
+            array (
+                'id' => 969,
+                'country_id' => 210,
+                'language_id' => 4,
+                'name' => 'Tokélaou',
+                'created_at' => '2025-07-24 12:02:09',
+                'updated_at' => '2025-07-24 12:02:09',
+            ),
+            469 => 
+            array (
+                'id' => 970,
+                'country_id' => 211,
+                'language_id' => 4,
+                'name' => 'Tonga',
+                'created_at' => '2025-07-24 12:02:09',
+                'updated_at' => '2025-07-24 12:02:09',
+            ),
+            470 => 
+            array (
+                'id' => 971,
+                'country_id' => 212,
+                'language_id' => 4,
+                'name' => 'Trinité-et-Tobago',
+                'created_at' => '2025-07-24 12:02:09',
+                'updated_at' => '2025-07-24 12:02:09',
+            ),
+            471 => 
+            array (
+                'id' => 972,
+                'country_id' => 213,
+                'language_id' => 4,
+                'name' => 'Tunisie',
+                'created_at' => '2025-07-24 12:02:10',
+                'updated_at' => '2025-07-24 12:02:10',
+            ),
+            472 => 
+            array (
+                'id' => 973,
+                'country_id' => 214,
+                'language_id' => 4,
+                'name' => 'République de Turquie',
+                'created_at' => '2025-07-24 12:02:10',
+                'updated_at' => '2025-07-24 12:02:10',
+            ),
+            473 => 
+            array (
+                'id' => 974,
+                'country_id' => 215,
+                'language_id' => 4,
+                'name' => 'Turkménistan',
+                'created_at' => '2025-07-24 12:02:11',
+                'updated_at' => '2025-07-24 12:02:11',
+            ),
+            474 => 
+            array (
+                'id' => 975,
+                'country_id' => 216,
+                'language_id' => 4,
+                'name' => 'Îles Turques et Caïques',
+                'created_at' => '2025-07-24 12:02:11',
+                'updated_at' => '2025-07-24 12:02:11',
+            ),
+            475 => 
+            array (
+                'id' => 976,
+                'country_id' => 217,
+                'language_id' => 4,
+                'name' => 'Tuvalu',
+                'created_at' => '2025-07-24 12:02:12',
+                'updated_at' => '2025-07-24 12:02:12',
+            ),
+            476 => 
+            array (
+                'id' => 977,
+                'country_id' => 218,
+                'language_id' => 4,
+                'name' => 'Ouganda',
+                'created_at' => '2025-07-24 12:02:12',
+                'updated_at' => '2025-07-24 12:02:12',
+            ),
+            477 => 
+            array (
+                'id' => 978,
+                'country_id' => 219,
+                'language_id' => 4,
+                'name' => 'L\'Ukraine',
+                'created_at' => '2025-07-24 12:02:13',
+                'updated_at' => '2025-07-24 12:02:13',
+            ),
+            478 => 
+            array (
+                'id' => 979,
+                'country_id' => 220,
+                'language_id' => 4,
+                'name' => 'Émirats arabes unis',
+                'created_at' => '2025-07-24 12:02:13',
+                'updated_at' => '2025-07-24 12:02:13',
+            ),
+            479 => 
+            array (
+                'id' => 980,
+                'country_id' => 221,
+                'language_id' => 4,
+                'name' => 'Royaume-Uni',
+                'created_at' => '2025-07-24 12:02:14',
+                'updated_at' => '2025-07-24 12:02:14',
+            ),
+            480 => 
+            array (
+                'id' => 981,
+                'country_id' => 222,
+                'language_id' => 4,
+                'name' => 'États-Unis',
+                'created_at' => '2025-07-24 12:02:14',
+                'updated_at' => '2025-07-24 12:02:14',
+            ),
+            481 => 
+            array (
+                'id' => 982,
+                'country_id' => 223,
+                'language_id' => 4,
+                'name' => 'Îles périphériques mineures des États-Unis',
+                'created_at' => '2025-07-24 12:02:15',
+                'updated_at' => '2025-07-24 12:02:15',
+            ),
+            482 => 
+            array (
+                'id' => 983,
+                'country_id' => 224,
+                'language_id' => 4,
+                'name' => 'Uruguay',
+                'created_at' => '2025-07-24 12:02:15',
+                'updated_at' => '2025-07-24 12:02:15',
+            ),
+            483 => 
+            array (
+                'id' => 984,
+                'country_id' => 225,
+                'language_id' => 4,
+                'name' => 'Ouzbékistan',
+                'created_at' => '2025-07-24 12:02:16',
+                'updated_at' => '2025-07-24 12:02:16',
+            ),
+            484 => 
+            array (
+                'id' => 985,
+                'country_id' => 226,
+                'language_id' => 4,
+                'name' => 'Vanuatu',
+                'created_at' => '2025-07-24 12:02:16',
+                'updated_at' => '2025-07-24 12:02:16',
+            ),
+            485 => 
+            array (
+                'id' => 986,
+                'country_id' => 227,
+                'language_id' => 4,
+            'name' => 'État de la Cité du Vatican (Saint-Siège)',
+                'created_at' => '2025-07-24 12:02:16',
+                'updated_at' => '2025-07-24 12:02:16',
+            ),
+            486 => 
+            array (
+                'id' => 987,
+                'country_id' => 228,
+                'language_id' => 4,
+                'name' => 'Vénézuéla',
+                'created_at' => '2025-07-24 12:02:17',
+                'updated_at' => '2025-07-24 12:02:17',
+            ),
+            487 => 
+            array (
+                'id' => 988,
+                'country_id' => 229,
+                'language_id' => 4,
+                'name' => 'Viet Nam',
+                'created_at' => '2025-07-24 12:02:17',
+                'updated_at' => '2025-07-24 12:02:17',
+            ),
+            488 => 
+            array (
+                'id' => 989,
+                'country_id' => 230,
+                'language_id' => 4,
+            'name' => 'Îles Vierges (britanniques)',
+                'created_at' => '2025-07-24 12:02:18',
+                'updated_at' => '2025-07-24 12:02:18',
+            ),
+            489 => 
+            array (
+                'id' => 990,
+                'country_id' => 231,
+                'language_id' => 4,
+            'name' => 'Îles Vierges (États-Unis)',
+                'created_at' => '2025-07-24 12:02:18',
+                'updated_at' => '2025-07-24 12:02:18',
+            ),
+            490 => 
+            array (
+                'id' => 991,
+                'country_id' => 232,
+                'language_id' => 4,
+                'name' => 'Îles Wallis et Futuna',
+                'created_at' => '2025-07-24 12:02:19',
+                'updated_at' => '2025-07-24 12:02:19',
+            ),
+            491 => 
+            array (
+                'id' => 992,
+                'country_id' => 233,
+                'language_id' => 4,
+                'name' => 'Sahara occidental',
+                'created_at' => '2025-07-24 12:02:19',
+                'updated_at' => '2025-07-24 12:02:19',
+            ),
+            492 => 
+            array (
+                'id' => 993,
+                'country_id' => 234,
+                'language_id' => 4,
+                'name' => 'Yémen',
+                'created_at' => '2025-07-24 12:02:19',
+                'updated_at' => '2025-07-24 12:02:19',
+            ),
+            493 => 
+            array (
+                'id' => 994,
+                'country_id' => 235,
+                'language_id' => 4,
+                'name' => 'République démocratique du Congo',
+                'created_at' => '2025-07-24 12:02:20',
+                'updated_at' => '2025-07-24 12:02:20',
+            ),
+            494 => 
+            array (
+                'id' => 995,
+                'country_id' => 236,
+                'language_id' => 4,
+                'name' => 'Zambie',
+                'created_at' => '2025-07-24 12:02:20',
+                'updated_at' => '2025-07-24 12:02:20',
+            ),
+            495 => 
+            array (
+                'id' => 996,
+                'country_id' => 237,
+                'language_id' => 4,
+                'name' => 'au Zimbabwe',
+                'created_at' => '2025-07-24 12:02:21',
+                'updated_at' => '2025-07-24 12:02:21',
+            ),
+            496 => 
+            array (
+                'id' => 997,
+                'country_id' => 238,
+                'language_id' => 4,
+                'name' => 'Monténégro',
+                'created_at' => '2025-07-24 12:02:21',
+                'updated_at' => '2025-07-24 12:02:21',
+            ),
+            497 => 
+            array (
+                'id' => 998,
+                'country_id' => 239,
+                'language_id' => 4,
+                'name' => 'Serbie',
+                'created_at' => '2025-07-24 12:02:22',
+                'updated_at' => '2025-07-24 12:02:22',
+            ),
+            498 => 
+            array (
+                'id' => 999,
+                'country_id' => 240,
+                'language_id' => 4,
+                'name' => 'îles Aaland',
+                'created_at' => '2025-07-24 12:02:22',
+                'updated_at' => '2025-07-24 12:02:22',
+            ),
+            499 => 
+            array (
+                'id' => 1000,
+                'country_id' => 241,
+                'language_id' => 4,
+                'name' => 'Bonaire, Saint Eustatius et Saba',
+                'created_at' => '2025-07-24 12:02:23',
+                'updated_at' => '2025-07-24 12:02:23',
+            ),
+        ));
+        \DB::table('country_translations')->insert(array (
+            0 => 
+            array (
+                'id' => 1001,
+                'country_id' => 242,
+                'language_id' => 4,
+                'name' => 'Curacao',
+                'created_at' => '2025-07-24 12:02:23',
+                'updated_at' => '2025-07-24 12:02:23',
+            ),
+            1 => 
+            array (
+                'id' => 1002,
+                'country_id' => 243,
+                'language_id' => 4,
+                'name' => 'Territoire palestinien occupé',
+                'created_at' => '2025-07-24 12:02:23',
+                'updated_at' => '2025-07-24 12:02:23',
+            ),
+            2 => 
+            array (
+                'id' => 1003,
+                'country_id' => 244,
+                'language_id' => 4,
+                'name' => 'Soudan du Sud',
+                'created_at' => '2025-07-24 12:02:24',
+                'updated_at' => '2025-07-24 12:02:24',
+            ),
+            3 => 
+            array (
+                'id' => 1004,
+                'country_id' => 245,
+                'language_id' => 4,
+                'name' => 'Saint-Barthélemy',
+                'created_at' => '2025-07-24 12:02:24',
+                'updated_at' => '2025-07-24 12:02:24',
+            ),
+            4 => 
+            array (
+                'id' => 1005,
+                'country_id' => 246,
+                'language_id' => 4,
+            'name' => 'Saint-Martin (partie française)',
+                'created_at' => '2025-07-24 12:02:25',
+                'updated_at' => '2025-07-24 12:02:25',
+            ),
+            5 => 
+            array (
+                'id' => 1006,
+                'country_id' => 247,
+                'language_id' => 4,
+                'name' => 'Îles Canaries',
+                'created_at' => '2025-07-24 12:02:25',
+                'updated_at' => '2025-07-24 12:02:25',
+            ),
+            6 => 
+            array (
+                'id' => 1007,
+                'country_id' => 248,
+                'language_id' => 4,
+            'name' => 'Ascension Island (Angleterre)',
+                'created_at' => '2025-07-24 12:02:26',
+                'updated_at' => '2025-07-24 12:02:26',
+            ),
+            7 => 
+            array (
+                'id' => 1008,
+                'country_id' => 249,
+                'language_id' => 4,
+                'name' => 'Kosovo, République de',
+                'created_at' => '2025-07-24 12:02:26',
+                'updated_at' => '2025-07-24 12:02:26',
+            ),
+            8 => 
+            array (
+                'id' => 1009,
+                'country_id' => 250,
+                'language_id' => 4,
+                'name' => 'île de Man',
+                'created_at' => '2025-07-24 12:02:27',
+                'updated_at' => '2025-07-24 12:02:27',
+            ),
+            9 => 
+            array (
+                'id' => 1010,
+                'country_id' => 251,
+                'language_id' => 4,
+                'name' => 'Tristan da Cunha',
+                'created_at' => '2025-07-24 12:02:27',
+                'updated_at' => '2025-07-24 12:02:27',
+            ),
+            10 => 
+            array (
+                'id' => 1011,
+                'country_id' => 252,
+                'language_id' => 4,
+                'name' => 'Guernesey',
+                'created_at' => '2025-07-24 12:02:28',
+                'updated_at' => '2025-07-24 12:02:28',
+            ),
+            11 => 
+            array (
+                'id' => 1012,
+                'country_id' => 253,
+                'language_id' => 4,
+                'name' => 'Jersey',
+                'created_at' => '2025-07-24 12:02:28',
+                'updated_at' => '2025-07-24 12:02:28',
+            ),
+            12 => 
+            array (
+                'id' => 1013,
+                'country_id' => 1,
+                'language_id' => 5,
+                'name' => 'Afghanistan',
+                'created_at' => '2025-07-24 12:02:44',
+                'updated_at' => '2025-07-24 12:02:44',
+            ),
+            13 => 
+            array (
+                'id' => 1014,
+                'country_id' => 2,
+                'language_id' => 5,
+                'name' => 'Albanien',
+                'created_at' => '2025-07-24 12:02:44',
+                'updated_at' => '2025-07-24 12:02:44',
+            ),
+            14 => 
+            array (
+                'id' => 1015,
+                'country_id' => 3,
+                'language_id' => 5,
+                'name' => 'Algerien',
+                'created_at' => '2025-07-24 12:02:44',
+                'updated_at' => '2025-07-24 12:02:44',
+            ),
+            15 => 
+            array (
+                'id' => 1016,
+                'country_id' => 4,
+                'language_id' => 5,
+                'name' => 'Amerikanisches Samoa',
+                'created_at' => '2025-07-24 12:02:45',
+                'updated_at' => '2025-07-24 12:02:45',
+            ),
+            16 => 
+            array (
+                'id' => 1017,
+                'country_id' => 5,
+                'language_id' => 5,
+                'name' => 'Andorra',
+                'created_at' => '2025-07-24 12:02:45',
+                'updated_at' => '2025-07-24 12:02:45',
+            ),
+            17 => 
+            array (
+                'id' => 1018,
+                'country_id' => 6,
+                'language_id' => 5,
+                'name' => 'Angola',
+                'created_at' => '2025-07-24 12:02:46',
+                'updated_at' => '2025-07-24 12:02:46',
+            ),
+            18 => 
+            array (
+                'id' => 1019,
+                'country_id' => 7,
+                'language_id' => 5,
+                'name' => 'Anguilla',
+                'created_at' => '2025-07-24 12:02:46',
+                'updated_at' => '2025-07-24 12:02:46',
+            ),
+            19 => 
+            array (
+                'id' => 1020,
+                'country_id' => 8,
+                'language_id' => 5,
+                'name' => 'Antarktis',
+                'created_at' => '2025-07-24 12:02:47',
+                'updated_at' => '2025-07-24 12:02:47',
+            ),
+            20 => 
+            array (
+                'id' => 1021,
+                'country_id' => 9,
+                'language_id' => 5,
+                'name' => 'Antigua und Barbuda',
+                'created_at' => '2025-07-24 12:02:47',
+                'updated_at' => '2025-07-24 12:02:47',
+            ),
+            21 => 
+            array (
+                'id' => 1022,
+                'country_id' => 10,
+                'language_id' => 5,
+                'name' => 'Argentinien',
+                'created_at' => '2025-07-24 12:02:47',
+                'updated_at' => '2025-07-24 12:02:47',
+            ),
+            22 => 
+            array (
+                'id' => 1023,
+                'country_id' => 11,
+                'language_id' => 5,
+                'name' => 'Armenien',
+                'created_at' => '2025-07-24 12:02:48',
+                'updated_at' => '2025-07-24 12:02:48',
+            ),
+            23 => 
+            array (
+                'id' => 1024,
+                'country_id' => 12,
+                'language_id' => 5,
+                'name' => 'Aruba',
+                'created_at' => '2025-07-24 12:02:48',
+                'updated_at' => '2025-07-24 12:02:48',
+            ),
+            24 => 
+            array (
+                'id' => 1025,
+                'country_id' => 13,
+                'language_id' => 5,
+                'name' => 'Australien',
+                'created_at' => '2025-07-24 12:02:49',
+                'updated_at' => '2025-07-24 12:02:49',
+            ),
+            25 => 
+            array (
+                'id' => 1026,
+                'country_id' => 14,
+                'language_id' => 5,
+                'name' => 'Österreich',
+                'created_at' => '2025-07-24 12:02:49',
+                'updated_at' => '2025-07-24 12:02:49',
+            ),
+            26 => 
+            array (
+                'id' => 1027,
+                'country_id' => 15,
+                'language_id' => 5,
+                'name' => 'Aserbaidschan',
+                'created_at' => '2025-07-24 12:02:49',
+                'updated_at' => '2025-07-24 12:02:49',
+            ),
+            27 => 
+            array (
+                'id' => 1028,
+                'country_id' => 16,
+                'language_id' => 5,
+                'name' => 'Die Bahamas',
+                'created_at' => '2025-07-24 12:02:50',
+                'updated_at' => '2025-07-24 12:02:50',
+            ),
+            28 => 
+            array (
+                'id' => 1029,
+                'country_id' => 17,
+                'language_id' => 5,
+                'name' => 'Bahrain',
+                'created_at' => '2025-07-24 12:02:50',
+                'updated_at' => '2025-07-24 12:02:50',
+            ),
+            29 => 
+            array (
+                'id' => 1030,
+                'country_id' => 18,
+                'language_id' => 5,
+                'name' => 'Bangladesch',
+                'created_at' => '2025-07-24 12:02:51',
+                'updated_at' => '2025-07-24 12:02:51',
+            ),
+            30 => 
+            array (
+                'id' => 1031,
+                'country_id' => 19,
+                'language_id' => 5,
+                'name' => 'Barbados',
+                'created_at' => '2025-07-24 12:02:51',
+                'updated_at' => '2025-07-24 12:02:51',
+            ),
+            31 => 
+            array (
+                'id' => 1032,
+                'country_id' => 20,
+                'language_id' => 5,
+                'name' => 'Weißrussland',
+                'created_at' => '2025-07-24 12:02:52',
+                'updated_at' => '2025-07-24 12:02:52',
+            ),
+            32 => 
+            array (
+                'id' => 1033,
+                'country_id' => 21,
+                'language_id' => 5,
+                'name' => 'Belgien',
+                'created_at' => '2025-07-24 12:02:52',
+                'updated_at' => '2025-07-24 12:02:52',
+            ),
+            33 => 
+            array (
+                'id' => 1034,
+                'country_id' => 22,
+                'language_id' => 5,
+                'name' => 'Belize',
+                'created_at' => '2025-07-24 12:02:52',
+                'updated_at' => '2025-07-24 12:02:52',
+            ),
+            34 => 
+            array (
+                'id' => 1035,
+                'country_id' => 23,
+                'language_id' => 5,
+                'name' => 'Benin',
+                'created_at' => '2025-07-24 12:02:53',
+                'updated_at' => '2025-07-24 12:02:53',
+            ),
+            35 => 
+            array (
+                'id' => 1036,
+                'country_id' => 24,
+                'language_id' => 5,
+                'name' => 'Bermuda',
+                'created_at' => '2025-07-24 12:02:53',
+                'updated_at' => '2025-07-24 12:02:53',
+            ),
+            36 => 
+            array (
+                'id' => 1037,
+                'country_id' => 25,
+                'language_id' => 5,
+                'name' => 'Bhutan',
+                'created_at' => '2025-07-24 12:02:54',
+                'updated_at' => '2025-07-24 12:02:54',
+            ),
+            37 => 
+            array (
+                'id' => 1038,
+                'country_id' => 26,
+                'language_id' => 5,
+                'name' => 'Bolivien',
+                'created_at' => '2025-07-24 12:02:54',
+                'updated_at' => '2025-07-24 12:02:54',
+            ),
+            38 => 
+            array (
+                'id' => 1039,
+                'country_id' => 27,
+                'language_id' => 5,
+                'name' => 'Bosnien und Herzegowina',
+                'created_at' => '2025-07-24 12:02:54',
+                'updated_at' => '2025-07-24 12:02:54',
+            ),
+            39 => 
+            array (
+                'id' => 1040,
+                'country_id' => 28,
+                'language_id' => 5,
+                'name' => 'Botswana',
+                'created_at' => '2025-07-24 12:02:55',
+                'updated_at' => '2025-07-24 12:02:55',
+            ),
+            40 => 
+            array (
+                'id' => 1041,
+                'country_id' => 29,
+                'language_id' => 5,
+                'name' => 'Insel Bouvet',
+                'created_at' => '2025-07-24 12:02:55',
+                'updated_at' => '2025-07-24 12:02:55',
+            ),
+            41 => 
+            array (
+                'id' => 1042,
+                'country_id' => 30,
+                'language_id' => 5,
+                'name' => 'Brasilien',
+                'created_at' => '2025-07-24 12:02:56',
+                'updated_at' => '2025-07-24 12:02:56',
+            ),
+            42 => 
+            array (
+                'id' => 1043,
+                'country_id' => 31,
+                'language_id' => 5,
+                'name' => 'Britisches Indisches Ozeangebiet',
+                'created_at' => '2025-07-24 12:02:56',
+                'updated_at' => '2025-07-24 12:02:56',
+            ),
+            43 => 
+            array (
+                'id' => 1044,
+                'country_id' => 32,
+                'language_id' => 5,
+                'name' => 'Brunei',
+                'created_at' => '2025-07-24 12:02:57',
+                'updated_at' => '2025-07-24 12:02:57',
+            ),
+            44 => 
+            array (
+                'id' => 1045,
+                'country_id' => 33,
+                'language_id' => 5,
+                'name' => 'Bulgarien',
+                'created_at' => '2025-07-24 12:02:57',
+                'updated_at' => '2025-07-24 12:02:57',
+            ),
+            45 => 
+            array (
+                'id' => 1046,
+                'country_id' => 34,
+                'language_id' => 5,
+                'name' => 'Burkina Faso',
+                'created_at' => '2025-07-24 12:02:57',
+                'updated_at' => '2025-07-24 12:02:57',
+            ),
+            46 => 
+            array (
+                'id' => 1047,
+                'country_id' => 35,
+                'language_id' => 5,
+                'name' => 'Burundi',
+                'created_at' => '2025-07-24 12:02:58',
+                'updated_at' => '2025-07-24 12:02:58',
+            ),
+            47 => 
+            array (
+                'id' => 1048,
+                'country_id' => 36,
+                'language_id' => 5,
+                'name' => 'Kambodscha',
+                'created_at' => '2025-07-24 12:02:58',
+                'updated_at' => '2025-07-24 12:02:58',
+            ),
+            48 => 
+            array (
+                'id' => 1049,
+                'country_id' => 37,
+                'language_id' => 5,
+                'name' => 'Kamerun',
+                'created_at' => '2025-07-24 12:02:59',
+                'updated_at' => '2025-07-24 12:02:59',
+            ),
+            49 => 
+            array (
+                'id' => 1050,
+                'country_id' => 38,
+                'language_id' => 5,
+                'name' => 'Kanada',
+                'created_at' => '2025-07-24 12:02:59',
+                'updated_at' => '2025-07-24 12:02:59',
+            ),
+            50 => 
+            array (
+                'id' => 1051,
+                'country_id' => 39,
+                'language_id' => 5,
+                'name' => 'Kap Verde',
+                'created_at' => '2025-07-24 12:03:00',
+                'updated_at' => '2025-07-24 12:03:00',
+            ),
+            51 => 
+            array (
+                'id' => 1052,
+                'country_id' => 40,
+                'language_id' => 5,
+                'name' => 'Cayman Inseln',
+                'created_at' => '2025-07-24 12:03:00',
+                'updated_at' => '2025-07-24 12:03:00',
+            ),
+            52 => 
+            array (
+                'id' => 1053,
+                'country_id' => 41,
+                'language_id' => 5,
+                'name' => 'Zentralafrikanische Republik',
+                'created_at' => '2025-07-24 12:03:01',
+                'updated_at' => '2025-07-24 12:03:01',
+            ),
+            53 => 
+            array (
+                'id' => 1054,
+                'country_id' => 42,
+                'language_id' => 5,
+                'name' => 'Tschad',
+                'created_at' => '2025-07-24 12:03:01',
+                'updated_at' => '2025-07-24 12:03:01',
+            ),
+            54 => 
+            array (
+                'id' => 1055,
+                'country_id' => 43,
+                'language_id' => 5,
+                'name' => 'Chile',
+                'created_at' => '2025-07-24 12:03:02',
+                'updated_at' => '2025-07-24 12:03:02',
+            ),
+            55 => 
+            array (
+                'id' => 1056,
+                'country_id' => 44,
+                'language_id' => 5,
+                'name' => 'China',
+                'created_at' => '2025-07-24 12:03:02',
+                'updated_at' => '2025-07-24 12:03:02',
+            ),
+            56 => 
+            array (
+                'id' => 1057,
+                'country_id' => 45,
+                'language_id' => 5,
+                'name' => 'Weihnachtsinsel',
+                'created_at' => '2025-07-24 12:03:02',
+                'updated_at' => '2025-07-24 12:03:02',
+            ),
+            57 => 
+            array (
+                'id' => 1058,
+                'country_id' => 46,
+                'language_id' => 5,
+            'name' => 'Cocos (Keeling) Inseln',
+                'created_at' => '2025-07-24 12:03:03',
+                'updated_at' => '2025-07-24 12:03:03',
+            ),
+            58 => 
+            array (
+                'id' => 1059,
+                'country_id' => 47,
+                'language_id' => 5,
+                'name' => 'Kolumbien',
+                'created_at' => '2025-07-24 12:03:03',
+                'updated_at' => '2025-07-24 12:03:03',
+            ),
+            59 => 
+            array (
+                'id' => 1060,
+                'country_id' => 48,
+                'language_id' => 5,
+                'name' => 'Komoren',
+                'created_at' => '2025-07-24 12:03:04',
+                'updated_at' => '2025-07-24 12:03:04',
+            ),
+            60 => 
+            array (
+                'id' => 1061,
+                'country_id' => 49,
+                'language_id' => 5,
+                'name' => 'Kongo',
+                'created_at' => '2025-07-24 12:03:04',
+                'updated_at' => '2025-07-24 12:03:04',
+            ),
+            61 => 
+            array (
+                'id' => 1062,
+                'country_id' => 50,
+                'language_id' => 5,
+                'name' => 'Cookinseln',
+                'created_at' => '2025-07-24 12:03:04',
+                'updated_at' => '2025-07-24 12:03:04',
+            ),
+            62 => 
+            array (
+                'id' => 1063,
+                'country_id' => 51,
+                'language_id' => 5,
+                'name' => 'Costa Rica',
+                'created_at' => '2025-07-24 12:03:05',
+                'updated_at' => '2025-07-24 12:03:05',
+            ),
+            63 => 
+            array (
+                'id' => 1064,
+                'country_id' => 52,
+                'language_id' => 5,
+                'name' => 'Elfenbeinküste',
+                'created_at' => '2025-07-24 12:03:06',
+                'updated_at' => '2025-07-24 12:03:06',
+            ),
+            64 => 
+            array (
+                'id' => 1065,
+                'country_id' => 53,
+                'language_id' => 5,
+                'name' => 'Kroatien',
+                'created_at' => '2025-07-24 12:03:06',
+                'updated_at' => '2025-07-24 12:03:06',
+            ),
+            65 => 
+            array (
+                'id' => 1066,
+                'country_id' => 54,
+                'language_id' => 5,
+                'name' => 'Kuba',
+                'created_at' => '2025-07-24 12:03:07',
+                'updated_at' => '2025-07-24 12:03:07',
+            ),
+            66 => 
+            array (
+                'id' => 1067,
+                'country_id' => 55,
+                'language_id' => 5,
+                'name' => 'Zypern',
+                'created_at' => '2025-07-24 12:03:07',
+                'updated_at' => '2025-07-24 12:03:07',
+            ),
+            67 => 
+            array (
+                'id' => 1068,
+                'country_id' => 56,
+                'language_id' => 5,
+                'name' => 'Tschechische Republik',
+                'created_at' => '2025-07-24 12:03:08',
+                'updated_at' => '2025-07-24 12:03:08',
+            ),
+            68 => 
+            array (
+                'id' => 1069,
+                'country_id' => 57,
+                'language_id' => 5,
+                'name' => 'Dänemark',
+                'created_at' => '2025-07-24 12:03:08',
+                'updated_at' => '2025-07-24 12:03:08',
+            ),
+            69 => 
+            array (
+                'id' => 1070,
+                'country_id' => 58,
+                'language_id' => 5,
+                'name' => 'Dschibuti',
+                'created_at' => '2025-07-24 12:03:08',
+                'updated_at' => '2025-07-24 12:03:08',
+            ),
+            70 => 
+            array (
+                'id' => 1071,
+                'country_id' => 59,
+                'language_id' => 5,
+                'name' => 'Dominika',
+                'created_at' => '2025-07-24 12:03:09',
+                'updated_at' => '2025-07-24 12:03:09',
+            ),
+            71 => 
+            array (
+                'id' => 1072,
+                'country_id' => 60,
+                'language_id' => 5,
+                'name' => 'Dominikanische Republik',
+                'created_at' => '2025-07-24 12:03:09',
+                'updated_at' => '2025-07-24 12:03:09',
+            ),
+            72 => 
+            array (
+                'id' => 1073,
+                'country_id' => 61,
+                'language_id' => 5,
+                'name' => 'Osttimor',
+                'created_at' => '2025-07-24 12:03:09',
+                'updated_at' => '2025-07-24 12:03:09',
+            ),
+            73 => 
+            array (
+                'id' => 1074,
+                'country_id' => 62,
+                'language_id' => 5,
+                'name' => 'Ecuador',
+                'created_at' => '2025-07-24 12:03:10',
+                'updated_at' => '2025-07-24 12:03:10',
+            ),
+            74 => 
+            array (
+                'id' => 1075,
+                'country_id' => 63,
+                'language_id' => 5,
+                'name' => 'Ägypten',
+                'created_at' => '2025-07-24 12:03:10',
+                'updated_at' => '2025-07-24 12:03:10',
+            ),
+            75 => 
+            array (
+                'id' => 1076,
+                'country_id' => 64,
+                'language_id' => 5,
+                'name' => 'von El Salvador',
+                'created_at' => '2025-07-24 12:03:11',
+                'updated_at' => '2025-07-24 12:03:11',
+            ),
+            76 => 
+            array (
+                'id' => 1077,
+                'country_id' => 65,
+                'language_id' => 5,
+                'name' => 'Äquatorialguinea',
+                'created_at' => '2025-07-24 12:03:11',
+                'updated_at' => '2025-07-24 12:03:11',
+            ),
+            77 => 
+            array (
+                'id' => 1078,
+                'country_id' => 66,
+                'language_id' => 5,
+                'name' => 'Eritrea',
+                'created_at' => '2025-07-24 12:03:12',
+                'updated_at' => '2025-07-24 12:03:12',
+            ),
+            78 => 
+            array (
+                'id' => 1079,
+                'country_id' => 67,
+                'language_id' => 5,
+                'name' => 'Estland',
+                'created_at' => '2025-07-24 12:03:12',
+                'updated_at' => '2025-07-24 12:03:12',
+            ),
+            79 => 
+            array (
+                'id' => 1080,
+                'country_id' => 68,
+                'language_id' => 5,
+                'name' => 'Äthiopien',
+                'created_at' => '2025-07-24 12:03:13',
+                'updated_at' => '2025-07-24 12:03:13',
+            ),
+            80 => 
+            array (
+                'id' => 1081,
+                'country_id' => 69,
+                'language_id' => 5,
+            'name' => 'Falklandinseln (Malvinas)',
+                'created_at' => '2025-07-24 12:03:13',
+                'updated_at' => '2025-07-24 12:03:13',
+            ),
+            81 => 
+            array (
+                'id' => 1082,
+                'country_id' => 70,
+                'language_id' => 5,
+                'name' => 'Färöer Inseln',
+                'created_at' => '2025-07-24 12:03:14',
+                'updated_at' => '2025-07-24 12:03:14',
+            ),
+            82 => 
+            array (
+                'id' => 1083,
+                'country_id' => 71,
+                'language_id' => 5,
+                'name' => 'Fidschi',
+                'created_at' => '2025-07-24 12:03:14',
+                'updated_at' => '2025-07-24 12:03:14',
+            ),
+            83 => 
+            array (
+                'id' => 1084,
+                'country_id' => 72,
+                'language_id' => 5,
+                'name' => 'Finnland',
+                'created_at' => '2025-07-24 12:03:14',
+                'updated_at' => '2025-07-24 12:03:14',
+            ),
+            84 => 
+            array (
+                'id' => 1085,
+                'country_id' => 73,
+                'language_id' => 5,
+                'name' => 'Frankreich, Metropolitan',
+                'created_at' => '2025-07-24 12:03:15',
+                'updated_at' => '2025-07-24 12:03:15',
+            ),
+            85 => 
+            array (
+                'id' => 1086,
+                'country_id' => 74,
+                'language_id' => 5,
+                'name' => 'Französisch-Guyana',
+                'created_at' => '2025-07-24 12:03:15',
+                'updated_at' => '2025-07-24 12:03:15',
+            ),
+            86 => 
+            array (
+                'id' => 1087,
+                'country_id' => 75,
+                'language_id' => 5,
+                'name' => 'Französisch Polynesien',
+                'created_at' => '2025-07-24 12:03:16',
+                'updated_at' => '2025-07-24 12:03:16',
+            ),
+            87 => 
+            array (
+                'id' => 1088,
+                'country_id' => 76,
+                'language_id' => 5,
+                'name' => 'Französische Südgebiete',
+                'created_at' => '2025-07-24 12:03:16',
+                'updated_at' => '2025-07-24 12:03:16',
+            ),
+            88 => 
+            array (
+                'id' => 1089,
+                'country_id' => 77,
+                'language_id' => 5,
+                'name' => 'Gabun',
+                'created_at' => '2025-07-24 12:03:16',
+                'updated_at' => '2025-07-24 12:03:16',
+            ),
+            89 => 
+            array (
+                'id' => 1090,
+                'country_id' => 78,
+                'language_id' => 5,
+                'name' => 'Das Gambia',
+                'created_at' => '2025-07-24 12:03:17',
+                'updated_at' => '2025-07-24 12:03:17',
+            ),
+            90 => 
+            array (
+                'id' => 1091,
+                'country_id' => 79,
+                'language_id' => 5,
+                'name' => 'Georgien',
+                'created_at' => '2025-07-24 12:03:17',
+                'updated_at' => '2025-07-24 12:03:17',
+            ),
+            91 => 
+            array (
+                'id' => 1092,
+                'country_id' => 80,
+                'language_id' => 5,
+                'name' => 'Deutschland',
+                'created_at' => '2025-07-24 12:03:18',
+                'updated_at' => '2025-07-24 12:03:18',
+            ),
+            92 => 
+            array (
+                'id' => 1093,
+                'country_id' => 81,
+                'language_id' => 5,
+                'name' => 'Ghana',
+                'created_at' => '2025-07-24 12:03:18',
+                'updated_at' => '2025-07-24 12:03:18',
+            ),
+            93 => 
+            array (
+                'id' => 1094,
+                'country_id' => 82,
+                'language_id' => 5,
+                'name' => 'Gibraltar',
+                'created_at' => '2025-07-24 12:03:18',
+                'updated_at' => '2025-07-24 12:03:18',
+            ),
+            94 => 
+            array (
+                'id' => 1095,
+                'country_id' => 83,
+                'language_id' => 5,
+                'name' => 'Griechenland',
+                'created_at' => '2025-07-24 12:03:19',
+                'updated_at' => '2025-07-24 12:03:19',
+            ),
+            95 => 
+            array (
+                'id' => 1096,
+                'country_id' => 84,
+                'language_id' => 5,
+                'name' => 'Grönland',
+                'created_at' => '2025-07-24 12:03:20',
+                'updated_at' => '2025-07-24 12:03:20',
+            ),
+            96 => 
+            array (
+                'id' => 1097,
+                'country_id' => 85,
+                'language_id' => 5,
+                'name' => 'Grenada',
+                'created_at' => '2025-07-24 12:03:20',
+                'updated_at' => '2025-07-24 12:03:20',
+            ),
+            97 => 
+            array (
+                'id' => 1098,
+                'country_id' => 86,
+                'language_id' => 5,
+                'name' => 'Guadeloupe',
+                'created_at' => '2025-07-24 12:03:21',
+                'updated_at' => '2025-07-24 12:03:21',
+            ),
+            98 => 
+            array (
+                'id' => 1099,
+                'country_id' => 87,
+                'language_id' => 5,
+                'name' => 'Guam',
+                'created_at' => '2025-07-24 12:03:21',
+                'updated_at' => '2025-07-24 12:03:21',
+            ),
+            99 => 
+            array (
+                'id' => 1100,
+                'country_id' => 88,
+                'language_id' => 5,
+                'name' => 'Guatemala',
+                'created_at' => '2025-07-24 12:03:21',
+                'updated_at' => '2025-07-24 12:03:21',
+            ),
+            100 => 
+            array (
+                'id' => 1101,
+                'country_id' => 89,
+                'language_id' => 5,
+                'name' => 'Guinea',
+                'created_at' => '2025-07-24 12:03:22',
+                'updated_at' => '2025-07-24 12:03:22',
+            ),
+            101 => 
+            array (
+                'id' => 1102,
+                'country_id' => 90,
+                'language_id' => 5,
+                'name' => 'Guinea-Bissau',
+                'created_at' => '2025-07-24 12:03:22',
+                'updated_at' => '2025-07-24 12:03:22',
+            ),
+            102 => 
+            array (
+                'id' => 1103,
+                'country_id' => 91,
+                'language_id' => 5,
+                'name' => 'Guyana',
+                'created_at' => '2025-07-24 12:03:23',
+                'updated_at' => '2025-07-24 12:03:23',
+            ),
+            103 => 
+            array (
+                'id' => 1104,
+                'country_id' => 92,
+                'language_id' => 5,
+                'name' => 'Haiti',
+                'created_at' => '2025-07-24 12:03:23',
+                'updated_at' => '2025-07-24 12:03:23',
+            ),
+            104 => 
+            array (
+                'id' => 1105,
+                'country_id' => 93,
+                'language_id' => 5,
+                'name' => 'Heard und McDonald Islands',
+                'created_at' => '2025-07-24 12:03:24',
+                'updated_at' => '2025-07-24 12:03:24',
+            ),
+            105 => 
+            array (
+                'id' => 1106,
+                'country_id' => 94,
+                'language_id' => 5,
+                'name' => 'Honduras',
+                'created_at' => '2025-07-24 12:03:24',
+                'updated_at' => '2025-07-24 12:03:24',
+            ),
+            106 => 
+            array (
+                'id' => 1107,
+                'country_id' => 95,
+                'language_id' => 5,
+                'name' => 'Hongkong',
+                'created_at' => '2025-07-24 12:03:25',
+                'updated_at' => '2025-07-24 12:03:25',
+            ),
+            107 => 
+            array (
+                'id' => 1108,
+                'country_id' => 96,
+                'language_id' => 5,
+                'name' => 'Ungarn',
+                'created_at' => '2025-07-24 12:03:25',
+                'updated_at' => '2025-07-24 12:03:25',
+            ),
+            108 => 
+            array (
+                'id' => 1109,
+                'country_id' => 97,
+                'language_id' => 5,
+                'name' => 'Island',
+                'created_at' => '2025-07-24 12:03:25',
+                'updated_at' => '2025-07-24 12:03:25',
+            ),
+            109 => 
+            array (
+                'id' => 1110,
+                'country_id' => 98,
+                'language_id' => 5,
+                'name' => 'Indien',
+                'created_at' => '2025-07-24 12:03:26',
+                'updated_at' => '2025-07-24 12:03:26',
+            ),
+            110 => 
+            array (
+                'id' => 1111,
+                'country_id' => 99,
+                'language_id' => 5,
+                'name' => 'Indonesien',
+                'created_at' => '2025-07-24 12:03:26',
+                'updated_at' => '2025-07-24 12:03:26',
+            ),
+            111 => 
+            array (
+                'id' => 1112,
+                'country_id' => 100,
+                'language_id' => 5,
+            'name' => 'Iran (Islamische Republik)',
+                'created_at' => '2025-07-24 12:03:27',
+                'updated_at' => '2025-07-24 12:03:27',
+            ),
+            112 => 
+            array (
+                'id' => 1113,
+                'country_id' => 101,
+                'language_id' => 5,
+                'name' => 'Irak',
+                'created_at' => '2025-07-24 12:03:27',
+                'updated_at' => '2025-07-24 12:03:27',
+            ),
+            113 => 
+            array (
+                'id' => 1114,
+                'country_id' => 102,
+                'language_id' => 5,
+                'name' => 'Irland',
+                'created_at' => '2025-07-24 12:03:28',
+                'updated_at' => '2025-07-24 12:03:28',
+            ),
+            114 => 
+            array (
+                'id' => 1115,
+                'country_id' => 103,
+                'language_id' => 5,
+                'name' => 'Israel',
+                'created_at' => '2025-07-24 12:03:28',
+                'updated_at' => '2025-07-24 12:03:28',
+            ),
+            115 => 
+            array (
+                'id' => 1116,
+                'country_id' => 104,
+                'language_id' => 5,
+                'name' => 'Italien',
+                'created_at' => '2025-07-24 12:03:29',
+                'updated_at' => '2025-07-24 12:03:29',
+            ),
+            116 => 
+            array (
+                'id' => 1117,
+                'country_id' => 105,
+                'language_id' => 5,
+                'name' => 'Jamaika',
+                'created_at' => '2025-07-24 12:03:29',
+                'updated_at' => '2025-07-24 12:03:29',
+            ),
+            117 => 
+            array (
+                'id' => 1118,
+                'country_id' => 106,
+                'language_id' => 5,
+                'name' => 'Japanische',
+                'created_at' => '2025-07-24 12:03:30',
+                'updated_at' => '2025-07-24 12:03:30',
+            ),
+            118 => 
+            array (
+                'id' => 1119,
+                'country_id' => 107,
+                'language_id' => 5,
+                'name' => 'Jordanien',
+                'created_at' => '2025-07-24 12:03:30',
+                'updated_at' => '2025-07-24 12:03:30',
+            ),
+            119 => 
+            array (
+                'id' => 1120,
+                'country_id' => 108,
+                'language_id' => 5,
+                'name' => 'Kasachstan',
+                'created_at' => '2025-07-24 12:03:30',
+                'updated_at' => '2025-07-24 12:03:30',
+            ),
+            120 => 
+            array (
+                'id' => 1121,
+                'country_id' => 109,
+                'language_id' => 5,
+                'name' => 'Kenia',
+                'created_at' => '2025-07-24 12:03:31',
+                'updated_at' => '2025-07-24 12:03:31',
+            ),
+            121 => 
+            array (
+                'id' => 1122,
+                'country_id' => 110,
+                'language_id' => 5,
+                'name' => 'Kiribati',
+                'created_at' => '2025-07-24 12:03:31',
+                'updated_at' => '2025-07-24 12:03:31',
+            ),
+            122 => 
+            array (
+                'id' => 1123,
+                'country_id' => 111,
+                'language_id' => 5,
+                'name' => 'Nordkorea',
+                'created_at' => '2025-07-24 12:03:32',
+                'updated_at' => '2025-07-24 12:03:32',
+            ),
+            123 => 
+            array (
+                'id' => 1124,
+                'country_id' => 112,
+                'language_id' => 5,
+                'name' => 'Südkorea',
+                'created_at' => '2025-07-24 12:03:32',
+                'updated_at' => '2025-07-24 12:03:32',
+            ),
+            124 => 
+            array (
+                'id' => 1125,
+                'country_id' => 113,
+                'language_id' => 5,
+                'name' => 'Kuwait',
+                'created_at' => '2025-07-24 12:03:32',
+                'updated_at' => '2025-07-24 12:03:32',
+            ),
+            125 => 
+            array (
+                'id' => 1126,
+                'country_id' => 114,
+                'language_id' => 5,
+                'name' => 'Kirgisistan',
+                'created_at' => '2025-07-24 12:03:33',
+                'updated_at' => '2025-07-24 12:03:33',
+            ),
+            126 => 
+            array (
+                'id' => 1127,
+                'country_id' => 115,
+                'language_id' => 5,
+            'name' => 'Demokratische Volksrepublik Laos (die)',
+                'created_at' => '2025-07-24 12:03:33',
+                'updated_at' => '2025-07-24 12:03:33',
+            ),
+            127 => 
+            array (
+                'id' => 1128,
+                'country_id' => 116,
+                'language_id' => 5,
+                'name' => 'Lettland',
+                'created_at' => '2025-07-24 12:03:34',
+                'updated_at' => '2025-07-24 12:03:34',
+            ),
+            128 => 
+            array (
+                'id' => 1129,
+                'country_id' => 117,
+                'language_id' => 5,
+                'name' => 'Libanon',
+                'created_at' => '2025-07-24 12:03:34',
+                'updated_at' => '2025-07-24 12:03:34',
+            ),
+            129 => 
+            array (
+                'id' => 1130,
+                'country_id' => 118,
+                'language_id' => 5,
+                'name' => 'Lesothos',
+                'created_at' => '2025-07-24 12:03:35',
+                'updated_at' => '2025-07-24 12:03:35',
+            ),
+            130 => 
+            array (
+                'id' => 1131,
+                'country_id' => 119,
+                'language_id' => 5,
+                'name' => 'Liberien',
+                'created_at' => '2025-07-24 12:03:36',
+                'updated_at' => '2025-07-24 12:03:36',
+            ),
+            131 => 
+            array (
+                'id' => 1132,
+                'country_id' => 120,
+                'language_id' => 5,
+                'name' => 'Libyen',
+                'created_at' => '2025-07-24 12:03:36',
+                'updated_at' => '2025-07-24 12:03:36',
+            ),
+            132 => 
+            array (
+                'id' => 1133,
+                'country_id' => 121,
+                'language_id' => 5,
+                'name' => 'Liechtenstein',
+                'created_at' => '2025-07-24 12:03:37',
+                'updated_at' => '2025-07-24 12:03:37',
+            ),
+            133 => 
+            array (
+                'id' => 1134,
+                'country_id' => 122,
+                'language_id' => 5,
+                'name' => 'Litauen',
+                'created_at' => '2025-07-24 12:03:37',
+                'updated_at' => '2025-07-24 12:03:37',
+            ),
+            134 => 
+            array (
+                'id' => 1135,
+                'country_id' => 123,
+                'language_id' => 5,
+                'name' => 'Luxemburg',
+                'created_at' => '2025-07-24 12:03:37',
+                'updated_at' => '2025-07-24 12:03:37',
+            ),
+            135 => 
+            array (
+                'id' => 1136,
+                'country_id' => 124,
+                'language_id' => 5,
+                'name' => 'von Macau',
+                'created_at' => '2025-07-24 12:03:38',
+                'updated_at' => '2025-07-24 12:03:38',
+            ),
+            136 => 
+            array (
+                'id' => 1137,
+                'country_id' => 125,
+                'language_id' => 5,
+                'name' => 'Nordmazedonien',
+                'created_at' => '2025-07-24 12:03:39',
+                'updated_at' => '2025-07-24 12:03:39',
+            ),
+            137 => 
+            array (
+                'id' => 1138,
+                'country_id' => 126,
+                'language_id' => 5,
+                'name' => 'Madagaskar',
+                'created_at' => '2025-07-24 12:03:39',
+                'updated_at' => '2025-07-24 12:03:39',
+            ),
+            138 => 
+            array (
+                'id' => 1139,
+                'country_id' => 127,
+                'language_id' => 5,
+                'name' => 'Malawi',
+                'created_at' => '2025-07-24 12:03:39',
+                'updated_at' => '2025-07-24 12:03:39',
+            ),
+            139 => 
+            array (
+                'id' => 1140,
+                'country_id' => 128,
+                'language_id' => 5,
+                'name' => 'Malaysia',
+                'created_at' => '2025-07-24 12:03:41',
+                'updated_at' => '2025-07-24 12:03:41',
+            ),
+            140 => 
+            array (
+                'id' => 1141,
+                'country_id' => 129,
+                'language_id' => 5,
+                'name' => 'Malediven',
+                'created_at' => '2025-07-24 12:03:41',
+                'updated_at' => '2025-07-24 12:03:41',
+            ),
+            141 => 
+            array (
+                'id' => 1142,
+                'country_id' => 130,
+                'language_id' => 5,
+                'name' => 'Mali',
+                'created_at' => '2025-07-24 12:03:42',
+                'updated_at' => '2025-07-24 12:03:42',
+            ),
+            142 => 
+            array (
+                'id' => 1143,
+                'country_id' => 131,
+                'language_id' => 5,
+                'name' => 'Malta',
+                'created_at' => '2025-07-24 12:03:42',
+                'updated_at' => '2025-07-24 12:03:42',
+            ),
+            143 => 
+            array (
+                'id' => 1144,
+                'country_id' => 132,
+                'language_id' => 5,
+                'name' => 'Marshall Inseln',
+                'created_at' => '2025-07-24 12:03:43',
+                'updated_at' => '2025-07-24 12:03:43',
+            ),
+            144 => 
+            array (
+                'id' => 1145,
+                'country_id' => 133,
+                'language_id' => 5,
+                'name' => 'Martinik',
+                'created_at' => '2025-07-24 12:03:43',
+                'updated_at' => '2025-07-24 12:03:43',
+            ),
+            145 => 
+            array (
+                'id' => 1146,
+                'country_id' => 134,
+                'language_id' => 5,
+                'name' => 'Mauretanien',
+                'created_at' => '2025-07-24 12:03:44',
+                'updated_at' => '2025-07-24 12:03:44',
+            ),
+            146 => 
+            array (
+                'id' => 1147,
+                'country_id' => 135,
+                'language_id' => 5,
+                'name' => 'Mauritius',
+                'created_at' => '2025-07-24 12:03:44',
+                'updated_at' => '2025-07-24 12:03:44',
+            ),
+            147 => 
+            array (
+                'id' => 1148,
+                'country_id' => 136,
+                'language_id' => 5,
+                'name' => 'Mayotte',
+                'created_at' => '2025-07-24 12:03:44',
+                'updated_at' => '2025-07-24 12:03:44',
+            ),
+            148 => 
+            array (
+                'id' => 1149,
+                'country_id' => 137,
+                'language_id' => 5,
+                'name' => 'Mexiko',
+                'created_at' => '2025-07-24 12:03:45',
+                'updated_at' => '2025-07-24 12:03:45',
+            ),
+            149 => 
+            array (
+                'id' => 1150,
+                'country_id' => 138,
+                'language_id' => 5,
+                'name' => 'Mikronesien, Föderierte Staaten',
+                'created_at' => '2025-07-24 12:03:46',
+                'updated_at' => '2025-07-24 12:03:46',
+            ),
+            150 => 
+            array (
+                'id' => 1151,
+                'country_id' => 139,
+                'language_id' => 5,
+                'name' => 'Moldawien, Republik',
+                'created_at' => '2025-07-24 12:03:46',
+                'updated_at' => '2025-07-24 12:03:46',
+            ),
+            151 => 
+            array (
+                'id' => 1152,
+                'country_id' => 140,
+                'language_id' => 5,
+                'name' => 'Monaco',
+                'created_at' => '2025-07-24 12:03:46',
+                'updated_at' => '2025-07-24 12:03:46',
+            ),
+            152 => 
+            array (
+                'id' => 1153,
+                'country_id' => 141,
+                'language_id' => 5,
+                'name' => 'Mongolei',
+                'created_at' => '2025-07-24 12:03:47',
+                'updated_at' => '2025-07-24 12:03:47',
+            ),
+            153 => 
+            array (
+                'id' => 1154,
+                'country_id' => 142,
+                'language_id' => 5,
+                'name' => 'Montserrat',
+                'created_at' => '2025-07-24 12:03:47',
+                'updated_at' => '2025-07-24 12:03:47',
+            ),
+            154 => 
+            array (
+                'id' => 1155,
+                'country_id' => 143,
+                'language_id' => 5,
+                'name' => 'Marokko',
+                'created_at' => '2025-07-24 12:03:48',
+                'updated_at' => '2025-07-24 12:03:48',
+            ),
+            155 => 
+            array (
+                'id' => 1156,
+                'country_id' => 144,
+                'language_id' => 5,
+                'name' => 'Mosambik',
+                'created_at' => '2025-07-24 12:03:48',
+                'updated_at' => '2025-07-24 12:03:48',
+            ),
+            156 => 
+            array (
+                'id' => 1157,
+                'country_id' => 145,
+                'language_id' => 5,
+                'name' => 'Myanmar',
+                'created_at' => '2025-07-24 12:03:49',
+                'updated_at' => '2025-07-24 12:03:49',
+            ),
+            157 => 
+            array (
+                'id' => 1158,
+                'country_id' => 146,
+                'language_id' => 5,
+                'name' => 'Namibien',
+                'created_at' => '2025-07-24 12:03:49',
+                'updated_at' => '2025-07-24 12:03:49',
+            ),
+            158 => 
+            array (
+                'id' => 1159,
+                'country_id' => 147,
+                'language_id' => 5,
+                'name' => 'Nauru',
+                'created_at' => '2025-07-24 12:03:50',
+                'updated_at' => '2025-07-24 12:03:50',
+            ),
+            159 => 
+            array (
+                'id' => 1160,
+                'country_id' => 148,
+                'language_id' => 5,
+                'name' => 'Nepal',
+                'created_at' => '2025-07-24 12:03:50',
+                'updated_at' => '2025-07-24 12:03:50',
+            ),
+            160 => 
+            array (
+                'id' => 1161,
+                'country_id' => 149,
+                'language_id' => 5,
+                'name' => 'Niederlande',
+                'created_at' => '2025-07-24 12:03:51',
+                'updated_at' => '2025-07-24 12:03:51',
+            ),
+            161 => 
+            array (
+                'id' => 1162,
+                'country_id' => 150,
+                'language_id' => 5,
+                'name' => 'Niederländische Antillen',
+                'created_at' => '2025-07-24 12:03:51',
+                'updated_at' => '2025-07-24 12:03:51',
+            ),
+            162 => 
+            array (
+                'id' => 1163,
+                'country_id' => 151,
+                'language_id' => 5,
+                'name' => 'Neukaledonien',
+                'created_at' => '2025-07-24 12:03:52',
+                'updated_at' => '2025-07-24 12:03:52',
+            ),
+            163 => 
+            array (
+                'id' => 1164,
+                'country_id' => 152,
+                'language_id' => 5,
+                'name' => 'Neuseeland',
+                'created_at' => '2025-07-24 12:03:52',
+                'updated_at' => '2025-07-24 12:03:52',
+            ),
+            164 => 
+            array (
+                'id' => 1165,
+                'country_id' => 153,
+                'language_id' => 5,
+                'name' => 'Nicaragua',
+                'created_at' => '2025-07-24 12:03:53',
+                'updated_at' => '2025-07-24 12:03:53',
+            ),
+            165 => 
+            array (
+                'id' => 1166,
+                'country_id' => 154,
+                'language_id' => 5,
+                'name' => 'Niger',
+                'created_at' => '2025-07-24 12:03:53',
+                'updated_at' => '2025-07-24 12:03:53',
+            ),
+            166 => 
+            array (
+                'id' => 1167,
+                'country_id' => 155,
+                'language_id' => 5,
+                'name' => 'Nigeria',
+                'created_at' => '2025-07-24 12:03:54',
+                'updated_at' => '2025-07-24 12:03:54',
+            ),
+            167 => 
+            array (
+                'id' => 1168,
+                'country_id' => 156,
+                'language_id' => 5,
+                'name' => 'Niue',
+                'created_at' => '2025-07-24 12:03:54',
+                'updated_at' => '2025-07-24 12:03:54',
+            ),
+            168 => 
+            array (
+                'id' => 1169,
+                'country_id' => 157,
+                'language_id' => 5,
+                'name' => 'Norfolk Insel',
+                'created_at' => '2025-07-24 12:03:54',
+                'updated_at' => '2025-07-24 12:03:54',
+            ),
+            169 => 
+            array (
+                'id' => 1170,
+                'country_id' => 158,
+                'language_id' => 5,
+                'name' => 'Nördliche Marianen',
+                'created_at' => '2025-07-24 12:03:55',
+                'updated_at' => '2025-07-24 12:03:55',
+            ),
+            170 => 
+            array (
+                'id' => 1171,
+                'country_id' => 159,
+                'language_id' => 5,
+                'name' => 'Norwegen',
+                'created_at' => '2025-07-24 12:03:55',
+                'updated_at' => '2025-07-24 12:03:55',
+            ),
+            171 => 
+            array (
+                'id' => 1172,
+                'country_id' => 160,
+                'language_id' => 5,
+                'name' => 'Oman',
+                'created_at' => '2025-07-24 12:03:56',
+                'updated_at' => '2025-07-24 12:03:56',
+            ),
+            172 => 
+            array (
+                'id' => 1173,
+                'country_id' => 161,
+                'language_id' => 5,
+                'name' => 'Pakistanische',
+                'created_at' => '2025-07-24 12:03:56',
+                'updated_at' => '2025-07-24 12:03:56',
+            ),
+            173 => 
+            array (
+                'id' => 1174,
+                'country_id' => 162,
+                'language_id' => 5,
+                'name' => 'Palau',
+                'created_at' => '2025-07-24 12:03:57',
+                'updated_at' => '2025-07-24 12:03:57',
+            ),
+            174 => 
+            array (
+                'id' => 1175,
+                'country_id' => 163,
+                'language_id' => 5,
+                'name' => 'Panama',
+                'created_at' => '2025-07-24 12:03:57',
+                'updated_at' => '2025-07-24 12:03:57',
+            ),
+            175 => 
+            array (
+                'id' => 1176,
+                'country_id' => 164,
+                'language_id' => 5,
+                'name' => 'Papua-Neuguinea',
+                'created_at' => '2025-07-24 12:03:57',
+                'updated_at' => '2025-07-24 12:03:57',
+            ),
+            176 => 
+            array (
+                'id' => 1177,
+                'country_id' => 165,
+                'language_id' => 5,
+                'name' => 'Paraguay',
+                'created_at' => '2025-07-24 12:03:58',
+                'updated_at' => '2025-07-24 12:03:58',
+            ),
+            177 => 
+            array (
+                'id' => 1178,
+                'country_id' => 166,
+                'language_id' => 5,
+                'name' => 'Peru',
+                'created_at' => '2025-07-24 12:03:58',
+                'updated_at' => '2025-07-24 12:03:58',
+            ),
+            178 => 
+            array (
+                'id' => 1179,
+                'country_id' => 167,
+                'language_id' => 5,
+                'name' => 'Philippinen',
+                'created_at' => '2025-07-24 12:03:59',
+                'updated_at' => '2025-07-24 12:03:59',
+            ),
+            179 => 
+            array (
+                'id' => 1180,
+                'country_id' => 168,
+                'language_id' => 5,
+                'name' => 'Pitcairn',
+                'created_at' => '2025-07-24 12:03:59',
+                'updated_at' => '2025-07-24 12:03:59',
+            ),
+            180 => 
+            array (
+                'id' => 1181,
+                'country_id' => 169,
+                'language_id' => 5,
+                'name' => 'Polen',
+                'created_at' => '2025-07-24 12:04:00',
+                'updated_at' => '2025-07-24 12:04:00',
+            ),
+            181 => 
+            array (
+                'id' => 1182,
+                'country_id' => 170,
+                'language_id' => 5,
+                'name' => 'Portugals',
+                'created_at' => '2025-07-24 12:04:00',
+                'updated_at' => '2025-07-24 12:04:00',
+            ),
+            182 => 
+            array (
+                'id' => 1183,
+                'country_id' => 171,
+                'language_id' => 5,
+                'name' => 'Puerto Rico',
+                'created_at' => '2025-07-24 12:04:00',
+                'updated_at' => '2025-07-24 12:04:00',
+            ),
+            183 => 
+            array (
+                'id' => 1184,
+                'country_id' => 172,
+                'language_id' => 5,
+                'name' => 'Katar',
+                'created_at' => '2025-07-24 12:04:01',
+                'updated_at' => '2025-07-24 12:04:01',
+            ),
+            184 => 
+            array (
+                'id' => 1185,
+                'country_id' => 173,
+                'language_id' => 5,
+                'name' => 'Reunion',
+                'created_at' => '2025-07-24 12:04:01',
+                'updated_at' => '2025-07-24 12:04:01',
+            ),
+            185 => 
+            array (
+                'id' => 1186,
+                'country_id' => 174,
+                'language_id' => 5,
+                'name' => 'Rumänien',
+                'created_at' => '2025-07-24 12:04:02',
+                'updated_at' => '2025-07-24 12:04:02',
+            ),
+            186 => 
+            array (
+                'id' => 1187,
+                'country_id' => 175,
+                'language_id' => 5,
+            'name' => 'Russische Föderation (the)',
+                'created_at' => '2025-07-24 12:04:02',
+                'updated_at' => '2025-07-24 12:04:02',
+            ),
+            187 => 
+            array (
+                'id' => 1188,
+                'country_id' => 176,
+                'language_id' => 5,
+                'name' => 'Ruanda',
+                'created_at' => '2025-07-24 12:04:03',
+                'updated_at' => '2025-07-24 12:04:03',
+            ),
+            188 => 
+            array (
+                'id' => 1189,
+                'country_id' => 177,
+                'language_id' => 5,
+                'name' => 'Saint Kitts und Nevis',
+                'created_at' => '2025-07-24 12:04:03',
+                'updated_at' => '2025-07-24 12:04:03',
+            ),
+            189 => 
+            array (
+                'id' => 1190,
+                'country_id' => 178,
+                'language_id' => 5,
+                'name' => 'Heilige Lucia',
+                'created_at' => '2025-07-24 12:04:04',
+                'updated_at' => '2025-07-24 12:04:04',
+            ),
+            190 => 
+            array (
+                'id' => 1191,
+                'country_id' => 179,
+                'language_id' => 5,
+                'name' => 'St. Vincent und die Grenadinen',
+                'created_at' => '2025-07-24 12:04:04',
+                'updated_at' => '2025-07-24 12:04:04',
+            ),
+            191 => 
+            array (
+                'id' => 1192,
+                'country_id' => 180,
+                'language_id' => 5,
+                'name' => 'Samoa',
+                'created_at' => '2025-07-24 12:04:05',
+                'updated_at' => '2025-07-24 12:04:05',
+            ),
+            192 => 
+            array (
+                'id' => 1193,
+                'country_id' => 181,
+                'language_id' => 5,
+                'name' => 'von San Marino',
+                'created_at' => '2025-07-24 12:04:05',
+                'updated_at' => '2025-07-24 12:04:05',
+            ),
+            193 => 
+            array (
+                'id' => 1194,
+                'country_id' => 182,
+                'language_id' => 5,
+                'name' => 'Sao Tome und Príncipe',
+                'created_at' => '2025-07-24 12:04:05',
+                'updated_at' => '2025-07-24 12:04:05',
+            ),
+            194 => 
+            array (
+                'id' => 1195,
+                'country_id' => 183,
+                'language_id' => 5,
+                'name' => 'Saudi-Arabien',
+                'created_at' => '2025-07-24 12:04:06',
+                'updated_at' => '2025-07-24 12:04:06',
+            ),
+            195 => 
+            array (
+                'id' => 1196,
+                'country_id' => 184,
+                'language_id' => 5,
+                'name' => 'Senegal',
+                'created_at' => '2025-07-24 12:04:06',
+                'updated_at' => '2025-07-24 12:04:06',
+            ),
+            196 => 
+            array (
+                'id' => 1197,
+                'country_id' => 185,
+                'language_id' => 5,
+                'name' => 'Seychellen',
+                'created_at' => '2025-07-24 12:04:07',
+                'updated_at' => '2025-07-24 12:04:07',
+            ),
+            197 => 
+            array (
+                'id' => 1198,
+                'country_id' => 186,
+                'language_id' => 5,
+                'name' => 'Sierra Leone',
+                'created_at' => '2025-07-24 12:04:07',
+                'updated_at' => '2025-07-24 12:04:07',
+            ),
+            198 => 
+            array (
+                'id' => 1199,
+                'country_id' => 187,
+                'language_id' => 5,
+                'name' => 'Singapur',
+                'created_at' => '2025-07-24 12:04:07',
+                'updated_at' => '2025-07-24 12:04:07',
+            ),
+            199 => 
+            array (
+                'id' => 1200,
+                'country_id' => 188,
+                'language_id' => 5,
+                'name' => 'Slowakische Republik',
+                'created_at' => '2025-07-24 12:04:08',
+                'updated_at' => '2025-07-24 12:04:08',
+            ),
+            200 => 
+            array (
+                'id' => 1201,
+                'country_id' => 189,
+                'language_id' => 5,
+                'name' => 'Slowenien',
+                'created_at' => '2025-07-24 12:04:08',
+                'updated_at' => '2025-07-24 12:04:08',
+            ),
+            201 => 
+            array (
+                'id' => 1202,
+                'country_id' => 190,
+                'language_id' => 5,
+                'name' => 'Salomoninseln',
+                'created_at' => '2025-07-24 12:04:09',
+                'updated_at' => '2025-07-24 12:04:09',
+            ),
+            202 => 
+            array (
+                'id' => 1203,
+                'country_id' => 191,
+                'language_id' => 5,
+                'name' => 'Somalia',
+                'created_at' => '2025-07-24 12:04:09',
+                'updated_at' => '2025-07-24 12:04:09',
+            ),
+            203 => 
+            array (
+                'id' => 1204,
+                'country_id' => 192,
+                'language_id' => 5,
+                'name' => 'Südafrika',
+                'created_at' => '2025-07-24 12:04:10',
+                'updated_at' => '2025-07-24 12:04:10',
+            ),
+            204 => 
+            array (
+                'id' => 1205,
+                'country_id' => 193,
+                'language_id' => 5,
+                'name' => 'Südgeorgien &amp; Südsandwichinseln',
+                'created_at' => '2025-07-24 12:04:10',
+                'updated_at' => '2025-07-24 12:04:10',
+            ),
+            205 => 
+            array (
+                'id' => 1206,
+                'country_id' => 194,
+                'language_id' => 5,
+                'name' => 'Spanien',
+                'created_at' => '2025-07-24 12:04:11',
+                'updated_at' => '2025-07-24 12:04:11',
+            ),
+            206 => 
+            array (
+                'id' => 1207,
+                'country_id' => 195,
+                'language_id' => 5,
+                'name' => 'Sri Lanka',
+                'created_at' => '2025-07-24 12:04:11',
+                'updated_at' => '2025-07-24 12:04:11',
+            ),
+            207 => 
+            array (
+                'id' => 1208,
+                'country_id' => 196,
+                'language_id' => 5,
+                'name' => 'St. Helena',
+                'created_at' => '2025-07-24 12:04:12',
+                'updated_at' => '2025-07-24 12:04:12',
+            ),
+            208 => 
+            array (
+                'id' => 1209,
+                'country_id' => 197,
+                'language_id' => 5,
+                'name' => 'St. Pierre und Miquelon',
+                'created_at' => '2025-07-24 12:04:12',
+                'updated_at' => '2025-07-24 12:04:12',
+            ),
+            209 => 
+            array (
+                'id' => 1210,
+                'country_id' => 198,
+                'language_id' => 5,
+                'name' => 'Sudan',
+                'created_at' => '2025-07-24 12:04:12',
+                'updated_at' => '2025-07-24 12:04:12',
+            ),
+            210 => 
+            array (
+                'id' => 1211,
+                'country_id' => 199,
+                'language_id' => 5,
+                'name' => 'Surinam',
+                'created_at' => '2025-07-24 12:04:13',
+                'updated_at' => '2025-07-24 12:04:13',
+            ),
+            211 => 
+            array (
+                'id' => 1212,
+                'country_id' => 200,
+                'language_id' => 5,
+                'name' => 'Svalbard und Jan Mayen',
+                'created_at' => '2025-07-24 12:04:13',
+                'updated_at' => '2025-07-24 12:04:13',
+            ),
+            212 => 
+            array (
+                'id' => 1213,
+                'country_id' => 201,
+                'language_id' => 5,
+                'name' => 'Eswatini',
+                'created_at' => '2025-07-24 12:04:14',
+                'updated_at' => '2025-07-24 12:04:14',
+            ),
+            213 => 
+            array (
+                'id' => 1214,
+                'country_id' => 202,
+                'language_id' => 5,
+                'name' => 'Schweden',
+                'created_at' => '2025-07-24 12:04:14',
+                'updated_at' => '2025-07-24 12:04:14',
+            ),
+            214 => 
+            array (
+                'id' => 1215,
+                'country_id' => 203,
+                'language_id' => 5,
+                'name' => 'Schweiz',
+                'created_at' => '2025-07-24 12:04:15',
+                'updated_at' => '2025-07-24 12:04:15',
+            ),
+            215 => 
+            array (
+                'id' => 1216,
+                'country_id' => 204,
+                'language_id' => 5,
+                'name' => 'Syrische Arabische Republik',
+                'created_at' => '2025-07-24 12:04:15',
+                'updated_at' => '2025-07-24 12:04:15',
+            ),
+            216 => 
+            array (
+                'id' => 1217,
+                'country_id' => 205,
+                'language_id' => 5,
+                'name' => 'Taiwan',
+                'created_at' => '2025-07-24 12:04:16',
+                'updated_at' => '2025-07-24 12:04:16',
+            ),
+            217 => 
+            array (
+                'id' => 1218,
+                'country_id' => 206,
+                'language_id' => 5,
+                'name' => 'Tadschikistan',
+                'created_at' => '2025-07-24 12:04:16',
+                'updated_at' => '2025-07-24 12:04:16',
+            ),
+            218 => 
+            array (
+                'id' => 1219,
+                'country_id' => 207,
+                'language_id' => 5,
+                'name' => 'Tansania, Vereinigte Republik',
+                'created_at' => '2025-07-24 12:04:16',
+                'updated_at' => '2025-07-24 12:04:16',
+            ),
+            219 => 
+            array (
+                'id' => 1220,
+                'country_id' => 208,
+                'language_id' => 5,
+                'name' => 'Thailand',
+                'created_at' => '2025-07-24 12:04:17',
+                'updated_at' => '2025-07-24 12:04:17',
+            ),
+            220 => 
+            array (
+                'id' => 1221,
+                'country_id' => 209,
+                'language_id' => 5,
+                'name' => 'Togo',
+                'created_at' => '2025-07-24 12:04:17',
+                'updated_at' => '2025-07-24 12:04:17',
+            ),
+            221 => 
+            array (
+                'id' => 1222,
+                'country_id' => 210,
+                'language_id' => 5,
+                'name' => 'Tokelau',
+                'created_at' => '2025-07-24 12:04:18',
+                'updated_at' => '2025-07-24 12:04:18',
+            ),
+            222 => 
+            array (
+                'id' => 1223,
+                'country_id' => 211,
+                'language_id' => 5,
+                'name' => 'Tonga',
+                'created_at' => '2025-07-24 12:04:18',
+                'updated_at' => '2025-07-24 12:04:18',
+            ),
+            223 => 
+            array (
+                'id' => 1224,
+                'country_id' => 212,
+                'language_id' => 5,
+                'name' => 'Trinidad und Tobago',
+                'created_at' => '2025-07-24 12:04:19',
+                'updated_at' => '2025-07-24 12:04:19',
+            ),
+            224 => 
+            array (
+                'id' => 1225,
+                'country_id' => 213,
+                'language_id' => 5,
+                'name' => 'Tunesien',
+                'created_at' => '2025-07-24 12:04:19',
+                'updated_at' => '2025-07-24 12:04:19',
+            ),
+            225 => 
+            array (
+                'id' => 1226,
+                'country_id' => 214,
+                'language_id' => 5,
+                'name' => 'Republik Türkei',
+                'created_at' => '2025-07-24 12:04:19',
+                'updated_at' => '2025-07-24 12:04:19',
+            ),
+            226 => 
+            array (
+                'id' => 1227,
+                'country_id' => 215,
+                'language_id' => 5,
+                'name' => 'Turkmenistan',
+                'created_at' => '2025-07-24 12:04:20',
+                'updated_at' => '2025-07-24 12:04:20',
+            ),
+            227 => 
+            array (
+                'id' => 1228,
+                'country_id' => 216,
+                'language_id' => 5,
+                'name' => 'Turks- und Caicosinseln',
+                'created_at' => '2025-07-24 12:04:20',
+                'updated_at' => '2025-07-24 12:04:20',
+            ),
+            228 => 
+            array (
+                'id' => 1229,
+                'country_id' => 217,
+                'language_id' => 5,
+                'name' => 'Tuvalu',
+                'created_at' => '2025-07-24 12:04:21',
+                'updated_at' => '2025-07-24 12:04:21',
+            ),
+            229 => 
+            array (
+                'id' => 1230,
+                'country_id' => 218,
+                'language_id' => 5,
+                'name' => 'Uganda',
+                'created_at' => '2025-07-24 12:04:21',
+                'updated_at' => '2025-07-24 12:04:21',
+            ),
+            230 => 
+            array (
+                'id' => 1231,
+                'country_id' => 219,
+                'language_id' => 5,
+                'name' => 'Die Ukraine',
+                'created_at' => '2025-07-24 12:04:22',
+                'updated_at' => '2025-07-24 12:04:22',
+            ),
+            231 => 
+            array (
+                'id' => 1232,
+                'country_id' => 220,
+                'language_id' => 5,
+                'name' => 'Vereinigte Arabische Emirate',
+                'created_at' => '2025-07-24 12:04:22',
+                'updated_at' => '2025-07-24 12:04:22',
+            ),
+            232 => 
+            array (
+                'id' => 1233,
+                'country_id' => 221,
+                'language_id' => 5,
+                'name' => 'Vereinigtes Königreich',
+                'created_at' => '2025-07-24 12:04:22',
+                'updated_at' => '2025-07-24 12:04:22',
+            ),
+            233 => 
+            array (
+                'id' => 1234,
+                'country_id' => 222,
+                'language_id' => 5,
+                'name' => 'Vereinigte Staaten',
+                'created_at' => '2025-07-24 12:04:23',
+                'updated_at' => '2025-07-24 12:04:23',
+            ),
+            234 => 
+            array (
+                'id' => 1235,
+                'country_id' => 223,
+                'language_id' => 5,
+                'name' => 'Kleine außerhalb gelegene Inseln der Vereinigten Staaten',
+                'created_at' => '2025-07-24 12:04:23',
+                'updated_at' => '2025-07-24 12:04:23',
+            ),
+            235 => 
+            array (
+                'id' => 1236,
+                'country_id' => 224,
+                'language_id' => 5,
+                'name' => 'Uruguays',
+                'created_at' => '2025-07-24 12:04:23',
+                'updated_at' => '2025-07-24 12:04:23',
+            ),
+            236 => 
+            array (
+                'id' => 1237,
+                'country_id' => 225,
+                'language_id' => 5,
+                'name' => 'Usbekistan',
+                'created_at' => '2025-07-24 12:04:24',
+                'updated_at' => '2025-07-24 12:04:24',
+            ),
+            237 => 
+            array (
+                'id' => 1238,
+                'country_id' => 226,
+                'language_id' => 5,
+                'name' => 'Vanuatu',
+                'created_at' => '2025-07-24 12:04:24',
+                'updated_at' => '2025-07-24 12:04:24',
+            ),
+            238 => 
+            array (
+                'id' => 1239,
+                'country_id' => 227,
+                'language_id' => 5,
+            'name' => 'Vatikanstadtstaat (Heiliger Stuhl)',
+                'created_at' => '2025-07-24 12:04:25',
+                'updated_at' => '2025-07-24 12:04:25',
+            ),
+            239 => 
+            array (
+                'id' => 1240,
+                'country_id' => 228,
+                'language_id' => 5,
+                'name' => 'Venezuela',
+                'created_at' => '2025-07-24 12:04:25',
+                'updated_at' => '2025-07-24 12:04:25',
+            ),
+            240 => 
+            array (
+                'id' => 1241,
+                'country_id' => 229,
+                'language_id' => 5,
+                'name' => 'Vietnamesisch',
+                'created_at' => '2025-07-24 12:04:26',
+                'updated_at' => '2025-07-24 12:04:26',
+            ),
+            241 => 
+            array (
+                'id' => 1242,
+                'country_id' => 230,
+                'language_id' => 5,
+            'name' => 'Jungferninseln (Britisch)',
+                'created_at' => '2025-07-24 12:04:26',
+                'updated_at' => '2025-07-24 12:04:26',
+            ),
+            242 => 
+            array (
+                'id' => 1243,
+                'country_id' => 231,
+                'language_id' => 5,
+            'name' => 'Jungferninseln (USA)',
+                'created_at' => '2025-07-24 12:04:26',
+                'updated_at' => '2025-07-24 12:04:26',
+            ),
+            243 => 
+            array (
+                'id' => 1244,
+                'country_id' => 232,
+                'language_id' => 5,
+                'name' => 'Wallis und Futuna Inseln',
+                'created_at' => '2025-07-24 12:04:27',
+                'updated_at' => '2025-07-24 12:04:27',
+            ),
+            244 => 
+            array (
+                'id' => 1245,
+                'country_id' => 233,
+                'language_id' => 5,
+                'name' => 'Westsahara',
+                'created_at' => '2025-07-24 12:04:27',
+                'updated_at' => '2025-07-24 12:04:27',
+            ),
+            245 => 
+            array (
+                'id' => 1246,
+                'country_id' => 234,
+                'language_id' => 5,
+                'name' => 'Jemen',
+                'created_at' => '2025-07-24 12:04:28',
+                'updated_at' => '2025-07-24 12:04:28',
+            ),
+            246 => 
+            array (
+                'id' => 1247,
+                'country_id' => 235,
+                'language_id' => 5,
+                'name' => 'Demokratische Republik Kongo',
+                'created_at' => '2025-07-24 12:04:28',
+                'updated_at' => '2025-07-24 12:04:28',
+            ),
+            247 => 
+            array (
+                'id' => 1248,
+                'country_id' => 236,
+                'language_id' => 5,
+                'name' => 'Sambia',
+                'created_at' => '2025-07-24 12:04:29',
+                'updated_at' => '2025-07-24 12:04:29',
+            ),
+            248 => 
+            array (
+                'id' => 1249,
+                'country_id' => 237,
+                'language_id' => 5,
+                'name' => 'Simbabwe',
+                'created_at' => '2025-07-24 12:04:29',
+                'updated_at' => '2025-07-24 12:04:29',
+            ),
+            249 => 
+            array (
+                'id' => 1250,
+                'country_id' => 238,
+                'language_id' => 5,
+                'name' => 'Montenegro',
+                'created_at' => '2025-07-24 12:04:29',
+                'updated_at' => '2025-07-24 12:04:29',
+            ),
+            250 => 
+            array (
+                'id' => 1251,
+                'country_id' => 239,
+                'language_id' => 5,
+                'name' => 'Serbien',
+                'created_at' => '2025-07-24 12:04:30',
+                'updated_at' => '2025-07-24 12:04:30',
+            ),
+            251 => 
+            array (
+                'id' => 1252,
+                'country_id' => 240,
+                'language_id' => 5,
+                'name' => 'Aaland Inseln',
+                'created_at' => '2025-07-24 12:04:30',
+                'updated_at' => '2025-07-24 12:04:30',
+            ),
+            252 => 
+            array (
+                'id' => 1253,
+                'country_id' => 241,
+                'language_id' => 5,
+                'name' => 'Bonaire, Sint Eustatius und Saba',
+                'created_at' => '2025-07-24 12:04:31',
+                'updated_at' => '2025-07-24 12:04:31',
+            ),
+            253 => 
+            array (
+                'id' => 1254,
+                'country_id' => 242,
+                'language_id' => 5,
+                'name' => 'auf Curacao',
+                'created_at' => '2025-07-24 12:04:31',
+                'updated_at' => '2025-07-24 12:04:31',
+            ),
+            254 => 
+            array (
+                'id' => 1255,
+                'country_id' => 243,
+                'language_id' => 5,
+                'name' => 'Besessenes palästinensisches Gebiet',
+                'created_at' => '2025-07-24 12:04:32',
+                'updated_at' => '2025-07-24 12:04:32',
+            ),
+            255 => 
+            array (
+                'id' => 1256,
+                'country_id' => 244,
+                'language_id' => 5,
+                'name' => 'Südsudan',
+                'created_at' => '2025-07-24 12:04:32',
+                'updated_at' => '2025-07-24 12:04:32',
+            ),
+            256 => 
+            array (
+                'id' => 1257,
+                'country_id' => 245,
+                'language_id' => 5,
+                'name' => 'St. Barthelemy',
+                'created_at' => '2025-07-24 12:04:32',
+                'updated_at' => '2025-07-24 12:04:32',
+            ),
+            257 => 
+            array (
+                'id' => 1258,
+                'country_id' => 246,
+                'language_id' => 5,
+            'name' => 'St. Martin (französischer Teil)',
+                'created_at' => '2025-07-24 12:04:33',
+                'updated_at' => '2025-07-24 12:04:33',
+            ),
+            258 => 
+            array (
+                'id' => 1259,
+                'country_id' => 247,
+                'language_id' => 5,
+                'name' => 'Kanarische Inseln',
+                'created_at' => '2025-07-24 12:04:33',
+                'updated_at' => '2025-07-24 12:04:33',
+            ),
+            259 => 
+            array (
+                'id' => 1260,
+                'country_id' => 248,
+                'language_id' => 5,
+            'name' => 'Ascension Island (britisch)',
+                'created_at' => '2025-07-24 12:04:33',
+                'updated_at' => '2025-07-24 12:04:33',
+            ),
+            260 => 
+            array (
+                'id' => 1261,
+                'country_id' => 249,
+                'language_id' => 5,
+                'name' => 'Kosovo, Republik',
+                'created_at' => '2025-07-24 12:04:34',
+                'updated_at' => '2025-07-24 12:04:34',
+            ),
+            261 => 
+            array (
+                'id' => 1262,
+                'country_id' => 250,
+                'language_id' => 5,
+                'name' => 'Insel von Man',
+                'created_at' => '2025-07-24 12:04:34',
+                'updated_at' => '2025-07-24 12:04:34',
+            ),
+            262 => 
+            array (
+                'id' => 1263,
+                'country_id' => 251,
+                'language_id' => 5,
+                'name' => 'Tristan von Cunha',
+                'created_at' => '2025-07-24 12:04:35',
+                'updated_at' => '2025-07-24 12:04:35',
+            ),
+            263 => 
+            array (
+                'id' => 1264,
+                'country_id' => 252,
+                'language_id' => 5,
+                'name' => 'Guernsey',
+                'created_at' => '2025-07-24 12:04:35',
+                'updated_at' => '2025-07-24 12:04:35',
+            ),
+            264 => 
+            array (
+                'id' => 1265,
+                'country_id' => 253,
+                'language_id' => 5,
+                'name' => 'Jersey',
+                'created_at' => '2025-07-24 12:04:36',
+                'updated_at' => '2025-07-24 12:04:36',
+            ),
+            265 => 
+            array (
+                'id' => 1266,
+                'country_id' => 1,
+                'language_id' => 6,
+                'name' => 'アフガニスタン',
+                'created_at' => '2025-07-24 12:05:01',
+                'updated_at' => '2025-07-24 12:05:01',
+            ),
+            266 => 
+            array (
+                'id' => 1267,
+                'country_id' => 2,
+                'language_id' => 6,
+                'name' => 'アルバニア',
+                'created_at' => '2025-07-24 12:05:01',
+                'updated_at' => '2025-07-24 12:05:01',
+            ),
+            267 => 
+            array (
+                'id' => 1268,
+                'country_id' => 3,
+                'language_id' => 6,
+                'name' => 'アルジェリア',
+                'created_at' => '2025-07-24 12:05:02',
+                'updated_at' => '2025-07-24 12:05:02',
+            ),
+            268 => 
+            array (
+                'id' => 1269,
+                'country_id' => 4,
+                'language_id' => 6,
+                'name' => 'アメリカンサモア',
+                'created_at' => '2025-07-24 12:05:02',
+                'updated_at' => '2025-07-24 12:05:02',
+            ),
+            269 => 
+            array (
+                'id' => 1270,
+                'country_id' => 5,
+                'language_id' => 6,
+                'name' => 'アンドラ',
+                'created_at' => '2025-07-24 12:05:03',
+                'updated_at' => '2025-07-24 12:05:03',
+            ),
+            270 => 
+            array (
+                'id' => 1271,
+                'country_id' => 6,
+                'language_id' => 6,
+                'name' => 'アンゴラ',
+                'created_at' => '2025-07-24 12:05:03',
+                'updated_at' => '2025-07-24 12:05:03',
+            ),
+            271 => 
+            array (
+                'id' => 1272,
+                'country_id' => 7,
+                'language_id' => 6,
+                'name' => 'アンギラ',
+                'created_at' => '2025-07-24 12:05:04',
+                'updated_at' => '2025-07-24 12:05:04',
+            ),
+            272 => 
+            array (
+                'id' => 1273,
+                'country_id' => 8,
+                'language_id' => 6,
+                'name' => '南極',
+                'created_at' => '2025-07-24 12:05:04',
+                'updated_at' => '2025-07-24 12:05:04',
+            ),
+            273 => 
+            array (
+                'id' => 1274,
+                'country_id' => 9,
+                'language_id' => 6,
+                'name' => 'アンティグアとバルブダ',
+                'created_at' => '2025-07-24 12:05:05',
+                'updated_at' => '2025-07-24 12:05:05',
+            ),
+            274 => 
+            array (
+                'id' => 1275,
+                'country_id' => 10,
+                'language_id' => 6,
+                'name' => 'アルゼンチン',
+                'created_at' => '2025-07-24 12:05:05',
+                'updated_at' => '2025-07-24 12:05:05',
+            ),
+            275 => 
+            array (
+                'id' => 1276,
+                'country_id' => 11,
+                'language_id' => 6,
+                'name' => 'アルメニア',
+                'created_at' => '2025-07-24 12:05:05',
+                'updated_at' => '2025-07-24 12:05:05',
+            ),
+            276 => 
+            array (
+                'id' => 1277,
+                'country_id' => 12,
+                'language_id' => 6,
+                'name' => 'アルーバ',
+                'created_at' => '2025-07-24 12:05:06',
+                'updated_at' => '2025-07-24 12:05:06',
+            ),
+            277 => 
+            array (
+                'id' => 1278,
+                'country_id' => 13,
+                'language_id' => 6,
+                'name' => 'オーストラリア',
+                'created_at' => '2025-07-24 12:05:06',
+                'updated_at' => '2025-07-24 12:05:06',
+            ),
+            278 => 
+            array (
+                'id' => 1279,
+                'country_id' => 14,
+                'language_id' => 6,
+                'name' => 'オーストリア',
+                'created_at' => '2025-07-24 12:05:07',
+                'updated_at' => '2025-07-24 12:05:07',
+            ),
+            279 => 
+            array (
+                'id' => 1280,
+                'country_id' => 15,
+                'language_id' => 6,
+                'name' => 'アゼルバイジャン',
+                'created_at' => '2025-07-24 12:05:07',
+                'updated_at' => '2025-07-24 12:05:07',
+            ),
+            280 => 
+            array (
+                'id' => 1281,
+                'country_id' => 16,
+                'language_id' => 6,
+                'name' => 'バハマ',
+                'created_at' => '2025-07-24 12:05:08',
+                'updated_at' => '2025-07-24 12:05:08',
+            ),
+            281 => 
+            array (
+                'id' => 1282,
+                'country_id' => 17,
+                'language_id' => 6,
+                'name' => 'バーレーン',
+                'created_at' => '2025-07-24 12:05:08',
+                'updated_at' => '2025-07-24 12:05:08',
+            ),
+            282 => 
+            array (
+                'id' => 1283,
+                'country_id' => 18,
+                'language_id' => 6,
+                'name' => 'バングラデシュ',
+                'created_at' => '2025-07-24 12:05:08',
+                'updated_at' => '2025-07-24 12:05:08',
+            ),
+            283 => 
+            array (
+                'id' => 1284,
+                'country_id' => 19,
+                'language_id' => 6,
+                'name' => 'バルバドス',
+                'created_at' => '2025-07-24 12:05:09',
+                'updated_at' => '2025-07-24 12:05:09',
+            ),
+            284 => 
+            array (
+                'id' => 1285,
+                'country_id' => 20,
+                'language_id' => 6,
+                'name' => 'ベラルーシ',
+                'created_at' => '2025-07-24 12:05:09',
+                'updated_at' => '2025-07-24 12:05:09',
+            ),
+            285 => 
+            array (
+                'id' => 1286,
+                'country_id' => 21,
+                'language_id' => 6,
+                'name' => 'ベルギー',
+                'created_at' => '2025-07-24 12:05:10',
+                'updated_at' => '2025-07-24 12:05:10',
+            ),
+            286 => 
+            array (
+                'id' => 1287,
+                'country_id' => 22,
+                'language_id' => 6,
+                'name' => 'ベリーズ',
+                'created_at' => '2025-07-24 12:05:11',
+                'updated_at' => '2025-07-24 12:05:11',
+            ),
+            287 => 
+            array (
+                'id' => 1288,
+                'country_id' => 23,
+                'language_id' => 6,
+                'name' => 'ベニン',
+                'created_at' => '2025-07-24 12:05:11',
+                'updated_at' => '2025-07-24 12:05:11',
+            ),
+            288 => 
+            array (
+                'id' => 1289,
+                'country_id' => 24,
+                'language_id' => 6,
+                'name' => 'バーミューダ',
+                'created_at' => '2025-07-24 12:05:12',
+                'updated_at' => '2025-07-24 12:05:12',
+            ),
+            289 => 
+            array (
+                'id' => 1290,
+                'country_id' => 25,
+                'language_id' => 6,
+                'name' => 'ブータン',
+                'created_at' => '2025-07-24 12:05:12',
+                'updated_at' => '2025-07-24 12:05:12',
+            ),
+            290 => 
+            array (
+                'id' => 1291,
+                'country_id' => 26,
+                'language_id' => 6,
+                'name' => 'ボリビア',
+                'created_at' => '2025-07-24 12:05:13',
+                'updated_at' => '2025-07-24 12:05:13',
+            ),
+            291 => 
+            array (
+                'id' => 1292,
+                'country_id' => 27,
+                'language_id' => 6,
+                'name' => 'ボスニア・ヘルツェゴビナ',
+                'created_at' => '2025-07-24 12:05:13',
+                'updated_at' => '2025-07-24 12:05:13',
+            ),
+            292 => 
+            array (
+                'id' => 1293,
+                'country_id' => 28,
+                'language_id' => 6,
+                'name' => 'ボツワナ',
+                'created_at' => '2025-07-24 12:05:14',
+                'updated_at' => '2025-07-24 12:05:14',
+            ),
+            293 => 
+            array (
+                'id' => 1294,
+                'country_id' => 29,
+                'language_id' => 6,
+                'name' => 'ブヴェ島',
+                'created_at' => '2025-07-24 12:05:14',
+                'updated_at' => '2025-07-24 12:05:14',
+            ),
+            294 => 
+            array (
+                'id' => 1295,
+                'country_id' => 30,
+                'language_id' => 6,
+                'name' => 'ブラジル',
+                'created_at' => '2025-07-24 12:05:15',
+                'updated_at' => '2025-07-24 12:05:15',
+            ),
+            295 => 
+            array (
+                'id' => 1296,
+                'country_id' => 31,
+                'language_id' => 6,
+                'name' => 'イギリス インド洋 領土',
+                'created_at' => '2025-07-24 12:05:15',
+                'updated_at' => '2025-07-24 12:05:15',
+            ),
+            296 => 
+            array (
+                'id' => 1297,
+                'country_id' => 32,
+                'language_id' => 6,
+                'name' => 'ブルネイ',
+                'created_at' => '2025-07-24 12:05:16',
+                'updated_at' => '2025-07-24 12:05:16',
+            ),
+            297 => 
+            array (
+                'id' => 1298,
+                'country_id' => 33,
+                'language_id' => 6,
+                'name' => 'ブルガリア',
+                'created_at' => '2025-07-24 12:05:17',
+                'updated_at' => '2025-07-24 12:05:17',
+            ),
+            298 => 
+            array (
+                'id' => 1299,
+                'country_id' => 34,
+                'language_id' => 6,
+                'name' => 'ブルキナファソ',
+                'created_at' => '2025-07-24 12:05:17',
+                'updated_at' => '2025-07-24 12:05:17',
+            ),
+            299 => 
+            array (
+                'id' => 1300,
+                'country_id' => 35,
+                'language_id' => 6,
+                'name' => 'ブルンディ',
+                'created_at' => '2025-07-24 12:05:18',
+                'updated_at' => '2025-07-24 12:05:18',
+            ),
+            300 => 
+            array (
+                'id' => 1301,
+                'country_id' => 36,
+                'language_id' => 6,
+                'name' => 'カンボジア',
+                'created_at' => '2025-07-24 12:05:18',
+                'updated_at' => '2025-07-24 12:05:18',
+            ),
+            301 => 
+            array (
+                'id' => 1302,
+                'country_id' => 37,
+                'language_id' => 6,
+                'name' => 'カメルーン',
+                'created_at' => '2025-07-24 12:05:18',
+                'updated_at' => '2025-07-24 12:05:18',
+            ),
+            302 => 
+            array (
+                'id' => 1303,
+                'country_id' => 38,
+                'language_id' => 6,
+                'name' => 'カナダ',
+                'created_at' => '2025-07-24 12:05:19',
+                'updated_at' => '2025-07-24 12:05:19',
+            ),
+            303 => 
+            array (
+                'id' => 1304,
+                'country_id' => 39,
+                'language_id' => 6,
+                'name' => 'ケープベルデ',
+                'created_at' => '2025-07-24 12:05:19',
+                'updated_at' => '2025-07-24 12:05:19',
+            ),
+            304 => 
+            array (
+                'id' => 1305,
+                'country_id' => 40,
+                'language_id' => 6,
+                'name' => 'ケイマン諸島',
+                'created_at' => '2025-07-24 12:05:19',
+                'updated_at' => '2025-07-24 12:05:19',
+            ),
+            305 => 
+            array (
+                'id' => 1306,
+                'country_id' => 41,
+                'language_id' => 6,
+                'name' => '中央アフリカ共和国',
+                'created_at' => '2025-07-24 12:05:20',
+                'updated_at' => '2025-07-24 12:05:20',
+            ),
+            306 => 
+            array (
+                'id' => 1307,
+                'country_id' => 42,
+                'language_id' => 6,
+                'name' => 'チャド',
+                'created_at' => '2025-07-24 12:05:20',
+                'updated_at' => '2025-07-24 12:05:20',
+            ),
+            307 => 
+            array (
+                'id' => 1308,
+                'country_id' => 43,
+                'language_id' => 6,
+                'name' => 'チリ',
+                'created_at' => '2025-07-24 12:05:21',
+                'updated_at' => '2025-07-24 12:05:21',
+            ),
+            308 => 
+            array (
+                'id' => 1309,
+                'country_id' => 44,
+                'language_id' => 6,
+                'name' => '中国',
+                'created_at' => '2025-07-24 12:05:21',
+                'updated_at' => '2025-07-24 12:05:21',
+            ),
+            309 => 
+            array (
+                'id' => 1310,
+                'country_id' => 45,
+                'language_id' => 6,
+                'name' => 'クリスマス島',
+                'created_at' => '2025-07-24 12:05:22',
+                'updated_at' => '2025-07-24 12:05:22',
+            ),
+            310 => 
+            array (
+                'id' => 1311,
+                'country_id' => 46,
+                'language_id' => 6,
+                'name' => 'ココス（キーリング）諸島',
+                'created_at' => '2025-07-24 12:05:22',
+                'updated_at' => '2025-07-24 12:05:22',
+            ),
+            311 => 
+            array (
+                'id' => 1312,
+                'country_id' => 47,
+                'language_id' => 6,
+                'name' => 'コロンビア',
+                'created_at' => '2025-07-24 12:05:22',
+                'updated_at' => '2025-07-24 12:05:22',
+            ),
+            312 => 
+            array (
+                'id' => 1313,
+                'country_id' => 48,
+                'language_id' => 6,
+                'name' => 'コモロ',
+                'created_at' => '2025-07-24 12:05:23',
+                'updated_at' => '2025-07-24 12:05:23',
+            ),
+            313 => 
+            array (
+                'id' => 1314,
+                'country_id' => 49,
+                'language_id' => 6,
+                'name' => 'コンゴ',
+                'created_at' => '2025-07-24 12:05:23',
+                'updated_at' => '2025-07-24 12:05:23',
+            ),
+            314 => 
+            array (
+                'id' => 1315,
+                'country_id' => 50,
+                'language_id' => 6,
+                'name' => 'クック諸島',
+                'created_at' => '2025-07-24 12:05:24',
+                'updated_at' => '2025-07-24 12:05:24',
+            ),
+            315 => 
+            array (
+                'id' => 1316,
+                'country_id' => 51,
+                'language_id' => 6,
+                'name' => 'コスタリカ',
+                'created_at' => '2025-07-24 12:05:24',
+                'updated_at' => '2025-07-24 12:05:24',
+            ),
+            316 => 
+            array (
+                'id' => 1317,
+                'country_id' => 52,
+                'language_id' => 6,
+                'name' => 'コートドイボール',
+                'created_at' => '2025-07-24 12:05:25',
+                'updated_at' => '2025-07-24 12:05:25',
+            ),
+            317 => 
+            array (
+                'id' => 1318,
+                'country_id' => 53,
+                'language_id' => 6,
+                'name' => 'クロアチア',
+                'created_at' => '2025-07-24 12:05:25',
+                'updated_at' => '2025-07-24 12:05:25',
+            ),
+            318 => 
+            array (
+                'id' => 1319,
+                'country_id' => 54,
+                'language_id' => 6,
+                'name' => 'キューバ',
+                'created_at' => '2025-07-24 12:05:25',
+                'updated_at' => '2025-07-24 12:05:25',
+            ),
+            319 => 
+            array (
+                'id' => 1320,
+                'country_id' => 55,
+                'language_id' => 6,
+                'name' => 'キプロス',
+                'created_at' => '2025-07-24 12:05:26',
+                'updated_at' => '2025-07-24 12:05:26',
+            ),
+            320 => 
+            array (
+                'id' => 1321,
+                'country_id' => 56,
+                'language_id' => 6,
+                'name' => 'チェコ共和国',
+                'created_at' => '2025-07-24 12:05:26',
+                'updated_at' => '2025-07-24 12:05:26',
+            ),
+            321 => 
+            array (
+                'id' => 1322,
+                'country_id' => 57,
+                'language_id' => 6,
+                'name' => 'デンマーク',
+                'created_at' => '2025-07-24 12:05:27',
+                'updated_at' => '2025-07-24 12:05:27',
+            ),
+            322 => 
+            array (
+                'id' => 1323,
+                'country_id' => 58,
+                'language_id' => 6,
+                'name' => 'ジブチ',
+                'created_at' => '2025-07-24 12:05:27',
+                'updated_at' => '2025-07-24 12:05:27',
+            ),
+            323 => 
+            array (
+                'id' => 1324,
+                'country_id' => 59,
+                'language_id' => 6,
+                'name' => 'ドミニカ',
+                'created_at' => '2025-07-24 12:05:27',
+                'updated_at' => '2025-07-24 12:05:27',
+            ),
+            324 => 
+            array (
+                'id' => 1325,
+                'country_id' => 60,
+                'language_id' => 6,
+                'name' => 'ドミニカ共和国',
+                'created_at' => '2025-07-24 12:05:28',
+                'updated_at' => '2025-07-24 12:05:28',
+            ),
+            325 => 
+            array (
+                'id' => 1326,
+                'country_id' => 61,
+                'language_id' => 6,
+                'name' => '東ティモール',
+                'created_at' => '2025-07-24 12:05:28',
+                'updated_at' => '2025-07-24 12:05:28',
+            ),
+            326 => 
+            array (
+                'id' => 1327,
+                'country_id' => 62,
+                'language_id' => 6,
+                'name' => 'エクアドル',
+                'created_at' => '2025-07-24 12:05:29',
+                'updated_at' => '2025-07-24 12:05:29',
+            ),
+            327 => 
+            array (
+                'id' => 1328,
+                'country_id' => 63,
+                'language_id' => 6,
+                'name' => 'エジプト',
+                'created_at' => '2025-07-24 12:05:29',
+                'updated_at' => '2025-07-24 12:05:29',
+            ),
+            328 => 
+            array (
+                'id' => 1329,
+                'country_id' => 64,
+                'language_id' => 6,
+                'name' => 'エル サルバドール',
+                'created_at' => '2025-07-24 12:05:30',
+                'updated_at' => '2025-07-24 12:05:30',
+            ),
+            329 => 
+            array (
+                'id' => 1330,
+                'country_id' => 65,
+                'language_id' => 6,
+                'name' => '赤道ギニア',
+                'created_at' => '2025-07-24 12:05:30',
+                'updated_at' => '2025-07-24 12:05:30',
+            ),
+            330 => 
+            array (
+                'id' => 1331,
+                'country_id' => 66,
+                'language_id' => 6,
+                'name' => 'エリトリア',
+                'created_at' => '2025-07-24 12:05:31',
+                'updated_at' => '2025-07-24 12:05:31',
+            ),
+            331 => 
+            array (
+                'id' => 1332,
+                'country_id' => 67,
+                'language_id' => 6,
+                'name' => 'エストニア',
+                'created_at' => '2025-07-24 12:05:31',
+                'updated_at' => '2025-07-24 12:05:31',
+            ),
+            332 => 
+            array (
+                'id' => 1333,
+                'country_id' => 68,
+                'language_id' => 6,
+                'name' => 'エチオピア',
+                'created_at' => '2025-07-24 12:05:31',
+                'updated_at' => '2025-07-24 12:05:31',
+            ),
+            333 => 
+            array (
+                'id' => 1334,
+                'country_id' => 69,
+                'language_id' => 6,
+                'name' => 'フォークランド諸島（マルビナス）',
+                'created_at' => '2025-07-24 12:05:32',
+                'updated_at' => '2025-07-24 12:05:32',
+            ),
+            334 => 
+            array (
+                'id' => 1335,
+                'country_id' => 70,
+                'language_id' => 6,
+                'name' => 'フェロー諸島',
+                'created_at' => '2025-07-24 12:05:32',
+                'updated_at' => '2025-07-24 12:05:32',
+            ),
+            335 => 
+            array (
+                'id' => 1336,
+                'country_id' => 71,
+                'language_id' => 6,
+                'name' => 'フィジー',
+                'created_at' => '2025-07-24 12:05:32',
+                'updated_at' => '2025-07-24 12:05:32',
+            ),
+            336 => 
+            array (
+                'id' => 1337,
+                'country_id' => 72,
+                'language_id' => 6,
+                'name' => 'フィンランド',
+                'created_at' => '2025-07-24 12:05:33',
+                'updated_at' => '2025-07-24 12:05:33',
+            ),
+            337 => 
+            array (
+                'id' => 1338,
+                'country_id' => 73,
+                'language_id' => 6,
+                'name' => 'フランス, メトロポリタン',
+                'created_at' => '2025-07-24 12:05:33',
+                'updated_at' => '2025-07-24 12:05:33',
+            ),
+            338 => 
+            array (
+                'id' => 1339,
+                'country_id' => 74,
+                'language_id' => 6,
+                'name' => 'フランスギアナ',
+                'created_at' => '2025-07-24 12:05:34',
+                'updated_at' => '2025-07-24 12:05:34',
+            ),
+            339 => 
+            array (
+                'id' => 1340,
+                'country_id' => 75,
+                'language_id' => 6,
+                'name' => 'フランス ポリネシア',
+                'created_at' => '2025-07-24 12:05:35',
+                'updated_at' => '2025-07-24 12:05:35',
+            ),
+            340 => 
+            array (
+                'id' => 1341,
+                'country_id' => 76,
+                'language_id' => 6,
+                'name' => 'フランス南部地域',
+                'created_at' => '2025-07-24 12:05:35',
+                'updated_at' => '2025-07-24 12:05:35',
+            ),
+            341 => 
+            array (
+                'id' => 1342,
+                'country_id' => 77,
+                'language_id' => 6,
+                'name' => 'ガボン',
+                'created_at' => '2025-07-24 12:05:35',
+                'updated_at' => '2025-07-24 12:05:35',
+            ),
+            342 => 
+            array (
+                'id' => 1343,
+                'country_id' => 78,
+                'language_id' => 6,
+                'name' => 'ガンビア',
+                'created_at' => '2025-07-24 12:05:36',
+                'updated_at' => '2025-07-24 12:05:36',
+            ),
+            343 => 
+            array (
+                'id' => 1344,
+                'country_id' => 79,
+                'language_id' => 6,
+                'name' => 'ジョージア',
+                'created_at' => '2025-07-24 12:05:36',
+                'updated_at' => '2025-07-24 12:05:36',
+            ),
+            344 => 
+            array (
+                'id' => 1345,
+                'country_id' => 80,
+                'language_id' => 6,
+                'name' => 'ドイツ',
+                'created_at' => '2025-07-24 12:05:37',
+                'updated_at' => '2025-07-24 12:05:37',
+            ),
+            345 => 
+            array (
+                'id' => 1346,
+                'country_id' => 81,
+                'language_id' => 6,
+                'name' => 'ガーナ',
+                'created_at' => '2025-07-24 12:05:37',
+                'updated_at' => '2025-07-24 12:05:37',
+            ),
+            346 => 
+            array (
+                'id' => 1347,
+                'country_id' => 82,
+                'language_id' => 6,
+                'name' => 'ジブラルタル',
+                'created_at' => '2025-07-24 12:05:37',
+                'updated_at' => '2025-07-24 12:05:37',
+            ),
+            347 => 
+            array (
+                'id' => 1348,
+                'country_id' => 83,
+                'language_id' => 6,
+                'name' => 'ギリシャ',
+                'created_at' => '2025-07-24 12:05:38',
+                'updated_at' => '2025-07-24 12:05:38',
+            ),
+            348 => 
+            array (
+                'id' => 1349,
+                'country_id' => 84,
+                'language_id' => 6,
+                'name' => 'グリーンランド',
+                'created_at' => '2025-07-24 12:05:38',
+                'updated_at' => '2025-07-24 12:05:38',
+            ),
+            349 => 
+            array (
+                'id' => 1350,
+                'country_id' => 85,
+                'language_id' => 6,
+                'name' => 'グレナダ',
+                'created_at' => '2025-07-24 12:05:39',
+                'updated_at' => '2025-07-24 12:05:39',
+            ),
+            350 => 
+            array (
+                'id' => 1351,
+                'country_id' => 86,
+                'language_id' => 6,
+                'name' => 'グアデループ',
+                'created_at' => '2025-07-24 12:05:39',
+                'updated_at' => '2025-07-24 12:05:39',
+            ),
+            351 => 
+            array (
+                'id' => 1352,
+                'country_id' => 87,
+                'language_id' => 6,
+                'name' => 'グアム',
+                'created_at' => '2025-07-24 12:05:40',
+                'updated_at' => '2025-07-24 12:05:40',
+            ),
+            352 => 
+            array (
+                'id' => 1353,
+                'country_id' => 88,
+                'language_id' => 6,
+                'name' => 'グアテマラ',
+                'created_at' => '2025-07-24 12:05:40',
+                'updated_at' => '2025-07-24 12:05:40',
+            ),
+            353 => 
+            array (
+                'id' => 1354,
+                'country_id' => 89,
+                'language_id' => 6,
+                'name' => 'ギニア',
+                'created_at' => '2025-07-24 12:05:41',
+                'updated_at' => '2025-07-24 12:05:41',
+            ),
+            354 => 
+            array (
+                'id' => 1355,
+                'country_id' => 90,
+                'language_id' => 6,
+                'name' => 'ギニアビサウ',
+                'created_at' => '2025-07-24 12:05:41',
+                'updated_at' => '2025-07-24 12:05:41',
+            ),
+            355 => 
+            array (
+                'id' => 1356,
+                'country_id' => 91,
+                'language_id' => 6,
+                'name' => 'ガイアナ',
+                'created_at' => '2025-07-24 12:05:42',
+                'updated_at' => '2025-07-24 12:05:42',
+            ),
+            356 => 
+            array (
+                'id' => 1357,
+                'country_id' => 92,
+                'language_id' => 6,
+                'name' => 'ハイチ',
+                'created_at' => '2025-07-24 12:05:42',
+                'updated_at' => '2025-07-24 12:05:42',
+            ),
+            357 => 
+            array (
+                'id' => 1358,
+                'country_id' => 93,
+                'language_id' => 6,
+                'name' => 'ハード＆マクドナルド諸島',
+                'created_at' => '2025-07-24 12:05:42',
+                'updated_at' => '2025-07-24 12:05:42',
+            ),
+            358 => 
+            array (
+                'id' => 1359,
+                'country_id' => 94,
+                'language_id' => 6,
+                'name' => 'ホンジュラス',
+                'created_at' => '2025-07-24 12:05:43',
+                'updated_at' => '2025-07-24 12:05:43',
+            ),
+            359 => 
+            array (
+                'id' => 1360,
+                'country_id' => 95,
+                'language_id' => 6,
+                'name' => '香港',
+                'created_at' => '2025-07-24 12:05:43',
+                'updated_at' => '2025-07-24 12:05:43',
+            ),
+            360 => 
+            array (
+                'id' => 1361,
+                'country_id' => 96,
+                'language_id' => 6,
+                'name' => 'ハンガリー',
+                'created_at' => '2025-07-24 12:05:44',
+                'updated_at' => '2025-07-24 12:05:44',
+            ),
+            361 => 
+            array (
+                'id' => 1362,
+                'country_id' => 97,
+                'language_id' => 6,
+                'name' => 'アイスランド',
+                'created_at' => '2025-07-24 12:05:44',
+                'updated_at' => '2025-07-24 12:05:44',
+            ),
+            362 => 
+            array (
+                'id' => 1363,
+                'country_id' => 98,
+                'language_id' => 6,
+                'name' => 'インド',
+                'created_at' => '2025-07-24 12:05:45',
+                'updated_at' => '2025-07-24 12:05:45',
+            ),
+            363 => 
+            array (
+                'id' => 1364,
+                'country_id' => 99,
+                'language_id' => 6,
+                'name' => 'インドネシア',
+                'created_at' => '2025-07-24 12:05:45',
+                'updated_at' => '2025-07-24 12:05:45',
+            ),
+            364 => 
+            array (
+                'id' => 1365,
+                'country_id' => 100,
+                'language_id' => 6,
+                'name' => 'イラン（イスラム共和国）',
+                'created_at' => '2025-07-24 12:05:45',
+                'updated_at' => '2025-07-24 12:05:45',
+            ),
+            365 => 
+            array (
+                'id' => 1366,
+                'country_id' => 101,
+                'language_id' => 6,
+                'name' => 'イラク',
+                'created_at' => '2025-07-24 12:05:46',
+                'updated_at' => '2025-07-24 12:05:46',
+            ),
+            366 => 
+            array (
+                'id' => 1367,
+                'country_id' => 102,
+                'language_id' => 6,
+                'name' => 'アイルランド',
+                'created_at' => '2025-07-24 12:05:46',
+                'updated_at' => '2025-07-24 12:05:46',
+            ),
+            367 => 
+            array (
+                'id' => 1368,
+                'country_id' => 103,
+                'language_id' => 6,
+                'name' => 'イスラエル',
+                'created_at' => '2025-07-24 12:05:47',
+                'updated_at' => '2025-07-24 12:05:47',
+            ),
+            368 => 
+            array (
+                'id' => 1369,
+                'country_id' => 104,
+                'language_id' => 6,
+                'name' => 'イタリア',
+                'created_at' => '2025-07-24 12:05:47',
+                'updated_at' => '2025-07-24 12:05:47',
+            ),
+            369 => 
+            array (
+                'id' => 1370,
+                'country_id' => 105,
+                'language_id' => 6,
+                'name' => 'ジャマイカ',
+                'created_at' => '2025-07-24 12:05:48',
+                'updated_at' => '2025-07-24 12:05:48',
+            ),
+            370 => 
+            array (
+                'id' => 1371,
+                'country_id' => 106,
+                'language_id' => 6,
+                'name' => '日本',
+                'created_at' => '2025-07-24 12:05:48',
+                'updated_at' => '2025-07-24 12:05:48',
+            ),
+            371 => 
+            array (
+                'id' => 1372,
+                'country_id' => 107,
+                'language_id' => 6,
+                'name' => 'ヨルダン',
+                'created_at' => '2025-07-24 12:05:49',
+                'updated_at' => '2025-07-24 12:05:49',
+            ),
+            372 => 
+            array (
+                'id' => 1373,
+                'country_id' => 108,
+                'language_id' => 6,
+                'name' => 'カザフスタン',
+                'created_at' => '2025-07-24 12:05:49',
+                'updated_at' => '2025-07-24 12:05:49',
+            ),
+            373 => 
+            array (
+                'id' => 1374,
+                'country_id' => 109,
+                'language_id' => 6,
+                'name' => 'ケニア',
+                'created_at' => '2025-07-24 12:05:49',
+                'updated_at' => '2025-07-24 12:05:49',
+            ),
+            374 => 
+            array (
+                'id' => 1375,
+                'country_id' => 110,
+                'language_id' => 6,
+                'name' => 'キリバティ',
+                'created_at' => '2025-07-24 12:05:50',
+                'updated_at' => '2025-07-24 12:05:50',
+            ),
+            375 => 
+            array (
+                'id' => 1376,
+                'country_id' => 111,
+                'language_id' => 6,
+                'name' => '北朝鮮',
+                'created_at' => '2025-07-24 12:05:50',
+                'updated_at' => '2025-07-24 12:05:50',
+            ),
+            376 => 
+            array (
+                'id' => 1377,
+                'country_id' => 112,
+                'language_id' => 6,
+                'name' => '韓国',
+                'created_at' => '2025-07-24 12:05:51',
+                'updated_at' => '2025-07-24 12:05:51',
+            ),
+            377 => 
+            array (
+                'id' => 1378,
+                'country_id' => 113,
+                'language_id' => 6,
+                'name' => 'クウェート',
+                'created_at' => '2025-07-24 12:05:51',
+                'updated_at' => '2025-07-24 12:05:51',
+            ),
+            378 => 
+            array (
+                'id' => 1379,
+                'country_id' => 114,
+                'language_id' => 6,
+                'name' => 'キルギススタン',
+                'created_at' => '2025-07-24 12:05:52',
+                'updated_at' => '2025-07-24 12:05:52',
+            ),
+            379 => 
+            array (
+                'id' => 1380,
+                'country_id' => 115,
+                'language_id' => 6,
+            'name' => 'ラオス人民民主共和国 (the)',
+                'created_at' => '2025-07-24 12:05:52',
+                'updated_at' => '2025-07-24 12:05:52',
+            ),
+            380 => 
+            array (
+                'id' => 1381,
+                'country_id' => 116,
+                'language_id' => 6,
+                'name' => 'ラトビア',
+                'created_at' => '2025-07-24 12:05:52',
+                'updated_at' => '2025-07-24 12:05:52',
+            ),
+            381 => 
+            array (
+                'id' => 1382,
+                'country_id' => 117,
+                'language_id' => 6,
+                'name' => 'レバノン',
+                'created_at' => '2025-07-24 12:05:53',
+                'updated_at' => '2025-07-24 12:05:53',
+            ),
+            382 => 
+            array (
+                'id' => 1383,
+                'country_id' => 118,
+                'language_id' => 6,
+                'name' => 'レソト',
+                'created_at' => '2025-07-24 12:05:53',
+                'updated_at' => '2025-07-24 12:05:53',
+            ),
+            383 => 
+            array (
+                'id' => 1384,
+                'country_id' => 119,
+                'language_id' => 6,
+                'name' => 'リベリア',
+                'created_at' => '2025-07-24 12:05:54',
+                'updated_at' => '2025-07-24 12:05:54',
+            ),
+            384 => 
+            array (
+                'id' => 1385,
+                'country_id' => 120,
+                'language_id' => 6,
+                'name' => 'リビア',
+                'created_at' => '2025-07-24 12:05:54',
+                'updated_at' => '2025-07-24 12:05:54',
+            ),
+            385 => 
+            array (
+                'id' => 1386,
+                'country_id' => 121,
+                'language_id' => 6,
+                'name' => 'リヒテンシュタイン',
+                'created_at' => '2025-07-24 12:05:55',
+                'updated_at' => '2025-07-24 12:05:55',
+            ),
+            386 => 
+            array (
+                'id' => 1387,
+                'country_id' => 122,
+                'language_id' => 6,
+                'name' => 'リトアニア',
+                'created_at' => '2025-07-24 12:05:55',
+                'updated_at' => '2025-07-24 12:05:55',
+            ),
+            387 => 
+            array (
+                'id' => 1388,
+                'country_id' => 123,
+                'language_id' => 6,
+                'name' => 'ルクセンブルグ',
+                'created_at' => '2025-07-24 12:05:55',
+                'updated_at' => '2025-07-24 12:05:55',
+            ),
+            388 => 
+            array (
+                'id' => 1389,
+                'country_id' => 124,
+                'language_id' => 6,
+                'name' => 'マカオ',
+                'created_at' => '2025-07-24 12:05:56',
+                'updated_at' => '2025-07-24 12:05:56',
+            ),
+            389 => 
+            array (
+                'id' => 1390,
+                'country_id' => 125,
+                'language_id' => 6,
+                'name' => '北マケドニア',
+                'created_at' => '2025-07-24 12:05:56',
+                'updated_at' => '2025-07-24 12:05:56',
+            ),
+            390 => 
+            array (
+                'id' => 1391,
+                'country_id' => 126,
+                'language_id' => 6,
+                'name' => 'マダガスカル',
+                'created_at' => '2025-07-24 12:05:57',
+                'updated_at' => '2025-07-24 12:05:57',
+            ),
+            391 => 
+            array (
+                'id' => 1392,
+                'country_id' => 127,
+                'language_id' => 6,
+                'name' => 'マラウィ',
+                'created_at' => '2025-07-24 12:05:57',
+                'updated_at' => '2025-07-24 12:05:57',
+            ),
+            392 => 
+            array (
+                'id' => 1393,
+                'country_id' => 128,
+                'language_id' => 6,
+                'name' => 'マレーシア',
+                'created_at' => '2025-07-24 12:05:58',
+                'updated_at' => '2025-07-24 12:05:58',
+            ),
+            393 => 
+            array (
+                'id' => 1394,
+                'country_id' => 129,
+                'language_id' => 6,
+                'name' => 'マルディブ',
+                'created_at' => '2025-07-24 12:05:58',
+                'updated_at' => '2025-07-24 12:05:58',
+            ),
+            394 => 
+            array (
+                'id' => 1395,
+                'country_id' => 130,
+                'language_id' => 6,
+                'name' => 'マリ',
+                'created_at' => '2025-07-24 12:05:59',
+                'updated_at' => '2025-07-24 12:05:59',
+            ),
+            395 => 
+            array (
+                'id' => 1396,
+                'country_id' => 131,
+                'language_id' => 6,
+                'name' => 'マルタ',
+                'created_at' => '2025-07-24 12:05:59',
+                'updated_at' => '2025-07-24 12:05:59',
+            ),
+            396 => 
+            array (
+                'id' => 1397,
+                'country_id' => 132,
+                'language_id' => 6,
+                'name' => 'マーシャル諸島',
+                'created_at' => '2025-07-24 12:05:59',
+                'updated_at' => '2025-07-24 12:05:59',
+            ),
+            397 => 
+            array (
+                'id' => 1398,
+                'country_id' => 133,
+                'language_id' => 6,
+                'name' => 'マルティニック',
+                'created_at' => '2025-07-24 12:06:00',
+                'updated_at' => '2025-07-24 12:06:00',
+            ),
+            398 => 
+            array (
+                'id' => 1399,
+                'country_id' => 134,
+                'language_id' => 6,
+                'name' => 'モーリタニア',
+                'created_at' => '2025-07-24 12:06:01',
+                'updated_at' => '2025-07-24 12:06:01',
+            ),
+            399 => 
+            array (
+                'id' => 1400,
+                'country_id' => 135,
+                'language_id' => 6,
+                'name' => 'モーリシャス',
+                'created_at' => '2025-07-24 12:06:01',
+                'updated_at' => '2025-07-24 12:06:01',
+            ),
+            400 => 
+            array (
+                'id' => 1401,
+                'country_id' => 136,
+                'language_id' => 6,
+                'name' => 'マヨット',
+                'created_at' => '2025-07-24 12:06:01',
+                'updated_at' => '2025-07-24 12:06:01',
+            ),
+            401 => 
+            array (
+                'id' => 1402,
+                'country_id' => 137,
+                'language_id' => 6,
+                'name' => 'メキシコ',
+                'created_at' => '2025-07-24 12:06:02',
+                'updated_at' => '2025-07-24 12:06:02',
+            ),
+            402 => 
+            array (
+                'id' => 1403,
+                'country_id' => 138,
+                'language_id' => 6,
+                'name' => 'ミクロネシア, Federated States of',
+                'created_at' => '2025-07-24 12:06:02',
+                'updated_at' => '2025-07-24 12:06:02',
+            ),
+            403 => 
+            array (
+                'id' => 1404,
+                'country_id' => 139,
+                'language_id' => 6,
+                'name' => 'モルドバ共和国',
+                'created_at' => '2025-07-24 12:06:03',
+                'updated_at' => '2025-07-24 12:06:03',
+            ),
+            404 => 
+            array (
+                'id' => 1405,
+                'country_id' => 140,
+                'language_id' => 6,
+                'name' => 'モナコ',
+                'created_at' => '2025-07-24 12:06:03',
+                'updated_at' => '2025-07-24 12:06:03',
+            ),
+            405 => 
+            array (
+                'id' => 1406,
+                'country_id' => 141,
+                'language_id' => 6,
+                'name' => 'モンゴル',
+                'created_at' => '2025-07-24 12:06:04',
+                'updated_at' => '2025-07-24 12:06:04',
+            ),
+            406 => 
+            array (
+                'id' => 1407,
+                'country_id' => 142,
+                'language_id' => 6,
+                'name' => 'モンセラット',
+                'created_at' => '2025-07-24 12:06:04',
+                'updated_at' => '2025-07-24 12:06:04',
+            ),
+            407 => 
+            array (
+                'id' => 1408,
+                'country_id' => 143,
+                'language_id' => 6,
+                'name' => 'モロッコ',
+                'created_at' => '2025-07-24 12:06:05',
+                'updated_at' => '2025-07-24 12:06:05',
+            ),
+            408 => 
+            array (
+                'id' => 1409,
+                'country_id' => 144,
+                'language_id' => 6,
+                'name' => 'モザンビーク',
+                'created_at' => '2025-07-24 12:06:05',
+                'updated_at' => '2025-07-24 12:06:05',
+            ),
+            409 => 
+            array (
+                'id' => 1410,
+                'country_id' => 145,
+                'language_id' => 6,
+                'name' => 'ミャンマー',
+                'created_at' => '2025-07-24 12:06:06',
+                'updated_at' => '2025-07-24 12:06:06',
+            ),
+            410 => 
+            array (
+                'id' => 1411,
+                'country_id' => 146,
+                'language_id' => 6,
+                'name' => 'ナミビア',
+                'created_at' => '2025-07-24 12:06:06',
+                'updated_at' => '2025-07-24 12:06:06',
+            ),
+            411 => 
+            array (
+                'id' => 1412,
+                'country_id' => 147,
+                'language_id' => 6,
+                'name' => 'ナウルー',
+                'created_at' => '2025-07-24 12:06:07',
+                'updated_at' => '2025-07-24 12:06:07',
+            ),
+            412 => 
+            array (
+                'id' => 1413,
+                'country_id' => 148,
+                'language_id' => 6,
+                'name' => 'ネパール',
+                'created_at' => '2025-07-24 12:06:07',
+                'updated_at' => '2025-07-24 12:06:07',
+            ),
+            413 => 
+            array (
+                'id' => 1414,
+                'country_id' => 149,
+                'language_id' => 6,
+                'name' => 'オランダ',
+                'created_at' => '2025-07-24 12:06:08',
+                'updated_at' => '2025-07-24 12:06:08',
+            ),
+            414 => 
+            array (
+                'id' => 1415,
+                'country_id' => 150,
+                'language_id' => 6,
+                'name' => 'オランダアンティル諸島',
+                'created_at' => '2025-07-24 12:06:08',
+                'updated_at' => '2025-07-24 12:06:08',
+            ),
+            415 => 
+            array (
+                'id' => 1416,
+                'country_id' => 151,
+                'language_id' => 6,
+                'name' => 'ニューカレドニア',
+                'created_at' => '2025-07-24 12:06:09',
+                'updated_at' => '2025-07-24 12:06:09',
+            ),
+            416 => 
+            array (
+                'id' => 1417,
+                'country_id' => 152,
+                'language_id' => 6,
+                'name' => 'ニュージーランド',
+                'created_at' => '2025-07-24 12:06:09',
+                'updated_at' => '2025-07-24 12:06:09',
+            ),
+            417 => 
+            array (
+                'id' => 1418,
+                'country_id' => 153,
+                'language_id' => 6,
+                'name' => 'ニカラグア',
+                'created_at' => '2025-07-24 12:06:09',
+                'updated_at' => '2025-07-24 12:06:09',
+            ),
+            418 => 
+            array (
+                'id' => 1419,
+                'country_id' => 154,
+                'language_id' => 6,
+                'name' => 'ニジェール',
+                'created_at' => '2025-07-24 12:06:10',
+                'updated_at' => '2025-07-24 12:06:10',
+            ),
+            419 => 
+            array (
+                'id' => 1420,
+                'country_id' => 155,
+                'language_id' => 6,
+                'name' => 'ナイジェリア',
+                'created_at' => '2025-07-24 12:06:10',
+                'updated_at' => '2025-07-24 12:06:10',
+            ),
+            420 => 
+            array (
+                'id' => 1421,
+                'country_id' => 156,
+                'language_id' => 6,
+                'name' => 'ニューエ',
+                'created_at' => '2025-07-24 12:06:11',
+                'updated_at' => '2025-07-24 12:06:11',
+            ),
+            421 => 
+            array (
+                'id' => 1422,
+                'country_id' => 157,
+                'language_id' => 6,
+                'name' => 'ノーフォーク島',
+                'created_at' => '2025-07-24 12:06:11',
+                'updated_at' => '2025-07-24 12:06:11',
+            ),
+            422 => 
+            array (
+                'id' => 1423,
+                'country_id' => 158,
+                'language_id' => 6,
+                'name' => '北マリアナ諸島',
+                'created_at' => '2025-07-24 12:06:12',
+                'updated_at' => '2025-07-24 12:06:12',
+            ),
+            423 => 
+            array (
+                'id' => 1424,
+                'country_id' => 159,
+                'language_id' => 6,
+                'name' => 'ノルウェー',
+                'created_at' => '2025-07-24 12:06:12',
+                'updated_at' => '2025-07-24 12:06:12',
+            ),
+            424 => 
+            array (
+                'id' => 1425,
+                'country_id' => 160,
+                'language_id' => 6,
+                'name' => 'オマン',
+                'created_at' => '2025-07-24 12:06:13',
+                'updated_at' => '2025-07-24 12:06:13',
+            ),
+            425 => 
+            array (
+                'id' => 1426,
+                'country_id' => 161,
+                'language_id' => 6,
+                'name' => 'パキスタン',
+                'created_at' => '2025-07-24 12:06:13',
+                'updated_at' => '2025-07-24 12:06:13',
+            ),
+            426 => 
+            array (
+                'id' => 1427,
+                'country_id' => 162,
+                'language_id' => 6,
+                'name' => 'パラウ',
+                'created_at' => '2025-07-24 12:06:13',
+                'updated_at' => '2025-07-24 12:06:13',
+            ),
+            427 => 
+            array (
+                'id' => 1428,
+                'country_id' => 163,
+                'language_id' => 6,
+                'name' => 'パナマ',
+                'created_at' => '2025-07-24 12:06:15',
+                'updated_at' => '2025-07-24 12:06:15',
+            ),
+            428 => 
+            array (
+                'id' => 1429,
+                'country_id' => 164,
+                'language_id' => 6,
+                'name' => 'パプアニューギニア',
+                'created_at' => '2025-07-24 12:06:15',
+                'updated_at' => '2025-07-24 12:06:15',
+            ),
+            429 => 
+            array (
+                'id' => 1430,
+                'country_id' => 165,
+                'language_id' => 6,
+                'name' => 'パラグアイ',
+                'created_at' => '2025-07-24 12:06:15',
+                'updated_at' => '2025-07-24 12:06:15',
+            ),
+            430 => 
+            array (
+                'id' => 1431,
+                'country_id' => 166,
+                'language_id' => 6,
+                'name' => 'ペルー',
+                'created_at' => '2025-07-24 12:06:16',
+                'updated_at' => '2025-07-24 12:06:16',
+            ),
+            431 => 
+            array (
+                'id' => 1432,
+                'country_id' => 167,
+                'language_id' => 6,
+                'name' => 'フィリピン',
+                'created_at' => '2025-07-24 12:06:16',
+                'updated_at' => '2025-07-24 12:06:16',
+            ),
+            432 => 
+            array (
+                'id' => 1433,
+                'country_id' => 168,
+                'language_id' => 6,
+                'name' => 'ピットケアン',
+                'created_at' => '2025-07-24 12:06:17',
+                'updated_at' => '2025-07-24 12:06:17',
+            ),
+            433 => 
+            array (
+                'id' => 1434,
+                'country_id' => 169,
+                'language_id' => 6,
+                'name' => 'ポーランド',
+                'created_at' => '2025-07-24 12:06:17',
+                'updated_at' => '2025-07-24 12:06:17',
+            ),
+            434 => 
+            array (
+                'id' => 1435,
+                'country_id' => 170,
+                'language_id' => 6,
+                'name' => 'ポルトガル',
+                'created_at' => '2025-07-24 12:06:17',
+                'updated_at' => '2025-07-24 12:06:17',
+            ),
+            435 => 
+            array (
+                'id' => 1436,
+                'country_id' => 171,
+                'language_id' => 6,
+                'name' => 'プエルトリコ',
+                'created_at' => '2025-07-24 12:06:18',
+                'updated_at' => '2025-07-24 12:06:18',
+            ),
+            436 => 
+            array (
+                'id' => 1437,
+                'country_id' => 172,
+                'language_id' => 6,
+                'name' => 'カタール',
+                'created_at' => '2025-07-24 12:06:18',
+                'updated_at' => '2025-07-24 12:06:18',
+            ),
+            437 => 
+            array (
+                'id' => 1438,
+                'country_id' => 173,
+                'language_id' => 6,
+                'name' => 'リユニオン',
+                'created_at' => '2025-07-24 12:06:19',
+                'updated_at' => '2025-07-24 12:06:19',
+            ),
+            438 => 
+            array (
+                'id' => 1439,
+                'country_id' => 174,
+                'language_id' => 6,
+                'name' => 'ルーマニア',
+                'created_at' => '2025-07-24 12:06:19',
+                'updated_at' => '2025-07-24 12:06:19',
+            ),
+            439 => 
+            array (
+                'id' => 1440,
+                'country_id' => 175,
+                'language_id' => 6,
+            'name' => 'ロシア連邦 (the)',
+                'created_at' => '2025-07-24 12:06:20',
+                'updated_at' => '2025-07-24 12:06:20',
+            ),
+            440 => 
+            array (
+                'id' => 1441,
+                'country_id' => 176,
+                'language_id' => 6,
+                'name' => 'ルワンダ',
+                'created_at' => '2025-07-24 12:06:20',
+                'updated_at' => '2025-07-24 12:06:20',
+            ),
+            441 => 
+            array (
+                'id' => 1442,
+                'country_id' => 177,
+                'language_id' => 6,
+                'name' => 'セントキッツ・ネビス',
+                'created_at' => '2025-07-24 12:06:21',
+                'updated_at' => '2025-07-24 12:06:21',
+            ),
+            442 => 
+            array (
+                'id' => 1443,
+                'country_id' => 178,
+                'language_id' => 6,
+                'name' => 'セントルシア',
+                'created_at' => '2025-07-24 12:06:21',
+                'updated_at' => '2025-07-24 12:06:21',
+            ),
+            443 => 
+            array (
+                'id' => 1444,
+                'country_id' => 179,
+                'language_id' => 6,
+                'name' => 'セントヴィンセントおよびグレナディンズ',
+                'created_at' => '2025-07-24 12:06:21',
+                'updated_at' => '2025-07-24 12:06:21',
+            ),
+            444 => 
+            array (
+                'id' => 1445,
+                'country_id' => 180,
+                'language_id' => 6,
+                'name' => 'サモア',
+                'created_at' => '2025-07-24 12:06:22',
+                'updated_at' => '2025-07-24 12:06:22',
+            ),
+            445 => 
+            array (
+                'id' => 1446,
+                'country_id' => 181,
+                'language_id' => 6,
+                'name' => 'サンマリノ',
+                'created_at' => '2025-07-24 12:06:22',
+                'updated_at' => '2025-07-24 12:06:22',
+            ),
+            446 => 
+            array (
+                'id' => 1447,
+                'country_id' => 182,
+                'language_id' => 6,
+                'name' => 'サントメ・プリンシペ',
+                'created_at' => '2025-07-24 12:06:23',
+                'updated_at' => '2025-07-24 12:06:23',
+            ),
+            447 => 
+            array (
+                'id' => 1448,
+                'country_id' => 183,
+                'language_id' => 6,
+                'name' => 'サウジアラビア',
+                'created_at' => '2025-07-24 12:06:23',
+                'updated_at' => '2025-07-24 12:06:23',
+            ),
+            448 => 
+            array (
+                'id' => 1449,
+                'country_id' => 184,
+                'language_id' => 6,
+                'name' => 'セネガル',
+                'created_at' => '2025-07-24 12:06:24',
+                'updated_at' => '2025-07-24 12:06:24',
+            ),
+            449 => 
+            array (
+                'id' => 1450,
+                'country_id' => 185,
+                'language_id' => 6,
+                'name' => 'セイシェル',
+                'created_at' => '2025-07-24 12:06:24',
+                'updated_at' => '2025-07-24 12:06:24',
+            ),
+            450 => 
+            array (
+                'id' => 1451,
+                'country_id' => 186,
+                'language_id' => 6,
+                'name' => 'シエラレオン',
+                'created_at' => '2025-07-24 12:06:24',
+                'updated_at' => '2025-07-24 12:06:24',
+            ),
+            451 => 
+            array (
+                'id' => 1452,
+                'country_id' => 187,
+                'language_id' => 6,
+                'name' => 'シンガポール',
+                'created_at' => '2025-07-24 12:06:25',
+                'updated_at' => '2025-07-24 12:06:25',
+            ),
+            452 => 
+            array (
+                'id' => 1453,
+                'country_id' => 188,
+                'language_id' => 6,
+                'name' => 'スロバキア共和国',
+                'created_at' => '2025-07-24 12:06:25',
+                'updated_at' => '2025-07-24 12:06:25',
+            ),
+            453 => 
+            array (
+                'id' => 1454,
+                'country_id' => 189,
+                'language_id' => 6,
+                'name' => 'スロベニア',
+                'created_at' => '2025-07-24 12:06:26',
+                'updated_at' => '2025-07-24 12:06:26',
+            ),
+            454 => 
+            array (
+                'id' => 1455,
+                'country_id' => 190,
+                'language_id' => 6,
+                'name' => 'ソロモン諸島',
+                'created_at' => '2025-07-24 12:06:26',
+                'updated_at' => '2025-07-24 12:06:26',
+            ),
+            455 => 
+            array (
+                'id' => 1456,
+                'country_id' => 191,
+                'language_id' => 6,
+                'name' => 'ソマリア',
+                'created_at' => '2025-07-24 12:06:27',
+                'updated_at' => '2025-07-24 12:06:27',
+            ),
+            456 => 
+            array (
+                'id' => 1457,
+                'country_id' => 192,
+                'language_id' => 6,
+                'name' => '南アフリカ',
+                'created_at' => '2025-07-24 12:06:27',
+                'updated_at' => '2025-07-24 12:06:27',
+            ),
+            457 => 
+            array (
+                'id' => 1458,
+                'country_id' => 193,
+                'language_id' => 6,
+                'name' => '南ジョージア州＆サウスサンドイッチ諸島',
+                'created_at' => '2025-07-24 12:06:28',
+                'updated_at' => '2025-07-24 12:06:28',
+            ),
+            458 => 
+            array (
+                'id' => 1459,
+                'country_id' => 194,
+                'language_id' => 6,
+                'name' => 'スペイン',
+                'created_at' => '2025-07-24 12:06:29',
+                'updated_at' => '2025-07-24 12:06:29',
+            ),
+            459 => 
+            array (
+                'id' => 1460,
+                'country_id' => 195,
+                'language_id' => 6,
+                'name' => 'スリランカ',
+                'created_at' => '2025-07-24 12:06:29',
+                'updated_at' => '2025-07-24 12:06:29',
+            ),
+            460 => 
+            array (
+                'id' => 1461,
+                'country_id' => 196,
+                'language_id' => 6,
+                'name' => 'セントヘレナ',
+                'created_at' => '2025-07-24 12:06:30',
+                'updated_at' => '2025-07-24 12:06:30',
+            ),
+            461 => 
+            array (
+                'id' => 1462,
+                'country_id' => 197,
+                'language_id' => 6,
+                'name' => 'サンピエールとミケロン',
+                'created_at' => '2025-07-24 12:06:30',
+                'updated_at' => '2025-07-24 12:06:30',
+            ),
+            462 => 
+            array (
+                'id' => 1463,
+                'country_id' => 198,
+                'language_id' => 6,
+                'name' => 'スーダン',
+                'created_at' => '2025-07-24 12:06:31',
+                'updated_at' => '2025-07-24 12:06:31',
+            ),
+            463 => 
+            array (
+                'id' => 1464,
+                'country_id' => 199,
+                'language_id' => 6,
+                'name' => 'スリナム',
+                'created_at' => '2025-07-24 12:06:31',
+                'updated_at' => '2025-07-24 12:06:31',
+            ),
+            464 => 
+            array (
+                'id' => 1465,
+                'country_id' => 200,
+                'language_id' => 6,
+                'name' => 'スヴァルバルド諸島とヤン・マエン諸島',
+                'created_at' => '2025-07-24 12:06:31',
+                'updated_at' => '2025-07-24 12:06:31',
+            ),
+            465 => 
+            array (
+                'id' => 1466,
+                'country_id' => 201,
+                'language_id' => 6,
+                'name' => 'エスワティニ',
+                'created_at' => '2025-07-24 12:06:32',
+                'updated_at' => '2025-07-24 12:06:32',
+            ),
+            466 => 
+            array (
+                'id' => 1467,
+                'country_id' => 202,
+                'language_id' => 6,
+                'name' => 'スウェーデン',
+                'created_at' => '2025-07-24 12:06:32',
+                'updated_at' => '2025-07-24 12:06:32',
+            ),
+            467 => 
+            array (
+                'id' => 1468,
+                'country_id' => 203,
+                'language_id' => 6,
+                'name' => 'スイス',
+                'created_at' => '2025-07-24 12:06:33',
+                'updated_at' => '2025-07-24 12:06:33',
+            ),
+            468 => 
+            array (
+                'id' => 1469,
+                'country_id' => 204,
+                'language_id' => 6,
+                'name' => 'シリア アラブ 共和国',
+                'created_at' => '2025-07-24 12:06:33',
+                'updated_at' => '2025-07-24 12:06:33',
+            ),
+            469 => 
+            array (
+                'id' => 1470,
+                'country_id' => 205,
+                'language_id' => 6,
+                'name' => '台湾',
+                'created_at' => '2025-07-24 12:06:34',
+                'updated_at' => '2025-07-24 12:06:34',
+            ),
+            470 => 
+            array (
+                'id' => 1471,
+                'country_id' => 206,
+                'language_id' => 6,
+                'name' => 'タジキスタン',
+                'created_at' => '2025-07-24 12:06:34',
+                'updated_at' => '2025-07-24 12:06:34',
+            ),
+            471 => 
+            array (
+                'id' => 1472,
+                'country_id' => 207,
+                'language_id' => 6,
+                'name' => 'タンザニア, United Republic of',
+                'created_at' => '2025-07-24 12:06:34',
+                'updated_at' => '2025-07-24 12:06:34',
+            ),
+            472 => 
+            array (
+                'id' => 1473,
+                'country_id' => 208,
+                'language_id' => 6,
+                'name' => 'タイ',
+                'created_at' => '2025-07-24 12:06:35',
+                'updated_at' => '2025-07-24 12:06:35',
+            ),
+            473 => 
+            array (
+                'id' => 1474,
+                'country_id' => 209,
+                'language_id' => 6,
+                'name' => 'トゴ',
+                'created_at' => '2025-07-24 12:06:35',
+                'updated_at' => '2025-07-24 12:06:35',
+            ),
+            474 => 
+            array (
+                'id' => 1475,
+                'country_id' => 210,
+                'language_id' => 6,
+                'name' => 'トケラウ',
+                'created_at' => '2025-07-24 12:06:36',
+                'updated_at' => '2025-07-24 12:06:36',
+            ),
+            475 => 
+            array (
+                'id' => 1476,
+                'country_id' => 211,
+                'language_id' => 6,
+                'name' => 'トンガ',
+                'created_at' => '2025-07-24 12:06:36',
+                'updated_at' => '2025-07-24 12:06:36',
+            ),
+            476 => 
+            array (
+                'id' => 1477,
+                'country_id' => 212,
+                'language_id' => 6,
+                'name' => 'トリニダード・トバゴ',
+                'created_at' => '2025-07-24 12:06:37',
+                'updated_at' => '2025-07-24 12:06:37',
+            ),
+            477 => 
+            array (
+                'id' => 1478,
+                'country_id' => 213,
+                'language_id' => 6,
+                'name' => 'チュニジア',
+                'created_at' => '2025-07-24 12:06:37',
+                'updated_at' => '2025-07-24 12:06:37',
+            ),
+            478 => 
+            array (
+                'id' => 1479,
+                'country_id' => 214,
+                'language_id' => 6,
+                'name' => 'トルコ共和国',
+                'created_at' => '2025-07-24 12:06:38',
+                'updated_at' => '2025-07-24 12:06:38',
+            ),
+            479 => 
+            array (
+                'id' => 1480,
+                'country_id' => 215,
+                'language_id' => 6,
+                'name' => 'トルクメニスタン',
+                'created_at' => '2025-07-24 12:06:38',
+                'updated_at' => '2025-07-24 12:06:38',
+            ),
+            480 => 
+            array (
+                'id' => 1481,
+                'country_id' => 216,
+                'language_id' => 6,
+                'name' => 'トークス・カイコス諸島',
+                'created_at' => '2025-07-24 12:06:39',
+                'updated_at' => '2025-07-24 12:06:39',
+            ),
+            481 => 
+            array (
+                'id' => 1482,
+                'country_id' => 217,
+                'language_id' => 6,
+                'name' => 'トゥバルー',
+                'created_at' => '2025-07-24 12:06:39',
+                'updated_at' => '2025-07-24 12:06:39',
+            ),
+            482 => 
+            array (
+                'id' => 1483,
+                'country_id' => 218,
+                'language_id' => 6,
+                'name' => 'ウガンダ',
+                'created_at' => '2025-07-24 12:06:40',
+                'updated_at' => '2025-07-24 12:06:40',
+            ),
+            483 => 
+            array (
+                'id' => 1484,
+                'country_id' => 219,
+                'language_id' => 6,
+                'name' => 'ウクライナ',
+                'created_at' => '2025-07-24 12:06:40',
+                'updated_at' => '2025-07-24 12:06:40',
+            ),
+            484 => 
+            array (
+                'id' => 1485,
+                'country_id' => 220,
+                'language_id' => 6,
+                'name' => 'アラブ首長国連邦',
+                'created_at' => '2025-07-24 12:06:41',
+                'updated_at' => '2025-07-24 12:06:41',
+            ),
+            485 => 
+            array (
+                'id' => 1486,
+                'country_id' => 221,
+                'language_id' => 6,
+                'name' => 'イギリス',
+                'created_at' => '2025-07-24 12:06:41',
+                'updated_at' => '2025-07-24 12:06:41',
+            ),
+            486 => 
+            array (
+                'id' => 1487,
+                'country_id' => 222,
+                'language_id' => 6,
+                'name' => 'アメリカ合衆国',
+                'created_at' => '2025-07-24 12:06:41',
+                'updated_at' => '2025-07-24 12:06:41',
+            ),
+            487 => 
+            array (
+                'id' => 1488,
+                'country_id' => 223,
+                'language_id' => 6,
+                'name' => 'アメリカ合衆国の小諸島',
+                'created_at' => '2025-07-24 12:06:42',
+                'updated_at' => '2025-07-24 12:06:42',
+            ),
+            488 => 
+            array (
+                'id' => 1489,
+                'country_id' => 224,
+                'language_id' => 6,
+                'name' => 'ウルグアイ',
+                'created_at' => '2025-07-24 12:06:42',
+                'updated_at' => '2025-07-24 12:06:42',
+            ),
+            489 => 
+            array (
+                'id' => 1490,
+                'country_id' => 225,
+                'language_id' => 6,
+                'name' => 'ウズベキスタン',
+                'created_at' => '2025-07-24 12:06:43',
+                'updated_at' => '2025-07-24 12:06:43',
+            ),
+            490 => 
+            array (
+                'id' => 1491,
+                'country_id' => 226,
+                'language_id' => 6,
+                'name' => 'ヴァヌアツ',
+                'created_at' => '2025-07-24 12:06:43',
+                'updated_at' => '2025-07-24 12:06:43',
+            ),
+            491 => 
+            array (
+                'id' => 1492,
+                'country_id' => 227,
+                'language_id' => 6,
+                'name' => 'バチカン都市州（聖座）',
+                'created_at' => '2025-07-24 12:06:44',
+                'updated_at' => '2025-07-24 12:06:44',
+            ),
+            492 => 
+            array (
+                'id' => 1493,
+                'country_id' => 228,
+                'language_id' => 6,
+                'name' => 'ベネズエラ',
+                'created_at' => '2025-07-24 12:06:44',
+                'updated_at' => '2025-07-24 12:06:44',
+            ),
+            493 => 
+            array (
+                'id' => 1494,
+                'country_id' => 229,
+                'language_id' => 6,
+                'name' => 'ベトナム',
+                'created_at' => '2025-07-24 12:06:44',
+                'updated_at' => '2025-07-24 12:06:44',
+            ),
+            494 => 
+            array (
+                'id' => 1495,
+                'country_id' => 230,
+                'language_id' => 6,
+                'name' => 'バージン諸島（英国）',
+                'created_at' => '2025-07-24 12:06:45',
+                'updated_at' => '2025-07-24 12:06:45',
+            ),
+            495 => 
+            array (
+                'id' => 1496,
+                'country_id' => 231,
+                'language_id' => 6,
+            'name' => 'バージン諸島 (米国)',
+                'created_at' => '2025-07-24 12:06:45',
+                'updated_at' => '2025-07-24 12:06:45',
+            ),
+            496 => 
+            array (
+                'id' => 1497,
+                'country_id' => 232,
+                'language_id' => 6,
+                'name' => 'ウォリス・フトゥナ諸島',
+                'created_at' => '2025-07-24 12:06:46',
+                'updated_at' => '2025-07-24 12:06:46',
+            ),
+            497 => 
+            array (
+                'id' => 1498,
+                'country_id' => 233,
+                'language_id' => 6,
+                'name' => '西サハラ',
+                'created_at' => '2025-07-24 12:06:46',
+                'updated_at' => '2025-07-24 12:06:46',
+            ),
+            498 => 
+            array (
+                'id' => 1499,
+                'country_id' => 234,
+                'language_id' => 6,
+                'name' => 'イエメン',
+                'created_at' => '2025-07-24 12:06:47',
+                'updated_at' => '2025-07-24 12:06:47',
+            ),
+            499 => 
+            array (
+                'id' => 1500,
+                'country_id' => 235,
+                'language_id' => 6,
+                'name' => 'コンゴ民主共和国',
+                'created_at' => '2025-07-24 12:06:47',
+                'updated_at' => '2025-07-24 12:06:47',
+            ),
+        ));
+        \DB::table('country_translations')->insert(array (
+            0 => 
+            array (
+                'id' => 1501,
+                'country_id' => 236,
+                'language_id' => 6,
+                'name' => 'ザンビア',
+                'created_at' => '2025-07-24 12:06:48',
+                'updated_at' => '2025-07-24 12:06:48',
+            ),
+            1 => 
+            array (
+                'id' => 1502,
+                'country_id' => 237,
+                'language_id' => 6,
+                'name' => 'ジンバブエ',
+                'created_at' => '2025-07-24 12:06:48',
+                'updated_at' => '2025-07-24 12:06:48',
+            ),
+            2 => 
+            array (
+                'id' => 1503,
+                'country_id' => 238,
+                'language_id' => 6,
+                'name' => 'モンテネグロ',
+                'created_at' => '2025-07-24 12:06:48',
+                'updated_at' => '2025-07-24 12:06:48',
+            ),
+            3 => 
+            array (
+                'id' => 1504,
+                'country_id' => 239,
+                'language_id' => 6,
+                'name' => 'セルビア',
+                'created_at' => '2025-07-24 12:06:49',
+                'updated_at' => '2025-07-24 12:06:49',
+            ),
+            4 => 
+            array (
+                'id' => 1505,
+                'country_id' => 240,
+                'language_id' => 6,
+                'name' => 'アーランド諸島',
+                'created_at' => '2025-07-24 12:06:49',
+                'updated_at' => '2025-07-24 12:06:49',
+            ),
+            5 => 
+            array (
+                'id' => 1506,
+                'country_id' => 241,
+                'language_id' => 6,
+                'name' => 'ボネアール、セントユスタティウス、サバ',
+                'created_at' => '2025-07-24 12:06:51',
+                'updated_at' => '2025-07-24 12:06:51',
+            ),
+            6 => 
+            array (
+                'id' => 1507,
+                'country_id' => 242,
+                'language_id' => 6,
+                'name' => 'キュラソ',
+                'created_at' => '2025-07-24 12:06:51',
+                'updated_at' => '2025-07-24 12:06:51',
+            ),
+            7 => 
+            array (
+                'id' => 1508,
+                'country_id' => 243,
+                'language_id' => 6,
+                'name' => '占領されたパレスチナ領土',
+                'created_at' => '2025-07-24 12:06:52',
+                'updated_at' => '2025-07-24 12:06:52',
+            ),
+            8 => 
+            array (
+                'id' => 1509,
+                'country_id' => 244,
+                'language_id' => 6,
+                'name' => '南スーダン',
+                'created_at' => '2025-07-24 12:06:52',
+                'updated_at' => '2025-07-24 12:06:52',
+            ),
+            9 => 
+            array (
+                'id' => 1510,
+                'country_id' => 245,
+                'language_id' => 6,
+                'name' => 'セント・バルテレミー',
+                'created_at' => '2025-07-24 12:06:53',
+                'updated_at' => '2025-07-24 12:06:53',
+            ),
+            10 => 
+            array (
+                'id' => 1511,
+                'country_id' => 246,
+                'language_id' => 6,
+                'name' => 'セント・マーティン（フランス部分）',
+                'created_at' => '2025-07-24 12:06:53',
+                'updated_at' => '2025-07-24 12:06:53',
+            ),
+            11 => 
+            array (
+                'id' => 1512,
+                'country_id' => 247,
+                'language_id' => 6,
+                'name' => 'カナリア諸島',
+                'created_at' => '2025-07-24 12:06:53',
+                'updated_at' => '2025-07-24 12:06:53',
+            ),
+            12 => 
+            array (
+                'id' => 1513,
+                'country_id' => 248,
+                'language_id' => 6,
+            'name' => 'アセンション島 (英国)',
+                'created_at' => '2025-07-24 12:06:54',
+                'updated_at' => '2025-07-24 12:06:54',
+            ),
+            13 => 
+            array (
+                'id' => 1514,
+                'country_id' => 249,
+                'language_id' => 6,
+                'name' => 'コソボ共和国',
+                'created_at' => '2025-07-24 12:06:54',
+                'updated_at' => '2025-07-24 12:06:54',
+            ),
+            14 => 
+            array (
+                'id' => 1515,
+                'country_id' => 250,
+                'language_id' => 6,
+                'name' => 'マン 島',
+                'created_at' => '2025-07-24 12:06:55',
+                'updated_at' => '2025-07-24 12:06:55',
+            ),
+            15 => 
+            array (
+                'id' => 1516,
+                'country_id' => 251,
+                'language_id' => 6,
+                'name' => 'トリスタン ダ クニャ',
+                'created_at' => '2025-07-24 12:06:55',
+                'updated_at' => '2025-07-24 12:06:55',
+            ),
+            16 => 
+            array (
+                'id' => 1517,
+                'country_id' => 252,
+                'language_id' => 6,
+                'name' => 'ガーンジー',
+                'created_at' => '2025-07-24 12:06:56',
+                'updated_at' => '2025-07-24 12:06:56',
+            ),
+            17 => 
+            array (
+                'id' => 1518,
+                'country_id' => 253,
+                'language_id' => 6,
+                'name' => 'ジャージー',
+                'created_at' => '2025-07-24 12:06:56',
+                'updated_at' => '2025-07-24 12:06:56',
+            ),
+            18 => 
+            array (
+                'id' => 1519,
+                'country_id' => 1,
+                'language_id' => 7,
+                'name' => '아프가니스탄',
+                'created_at' => '2025-07-24 12:07:04',
+                'updated_at' => '2025-07-24 12:07:04',
+            ),
+            19 => 
+            array (
+                'id' => 1520,
+                'country_id' => 2,
+                'language_id' => 7,
+                'name' => '알바니아',
+                'created_at' => '2025-07-24 12:07:05',
+                'updated_at' => '2025-07-24 12:07:05',
+            ),
+            20 => 
+            array (
+                'id' => 1521,
+                'country_id' => 3,
+                'language_id' => 7,
+                'name' => '알제리아',
+                'created_at' => '2025-07-24 12:07:05',
+                'updated_at' => '2025-07-24 12:07:05',
+            ),
+            21 => 
+            array (
+                'id' => 1522,
+                'country_id' => 4,
+                'language_id' => 7,
+                'name' => '아메리카 사모아',
+                'created_at' => '2025-07-24 12:07:06',
+                'updated_at' => '2025-07-24 12:07:06',
+            ),
+            22 => 
+            array (
+                'id' => 1523,
+                'country_id' => 5,
+                'language_id' => 7,
+                'name' => '안도라',
+                'created_at' => '2025-07-24 12:07:06',
+                'updated_at' => '2025-07-24 12:07:06',
+            ),
+            23 => 
+            array (
+                'id' => 1524,
+                'country_id' => 6,
+                'language_id' => 7,
+                'name' => '앙골라',
+                'created_at' => '2025-07-24 12:07:06',
+                'updated_at' => '2025-07-24 12:07:06',
+            ),
+            24 => 
+            array (
+                'id' => 1525,
+                'country_id' => 7,
+                'language_id' => 7,
+                'name' => 'Anguilla는',
+                'created_at' => '2025-07-24 12:07:07',
+                'updated_at' => '2025-07-24 12:07:07',
+            ),
+            25 => 
+            array (
+                'id' => 1526,
+                'country_id' => 8,
+                'language_id' => 7,
+                'name' => '남극',
+                'created_at' => '2025-07-24 12:07:07',
+                'updated_at' => '2025-07-24 12:07:07',
+            ),
+            26 => 
+            array (
+                'id' => 1527,
+                'country_id' => 9,
+                'language_id' => 7,
+                'name' => '안티과와 바부다',
+                'created_at' => '2025-07-24 12:07:08',
+                'updated_at' => '2025-07-24 12:07:08',
+            ),
+            27 => 
+            array (
+                'id' => 1528,
+                'country_id' => 10,
+                'language_id' => 7,
+                'name' => '아르헨티나',
+                'created_at' => '2025-07-24 12:07:08',
+                'updated_at' => '2025-07-24 12:07:08',
+            ),
+            28 => 
+            array (
+                'id' => 1529,
+                'country_id' => 11,
+                'language_id' => 7,
+                'name' => '아르메니아',
+                'created_at' => '2025-07-24 12:07:09',
+                'updated_at' => '2025-07-24 12:07:09',
+            ),
+            29 => 
+            array (
+                'id' => 1530,
+                'country_id' => 12,
+                'language_id' => 7,
+                'name' => '아루바',
+                'created_at' => '2025-07-24 12:07:09',
+                'updated_at' => '2025-07-24 12:07:09',
+            ),
+            30 => 
+            array (
+                'id' => 1531,
+                'country_id' => 13,
+                'language_id' => 7,
+                'name' => '호주',
+                'created_at' => '2025-07-24 12:07:10',
+                'updated_at' => '2025-07-24 12:07:10',
+            ),
+            31 => 
+            array (
+                'id' => 1532,
+                'country_id' => 14,
+                'language_id' => 7,
+                'name' => '오스트리아',
+                'created_at' => '2025-07-24 12:07:10',
+                'updated_at' => '2025-07-24 12:07:10',
+            ),
+            32 => 
+            array (
+                'id' => 1533,
+                'country_id' => 15,
+                'language_id' => 7,
+                'name' => '아제르바이잔',
+                'created_at' => '2025-07-24 12:07:11',
+                'updated_at' => '2025-07-24 12:07:11',
+            ),
+            33 => 
+            array (
+                'id' => 1534,
+                'country_id' => 16,
+                'language_id' => 7,
+                'name' => '바하마',
+                'created_at' => '2025-07-24 12:07:11',
+                'updated_at' => '2025-07-24 12:07:11',
+            ),
+            34 => 
+            array (
+                'id' => 1535,
+                'country_id' => 17,
+                'language_id' => 7,
+                'name' => '바레인',
+                'created_at' => '2025-07-24 12:07:12',
+                'updated_at' => '2025-07-24 12:07:12',
+            ),
+            35 => 
+            array (
+                'id' => 1536,
+                'country_id' => 18,
+                'language_id' => 7,
+                'name' => '방글라데시',
+                'created_at' => '2025-07-24 12:07:12',
+                'updated_at' => '2025-07-24 12:07:12',
+            ),
+            36 => 
+            array (
+                'id' => 1537,
+                'country_id' => 19,
+                'language_id' => 7,
+                'name' => '바바도스',
+                'created_at' => '2025-07-24 12:07:12',
+                'updated_at' => '2025-07-24 12:07:12',
+            ),
+            37 => 
+            array (
+                'id' => 1538,
+                'country_id' => 20,
+                'language_id' => 7,
+                'name' => '벨라루스',
+                'created_at' => '2025-07-24 12:07:13',
+                'updated_at' => '2025-07-24 12:07:13',
+            ),
+            38 => 
+            array (
+                'id' => 1539,
+                'country_id' => 21,
+                'language_id' => 7,
+                'name' => '벨기에',
+                'created_at' => '2025-07-24 12:07:13',
+                'updated_at' => '2025-07-24 12:07:13',
+            ),
+            39 => 
+            array (
+                'id' => 1540,
+                'country_id' => 22,
+                'language_id' => 7,
+                'name' => '벨리즈',
+                'created_at' => '2025-07-24 12:07:14',
+                'updated_at' => '2025-07-24 12:07:14',
+            ),
+            40 => 
+            array (
+                'id' => 1541,
+                'country_id' => 23,
+                'language_id' => 7,
+                'name' => '베닌',
+                'created_at' => '2025-07-24 12:07:14',
+                'updated_at' => '2025-07-24 12:07:14',
+            ),
+            41 => 
+            array (
+                'id' => 1542,
+                'country_id' => 24,
+                'language_id' => 7,
+                'name' => '버미우다',
+                'created_at' => '2025-07-24 12:07:15',
+                'updated_at' => '2025-07-24 12:07:15',
+            ),
+            42 => 
+            array (
+                'id' => 1543,
+                'country_id' => 25,
+                'language_id' => 7,
+                'name' => '부탄',
+                'created_at' => '2025-07-24 12:07:15',
+                'updated_at' => '2025-07-24 12:07:15',
+            ),
+            43 => 
+            array (
+                'id' => 1544,
+                'country_id' => 26,
+                'language_id' => 7,
+                'name' => '볼리비아',
+                'created_at' => '2025-07-24 12:07:15',
+                'updated_at' => '2025-07-24 12:07:15',
+            ),
+            44 => 
+            array (
+                'id' => 1545,
+                'country_id' => 27,
+                'language_id' => 7,
+                'name' => '보스니아 헤르체고비나',
+                'created_at' => '2025-07-24 12:07:16',
+                'updated_at' => '2025-07-24 12:07:16',
+            ),
+            45 => 
+            array (
+                'id' => 1546,
+                'country_id' => 28,
+                'language_id' => 7,
+                'name' => '보츠와나',
+                'created_at' => '2025-07-24 12:07:16',
+                'updated_at' => '2025-07-24 12:07:16',
+            ),
+            46 => 
+            array (
+                'id' => 1547,
+                'country_id' => 29,
+                'language_id' => 7,
+                'name' => 'Bouvet 섬',
+                'created_at' => '2025-07-24 12:07:17',
+                'updated_at' => '2025-07-24 12:07:17',
+            ),
+            47 => 
+            array (
+                'id' => 1548,
+                'country_id' => 30,
+                'language_id' => 7,
+                'name' => '브라질',
+                'created_at' => '2025-07-24 12:07:17',
+                'updated_at' => '2025-07-24 12:07:17',
+            ),
+            48 => 
+            array (
+                'id' => 1549,
+                'country_id' => 31,
+                'language_id' => 7,
+                'name' => '영국 인도양 영토',
+                'created_at' => '2025-07-24 12:07:18',
+                'updated_at' => '2025-07-24 12:07:18',
+            ),
+            49 => 
+            array (
+                'id' => 1550,
+                'country_id' => 32,
+                'language_id' => 7,
+                'name' => '브루네이',
+                'created_at' => '2025-07-24 12:07:18',
+                'updated_at' => '2025-07-24 12:07:18',
+            ),
+            50 => 
+            array (
+                'id' => 1551,
+                'country_id' => 33,
+                'language_id' => 7,
+                'name' => '불가리아',
+                'created_at' => '2025-07-24 12:07:18',
+                'updated_at' => '2025-07-24 12:07:18',
+            ),
+            51 => 
+            array (
+                'id' => 1552,
+                'country_id' => 34,
+                'language_id' => 7,
+                'name' => '부르키나파소',
+                'created_at' => '2025-07-24 12:07:19',
+                'updated_at' => '2025-07-24 12:07:19',
+            ),
+            52 => 
+            array (
+                'id' => 1553,
+                'country_id' => 35,
+                'language_id' => 7,
+                'name' => '부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부부',
+                'created_at' => '2025-07-24 12:07:19',
+                'updated_at' => '2025-07-24 12:07:19',
+            ),
+            53 => 
+            array (
+                'id' => 1554,
+                'country_id' => 36,
+                'language_id' => 7,
+                'name' => '캠보디아',
+                'created_at' => '2025-07-24 12:07:20',
+                'updated_at' => '2025-07-24 12:07:20',
+            ),
+            54 => 
+            array (
+                'id' => 1555,
+                'country_id' => 37,
+                'language_id' => 7,
+                'name' => '카메루',
+                'created_at' => '2025-07-24 12:07:20',
+                'updated_at' => '2025-07-24 12:07:20',
+            ),
+            55 => 
+            array (
+                'id' => 1556,
+                'country_id' => 38,
+                'language_id' => 7,
+                'name' => '캐나다',
+                'created_at' => '2025-07-24 12:07:21',
+                'updated_at' => '2025-07-24 12:07:21',
+            ),
+            56 => 
+            array (
+                'id' => 1557,
+                'country_id' => 39,
+                'language_id' => 7,
+                'name' => '케이프베르데',
+                'created_at' => '2025-07-24 12:07:21',
+                'updated_at' => '2025-07-24 12:07:21',
+            ),
+            57 => 
+            array (
+                'id' => 1558,
+                'country_id' => 40,
+                'language_id' => 7,
+                'name' => '케이만 제도',
+                'created_at' => '2025-07-24 12:07:22',
+                'updated_at' => '2025-07-24 12:07:22',
+            ),
+            58 => 
+            array (
+                'id' => 1559,
+                'country_id' => 41,
+                'language_id' => 7,
+                'name' => '중앙아프리카 공화국',
+                'created_at' => '2025-07-24 12:07:22',
+                'updated_at' => '2025-07-24 12:07:22',
+            ),
+            59 => 
+            array (
+                'id' => 1560,
+                'country_id' => 42,
+                'language_id' => 7,
+                'name' => '차드',
+                'created_at' => '2025-07-24 12:07:23',
+                'updated_at' => '2025-07-24 12:07:23',
+            ),
+            60 => 
+            array (
+                'id' => 1561,
+                'country_id' => 43,
+                'language_id' => 7,
+                'name' => '칠레',
+                'created_at' => '2025-07-24 12:07:23',
+                'updated_at' => '2025-07-24 12:07:23',
+            ),
+            61 => 
+            array (
+                'id' => 1562,
+                'country_id' => 44,
+                'language_id' => 7,
+                'name' => '중국',
+                'created_at' => '2025-07-24 12:07:23',
+                'updated_at' => '2025-07-24 12:07:23',
+            ),
+            62 => 
+            array (
+                'id' => 1563,
+                'country_id' => 45,
+                'language_id' => 7,
+                'name' => '크리스마스 섬',
+                'created_at' => '2025-07-24 12:07:24',
+                'updated_at' => '2025-07-24 12:07:24',
+            ),
+            63 => 
+            array (
+                'id' => 1564,
+                'country_id' => 46,
+                'language_id' => 7,
+            'name' => '코코스 (킬링) 섬',
+                'created_at' => '2025-07-24 12:07:24',
+                'updated_at' => '2025-07-24 12:07:24',
+            ),
+            64 => 
+            array (
+                'id' => 1565,
+                'country_id' => 47,
+                'language_id' => 7,
+                'name' => '콜롬비아',
+                'created_at' => '2025-07-24 12:07:25',
+                'updated_at' => '2025-07-24 12:07:25',
+            ),
+            65 => 
+            array (
+                'id' => 1566,
+                'country_id' => 48,
+                'language_id' => 7,
+                'name' => '코모로스',
+                'created_at' => '2025-07-24 12:07:25',
+                'updated_at' => '2025-07-24 12:07:25',
+            ),
+            66 => 
+            array (
+                'id' => 1567,
+                'country_id' => 49,
+                'language_id' => 7,
+                'name' => '콘고',
+                'created_at' => '2025-07-24 12:07:26',
+                'updated_at' => '2025-07-24 12:07:26',
+            ),
+            67 => 
+            array (
+                'id' => 1568,
+                'country_id' => 50,
+                'language_id' => 7,
+                'name' => '',
+                'created_at' => '2025-07-24 12:07:26',
+                'updated_at' => '2025-07-24 12:07:26',
+            ),
+            68 => 
+            array (
+                'id' => 1569,
+                'country_id' => 51,
+                'language_id' => 7,
+                'name' => '코스타리카',
+                'created_at' => '2025-07-24 12:07:27',
+                'updated_at' => '2025-07-24 12:07:27',
+            ),
+            69 => 
+            array (
+                'id' => 1570,
+                'country_id' => 52,
+                'language_id' => 7,
+                'name' => '코트디보르',
+                'created_at' => '2025-07-24 12:07:27',
+                'updated_at' => '2025-07-24 12:07:27',
+            ),
+            70 => 
+            array (
+                'id' => 1571,
+                'country_id' => 53,
+                'language_id' => 7,
+                'name' => '크로아티아',
+                'created_at' => '2025-07-24 12:07:28',
+                'updated_at' => '2025-07-24 12:07:28',
+            ),
+            71 => 
+            array (
+                'id' => 1572,
+                'country_id' => 54,
+                'language_id' => 7,
+                'name' => '쿠바',
+                'created_at' => '2025-07-24 12:07:28',
+                'updated_at' => '2025-07-24 12:07:28',
+            ),
+            72 => 
+            array (
+                'id' => 1573,
+                'country_id' => 55,
+                'language_id' => 7,
+                'name' => '키프로스',
+                'created_at' => '2025-07-24 12:07:28',
+                'updated_at' => '2025-07-24 12:07:28',
+            ),
+            73 => 
+            array (
+                'id' => 1574,
+                'country_id' => 56,
+                'language_id' => 7,
+                'name' => '체코 공화국',
+                'created_at' => '2025-07-24 12:07:29',
+                'updated_at' => '2025-07-24 12:07:29',
+            ),
+            74 => 
+            array (
+                'id' => 1575,
+                'country_id' => 57,
+                'language_id' => 7,
+                'name' => '덴마크',
+                'created_at' => '2025-07-24 12:07:29',
+                'updated_at' => '2025-07-24 12:07:29',
+            ),
+            75 => 
+            array (
+                'id' => 1576,
+                'country_id' => 58,
+                'language_id' => 7,
+                'name' => '지부티',
+                'created_at' => '2025-07-24 12:07:30',
+                'updated_at' => '2025-07-24 12:07:30',
+            ),
+            76 => 
+            array (
+                'id' => 1577,
+                'country_id' => 59,
+                'language_id' => 7,
+                'name' => '도미니카',
+                'created_at' => '2025-07-24 12:07:30',
+                'updated_at' => '2025-07-24 12:07:30',
+            ),
+            77 => 
+            array (
+                'id' => 1578,
+                'country_id' => 60,
+                'language_id' => 7,
+                'name' => '도미니카 공화국',
+                'created_at' => '2025-07-24 12:07:31',
+                'updated_at' => '2025-07-24 12:07:31',
+            ),
+            78 => 
+            array (
+                'id' => 1579,
+                'country_id' => 61,
+                'language_id' => 7,
+                'name' => '동티모르',
+                'created_at' => '2025-07-24 12:07:31',
+                'updated_at' => '2025-07-24 12:07:31',
+            ),
+            79 => 
+            array (
+                'id' => 1580,
+                'country_id' => 62,
+                'language_id' => 7,
+                'name' => '에에에에에에에쿠아도르',
+                'created_at' => '2025-07-24 12:07:31',
+                'updated_at' => '2025-07-24 12:07:31',
+            ),
+            80 => 
+            array (
+                'id' => 1581,
+                'country_id' => 63,
+                'language_id' => 7,
+                'name' => '이집트',
+                'created_at' => '2025-07-24 12:07:32',
+                'updated_at' => '2025-07-24 12:07:32',
+            ),
+            81 => 
+            array (
+                'id' => 1582,
+                'country_id' => 64,
+                'language_id' => 7,
+                'name' => '엘살바도르',
+                'created_at' => '2025-07-24 12:07:32',
+                'updated_at' => '2025-07-24 12:07:32',
+            ),
+            82 => 
+            array (
+                'id' => 1583,
+                'country_id' => 65,
+                'language_id' => 7,
+                'name' => '赤道기니',
+                'created_at' => '2025-07-24 12:07:33',
+                'updated_at' => '2025-07-24 12:07:33',
+            ),
+            83 => 
+            array (
+                'id' => 1584,
+                'country_id' => 66,
+                'language_id' => 7,
+                'name' => '에리트레아',
+                'created_at' => '2025-07-24 12:07:33',
+                'updated_at' => '2025-07-24 12:07:33',
+            ),
+            84 => 
+            array (
+                'id' => 1585,
+                'country_id' => 67,
+                'language_id' => 7,
+                'name' => '에스토니아',
+                'created_at' => '2025-07-24 12:07:34',
+                'updated_at' => '2025-07-24 12:07:34',
+            ),
+            85 => 
+            array (
+                'id' => 1586,
+                'country_id' => 68,
+                'language_id' => 7,
+                'name' => '에티오피아',
+                'created_at' => '2025-07-24 12:07:34',
+                'updated_at' => '2025-07-24 12:07:34',
+            ),
+            86 => 
+            array (
+                'id' => 1587,
+                'country_id' => 69,
+                'language_id' => 7,
+            'name' => '폴클랜드 섬 (Malvinas)',
+                'created_at' => '2025-07-24 12:07:35',
+                'updated_at' => '2025-07-24 12:07:35',
+            ),
+            87 => 
+            array (
+                'id' => 1588,
+                'country_id' => 70,
+                'language_id' => 7,
+                'name' => '페로어 섬',
+                'created_at' => '2025-07-24 12:07:35',
+                'updated_at' => '2025-07-24 12:07:35',
+            ),
+            88 => 
+            array (
+                'id' => 1589,
+                'country_id' => 71,
+                'language_id' => 7,
+                'name' => '피지는',
+                'created_at' => '2025-07-24 12:07:35',
+                'updated_at' => '2025-07-24 12:07:35',
+            ),
+            89 => 
+            array (
+                'id' => 1590,
+                'country_id' => 72,
+                'language_id' => 7,
+                'name' => '핀란드',
+                'created_at' => '2025-07-24 12:07:36',
+                'updated_at' => '2025-07-24 12:07:36',
+            ),
+            90 => 
+            array (
+                'id' => 1591,
+                'country_id' => 73,
+                'language_id' => 7,
+                'name' => '프랑스, Metropolitan',
+                'created_at' => '2025-07-24 12:07:36',
+                'updated_at' => '2025-07-24 12:07:36',
+            ),
+            91 => 
+            array (
+                'id' => 1592,
+                'country_id' => 74,
+                'language_id' => 7,
+                'name' => '프랑스 기아나',
+                'created_at' => '2025-07-24 12:07:37',
+                'updated_at' => '2025-07-24 12:07:37',
+            ),
+            92 => 
+            array (
+                'id' => 1593,
+                'country_id' => 75,
+                'language_id' => 7,
+                'name' => '프랑스 폴리네시아',
+                'created_at' => '2025-07-24 12:07:37',
+                'updated_at' => '2025-07-24 12:07:37',
+            ),
+            93 => 
+            array (
+                'id' => 1594,
+                'country_id' => 76,
+                'language_id' => 7,
+                'name' => '프랑스 남부 지역',
+                'created_at' => '2025-07-24 12:07:38',
+                'updated_at' => '2025-07-24 12:07:38',
+            ),
+            94 => 
+            array (
+                'id' => 1595,
+                'country_id' => 77,
+                'language_id' => 7,
+                'name' => '가본',
+                'created_at' => '2025-07-24 12:07:38',
+                'updated_at' => '2025-07-24 12:07:38',
+            ),
+            95 => 
+            array (
+                'id' => 1596,
+                'country_id' => 78,
+                'language_id' => 7,
+                'name' => 'Gambia는',
+                'created_at' => '2025-07-24 12:07:39',
+                'updated_at' => '2025-07-24 12:07:39',
+            ),
+            96 => 
+            array (
+                'id' => 1597,
+                'country_id' => 79,
+                'language_id' => 7,
+                'name' => '조지아',
+                'created_at' => '2025-07-24 12:07:39',
+                'updated_at' => '2025-07-24 12:07:39',
+            ),
+            97 => 
+            array (
+                'id' => 1598,
+                'country_id' => 80,
+                'language_id' => 7,
+                'name' => '독일',
+                'created_at' => '2025-07-24 12:07:39',
+                'updated_at' => '2025-07-24 12:07:39',
+            ),
+            98 => 
+            array (
+                'id' => 1599,
+                'country_id' => 81,
+                'language_id' => 7,
+                'name' => '가나',
+                'created_at' => '2025-07-24 12:07:40',
+                'updated_at' => '2025-07-24 12:07:40',
+            ),
+            99 => 
+            array (
+                'id' => 1600,
+                'country_id' => 82,
+                'language_id' => 7,
+                'name' => '지브롤타르',
+                'created_at' => '2025-07-24 12:07:40',
+                'updated_at' => '2025-07-24 12:07:40',
+            ),
+            100 => 
+            array (
+                'id' => 1601,
+                'country_id' => 83,
+                'language_id' => 7,
+                'name' => '그리스',
+                'created_at' => '2025-07-24 12:07:41',
+                'updated_at' => '2025-07-24 12:07:41',
+            ),
+            101 => 
+            array (
+                'id' => 1602,
+                'country_id' => 84,
+                'language_id' => 7,
+                'name' => '그린랜드',
+                'created_at' => '2025-07-24 12:07:41',
+                'updated_at' => '2025-07-24 12:07:41',
+            ),
+            102 => 
+            array (
+                'id' => 1603,
+                'country_id' => 85,
+                'language_id' => 7,
+                'name' => '그레나다',
+                'created_at' => '2025-07-24 12:07:42',
+                'updated_at' => '2025-07-24 12:07:42',
+            ),
+            103 => 
+            array (
+                'id' => 1604,
+                'country_id' => 86,
+                'language_id' => 7,
+                'name' => '과델루프',
+                'created_at' => '2025-07-24 12:07:42',
+                'updated_at' => '2025-07-24 12:07:42',
+            ),
+            104 => 
+            array (
+                'id' => 1605,
+                'country_id' => 87,
+                'language_id' => 7,
+                'name' => '과임',
+                'created_at' => '2025-07-24 12:07:42',
+                'updated_at' => '2025-07-24 12:07:42',
+            ),
+            105 => 
+            array (
+                'id' => 1606,
+                'country_id' => 88,
+                'language_id' => 7,
+                'name' => '과테말라',
+                'created_at' => '2025-07-24 12:07:43',
+                'updated_at' => '2025-07-24 12:07:43',
+            ),
+            106 => 
+            array (
+                'id' => 1607,
+                'country_id' => 89,
+                'language_id' => 7,
+                'name' => '기니',
+                'created_at' => '2025-07-24 12:07:45',
+                'updated_at' => '2025-07-24 12:07:45',
+            ),
+            107 => 
+            array (
+                'id' => 1608,
+                'country_id' => 90,
+                'language_id' => 7,
+                'name' => '기니 비사우',
+                'created_at' => '2025-07-24 12:07:45',
+                'updated_at' => '2025-07-24 12:07:45',
+            ),
+            108 => 
+            array (
+                'id' => 1609,
+                'country_id' => 91,
+                'language_id' => 7,
+                'name' => '가이아나',
+                'created_at' => '2025-07-24 12:07:46',
+                'updated_at' => '2025-07-24 12:07:46',
+            ),
+            109 => 
+            array (
+                'id' => 1610,
+                'country_id' => 92,
+                'language_id' => 7,
+                'name' => '아이티',
+                'created_at' => '2025-07-24 12:07:46',
+                'updated_at' => '2025-07-24 12:07:46',
+            ),
+            110 => 
+            array (
+                'id' => 1611,
+                'country_id' => 93,
+                'language_id' => 7,
+                'name' => 'Heard 및 McDonald Islands',
+                'created_at' => '2025-07-24 12:07:47',
+                'updated_at' => '2025-07-24 12:07:47',
+            ),
+            111 => 
+            array (
+                'id' => 1612,
+                'country_id' => 94,
+                'language_id' => 7,
+                'name' => '온두라스',
+                'created_at' => '2025-07-24 12:07:47',
+                'updated_at' => '2025-07-24 12:07:47',
+            ),
+            112 => 
+            array (
+                'id' => 1613,
+                'country_id' => 95,
+                'language_id' => 7,
+                'name' => '홍콩',
+                'created_at' => '2025-07-24 12:07:48',
+                'updated_at' => '2025-07-24 12:07:48',
+            ),
+            113 => 
+            array (
+                'id' => 1614,
+                'country_id' => 96,
+                'language_id' => 7,
+                'name' => '헝가리',
+                'created_at' => '2025-07-24 12:07:48',
+                'updated_at' => '2025-07-24 12:07:48',
+            ),
+            114 => 
+            array (
+                'id' => 1615,
+                'country_id' => 97,
+                'language_id' => 7,
+                'name' => '아이슬란드',
+                'created_at' => '2025-07-24 12:07:48',
+                'updated_at' => '2025-07-24 12:07:48',
+            ),
+            115 => 
+            array (
+                'id' => 1616,
+                'country_id' => 98,
+                'language_id' => 7,
+                'name' => '인도',
+                'created_at' => '2025-07-24 12:07:49',
+                'updated_at' => '2025-07-24 12:07:49',
+            ),
+            116 => 
+            array (
+                'id' => 1617,
+                'country_id' => 99,
+                'language_id' => 7,
+                'name' => '인도네시아',
+                'created_at' => '2025-07-24 12:07:50',
+                'updated_at' => '2025-07-24 12:07:50',
+            ),
+            117 => 
+            array (
+                'id' => 1618,
+                'country_id' => 100,
+                'language_id' => 7,
+            'name' => '이란 (이슬람 공화국)',
+                'created_at' => '2025-07-24 12:07:50',
+                'updated_at' => '2025-07-24 12:07:50',
+            ),
+            118 => 
+            array (
+                'id' => 1619,
+                'country_id' => 101,
+                'language_id' => 7,
+                'name' => '이라크',
+                'created_at' => '2025-07-24 12:07:50',
+                'updated_at' => '2025-07-24 12:07:50',
+            ),
+            119 => 
+            array (
+                'id' => 1620,
+                'country_id' => 102,
+                'language_id' => 7,
+                'name' => '아일랜드',
+                'created_at' => '2025-07-24 12:07:51',
+                'updated_at' => '2025-07-24 12:07:51',
+            ),
+            120 => 
+            array (
+                'id' => 1621,
+                'country_id' => 103,
+                'language_id' => 7,
+                'name' => '이스라엘',
+                'created_at' => '2025-07-24 12:07:51',
+                'updated_at' => '2025-07-24 12:07:51',
+            ),
+            121 => 
+            array (
+                'id' => 1622,
+                'country_id' => 104,
+                'language_id' => 7,
+                'name' => '이탈리아',
+                'created_at' => '2025-07-24 12:07:52',
+                'updated_at' => '2025-07-24 12:07:52',
+            ),
+            122 => 
+            array (
+                'id' => 1623,
+                'country_id' => 105,
+                'language_id' => 7,
+                'name' => '자메이카',
+                'created_at' => '2025-07-24 12:07:52',
+                'updated_at' => '2025-07-24 12:07:52',
+            ),
+            123 => 
+            array (
+                'id' => 1624,
+                'country_id' => 106,
+                'language_id' => 7,
+                'name' => '일본',
+                'created_at' => '2025-07-24 12:07:53',
+                'updated_at' => '2025-07-24 12:07:53',
+            ),
+            124 => 
+            array (
+                'id' => 1625,
+                'country_id' => 107,
+                'language_id' => 7,
+                'name' => '요르단',
+                'created_at' => '2025-07-24 12:07:53',
+                'updated_at' => '2025-07-24 12:07:53',
+            ),
+            125 => 
+            array (
+                'id' => 1626,
+                'country_id' => 108,
+                'language_id' => 7,
+                'name' => '카자흐스탄',
+                'created_at' => '2025-07-24 12:07:53',
+                'updated_at' => '2025-07-24 12:07:53',
+            ),
+            126 => 
+            array (
+                'id' => 1627,
+                'country_id' => 109,
+                'language_id' => 7,
+                'name' => '케냐',
+                'created_at' => '2025-07-24 12:07:54',
+                'updated_at' => '2025-07-24 12:07:54',
+            ),
+            127 => 
+            array (
+                'id' => 1628,
+                'country_id' => 110,
+                'language_id' => 7,
+                'name' => '키리바티',
+                'created_at' => '2025-07-24 12:07:54',
+                'updated_at' => '2025-07-24 12:07:54',
+            ),
+            128 => 
+            array (
+                'id' => 1629,
+                'country_id' => 111,
+                'language_id' => 7,
+                'name' => '북한의',
+                'created_at' => '2025-07-24 12:07:55',
+                'updated_at' => '2025-07-24 12:07:55',
+            ),
+            129 => 
+            array (
+                'id' => 1630,
+                'country_id' => 112,
+                'language_id' => 7,
+                'name' => '한국',
+                'created_at' => '2025-07-24 12:07:55',
+                'updated_at' => '2025-07-24 12:07:55',
+            ),
+            130 => 
+            array (
+                'id' => 1631,
+                'country_id' => 113,
+                'language_id' => 7,
+                'name' => '쿠웨이트',
+                'created_at' => '2025-07-24 12:07:55',
+                'updated_at' => '2025-07-24 12:07:55',
+            ),
+            131 => 
+            array (
+                'id' => 1632,
+                'country_id' => 114,
+                'language_id' => 7,
+                'name' => '키르기스탄',
+                'created_at' => '2025-07-24 12:07:56',
+                'updated_at' => '2025-07-24 12:07:56',
+            ),
+            132 => 
+            array (
+                'id' => 1633,
+                'country_id' => 115,
+                'language_id' => 7,
+            'name' => '라오스 인민민주공화국 (Lao People\'s Democratic Republic)',
+                'created_at' => '2025-07-24 12:07:56',
+                'updated_at' => '2025-07-24 12:07:56',
+            ),
+            133 => 
+            array (
+                'id' => 1634,
+                'country_id' => 116,
+                'language_id' => 7,
+                'name' => '라트비아',
+                'created_at' => '2025-07-24 12:07:57',
+                'updated_at' => '2025-07-24 12:07:57',
+            ),
+            134 => 
+            array (
+                'id' => 1635,
+                'country_id' => 117,
+                'language_id' => 7,
+                'name' => '레바논',
+                'created_at' => '2025-07-24 12:07:57',
+                'updated_at' => '2025-07-24 12:07:57',
+            ),
+            135 => 
+            array (
+                'id' => 1636,
+                'country_id' => 118,
+                'language_id' => 7,
+                'name' => '레소토',
+                'created_at' => '2025-07-24 12:07:58',
+                'updated_at' => '2025-07-24 12:07:58',
+            ),
+            136 => 
+            array (
+                'id' => 1637,
+                'country_id' => 119,
+                'language_id' => 7,
+                'name' => '리베리아',
+                'created_at' => '2025-07-24 12:07:58',
+                'updated_at' => '2025-07-24 12:07:58',
+            ),
+            137 => 
+            array (
+                'id' => 1638,
+                'country_id' => 120,
+                'language_id' => 7,
+                'name' => '리비아',
+                'created_at' => '2025-07-24 12:07:59',
+                'updated_at' => '2025-07-24 12:07:59',
+            ),
+            138 => 
+            array (
+                'id' => 1639,
+                'country_id' => 121,
+                'language_id' => 7,
+                'name' => '리히텐슈타인',
+                'created_at' => '2025-07-24 12:07:59',
+                'updated_at' => '2025-07-24 12:07:59',
+            ),
+            139 => 
+            array (
+                'id' => 1640,
+                'country_id' => 122,
+                'language_id' => 7,
+                'name' => '리투아니아',
+                'created_at' => '2025-07-24 12:07:59',
+                'updated_at' => '2025-07-24 12:07:59',
+            ),
+            140 => 
+            array (
+                'id' => 1641,
+                'country_id' => 123,
+                'language_id' => 7,
+                'name' => '',
+                'created_at' => '2025-07-24 12:08:00',
+                'updated_at' => '2025-07-24 12:08:00',
+            ),
+            141 => 
+            array (
+                'id' => 1642,
+                'country_id' => 124,
+                'language_id' => 7,
+                'name' => '마카오',
+                'created_at' => '2025-07-24 12:08:00',
+                'updated_at' => '2025-07-24 12:08:00',
+            ),
+            142 => 
+            array (
+                'id' => 1643,
+                'country_id' => 125,
+                'language_id' => 7,
+                'name' => '북 마케도니아',
+                'created_at' => '2025-07-24 12:08:01',
+                'updated_at' => '2025-07-24 12:08:01',
+            ),
+            143 => 
+            array (
+                'id' => 1644,
+                'country_id' => 126,
+                'language_id' => 7,
+                'name' => '마다가스카르',
+                'created_at' => '2025-07-24 12:08:01',
+                'updated_at' => '2025-07-24 12:08:01',
+            ),
+            144 => 
+            array (
+                'id' => 1645,
+                'country_id' => 127,
+                'language_id' => 7,
+                'name' => '말라위',
+                'created_at' => '2025-07-24 12:08:02',
+                'updated_at' => '2025-07-24 12:08:02',
+            ),
+            145 => 
+            array (
+                'id' => 1646,
+                'country_id' => 128,
+                'language_id' => 7,
+                'name' => '말레이시아',
+                'created_at' => '2025-07-24 12:08:02',
+                'updated_at' => '2025-07-24 12:08:02',
+            ),
+            146 => 
+            array (
+                'id' => 1647,
+                'country_id' => 129,
+                'language_id' => 7,
+                'name' => '말디브',
+                'created_at' => '2025-07-24 12:08:02',
+                'updated_at' => '2025-07-24 12:08:02',
+            ),
+            147 => 
+            array (
+                'id' => 1648,
+                'country_id' => 130,
+                'language_id' => 7,
+                'name' => '말리',
+                'created_at' => '2025-07-24 12:08:03',
+                'updated_at' => '2025-07-24 12:08:03',
+            ),
+            148 => 
+            array (
+                'id' => 1649,
+                'country_id' => 131,
+                'language_id' => 7,
+                'name' => '말타',
+                'created_at' => '2025-07-24 12:08:03',
+                'updated_at' => '2025-07-24 12:08:03',
+            ),
+            149 => 
+            array (
+                'id' => 1650,
+                'country_id' => 132,
+                'language_id' => 7,
+                'name' => '마Marshall Islands',
+                'created_at' => '2025-07-24 12:08:04',
+                'updated_at' => '2025-07-24 12:08:04',
+            ),
+            150 => 
+            array (
+                'id' => 1651,
+                'country_id' => 133,
+                'language_id' => 7,
+                'name' => '마르티니크',
+                'created_at' => '2025-07-24 12:08:04',
+                'updated_at' => '2025-07-24 12:08:04',
+            ),
+            151 => 
+            array (
+                'id' => 1652,
+                'country_id' => 134,
+                'language_id' => 7,
+                'name' => '모리타니아',
+                'created_at' => '2025-07-24 12:08:05',
+                'updated_at' => '2025-07-24 12:08:05',
+            ),
+            152 => 
+            array (
+                'id' => 1653,
+                'country_id' => 135,
+                'language_id' => 7,
+                'name' => '모리셔스',
+                'created_at' => '2025-07-24 12:08:05',
+                'updated_at' => '2025-07-24 12:08:05',
+            ),
+            153 => 
+            array (
+                'id' => 1654,
+                'country_id' => 136,
+                'language_id' => 7,
+                'name' => '마요트',
+                'created_at' => '2025-07-24 12:08:06',
+                'updated_at' => '2025-07-24 12:08:06',
+            ),
+            154 => 
+            array (
+                'id' => 1655,
+                'country_id' => 137,
+                'language_id' => 7,
+                'name' => '멕시코',
+                'created_at' => '2025-07-24 12:08:06',
+                'updated_at' => '2025-07-24 12:08:06',
+            ),
+            155 => 
+            array (
+                'id' => 1656,
+                'country_id' => 138,
+                'language_id' => 7,
+                'name' => '미크로네시아, 미크로네시아 연방',
+                'created_at' => '2025-07-24 12:08:07',
+                'updated_at' => '2025-07-24 12:08:07',
+            ),
+            156 => 
+            array (
+                'id' => 1657,
+                'country_id' => 139,
+                'language_id' => 7,
+                'name' => '몰도바, 공화국',
+                'created_at' => '2025-07-24 12:08:07',
+                'updated_at' => '2025-07-24 12:08:07',
+            ),
+            157 => 
+            array (
+                'id' => 1658,
+                'country_id' => 140,
+                'language_id' => 7,
+                'name' => '모나코',
+                'created_at' => '2025-07-24 12:08:07',
+                'updated_at' => '2025-07-24 12:08:07',
+            ),
+            158 => 
+            array (
+                'id' => 1659,
+                'country_id' => 141,
+                'language_id' => 7,
+                'name' => '몬골',
+                'created_at' => '2025-07-24 12:08:08',
+                'updated_at' => '2025-07-24 12:08:08',
+            ),
+            159 => 
+            array (
+                'id' => 1660,
+                'country_id' => 142,
+                'language_id' => 7,
+                'name' => '몬테르라트',
+                'created_at' => '2025-07-24 12:08:08',
+                'updated_at' => '2025-07-24 12:08:08',
+            ),
+            160 => 
+            array (
+                'id' => 1661,
+                'country_id' => 143,
+                'language_id' => 7,
+                'name' => '모로코',
+                'created_at' => '2025-07-24 12:08:09',
+                'updated_at' => '2025-07-24 12:08:09',
+            ),
+            161 => 
+            array (
+                'id' => 1662,
+                'country_id' => 144,
+                'language_id' => 7,
+                'name' => '모잔비크',
+                'created_at' => '2025-07-24 12:08:09',
+                'updated_at' => '2025-07-24 12:08:09',
+            ),
+            162 => 
+            array (
+                'id' => 1663,
+                'country_id' => 145,
+                'language_id' => 7,
+                'name' => '미안마',
+                'created_at' => '2025-07-24 12:08:10',
+                'updated_at' => '2025-07-24 12:08:10',
+            ),
+            163 => 
+            array (
+                'id' => 1664,
+                'country_id' => 146,
+                'language_id' => 7,
+                'name' => '나미비아',
+                'created_at' => '2025-07-24 12:08:11',
+                'updated_at' => '2025-07-24 12:08:11',
+            ),
+            164 => 
+            array (
+                'id' => 1665,
+                'country_id' => 147,
+                'language_id' => 7,
+                'name' => '나우루',
+                'created_at' => '2025-07-24 12:08:11',
+                'updated_at' => '2025-07-24 12:08:11',
+            ),
+            165 => 
+            array (
+                'id' => 1666,
+                'country_id' => 148,
+                'language_id' => 7,
+                'name' => '네팔',
+                'created_at' => '2025-07-24 12:08:11',
+                'updated_at' => '2025-07-24 12:08:11',
+            ),
+            166 => 
+            array (
+                'id' => 1667,
+                'country_id' => 149,
+                'language_id' => 7,
+                'name' => '네덜란드',
+                'created_at' => '2025-07-24 12:08:12',
+                'updated_at' => '2025-07-24 12:08:12',
+            ),
+            167 => 
+            array (
+                'id' => 1668,
+                'country_id' => 150,
+                'language_id' => 7,
+                'name' => '네덜란드 안틸리스',
+                'created_at' => '2025-07-24 12:08:13',
+                'updated_at' => '2025-07-24 12:08:13',
+            ),
+            168 => 
+            array (
+                'id' => 1669,
+                'country_id' => 151,
+                'language_id' => 7,
+                'name' => '뉴칼레도니아',
+                'created_at' => '2025-07-24 12:08:13',
+                'updated_at' => '2025-07-24 12:08:13',
+            ),
+            169 => 
+            array (
+                'id' => 1670,
+                'country_id' => 152,
+                'language_id' => 7,
+                'name' => '뉴질랜드',
+                'created_at' => '2025-07-24 12:08:13',
+                'updated_at' => '2025-07-24 12:08:13',
+            ),
+            170 => 
+            array (
+                'id' => 1671,
+                'country_id' => 153,
+                'language_id' => 7,
+                'name' => '니카라구아',
+                'created_at' => '2025-07-24 12:08:14',
+                'updated_at' => '2025-07-24 12:08:14',
+            ),
+            171 => 
+            array (
+                'id' => 1672,
+                'country_id' => 154,
+                'language_id' => 7,
+                'name' => '니제르',
+                'created_at' => '2025-07-24 12:08:14',
+                'updated_at' => '2025-07-24 12:08:14',
+            ),
+            172 => 
+            array (
+                'id' => 1673,
+                'country_id' => 155,
+                'language_id' => 7,
+                'name' => '나이지리아',
+                'created_at' => '2025-07-24 12:08:15',
+                'updated_at' => '2025-07-24 12:08:15',
+            ),
+            173 => 
+            array (
+                'id' => 1674,
+                'country_id' => 156,
+                'language_id' => 7,
+                'name' => '니우에',
+                'created_at' => '2025-07-24 12:08:15',
+                'updated_at' => '2025-07-24 12:08:15',
+            ),
+            174 => 
+            array (
+                'id' => 1675,
+                'country_id' => 157,
+                'language_id' => 7,
+                'name' => '노포크 섬',
+                'created_at' => '2025-07-24 12:08:16',
+                'updated_at' => '2025-07-24 12:08:16',
+            ),
+            175 => 
+            array (
+                'id' => 1676,
+                'country_id' => 158,
+                'language_id' => 7,
+                'name' => '북부 마리아나 제도',
+                'created_at' => '2025-07-24 12:08:16',
+                'updated_at' => '2025-07-24 12:08:16',
+            ),
+            176 => 
+            array (
+                'id' => 1677,
+                'country_id' => 159,
+                'language_id' => 7,
+                'name' => '노르웨이',
+                'created_at' => '2025-07-24 12:08:17',
+                'updated_at' => '2025-07-24 12:08:17',
+            ),
+            177 => 
+            array (
+                'id' => 1678,
+                'country_id' => 160,
+                'language_id' => 7,
+                'name' => '오만',
+                'created_at' => '2025-07-24 12:08:17',
+                'updated_at' => '2025-07-24 12:08:17',
+            ),
+            178 => 
+            array (
+                'id' => 1679,
+                'country_id' => 161,
+                'language_id' => 7,
+                'name' => '파키스탄',
+                'created_at' => '2025-07-24 12:08:18',
+                'updated_at' => '2025-07-24 12:08:18',
+            ),
+            179 => 
+            array (
+                'id' => 1680,
+                'country_id' => 162,
+                'language_id' => 7,
+                'name' => '팔라우',
+                'created_at' => '2025-07-24 12:08:18',
+                'updated_at' => '2025-07-24 12:08:18',
+            ),
+            180 => 
+            array (
+                'id' => 1681,
+                'country_id' => 163,
+                'language_id' => 7,
+                'name' => '파나마',
+                'created_at' => '2025-07-24 12:08:19',
+                'updated_at' => '2025-07-24 12:08:19',
+            ),
+            181 => 
+            array (
+                'id' => 1682,
+                'country_id' => 164,
+                'language_id' => 7,
+                'name' => '파푸아 뉴기니',
+                'created_at' => '2025-07-24 12:08:19',
+                'updated_at' => '2025-07-24 12:08:19',
+            ),
+            182 => 
+            array (
+                'id' => 1683,
+                'country_id' => 165,
+                'language_id' => 7,
+                'name' => '파라과이',
+                'created_at' => '2025-07-24 12:08:20',
+                'updated_at' => '2025-07-24 12:08:20',
+            ),
+            183 => 
+            array (
+                'id' => 1684,
+                'country_id' => 166,
+                'language_id' => 7,
+                'name' => '페루',
+                'created_at' => '2025-07-24 12:08:20',
+                'updated_at' => '2025-07-24 12:08:20',
+            ),
+            184 => 
+            array (
+                'id' => 1685,
+                'country_id' => 167,
+                'language_id' => 7,
+                'name' => '필리핀',
+                'created_at' => '2025-07-24 12:08:20',
+                'updated_at' => '2025-07-24 12:08:20',
+            ),
+            185 => 
+            array (
+                'id' => 1686,
+                'country_id' => 168,
+                'language_id' => 7,
+                'name' => 'Pitcairn은',
+                'created_at' => '2025-07-24 12:08:21',
+                'updated_at' => '2025-07-24 12:08:21',
+            ),
+            186 => 
+            array (
+                'id' => 1687,
+                'country_id' => 169,
+                'language_id' => 7,
+                'name' => '폴란드',
+                'created_at' => '2025-07-24 12:08:21',
+                'updated_at' => '2025-07-24 12:08:21',
+            ),
+            187 => 
+            array (
+                'id' => 1688,
+                'country_id' => 170,
+                'language_id' => 7,
+                'name' => '포르투갈',
+                'created_at' => '2025-07-24 12:08:22',
+                'updated_at' => '2025-07-24 12:08:22',
+            ),
+            188 => 
+            array (
+                'id' => 1689,
+                'country_id' => 171,
+                'language_id' => 7,
+                'name' => '푸에르토리코',
+                'created_at' => '2025-07-24 12:08:23',
+                'updated_at' => '2025-07-24 12:08:23',
+            ),
+            189 => 
+            array (
+                'id' => 1690,
+                'country_id' => 172,
+                'language_id' => 7,
+                'name' => '카타르',
+                'created_at' => '2025-07-24 12:08:23',
+                'updated_at' => '2025-07-24 12:08:23',
+            ),
+            190 => 
+            array (
+                'id' => 1691,
+                'country_id' => 173,
+                'language_id' => 7,
+                'name' => '리유니언',
+                'created_at' => '2025-07-24 12:08:24',
+                'updated_at' => '2025-07-24 12:08:24',
+            ),
+            191 => 
+            array (
+                'id' => 1692,
+                'country_id' => 174,
+                'language_id' => 7,
+                'name' => '루마니아',
+                'created_at' => '2025-07-24 12:08:24',
+                'updated_at' => '2025-07-24 12:08:24',
+            ),
+            192 => 
+            array (
+                'id' => 1693,
+                'country_id' => 175,
+                'language_id' => 7,
+            'name' => '러시아 연방 (the)',
+                'created_at' => '2025-07-24 12:08:25',
+                'updated_at' => '2025-07-24 12:08:25',
+            ),
+            193 => 
+            array (
+                'id' => 1694,
+                'country_id' => 176,
+                'language_id' => 7,
+                'name' => '르완다',
+                'created_at' => '2025-07-24 12:08:25',
+                'updated_at' => '2025-07-24 12:08:25',
+            ),
+            194 => 
+            array (
+                'id' => 1695,
+                'country_id' => 177,
+                'language_id' => 7,
+                'name' => '세인트 키츠 네비스',
+                'created_at' => '2025-07-24 12:08:25',
+                'updated_at' => '2025-07-24 12:08:25',
+            ),
+            195 => 
+            array (
+                'id' => 1696,
+                'country_id' => 178,
+                'language_id' => 7,
+                'name' => '세인트 루시아',
+                'created_at' => '2025-07-24 12:08:26',
+                'updated_at' => '2025-07-24 12:08:26',
+            ),
+            196 => 
+            array (
+                'id' => 1697,
+                'country_id' => 179,
+                'language_id' => 7,
+                'name' => '세인트 빈센트 및 그레나틴',
+                'created_at' => '2025-07-24 12:08:26',
+                'updated_at' => '2025-07-24 12:08:26',
+            ),
+            197 => 
+            array (
+                'id' => 1698,
+                'country_id' => 180,
+                'language_id' => 7,
+                'name' => '사모아',
+                'created_at' => '2025-07-24 12:08:27',
+                'updated_at' => '2025-07-24 12:08:27',
+            ),
+            198 => 
+            array (
+                'id' => 1699,
+                'country_id' => 181,
+                'language_id' => 7,
+                'name' => '샌마리노',
+                'created_at' => '2025-07-24 12:08:27',
+                'updated_at' => '2025-07-24 12:08:27',
+            ),
+            199 => 
+            array (
+                'id' => 1700,
+                'country_id' => 182,
+                'language_id' => 7,
+                'name' => '상토메 프린시페',
+                'created_at' => '2025-07-24 12:08:28',
+                'updated_at' => '2025-07-24 12:08:28',
+            ),
+            200 => 
+            array (
+                'id' => 1701,
+                'country_id' => 183,
+                'language_id' => 7,
+                'name' => '사우디아라비아',
+                'created_at' => '2025-07-24 12:08:28',
+                'updated_at' => '2025-07-24 12:08:28',
+            ),
+            201 => 
+            array (
+                'id' => 1702,
+                'country_id' => 184,
+                'language_id' => 7,
+                'name' => '세네갈',
+                'created_at' => '2025-07-24 12:08:28',
+                'updated_at' => '2025-07-24 12:08:28',
+            ),
+            202 => 
+            array (
+                'id' => 1703,
+                'country_id' => 185,
+                'language_id' => 7,
+                'name' => '세이젤',
+                'created_at' => '2025-07-24 12:08:29',
+                'updated_at' => '2025-07-24 12:08:29',
+            ),
+            203 => 
+            array (
+                'id' => 1704,
+                'country_id' => 186,
+                'language_id' => 7,
+                'name' => '시에라레온',
+                'created_at' => '2025-07-24 12:08:30',
+                'updated_at' => '2025-07-24 12:08:30',
+            ),
+            204 => 
+            array (
+                'id' => 1705,
+                'country_id' => 187,
+                'language_id' => 7,
+                'name' => '싱가포르',
+                'created_at' => '2025-07-24 12:08:30',
+                'updated_at' => '2025-07-24 12:08:30',
+            ),
+            205 => 
+            array (
+                'id' => 1706,
+                'country_id' => 188,
+                'language_id' => 7,
+                'name' => '슬로바키아 공화국',
+                'created_at' => '2025-07-24 12:08:31',
+                'updated_at' => '2025-07-24 12:08:31',
+            ),
+            206 => 
+            array (
+                'id' => 1707,
+                'country_id' => 189,
+                'language_id' => 7,
+                'name' => '슬로베니아',
+                'created_at' => '2025-07-24 12:08:31',
+                'updated_at' => '2025-07-24 12:08:31',
+            ),
+            207 => 
+            array (
+                'id' => 1708,
+                'country_id' => 190,
+                'language_id' => 7,
+                'name' => '솔로몬 제도',
+                'created_at' => '2025-07-24 12:08:31',
+                'updated_at' => '2025-07-24 12:08:31',
+            ),
+            208 => 
+            array (
+                'id' => 1709,
+                'country_id' => 191,
+                'language_id' => 7,
+                'name' => '소말리아',
+                'created_at' => '2025-07-24 12:08:32',
+                'updated_at' => '2025-07-24 12:08:32',
+            ),
+            209 => 
+            array (
+                'id' => 1710,
+                'country_id' => 192,
+                'language_id' => 7,
+                'name' => '남아프리카',
+                'created_at' => '2025-07-24 12:08:32',
+                'updated_at' => '2025-07-24 12:08:32',
+            ),
+            210 => 
+            array (
+                'id' => 1711,
+                'country_id' => 193,
+                'language_id' => 7,
+                'name' => '사우스 조지아 &amp;사우스 샌드위치 섬',
+                'created_at' => '2025-07-24 12:08:33',
+                'updated_at' => '2025-07-24 12:08:33',
+            ),
+            211 => 
+            array (
+                'id' => 1712,
+                'country_id' => 194,
+                'language_id' => 7,
+                'name' => '스페인',
+                'created_at' => '2025-07-24 12:08:33',
+                'updated_at' => '2025-07-24 12:08:33',
+            ),
+            212 => 
+            array (
+                'id' => 1713,
+                'country_id' => 195,
+                'language_id' => 7,
+                'name' => '스리랑카',
+                'created_at' => '2025-07-24 12:08:34',
+                'updated_at' => '2025-07-24 12:08:34',
+            ),
+            213 => 
+            array (
+                'id' => 1714,
+                'country_id' => 196,
+                'language_id' => 7,
+                'name' => '세인트 헬레나',
+                'created_at' => '2025-07-24 12:08:34',
+                'updated_at' => '2025-07-24 12:08:34',
+            ),
+            214 => 
+            array (
+                'id' => 1715,
+                'country_id' => 197,
+                'language_id' => 7,
+                'name' => '세인트 피에르 및 미세세론',
+                'created_at' => '2025-07-24 12:08:35',
+                'updated_at' => '2025-07-24 12:08:35',
+            ),
+            215 => 
+            array (
+                'id' => 1716,
+                'country_id' => 198,
+                'language_id' => 7,
+                'name' => '수단',
+                'created_at' => '2025-07-24 12:08:35',
+                'updated_at' => '2025-07-24 12:08:35',
+            ),
+            216 => 
+            array (
+                'id' => 1717,
+                'country_id' => 199,
+                'language_id' => 7,
+                'name' => '수리남',
+                'created_at' => '2025-07-24 12:08:36',
+                'updated_at' => '2025-07-24 12:08:36',
+            ),
+            217 => 
+            array (
+                'id' => 1718,
+                'country_id' => 200,
+                'language_id' => 7,
+                'name' => '스발바르드 및 Jan Mayen Islands',
+                'created_at' => '2025-07-24 12:08:36',
+                'updated_at' => '2025-07-24 12:08:36',
+            ),
+            218 => 
+            array (
+                'id' => 1719,
+                'country_id' => 201,
+                'language_id' => 7,
+                'name' => '에스와티니는',
+                'created_at' => '2025-07-24 12:08:36',
+                'updated_at' => '2025-07-24 12:08:36',
+            ),
+            219 => 
+            array (
+                'id' => 1720,
+                'country_id' => 202,
+                'language_id' => 7,
+                'name' => '스웨덴',
+                'created_at' => '2025-07-24 12:08:37',
+                'updated_at' => '2025-07-24 12:08:37',
+            ),
+            220 => 
+            array (
+                'id' => 1721,
+                'country_id' => 203,
+                'language_id' => 7,
+                'name' => '스위스',
+                'created_at' => '2025-07-24 12:08:37',
+                'updated_at' => '2025-07-24 12:08:37',
+            ),
+            221 => 
+            array (
+                'id' => 1722,
+                'country_id' => 204,
+                'language_id' => 7,
+                'name' => '시리아 아랍 공화국',
+                'created_at' => '2025-07-24 12:08:38',
+                'updated_at' => '2025-07-24 12:08:38',
+            ),
+            222 => 
+            array (
+                'id' => 1723,
+                'country_id' => 205,
+                'language_id' => 7,
+                'name' => '대만',
+                'created_at' => '2025-07-24 12:08:38',
+                'updated_at' => '2025-07-24 12:08:38',
+            ),
+            223 => 
+            array (
+                'id' => 1724,
+                'country_id' => 206,
+                'language_id' => 7,
+                'name' => '타지키스탄',
+                'created_at' => '2025-07-24 12:08:39',
+                'updated_at' => '2025-07-24 12:08:39',
+            ),
+            224 => 
+            array (
+                'id' => 1725,
+                'country_id' => 207,
+                'language_id' => 7,
+                'name' => '탄자니아, 연합 공화국',
+                'created_at' => '2025-07-24 12:08:39',
+                'updated_at' => '2025-07-24 12:08:39',
+            ),
+            225 => 
+            array (
+                'id' => 1726,
+                'country_id' => 208,
+                'language_id' => 7,
+                'name' => '태국',
+                'created_at' => '2025-07-24 12:08:40',
+                'updated_at' => '2025-07-24 12:08:40',
+            ),
+            226 => 
+            array (
+                'id' => 1727,
+                'country_id' => 209,
+                'language_id' => 7,
+                'name' => '토고',
+                'created_at' => '2025-07-24 12:08:40',
+                'updated_at' => '2025-07-24 12:08:40',
+            ),
+            227 => 
+            array (
+                'id' => 1728,
+                'country_id' => 210,
+                'language_id' => 7,
+                'name' => '토토토토클라우',
+                'created_at' => '2025-07-24 12:08:41',
+                'updated_at' => '2025-07-24 12:08:41',
+            ),
+            228 => 
+            array (
+                'id' => 1729,
+                'country_id' => 211,
+                'language_id' => 7,
+                'name' => '톤가',
+                'created_at' => '2025-07-24 12:08:41',
+                'updated_at' => '2025-07-24 12:08:41',
+            ),
+            229 => 
+            array (
+                'id' => 1730,
+                'country_id' => 212,
+                'language_id' => 7,
+                'name' => '트리니다드 토바고',
+                'created_at' => '2025-07-24 12:08:42',
+                'updated_at' => '2025-07-24 12:08:42',
+            ),
+            230 => 
+            array (
+                'id' => 1731,
+                'country_id' => 213,
+                'language_id' => 7,
+                'name' => '튜니지아',
+                'created_at' => '2025-07-24 12:08:42',
+                'updated_at' => '2025-07-24 12:08:42',
+            ),
+            231 => 
+            array (
+                'id' => 1732,
+                'country_id' => 214,
+                'language_id' => 7,
+                'name' => '터키 공화국',
+                'created_at' => '2025-07-24 12:08:43',
+                'updated_at' => '2025-07-24 12:08:43',
+            ),
+            232 => 
+            array (
+                'id' => 1733,
+                'country_id' => 215,
+                'language_id' => 7,
+                'name' => '터크메니스탄',
+                'created_at' => '2025-07-24 12:08:43',
+                'updated_at' => '2025-07-24 12:08:43',
+            ),
+            233 => 
+            array (
+                'id' => 1734,
+                'country_id' => 216,
+                'language_id' => 7,
+                'name' => '터크스 카이코스 섬',
+                'created_at' => '2025-07-24 12:08:44',
+                'updated_at' => '2025-07-24 12:08:44',
+            ),
+            234 => 
+            array (
+                'id' => 1735,
+                'country_id' => 217,
+                'language_id' => 7,
+                'name' => '투발루',
+                'created_at' => '2025-07-24 12:08:44',
+                'updated_at' => '2025-07-24 12:08:44',
+            ),
+            235 => 
+            array (
+                'id' => 1736,
+                'country_id' => 218,
+                'language_id' => 7,
+                'name' => '우간다',
+                'created_at' => '2025-07-24 12:08:44',
+                'updated_at' => '2025-07-24 12:08:44',
+            ),
+            236 => 
+            array (
+                'id' => 1737,
+                'country_id' => 219,
+                'language_id' => 7,
+                'name' => '우크라이나',
+                'created_at' => '2025-07-24 12:08:45',
+                'updated_at' => '2025-07-24 12:08:45',
+            ),
+            237 => 
+            array (
+                'id' => 1738,
+                'country_id' => 220,
+                'language_id' => 7,
+                'name' => '아랍에미리트',
+                'created_at' => '2025-07-24 12:08:45',
+                'updated_at' => '2025-07-24 12:08:45',
+            ),
+            238 => 
+            array (
+                'id' => 1739,
+                'country_id' => 221,
+                'language_id' => 7,
+                'name' => '영국',
+                'created_at' => '2025-07-24 12:08:46',
+                'updated_at' => '2025-07-24 12:08:46',
+            ),
+            239 => 
+            array (
+                'id' => 1740,
+                'country_id' => 222,
+                'language_id' => 7,
+                'name' => '미국',
+                'created_at' => '2025-07-24 12:08:46',
+                'updated_at' => '2025-07-24 12:08:46',
+            ),
+            240 => 
+            array (
+                'id' => 1741,
+                'country_id' => 223,
+                'language_id' => 7,
+                'name' => '미국 소외 섬',
+                'created_at' => '2025-07-24 12:08:47',
+                'updated_at' => '2025-07-24 12:08:47',
+            ),
+            241 => 
+            array (
+                'id' => 1742,
+                'country_id' => 224,
+                'language_id' => 7,
+                'name' => '우루과이',
+                'created_at' => '2025-07-24 12:08:47',
+                'updated_at' => '2025-07-24 12:08:47',
+            ),
+            242 => 
+            array (
+                'id' => 1743,
+                'country_id' => 225,
+                'language_id' => 7,
+                'name' => '우즈베키스탄',
+                'created_at' => '2025-07-24 12:08:48',
+                'updated_at' => '2025-07-24 12:08:48',
+            ),
+            243 => 
+            array (
+                'id' => 1744,
+                'country_id' => 226,
+                'language_id' => 7,
+                'name' => '바누아투',
+                'created_at' => '2025-07-24 12:08:48',
+                'updated_at' => '2025-07-24 12:08:48',
+            ),
+            244 => 
+            array (
+                'id' => 1745,
+                'country_id' => 227,
+                'language_id' => 7,
+            'name' => '바티칸 시티 국가 (Holy See)',
+                'created_at' => '2025-07-24 12:08:48',
+                'updated_at' => '2025-07-24 12:08:48',
+            ),
+            245 => 
+            array (
+                'id' => 1746,
+                'country_id' => 228,
+                'language_id' => 7,
+                'name' => '베네수엘라',
+                'created_at' => '2025-07-24 12:08:49',
+                'updated_at' => '2025-07-24 12:08:49',
+            ),
+            246 => 
+            array (
+                'id' => 1747,
+                'country_id' => 229,
+                'language_id' => 7,
+                'name' => '베트남',
+                'created_at' => '2025-07-24 12:08:49',
+                'updated_at' => '2025-07-24 12:08:49',
+            ),
+            247 => 
+            array (
+                'id' => 1748,
+                'country_id' => 230,
+                'language_id' => 7,
+            'name' => '버진 섬 (영국)',
+                'created_at' => '2025-07-24 12:08:50',
+                'updated_at' => '2025-07-24 12:08:50',
+            ),
+            248 => 
+            array (
+                'id' => 1749,
+                'country_id' => 231,
+                'language_id' => 7,
+            'name' => '버진 섬 (미국)',
+                'created_at' => '2025-07-24 12:08:50',
+                'updated_at' => '2025-07-24 12:08:50',
+            ),
+            249 => 
+            array (
+                'id' => 1750,
+                'country_id' => 232,
+                'language_id' => 7,
+                'name' => 'وال리스 및 푸투나 섬',
+                'created_at' => '2025-07-24 12:08:51',
+                'updated_at' => '2025-07-24 12:08:51',
+            ),
+            250 => 
+            array (
+                'id' => 1751,
+                'country_id' => 233,
+                'language_id' => 7,
+                'name' => '서사하라',
+                'created_at' => '2025-07-24 12:08:51',
+                'updated_at' => '2025-07-24 12:08:51',
+            ),
+            251 => 
+            array (
+                'id' => 1752,
+                'country_id' => 234,
+                'language_id' => 7,
+                'name' => '예멘',
+                'created_at' => '2025-07-24 12:08:52',
+                'updated_at' => '2025-07-24 12:08:52',
+            ),
+            252 => 
+            array (
+                'id' => 1753,
+                'country_id' => 235,
+                'language_id' => 7,
+                'name' => '콘고 민주공화국',
+                'created_at' => '2025-07-24 12:08:52',
+                'updated_at' => '2025-07-24 12:08:52',
+            ),
+            253 => 
+            array (
+                'id' => 1754,
+                'country_id' => 236,
+                'language_id' => 7,
+                'name' => 'زام비아',
+                'created_at' => '2025-07-24 12:08:52',
+                'updated_at' => '2025-07-24 12:08:52',
+            ),
+            254 => 
+            array (
+                'id' => 1755,
+                'country_id' => 237,
+                'language_id' => 7,
+                'name' => 'Zimbabwe의',
+                'created_at' => '2025-07-24 12:08:53',
+                'updated_at' => '2025-07-24 12:08:53',
+            ),
+            255 => 
+            array (
+                'id' => 1756,
+                'country_id' => 238,
+                'language_id' => 7,
+                'name' => '몬테네그로',
+                'created_at' => '2025-07-24 12:08:53',
+                'updated_at' => '2025-07-24 12:08:53',
+            ),
+            256 => 
+            array (
+                'id' => 1757,
+                'country_id' => 239,
+                'language_id' => 7,
+                'name' => '세르비아',
+                'created_at' => '2025-07-24 12:08:54',
+                'updated_at' => '2025-07-24 12:08:54',
+            ),
+            257 => 
+            array (
+                'id' => 1758,
+                'country_id' => 240,
+                'language_id' => 7,
+                'name' => '알랜드 섬',
+                'created_at' => '2025-07-24 12:08:54',
+                'updated_at' => '2025-07-24 12:08:54',
+            ),
+            258 => 
+            array (
+                'id' => 1759,
+                'country_id' => 241,
+                'language_id' => 7,
+                'name' => 'Bonaire, Sint Eustatius 및 Saba',
+                'created_at' => '2025-07-24 12:08:54',
+                'updated_at' => '2025-07-24 12:08:54',
+            ),
+            259 => 
+            array (
+                'id' => 1760,
+                'country_id' => 242,
+                'language_id' => 7,
+                'name' => '쿠라카오',
+                'created_at' => '2025-07-24 12:08:55',
+                'updated_at' => '2025-07-24 12:08:55',
+            ),
+            260 => 
+            array (
+                'id' => 1761,
+                'country_id' => 243,
+                'language_id' => 7,
+                'name' => '점령된 팔레스타인 영토',
+                'created_at' => '2025-07-24 12:08:55',
+                'updated_at' => '2025-07-24 12:08:55',
+            ),
+            261 => 
+            array (
+                'id' => 1762,
+                'country_id' => 244,
+                'language_id' => 7,
+                'name' => '남수단',
+                'created_at' => '2025-07-24 12:08:56',
+                'updated_at' => '2025-07-24 12:08:56',
+            ),
+            262 => 
+            array (
+                'id' => 1763,
+                'country_id' => 245,
+                'language_id' => 7,
+                'name' => '세인트 바르텔레미',
+                'created_at' => '2025-07-24 12:08:56',
+                'updated_at' => '2025-07-24 12:08:56',
+            ),
+            263 => 
+            array (
+                'id' => 1764,
+                'country_id' => 246,
+                'language_id' => 7,
+            'name' => '세인트 마틴 (프랑스어 부분)',
+                'created_at' => '2025-07-24 12:08:56',
+                'updated_at' => '2025-07-24 12:08:56',
+            ),
+            264 => 
+            array (
+                'id' => 1765,
+                'country_id' => 247,
+                'language_id' => 7,
+                'name' => '카나리아 섬',
+                'created_at' => '2025-07-24 12:08:57',
+                'updated_at' => '2025-07-24 12:08:57',
+            ),
+            265 => 
+            array (
+                'id' => 1766,
+                'country_id' => 248,
+                'language_id' => 7,
+            'name' => 'Ascension Island (영국)',
+                'created_at' => '2025-07-24 12:08:57',
+                'updated_at' => '2025-07-24 12:08:57',
+            ),
+            266 => 
+            array (
+                'id' => 1767,
+                'country_id' => 249,
+                'language_id' => 7,
+                'name' => '코소보, 공화국',
+                'created_at' => '2025-07-24 12:08:58',
+                'updated_at' => '2025-07-24 12:08:58',
+            ),
+            267 => 
+            array (
+                'id' => 1768,
+                'country_id' => 250,
+                'language_id' => 7,
+                'name' => '맨 섬',
+                'created_at' => '2025-07-24 12:08:58',
+                'updated_at' => '2025-07-24 12:08:58',
+            ),
+            268 => 
+            array (
+                'id' => 1769,
+                'country_id' => 251,
+                'language_id' => 7,
+                'name' => '트리스탄 다 쿠냐',
+                'created_at' => '2025-07-24 12:08:59',
+                'updated_at' => '2025-07-24 12:08:59',
+            ),
+            269 => 
+            array (
+                'id' => 1770,
+                'country_id' => 252,
+                'language_id' => 7,
+                'name' => 'Guernsey는',
+                'created_at' => '2025-07-24 12:08:59',
+                'updated_at' => '2025-07-24 12:08:59',
+            ),
+            270 => 
+            array (
+                'id' => 1771,
+                'country_id' => 253,
+                'language_id' => 7,
+                'name' => '저지',
+                'created_at' => '2025-07-24 12:09:00',
+                'updated_at' => '2025-07-24 12:09:00',
+            ),
+            271 => 
+            array (
+                'id' => 1772,
+                'country_id' => 1,
+                'language_id' => 8,
+                'name' => 'Афганистан',
+                'created_at' => '2025-07-24 12:09:07',
+                'updated_at' => '2025-07-24 12:09:07',
+            ),
+            272 => 
+            array (
+                'id' => 1773,
+                'country_id' => 2,
+                'language_id' => 8,
+                'name' => 'Албания',
+                'created_at' => '2025-07-24 12:09:07',
+                'updated_at' => '2025-07-24 12:09:07',
+            ),
+            273 => 
+            array (
+                'id' => 1774,
+                'country_id' => 3,
+                'language_id' => 8,
+                'name' => 'Алжир',
+                'created_at' => '2025-07-24 12:09:08',
+                'updated_at' => '2025-07-24 12:09:08',
+            ),
+            274 => 
+            array (
+                'id' => 1775,
+                'country_id' => 4,
+                'language_id' => 8,
+                'name' => 'Американское Самоа',
+                'created_at' => '2025-07-24 12:09:08',
+                'updated_at' => '2025-07-24 12:09:08',
+            ),
+            275 => 
+            array (
+                'id' => 1776,
+                'country_id' => 5,
+                'language_id' => 8,
+                'name' => 'Андорра',
+                'created_at' => '2025-07-24 12:09:08',
+                'updated_at' => '2025-07-24 12:09:08',
+            ),
+            276 => 
+            array (
+                'id' => 1777,
+                'country_id' => 6,
+                'language_id' => 8,
+                'name' => 'Ангола',
+                'created_at' => '2025-07-24 12:09:09',
+                'updated_at' => '2025-07-24 12:09:09',
+            ),
+            277 => 
+            array (
+                'id' => 1778,
+                'country_id' => 7,
+                'language_id' => 8,
+                'name' => 'Ангилья',
+                'created_at' => '2025-07-24 12:09:09',
+                'updated_at' => '2025-07-24 12:09:09',
+            ),
+            278 => 
+            array (
+                'id' => 1779,
+                'country_id' => 8,
+                'language_id' => 8,
+                'name' => 'Антарктида',
+                'created_at' => '2025-07-24 12:09:10',
+                'updated_at' => '2025-07-24 12:09:10',
+            ),
+            279 => 
+            array (
+                'id' => 1780,
+                'country_id' => 9,
+                'language_id' => 8,
+                'name' => 'Антигуа и Барбуда',
+                'created_at' => '2025-07-24 12:09:10',
+                'updated_at' => '2025-07-24 12:09:10',
+            ),
+            280 => 
+            array (
+                'id' => 1781,
+                'country_id' => 10,
+                'language_id' => 8,
+                'name' => 'Аргентина',
+                'created_at' => '2025-07-24 12:09:11',
+                'updated_at' => '2025-07-24 12:09:11',
+            ),
+            281 => 
+            array (
+                'id' => 1782,
+                'country_id' => 11,
+                'language_id' => 8,
+                'name' => 'Армения',
+                'created_at' => '2025-07-24 12:09:11',
+                'updated_at' => '2025-07-24 12:09:11',
+            ),
+            282 => 
+            array (
+                'id' => 1783,
+                'country_id' => 12,
+                'language_id' => 8,
+                'name' => 'Аруба',
+                'created_at' => '2025-07-24 12:09:12',
+                'updated_at' => '2025-07-24 12:09:12',
+            ),
+            283 => 
+            array (
+                'id' => 1784,
+                'country_id' => 13,
+                'language_id' => 8,
+                'name' => 'Австралия',
+                'created_at' => '2025-07-24 12:09:12',
+                'updated_at' => '2025-07-24 12:09:12',
+            ),
+            284 => 
+            array (
+                'id' => 1785,
+                'country_id' => 14,
+                'language_id' => 8,
+                'name' => 'Австрия',
+                'created_at' => '2025-07-24 12:09:12',
+                'updated_at' => '2025-07-24 12:09:12',
+            ),
+            285 => 
+            array (
+                'id' => 1786,
+                'country_id' => 15,
+                'language_id' => 8,
+                'name' => 'Азербайджан',
+                'created_at' => '2025-07-24 12:09:13',
+                'updated_at' => '2025-07-24 12:09:13',
+            ),
+            286 => 
+            array (
+                'id' => 1787,
+                'country_id' => 16,
+                'language_id' => 8,
+                'name' => 'Багамские острова',
+                'created_at' => '2025-07-24 12:09:13',
+                'updated_at' => '2025-07-24 12:09:13',
+            ),
+            287 => 
+            array (
+                'id' => 1788,
+                'country_id' => 17,
+                'language_id' => 8,
+                'name' => 'Бахрейн',
+                'created_at' => '2025-07-24 12:09:14',
+                'updated_at' => '2025-07-24 12:09:14',
+            ),
+            288 => 
+            array (
+                'id' => 1789,
+                'country_id' => 18,
+                'language_id' => 8,
+                'name' => 'Бангладеш',
+                'created_at' => '2025-07-24 12:09:14',
+                'updated_at' => '2025-07-24 12:09:14',
+            ),
+            289 => 
+            array (
+                'id' => 1790,
+                'country_id' => 19,
+                'language_id' => 8,
+                'name' => 'Барбадос',
+                'created_at' => '2025-07-24 12:09:15',
+                'updated_at' => '2025-07-24 12:09:15',
+            ),
+            290 => 
+            array (
+                'id' => 1791,
+                'country_id' => 20,
+                'language_id' => 8,
+                'name' => 'Беларусь',
+                'created_at' => '2025-07-24 12:09:15',
+                'updated_at' => '2025-07-24 12:09:15',
+            ),
+            291 => 
+            array (
+                'id' => 1792,
+                'country_id' => 21,
+                'language_id' => 8,
+                'name' => 'Бельгия',
+                'created_at' => '2025-07-24 12:09:15',
+                'updated_at' => '2025-07-24 12:09:15',
+            ),
+            292 => 
+            array (
+                'id' => 1793,
+                'country_id' => 22,
+                'language_id' => 8,
+                'name' => 'Белиз',
+                'created_at' => '2025-07-24 12:09:16',
+                'updated_at' => '2025-07-24 12:09:16',
+            ),
+            293 => 
+            array (
+                'id' => 1794,
+                'country_id' => 23,
+                'language_id' => 8,
+                'name' => 'Бенин',
+                'created_at' => '2025-07-24 12:09:16',
+                'updated_at' => '2025-07-24 12:09:16',
+            ),
+            294 => 
+            array (
+                'id' => 1795,
+                'country_id' => 24,
+                'language_id' => 8,
+                'name' => 'Бермудские острова',
+                'created_at' => '2025-07-24 12:09:17',
+                'updated_at' => '2025-07-24 12:09:17',
+            ),
+            295 => 
+            array (
+                'id' => 1796,
+                'country_id' => 25,
+                'language_id' => 8,
+                'name' => 'Бутан',
+                'created_at' => '2025-07-24 12:09:17',
+                'updated_at' => '2025-07-24 12:09:17',
+            ),
+            296 => 
+            array (
+                'id' => 1797,
+                'country_id' => 26,
+                'language_id' => 8,
+                'name' => 'Боливия',
+                'created_at' => '2025-07-24 12:09:17',
+                'updated_at' => '2025-07-24 12:09:17',
+            ),
+            297 => 
+            array (
+                'id' => 1798,
+                'country_id' => 27,
+                'language_id' => 8,
+                'name' => 'Босния и Герцеговина',
+                'created_at' => '2025-07-24 12:09:18',
+                'updated_at' => '2025-07-24 12:09:18',
+            ),
+            298 => 
+            array (
+                'id' => 1799,
+                'country_id' => 28,
+                'language_id' => 8,
+                'name' => 'Ботсвана',
+                'created_at' => '2025-07-24 12:09:18',
+                'updated_at' => '2025-07-24 12:09:18',
+            ),
+            299 => 
+            array (
+                'id' => 1800,
+                'country_id' => 29,
+                'language_id' => 8,
+                'name' => 'остров Бувет',
+                'created_at' => '2025-07-24 12:09:19',
+                'updated_at' => '2025-07-24 12:09:19',
+            ),
+            300 => 
+            array (
+                'id' => 1801,
+                'country_id' => 30,
+                'language_id' => 8,
+                'name' => 'Бразилия',
+                'created_at' => '2025-07-24 12:09:19',
+                'updated_at' => '2025-07-24 12:09:19',
+            ),
+            301 => 
+            array (
+                'id' => 1802,
+                'country_id' => 31,
+                'language_id' => 8,
+                'name' => 'Британская территория Индийского океана',
+                'created_at' => '2025-07-24 12:09:20',
+                'updated_at' => '2025-07-24 12:09:20',
+            ),
+            302 => 
+            array (
+                'id' => 1803,
+                'country_id' => 32,
+                'language_id' => 8,
+                'name' => 'Бруней',
+                'created_at' => '2025-07-24 12:09:20',
+                'updated_at' => '2025-07-24 12:09:20',
+            ),
+            303 => 
+            array (
+                'id' => 1804,
+                'country_id' => 33,
+                'language_id' => 8,
+                'name' => 'Болгария',
+                'created_at' => '2025-07-24 12:09:21',
+                'updated_at' => '2025-07-24 12:09:21',
+            ),
+            304 => 
+            array (
+                'id' => 1805,
+                'country_id' => 34,
+                'language_id' => 8,
+                'name' => 'Буркина-Фасо',
+                'created_at' => '2025-07-24 12:09:21',
+                'updated_at' => '2025-07-24 12:09:21',
+            ),
+            305 => 
+            array (
+                'id' => 1806,
+                'country_id' => 35,
+                'language_id' => 8,
+                'name' => 'Бурунди',
+                'created_at' => '2025-07-24 12:09:21',
+                'updated_at' => '2025-07-24 12:09:21',
+            ),
+            306 => 
+            array (
+                'id' => 1807,
+                'country_id' => 36,
+                'language_id' => 8,
+                'name' => 'Камбоджа',
+                'created_at' => '2025-07-24 12:09:22',
+                'updated_at' => '2025-07-24 12:09:22',
+            ),
+            307 => 
+            array (
+                'id' => 1808,
+                'country_id' => 37,
+                'language_id' => 8,
+                'name' => 'Камерун',
+                'created_at' => '2025-07-24 12:09:22',
+                'updated_at' => '2025-07-24 12:09:22',
+            ),
+            308 => 
+            array (
+                'id' => 1809,
+                'country_id' => 38,
+                'language_id' => 8,
+                'name' => 'Канада',
+                'created_at' => '2025-07-24 12:09:23',
+                'updated_at' => '2025-07-24 12:09:23',
+            ),
+            309 => 
+            array (
+                'id' => 1810,
+                'country_id' => 39,
+                'language_id' => 8,
+                'name' => 'Кабо-Верде',
+                'created_at' => '2025-07-24 12:09:23',
+                'updated_at' => '2025-07-24 12:09:23',
+            ),
+            310 => 
+            array (
+                'id' => 1811,
+                'country_id' => 40,
+                'language_id' => 8,
+                'name' => 'Каймановы острова',
+                'created_at' => '2025-07-24 12:09:24',
+                'updated_at' => '2025-07-24 12:09:24',
+            ),
+            311 => 
+            array (
+                'id' => 1812,
+                'country_id' => 41,
+                'language_id' => 8,
+                'name' => 'Центральноафриканская Республика',
+                'created_at' => '2025-07-24 12:09:24',
+                'updated_at' => '2025-07-24 12:09:24',
+            ),
+            312 => 
+            array (
+                'id' => 1813,
+                'country_id' => 42,
+                'language_id' => 8,
+                'name' => 'Чад',
+                'created_at' => '2025-07-24 12:09:24',
+                'updated_at' => '2025-07-24 12:09:24',
+            ),
+            313 => 
+            array (
+                'id' => 1814,
+                'country_id' => 43,
+                'language_id' => 8,
+                'name' => 'Чили',
+                'created_at' => '2025-07-24 12:09:25',
+                'updated_at' => '2025-07-24 12:09:25',
+            ),
+            314 => 
+            array (
+                'id' => 1815,
+                'country_id' => 44,
+                'language_id' => 8,
+                'name' => 'Китай',
+                'created_at' => '2025-07-24 12:09:25',
+                'updated_at' => '2025-07-24 12:09:25',
+            ),
+            315 => 
+            array (
+                'id' => 1816,
+                'country_id' => 45,
+                'language_id' => 8,
+                'name' => 'Рождественский остров',
+                'created_at' => '2025-07-24 12:09:26',
+                'updated_at' => '2025-07-24 12:09:26',
+            ),
+            316 => 
+            array (
+                'id' => 1817,
+                'country_id' => 46,
+                'language_id' => 8,
+            'name' => 'Кокосовые (Килингские) острова',
+                'created_at' => '2025-07-24 12:09:26',
+                'updated_at' => '2025-07-24 12:09:26',
+            ),
+            317 => 
+            array (
+                'id' => 1818,
+                'country_id' => 47,
+                'language_id' => 8,
+                'name' => 'Колумбия',
+                'created_at' => '2025-07-24 12:09:27',
+                'updated_at' => '2025-07-24 12:09:27',
+            ),
+            318 => 
+            array (
+                'id' => 1819,
+                'country_id' => 48,
+                'language_id' => 8,
+                'name' => 'Коморские Острова',
+                'created_at' => '2025-07-24 12:09:27',
+                'updated_at' => '2025-07-24 12:09:27',
+            ),
+            319 => 
+            array (
+                'id' => 1820,
+                'country_id' => 49,
+                'language_id' => 8,
+                'name' => 'Конго',
+                'created_at' => '2025-07-24 12:09:27',
+                'updated_at' => '2025-07-24 12:09:27',
+            ),
+            320 => 
+            array (
+                'id' => 1821,
+                'country_id' => 50,
+                'language_id' => 8,
+                'name' => 'Острова Кука',
+                'created_at' => '2025-07-24 12:09:28',
+                'updated_at' => '2025-07-24 12:09:28',
+            ),
+            321 => 
+            array (
+                'id' => 1822,
+                'country_id' => 51,
+                'language_id' => 8,
+                'name' => 'Коста-Рика',
+                'created_at' => '2025-07-24 12:09:28',
+                'updated_at' => '2025-07-24 12:09:28',
+            ),
+            322 => 
+            array (
+                'id' => 1823,
+                'country_id' => 52,
+                'language_id' => 8,
+                'name' => 'Кот-д\'Ивуар',
+                'created_at' => '2025-07-24 12:09:29',
+                'updated_at' => '2025-07-24 12:09:29',
+            ),
+            323 => 
+            array (
+                'id' => 1824,
+                'country_id' => 53,
+                'language_id' => 8,
+                'name' => 'Хорватия',
+                'created_at' => '2025-07-24 12:09:29',
+                'updated_at' => '2025-07-24 12:09:29',
+            ),
+            324 => 
+            array (
+                'id' => 1825,
+                'country_id' => 54,
+                'language_id' => 8,
+                'name' => 'Куба',
+                'created_at' => '2025-07-24 12:09:29',
+                'updated_at' => '2025-07-24 12:09:29',
+            ),
+            325 => 
+            array (
+                'id' => 1826,
+                'country_id' => 55,
+                'language_id' => 8,
+                'name' => 'Кипр',
+                'created_at' => '2025-07-24 12:09:30',
+                'updated_at' => '2025-07-24 12:09:30',
+            ),
+            326 => 
+            array (
+                'id' => 1827,
+                'country_id' => 56,
+                'language_id' => 8,
+                'name' => 'Чешская Республика',
+                'created_at' => '2025-07-24 12:09:30',
+                'updated_at' => '2025-07-24 12:09:30',
+            ),
+            327 => 
+            array (
+                'id' => 1828,
+                'country_id' => 57,
+                'language_id' => 8,
+                'name' => 'Дания',
+                'created_at' => '2025-07-24 12:09:31',
+                'updated_at' => '2025-07-24 12:09:31',
+            ),
+            328 => 
+            array (
+                'id' => 1829,
+                'country_id' => 58,
+                'language_id' => 8,
+                'name' => 'Джибути',
+                'created_at' => '2025-07-24 12:09:31',
+                'updated_at' => '2025-07-24 12:09:31',
+            ),
+            329 => 
+            array (
+                'id' => 1830,
+                'country_id' => 59,
+                'language_id' => 8,
+                'name' => 'Доминика',
+                'created_at' => '2025-07-24 12:09:32',
+                'updated_at' => '2025-07-24 12:09:32',
+            ),
+            330 => 
+            array (
+                'id' => 1831,
+                'country_id' => 60,
+                'language_id' => 8,
+                'name' => 'Доминиканская Республика',
+                'created_at' => '2025-07-24 12:09:32',
+                'updated_at' => '2025-07-24 12:09:32',
+            ),
+            331 => 
+            array (
+                'id' => 1832,
+                'country_id' => 61,
+                'language_id' => 8,
+                'name' => 'Восточный Тимор',
+                'created_at' => '2025-07-24 12:09:32',
+                'updated_at' => '2025-07-24 12:09:32',
+            ),
+            332 => 
+            array (
+                'id' => 1833,
+                'country_id' => 62,
+                'language_id' => 8,
+                'name' => 'Эквадор',
+                'created_at' => '2025-07-24 12:09:33',
+                'updated_at' => '2025-07-24 12:09:33',
+            ),
+            333 => 
+            array (
+                'id' => 1834,
+                'country_id' => 63,
+                'language_id' => 8,
+                'name' => 'Египет',
+                'created_at' => '2025-07-24 12:09:33',
+                'updated_at' => '2025-07-24 12:09:33',
+            ),
+            334 => 
+            array (
+                'id' => 1835,
+                'country_id' => 64,
+                'language_id' => 8,
+                'name' => 'Сальвадор',
+                'created_at' => '2025-07-24 12:09:34',
+                'updated_at' => '2025-07-24 12:09:34',
+            ),
+            335 => 
+            array (
+                'id' => 1836,
+                'country_id' => 65,
+                'language_id' => 8,
+                'name' => 'Экваториальная Гвинея',
+                'created_at' => '2025-07-24 12:09:34',
+                'updated_at' => '2025-07-24 12:09:34',
+            ),
+            336 => 
+            array (
+                'id' => 1837,
+                'country_id' => 66,
+                'language_id' => 8,
+                'name' => 'Эритрея',
+                'created_at' => '2025-07-24 12:09:35',
+                'updated_at' => '2025-07-24 12:09:35',
+            ),
+            337 => 
+            array (
+                'id' => 1838,
+                'country_id' => 67,
+                'language_id' => 8,
+                'name' => 'Эстония',
+                'created_at' => '2025-07-24 12:09:35',
+                'updated_at' => '2025-07-24 12:09:35',
+            ),
+            338 => 
+            array (
+                'id' => 1839,
+                'country_id' => 68,
+                'language_id' => 8,
+                'name' => 'Эфиопии',
+                'created_at' => '2025-07-24 12:09:35',
+                'updated_at' => '2025-07-24 12:09:35',
+            ),
+            339 => 
+            array (
+                'id' => 1840,
+                'country_id' => 69,
+                'language_id' => 8,
+            'name' => 'Фолклендские острова (Мальвинские острова)',
+                'created_at' => '2025-07-24 12:09:36',
+                'updated_at' => '2025-07-24 12:09:36',
+            ),
+            340 => 
+            array (
+                'id' => 1841,
+                'country_id' => 70,
+                'language_id' => 8,
+                'name' => 'Фарерские острова',
+                'created_at' => '2025-07-24 12:09:36',
+                'updated_at' => '2025-07-24 12:09:36',
+            ),
+            341 => 
+            array (
+                'id' => 1842,
+                'country_id' => 71,
+                'language_id' => 8,
+                'name' => 'Фиджи',
+                'created_at' => '2025-07-24 12:09:37',
+                'updated_at' => '2025-07-24 12:09:37',
+            ),
+            342 => 
+            array (
+                'id' => 1843,
+                'country_id' => 72,
+                'language_id' => 8,
+                'name' => 'Финляндия',
+                'created_at' => '2025-07-24 12:09:37',
+                'updated_at' => '2025-07-24 12:09:37',
+            ),
+            343 => 
+            array (
+                'id' => 1844,
+                'country_id' => 73,
+                'language_id' => 8,
+                'name' => 'Франция, Метрополит',
+                'created_at' => '2025-07-24 12:09:38',
+                'updated_at' => '2025-07-24 12:09:38',
+            ),
+            344 => 
+            array (
+                'id' => 1845,
+                'country_id' => 74,
+                'language_id' => 8,
+                'name' => 'Французская Гвиана',
+                'created_at' => '2025-07-24 12:09:38',
+                'updated_at' => '2025-07-24 12:09:38',
+            ),
+            345 => 
+            array (
+                'id' => 1846,
+                'country_id' => 75,
+                'language_id' => 8,
+                'name' => 'Французская Полинезия',
+                'created_at' => '2025-07-24 12:09:39',
+                'updated_at' => '2025-07-24 12:09:39',
+            ),
+            346 => 
+            array (
+                'id' => 1847,
+                'country_id' => 76,
+                'language_id' => 8,
+                'name' => 'Французские южные территории',
+                'created_at' => '2025-07-24 12:09:39',
+                'updated_at' => '2025-07-24 12:09:39',
+            ),
+            347 => 
+            array (
+                'id' => 1848,
+                'country_id' => 77,
+                'language_id' => 8,
+                'name' => 'Габон',
+                'created_at' => '2025-07-24 12:09:40',
+                'updated_at' => '2025-07-24 12:09:40',
+            ),
+            348 => 
+            array (
+                'id' => 1849,
+                'country_id' => 78,
+                'language_id' => 8,
+                'name' => 'Гамбия',
+                'created_at' => '2025-07-24 12:09:40',
+                'updated_at' => '2025-07-24 12:09:40',
+            ),
+            349 => 
+            array (
+                'id' => 1850,
+                'country_id' => 79,
+                'language_id' => 8,
+                'name' => 'Грузия',
+                'created_at' => '2025-07-24 12:09:40',
+                'updated_at' => '2025-07-24 12:09:40',
+            ),
+            350 => 
+            array (
+                'id' => 1851,
+                'country_id' => 80,
+                'language_id' => 8,
+                'name' => 'Германия',
+                'created_at' => '2025-07-24 12:09:41',
+                'updated_at' => '2025-07-24 12:09:41',
+            ),
+            351 => 
+            array (
+                'id' => 1852,
+                'country_id' => 81,
+                'language_id' => 8,
+                'name' => 'Гана',
+                'created_at' => '2025-07-24 12:09:41',
+                'updated_at' => '2025-07-24 12:09:41',
+            ),
+            352 => 
+            array (
+                'id' => 1853,
+                'country_id' => 82,
+                'language_id' => 8,
+                'name' => 'Гибралтар',
+                'created_at' => '2025-07-24 12:09:42',
+                'updated_at' => '2025-07-24 12:09:42',
+            ),
+            353 => 
+            array (
+                'id' => 1854,
+                'country_id' => 83,
+                'language_id' => 8,
+                'name' => 'Греция',
+                'created_at' => '2025-07-24 12:09:42',
+                'updated_at' => '2025-07-24 12:09:42',
+            ),
+            354 => 
+            array (
+                'id' => 1855,
+                'country_id' => 84,
+                'language_id' => 8,
+                'name' => 'Гренландия',
+                'created_at' => '2025-07-24 12:09:43',
+                'updated_at' => '2025-07-24 12:09:43',
+            ),
+            355 => 
+            array (
+                'id' => 1856,
+                'country_id' => 85,
+                'language_id' => 8,
+                'name' => 'Гренада',
+                'created_at' => '2025-07-24 12:09:43',
+                'updated_at' => '2025-07-24 12:09:43',
+            ),
+            356 => 
+            array (
+                'id' => 1857,
+                'country_id' => 86,
+                'language_id' => 8,
+                'name' => 'Гваделупа',
+                'created_at' => '2025-07-24 12:09:43',
+                'updated_at' => '2025-07-24 12:09:43',
+            ),
+            357 => 
+            array (
+                'id' => 1858,
+                'country_id' => 87,
+                'language_id' => 8,
+                'name' => 'Гуам',
+                'created_at' => '2025-07-24 12:09:44',
+                'updated_at' => '2025-07-24 12:09:44',
+            ),
+            358 => 
+            array (
+                'id' => 1859,
+                'country_id' => 88,
+                'language_id' => 8,
+                'name' => 'Гватемала',
+                'created_at' => '2025-07-24 12:09:44',
+                'updated_at' => '2025-07-24 12:09:44',
+            ),
+            359 => 
+            array (
+                'id' => 1860,
+                'country_id' => 89,
+                'language_id' => 8,
+                'name' => 'Гвинея',
+                'created_at' => '2025-07-24 12:09:45',
+                'updated_at' => '2025-07-24 12:09:45',
+            ),
+            360 => 
+            array (
+                'id' => 1861,
+                'country_id' => 90,
+                'language_id' => 8,
+                'name' => 'Гвинея-Бисау',
+                'created_at' => '2025-07-24 12:09:45',
+                'updated_at' => '2025-07-24 12:09:45',
+            ),
+            361 => 
+            array (
+                'id' => 1862,
+                'country_id' => 91,
+                'language_id' => 8,
+                'name' => 'Гайана',
+                'created_at' => '2025-07-24 12:09:46',
+                'updated_at' => '2025-07-24 12:09:46',
+            ),
+            362 => 
+            array (
+                'id' => 1863,
+                'country_id' => 92,
+                'language_id' => 8,
+                'name' => 'Гаити',
+                'created_at' => '2025-07-24 12:09:46',
+                'updated_at' => '2025-07-24 12:09:46',
+            ),
+            363 => 
+            array (
+                'id' => 1864,
+                'country_id' => 93,
+                'language_id' => 8,
+                'name' => 'Острова Хэрд и Макдональд',
+                'created_at' => '2025-07-24 12:09:47',
+                'updated_at' => '2025-07-24 12:09:47',
+            ),
+            364 => 
+            array (
+                'id' => 1865,
+                'country_id' => 94,
+                'language_id' => 8,
+                'name' => 'Гондурас',
+                'created_at' => '2025-07-24 12:09:47',
+                'updated_at' => '2025-07-24 12:09:47',
+            ),
+            365 => 
+            array (
+                'id' => 1866,
+                'country_id' => 95,
+                'language_id' => 8,
+                'name' => 'Гонконг',
+                'created_at' => '2025-07-24 12:09:47',
+                'updated_at' => '2025-07-24 12:09:47',
+            ),
+            366 => 
+            array (
+                'id' => 1867,
+                'country_id' => 96,
+                'language_id' => 8,
+                'name' => 'Венгрия',
+                'created_at' => '2025-07-24 12:09:48',
+                'updated_at' => '2025-07-24 12:09:48',
+            ),
+            367 => 
+            array (
+                'id' => 1868,
+                'country_id' => 97,
+                'language_id' => 8,
+                'name' => 'Исландия',
+                'created_at' => '2025-07-24 12:09:48',
+                'updated_at' => '2025-07-24 12:09:48',
+            ),
+            368 => 
+            array (
+                'id' => 1869,
+                'country_id' => 98,
+                'language_id' => 8,
+                'name' => 'Индии',
+                'created_at' => '2025-07-24 12:09:49',
+                'updated_at' => '2025-07-24 12:09:49',
+            ),
+            369 => 
+            array (
+                'id' => 1870,
+                'country_id' => 99,
+                'language_id' => 8,
+                'name' => 'Индонезия',
+                'created_at' => '2025-07-24 12:09:49',
+                'updated_at' => '2025-07-24 12:09:49',
+            ),
+            370 => 
+            array (
+                'id' => 1871,
+                'country_id' => 100,
+                'language_id' => 8,
+            'name' => 'Иран (Исламская Республика)',
+                'created_at' => '2025-07-24 12:09:50',
+                'updated_at' => '2025-07-24 12:09:50',
+            ),
+            371 => 
+            array (
+                'id' => 1872,
+                'country_id' => 101,
+                'language_id' => 8,
+                'name' => 'Ирак',
+                'created_at' => '2025-07-24 12:09:50',
+                'updated_at' => '2025-07-24 12:09:50',
+            ),
+            372 => 
+            array (
+                'id' => 1873,
+                'country_id' => 102,
+                'language_id' => 8,
+                'name' => 'Ирландия',
+                'created_at' => '2025-07-24 12:09:51',
+                'updated_at' => '2025-07-24 12:09:51',
+            ),
+            373 => 
+            array (
+                'id' => 1874,
+                'country_id' => 103,
+                'language_id' => 8,
+                'name' => 'Израиль',
+                'created_at' => '2025-07-24 12:09:51',
+                'updated_at' => '2025-07-24 12:09:51',
+            ),
+            374 => 
+            array (
+                'id' => 1875,
+                'country_id' => 104,
+                'language_id' => 8,
+                'name' => 'Италия',
+                'created_at' => '2025-07-24 12:09:52',
+                'updated_at' => '2025-07-24 12:09:52',
+            ),
+            375 => 
+            array (
+                'id' => 1876,
+                'country_id' => 105,
+                'language_id' => 8,
+                'name' => 'Ямайка',
+                'created_at' => '2025-07-24 12:09:52',
+                'updated_at' => '2025-07-24 12:09:52',
+            ),
+            376 => 
+            array (
+                'id' => 1877,
+                'country_id' => 106,
+                'language_id' => 8,
+                'name' => 'Япония',
+                'created_at' => '2025-07-24 12:09:53',
+                'updated_at' => '2025-07-24 12:09:53',
+            ),
+            377 => 
+            array (
+                'id' => 1878,
+                'country_id' => 107,
+                'language_id' => 8,
+                'name' => 'Иордания',
+                'created_at' => '2025-07-24 12:09:53',
+                'updated_at' => '2025-07-24 12:09:53',
+            ),
+            378 => 
+            array (
+                'id' => 1879,
+                'country_id' => 108,
+                'language_id' => 8,
+                'name' => 'Казахстан',
+                'created_at' => '2025-07-24 12:09:55',
+                'updated_at' => '2025-07-24 12:09:55',
+            ),
+            379 => 
+            array (
+                'id' => 1880,
+                'country_id' => 109,
+                'language_id' => 8,
+                'name' => 'Кения',
+                'created_at' => '2025-07-24 12:09:55',
+                'updated_at' => '2025-07-24 12:09:55',
+            ),
+            380 => 
+            array (
+                'id' => 1881,
+                'country_id' => 110,
+                'language_id' => 8,
+                'name' => 'Кирибати',
+                'created_at' => '2025-07-24 12:09:56',
+                'updated_at' => '2025-07-24 12:09:56',
+            ),
+            381 => 
+            array (
+                'id' => 1882,
+                'country_id' => 111,
+                'language_id' => 8,
+                'name' => 'Северная Корея',
+                'created_at' => '2025-07-24 12:09:56',
+                'updated_at' => '2025-07-24 12:09:56',
+            ),
+            382 => 
+            array (
+                'id' => 1883,
+                'country_id' => 112,
+                'language_id' => 8,
+                'name' => 'Южная Корея',
+                'created_at' => '2025-07-24 12:09:57',
+                'updated_at' => '2025-07-24 12:09:57',
+            ),
+            383 => 
+            array (
+                'id' => 1884,
+                'country_id' => 113,
+                'language_id' => 8,
+                'name' => 'Кувейт',
+                'created_at' => '2025-07-24 12:09:57',
+                'updated_at' => '2025-07-24 12:09:57',
+            ),
+            384 => 
+            array (
+                'id' => 1885,
+                'country_id' => 114,
+                'language_id' => 8,
+                'name' => 'Кыргызстан',
+                'created_at' => '2025-07-24 12:09:57',
+                'updated_at' => '2025-07-24 12:09:57',
+            ),
+            385 => 
+            array (
+                'id' => 1886,
+                'country_id' => 115,
+                'language_id' => 8,
+            'name' => 'Лаосская Народно-Демократическая Республика (the)',
+                'created_at' => '2025-07-24 12:09:58',
+                'updated_at' => '2025-07-24 12:09:58',
+            ),
+            386 => 
+            array (
+                'id' => 1887,
+                'country_id' => 116,
+                'language_id' => 8,
+                'name' => 'Латвия',
+                'created_at' => '2025-07-24 12:09:58',
+                'updated_at' => '2025-07-24 12:09:58',
+            ),
+            387 => 
+            array (
+                'id' => 1888,
+                'country_id' => 117,
+                'language_id' => 8,
+                'name' => 'Ливан',
+                'created_at' => '2025-07-24 12:09:59',
+                'updated_at' => '2025-07-24 12:09:59',
+            ),
+            388 => 
+            array (
+                'id' => 1889,
+                'country_id' => 118,
+                'language_id' => 8,
+                'name' => 'Лесото',
+                'created_at' => '2025-07-24 12:09:59',
+                'updated_at' => '2025-07-24 12:09:59',
+            ),
+            389 => 
+            array (
+                'id' => 1890,
+                'country_id' => 119,
+                'language_id' => 8,
+                'name' => 'Либерия',
+                'created_at' => '2025-07-24 12:10:00',
+                'updated_at' => '2025-07-24 12:10:00',
+            ),
+            390 => 
+            array (
+                'id' => 1891,
+                'country_id' => 120,
+                'language_id' => 8,
+                'name' => 'Ливии',
+                'created_at' => '2025-07-24 12:10:00',
+                'updated_at' => '2025-07-24 12:10:00',
+            ),
+            391 => 
+            array (
+                'id' => 1892,
+                'country_id' => 121,
+                'language_id' => 8,
+                'name' => 'Лихтенштейн',
+                'created_at' => '2025-07-24 12:10:01',
+                'updated_at' => '2025-07-24 12:10:01',
+            ),
+            392 => 
+            array (
+                'id' => 1893,
+                'country_id' => 122,
+                'language_id' => 8,
+                'name' => 'Литва',
+                'created_at' => '2025-07-24 12:10:01',
+                'updated_at' => '2025-07-24 12:10:01',
+            ),
+            393 => 
+            array (
+                'id' => 1894,
+                'country_id' => 123,
+                'language_id' => 8,
+                'name' => 'Люксембург',
+                'created_at' => '2025-07-24 12:10:02',
+                'updated_at' => '2025-07-24 12:10:02',
+            ),
+            394 => 
+            array (
+                'id' => 1895,
+                'country_id' => 124,
+                'language_id' => 8,
+                'name' => 'Макао',
+                'created_at' => '2025-07-24 12:10:02',
+                'updated_at' => '2025-07-24 12:10:02',
+            ),
+            395 => 
+            array (
+                'id' => 1896,
+                'country_id' => 125,
+                'language_id' => 8,
+                'name' => 'Северной Македонии',
+                'created_at' => '2025-07-24 12:10:02',
+                'updated_at' => '2025-07-24 12:10:02',
+            ),
+            396 => 
+            array (
+                'id' => 1897,
+                'country_id' => 126,
+                'language_id' => 8,
+                'name' => 'Мадагаскар',
+                'created_at' => '2025-07-24 12:10:03',
+                'updated_at' => '2025-07-24 12:10:03',
+            ),
+            397 => 
+            array (
+                'id' => 1898,
+                'country_id' => 127,
+                'language_id' => 8,
+                'name' => 'Малави',
+                'created_at' => '2025-07-24 12:10:03',
+                'updated_at' => '2025-07-24 12:10:03',
+            ),
+            398 => 
+            array (
+                'id' => 1899,
+                'country_id' => 128,
+                'language_id' => 8,
+                'name' => 'Малайзия',
+                'created_at' => '2025-07-24 12:10:04',
+                'updated_at' => '2025-07-24 12:10:04',
+            ),
+            399 => 
+            array (
+                'id' => 1900,
+                'country_id' => 129,
+                'language_id' => 8,
+                'name' => 'Мальдивы',
+                'created_at' => '2025-07-24 12:10:04',
+                'updated_at' => '2025-07-24 12:10:04',
+            ),
+            400 => 
+            array (
+                'id' => 1901,
+                'country_id' => 130,
+                'language_id' => 8,
+                'name' => 'Мали',
+                'created_at' => '2025-07-24 12:10:04',
+                'updated_at' => '2025-07-24 12:10:04',
+            ),
+            401 => 
+            array (
+                'id' => 1902,
+                'country_id' => 131,
+                'language_id' => 8,
+                'name' => 'Мальта',
+                'created_at' => '2025-07-24 12:10:05',
+                'updated_at' => '2025-07-24 12:10:05',
+            ),
+            402 => 
+            array (
+                'id' => 1903,
+                'country_id' => 132,
+                'language_id' => 8,
+                'name' => 'Маршалловы острова',
+                'created_at' => '2025-07-24 12:10:05',
+                'updated_at' => '2025-07-24 12:10:05',
+            ),
+            403 => 
+            array (
+                'id' => 1904,
+                'country_id' => 133,
+                'language_id' => 8,
+                'name' => 'Мартиника',
+                'created_at' => '2025-07-24 12:10:06',
+                'updated_at' => '2025-07-24 12:10:06',
+            ),
+            404 => 
+            array (
+                'id' => 1905,
+                'country_id' => 134,
+                'language_id' => 8,
+                'name' => 'Мавритания',
+                'created_at' => '2025-07-24 12:10:06',
+                'updated_at' => '2025-07-24 12:10:06',
+            ),
+            405 => 
+            array (
+                'id' => 1906,
+                'country_id' => 135,
+                'language_id' => 8,
+                'name' => 'Маврикий',
+                'created_at' => '2025-07-24 12:10:06',
+                'updated_at' => '2025-07-24 12:10:06',
+            ),
+            406 => 
+            array (
+                'id' => 1907,
+                'country_id' => 136,
+                'language_id' => 8,
+                'name' => 'Майотта',
+                'created_at' => '2025-07-24 12:10:07',
+                'updated_at' => '2025-07-24 12:10:07',
+            ),
+            407 => 
+            array (
+                'id' => 1908,
+                'country_id' => 137,
+                'language_id' => 8,
+                'name' => 'Мексика',
+                'created_at' => '2025-07-24 12:10:07',
+                'updated_at' => '2025-07-24 12:10:07',
+            ),
+            408 => 
+            array (
+                'id' => 1909,
+                'country_id' => 138,
+                'language_id' => 8,
+                'name' => 'Микронезия, Федеративные Штаты',
+                'created_at' => '2025-07-24 12:10:08',
+                'updated_at' => '2025-07-24 12:10:08',
+            ),
+            409 => 
+            array (
+                'id' => 1910,
+                'country_id' => 139,
+                'language_id' => 8,
+                'name' => 'Молдова, Республика',
+                'created_at' => '2025-07-24 12:10:09',
+                'updated_at' => '2025-07-24 12:10:09',
+            ),
+            410 => 
+            array (
+                'id' => 1911,
+                'country_id' => 140,
+                'language_id' => 8,
+                'name' => 'Монако',
+                'created_at' => '2025-07-24 12:10:09',
+                'updated_at' => '2025-07-24 12:10:09',
+            ),
+            411 => 
+            array (
+                'id' => 1912,
+                'country_id' => 141,
+                'language_id' => 8,
+                'name' => 'Монголии',
+                'created_at' => '2025-07-24 12:10:10',
+                'updated_at' => '2025-07-24 12:10:10',
+            ),
+            412 => 
+            array (
+                'id' => 1913,
+                'country_id' => 142,
+                'language_id' => 8,
+                'name' => 'Монтсеррате',
+                'created_at' => '2025-07-24 12:10:10',
+                'updated_at' => '2025-07-24 12:10:10',
+            ),
+            413 => 
+            array (
+                'id' => 1914,
+                'country_id' => 143,
+                'language_id' => 8,
+                'name' => 'Марокко',
+                'created_at' => '2025-07-24 12:10:10',
+                'updated_at' => '2025-07-24 12:10:10',
+            ),
+            414 => 
+            array (
+                'id' => 1915,
+                'country_id' => 144,
+                'language_id' => 8,
+                'name' => 'Мозамбик',
+                'created_at' => '2025-07-24 12:10:11',
+                'updated_at' => '2025-07-24 12:10:11',
+            ),
+            415 => 
+            array (
+                'id' => 1916,
+                'country_id' => 145,
+                'language_id' => 8,
+                'name' => 'Мьянма',
+                'created_at' => '2025-07-24 12:10:11',
+                'updated_at' => '2025-07-24 12:10:11',
+            ),
+            416 => 
+            array (
+                'id' => 1917,
+                'country_id' => 146,
+                'language_id' => 8,
+                'name' => 'Намибия',
+                'created_at' => '2025-07-24 12:10:12',
+                'updated_at' => '2025-07-24 12:10:12',
+            ),
+            417 => 
+            array (
+                'id' => 1918,
+                'country_id' => 147,
+                'language_id' => 8,
+                'name' => 'Науру',
+                'created_at' => '2025-07-24 12:10:12',
+                'updated_at' => '2025-07-24 12:10:12',
+            ),
+            418 => 
+            array (
+                'id' => 1919,
+                'country_id' => 148,
+                'language_id' => 8,
+                'name' => 'Непал',
+                'created_at' => '2025-07-24 12:10:12',
+                'updated_at' => '2025-07-24 12:10:12',
+            ),
+            419 => 
+            array (
+                'id' => 1920,
+                'country_id' => 149,
+                'language_id' => 8,
+                'name' => 'Нидерланды',
+                'created_at' => '2025-07-24 12:10:13',
+                'updated_at' => '2025-07-24 12:10:13',
+            ),
+            420 => 
+            array (
+                'id' => 1921,
+                'country_id' => 150,
+                'language_id' => 8,
+                'name' => 'Нидерландские Антильские острова',
+                'created_at' => '2025-07-24 12:10:14',
+                'updated_at' => '2025-07-24 12:10:14',
+            ),
+            421 => 
+            array (
+                'id' => 1922,
+                'country_id' => 151,
+                'language_id' => 8,
+                'name' => 'Новая Каледония',
+                'created_at' => '2025-07-24 12:10:14',
+                'updated_at' => '2025-07-24 12:10:14',
+            ),
+            422 => 
+            array (
+                'id' => 1923,
+                'country_id' => 152,
+                'language_id' => 8,
+                'name' => 'Новая Зеландия',
+                'created_at' => '2025-07-24 12:10:14',
+                'updated_at' => '2025-07-24 12:10:14',
+            ),
+            423 => 
+            array (
+                'id' => 1924,
+                'country_id' => 153,
+                'language_id' => 8,
+                'name' => 'Никарагуа',
+                'created_at' => '2025-07-24 12:10:15',
+                'updated_at' => '2025-07-24 12:10:15',
+            ),
+            424 => 
+            array (
+                'id' => 1925,
+                'country_id' => 154,
+                'language_id' => 8,
+                'name' => 'Нигер',
+                'created_at' => '2025-07-24 12:10:15',
+                'updated_at' => '2025-07-24 12:10:15',
+            ),
+            425 => 
+            array (
+                'id' => 1926,
+                'country_id' => 155,
+                'language_id' => 8,
+                'name' => 'Нигерия',
+                'created_at' => '2025-07-24 12:10:16',
+                'updated_at' => '2025-07-24 12:10:16',
+            ),
+            426 => 
+            array (
+                'id' => 1927,
+                'country_id' => 156,
+                'language_id' => 8,
+                'name' => 'Ниуэ',
+                'created_at' => '2025-07-24 12:10:16',
+                'updated_at' => '2025-07-24 12:10:16',
+            ),
+            427 => 
+            array (
+                'id' => 1928,
+                'country_id' => 157,
+                'language_id' => 8,
+                'name' => 'Остров Норфолк',
+                'created_at' => '2025-07-24 12:10:17',
+                'updated_at' => '2025-07-24 12:10:17',
+            ),
+            428 => 
+            array (
+                'id' => 1929,
+                'country_id' => 158,
+                'language_id' => 8,
+                'name' => 'Северные Марианские острова',
+                'created_at' => '2025-07-24 12:10:17',
+                'updated_at' => '2025-07-24 12:10:17',
+            ),
+            429 => 
+            array (
+                'id' => 1930,
+                'country_id' => 159,
+                'language_id' => 8,
+                'name' => 'Норвегия',
+                'created_at' => '2025-07-24 12:10:18',
+                'updated_at' => '2025-07-24 12:10:18',
+            ),
+            430 => 
+            array (
+                'id' => 1931,
+                'country_id' => 160,
+                'language_id' => 8,
+                'name' => 'Оман',
+                'created_at' => '2025-07-24 12:10:18',
+                'updated_at' => '2025-07-24 12:10:18',
+            ),
+            431 => 
+            array (
+                'id' => 1932,
+                'country_id' => 161,
+                'language_id' => 8,
+                'name' => 'Пакистан',
+                'created_at' => '2025-07-24 12:10:19',
+                'updated_at' => '2025-07-24 12:10:19',
+            ),
+            432 => 
+            array (
+                'id' => 1933,
+                'country_id' => 162,
+                'language_id' => 8,
+                'name' => 'Палау',
+                'created_at' => '2025-07-24 12:10:19',
+                'updated_at' => '2025-07-24 12:10:19',
+            ),
+            433 => 
+            array (
+                'id' => 1934,
+                'country_id' => 163,
+                'language_id' => 8,
+                'name' => 'Панама',
+                'created_at' => '2025-07-24 12:10:19',
+                'updated_at' => '2025-07-24 12:10:19',
+            ),
+            434 => 
+            array (
+                'id' => 1935,
+                'country_id' => 164,
+                'language_id' => 8,
+                'name' => 'Папуа Новая Гвинея',
+                'created_at' => '2025-07-24 12:10:20',
+                'updated_at' => '2025-07-24 12:10:20',
+            ),
+            435 => 
+            array (
+                'id' => 1936,
+                'country_id' => 165,
+                'language_id' => 8,
+                'name' => 'Парагвай',
+                'created_at' => '2025-07-24 12:10:20',
+                'updated_at' => '2025-07-24 12:10:20',
+            ),
+            436 => 
+            array (
+                'id' => 1937,
+                'country_id' => 166,
+                'language_id' => 8,
+                'name' => 'Перу',
+                'created_at' => '2025-07-24 12:10:21',
+                'updated_at' => '2025-07-24 12:10:21',
+            ),
+            437 => 
+            array (
+                'id' => 1938,
+                'country_id' => 167,
+                'language_id' => 8,
+                'name' => 'Филиппины',
+                'created_at' => '2025-07-24 12:10:21',
+                'updated_at' => '2025-07-24 12:10:21',
+            ),
+            438 => 
+            array (
+                'id' => 1939,
+                'country_id' => 168,
+                'language_id' => 8,
+                'name' => 'Питкэрн',
+                'created_at' => '2025-07-24 12:10:22',
+                'updated_at' => '2025-07-24 12:10:22',
+            ),
+            439 => 
+            array (
+                'id' => 1940,
+                'country_id' => 169,
+                'language_id' => 8,
+                'name' => 'Польша',
+                'created_at' => '2025-07-24 12:10:22',
+                'updated_at' => '2025-07-24 12:10:22',
+            ),
+            440 => 
+            array (
+                'id' => 1941,
+                'country_id' => 170,
+                'language_id' => 8,
+                'name' => 'Португалия',
+                'created_at' => '2025-07-24 12:10:23',
+                'updated_at' => '2025-07-24 12:10:23',
+            ),
+            441 => 
+            array (
+                'id' => 1942,
+                'country_id' => 171,
+                'language_id' => 8,
+                'name' => 'Пуэрто-Рико',
+                'created_at' => '2025-07-24 12:10:23',
+                'updated_at' => '2025-07-24 12:10:23',
+            ),
+            442 => 
+            array (
+                'id' => 1943,
+                'country_id' => 172,
+                'language_id' => 8,
+                'name' => 'Катар',
+                'created_at' => '2025-07-24 12:10:24',
+                'updated_at' => '2025-07-24 12:10:24',
+            ),
+            443 => 
+            array (
+                'id' => 1944,
+                'country_id' => 173,
+                'language_id' => 8,
+                'name' => 'Реюньон',
+                'created_at' => '2025-07-24 12:10:24',
+                'updated_at' => '2025-07-24 12:10:24',
+            ),
+            444 => 
+            array (
+                'id' => 1945,
+                'country_id' => 174,
+                'language_id' => 8,
+                'name' => 'Румыния',
+                'created_at' => '2025-07-24 12:10:24',
+                'updated_at' => '2025-07-24 12:10:24',
+            ),
+            445 => 
+            array (
+                'id' => 1946,
+                'country_id' => 175,
+                'language_id' => 8,
+            'name' => 'Российская Федерация (the)',
+                'created_at' => '2025-07-24 12:10:25',
+                'updated_at' => '2025-07-24 12:10:25',
+            ),
+            446 => 
+            array (
+                'id' => 1947,
+                'country_id' => 176,
+                'language_id' => 8,
+                'name' => 'Руанда',
+                'created_at' => '2025-07-24 12:10:25',
+                'updated_at' => '2025-07-24 12:10:25',
+            ),
+            447 => 
+            array (
+                'id' => 1948,
+                'country_id' => 177,
+                'language_id' => 8,
+                'name' => 'Сент-Китс и Невис',
+                'created_at' => '2025-07-24 12:10:26',
+                'updated_at' => '2025-07-24 12:10:26',
+            ),
+            448 => 
+            array (
+                'id' => 1949,
+                'country_id' => 178,
+                'language_id' => 8,
+                'name' => 'Сент-Люсия',
+                'created_at' => '2025-07-24 12:10:26',
+                'updated_at' => '2025-07-24 12:10:26',
+            ),
+            449 => 
+            array (
+                'id' => 1950,
+                'country_id' => 179,
+                'language_id' => 8,
+                'name' => 'Сент-Винсент и Гренадины',
+                'created_at' => '2025-07-24 12:10:26',
+                'updated_at' => '2025-07-24 12:10:26',
+            ),
+            450 => 
+            array (
+                'id' => 1951,
+                'country_id' => 180,
+                'language_id' => 8,
+                'name' => 'Самоа',
+                'created_at' => '2025-07-24 12:10:27',
+                'updated_at' => '2025-07-24 12:10:27',
+            ),
+            451 => 
+            array (
+                'id' => 1952,
+                'country_id' => 181,
+                'language_id' => 8,
+                'name' => 'Сан-Марино',
+                'created_at' => '2025-07-24 12:10:27',
+                'updated_at' => '2025-07-24 12:10:27',
+            ),
+            452 => 
+            array (
+                'id' => 1953,
+                'country_id' => 182,
+                'language_id' => 8,
+                'name' => 'Сан-Томе и Принсипи',
+                'created_at' => '2025-07-24 12:10:28',
+                'updated_at' => '2025-07-24 12:10:28',
+            ),
+            453 => 
+            array (
+                'id' => 1954,
+                'country_id' => 183,
+                'language_id' => 8,
+                'name' => 'Саудовская Аравия',
+                'created_at' => '2025-07-24 12:10:28',
+                'updated_at' => '2025-07-24 12:10:28',
+            ),
+            454 => 
+            array (
+                'id' => 1955,
+                'country_id' => 184,
+                'language_id' => 8,
+                'name' => 'Сенегал',
+                'created_at' => '2025-07-24 12:10:29',
+                'updated_at' => '2025-07-24 12:10:29',
+            ),
+            455 => 
+            array (
+                'id' => 1956,
+                'country_id' => 185,
+                'language_id' => 8,
+                'name' => 'Сейшельские острова',
+                'created_at' => '2025-07-24 12:10:29',
+                'updated_at' => '2025-07-24 12:10:29',
+            ),
+            456 => 
+            array (
+                'id' => 1957,
+                'country_id' => 186,
+                'language_id' => 8,
+                'name' => 'Сьерра-Леоне',
+                'created_at' => '2025-07-24 12:10:30',
+                'updated_at' => '2025-07-24 12:10:30',
+            ),
+            457 => 
+            array (
+                'id' => 1958,
+                'country_id' => 187,
+                'language_id' => 8,
+                'name' => 'Сингапур',
+                'created_at' => '2025-07-24 12:10:30',
+                'updated_at' => '2025-07-24 12:10:30',
+            ),
+            458 => 
+            array (
+                'id' => 1959,
+                'country_id' => 188,
+                'language_id' => 8,
+                'name' => 'Словацкая Республика',
+                'created_at' => '2025-07-24 12:10:30',
+                'updated_at' => '2025-07-24 12:10:30',
+            ),
+            459 => 
+            array (
+                'id' => 1960,
+                'country_id' => 189,
+                'language_id' => 8,
+                'name' => 'Словения',
+                'created_at' => '2025-07-24 12:10:31',
+                'updated_at' => '2025-07-24 12:10:31',
+            ),
+            460 => 
+            array (
+                'id' => 1961,
+                'country_id' => 190,
+                'language_id' => 8,
+                'name' => 'Соломоновы острова',
+                'created_at' => '2025-07-24 12:10:31',
+                'updated_at' => '2025-07-24 12:10:31',
+            ),
+            461 => 
+            array (
+                'id' => 1962,
+                'country_id' => 191,
+                'language_id' => 8,
+                'name' => 'Сомали',
+                'created_at' => '2025-07-24 12:10:32',
+                'updated_at' => '2025-07-24 12:10:32',
+            ),
+            462 => 
+            array (
+                'id' => 1963,
+                'country_id' => 192,
+                'language_id' => 8,
+                'name' => 'Южная Африка',
+                'created_at' => '2025-07-24 12:10:32',
+                'updated_at' => '2025-07-24 12:10:32',
+            ),
+            463 => 
+            array (
+                'id' => 1964,
+                'country_id' => 193,
+                'language_id' => 8,
+                'name' => 'Южная Грузия и Южные Сандвичевые острова',
+                'created_at' => '2025-07-24 12:10:33',
+                'updated_at' => '2025-07-24 12:10:33',
+            ),
+            464 => 
+            array (
+                'id' => 1965,
+                'country_id' => 194,
+                'language_id' => 8,
+                'name' => 'Испания',
+                'created_at' => '2025-07-24 12:10:33',
+                'updated_at' => '2025-07-24 12:10:33',
+            ),
+            465 => 
+            array (
+                'id' => 1966,
+                'country_id' => 195,
+                'language_id' => 8,
+                'name' => 'Шри-Ланка',
+                'created_at' => '2025-07-24 12:10:34',
+                'updated_at' => '2025-07-24 12:10:34',
+            ),
+            466 => 
+            array (
+                'id' => 1967,
+                'country_id' => 196,
+                'language_id' => 8,
+                'name' => 'Святой Елены',
+                'created_at' => '2025-07-24 12:10:34',
+                'updated_at' => '2025-07-24 12:10:34',
+            ),
+            467 => 
+            array (
+                'id' => 1968,
+                'country_id' => 197,
+                'language_id' => 8,
+                'name' => 'Сен-Пьер и Микелон',
+                'created_at' => '2025-07-24 12:10:34',
+                'updated_at' => '2025-07-24 12:10:34',
+            ),
+            468 => 
+            array (
+                'id' => 1969,
+                'country_id' => 198,
+                'language_id' => 8,
+                'name' => 'Судан',
+                'created_at' => '2025-07-24 12:10:35',
+                'updated_at' => '2025-07-24 12:10:35',
+            ),
+            469 => 
+            array (
+                'id' => 1970,
+                'country_id' => 199,
+                'language_id' => 8,
+                'name' => 'Суринам',
+                'created_at' => '2025-07-24 12:10:35',
+                'updated_at' => '2025-07-24 12:10:35',
+            ),
+            470 => 
+            array (
+                'id' => 1971,
+                'country_id' => 200,
+                'language_id' => 8,
+                'name' => 'Острова Свальбард и Ян-Майен',
+                'created_at' => '2025-07-24 12:10:36',
+                'updated_at' => '2025-07-24 12:10:36',
+            ),
+            471 => 
+            array (
+                'id' => 1972,
+                'country_id' => 201,
+                'language_id' => 8,
+                'name' => 'эсватини',
+                'created_at' => '2025-07-24 12:10:36',
+                'updated_at' => '2025-07-24 12:10:36',
+            ),
+            472 => 
+            array (
+                'id' => 1973,
+                'country_id' => 202,
+                'language_id' => 8,
+                'name' => 'Швеция',
+                'created_at' => '2025-07-24 12:10:37',
+                'updated_at' => '2025-07-24 12:10:37',
+            ),
+            473 => 
+            array (
+                'id' => 1974,
+                'country_id' => 203,
+                'language_id' => 8,
+                'name' => 'Швейцария',
+                'created_at' => '2025-07-24 12:10:37',
+                'updated_at' => '2025-07-24 12:10:37',
+            ),
+            474 => 
+            array (
+                'id' => 1975,
+                'country_id' => 204,
+                'language_id' => 8,
+                'name' => 'Сирийская Арабская Республика',
+                'created_at' => '2025-07-24 12:10:38',
+                'updated_at' => '2025-07-24 12:10:38',
+            ),
+            475 => 
+            array (
+                'id' => 1976,
+                'country_id' => 205,
+                'language_id' => 8,
+                'name' => 'Тайвань',
+                'created_at' => '2025-07-24 12:10:38',
+                'updated_at' => '2025-07-24 12:10:38',
+            ),
+            476 => 
+            array (
+                'id' => 1977,
+                'country_id' => 206,
+                'language_id' => 8,
+                'name' => 'Таджикистан',
+                'created_at' => '2025-07-24 12:10:38',
+                'updated_at' => '2025-07-24 12:10:38',
+            ),
+            477 => 
+            array (
+                'id' => 1978,
+                'country_id' => 207,
+                'language_id' => 8,
+                'name' => 'Танзания, Объединенная Республика',
+                'created_at' => '2025-07-24 12:10:39',
+                'updated_at' => '2025-07-24 12:10:39',
+            ),
+            478 => 
+            array (
+                'id' => 1979,
+                'country_id' => 208,
+                'language_id' => 8,
+                'name' => 'Таиланд',
+                'created_at' => '2025-07-24 12:10:39',
+                'updated_at' => '2025-07-24 12:10:39',
+            ),
+            479 => 
+            array (
+                'id' => 1980,
+                'country_id' => 209,
+                'language_id' => 8,
+                'name' => 'Того',
+                'created_at' => '2025-07-24 12:10:40',
+                'updated_at' => '2025-07-24 12:10:40',
+            ),
+            480 => 
+            array (
+                'id' => 1981,
+                'country_id' => 210,
+                'language_id' => 8,
+                'name' => 'Токелау',
+                'created_at' => '2025-07-24 12:10:40',
+                'updated_at' => '2025-07-24 12:10:40',
+            ),
+            481 => 
+            array (
+                'id' => 1982,
+                'country_id' => 211,
+                'language_id' => 8,
+                'name' => 'Тонга',
+                'created_at' => '2025-07-24 12:10:41',
+                'updated_at' => '2025-07-24 12:10:41',
+            ),
+            482 => 
+            array (
+                'id' => 1983,
+                'country_id' => 212,
+                'language_id' => 8,
+                'name' => 'Тринидад и Тобаго',
+                'created_at' => '2025-07-24 12:10:41',
+                'updated_at' => '2025-07-24 12:10:41',
+            ),
+            483 => 
+            array (
+                'id' => 1984,
+                'country_id' => 213,
+                'language_id' => 8,
+                'name' => 'Тунис',
+                'created_at' => '2025-07-24 12:10:41',
+                'updated_at' => '2025-07-24 12:10:41',
+            ),
+            484 => 
+            array (
+                'id' => 1985,
+                'country_id' => 214,
+                'language_id' => 8,
+                'name' => 'Турецкая Республика',
+                'created_at' => '2025-07-24 12:10:42',
+                'updated_at' => '2025-07-24 12:10:42',
+            ),
+            485 => 
+            array (
+                'id' => 1986,
+                'country_id' => 215,
+                'language_id' => 8,
+                'name' => 'Туркменистан',
+                'created_at' => '2025-07-24 12:10:42',
+                'updated_at' => '2025-07-24 12:10:42',
+            ),
+            486 => 
+            array (
+                'id' => 1987,
+                'country_id' => 216,
+                'language_id' => 8,
+                'name' => 'Острова Тёркс и Кайкос',
+                'created_at' => '2025-07-24 12:10:43',
+                'updated_at' => '2025-07-24 12:10:43',
+            ),
+            487 => 
+            array (
+                'id' => 1988,
+                'country_id' => 217,
+                'language_id' => 8,
+                'name' => 'Тувалу',
+                'created_at' => '2025-07-24 12:10:43',
+                'updated_at' => '2025-07-24 12:10:43',
+            ),
+            488 => 
+            array (
+                'id' => 1989,
+                'country_id' => 218,
+                'language_id' => 8,
+                'name' => 'Уганда',
+                'created_at' => '2025-07-24 12:10:44',
+                'updated_at' => '2025-07-24 12:10:44',
+            ),
+            489 => 
+            array (
+                'id' => 1990,
+                'country_id' => 219,
+                'language_id' => 8,
+                'name' => 'Украина',
+                'created_at' => '2025-07-24 12:10:44',
+                'updated_at' => '2025-07-24 12:10:44',
+            ),
+            490 => 
+            array (
+                'id' => 1991,
+                'country_id' => 220,
+                'language_id' => 8,
+                'name' => 'Объединенные Арабские Эмираты',
+                'created_at' => '2025-07-24 12:10:44',
+                'updated_at' => '2025-07-24 12:10:44',
+            ),
+            491 => 
+            array (
+                'id' => 1992,
+                'country_id' => 221,
+                'language_id' => 8,
+                'name' => 'Соединенное Королевство',
+                'created_at' => '2025-07-24 12:10:45',
+                'updated_at' => '2025-07-24 12:10:45',
+            ),
+            492 => 
+            array (
+                'id' => 1993,
+                'country_id' => 222,
+                'language_id' => 8,
+                'name' => 'США',
+                'created_at' => '2025-07-24 12:10:45',
+                'updated_at' => '2025-07-24 12:10:45',
+            ),
+            493 => 
+            array (
+                'id' => 1994,
+                'country_id' => 223,
+                'language_id' => 8,
+                'name' => 'Малые отдаленные острова Соединенных Штатов',
+                'created_at' => '2025-07-24 12:10:46',
+                'updated_at' => '2025-07-24 12:10:46',
+            ),
+            494 => 
+            array (
+                'id' => 1995,
+                'country_id' => 224,
+                'language_id' => 8,
+                'name' => 'Уругвай',
+                'created_at' => '2025-07-24 12:10:46',
+                'updated_at' => '2025-07-24 12:10:46',
+            ),
+            495 => 
+            array (
+                'id' => 1996,
+                'country_id' => 225,
+                'language_id' => 8,
+                'name' => 'Узбекистан',
+                'created_at' => '2025-07-24 12:10:46',
+                'updated_at' => '2025-07-24 12:10:46',
+            ),
+            496 => 
+            array (
+                'id' => 1997,
+                'country_id' => 226,
+                'language_id' => 8,
+                'name' => 'Вануату',
+                'created_at' => '2025-07-24 12:10:47',
+                'updated_at' => '2025-07-24 12:10:47',
+            ),
+            497 => 
+            array (
+                'id' => 1998,
+                'country_id' => 227,
+                'language_id' => 8,
+            'name' => 'Государство Ватикан (Святой Престол)',
+                'created_at' => '2025-07-24 12:10:47',
+                'updated_at' => '2025-07-24 12:10:47',
+            ),
+            498 => 
+            array (
+                'id' => 1999,
+                'country_id' => 228,
+                'language_id' => 8,
+                'name' => 'Венесуэла',
+                'created_at' => '2025-07-24 12:10:48',
+                'updated_at' => '2025-07-24 12:10:48',
+            ),
+            499 => 
+            array (
+                'id' => 2000,
+                'country_id' => 229,
+                'language_id' => 8,
+                'name' => 'Вьетнам',
+                'created_at' => '2025-07-24 12:10:48',
+                'updated_at' => '2025-07-24 12:10:48',
+            ),
+        ));
+        \DB::table('country_translations')->insert(array (
+            0 => 
+            array (
+                'id' => 2001,
+                'country_id' => 230,
+                'language_id' => 8,
+            'name' => 'Виргинские острова (Британские)',
+                'created_at' => '2025-07-24 12:10:48',
+                'updated_at' => '2025-07-24 12:10:48',
+            ),
+            1 => 
+            array (
+                'id' => 2002,
+                'country_id' => 231,
+                'language_id' => 8,
+            'name' => 'Виргинские острова (США)',
+                'created_at' => '2025-07-24 12:10:49',
+                'updated_at' => '2025-07-24 12:10:49',
+            ),
+            2 => 
+            array (
+                'id' => 2003,
+                'country_id' => 232,
+                'language_id' => 8,
+                'name' => 'Острова Уоллис и Футуна',
+                'created_at' => '2025-07-24 12:10:49',
+                'updated_at' => '2025-07-24 12:10:49',
+            ),
+            3 => 
+            array (
+                'id' => 2004,
+                'country_id' => 233,
+                'language_id' => 8,
+                'name' => 'Западная Сахара',
+                'created_at' => '2025-07-24 12:10:50',
+                'updated_at' => '2025-07-24 12:10:50',
+            ),
+            4 => 
+            array (
+                'id' => 2005,
+                'country_id' => 234,
+                'language_id' => 8,
+                'name' => 'Йемен',
+                'created_at' => '2025-07-24 12:10:50',
+                'updated_at' => '2025-07-24 12:10:50',
+            ),
+            5 => 
+            array (
+                'id' => 2006,
+                'country_id' => 235,
+                'language_id' => 8,
+                'name' => 'Демократическая Республика Конго',
+                'created_at' => '2025-07-24 12:10:51',
+                'updated_at' => '2025-07-24 12:10:51',
+            ),
+            6 => 
+            array (
+                'id' => 2007,
+                'country_id' => 236,
+                'language_id' => 8,
+                'name' => 'Замбия',
+                'created_at' => '2025-07-24 12:10:51',
+                'updated_at' => '2025-07-24 12:10:51',
+            ),
+            7 => 
+            array (
+                'id' => 2008,
+                'country_id' => 237,
+                'language_id' => 8,
+                'name' => 'Зимбабве',
+                'created_at' => '2025-07-24 12:10:52',
+                'updated_at' => '2025-07-24 12:10:52',
+            ),
+            8 => 
+            array (
+                'id' => 2009,
+                'country_id' => 238,
+                'language_id' => 8,
+                'name' => 'Черногория',
+                'created_at' => '2025-07-24 12:10:52',
+                'updated_at' => '2025-07-24 12:10:52',
+            ),
+            9 => 
+            array (
+                'id' => 2010,
+                'country_id' => 239,
+                'language_id' => 8,
+                'name' => 'Сербия',
+                'created_at' => '2025-07-24 12:10:52',
+                'updated_at' => '2025-07-24 12:10:52',
+            ),
+            10 => 
+            array (
+                'id' => 2011,
+                'country_id' => 240,
+                'language_id' => 8,
+                'name' => 'Ааландские острова',
+                'created_at' => '2025-07-24 12:10:53',
+                'updated_at' => '2025-07-24 12:10:53',
+            ),
+            11 => 
+            array (
+                'id' => 2012,
+                'country_id' => 241,
+                'language_id' => 8,
+                'name' => 'Бонейр, Сент-Евстаций и Саба',
+                'created_at' => '2025-07-24 12:10:53',
+                'updated_at' => '2025-07-24 12:10:53',
+            ),
+            12 => 
+            array (
+                'id' => 2013,
+                'country_id' => 242,
+                'language_id' => 8,
+                'name' => 'Курасао',
+                'created_at' => '2025-07-24 12:10:54',
+                'updated_at' => '2025-07-24 12:10:54',
+            ),
+            13 => 
+            array (
+                'id' => 2014,
+                'country_id' => 243,
+                'language_id' => 8,
+                'name' => 'Оккупированная палестинская территория',
+                'created_at' => '2025-07-24 12:10:54',
+                'updated_at' => '2025-07-24 12:10:54',
+            ),
+            14 => 
+            array (
+                'id' => 2015,
+                'country_id' => 244,
+                'language_id' => 8,
+                'name' => 'Южного Судана',
+                'created_at' => '2025-07-24 12:10:54',
+                'updated_at' => '2025-07-24 12:10:54',
+            ),
+            15 => 
+            array (
+                'id' => 2016,
+                'country_id' => 245,
+                'language_id' => 8,
+                'name' => 'Сент-Бартелеми',
+                'created_at' => '2025-07-24 12:10:55',
+                'updated_at' => '2025-07-24 12:10:55',
+            ),
+            16 => 
+            array (
+                'id' => 2017,
+                'country_id' => 246,
+                'language_id' => 8,
+            'name' => 'Сент-Мартин (французская часть)',
+                'created_at' => '2025-07-24 12:10:55',
+                'updated_at' => '2025-07-24 12:10:55',
+            ),
+            17 => 
+            array (
+                'id' => 2018,
+                'country_id' => 247,
+                'language_id' => 8,
+                'name' => 'Канарские острова',
+                'created_at' => '2025-07-24 12:10:56',
+                'updated_at' => '2025-07-24 12:10:56',
+            ),
+            18 => 
+            array (
+                'id' => 2019,
+                'country_id' => 248,
+                'language_id' => 8,
+            'name' => 'Остров Восхождения (британский)',
+                'created_at' => '2025-07-24 12:10:56',
+                'updated_at' => '2025-07-24 12:10:56',
+            ),
+            19 => 
+            array (
+                'id' => 2020,
+                'country_id' => 249,
+                'language_id' => 8,
+                'name' => 'Косово, Республика',
+                'created_at' => '2025-07-24 12:10:57',
+                'updated_at' => '2025-07-24 12:10:57',
+            ),
+            20 => 
+            array (
+                'id' => 2021,
+                'country_id' => 250,
+                'language_id' => 8,
+                'name' => 'Остров Мэн',
+                'created_at' => '2025-07-24 12:10:57',
+                'updated_at' => '2025-07-24 12:10:57',
+            ),
+            21 => 
+            array (
+                'id' => 2022,
+                'country_id' => 251,
+                'language_id' => 8,
+                'name' => 'Тристан да Кунья',
+                'created_at' => '2025-07-24 12:10:58',
+                'updated_at' => '2025-07-24 12:10:58',
+            ),
+            22 => 
+            array (
+                'id' => 2023,
+                'country_id' => 252,
+                'language_id' => 8,
+                'name' => 'Гернси',
+                'created_at' => '2025-07-24 12:10:58',
+                'updated_at' => '2025-07-24 12:10:58',
+            ),
+            23 => 
+            array (
+                'id' => 2024,
+                'country_id' => 253,
+                'language_id' => 8,
+                'name' => 'Джерси',
+                'created_at' => '2025-07-24 12:10:59',
+                'updated_at' => '2025-07-24 12:10:59',
+            ),
         ));
         
         

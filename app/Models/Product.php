@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -46,6 +47,7 @@ class Product extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
     use CascadesMediaDeletes;
+    use Searchable;
 
     public static $snakeAttributes = false;
 
@@ -99,5 +101,26 @@ class Product extends Model implements HasMedia
             ->width(350)
             ->height(350)
             ->sharpen(10);
+    }
+
+    /**
+     * 获取模型的索引化数据数组。
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+
+        // 合并所有翻译的 title 和 content
+        $translations = $this->productTranslations;
+        $mergedText = '';
+        foreach ($translations as $translation) {
+            $mergedText .= ($translation->name ?? '') . ' ';
+            $mergedText .= ($translation->description ?? '') . ' ';
+        }
+        $array['content'] = trim($mergedText);
+
+        return $array;
     }
 }

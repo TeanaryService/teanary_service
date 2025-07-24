@@ -92,7 +92,7 @@
 
             {{-- 商品列表 --}}
             <main class="flex-1">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
                     @forelse ($products as $product)
                         <x-product-item :product="$product" />
                     @empty

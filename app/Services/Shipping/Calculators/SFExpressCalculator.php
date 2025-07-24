@@ -48,7 +48,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
             $forCode = $data['msgData']['currency'];
             $fee = $currencyService->convert((float)$data['msgData']['totalFee'], $currencyService->getDefaultCurrencyCode(), $forCode);
             return [
-                'description' => __('shipping.description.sf', ['days' => '2-4']),
+                'description' => __('shipping.description.sf', ['days' => '15-30']),
                 'fee' => $fee,
             ];
         } catch (\Throwable $e) {
