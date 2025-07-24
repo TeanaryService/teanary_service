@@ -1,62 +1,78 @@
 <?php
 
 return [
+    'site_title' => '源自云南的高山好茶｜出口级中国茶品牌',
+    'site_keywords' => 'Teanary, 中国茶出口, 云南茶, 普洱茶, 绿茶, 红茶, 乌龙茶, 高山茶, 茶叶礼盒, 海外送茶, 中国茶品牌, tea export from China, Chinese tea, Yunnan tea',
+    'site_description' => 'Teanary 是一家专注中国高品质茶叶出口的品牌，源自云南，精选绿茶、红茶、乌龙、普洱等好茶，坚持手工采摘与传统工艺。支持全球配送与定制礼盒，让世界喝到真正的中国茶。',
+    'welcome' => '欢迎来到 :name —— 您的茶之净地，我们致力于将高品质中国茶带向世界。',
+    'shop_now' => '立即选购好茶',
+    'search_placeholder' => '搜索茶叶、茶礼、系列产品...',
+    'categories' => '茶品分类',
+    'featured_products' => '推荐茶品',
+    'contact_us' => '联系我们',
+    'language' => '语言',
+    'currency' => '货币',
+    'login' => '登录',
+    'logout' => '退出',
+    'register' => '注册',
+    'profile' => '个人中心',
+    'quick_links' => '快捷链接',
+    'follow_us' => '关注我们',
+    'rights_reserved' => '版权所有。',
     'home' => '首页',
-    'add_cart_success' => '已添加到购物车',
-    'edit_cart_success' => '购物车已更新',
-    'delete_cart_success' => '已从购物车删除',
-    'email_verify_subject' => '验证你的邮箱地址',
-    'email_verify_line1' => '点击下面的按钮以验证你的邮箱。',
-    'email_verify_action' => '验证邮箱',
-    'email_verify_line2' => '如果你没有创建账号，则无需采取进一步操作。',
-    'review_submitted' => '评论已提交',
-    'select_shipping_address' => '请选择配送地址',
+    'address' => '中国·云南·昆明',
+    'sub_name' => '中国·昆明',
+
+    'cart' => '购物车',
+    'empty_cart' => '购物车还没有商品',
+    'total' => '商品总价',
+    'promotion_discount' => '优惠',
+    'shipping_fee' => '邮费',
+    'subtotal' => '小计',
+    'place_order' => '提交订单',
+    'checkout' => '结账',
+    'product' => '商品',
+    'specification' => '规格',
+    'price' => '单价',
+    'qty' => '数量',
+    'select_all' => '全选',
+    'inverse_select' => '反选',
+    'cookie_message' => '我们使用 Cookie 以提升您的浏览体验，分析流量并个性化内容。继续浏览即表示您同意我们的 Cookie 政策。',
+    'cookie_accept' => '同意',
+
+    // 结账页面
+    'shipping_address' => '收货地址',
+    'add_new_address' => '新增地址',
+    'cancel' => '取消',
+    'firstname' => '名字',
+    'lastname' => '姓氏',
+    'telephone' => '电话',
+    'address_1' => '详细地址1',
+    'address_2' => '详细地址2',
+    'country' => '国家',
+    'zone' => '省份/地区',
+    'select_country' => '请选择国家',
+    'select_zone' => '请选择省份/地区',
+    'save_address' => '保存地址',
+    'no_addresses' => '还没有收货地址',
     'order_items' => '订单商品',
+    'order_summary' => '订单汇总',
+    'no_items_to_checkout' => '没有可结算的商品',
+    'return_to_cart' => '返回购物车',
+    'email' => '邮箱',
+    'company' => '公司',
+    'city' => '城市',
+    'postcode' => '邮编',
 
-    'shipping' => [
-        'method' => [
-            'sf_international' => '顺丰国际',
-        ],
-        'description' => [
-            'sf' => '预计 :days 天送达',
-        ],
-    ],
+    'discount_percent' => ':percent%折扣',
+    'discount_amount' => '立减:amount',
 
-    'payment' => [
-        'method' => [
-            'paypal' => 'PayPal',
-        ],
-    ],
+    'payment_method' => '支付方式',
+    'select_payment_method' => '选择支付方式',
+    'shipping_method' => '快递方式',
+    'select_shipping_method' => '选择快递方式',
 
-    'promotion' => [
-        'type' => [
-            'coupon' => '优惠券',
-            'automatic' => '自动促销',
-        ],
-        'discount_type' => [
-            'fixed' => '固定金额',
-            'percentage' => '百分比',
-        ],
-        'condition' => [
-            'order_total_min' => '最小订单金额',
-            'order_qty_min' => '最小订单数量',
-        ],
-    ],
-
-    'product' => [
-        'status' => [
-            'active' => '上架',
-            'inactive' => '下架',
-        ],
-    ],
-
-    'order' => [
-        'status' => [
-            'pending' => '待付款',
-            'paid' => '已付款',
-            'shipped' => '已发货', 
-            'completed' => '已完成',
-            'cancelled' => '已取消',
-        ],
-    ],
+    'add_cart_success' => '添加到购物车成功~',
+    'edit_cart_success' => '修改购物车商品成功~',
+    'delete_cart_success' => '删除购物车商品成功~',
 ];

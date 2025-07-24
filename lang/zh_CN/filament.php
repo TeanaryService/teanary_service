@@ -311,4 +311,11 @@ return [
     'address.city' => '城市',
     'address.postcode' => '邮编',
     'address.full_address' => '完整地址',
+
+
+    'widget.stats_users' => '今日注册人数',
+    'widget.stats_orders' => '今日订单数',
+    'widget.stats_cart_items' => '今日加购物车数',
+    'widget.stats_today' => '今日',
+    'widget.stats_yesterday' => '昨日',
 ];

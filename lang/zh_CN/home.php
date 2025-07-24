@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // 首页相关
+    'hero_title' => '臻选中国好茶，直达世界每一处',
+    'hero_subtitle' => '探索绿茶、红茶、乌龙、普洱等优质茶品，让生活慢下来。',
+    'shop_now' => '立即选购好茶',
+    'hero_image_alt' => '茶叶展示',
+    'browse_categories' => '浏览茶类',
+    'featured_products' => '精选茶品',
+    'about_title' => '关于 Teanary',
+    'about_content' => 'Teanary 致力于将云南高山茶的纯粹与宁静送达全球，让您在每一口茶香中感受东方文化的温度。',
+    'learn_more' => '了解更多',
+    'search' => '搜索',
+
+    // 商品相关
+    'product_view_detail' => '查看详情',
+    'no_products' => '暂无茶品',
+    'categories' => '茶类',
+    'select_variant' => '选择规格',
+    'buy_now' => '立即购买',
+    'attributes' => '产品参数',
+    'weight' => '净重',
+    'length' => '长度',
+    'width' => '宽度',
+    'height' => '高度',
+    'product_list_seo_title' => '全部茶品',
+    'product_list_seo_desc' => 'Teanary 提供正宗中国茶，涵盖绿茶、红茶、乌龙茶、普洱茶等，支持全球配送，尽享东方茶韵。',
+    'product_description' => '产品介绍',
+    'product_reviews' => '茶友评价',
+    'review_placeholder' => '欢迎分享您的品茶体验...',
+    'submit_review' => '提交评价',
+    'login_to_review' => '登录后可评价',
+    'no_reviews' => '暂时没有评价',
+    'review_submitted' => '您的评价已提交，审核后将显示。',
+    'anonymous' => '匿名茶友',
+    'rating' => '评分',
+    'addCart' => '加入茶盒',
+    'qty' => '数量',
+    'storage' => '库存：:storage',
+
+    // 促销相关
+    'promotions' => '茶礼优惠',
+    'promotion_rule_order_total_min' => '订单',
+    'promotion_discount_fixed' => '立减',
+    'promotion_rule_order_qty_min' => '购买数量满',
+    'promotion_discount_percentage' => '折扣',
+    'promotion_starts_at' => '开始时间',
+    'promotion_ends_at' => '结束时间',
+    'promotion_text' => ':condition 满 :condition_value 享 :discount :discount_value',
+];
