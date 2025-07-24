@@ -43,3 +43,7 @@
         </div>
     @endif
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('orders.my_orders') }}"/>
+@endPushOnce

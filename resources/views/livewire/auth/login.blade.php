@@ -38,3 +38,7 @@
         </div>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('app.login') }}"/>
+@endPushOnce

@@ -8,3 +8,7 @@
         }, 2000);
     </script>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('auth.email_verified_title') }}"/>
+@endPushOnce

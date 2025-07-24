@@ -22,3 +22,7 @@
         <button wire:click="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">×</button>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('auth.reset_password') }}" />
+@endPushOnce

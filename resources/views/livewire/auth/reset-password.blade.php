@@ -33,3 +33,7 @@
         @endif
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('auth.reset_password') }}"/>
+@endPushOnce

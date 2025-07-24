@@ -12,3 +12,7 @@
         {{ __('email_verification.resend_button') }}
     </button>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('email_verification.title') }}" />
+@endPushOnce

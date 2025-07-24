@@ -96,3 +96,7 @@
         </div>
     </form>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ $address ? __('addresses.edit_address') : __('addresses.add_new') }}"/>
+@endPushOnce
