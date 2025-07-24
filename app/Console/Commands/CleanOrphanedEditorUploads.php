@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Console\Commands;
+
 use App\Models\EditorUpload;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;

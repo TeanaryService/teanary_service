@@ -14,3 +14,6 @@ Schedule::command('app:update-ecb')
 
 Schedule::command('app:clear-cache-if-expired')
     ->everyMinute();
+
+Schedule::command('app:clean-orphans')
+    ->daily();
