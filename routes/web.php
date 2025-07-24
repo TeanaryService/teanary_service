@@ -18,6 +18,9 @@ use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
 use App\Livewire\User\Addresses;
+use App\Livewire\User\AddressForm;
+use App\Livewire\User\AddressList;
+use App\Livewire\User\OrderDetail;
 use App\Livewire\User\Orders;
 use App\Livewire\User\Profile;
 use App\Models\User;
@@ -93,8 +96,12 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
             Route::get('orders', Orders::class)
                 ->name('user.orders');
 
-            Route::get('addresses', Addresses::class)
-                ->name('address');
+            Route::get('orders/{order}', OrderDetail::class)
+                ->name('user.orders.show');
+
+            Route::get('addresses', AddressList::class)->name('user.addresses');
+
+            Route::get('addresses/form', AddressForm::class)->name('user.addresses.form');
         });
     });
 
