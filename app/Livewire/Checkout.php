@@ -62,7 +62,6 @@ class Checkout extends Component
         'address.city' => 'required|string|max:255',
         'address.postcode' => 'required|string|max:20',
         'address.country_id' => 'required|exists:countries,id',
-        'address.zone_id' => 'required|exists:zones,id',
     ];
 
     public function mount()
@@ -256,13 +255,25 @@ class Checkout extends Component
     public function saveAddress()
     {
         try {
-            $this->validate();
+            $rules = $this->rules;
+
+            $zones = \App\Models\Zone::getZonesByCountryAndLanguage($this->address['country_id'] ?? null);
+            if (!empty($zones)) {
+                $rules['address.zone_id'] = 'required|exists:zones,id';
+            } else {
+                $rules['address.zone_id'] = 'nullable|exists:zones,id';
+            }
+
+            $this->validate($rules);
+
             $data = $this->address;
             $data['session_id'] = session()->getId();
             if (auth()->check()) {
                 $data['user_id'] = auth()->id();
             }
+
             $address = \App\Models\Address::create($data);
+
             $this->loadAddresses();
             $this->shippingAddress = $address->id;
             $this->showAddressForm = false;
@@ -279,6 +290,7 @@ class Checkout extends Component
                 'country_id' => '',
                 'zone_id' => ''
             ];
+
             $this->updatePaymentMethods();
             $this->updateShippingMethods();
             $this->recalculateOrderTotal();

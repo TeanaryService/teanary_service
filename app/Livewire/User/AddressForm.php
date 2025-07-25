@@ -25,7 +25,6 @@ class AddressForm extends Component
         }
     }
 
-
     public function loadZones($countryId): void
     {
         $this->zones = Zone::getZonesByCountryAndLanguage($countryId);
@@ -37,9 +36,11 @@ class AddressForm extends Component
         $this->state['zone_id'] = '';
     }
 
-    public function save()
+    public function save(): \Illuminate\Http\RedirectResponse
     {
-        $this->validate([
+        $zones = Zone::getZonesByCountryAndLanguage($this->state['country_id'] ?? null);
+
+        $rules = [
             'state.email' => 'required|email',
             'state.firstname' => 'required|string|max:255',
             'state.lastname' => 'required|string|max:255',
@@ -47,9 +48,16 @@ class AddressForm extends Component
             'state.address_1' => 'required|string|max:255',
             'state.city' => 'required|string|max:255',
             'state.country_id' => 'required|exists:countries,id',
-            'state.zone_id' => 'required|exists:zones,id',
             'state.postcode' => 'required|string|max:20',
-        ]);
+        ];
+
+        if (!empty($zones)) {
+            $rules['state.zone_id'] = 'required|exists:zones,id';
+        } else {
+            $rules['state.zone_id'] = 'nullable|exists:zones,id';
+        }
+
+        $this->validate($rules);
 
         $this->state['user_id'] = auth()->id();
 
@@ -60,13 +68,14 @@ class AddressForm extends Component
         }
 
         session()->flash('message', __('addresses.address_saved'));
+
         return redirect()->route('user.addresses', ['locale' => app()->getLocale()]);
     }
 
     public function render(): View
     {
         return view('livewire.user.address-form', [
-            'countries' => Country::getCountriesByLanguage()
+            'countries' => Country::getCountriesByLanguage(),
         ]);
     }
 }
