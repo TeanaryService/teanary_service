@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class OrderDetail extends Component
@@ -13,6 +14,10 @@ class OrderDetail extends Component
 
     public function mount(Order $order): void
     {
+        if($order->user_id != Auth::user()->id){
+            abort(403);
+        }
+
         $this->order = $order->load([
             'orderItems.product.productTranslations',
             'orderShipments',

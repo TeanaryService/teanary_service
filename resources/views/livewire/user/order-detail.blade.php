@@ -29,29 +29,7 @@
                                 <span class="text-teal-600">{{ __($order->status->label()) }}</span>
                             </p>
 
-                            <div class="flex gap-4 mt-4">
-                                @if($order->status->canBeCancelled())
-                                    <button wire:click="cancelOrder" 
-                                        wire:confirm="{{ __('orders.confirm_cancel') }}"
-                                        class="text-red-600 hover:text-red-800">
-                                        {{ __('orders.cancel_order') }}
-                                    </button>
-                                @endif
-                                
-                                @if($order->status->canBePaid())
-                                    <a href="{{ locaRoute('payment.checkout', ['orderId' => $order]) }}" 
-                                        class="text-blue-600 hover:text-blue-800">
-                                        {{ __('orders.pay_now') }}
-                                    </a>
-                                @endif
-
-                                @if($order->status->canRequestAfterSale())
-                                    <a href="{{ locaRoute('refunds.create', ['order' => $order]) }}"
-                                        class="text-orange-600 hover:text-orange-800">
-                                        {{ __('orders.request_refund') }}
-                                    </a>
-                                @endif
-                            </div>
+                            <x-order-action-buttons :order="$order"/>
                         </div>
                     </div>
 
@@ -165,7 +143,8 @@
                             </tr>
                             <tr>
                                 <td colspan="3" class="text-right py-4 font-semibold">{{ __('orders.total') }}:</td>
-                                <td class="text-right py-4 font-semibold text-teal-600">{{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
+                                <td class="text-right py-4 font-semibold text-teal-600">
+                                    {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
                                 </td>
                             </tr>
                         </tfoot>
