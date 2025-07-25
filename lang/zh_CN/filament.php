@@ -6,8 +6,8 @@ return [
     'OrderResource.group' => '商务运营',
     'OrderResource.icon' => 'heroicon-o-receipt-percent',
 
-    'OrderShipmentResource.label' => '订单物流',
-    'OrderShipmentResource.pluralLabel' => '订单物流',
+    'OrderShipmentResource.label' => '订单配送',
+    'OrderShipmentResource.pluralLabel' => '订单配送',
     'OrderShipmentResource.group' => '商务运营',
     'OrderShipmentResource.icon' => 'heroicon-o-receipt-percent',
 
@@ -111,8 +111,8 @@ return [
     'PaymentMethodResource.group' => '系统设置',
     'PaymentMethodResource.icon' => 'heroicon-o-credit-card',
 
-    'ShippingMethodResource.label' => '物流方式',
-    'ShippingMethodResource.pluralLabel' => '物流方式',
+    'ShippingMethodResource.label' => '配送方式',
+    'ShippingMethodResource.pluralLabel' => '配送方式',
     'ShippingMethodResource.group' => '系统设置',
     'ShippingMethodResource.icon' => 'heroicon-o-truck',
 
@@ -183,6 +183,7 @@ return [
     // Order
     'order.order_no' => '订单号',
     'order.payment_method' => '支付方式',
+    'order.shipping_method' => '配送方式',
     'order.user_id' => '用户',
     'order.shipping_address_id' => '收货地址',
     'order.billing_address_id' => '账单地址',
@@ -191,7 +192,7 @@ return [
     'order.shipping_fee' => '运费',
     'order.status' => '状态',
     'order.order_items' => '订单商品',
-    'order.order_shipments' => '订单物流',
+    'order.order_shipments' => '订单配送',
 
     // Order Item
     'order_item.order_id' => '订单',
@@ -202,8 +203,8 @@ return [
 
     // Order Shipment
     'order_shipment.order_id' => '订单',
-    'order_shipment.shipping_method' => '物流方式',
-    'order_shipment.tracking_number' => '物流单号',
+    'order_shipment.shipping_method' => '配送方式',
+    'order_shipment.tracking_number' => '配送单号',
     'order_shipment.notes' => '备注',
 
     // Product

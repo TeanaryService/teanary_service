@@ -39,4 +39,28 @@ enum OrderStatusEnum: string
         }
         return $options;
     }
+
+    /**
+     * 判断是否可以取消订单
+     */
+    public function canBeCancelled(): bool
+    {
+        return in_array($this, [self::Pending, self::Paid]);
+    }
+
+    /**
+     * 判断是否可以去支付
+     */
+    public function canBePaid(): bool
+    {
+        return $this === self::Pending;
+    }
+
+    /**
+     * 判断是否可以申请售后
+     */
+    public function canRequestAfterSale(): bool
+    {
+        return in_array($this, [self::Shipped, self::Completed]);
+    }
 }

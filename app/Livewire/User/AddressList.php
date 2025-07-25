@@ -20,7 +20,10 @@ class AddressList extends Component
     public function confirmDelete(): void
     {
         if ($this->addressToDelete) {
-            $this->addressToDelete->delete();
+            // $this->addressToDelete->delete();
+            $this->addressToDelete->deleted = true;
+            $this->addressToDelete->save();
+
             $this->addressToDelete = null;
             $this->showDeleteModal = false;
             session()->flash('message', __('addresses.address_deleted'));
@@ -30,6 +33,7 @@ class AddressList extends Component
     public function render(): View
     {
         $addresses = Address::where('user_id', auth()->id())
+            ->where('deleted', false)
             ->with(['country.countryTranslations', 'zone.zoneTranslations'])
             ->get();
 

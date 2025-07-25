@@ -69,6 +69,7 @@ return new class extends Migration
             $table->foreignId('country_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('zone_id')->nullable()->constrained()->nullOnDelete();
 
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

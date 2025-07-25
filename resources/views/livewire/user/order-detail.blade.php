@@ -1,6 +1,8 @@
 @php
     $locale = session('lang');
-    $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+    $localeService = app(\App\Services\LocaleCurrencyService::class);
+    $lang = $localeService->getLanguageByCode($locale);
+    $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 py-10">
@@ -9,7 +11,7 @@
         <h2 class="text-2xl font-bold mb-6">{{ __('orders.order_details') }}</h2>
 
         <div class="space-y-6">
-            <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="bg-white rounded-xl shadow-md p-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
                         <h3 class="text-lg font-semibold text-gray-900">{{ __('orders.order_details') }}</h3>
@@ -28,7 +30,11 @@
                             </p>
                             <p class="flex justify-between">
                                 <span>{{ __('orders.payment_method') }}:</span>
-                                <span>{{ $order->payment_method->label() }}</span>
+                                <span>{{ $order->payment_method?->label() }}</span>
+                            </p>
+                            <p class="flex justify-between">
+                                <span>{{ __('orders.shipping_method') }}:</span>
+                                <span>{{ $order->shipping_method?->label() }}</span>
                             </p>
                         </div>
                     </div>
@@ -58,13 +64,13 @@
                                         <span class="font-medium">{{ __('orders.shipping_method') }}:</span>
                                         <span>{{ $orderShipment->shipping_method->label() }}</span>
                                     </div>
-                                    @if($orderShipment->tracking_number)
+                                    @if ($orderShipment->tracking_number)
                                         <div class="flex justify-between items-center mb-2">
                                             <span class="font-medium">{{ __('orders.tracking_number') }}:</span>
                                             <span>{{ $orderShipment->tracking_number }}</span>
                                         </div>
                                     @endif
-                                    @if($orderShipment->notes)
+                                    @if ($orderShipment->notes)
                                         <div class="flex justify-between items-center">
                                             <span class="font-medium">{{ __('orders.shipping_notes') }}:</span>
                                             <span>{{ $orderShipment->notes }}</span>
@@ -126,22 +132,24 @@
                                         </div>
                                     </td>
                                     <td class="text-center py-4">{{ $item->qty }}</td>
-                                    <td class="text-right py-4">{{ $order->currency->symbol }}{{ $item->price }}</td>
                                     <td class="text-right py-4">
-                                        {{ $order->currency->symbol }}{{ $item->price * $item->qty }}</td>
+                                        {{ $localeService->formatWithSymbol($item->price, $orderCurrency->code) }}</td>
+                                    <td class="text-right py-4">
+                                        {{ $localeService->formatWithSymbol($item->price * $item->qty, $orderCurrency->code) }}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot class="border-t border-gray-200">
                             <tr>
                                 <td colspan="3" class="text-right py-4">{{ __('orders.shipping_fee') }}:</td>
-                                <td class="text-right py-4">{{ $order->currency->symbol }}{{ $order->shipping_fee }}
+                                <td class="text-right py-4">
+                                    {{ $localeService->formatWithSymbol($order->shipping_fee, $orderCurrency->code) }}
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="3" class="text-right py-4 font-semibold">{{ __('orders.total') }}:</td>
-                                <td class="text-right py-4 font-semibold text-teal-600">
-                                    {{ $order->currency->symbol }}{{ $order->total }}
+                                <td class="text-right py-4 font-semibold text-teal-600">{{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
                                 </td>
                             </tr>
                         </tfoot>

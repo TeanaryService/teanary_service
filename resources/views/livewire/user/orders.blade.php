@@ -1,3 +1,9 @@
+@php
+    $locale = session('lang');
+    $localeService = app(\App\Services\LocaleCurrencyService::class);
+    $lang = $localeService->getLanguageByCode($locale);
+@endphp
+
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 py-10">
     <div class="w-full md:w-1/4"> <x-profile-nav /></div>
     <div class="w-full md:w-3/4">
@@ -27,10 +33,13 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @foreach ($orders as $order)
+                                @php
+                                    $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
+                                @endphp
                                 <tr>
                                     <td class="px-6 py-4">{{ $order->order_no }}</td>
                                     <td class="px-6 py-4">{{ $order->created_at->format('Y-m-d H:i') }}</td>
-                                    <td class="px-6 py-4">{{ $order->currency->symbol }}{{ $order->total }}</td>
+                                    <td class="px-6 py-4">{{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}</td>
                                     <td class="px-6 py-4">{{ __('orders.status_' . $order->status->value) }}</td>
                                     <td class="px-6 py-4">
                                         <a href="{{ locaRoute('user.orders.show', ['order' => $order]) }}"

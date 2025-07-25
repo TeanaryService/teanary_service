@@ -63,7 +63,8 @@ class Address extends Model
         'postcode',
         'country_id',
         'zone_id',
-        'session_id'
+        'session_id',
+        'deleted'
     ];
 
     public function country(): BelongsTo

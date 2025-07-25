@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
+use App\Enums\ShippingMethodEnum;
 use App\Observers\OrderObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -54,6 +55,7 @@ class Order extends Model
         'user_id' => 'int',
         'currency_id' => 'int',
         'payment_method' => PaymentMethodEnum::class,
+        'shipping_method' => ShippingMethodEnum::class,
         'shipping_address_id' => 'int',
         'billing_address_id' => 'int',
         'total' => 'float',
@@ -65,6 +67,7 @@ class Order extends Model
         'order_no',
         'currency_id',
         'payment_method',
+        'shipping_method',
         'shipping_address_id',
         'billing_address_id',
         'total',

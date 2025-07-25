@@ -116,10 +116,10 @@ class Checkout extends Component
     protected function loadAddresses()
     {
         if (auth()->check()) {
-            $this->addresses = \App\Models\Address::where('user_id', auth()->id())->get();
+            $this->addresses = \App\Models\Address::where('user_id', auth()->id())->where('deleted', false)->get();
             $this->shippingAddress = $this->addresses->first()?->id;
         } else {
-            $this->addresses = \App\Models\Address::where('session_id', session()->getId())->get();
+            $this->addresses = \App\Models\Address::where('session_id', session()->getId())->where('deleted', false)->get();
             $this->shippingAddress = $this->addresses->first()?->id;
         }
     }

@@ -215,6 +215,7 @@ return new class extends Migration
             $table->decimal('total', 12, 2)->default(0);
             $table->decimal('shipping_fee', 12, 2)->default(0);
             $table->string('payment_method')->nullable();
+            $table->string('shipping_method')->nullable();
             $table->enum('status', OrderStatusEnum::values())->default(OrderStatusEnum::default()->value);
             $table->timestamps();
         });
@@ -275,7 +276,7 @@ return new class extends Migration
         Schema::create('order_shipments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->cascadeOnDelete(); // 关联订单
-            $table->string('shipping_method')->nullable(); // 物流方式
+            $table->string('shipping_method')->nullable(); // 配送方式
             $table->string('tracking_number')->nullable();   // 运单号
             $table->text('notes')->nullable();               // 备注
             $table->timestamps();

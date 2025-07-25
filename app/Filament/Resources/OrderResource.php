@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
+use App\Enums\ShippingMethodEnum;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderItemsRelationManager;
@@ -60,6 +61,9 @@ class OrderResource extends Resource
                 Forms\Components\Select::make('payment_method')
                     ->label(__('filament.order.payment_method'))
                     ->options(PaymentMethodEnum::options()),
+                Forms\Components\Select::make('shipping_method')
+                    ->label(__('filament.order.shipping_method'))
+                    ->options(ShippingMethodEnum::options()),
                 Forms\Components\Select::make('user_id')
                     ->label(__('filament.order.user_id'))
                     ->relationship('user', 'name')

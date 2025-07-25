@@ -114,6 +114,17 @@ class LocaleCurrencyService
     }
 
     /**
+     * 格式化金额（带货币符号，不进行汇率转换）
+     */
+    public function formatWithSymbol(float $amount, ?string $code = null, int $decimals = 2): string
+    {
+        $code = $code ?: $this->getDefaultCurrencyCode();
+        $currency = $this->getCurrencyByCode($code);
+        $symbol = $currency ? $currency->symbol : '';
+        return $symbol . number_format($amount, $decimals, '.', '');
+    }
+
+    /**
      * 获取默认币种 code
      */
     public function getDefaultCurrencyCode(): string
