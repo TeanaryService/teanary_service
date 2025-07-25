@@ -12,8 +12,8 @@
             <div class="bg-white rounded-xl shadow-md p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
-                        <h3 class="text-lg font-semibold text-gray-900">{{ __('orders.order_info') }}</h3>
-                        <div class="text-gray-600">
+                        <h3 class="text-lg font-semibold text-gray-900">{{ __('orders.order_details') }}</h3>
+                        <div class="text-gray-600 space-y-4">
                             <p class="flex justify-between">
                                 <span>{{ __('orders.order_no') }}:</span>
                                 <span class="font-medium text-gray-900">{{ $order->order_no }}</span>
@@ -24,11 +24,11 @@
                             </p>
                             <p class="flex justify-between">
                                 <span>{{ __('orders.status') }}:</span>
-                                <span class="text-teal-600">{{ __('orders.status_' . $order->status->value) }}</span>
+                                <span class="text-teal-600">{{ __($order->status->label()) }}</span>
                             </p>
                             <p class="flex justify-between">
                                 <span>{{ __('orders.payment_method') }}:</span>
-                                <span>{{ __('orders.payment_' . $order->payment_method->value) }}</span>
+                                <span>{{ $order->payment_method->label() }}</span>
                             </p>
                         </div>
                     </div>
