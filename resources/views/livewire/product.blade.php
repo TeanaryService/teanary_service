@@ -4,7 +4,7 @@
         [
             'label' => __('app.categories'),
             'url' => locaRoute('product'),
-        ]
+        ],
     ];
     if ($categoryId && !empty($categories)) {
         $category = null;
@@ -49,16 +49,20 @@
                     @foreach ($categories as $category)
                         <li>
                             <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}"
-                                class="block px-4 py-2 rounded hover:bg-teal-100 {{ $categoryId == $category['id'] ? 'bg-teal-200 font-bold' : 'text-gray-700' }}">
-                                {{ $category['name'] }}
+                                class="flex gap gap-2 items-center px-4 py-2 rounded hover:bg-teal-100 {{ $categoryId == $category['id'] ? 'bg-teal-200 font-bold' : 'text-gray-700' }}">
+                                <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
+                                    class="h-6 w-6 object-cover rounded-lg">
+                                <span>{{ $category['name'] }}</span>
                             </a>
                             @if (!empty($category['children']))
                                 <ul class="pl-4 mt-1 space-y-1">
                                     @foreach ($category['children'] as $child)
                                         <li>
                                             <a href="{{ locaRoute('product', ['slug' => $child['slug']]) }}"
-                                                class="block px-3 py-1 rounded hover:bg-teal-50 {{ $categoryId == $child['id'] ? 'bg-teal-200 font-bold' : 'text-gray-600' }}">
-                                                {{ $child['name'] }}
+                                                class="flex gap gap-2 items-center px-3 py-1 rounded hover:bg-teal-50 {{ $categoryId == $child['id'] ? 'bg-teal-200 font-bold' : 'text-gray-600' }}">
+                                                <img src="{{ $child['image_url'] }}" alt="{{ $child['name'] }}"
+                                                    class="h-6 w-6 object-cover rounded-lg">
+                                                <span>{{ $child['name'] }}</span>
                                             </a>
                                         </li>
                                     @endforeach
@@ -74,7 +78,7 @@
                         <div class="mb-4">
                             <div class="font-semibold text-gray-700 mb-2">{{ $attr['name'] }}</div>
                             @foreach ($attr['values'] as $val)
-                                <label class="flex items-center mb-1 cursor-pointer">
+                                <label class="flex items-center py-2 cursor-pointer">
                                     <input type="checkbox" name="attributes[{{ $attr['id'] }}][]"
                                         value="{{ $val['id'] }}" @if (isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array) $attributeFilters[$attr['id']])) checked @endif
                                         class="mr-2 rounded border-gray-300 text-teal-600 focus:ring-teal-500">
