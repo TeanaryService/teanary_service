@@ -14,10 +14,12 @@ class OrderDetail extends Component
     {
         $this->order = $order->load([
             'orderItems.product.productTranslations',
-            'orderItems.productVariant',
-            'shippingAddress',
+            'orderShipments',
+            'orderItems.productVariant.specificationValues.specificationValueTranslations',
+            'shippingAddress.country.countryTranslations',
+            'shippingAddress.zone.zoneTranslations',
             'billingAddress',
-            'currency'
+            'currency',
         ]);
     }
 

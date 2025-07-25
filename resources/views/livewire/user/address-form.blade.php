@@ -1,6 +1,6 @@
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 py-10">
-    <div class="w-1/4"> <x-profile-nav /></div>
-    <div class="w-3/4">
+    <div class="w-full md:w-1/4"> <x-profile-nav /></div>
+    <div class="w-full md:w-3/4">
         <h2 class="text-2xl font-bold mb-6">
             {{ $address ? __('addresses.edit_address') : __('addresses.add_new') }}
         </h2>

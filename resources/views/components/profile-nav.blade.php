@@ -1,4 +1,4 @@
-<div class="w-full max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+<div class="w-full mx-auto bg-white rounded-xl shadow-md overflow-hidden">
     <ul class="divide-y divide-gray-200">
         <li>
             <a href="{{ locaRoute('user.orders') }}"

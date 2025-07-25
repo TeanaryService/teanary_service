@@ -23,4 +23,11 @@ return [
     'status_delivered' => '已送达',
     'status_cancelled' => '已取消',
     'no_orders' => '暂无订单',
+    
+    'actions' => '操作',
+    'shipments' => '物流信息',
+    'shipping_method' => '配送方式',
+    'tracking_number' => '运单号码',
+    'shipping_notes' => '物流备注',
+    'no_shipment_info' => '暂无物流信息'
 ];
