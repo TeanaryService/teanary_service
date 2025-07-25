@@ -19,7 +19,8 @@ class Product extends Component
 
     public function mount(Request $request)
     {
-        $this->categoryId = $request->input('category_id');
+        $slug = $request->input('slug');
+
         $this->search = $request->input('search');
         $this->attributeFilters = $request->input('attributes', []);
 
@@ -27,13 +28,18 @@ class Product extends Component
         $this->categories = \App\Models\Category::getCategoriesForLanguage($langId);
         $this->allAttributes = \App\Models\Attribute::getAttributesForLanguage($langId);
 
+        if ($slug) {
+            $category = $this->categories->where('slug', $slug)->first();
+            $this->categoryId = $category['id'];
+        }
+
         // 如果提供了category_id但在分类树中找不到，则返回404
         if ($this->categoryId) {
             $categoryExists = collect($this->categories)->contains(function ($category) {
-                return $category['id'] == $this->categoryId || 
-                       collect($category['children'] ?? [])->contains('id', $this->categoryId);
+                return $category['id'] == $this->categoryId ||
+                    collect($category['children'] ?? [])->contains('id', $this->categoryId);
             });
-            
+
             if (!$categoryExists) {
                 abort(404);
             }

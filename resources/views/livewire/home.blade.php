@@ -28,7 +28,7 @@
         <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.browse_categories') }}</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
             @foreach ($categories as $category)
-                <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}" class="group">
+                <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" class="group">
                     <div class="bg-white rounded-xl shadow-sm p-6 transition duration-200 group-hover:shadow-md">
                         <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
                             class="h-auto w-auto mx-auto mb-4 object-cover rounded-lg">

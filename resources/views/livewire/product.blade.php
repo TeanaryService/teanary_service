@@ -25,7 +25,7 @@
         if ($parent) {
             $breadcrumbs[] = [
                 'label' => $parent['name'],
-                'url' => locaRoute('product', ['category_id' => $parent['id']]),
+                'url' => locaRoute('product', ['slug' => $parent['slug']]),
             ];
         }
         if ($category) {
@@ -48,7 +48,7 @@
                 <ul class="space-y-2">
                     @foreach ($categories as $category)
                         <li>
-                            <a href="{{ locaRoute('product', ['category_id' => $category['id']]) }}"
+                            <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}"
                                 class="block px-4 py-2 rounded hover:bg-teal-100 {{ $categoryId == $category['id'] ? 'bg-teal-200 font-bold' : 'text-gray-700' }}">
                                 {{ $category['name'] }}
                             </a>
@@ -56,7 +56,7 @@
                                 <ul class="pl-4 mt-1 space-y-1">
                                     @foreach ($category['children'] as $child)
                                         <li>
-                                            <a href="{{ locaRoute('product', ['category_id' => $child['id']]) }}"
+                                            <a href="{{ locaRoute('product', ['slug' => $child['slug']]) }}"
                                                 class="block px-3 py-1 rounded hover:bg-teal-50 {{ $categoryId == $child['id'] ? 'bg-teal-200 font-bold' : 'text-gray-600' }}">
                                                 {{ $child['name'] }}
                                             </a>
