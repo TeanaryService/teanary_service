@@ -36,7 +36,7 @@ class AddressForm extends Component
         $this->state['zone_id'] = '';
     }
 
-    public function save(): \Illuminate\Http\RedirectResponse
+    public function save()
     {
         $zones = Zone::getZonesByCountryAndLanguage($this->state['country_id'] ?? null);
 
