@@ -8,6 +8,15 @@
         <form wire:submit="save" class="space-y-6 bg-white p-6 rounded-xl shadow-md">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">{{ __('addresses.email') }}</label>
+                    <input type="text" wire:model="state.email"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-teal-200">
+                    @error('state.email')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">{{ __('addresses.firstname') }}</label>
                     <input type="text" wire:model="state.firstname"
                         class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-teal-200">
@@ -64,7 +73,7 @@
                         class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-teal-200">
                         <option value="">{{ __('addresses.select_country') }}</option>
                         @foreach ($countries as $country)
-                            <option value="{{ $country->id }}">{{ $country->code }}</option>
+                            <option value="{{ $country['id'] }}">{{ $country['name'] }}</option>
                         @endforeach
                     </select>
                     @error('state.country_id')
@@ -78,7 +87,7 @@
                         class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-teal-200">
                         <option value="">{{ __('addresses.select_zone') }}</option>
                         @foreach ($zones as $zone)
-                            <option value="{{ $zone['id'] }}">{{ $zone['code'] }}</option>
+                            <option value="{{ $zone['id'] }}">{{ $zone['name'] }}</option>
                         @endforeach
                     </select>
                     @error('state.zone_id')

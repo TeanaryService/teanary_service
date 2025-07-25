@@ -23,4 +23,6 @@ return [
     'address_saved' => '地址保存成功',
     'address_deleted' => '地址删除成功',
     'confirm_delete' => '确定要删除这个地址吗？',
+    'select_country' => '请选择国家',
+    'select_zone' => '请选择地区',
 ];

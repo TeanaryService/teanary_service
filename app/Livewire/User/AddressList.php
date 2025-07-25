@@ -30,7 +30,7 @@ class AddressList extends Component
     public function render(): View
     {
         $addresses = Address::where('user_id', auth()->id())
-            ->with(['country', 'zone'])
+            ->with(['country.countryTranslations', 'zone.zoneTranslations'])
             ->get();
 
         return view('livewire.user.address-list', compact('addresses'));

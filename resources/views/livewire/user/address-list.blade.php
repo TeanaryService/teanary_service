@@ -1,3 +1,8 @@
+@php
+    $locale = session('lang');
+    $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+@endphp
+
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 py-10">
     <div class="w-1/4"> <x-profile-nav /></div>
     <div class="w-3/4">
@@ -15,16 +20,17 @@
                     <div class="flex justify-between items-start mb-4">
                         <div class="flex-1">
                             <p class="font-bold">{{ $address->firstname }} {{ $address->lastname }}</p>
+                            <p class="text-gray-600">{{ $address->email }}</p>
                             <p class="text-gray-600">{{ $address->telephone }}</p>
                         </div>
-                        <div class="flex space-x-2">
+                        <div class="flex space-x-4">
                             <a href="{{ locaRoute('user.addresses.form', ['id' => $address->id]) }}"
                                 class="text-teal-600 hover:text-teal-800">
-                                <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
+                                <x-heroicon-o-pencil-square class="w-6 h-6" />
                             </a>
                             <button wire:click="deleteAddress({{ $address->id }})"
                                 class="text-red-600 hover:text-red-800">
-                                <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
+                                <x-heroicon-o-trash class="w-6 h-6" />
                             </button>
                         </div>
                     </div>
@@ -34,8 +40,8 @@
                         @if ($address->address_2)
                             <p>{{ $address->address_2 }}</p>
                         @endif
-                        <p>{{ $address->city }}, {{ $address->zone->name }}</p>
-                        <p>{{ $address->country->name }} {{ $address->postcode }}</p>
+                        <p>{{ $address->city }}, {{ $address->zone->zoneTranslations->where('language_id', $lang->id)->first()->name }}</p>
+                        <p>{{ $address->country->countryTranslations->where('language_id', $lang->id)->first()->name }} {{ $address->postcode }}</p>
                     </div>
                 </div>
             @endforeach

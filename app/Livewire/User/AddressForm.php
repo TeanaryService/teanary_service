@@ -28,7 +28,7 @@ class AddressForm extends Component
 
     public function loadZones($countryId): void
     {
-        $this->zones = Zone::where('country_id', $countryId)->get()->toArray();
+        $this->zones = Zone::getZonesByCountryAndLanguage($countryId);
     }
 
     public function updatedStateCountryId($value): void
@@ -40,6 +40,7 @@ class AddressForm extends Component
     public function save()
     {
         $this->validate([
+            'state.email' => 'required|email',
             'state.firstname' => 'required|string|max:255',
             'state.lastname' => 'required|string|max:255',
             'state.telephone' => 'required|string|max:255',
@@ -65,7 +66,7 @@ class AddressForm extends Component
     public function render(): View
     {
         return view('livewire.user.address-form', [
-            'countries' => Country::all()
+            'countries' => Country::getCountriesByLanguage()
         ]);
     }
 }
