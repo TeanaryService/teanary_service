@@ -16,7 +16,7 @@ return [
     'logout' => '退出',
     'register' => '注册',
     'password' => '密码',
-    'profile' => '个人中心',
+    'profile' => '个人资料',
     'quick_links' => '快捷链接',
     'follow_us' => '关注我们',
     'rights_reserved' => '版权所有。',
