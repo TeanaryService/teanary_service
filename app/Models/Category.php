@@ -79,9 +79,9 @@ class Category extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(200)
-            ->height(200)
-            ->sharpen(10);
+            ->width(350)
+            ->height(350)
+            ->sharpen(9);
     }
 
     /**
