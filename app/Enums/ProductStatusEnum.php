@@ -10,8 +10,8 @@ enum ProductStatusEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Active => __('app.product.status.active'),
-            self::Inactive => __('app.product.status.inactive'),
+            self::Active => __('product.status.active'),
+            self::Inactive => __('product.status.inactive'),
         };
     }
 

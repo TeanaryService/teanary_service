@@ -10,8 +10,8 @@ enum PromotionConditionTypeEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::OrderTotalMin => __('app.promotion.condition.order_total_min'),
-            self::OrderQtyMin => __('app.promotion.condition.order_qty_min'),
+            self::OrderTotalMin => __('promotion.condition.order_total_min'),
+            self::OrderQtyMin => __('promotion.condition.order_qty_min'),
         };
     }
 
