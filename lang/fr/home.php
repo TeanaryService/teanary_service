@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // Accueil
+    'hero_title' => 'Sélection de thés chinois d’exception, livrés partout dans le monde',
+    'hero_subtitle' => 'Découvrez des thés verts, noirs, Oolong, Pu-erh et autres thés de qualité pour ralentir le rythme de vie.',
+    'shop_now' => 'Achetez du thé maintenant',
+    'hero_image_alt' => 'Présentation de thé',
+    'browse_categories' => 'Parcourir les catégories de thé',
+    'featured_products' => 'Thés sélectionnés',
+    'about_title' => 'À propos de Teanary',
+    'about_content' => 'Teanary s’engage à apporter la pureté et la sérénité du thé de montagne du Yunnan au monde entier, pour que chaque gorgée vous fasse ressentir la chaleur de la culture orientale.',
+    'learn_more' => 'En savoir plus',
+    'search' => 'Rechercher',
+
+    // Produits
+    'product_view_detail' => 'Voir les détails',
+    'no_products' => 'Aucun thé disponible',
+    'categories' => 'Catégories de thé',
+    'select_variant' => 'Choisir la variante',
+    'buy_now' => 'Acheter maintenant',
+    'attributes' => 'Caractéristiques du produit',
+    'weight' => 'Poids net',
+    'length' => 'Longueur',
+    'width' => 'Largeur',
+    'height' => 'Hauteur',
+    'product_list_seo_title' => 'Tous les thés',
+    'product_list_seo_desc' => 'Teanary offre des thés chinois authentiques, y compris thés verts, noirs, Oolong, Pu-erh, avec livraison mondiale, pour profiter pleinement de l’esprit du thé oriental.',
+    'product_description' => 'Description du produit',
+    'product_reviews' => 'Avis des amateurs de thé',
+    'review_placeholder' => 'Partagez votre expérience de dégustation...',
+    'submit_review' => 'Soumettre un avis',
+    'login_to_review' => 'Connectez-vous pour laisser un avis',
+    'no_reviews' => 'Pas encore d’avis',
+    'review_submitted' => 'Votre avis a été soumis et sera affiché après validation.',
+    'anonymous' => 'Amateur de thé anonyme',
+    'rating' => 'Note',
+    'addCart' => 'Ajouter à la boîte à thé',
+    'qty' => 'Quantité',
+    'storage' => 'Stock : :storage',
+
+    // Promotions
+    'promotions' => 'Offres spéciales sur les coffrets de thé',
+    'promotion_rule_order_total_min' => 'Commande',
+    'promotion_discount_fixed' => 'Réduction immédiate',
+    'promotion_rule_order_qty_min' => 'Achat minimum',
+    'promotion_discount_percentage' => 'Remise en %',
+    'promotion_starts_at' => 'Date de début',
+    'promotion_ends_at' => 'Date de fin',
+    'promotion_text' => ':condition atteint :condition_value, bénéficiez de :discount :discount_value',
+];

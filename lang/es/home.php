@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // 首页相关
+    'hero_title' => 'Los Mejores Tés de China, Directos a Todo el Mundo',
+    'hero_subtitle' => 'Explore tés verdes, negros, oolong, pu-erh y más. Tómese un momento para relajarse.',
+    'shop_now' => 'Comprar Ahora',
+    'hero_image_alt' => 'Exhibición de Té',
+    'browse_categories' => 'Explorar Categorías',
+    'featured_products' => 'Productos Destacados',
+    'about_title' => 'Sobre Teanary',
+    'about_content' => 'Teanary se dedica a llevar la pureza y serenidad del té de alta montaña de Yunnan a todo el mundo.',
+    'learn_more' => 'Más Información',
+    'search' => 'Buscar',
+
+    // 商品相关
+    'product_view_detail' => 'Ver detalles',
+    'no_products' => 'No hay tés disponibles',
+    'categories' => 'Categorías de té',
+    'select_variant' => 'Seleccionar especificación',
+    'buy_now' => 'Comprar ahora',
+    'attributes' => 'Parámetros del producto',
+    'weight' => 'Peso neto',
+    'length' => 'Largo',
+    'width' => 'Ancho',
+    'height' => 'Alto',
+    'product_list_seo_title' => 'Todos los tés',
+    'product_list_seo_desc' => 'Teanary ofrece té chino auténtico, incluyendo té verde, negro, oolong y pu-erh, con envío global para disfrutar del sabor oriental.',
+    'product_description' => 'Descripción del producto',
+    'product_reviews' => 'Reseñas de clientes',
+    'review_placeholder' => 'Comparte tu experiencia de degustación...',
+    'submit_review' => 'Enviar reseña',
+    'login_to_review' => 'Inicia sesión para dejar una reseña',
+    'no_reviews' => 'No hay reseñas por ahora',
+    'review_submitted' => 'Tu reseña ha sido enviada y aparecerá tras ser aprobada.',
+    'anonymous' => 'Cliente anónimo',
+    'rating' => 'Calificación',
+    'addCart' => 'Agregar a la caja de té',
+    'qty' => 'Cantidad',
+    'storage' => 'Stock: :storage',
+
+    // 促销相关
+    'promotions' => 'Promociones de té',
+    'promotion_rule_order_total_min' => 'Pedido mínimo',
+    'promotion_discount_fixed' => 'Descuento fijo',
+    'promotion_rule_order_qty_min' => 'Cantidad mínima de compra',
+    'promotion_discount_percentage' => 'Descuento porcentual',
+    'promotion_starts_at' => 'Fecha de inicio',
+    'promotion_ends_at' => 'Fecha de finalización',
+    'promotion_text' => ':condition mínimo :condition_value para obtener :discount de :discount_value',
+];

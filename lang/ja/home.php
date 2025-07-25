@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // ホームページ関連
+    'hero_title' => '厳選された中国の良質なお茶を世界中へお届け',
+    'hero_subtitle' => '緑茶、紅茶、烏龍茶、プーアル茶などの高品質なお茶を探求し、ゆったりとした生活を。',
+    'shop_now' => '今すぐお茶を購入',
+    'hero_image_alt' => 'お茶の展示',
+    'browse_categories' => 'お茶の種類を閲覧',
+    'featured_products' => 'おすすめのお茶',
+    'about_title' => 'Teanaryについて',
+    'about_content' => 'Teanaryは雲南高山茶の純粋さと静けさを世界に届け、ひと口ごとに東洋文化の温もりを感じていただけます。',
+    'learn_more' => 'もっと詳しく',
+    'search' => '検索',
+
+    // 商品関連
+    'product_view_detail' => '詳細を見る',
+    'no_products' => 'お茶がありません',
+    'categories' => 'お茶の種類',
+    'select_variant' => '仕様を選択',
+    'buy_now' => '今すぐ購入',
+    'attributes' => '商品パラメータ',
+    'weight' => '正味重量',
+    'length' => '長さ',
+    'width' => '幅',
+    'height' => '高さ',
+    'product_list_seo_title' => 'すべてのお茶',
+    'product_list_seo_desc' => 'Teanaryは本格的な中国茶（緑茶、紅茶、烏龍茶、プーアル茶など）を提供し、世界中に配送いたします。東洋の茶の風味をお楽しみください。',
+    'product_description' => '商品紹介',
+    'product_reviews' => 'お客様の評価',
+    'review_placeholder' => 'お茶の体験をシェアしてください...',
+    'submit_review' => '評価を送信',
+    'login_to_review' => 'ログインして評価する',
+    'no_reviews' => 'まだ評価がありません',
+    'review_submitted' => '評価を送信しました。審査後に表示されます。',
+    'anonymous' => '匿名の茶友',
+    'rating' => '評価',
+    'addCart' => '茶箱に追加',
+    'qty' => '数量',
+    'storage' => '在庫：:storage',
+
+    // プロモーション関連
+    'promotions' => 'お茶の特典',
+    'promotion_rule_order_total_min' => '注文合計',
+    'promotion_discount_fixed' => '割引',
+    'promotion_rule_order_qty_min' => '購入数量満',
+    'promotion_discount_percentage' => '割引率',
+    'promotion_starts_at' => '開始日時',
+    'promotion_ends_at' => '終了日時',
+    'promotion_text' => ':condition が :condition_value 以上で :discount が :discount_value 適用されます',
+];

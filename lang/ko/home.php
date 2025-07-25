@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // 홈페이지 관련
+    'hero_title' => '엄선한 중국 고급 차, 세계 모든 곳으로 직배송',
+    'hero_subtitle' => '녹차, 홍차, 우롱차, 보이차 등 우수한 차를 탐험하며, 삶의 속도를 늦춰보세요.',
+    'shop_now' => '지금 바로 좋은 차 구매하기',
+    'hero_image_alt' => '차 전시',
+    'browse_categories' => '차 종류 둘러보기',
+    'featured_products' => '엄선된 차 제품',
+    'about_title' => 'Teanary 소개',
+    'about_content' => 'Teanary는 윈난 고산 차의 순수함과 평온함을 전 세계에 전달하여, 한 모금 한 모금에서 동양 문화의 온기를 느끼게 합니다.',
+    'learn_more' => '더 알아보기',
+    'search' => '검색',
+
+    // 상품 관련
+    'product_view_detail' => '상세 보기',
+    'no_products' => '현재 차 상품이 없습니다',
+    'categories' => '차 종류',
+    'select_variant' => '규격 선택',
+    'buy_now' => '바로 구매하기',
+    'attributes' => '제품 사양',
+    'weight' => '순중량',
+    'length' => '길이',
+    'width' => '너비',
+    'height' => '높이',
+    'product_list_seo_title' => '모든 차 제품',
+    'product_list_seo_desc' => 'Teanary는 정통 중국 차를 제공하며, 녹차, 홍차, 우롱차, 보이차 등을 포함하고, 전 세계 배송을 지원하여 동양의 차 향기를 만끽할 수 있습니다.',
+    'product_description' => '제품 소개',
+    'product_reviews' => '차 애호가 평가',
+    'review_placeholder' => '차 맛 경험을 공유해 주세요...',
+    'submit_review' => '평가 제출',
+    'login_to_review' => '로그인 후 평가 가능',
+    'no_reviews' => '아직 평가가 없습니다',
+    'review_submitted' => '평가가 제출되었습니다. 검토 후 공개됩니다.',
+    'anonymous' => '익명 차 애호가',
+    'rating' => '평점',
+    'addCart' => '차 상자에 담기',
+    'qty' => '수량',
+    'storage' => '재고: :storage',
+
+    // 프로모션 관련
+    'promotions' => '차 선물 할인',
+    'promotion_rule_order_total_min' => '주문 금액',
+    'promotion_discount_fixed' => '즉시 할인',
+    'promotion_rule_order_qty_min' => '구매 수량 달성',
+    'promotion_discount_percentage' => '할인율',
+    'promotion_starts_at' => '시작 시간',
+    'promotion_ends_at' => '종료 시간',
+    'promotion_text' => ':condition :condition_value 이상 구매 시 :discount :discount_value 적용',
+];

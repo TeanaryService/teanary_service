@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'my_addresses' => 'My Shipping Addresses',
+    'add_new' => 'Add New Address',
+    'edit_address' => 'Edit Address',
+    'firstname' => 'First Name',
+    'lastname' => 'Last Name',
+    'email' => 'Email',
+    'telephone' => 'Phone',
+    'company' => 'Company',
+    'address_1' => 'Address Line 1',
+    'address_2' => 'Address Line 2',
+    'city' => 'City',
+    'postcode' => 'Postal Code',
+    'country' => 'Country',
+    'zone' => 'State/Province',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'delete' => 'Delete',
+    'set_default' => 'Set as Default',
+    'default' => 'Default',
+    'address_saved' => 'Address saved successfully',
+    'address_deleted' => 'Address deleted successfully',
+    'confirm_delete' => 'Are you sure you want to delete this address?',
+    'select_country' => 'Please select a country',
+    'select_zone' => 'Please select a state/province',
+];

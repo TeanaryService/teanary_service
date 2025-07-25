@@ -1,0 +1,51 @@
+<?php
+
+return [
+    // Startseite
+    'hero_title' => 'Ausgewählter chinesischer Tee, weltweit direkt zu Ihnen',
+    'hero_subtitle' => 'Entdecken Sie hochwertige Grün-, Schwarz-, Oolong- und Pu-Erh-Tees und genießen Sie das Leben in Ruhe.',
+    'shop_now' => 'Jetzt hochwertigen Tee kaufen',
+    'hero_image_alt' => 'Teedarstellung',
+    'browse_categories' => 'Teekategorien durchsuchen',
+    'featured_products' => 'Ausgewählte Tees',
+    'about_title' => 'Über Teanary',
+    'about_content' => 'Teanary widmet sich der weltweiten Verbreitung der Reinheit und Ruhe des Hochlandtees aus Yunnan, damit Sie in jedem Schluck die Wärme der östlichen Kultur spüren.',
+    'learn_more' => 'Mehr erfahren',
+    'search' => 'Suche',
+
+    // Produktbezogen
+    'product_view_detail' => 'Details ansehen',
+    'no_products' => 'Keine Tees verfügbar',
+    'categories' => 'Teesorten',
+    'select_variant' => 'Variante wählen',
+    'buy_now' => 'Jetzt kaufen',
+    'attributes' => 'Produktparameter',
+    'weight' => 'Nettogewicht',
+    'length' => 'Länge',
+    'width' => 'Breite',
+    'height' => 'Höhe',
+    'product_list_seo_title' => 'Alle Tees',
+    'product_list_seo_desc' => 'Teanary bietet authentischen chinesischen Tee, einschließlich Grüntee, Schwarztee, Oolong- und Pu-Erh-Tee, mit weltweitem Versand – genießen Sie den Geschmack des Ostens.',
+    'product_description' => 'Produktbeschreibung',
+    'product_reviews' => 'Tee-Freunde Bewertungen',
+    'review_placeholder' => 'Teilen Sie gerne Ihre Teeerfahrung...',
+    'submit_review' => 'Bewertung abschicken',
+    'login_to_review' => 'Zum Bewerten anmelden',
+    'no_reviews' => 'Noch keine Bewertungen',
+    'review_submitted' => 'Ihre Bewertung wurde eingereicht und wird nach Prüfung angezeigt.',
+    'anonymous' => 'Anonymer Teefreund',
+    'rating' => 'Bewertung',
+    'addCart' => 'In die Teebox legen',
+    'qty' => 'Menge',
+    'storage' => 'Lagerbestand: :storage',
+
+    // Promotion-bezogen
+    'promotions' => 'Teegeschenk-Angebote',
+    'promotion_rule_order_total_min' => 'Bestellung',
+    'promotion_discount_fixed' => 'Direktrabatt',
+    'promotion_rule_order_qty_min' => 'Mindestbestellmenge',
+    'promotion_discount_percentage' => 'Rabatt',
+    'promotion_starts_at' => 'Startzeit',
+    'promotion_ends_at' => 'Endzeit',
+    'promotion_text' => ':condition ab :condition_value erhalten Sie :discount :discount_value',
+];

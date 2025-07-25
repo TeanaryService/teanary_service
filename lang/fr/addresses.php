@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'my_addresses' => 'Mes adresses de livraison',
+    'add_new' => 'Ajouter une nouvelle adresse',
+    'edit_address' => 'Modifier l\'adresse',
+    'firstname' => 'Prénom',
+    'lastname' => 'Nom',
+    'email' => 'Email',
+    'telephone' => 'Téléphone',
+    'company' => 'Entreprise',
+    'address_1' => 'Adresse détaillée 1',
+    'address_2' => 'Adresse détaillée 2',
+    'city' => 'Ville',
+    'postcode' => 'Code postal',
+    'country' => 'Pays',
+    'zone' => 'Province/Région',
+    'save' => 'Enregistrer',
+    'cancel' => 'Annuler',
+    'delete' => 'Supprimer',
+    'set_default' => 'Définir par défaut',
+    'default' => 'Par défaut',
+    'address_saved' => 'Adresse enregistrée avec succès',
+    'address_deleted' => 'Adresse supprimée avec succès',
+    'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer cette adresse ?',
+    'select_country' => 'Veuillez sélectionner un pays',
+    'select_zone' => 'Veuillez sélectionner une région',
+];

@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'my_addresses' => '私の配送先住所',
+    'add_new' => '新しい住所を追加',
+    'edit_address' => '住所を編集',
+    'firstname' => '名',
+    'lastname' => '姓',
+    'email' => 'メールアドレス',
+    'telephone' => '電話番号',
+    'company' => '会社名',
+    'address_1' => '住所1',
+    'address_2' => '住所2',
+    'city' => '市区町村',
+    'postcode' => '郵便番号',
+    'country' => '国',
+    'zone' => '都道府県/地域',
+    'save' => '保存',
+    'cancel' => 'キャンセル',
+    'delete' => '削除',
+    'set_default' => 'デフォルトに設定',
+    'default' => 'デフォルト',
+    'address_saved' => '住所が保存されました',
+    'address_deleted' => '住所が削除されました',
+    'confirm_delete' => 'この住所を削除してもよろしいですか？',
+    'select_country' => '国を選択してください',
+    'select_zone' => '地域を選択してください',
+];
