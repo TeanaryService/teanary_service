@@ -36,4 +36,5 @@ return [
     'request_refund' => '申请退款',
     'confirm_cancel' => '确认取消此订单?',
     'operation_success' => '操作成功',
+    'contact_email' => '任何问题请联系 :email',
 ];
