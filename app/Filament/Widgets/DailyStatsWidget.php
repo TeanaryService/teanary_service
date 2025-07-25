@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 
 class DailyStatsWidget extends Widget
 {
-    protected static string $view = 'filament.manager.widgets.daily-stats-widget';
+    protected static string $view = 'filament.widgets.daily-stats-widget';
     protected static ?int $sort = 200;
 
     protected static ?string $pollingInterval = null;
