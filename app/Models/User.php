@@ -123,6 +123,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         $this->addMediaConversion('thumb')
             ->width(200)
             ->height(200)
-            ->sharpen(10);
+            ->sharpen(10)
+            ->nonOptimized();
     }
 }

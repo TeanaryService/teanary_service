@@ -79,6 +79,7 @@ class ProductReview extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(200)
             ->height(200)
-            ->sharpen(10);
+            ->sharpen(10)
+            ->nonOptimized();
     }
 }

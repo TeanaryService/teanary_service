@@ -72,6 +72,7 @@ class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMed
         $this->addMediaConversion('thumb')
             ->width(200)
             ->height(200)
-            ->sharpen(10);
+            ->sharpen(10)
+            ->nonOptimized();
     }
 }

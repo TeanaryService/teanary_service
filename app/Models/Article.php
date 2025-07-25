@@ -95,6 +95,7 @@ class Article extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(400)
             ->height(225)
-            ->sharpen(7);
+            ->sharpen(10)
+            ->nonOptimized();
     }
 }

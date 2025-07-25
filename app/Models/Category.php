@@ -81,7 +81,8 @@ class Category extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(350)
             ->height(350)
-            ->sharpen(9);
+            ->sharpen(10)
+            ->nonOptimized();
     }
 
     /**
