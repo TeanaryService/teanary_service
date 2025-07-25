@@ -54,7 +54,7 @@
                         class="text-teal-600 hover:text-teal-800 font-medium flex items-center gap gap-x-2">
                         <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
                         <span class="hidden md:block">
-                            {{ __('login') }}
+                            {{ __('app.login') }}
                         </span>
                     </a>
                     <a href="{{ locaRoute('auth.register') }}"
