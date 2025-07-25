@@ -9,6 +9,8 @@ enum OrderStatusEnum: string
     case Shipped = 'shipped';
     case Completed = 'completed';
     case Cancelled = 'cancelled';
+    case AfterSale = 'after_sale';                // 新增：售后处理中
+    case AfterSaleCompleted = 'after_sale_done';  // 新增：售后完成
 
     public function label(): string
     {
@@ -18,6 +20,8 @@ enum OrderStatusEnum: string
             self::Shipped => __('order.status.shipped'),
             self::Completed => __('order.status.completed'),
             self::Cancelled => __('order.status.cancelled'),
+            self::AfterSale => __('order.status.after_sale'),
+            self::AfterSaleCompleted => __('order.status.after_sale_done'),
         };
     }
 
@@ -62,5 +66,21 @@ enum OrderStatusEnum: string
     public function canRequestAfterSale(): bool
     {
         return in_array($this, [self::Shipped, self::Completed]);
+    }
+
+    /**
+     * 判断是否正在售后处理中
+     */
+    public function isAfterSaleProcessing(): bool
+    {
+        return $this === self::AfterSale;
+    }
+
+    /**
+     * 判断是否已完成售后
+     */
+    public function isAfterSaleCompleted(): bool
+    {
+        return $this === self::AfterSaleCompleted;
     }
 }

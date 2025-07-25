@@ -29,5 +29,11 @@ return [
     'shipping_method' => '配送方式',
     'tracking_number' => '运单号码',
     'shipping_notes' => '配送备注',
-    'no_shipment_info' => '暂无配送信息'
+    'no_shipment_info' => '暂无配送信息',
+
+    'cancel_order' => '取消订单',
+    'pay_now' => '立即支付',
+    'request_refund' => '申请退款',
+    'confirm_cancel' => '确认取消此订单?',
+    'operation_success' => '操作成功',
 ];

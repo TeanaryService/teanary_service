@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -21,6 +22,17 @@ class OrderDetail extends Component
             'billingAddress',
             'currency',
         ]);
+    }
+
+    public function cancelOrder(): void
+    {
+        if ($this->order->status->canBeCancelled()) {
+            $this->order->update(['status' => OrderStatusEnum::Cancelled]);
+            $this->dispatch('notify', [
+                'message' => __('orders.operation_success'),
+                'type' => 'success'
+            ]);
+        }
     }
 
     public function render(): View

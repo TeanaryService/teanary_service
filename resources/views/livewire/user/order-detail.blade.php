@@ -28,14 +28,30 @@
                                 <span>{{ __('orders.status') }}:</span>
                                 <span class="text-teal-600">{{ __($order->status->label()) }}</span>
                             </p>
-                            <p class="flex justify-between">
-                                <span>{{ __('orders.payment_method') }}:</span>
-                                <span>{{ $order->payment_method?->label() }}</span>
-                            </p>
-                            <p class="flex justify-between">
-                                <span>{{ __('orders.shipping_method') }}:</span>
-                                <span>{{ $order->shipping_method?->label() }}</span>
-                            </p>
+
+                            <div class="flex gap-4 mt-4">
+                                @if($order->status->canBeCancelled())
+                                    <button wire:click="cancelOrder" 
+                                        wire:confirm="{{ __('orders.confirm_cancel') }}"
+                                        class="text-red-600 hover:text-red-800">
+                                        {{ __('orders.cancel_order') }}
+                                    </button>
+                                @endif
+                                
+                                @if($order->status->canBePaid())
+                                    <a href="{{ locaRoute('payment.checkout', ['orderId' => $order]) }}" 
+                                        class="text-blue-600 hover:text-blue-800">
+                                        {{ __('orders.pay_now') }}
+                                    </a>
+                                @endif
+
+                                @if($order->status->canRequestAfterSale())
+                                    <a href="{{ locaRoute('refunds.create', ['order' => $order]) }}"
+                                        class="text-orange-600 hover:text-orange-800">
+                                        {{ __('orders.request_refund') }}
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
 

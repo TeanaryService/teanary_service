@@ -13,6 +13,7 @@ use App\Livewire\Cart;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
 use App\Livewire\Payment\Cancel;
+use App\Livewire\Payment\Checkout as PaymentCheckout;
 use App\Livewire\Payment\Failure;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
@@ -65,6 +66,7 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
     Route::get('payment/success', Success::class)->name('payment.success');
     Route::get('payment/cancel', Cancel::class)->name('payment.cancel');
     Route::get('payment/failure', Failure::class)->name('payment.failure');
+    Route::get('payment/checkout/{orderId}', PaymentCheckout::class)->name('payment.checkout');
 
     Route::get('articles', ArticleList::class)->name('article.index');
     Route::get('articles/{slug}', ArticleDetail::class)->name('article.show');

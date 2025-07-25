@@ -39,13 +39,31 @@
                                 <tr>
                                     <td class="px-6 py-4">{{ $order->order_no }}</td>
                                     <td class="px-6 py-4">{{ $order->created_at->format('Y-m-d H:i') }}</td>
-                                    <td class="px-6 py-4">{{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}</td>
+                                    <td class="px-6 py-4">
+                                        {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}</td>
                                     <td class="px-6 py-4">{{ __('orders.status_' . $order->status->value) }}</td>
                                     <td class="px-6 py-4">
-                                        <a href="{{ locaRoute('user.orders.show', ['order' => $order]) }}"
-                                            class="text-teal-600 hover:text-teal-800">
-                                            {{ __('orders.view_details') }}
-                                        </a>
+                                        <div class="flex gap-4">
+                                            <a href="{{ locaRoute('user.orders.show', ['order' => $order]) }}"
+                                                class="text-teal-600 hover:text-teal-800">
+                                                {{ __('orders.view_details') }}
+                                            </a>
+
+                                            @if ($order->status->canBeCancelled())
+                                                <button wire:click="cancelOrder({{ $order->id }})"
+                                                    wire:confirm="{{ __('orders.confirm_cancel') }}"
+                                                    class="text-red-600 hover:text-red-800">
+                                                    {{ __('orders.cancel_order') }}
+                                                </button>
+                                            @endif
+
+                                            @if ($order->status->canBePaid())
+                                                <a href="{{ locaRoute('payment.checkout', ['orderId' => $order]) }}"
+                                                    class="text-blue-600 hover:text-blue-800">
+                                                    {{ __('orders.pay_now') }}
+                                                </a>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

@@ -21,4 +21,19 @@ class Orders extends Component
 
         return view('livewire.user.orders', compact('orders'));
     }
+
+    public function cancelOrder(int $orderId): void
+    {
+        $order = Order::query()
+            ->where('user_id', auth()->id())
+            ->findOrFail($orderId);
+
+        if ($order->status->canBeCancelled()) {
+            $order->update(['status' => OrderStatusEnum::Cancelled]);
+            $this->dispatch('notify', [
+                'message' => __('orders.operation_success'),
+                'type' => 'success'
+            ]);
+        }
+    }
 }

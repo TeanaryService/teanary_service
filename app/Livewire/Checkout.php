@@ -324,10 +324,7 @@ class Checkout extends Component
         $cartItemIds = collect($this->checkoutItems)->pluck('cart_item_id')->all();
         CartItem::whereIn('id', $cartItemIds)->delete();
 
-        $order->name = config('app.name') . __('app.order_items');
-        $paymentMethod = PaymentMethodEnum::fromValue($this->paymentMethod);
-        $redirectUrl = app(paymentService::class)->createPayment($paymentMethod, $order->toArray());
-        return redirect()->away($redirectUrl);
+        return redirect()->route('payment.checkout', ['locale' => app()->getLocale(), 'order' => $order]);
     }
 
     protected function getAddressLabel($address)
