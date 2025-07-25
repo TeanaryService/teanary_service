@@ -1,16 +1,17 @@
 <x-layouts.app>
     <div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center -mt-16 relative">
-        <x-grid-bg/>
-        <div class="max-w-xl px-4 text-center relative">
+        <x-grid-bg />
+        <main id="error-main" role="main" aria-labelledby="error-title" class="max-w-xl px-4 text-center relative">
+
             {{-- 大标题 --}}
             <h1
-                class="text-9xl font-black bg-gradient-to-r from-teal-500 via-teal-900 to-teal-500 bg-clip-text text-transparent animate-pulse">
+                class="text-6xl sm:text-7xl md:text-9xl font-black bg-gradient-to-r from-teal-500 via-teal-900 to-teal-500 bg-clip-text text-transparent animate-pulse">
                 {{ $code }}
             </h1>
 
             {{-- 副标题与说明 --}}
             <div class="mt-8">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                <h2 id="error-title" class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
                     {{ $title ?? __('error.title_' . $code) }}
                 </h2>
                 <p class="text-gray-600">
@@ -19,7 +20,7 @@
             </div>
 
             {{-- 返回按钮 --}}
-            <div class="mt-12 flex justify-center gap-4">
+            <div class="mt-12 flex justify-center gap-4 flex-wrap">
                 <a href="{{ url()->previous() }}"
                     class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition duration-200 flex items-center gap-2">
                     <x-heroicon-o-arrow-left class="w-6 h-6" />
@@ -35,15 +36,12 @@
             {{-- 装饰图形 --}}
             <div class="mt-12 select-none pointer-events-none opacity-75">
                 <div class="relative">
-                    <div class="absolute -top-16 left-1/2 transform -translate-x-1/2">
-                        <svg class="w-32 h-32 text-teal-100" fill="currentColor" viewBox="0 0 200 200">
-                            <path
-                                d="M100 0C44.8 0 0 44.8 0 100s44.8 100 100 100 100-44.8 100-100S155.2 0 100 0zm0 180c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z" />
-                        </svg>
+                    <div class="absolute -top-16 left-1/2 transform -translate-x-1/2 animate-float">
+                        <x-heroicon-o-globe-alt class="w-40 h-40 text-teal-100" />
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     @pushOnce('styles')
@@ -69,6 +67,7 @@
     @endPushOnce
 
     @pushOnce('seo')
-        <x-layouts.seo title="{{ $title ?? __('error.title_' . $code) }}" description="{{ $subTitle ?? __('error.sub_title_' . $code) }}" />
+        <x-layouts.seo title="{{ $title ?? __('error.title_' . $code) }}"
+            description="{{ $subTitle ?? __('error.sub_title_' . $code) }}" />
     @endPushOnce
 </x-layouts.app>
