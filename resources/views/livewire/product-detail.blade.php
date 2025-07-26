@@ -28,13 +28,44 @@
         ],
     ];
     $tab = request()->input('tab', 'desc');
+
+    // 准备结构化数据
+    $structuredData = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Product',
+        'name' => $name,
+        'description' => $shortDesc,
+        'image' => $images->first()?->getUrl(),
+        'sku' => $variant?->sku
+    ];
+
+    if ($price) {
+        $structuredData['offers'] = [
+            '@type' => 'Offer',
+            'url' => url()->current(),
+            'priceCurrency' => $currencyCode,
+            'price' => str_replace(['$', '€', '£', '¥'], '', $price),
+            'availability' => $variant && $variant->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+        ];
+    }
+
+    if ($attributes->count()) {
+        $structuredData['additionalProperty'] = $attributes->map(function($attrValue) use ($lang) {
+            $attrTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
+            $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->id;
+            return [
+                '@type' => 'PropertyValue',
+                'name' => $attrName
+            ];
+        })->values()->all();
+    }
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 min-h-screen">
     <x-breadcrumbs :items="$breadcrumbs" />
-    <div class="flex flex-col md:flex-row gap-8">
+    <div class="flex flex-col lg:flex-row gap-8">
         {{-- 商品图片幻灯片 --}}
-        <div class="md:w-1/2 flex justify-center items-center">
+        <div class="w-full lg:w-1/2 flex justify-center items-center">
             @if ($images->count())
                 <div x-data="{ active: 0 }" class="w-full">
                     <div class="relative w-full aspect-square overflow-hidden rounded-xl shadow-lg">
@@ -63,7 +94,7 @@
             @endif
         </div>
         {{-- 商品信息 --}}
-        <div class="md:w-1/2 bg-gray-50 rounded-xl p-5">
+        <div class="w-full lg:w-1/2 bg-gray-50 rounded-xl p-5">
             <h1 class="text-3xl font-bold text-teal-700 mb-2">{{ $name }}</h1>
             <div class="mb-2 text-gray-500">
                 @if ($categoryNames)
@@ -217,4 +248,7 @@
 @pushOnce('seo')
     <x-layouts.seo title="{{ $name }}" description="{{ $shortDesc }}"
         image="{{ $images->first()->getUrl() }}" />
+    <script type="application/ld+json">
+        {!! json_encode($structuredData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+    </script>
 @endPushOnce
