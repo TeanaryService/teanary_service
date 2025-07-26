@@ -30,7 +30,7 @@
     $tab = request()->input('tab', 'desc');
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 py-2 min-h-screen bg-white">
+<div class="max-w-7xl mx-auto px-6 min-h-screen">
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col md:flex-row gap-8">
         {{-- 商品图片幻灯片 --}}
@@ -63,7 +63,7 @@
             @endif
         </div>
         {{-- 商品信息 --}}
-        <div class="md:w-1/2">
+        <div class="md:w-1/2 bg-gray-50 rounded-xl p-5">
             <h1 class="text-3xl font-bold text-teal-700 mb-2">{{ $name }}</h1>
             <div class="mb-2 text-gray-500">
                 @if ($categoryNames)
@@ -194,7 +194,7 @@
     </div>
 
     {{-- Tab 切换 --}}
-    <div class="py-6">
+    <div class="p-6 my-9 bg-gray-50 rounded-xl">
         <div class="flex border-b mb-4 border-teal-600">
             <a href="?tab=desc"
                 class="px-4 py-2 font-semibold {{ $tab == 'desc' ? 'border-b-2 border-teal-600 text-teal-700' : 'text-gray-500' }}">{{ __('home.product_description') }}</a>

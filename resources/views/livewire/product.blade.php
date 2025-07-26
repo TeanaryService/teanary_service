@@ -37,13 +37,13 @@
     }
 @endphp
 
-<div class="bg-gray-50 min-h-screen">
+<div class="min-h-screen mb-10">
     <div class="max-w-7xl mx-auto px-6">
         <x-breadcrumbs :items="$breadcrumbs" />
 
         <div class="flex flex-col md:flex-row gap-8">
             {{-- 分类侧栏 --}}
-            <aside class="md:w-1/4">
+            <aside class="md:w-1/4 bg-gray-50 rounded-xl p-6">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">{{ __('home.browse_categories') }}</h2>
                 <ul class="space-y-2">
                     @foreach ($categories as $category)
@@ -95,8 +95,8 @@
             </aside>
 
             {{-- 商品列表 --}}
-            <main class="flex-1">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
+            <main class="flex-1 bg-gray-50 rounded-xl p-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
                     @forelse ($products as $product)
                         <x-product-item :product="$product" />
                     @empty

@@ -15,14 +15,14 @@
     $cover = $article->getFirstMediaUrl('image');
 @endphp
 
-<div class="max-w-5xl mx-auto px-6 py-2 min-h-screen bg-white">
+<div class="max-w-5xl mx-auto px-6 min-h-screen mb-10">
     <x-breadcrumbs :items="$breadcrumbs" />
 
-    <article class="space-y-8">
+    <article class="space-y-8 bg-gray-50 rounded-xl p-6">
         {{-- 封面图 --}}
         @if ($cover)
             <div class="overflow-hidden rounded-lg shadow-sm">
-                <img src="{{ $cover }}" alt="{{ $translation?->title }}" class="w-full h-auto object-cover">
+                <img src="{{ $cover }}" alt="{{ $translation?->title }}" class="w-full h-auto max-h-48 object-cover">
             </div>
         @endif
 

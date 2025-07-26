@@ -7,11 +7,11 @@
     ];
 @endphp
 
-<div class="max-w-5xl mx-auto px-6 py-2 min-h-screen bg-white">
+<div class="max-w-5xl mx-auto px-6 min-h-screen bg-white">
     <x-breadcrumbs :items="$breadcrumbs" />
 
     <!-- 搜索框 -->
-    <div class="mb-6 flex gap-2">
+    <div class="mb-6 flex gap-4">
         <div class="flex-1 relative">
             <input type="text" wire:model.debounce.300ms="search" wire:keydown.enter="$refresh"
                 placeholder="{{ __('app.article_search_placeholder') }}"

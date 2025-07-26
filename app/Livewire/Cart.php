@@ -34,9 +34,9 @@ class Cart extends Component
             })
             : collect();
 
-        if ($this->cartItems->isEmpty()) {
-            return redirect()->route('home', ['locale' => app()->getLocale()]);
-        }
+        // if ($this->cartItems->isEmpty()) {
+        //     return redirect()->route('home', ['locale' => app()->getLocale()]);
+        // }
 
         $this->selected = $this->cartItems->pluck('id')->toArray();
         $this->calcTotal();

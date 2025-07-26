@@ -4,7 +4,7 @@
     'homeUrl' => locaRoute('home'),
 ])
 
-<nav class="py-9" aria-label="Breadcrumb">
+<nav class="p-5 my-9 bg-gray-50 rounded-xl" aria-label="Breadcrumb">
     <ol class="flex flex-wrap items-center space-x-2 text-sm text-gray-500">
         <li>
             <a href="{{ $homeUrl }}" class="hover:text-teal-700 font-medium flex items-center">
