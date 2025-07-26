@@ -56,7 +56,6 @@ class ProductVariantsRelationManager extends RelationManager
                         ];
                     })
                     ->toArray();
-
                 return $data;
             });
     }
