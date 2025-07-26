@@ -24,7 +24,7 @@
 @endphp
 
 <div class="group bg-white rounded-xl shadow-sm hover:shadow-md transition duration-200 overflow-hidden">
-    <a href="{{ locaRoute('product.show', ['id' => $product->id]) }}" class="block">
+    <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" class="block">
         <div class="aspect-w-1 aspect-h-1 bg-gray-100">
             <img src="{{ $image }}" alt="{{ $name }}" 
                 class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300">

@@ -14,7 +14,7 @@ class ProductDetail extends Component
     public $categoryNames = [];
     public $qty = 1;
 
-    public function mount($id)
+    public function mount($slug)
     {
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
 
@@ -25,7 +25,7 @@ class ProductDetail extends Component
             'productVariants.media',
             'productCategories.categoryTranslations',
             'attributeValues.attributeValueTranslations'
-        ])->findOrFail($id);
+        ])->where('slug', $slug)->firstOrFail();
 
         $this->variants = $this->product->productVariants;
 

@@ -59,7 +59,7 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
 
     Route::get('/', Home::class)->name('home');
     Route::get('product', Product::class)->name('product');
-    Route::get('product/{id}', ProductDetail::class)->name('product.show');
+    Route::get('product/{slug}', ProductDetail::class)->name('product.show');
     Route::get('cart', Cart::class)->name('cart');
     Route::get('checkout', Checkout::class)->name('checkout');
 
