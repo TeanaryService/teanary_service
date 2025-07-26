@@ -95,8 +95,8 @@
             </aside>
 
             {{-- 商品列表 --}}
-            <main class="flex-1 bg-gray-50 rounded-xl p-6">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+            <main class="flex-1">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
                     @forelse ($products as $product)
                         <x-product-item :product="$product" />
                     @empty
