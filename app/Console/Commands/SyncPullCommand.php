@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 
 class SyncPullCommand extends Command
 {
@@ -48,5 +49,8 @@ class SyncPullCommand extends Command
 
             $this->info("更新或插入 $count 条记录");
         }
+
+        $this->info('刷新缓存/索引');
+        Artisan::call('scout:refresh-all');
     }
 }
