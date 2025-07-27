@@ -34,7 +34,8 @@ class Specification extends Model
     public function productVariants(): BelongsToMany
     {
         return $this->belongsToMany(ProductVariant::class, 'product_variant_specification_value')
-            ->withPivot('specification_value_id');
+            ->withPivot('specification_value_id')
+            ->withTimestamps();
     }
 
     public function specificationTranslations(): HasMany

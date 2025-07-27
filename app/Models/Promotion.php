@@ -59,7 +59,8 @@ class Promotion extends Model
     public function productVariants(): BelongsToMany
     {
         return $this->belongsToMany(ProductVariant::class, 'promotion_product_variant')
-            ->withPivot(['product_id', 'product_variant_id', 'promotion_id']);
+            ->withPivot(['product_id', 'product_variant_id', 'promotion_id'])
+            ->withTimestamps();
     }
 
     public function promotionRules(): HasMany
@@ -75,6 +76,7 @@ class Promotion extends Model
     public function userGroups(): BelongsToMany
     {
         return $this->belongsToMany(UserGroup::class)
-            ->using(PromotionUserGroup::class);
+            ->using(PromotionUserGroup::class)
+            ->withTimestamps();
     }
 }

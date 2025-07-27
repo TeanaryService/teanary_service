@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SyncController;
 use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\ArticleDetail;
 use App\Livewire\ArticleList;
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 $service = new LocaleCurrencyService();
+
 Route::get('/', function () use ($service) {
     //重定向到带语言前缀的首页
     $lang = $service->getDefaultLanguageCode();
