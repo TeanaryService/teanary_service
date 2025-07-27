@@ -43,20 +43,49 @@ class ProductVariantsRelationManager extends RelationManager
     protected function configureEditAction(Tables\Actions\EditAction $action): void
     {
         $action
-            ->authorize(static fn(RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record))
-            ->form(fn(Form $form): Form => $this->form($form->columns(2)))
-            ->mutateRecordDataUsing(function (array $data, Model $record) {
-                $data['specificationValues'] = $record->specificationValues()
-                    ->with('specification') // 确保有 specification 可访问
-                    ->get()
-                    ->map(function ($value) {
-                        return [
-                            'specification_id' => $value->specification_id,
-                            'specification_value_id' => $value->id,
+            ->authorize(
+                static fn(RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record)
+            )
+            ->form(fn(Form $form): Form => $this->form($form->columns(1)))
+            ->mutateRecordDataUsing(function (array $data, Model $record): array {
+                $specificationValues = [];
+
+                if ($record->specificationValues) {
+                    foreach ($record->specificationValues as $specificationValue) {
+                        $specificationValues[] = [
+                            'specification_id' => $specificationValue->specification_id,
+                            'specification_value_id' => $specificationValue->pivot->specification_value_id,
                         ];
-                    })
-                    ->toArray();
+                    }
+                }
+
+                $data['specificationValues'] = $specificationValues;
+
                 return $data;
+            })
+            ->after(function (Model $record, array $data): void {
+                if (isset($data['specificationValues'])) {
+                    $pivotData = [];
+                    foreach ($data['specificationValues'] as $specificationValue) {
+                        $pivotData[] = $specificationValue;
+                    }
+                    $record->specificationValues()->sync($pivotData);
+                } else {
+                    $record->specificationValues()->sync([]);
+                }
+            });
+    }
+
+    protected function configureCreateAction(Tables\Actions\CreateAction $action): void
+    {
+        $action
+            ->form(fn(Form $form): Form => $this->form($form->columns(1)))
+            ->after(function (Model $record, array $data): void {
+                $pivotData = [];
+                foreach ($data['specificationValues'] ?? [] as $specificationValue) {
+                    $pivotData[] = $specificationValue;
+                }
+                $record->specificationValues()->sync($pivotData);
             });
     }
 }

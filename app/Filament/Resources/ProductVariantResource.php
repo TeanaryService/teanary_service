@@ -109,6 +109,11 @@ class ProductVariantResource extends Resource
                                 }
                                 return collect($specOptions)->except($usedIds)->toArray();
                             })
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                // 用户变更时，清空收货地址和帐单地址
+                                $set('specification_value_id', null);
+                            })
                             ->required()
                             ->reactive(),
                         Select::make('specification_value_id')
