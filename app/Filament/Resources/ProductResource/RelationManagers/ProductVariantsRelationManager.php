@@ -55,6 +55,7 @@ class ProductVariantsRelationManager extends RelationManager
                         $specificationValues[] = [
                             'specification_id' => $specificationValue->specification_id,
                             'specification_value_id' => $specificationValue->pivot->specification_value_id,
+                            'updated_at' => now()
                         ];
                     }
                 }
@@ -83,6 +84,8 @@ class ProductVariantsRelationManager extends RelationManager
             ->after(function (Model $record, array $data): void {
                 $pivotData = [];
                 foreach ($data['specificationValues'] ?? [] as $specificationValue) {
+                    $specificationValue['created_at'] = now();
+                    $specificationValue['updated_at'] = now();
                     $pivotData[] = $specificationValue;
                 }
                 $record->specificationValues()->sync($pivotData);
