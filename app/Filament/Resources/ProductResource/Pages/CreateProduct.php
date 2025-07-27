@@ -38,13 +38,16 @@ class CreateProduct extends CreateRecord
 
         // 处理属性值
         if (!empty($attributeValues)) {
-            $ids = collect($attributeValues)
-                ->filter(fn($item) => !empty($item['attribute_value_id']))
-                ->pluck('attribute_value_id')
-                ->unique()
-                ->values()
+            $pivotData = collect($attributeValues)
+                ->filter(fn($item) => !empty($item['attribute_value_id']) && !empty($item['attribute_id']))
+                ->mapWithKeys(function ($item) {
+                    return [
+                        $item['attribute_value_id'] => ['attribute_id' => $item['attribute_id']],
+                    ];
+                })
                 ->toArray();
-            $product->attributeValues()->sync($ids);
+
+            $product->attributeValues()->sync($pivotData);
         }
 
         // 处理分类
