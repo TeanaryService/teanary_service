@@ -22,10 +22,13 @@ class SyncPullCommand extends Command
         foreach ($pullTables as $table) {
             $this->info("拉取表 [$table] 自 $since");
 
-            $response = Http::post("$remoteUrl/api/sync/pull", [
-                'table' => $table,
-                'since' => $since->toDateTimeString(),
-            ]);
+            $response = Http::timeout(120)
+                ->connectTimeout(30)
+                ->retry(3, 5000)
+                ->post("$remoteUrl/api/sync/pull", [
+                    'table' => $table,
+                    'since' => $since->toDateTimeString(),
+                ]);
 
             if (!$response->successful()) {
                 $this->error("拉取失败：{$response->body()}");
@@ -34,7 +37,7 @@ class SyncPullCommand extends Command
 
             $records = $response->json('data', []);
             $count = 0;
-            
+
             foreach ($records as $record) {
                 if (!isset($record['id'])) {
                     continue;
