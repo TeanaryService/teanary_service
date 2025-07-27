@@ -1,4 +1,5 @@
 <?php
+
 namespace Deployer;
 
 require 'recipe/laravel.php';
@@ -20,6 +21,15 @@ host('teanary')
     ->set('remote_user', 'root')
     ->setIdentityFile('~/.ssh/vpn')
     ->set('deploy_path', '/home/wwwroot/teanary')
+    ->set('branch', 'main')
+    ->set('http_user', 'www');
+
+host('local')
+    ->set('hostname', '192.168.1.144')
+    ->set('port', 22)
+    ->set('remote_user', 'xcalder')
+    ->setIdentityFile('~/.ssh/teanary_local')
+    ->set('deploy_path', '/home/wwwroot/teanary.test')
     ->set('branch', 'main')
     ->set('http_user', 'www');
 
@@ -49,9 +59,9 @@ task('artisan:filament:optimize', function () {
     run('{{bin/php}} {{release_or_current_path}}/artisan filament:cache-components');
 });
 
-desc('重置数据库并填充 (开发环境专用)');
-task('artisan:migrate:fresh:seed', function () {
-    run('sudo -u www php {{release_or_current_path}}/artisan migrate:fresh --seed');
+desc('刷新scout/缓存');
+task('artisan:refresh-scout', function () {
+    run('php scout:refresh-all');
 });
 
 desc('重载系统服务');
