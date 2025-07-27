@@ -38,13 +38,16 @@ class EditProduct extends EditRecord
 
         // 处理属性值
         if (!empty($attributeValues)) {
-            $ids = collect($attributeValues)
-                ->filter(fn($item) => !empty($item['attribute_value_id']))
-                ->pluck('attribute_value_id')
-                ->unique()
-                ->values()
+            $pivotData = collect($attributeValues)
+                ->filter(fn($item) => !empty($item['attribute_value_id']) && !empty($item['attribute_id']))
+                ->mapWithKeys(function ($item) {
+                    return [
+                        $item['attribute_value_id'] => ['attribute_id' => $item['attribute_id']],
+                    ];
+                })
                 ->toArray();
-            $record->attributeValues()->sync($ids);
+
+            $record->attributeValues()->sync($pivotData);
         } else {
             $record->attributeValues()->sync([]);
         }
