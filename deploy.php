@@ -60,8 +60,8 @@ task('artisan:filament:optimize', function () {
 });
 
 desc('刷新scout/缓存');
-task('artisan:refresh-scout', function () {
-    run('php scout:refresh-all');
+task('artisan:sync:pull', function () {
+    run('{{bin/php}} {{release_or_current_path}}/artisan sync:pull');
 });
 
 desc('重载系统服务');
