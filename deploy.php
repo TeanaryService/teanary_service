@@ -67,7 +67,7 @@ task('artisan:sync:pull', function () {
 desc('重载系统服务');
 task('system:reload', function () {
     run('sudo supervisorctl reload');
-    run('sudo lnmp php-fpm reload');
+    run('sudo lnmp reload');
 })->once(); // 每个部署只执行一次（一次 per node）
 
 // ⏬ Hook 任务顺序

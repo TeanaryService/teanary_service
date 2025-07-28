@@ -61,8 +61,8 @@
                     {{ __('home.learn_more') }}
                 </a>
             </div>
-            <div class="hidden md:block md:w-1/2 bg-gray-100 rounded-2xl p-10">
-                <x-layouts.logo imgClass="w-full max-w-sm mx-auto" :showText="false" />
+            <div class="hidden md:block md:w-1/2">
+                <img src="{{ asset('images/about-banner.jpg') }}" class="rounded-2xl">
             </div>
         </div>
     </section>

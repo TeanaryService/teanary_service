@@ -25,7 +25,17 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @livewireScripts
-    <link rel="shortcut icon" type="image/svg" href="{{ asset('/favicon.svg') }}" />
+
+    <!-- 标准 SVG favicon（现代浏览器支持） -->
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}" />
+
+    <!-- PNG fallback for older browsers -->
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}" />
+    <link rel="alternate icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}" />
+
+    <!-- Apple 设备 -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}" />
+
 </head>
 
 <body class="body bg-white">
