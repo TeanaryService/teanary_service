@@ -17,6 +17,19 @@
                         <div class="flex-1">
                             <div class="text-teal-900 font-semibold text-lg">{{ $promotion['name'] }}</div>
 
+                            <div class="text-xs text-gray-500 flex gap gap-6 items-center">
+                                @if ($promotion['starts_at'])
+                                    <p>{{ __('home.promotion_starts_at') }}:
+                                        {{ \Carbon\Carbon::parse($promotion['starts_at'])->format('Y-m-d H:i') }}
+                                    </p>
+                                @endif
+                                @if ($promotion['ends_at'])
+                                    <p class="mt-1">{{ __('home.promotion_ends_at') }}:
+                                        {{ \Carbon\Carbon::parse($promotion['ends_at'])->format('Y-m-d H:i') }}
+                                    </p>
+                                @endif
+                            </div>
+
                             @if (!empty($promotion['description']))
                                 <p class="text-gray-600 text-sm mt-1">{{ $promotion['description'] }}</p>
                             @endif
@@ -27,26 +40,17 @@
                                         <li>
                                             {{ __('home.promotion_text', [
                                                 'condition' => __('home.promotion_rule_' . ($rule['condition_type'] ?? '')),
-                                                'condition_value' => $rule['condition_value'] ? $currencyService->convertWithSymbol($rule['condition_value'], $currencyCode) : '',
+                                                'condition_value' => $rule['condition_value']
+                                                    ? $currencyService->convertWithSymbol($rule['condition_value'], $currencyCode)
+                                                    : '',
                                                 'discount' => __('home.promotion_discount_' . ($rule['discount_type'] ?? '')),
-                                                'discount_value' => $rule['discount_value'] ? $currencyService->convertWithSymbol($rule['discount_value'], $currencyCode) : '',
+                                                'discount_value' => $rule['discount_value']
+                                                    ? $currencyService->convertWithSymbol($rule['discount_value'], $currencyCode)
+                                                    : '',
                                             ]) }}
                                         </li>
                                     @endforeach
                                 </ul>
-                            @endif
-                        </div>
-
-                        <div class="text-xs text-gray-500 md:text-right">
-                            @if ($promotion['starts_at'])
-                                <div>{{ __('home.promotion_starts_at') }}:
-                                    {{ \Carbon\Carbon::parse($promotion['starts_at'])->format('Y-m-d H:i') }}
-                                </div>
-                            @endif
-                            @if ($promotion['ends_at'])
-                                <div class="mt-1">{{ __('home.promotion_ends_at') }}:
-                                    {{ \Carbon\Carbon::parse($promotion['ends_at'])->format('Y-m-d H:i') }}
-                                </div>
                             @endif
                         </div>
                     </li>
