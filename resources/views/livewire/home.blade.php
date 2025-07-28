@@ -23,6 +23,14 @@
         </div>
     </section>
 
+    {{-- Featured Products --}}
+    <section class="bg-white py-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.featured_products') }}</h2>
+            @livewire('components.featured-products')
+        </div>
+    </section>
+
     {{-- Categories Quick Access --}}
     <section class="max-w-7xl mx-auto py-10 px-6">
         <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.browse_categories') }}</h2>
@@ -37,14 +45,6 @@
                     </div>
                 </a>
             @endforeach
-        </div>
-    </section>
-
-    {{-- Featured Products --}}
-    <section class="bg-white py-10">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.featured_products') }}</h2>
-            @livewire('components.featured-products')
         </div>
     </section>
 
