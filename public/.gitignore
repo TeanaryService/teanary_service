@@ -1,6 +1,7 @@
 *
 !.gitignore
 !images/banner-tea.png
+!images/about-banner.jpg
 !.htaccess
 !logo.svg
 !index.php
