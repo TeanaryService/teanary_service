@@ -22,7 +22,7 @@
         {{-- 封面图 --}}
         @if ($cover)
             <div class="overflow-hidden rounded-lg shadow-sm">
-                <img src="{{ $cover }}" alt="{{ $translation?->title }}" class="w-full h-auto max-h-48 object-cover">
+                <img src="{{ $cover }}" alt="{{ $translation?->title }}" class="w-full h-auto max-h-96 object-cover">
             </div>
         @endif
 

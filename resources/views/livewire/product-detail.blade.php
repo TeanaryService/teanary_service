@@ -245,7 +245,7 @@
                     @endforeach
                 @endif
             </div>
-            
+
             {{-- 商品属性 --}}
             @if ($attributes->count())
                 <div class="mb-2 text-gray-700 flex flex-col gap gap-2">
@@ -263,7 +263,7 @@
                             $attrValueName =
                                 $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
                         @endphp
-                        <div class="text-gray-800 flex gap gap-2 py-1">
+                        <div class="text-gray-800 flex gap gap-2 py-0.5">
                             <p> {{ $attrName }}: </p>
                             <p>{{ $attrValueName }}</p>
                         </div>
