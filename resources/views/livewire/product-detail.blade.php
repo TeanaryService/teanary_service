@@ -393,6 +393,9 @@
         @endif
     </div>
 
+    <div class="py-10">
+        @livewire('components.recommend-products', ['currentProductId' => $product->id, 'categoryIds' => $product->productCategories?->pluck('id')])
+    </div>
 </div>
 
 @pushOnce('seo')
