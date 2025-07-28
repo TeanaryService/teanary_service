@@ -71,7 +71,7 @@
 
 <div class="max-w-7xl mx-auto px-6 min-h-screen">
     <x-breadcrumbs :items="$breadcrumbs" />
-    <div class="flex flex-col lg:flex-row gap-8">
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}
         <div class="w-full lg:w-1/2 flex justify-center items-center">
             @if ($images->count())
@@ -353,6 +353,7 @@
                     {{ __('home.buy_now') }}
                 </button>
             </div>
+            <x-promotion-list class="py-6"/>
         </div>
     </div>
 

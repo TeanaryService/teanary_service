@@ -1,13 +1,13 @@
-@props(['promotions' => []])
+@props(['promotions' => [], 'class' => ''])
 
 @php
     $currencyService = app(\App\Services\LocaleCurrencyService::class);
     $currencyCode = session('currency');
 @endphp
 
-<div class="w-full max-w-7xl mx-auto py-10 px-6">
+<div class="w-full max-w-7xl mx-auto {{ $class }}">
     @if (count($promotions))
-        <div class="bg-teal-50 border-l-4 border-teal-400 p-6 rounded-2xl shadow-md">
+        <div class="bg-teal-50 border-l-4 border-teal-400 rounded-2xl shadow-md p-6">
             <h2 class="text-2xl font-bold text-teal-800 mb-4">{{ __('home.promotions') }}</h2>
 
             <ul class="space-y-6">
