@@ -52,6 +52,7 @@ class OrderItemResource extends Resource
     public static function form(Form $form): Form
     {
         $service = app(LocaleCurrencyService::class);
+        $currency = $service->getCurrencyByCode(session('currency'));
 
         return $form
             ->schema([
@@ -115,12 +116,14 @@ class OrderItemResource extends Resource
                     ->label(__('filament.order_item.price'))
                     ->required()
                     ->numeric()
-                    ->prefix('￥'),
+                    ->prefix($currency->symbol),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $service = app(LocaleCurrencyService::class);
+
         return static::applyDefaultPagination($table
             ->columns([
                 Tables\Columns\TextColumn::make('order.id')
@@ -164,8 +167,9 @@ class OrderItemResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label(__('filament.order_item.price'))
-                    ->money('CNY')
-                    ->sortable(),
+                    ->formatStateUsing(function ($record, $state) use ($service) {
+                        return $service->convertWithSymbol($state, session('currency'), $record->order->currency->code);
+                    }),
                 ...static::getTimestampsColumns()
             ])
             ->filters([

@@ -60,6 +60,7 @@ class ProductVariantResource extends Resource
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();
         $lang = $service->getLanguageByCode($locale);
+        $currency = $service->getCurrencyByCode(session('currency'));
 
         // 规格选项
         $specs = Specification::with('specificationTranslations')->get();
@@ -153,12 +154,12 @@ class ProductVariantResource extends Resource
                     ->label(__('filament.product_variant.price'))
                     ->numeric()
                     ->default(null)
-                    ->prefix('￥'),
+                    ->prefix($currency->symbol),
                 Forms\Components\TextInput::make('cost')
                     ->label(__('filament.product_variant.cost'))
                     ->numeric()
                     ->default(null)
-                    ->prefix('￥'),
+                    ->prefix($currency->symbol),
                 Forms\Components\TextInput::make('stock')
                     ->label(__('filament.product_variant.stock'))
                     ->required()
@@ -185,6 +186,7 @@ class ProductVariantResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $localeCurrencyService = app(\App\Services\LocaleCurrencyService::class);
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
                 fn(Builder $query): Builder => $query
@@ -202,9 +204,9 @@ class ProductVariantResource extends Resource
                 Tables\Columns\TextColumn::make('product.name')
                     ->label(__('filament.product_variant.product_id'))
                     ->hiddenOn([ProductVariantsRelationManager::class])
-                    ->getStateUsing(function ($record) {
+                    ->formatStateUsing(function ($record) use ($localeCurrencyService) {
                         $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $lang = $localeCurrencyService->getLanguageByCode($locale);
                         $product = $record->product;
                         if (!$product) return null;
                         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -219,12 +221,16 @@ class ProductVariantResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label(__('filament.product_variant.price'))
-                    ->money('CNY')
-                    ->sortable(),
+                    ->formatStateUsing(function ($state) use ($localeCurrencyService) {
+                        $currencyCode = session('currency');
+                        return $localeCurrencyService->convertWithSymbol($state, $currencyCode);
+                    }),
                 Tables\Columns\TextColumn::make('cost')
                     ->label(__('filament.product_variant.cost'))
-                    ->money('CNY')
-                    ->sortable(),
+                    ->formatStateUsing(function ($state) use ($localeCurrencyService) {
+                        $currencyCode = session('currency');
+                        return $localeCurrencyService->convertWithSymbol($state, $currencyCode);
+                    }),
                 Tables\Columns\TextColumn::make('stock')
                     ->label(__('filament.product_variant.stock'))
                     ->numeric()
@@ -251,9 +257,9 @@ class ProductVariantResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('specificationValues')
                     ->label(__('filament.product_variant.specification_values'))
-                    ->getStateUsing(function ($record) {
+                    ->getStateUsing(function ($record) use ($localeCurrencyService) {
                         $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $lang = $localeCurrencyService->getLanguageByCode($locale);
                         $items = [];
                         foreach ($record->specificationValues as $sv) {
                             $spec = $sv->specification;
