@@ -57,16 +57,23 @@
     if ($attributes->count()) {
         $structuredData['additionalProperty'] = $attributes
             ->map(function ($attrValue) use ($lang) {
-                $attrTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
-                $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->id;
+                $attrTrans = $attrValue->attribute->attributeTranslations->where('language_id', $lang?->id)->first();
+
+                $attrValueTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
+
+                // 属性名和属性值翻译
+                $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->attribute->id;
+                $attrValueName = $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
+
                 return [
                     '@type' => 'PropertyValue',
-                    'name' => $attrName,
+                    'name' => "{$attrName}: {$attrValueName}",
                 ];
             })
             ->values()
             ->all();
     }
+
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 min-h-screen">
@@ -238,22 +245,32 @@
                     @endforeach
                 @endif
             </div>
+            
             {{-- 商品属性 --}}
             @if ($attributes->count())
-                <div class="mb-2 text-gray-700">
-                    <span class="mr-2">{{ __('home.attributes') }}:</span>
+                <div class="mb-2 text-gray-700 flex flex-col gap gap-2">
+                    {{-- <span class="mr-2">{{ __('home.attributes') }}:</span> --}}
                     @foreach ($attributes as $attrValue)
                         @php
-                            $attrTrans = $attrValue->attributeValueTranslations
+                            $attrTrans = $attrValue->attribute->attributeTranslations
                                 ->where('language_id', $lang?->id)
                                 ->first();
-                            $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->id;
+                            $attrValueTrans = $attrValue->attributeValueTranslations
+                                ->where('language_id', $lang?->id)
+                                ->first();
+
+                            $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->attribute->id;
+                            $attrValueName =
+                                $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
                         @endphp
-                        <span
-                            class="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded mr-1">{{ $attrName }}</span>
+                        <div class="text-gray-800 flex gap gap-2 py-1">
+                            <p> {{ $attrName }}: </p>
+                            <p>{{ $attrValueName }}</p>
+                        </div>
                     @endforeach
                 </div>
             @endif
+
             @if ($shortDesc)
                 <div class="mb-4 text-gray-700">{{ $shortDesc }}</div>
             @endif
@@ -353,7 +370,7 @@
                     {{ __('home.buy_now') }}
                 </button>
             </div>
-            <x-promotion-list class="py-6"/>
+            <x-promotion-list class="py-6" />
         </div>
     </div>
 

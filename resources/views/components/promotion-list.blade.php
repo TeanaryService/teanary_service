@@ -40,12 +40,12 @@
                         <div class="text-xs text-gray-500 md:text-right">
                             @if ($promotion['starts_at'])
                                 <div>{{ __('home.promotion_starts_at') }}:
-                                    {{ \Carbon\Carbon::parse($promotion['starts_at'])->format('Y-m-d') }}
+                                    {{ \Carbon\Carbon::parse($promotion['starts_at'])->format('Y-m-d H:i') }}
                                 </div>
                             @endif
                             @if ($promotion['ends_at'])
                                 <div class="mt-1">{{ __('home.promotion_ends_at') }}:
-                                    {{ \Carbon\Carbon::parse($promotion['ends_at'])->format('Y-m-d') }}
+                                    {{ \Carbon\Carbon::parse($promotion['ends_at'])->format('Y-m-d H:i') }}
                                 </div>
                             @endif
                         </div>
