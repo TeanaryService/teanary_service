@@ -5,7 +5,7 @@
 
 <div class="flex items-center justify-start md:justify-center gap-x-4">
     <img class="h-auto w-auto rounded-lg object-contain {{ $imgClass }}"
-        src="{{ asset('logo.png') }}" alt="Logo" />
+        src="{{ asset('logo.svg') }}" alt="Logo" />
 
     @if ($showText)
         <div class="hidden lg:block">

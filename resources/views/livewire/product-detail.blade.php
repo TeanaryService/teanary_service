@@ -221,7 +221,7 @@
                     @endif
                 </div>
             @else
-                <img src="{{ asset('logo.png') }}" alt="{{ $name }}"
+                <img src="{{ asset('logo.svg') }}" alt="{{ $name }}"
                     class="rounded-xl shadow-lg w-full object-cover">
             @endif
         </div>

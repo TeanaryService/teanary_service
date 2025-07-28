@@ -100,7 +100,7 @@
                                 @php
                                     $image = $item->productVariant
                                         ? $item->productVariant->getFirstMediaUrl('image', 'thumb')
-                                        : asset('logo.png');
+                                        : asset('logo.svg');
                                     $specs = $item->productVariant
                                         ? $item->productVariant->specificationValues
                                             ->map(function ($sv) use ($lang) {

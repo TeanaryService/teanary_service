@@ -117,7 +117,7 @@
     // SEO相关
     $seoTitle = '';
     $seoDesc = '';
-    $seoImage = asset('logo.png');
+    $seoImage = asset('logo.svg');
     $seoKeywords = '';
     if ($categoryId && !empty($categories)) {
         $locale = session('lang');
@@ -130,12 +130,12 @@
         if ($category) {
             $seoTitle = $category['name'];
             $seoDesc = $category['name'];
-            $seoImage = $category['image_url'] ?? asset('logo.png');
+            $seoImage = $category['image_url'] ?? asset('logo.svg');
         }
     } else {
         $seoTitle = __('home.product_list_seo_title');
         $seoDesc = __('home.product_list_seo_desc');
-        $seoImage = asset('logo.png');
+        $seoImage = asset('logo.svg');
     }
     // 筛选条件加到keywords
     if (!empty($attributeFilters) && !empty($attributes)) {

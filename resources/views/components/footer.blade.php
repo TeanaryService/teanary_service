@@ -5,7 +5,7 @@
             <!-- 品牌 LOGO -->
             <div>
                 <a href="{{ locaRoute('home') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('logo.png') }}" class="h-10 w-auto object-contain" alt="Logo">
+                    <img src="{{ asset('logo.svg') }}" class="h-10 w-auto object-contain" alt="Logo">
                     <span class="font-semibold text-lg text-gray-800">{{ config('app.name') }}</span>
                 </a>
                 <p class="mt-4 text-gray-500">

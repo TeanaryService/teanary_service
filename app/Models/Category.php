@@ -132,7 +132,7 @@ class Category extends Model implements HasMedia
             'id' => $category->id,
             'slug' => $category->slug,
             'name' => $translation ? $translation->name : $category->slug,
-            'image_url' => $category->getFirstMediaUrl('image', 'thumb') ?: asset('logo.png'),
+            'image_url' => $category->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'),
             'children' => $category->categories->map(function ($child) use ($langId) {
                 return static::formatCategory($child, $langId);
             })->values(),

@@ -25,7 +25,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @livewireScripts
-    <link rel="shortcut icon" type="image/icon" href="{{ asset('/favicon.png') }}" />
+    <link rel="shortcut icon" type="image/svg" href="{{ asset('/favicon.svg') }}" />
 </head>
 
 <body class="body bg-white">

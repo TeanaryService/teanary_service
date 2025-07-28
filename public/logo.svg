@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200px" height="200px">
+  <!-- 背景红色印章 -->
+  <rect x="3" y="3" width="194" height="194" rx="6" fill="#a40000" />
+
+  <!-- 中间“茶”字 -->
+  <text x="100" y="120" text-anchor="middle" dominant-baseline="middle"
+        font-size="100" font-family="KaiTi" fill="white">
+    茶
+  </text>
+
+  <!-- 装饰线条（淡化十字线）-->
+  <line x1="3" y1="100" x2="197" y2="100" stroke="white" stroke-width="1"
+        stroke-dasharray="4,4" opacity="0.3" />
+  <line x1="100" y1="3" x2="100" y2="197" stroke="white" stroke-width="1"
+        stroke-dasharray="4,4" opacity="0.3" />
+</svg>

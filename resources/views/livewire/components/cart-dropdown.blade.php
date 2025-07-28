@@ -43,7 +43,7 @@
                     $image = $variant
                         ? $variant->getFirstMediaUrl('image', 'thumb')
                         : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?:
-                        asset('logo.png'));
+                        asset('logo.svg'));
                     $specs = $variant
                         ? $variant->specificationValues
                             ->map(function ($sv) use ($lang) {
