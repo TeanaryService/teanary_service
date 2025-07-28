@@ -97,22 +97,19 @@ class ProductVariant extends Model implements HasMedia
     public function specifications(): BelongsToMany
     {
         return $this->belongsToMany(Specification::class, 'product_variant_specification_value')
-            ->withPivot('specification_value_id')
-            ->withTimestamps();
+            ->withPivot('specification_value_id');
     }
 
     public function specificationValues(): BelongsToMany
     {
         return $this->belongsToMany(SpecificationValue::class, 'product_variant_specification_value')
-            ->withPivot('specification_id')
-            ->withTimestamps();
+            ->withPivot('specification_id');
     }
 
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
-            ->withPivot(['product_id', 'product_variant_id', 'promotion_id'])
-            ->withTimestamps();
+            ->withPivot(['product_id', 'product_variant_id', 'promotion_id']);
     }
 
     public function registerMediaConversions(?Media $media = null): void

@@ -73,8 +73,7 @@ class Category extends Model implements HasMedia
 
     public function productCategories(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'product_category')
-            ->withTimestamps();
+        return $this->belongsToMany(Product::class, 'product_category');
     }
 
     public function registerMediaConversions(?Media $media = null): void

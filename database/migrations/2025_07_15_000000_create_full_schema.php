@@ -56,7 +56,6 @@ return new class extends Migration
         Schema::create('product_category', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
         });
 
         // -----------------------------
@@ -175,8 +174,6 @@ return new class extends Migration
             $table->foreign('specification_value_id', 'pv_sv_spec_value_fk')
                 ->references('id')->on('specification_values')
                 ->cascadeOnDelete();
-
-            $table->timestamps();
         });
 
         Schema::create('product_attribute_value', function (Blueprint $table) {
@@ -184,7 +181,6 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
             $table->unique(['product_id', 'attribute_value_id'], 'product_attribute_value_unique');
-            $table->timestamps();
         });
 
         // -----------------------------
@@ -268,7 +264,6 @@ return new class extends Migration
         Schema::create('promotion_user_group', function (Blueprint $table) {
             $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
         });
 
         Schema::create('promotion_product_variant', function (Blueprint $table) {
@@ -276,7 +271,6 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
             $table->unique(['promotion_id', 'product_variant_id'], 'promotion_variant_unique');
-            $table->timestamps();
         });
 
         Schema::create('order_shipments', function (Blueprint $table) {

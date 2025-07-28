@@ -34,8 +34,7 @@ class UserGroup extends Model
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class)
-            ->using(PromotionUserGroup::class)
-            ->withTimestamps();
+            ->using(PromotionUserGroup::class);
     }
 
     public function userGroupTranslations(): HasMany
