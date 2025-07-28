@@ -25,7 +25,8 @@ class ProductDetail extends Component
             'productVariants' => fn($q) => $q->orderBy('price'),
             'productVariants.media',
             'productCategories.categoryTranslations',
-            'attributeValues.attributeValueTranslations'
+            'attributeValues.attributeValueTranslations',
+            'attributeValues.attribute.attributeTranslations'
         ])->where('slug', $slug)->firstOrFail();
 
         $this->variants = $this->product->productVariants;

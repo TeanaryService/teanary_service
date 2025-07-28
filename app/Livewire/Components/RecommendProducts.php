@@ -27,7 +27,7 @@ class RecommendProducts extends Component
             return;
         }
 
-        $this->recommendedProducts = Product::with(['productTranslations', 'media'])
+        $this->recommendedProducts = Product::with(['productTranslations', 'media', 'productVariants'])
             ->whereHas('productCategories', function ($q) {
                 $q->whereIn('id', $this->categoryIds);
             })
