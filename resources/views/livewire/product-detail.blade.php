@@ -73,9 +73,9 @@
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8">
         {{-- 商品图片幻灯片 --}}
-        {{-- 商品图片幻灯片 --}}
         <div class="w-full lg:w-1/2 flex justify-center items-center">
             @if ($images->count())
+                <!-- Alpine.js 数据和方法 -->
                 <div x-data="{
                     active: 0,
                     total: {{ $images->count() }},
@@ -141,10 +141,11 @@
                                 <img src="{{ $img->getUrl() }}" alt="{{ $name }}"
                                     class="w-full h-full object-cover transition-transform duration-300"
                                     :class="{
-                                        'scale-100': !isZoomed,
-                                        'scale-200': isZoomed
+                                        'scale-100': !isZoomed
                                     }"
-                                    :style="isZoomed ? `transform-origin: ${mouseX}% ${mouseY}%; transform: scale(2);` : ''">
+                                    :style="isZoomed ?
+                                        `transform-origin: ${mouseX}% ${mouseY}%; max-width: 750px; max-height: 750px; transform: scale(2);` :
+                                        ''">
                             </div>
                         @endforeach
 
@@ -199,8 +200,7 @@
                                     <div class="absolute inset-0 bg-black/20 transition-opacity duration-200"
                                         :class="{
                                             'opacity-0': active === {{ $i }},
-                                            'opacity-100': active !==
-                                                {{ $i }}
+                                            'opacity-100': active !== {{ $i }}
                                         }">
                                     </div>
                                 </button>
