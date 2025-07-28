@@ -86,4 +86,7 @@ return [
     'edit_user_success' => 'Профиль успешно обновлён~',
 
     'article_search_placeholder' => 'Ищите интересующие вас статьи о чае...',
+
+    'images' => 'Изображение',
+    'zoom_on_hover' => 'Увеличение при наведении'
 ];

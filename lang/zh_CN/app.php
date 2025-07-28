@@ -85,5 +85,8 @@ return [
 
     'edit_user_success' => '个人资料更新成功~',
 
-    'article_search_placeholder' => '搜索你感兴趣的茶叶文章...'
+    'article_search_placeholder' => '搜索你感兴趣的茶叶文章...',
+
+    'images' => '图片',
+    'zoom_on_hover' => '悬停放大'
 ];

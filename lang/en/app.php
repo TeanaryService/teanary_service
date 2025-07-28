@@ -85,5 +85,8 @@ return [
 
     'edit_user_success' => 'Profile updated successfully!',
 
-    'article_search_placeholder' => 'Search tea articles...'
+    'article_search_placeholder' => 'Search tea articles...',
+
+    'images' => 'Image',
+    'zoom_on_hover' => 'Zoom on Hover'
 ];

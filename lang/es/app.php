@@ -86,4 +86,7 @@ return [
     'edit_user_success' => 'Perfil actualizado correctamente',
 
     'article_search_placeholder' => 'Buscar artículos sobre té que te interesen...',
+
+    'images' => 'Imagen',
+    'zoom_on_hover' => 'Ampliar al pasar el cursor'
 ];

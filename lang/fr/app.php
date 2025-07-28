@@ -86,4 +86,7 @@ return [
     'edit_user_success' => 'Profil mis à jour avec succès~',
 
     'article_search_placeholder' => 'Recherchez des articles sur le thé qui vous intéressent...',
+
+    'images' => 'Image',
+    'zoom_on_hover' => 'Zoom au survol'
 ];

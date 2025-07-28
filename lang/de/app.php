@@ -85,5 +85,8 @@ return [
 
     'edit_user_success' => 'Profil erfolgreich aktualisiert~',
 
-    'article_search_placeholder' => 'Suche nach interessanten Teeartikeln...'
+    'article_search_placeholder' => 'Suche nach interessanten Teeartikeln...',
+
+    'images' => 'Bild',
+    'zoom_on_hover' => 'Vergrößern bei Hover'
 ];

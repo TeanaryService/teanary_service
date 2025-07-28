@@ -86,4 +86,7 @@ return [
     'edit_user_success' => 'プロフィールが更新されました〜',
 
     'article_search_placeholder' => '興味のあるお茶の記事を検索...',
+
+    'images' => '画像',
+    'zoom_on_hover' => 'ホバーでズーム'
 ];

@@ -86,4 +86,7 @@ return [
     'edit_user_success' => '개인정보가 성공적으로 업데이트되었습니다~',
 
     'article_search_placeholder' => '관심 있는 차 관련 기사 검색...',
+
+    'images' => '이미지',
+    'zoom_on_hover' => '호버 시 확대'
 ];

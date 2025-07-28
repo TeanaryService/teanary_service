@@ -9,7 +9,11 @@
     $shortDesc = $translation && $translation->short_description ? $translation->short_description : '';
     $variant = $variants->where('id', $selectedVariantId)->first();
     $images = $product->getMedia('images');
-    $price = isset($finalPrice) ? $currencyService->convertWithSymbol($finalPrice, $currencyCode) : ($variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '');
+    $price = isset($finalPrice)
+        ? $currencyService->convertWithSymbol($finalPrice, $currencyCode)
+        : ($variant && $variant->price
+            ? $currencyService->convertWithSymbol($variant->price, $currencyCode)
+            : '');
     $attributes = $product->attributeValues ?? collect();
 
     $productId = $product->id;
@@ -36,7 +40,7 @@
         'name' => $name,
         'description' => $shortDesc,
         'image' => $images->first()?->getUrl(),
-        'sku' => $variant?->sku
+        'sku' => $variant?->sku,
     ];
 
     if ($price) {
@@ -45,19 +49,23 @@
             'url' => url()->current(),
             'priceCurrency' => $currencyCode,
             'price' => str_replace(['$', '€', '£', '¥'], '', $price),
-            'availability' => $variant && $variant->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+            'availability' =>
+                $variant && $variant->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
         ];
     }
 
     if ($attributes->count()) {
-        $structuredData['additionalProperty'] = $attributes->map(function($attrValue) use ($lang) {
-            $attrTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
-            $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->id;
-            return [
-                '@type' => 'PropertyValue',
-                'name' => $attrName
-            ];
-        })->values()->all();
+        $structuredData['additionalProperty'] = $attributes
+            ->map(function ($attrValue) use ($lang) {
+                $attrTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
+                $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->id;
+                return [
+                    '@type' => 'PropertyValue',
+                    'name' => $attrName,
+                ];
+            })
+            ->values()
+            ->all();
     }
 @endphp
 
@@ -65,34 +73,159 @@
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8">
         {{-- 商品图片幻灯片 --}}
+        {{-- 商品图片幻灯片 --}}
         <div class="w-full lg:w-1/2 flex justify-center items-center">
             @if ($images->count())
-                <div x-data="{ active: 0 }" class="w-full">
-                    <div class="relative w-full aspect-square overflow-hidden rounded-xl shadow-lg">
+                <div x-data="{
+                    active: 0,
+                    total: {{ $images->count() }},
+                    autoplay: null,
+                    isHovered: false,
+                    isZoomed: false,
+                    mouseX: 0,
+                    mouseY: 0,
+                    init() {
+                        this.startAutoplay();
+                    },
+                    startAutoplay() {
+                        this.autoplay = setInterval(() => {
+                            if (!this.isHovered) {
+                                this.next();
+                            }
+                        }, 3000);
+                    },
+                    stopAutoplay() {
+                        if (this.autoplay) {
+                            clearInterval(this.autoplay);
+                        }
+                    },
+                    next() {
+                        this.active = (this.active + 1) % this.total;
+                    },
+                    prev() {
+                        this.active = (this.active - 1 + this.total) % this.total;
+                    },
+                    goTo(index) {
+                        this.active = index;
+                    },
+                    handleMouseEnter() {
+                        this.isHovered = true;
+                        this.isZoomed = true;
+                    },
+                    handleMouseLeave() {
+                        this.isHovered = false;
+                        this.isZoomed = false;
+                    },
+                    handleMouseMove(e) {
+                        if (this.isZoomed) {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            this.mouseX = ((e.clientX - rect.left) / rect.width) * 100;
+                            this.mouseY = ((e.clientY - rect.top) / rect.height) * 100;
+                        }
+                    }
+                }" x-init="init()" @destroy="stopAutoplay()" class="w-full">
+
+                    <!-- 主图显示区域 -->
+                    <div class="relative w-full aspect-square overflow-hidden rounded-xl shadow-lg cursor-crosshair"
+                        @mouseenter="handleMouseEnter()" @mouseleave="handleMouseLeave()"
+                        @mousemove="handleMouseMove($event)">
+
                         @foreach ($images as $i => $img)
-                            <img src="{{ $img->getUrl() }}" alt="{{ $name }}"
-                                class="absolute inset-0 w-full h-full object-cover transition-all duration-500"
-                                x-show="active === {{ $i }}">
+                            <div class="absolute inset-0 w-full h-full transition-all duration-500"
+                                x-show="active === {{ $i }}"
+                                x-transition:enter="transition ease-out duration-500"
+                                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition ease-in duration-300"
+                                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+
+                                <img src="{{ $img->getUrl() }}" alt="{{ $name }}"
+                                    class="w-full h-full object-cover transition-transform duration-300"
+                                    :class="{
+                                        'scale-100': !isZoomed,
+                                        'scale-200': isZoomed
+                                    }"
+                                    :style="isZoomed ? `transform-origin: ${mouseX}% ${mouseY}%; transform: scale(2);` : ''">
+                            </div>
                         @endforeach
-                    </div>
-                    <div class="flex justify-center gap-2 mt-3">
-                        @foreach ($images as $i => $img)
+
+                        <!-- 左右切换按钮 -->
+                        @if ($images->count() > 1)
                             <button type="button"
-                                class="w-4 h-4 rounded-full border-2 border-teal-600 {{ $i === 0 ? 'bg-teal-600' : 'bg-white' }}"
-                                :class="{
-                                    'bg-teal-600': active === {{ $i }},
-                                    'bg-white': active !==
-                                        {{ $i }}
-                                }"
-                                x-on:click="active = {{ $i }}"></button>
-                        @endforeach
+                                class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100"
+                                :class="{ 'opacity-100': isHovered }" @click="prev()">
+                                <x-heroicon-o-arrow-small-left class="w-4 h-4" />
+                            </button>
+
+                            <button type="button"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100"
+                                :class="{ 'opacity-100': isHovered }" @click="next()">
+                                <x-heroicon-o-arrow-small-right class="w-4 h-4" />
+                            </button>
+                        @endif
+
+                        <!-- 进度条 -->
+                        @if ($images->count() > 1)
+                            <div class="absolute bottom-2 left-2 right-2">
+                                <div class="w-full bg-black/20 rounded-full h-1">
+                                    <div class="bg-white/80 h-1 rounded-full transition-all duration-100"
+                                        :style="`width: ${((active + 1) / total) * 100}%`"></div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <!-- 放大提示 -->
+                        <div class="absolute top-2 right-2 opacity-0 transition-opacity duration-200"
+                            :class="{ 'opacity-100': !isZoomed }">
+                            <div class="bg-black/50 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                                <x-heroicon-o-magnifying-glass class="w-3 h-3" />
+                                {{ __('app.zoom_on_hover') }}
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- 缩略图导航 -->
+                    @if ($images->count() > 1)
+                        <div class="flex justify-center gap-2 mt-3">
+                            @foreach ($images as $i => $img)
+                                <button type="button"
+                                    class="relative w-12 h-12 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105"
+                                    :class="{
+                                        'border-teal-600 ring-2 ring-teal-200': active === {{ $i }},
+                                        'border-gray-300 hover:border-teal-400': active !== {{ $i }}
+                                    }"
+                                    @click="goTo({{ $i }})">
+                                    <img src="{{ $img->getUrl() }}" alt="{{ $name }}"
+                                        class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/20 transition-opacity duration-200"
+                                        :class="{
+                                            'opacity-0': active === {{ $i }},
+                                            'opacity-100': active !==
+                                                {{ $i }}
+                                        }">
+                                    </div>
+                                </button>
+                            @endforeach
+                        </div>
+
+                        <!-- 圆点导航（备选） -->
+                        {{-- <div class="flex justify-center gap-2 mt-2">
+                            @foreach ($images as $i => $img)
+                                <button type="button" class="w-2 h-2 rounded-full transition-all duration-200"
+                                    :class="{
+                                        'bg-teal-600 w-6': active === {{ $i }},
+                                        'bg-gray-300 hover:bg-teal-400': active !== {{ $i }}
+                                    }"
+                                    @click="goTo({{ $i }})"></button>
+                            @endforeach
+                        </div> --}}
+                    @endif
                 </div>
             @else
                 <img src="{{ asset('logo.png') }}" alt="{{ $name }}"
                     class="rounded-xl shadow-lg w-full object-cover">
             @endif
         </div>
+
         {{-- 商品信息 --}}
         <div class="w-full lg:w-1/2 bg-gray-50 rounded-xl p-5">
             <h1 class="text-3xl font-bold text-teal-700 mb-2">{{ $name }}</h1>
@@ -127,11 +260,14 @@
             <div class="mb-4">
                 @if (!empty($promotionInfo))
                     <span class="text-2xl font-bold text-teal-700">{{ $price }}</span>
-                    <span class="text-gray-400 line-through ml-2">{{ $currencyService->convertWithSymbol($variant->price, $currencyCode) }}</span>
+                    <span
+                        class="text-gray-400 line-through ml-2">{{ $currencyService->convertWithSymbol($variant->price, $currencyCode) }}</span>
                     <span class="ml-2 text-xs text-red-500 font-semibold">
                         {{ $promotionInfo['rule']['discount_type'] == 'percentage'
                             ? __('app.discount_percent', ['percent' => $promotionInfo['rule']['discount_value']])
-                            : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotionInfo['discount'], $currencyCode)]) }}
+                            : __('app.discount_amount', [
+                                'amount' => $currencyService->convertWithSymbol($promotionInfo['discount'], $currencyCode),
+                            ]) }}
                     </span>
                     @if ($promotionInfo['description'])
                         <div class="text-xs text-red-600 mt-1">{{ $promotionInfo['description'] }}</div>
@@ -198,13 +334,10 @@
             {{-- 购买数量 --}}
             <div class="mb-4 flex items-center gap-2">
                 <span class="font-semibold text-gray-700">{{ __('home.qty') }}:</span>
-                <button type="button" class="w-10 py-1 bg-gray-200 rounded"
-                    wire:click="decrementQty">-</button>
+                <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="decrementQty">-</button>
                 <input type="number" min="1" max="{{ $maxQty }}" wire:model.lazy="qty"
-                    wire:change="updateQty($event.target.value)"
-                    class="w-16 text-center border rounded px-2 py-0.5" />
-                <button type="button" class="w-10 py-1 bg-gray-200 rounded"
-                    wire:click="incrementQty">+</button>
+                    wire:change="updateQty($event.target.value)" class="w-16 text-center border rounded px-2 py-0.5" />
+                <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="incrementQty">+</button>
                 <span class="text-gray-400 ml-2 text-sm">{{ __('home.storage', ['storage' => $maxQty]) }}</span>
             </div>
             {{-- 购买按钮 --}}
@@ -215,8 +348,7 @@
                     {{ __('home.addCart') }}
                 </button>
 
-                <button
-                    wire:click="buyNow"
+                <button wire:click="buyNow"
                     class="w-full px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">
                     {{ __('home.buy_now') }}
                 </button>
@@ -251,4 +383,31 @@
     <script type="application/ld+json">
         {!! json_encode($structuredData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
     </script>
+
+    <style>
+        /* 自定义样式 */
+        .group:hover .group-hover\:opacity-100 {
+            opacity: 1;
+        }
+
+        /* 优化鼠标悬停时的过渡效果 */
+        .cursor-crosshair:hover {
+            cursor: crosshair;
+        }
+
+        /* 禁用图片拖拽 */
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+
+        /* 确保按钮可以点击 */
+        button {
+            pointer-events: auto;
+        }
+    </style>
 @endPushOnce
