@@ -193,10 +193,10 @@
 
                     <!-- 缩略图导航 -->
                     @if ($images->count() > 1)
-                        <div class="flex justify-center gap-2 mt-3">
+                        <div class="flex justify-center gap-4 mt-3">
                             @foreach ($images as $i => $img)
                                 <button type="button"
-                                    class="relative w-12 h-12 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105"
+                                    class="relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105"
                                     :class="{
                                         'border-teal-600 ring-2 ring-teal-200': active === {{ $i }},
                                         'border-gray-300 hover:border-teal-400': active !== {{ $i }}
