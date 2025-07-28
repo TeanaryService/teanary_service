@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('language_id');
 
             $table->string('title');
-            $table->string('summary')->nullable(); // 简短摘要
+            $table->string('summary', 512)->nullable(); // 简短摘要
             $table->text('content')->nullable(); // 富文本内容
 
             $table->unique(['article_id', 'language_id']);

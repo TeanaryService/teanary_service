@@ -40,7 +40,7 @@
         </header>
 
         {{-- 正文内容 --}}
-        <div class="prose prose-lg max-w-none prose-gray">
+        <div class="prose max-w-none prose-gray">
             {!! $translation?->content !!}
         </div>
     </article>
