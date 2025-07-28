@@ -18,6 +18,7 @@
     <meta name="renderer" content="webkit">
     <meta name="force-rendering" content="webkit">
     <meta name="google" value="notranslate">
+    <meta name="yandex-verification" content="14a451c112fe3a18" />
 
     {{-- SEO --}}
     @stack('seo')
