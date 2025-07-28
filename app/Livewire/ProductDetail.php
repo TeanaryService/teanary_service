@@ -22,6 +22,7 @@ class ProductDetail extends Component
             'media',
             'productTranslations',
             'productVariants.specificationValues.specificationValueTranslations',
+            'productVariants' => fn($q) => $q->orderBy('price'),
             'productVariants.media',
             'productCategories.categoryTranslations',
             'attributeValues.attributeValueTranslations'
