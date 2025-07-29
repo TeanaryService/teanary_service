@@ -153,7 +153,7 @@
                                         class="flex items-start p-4 border rounded-lg hover:border-teal-500 transition cursor-pointer"
                                         :class="{ 'ring-2 ring-teal-500': shippingAddress == {{ $address->id }} }">
                                         <input type="radio" wire:model.live="shippingAddress"
-                                            value="{{ $address->id }}" class="mt-1">
+                                            value="{{ $address->id }}" class="mt-1 text-teal-500 focus:ring-teal-500 border-teal-300">
                                         <div class="ml-4 space-y-1">
                                             <div class="font-medium text-gray-900">{{ $address->firstname }}
                                                 {{ $address->lastname }}</div>
@@ -257,27 +257,41 @@
                     {{-- 支付方式选择 --}}
                     <div class="mt-4">
                         <label class="block mb-2 font-semibold text-gray-700">{{ __('app.payment_method') }}</label>
-                        <select wire:model="paymentMethod" class="w-full p-3 rounded-lg border-gray-300">
-                            <option value="">{{ __('app.select_payment_method') }}</option>
-                            @foreach ($paymentMethods as $method)
-                                <option value="{{ $method->value }}">{{ $method->label() }}</option>
-                            @endforeach
-                        </select>
+                        <div wire:init="initCheckoutMethods">
+                            @if($loadingPaymentMethods)
+                                <div class="animate-pulse flex space-x-4">
+                                    <div class="h-12 bg-slate-200 rounded w-full"></div>
+                                </div>
+                            @else
+                                <select wire:model="paymentMethod" class="w-full p-3 rounded-lg border-gray-300">
+                                    <option value="">{{ __('app.select_payment_method') }}</option>
+                                    @foreach ($paymentMethods as $method)
+                                        <option value="{{ $method->value }}">{{ $method->label() }}</option>
+                                    @endforeach
+                                </select>
+                            @endif
+                        </div>
                     </div>
 
                     {{-- 配送方式选择 --}}
                     <div class="mt-4">
                         <label class="block mb-2 font-semibold text-gray-700">{{ __('app.shipping_method') }}</label>
-                        <select wire:model="shippingMethod" wire:change="updatedShippingMethod($event.target.value)" class="w-full p-3 rounded-lg border-gray-300">
-                            <option value="">{{ __('app.select_shipping_method') }}</option>
-                            @foreach ($shippingMethods as $method)
-                                <option value="{{ $method['value'] }}">
-                                    {{ $method['label'] }}（{{ $method['description'] }}，+{{ $currencyService->convertWithSymbol($method['fee'], $currencyCode) }}）
-                                </option>
-                            @endforeach
-                        </select>
-                        @if ($shippingDescription)
-                            <div class="text-xs text-gray-500 mt-1">{{ $shippingDescription }}</div>
+                        @if($loadingShippingMethods)
+                            <div class="animate-pulse flex space-x-4">
+                                <div class="h-12 bg-slate-200 rounded w-full"></div>
+                            </div>
+                        @else
+                            <select wire:model="shippingMethod" wire:change="changeShippingMethod($event.target.value)" class="w-full p-3 rounded-lg border-gray-300">
+                                <option value="">{{ __('app.select_shipping_method') }}</option>
+                                @foreach ($shippingMethods as $method)
+                                    <option value="{{ $method['value'] }}">
+                                        {{ $method['label'] }}（{{ $method['description'] }}，+{{ $currencyService->convertWithSymbol($method['fee'], $currencyCode) }}）
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($shippingDescription)
+                                <div class="text-xs text-gray-500 mt-1">{{ $shippingDescription }}</div>
+                            @endif
                         @endif
                     </div>
 

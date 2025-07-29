@@ -40,7 +40,7 @@ class Country extends Model
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'postcode_required' => 'bool',
+        'postcode_required' => 'boolean',
         'active' => 'bool'
     ];
 

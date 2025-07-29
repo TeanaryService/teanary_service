@@ -51,6 +51,10 @@ class Checkout extends Component
     public $shippingFee = 0;
     public $shippingDescription = '';
 
+    // 添加loading状态属性
+    public $loadingShippingMethods = false;
+    public $loadingPaymentMethods = false;
+
     protected $rules = [
         'address.firstname' => 'required|string|max:255',
         'address.lastname' => 'required|string|max:255',
@@ -100,15 +104,20 @@ class Checkout extends Component
         if (!empty($this->address['country_id'])) {
             $this->updatedAddressCountryId($this->address['country_id']);
         }
+    }
 
-        // 获取支付方式和配送方式
-        $this->updatePaymentMethods();
-        $this->updateShippingMethods();
+    // 添加初始化方法
+    public function initCheckoutMethods()
+    {
+        $this->loadingPaymentMethods = true;
+        $this->loadingShippingMethods = true;
 
-        // 默认选中第一个配送方式
-        if (!empty($this->shippingMethods)) {
-            $this->shippingMethod = $this->shippingMethods[0]['value'];
-            $this->updatedShippingMethod($this->shippingMethod);
+        try {
+            $this->updatePaymentMethods();
+            $this->updateShippingMethods();
+        } finally {
+            $this->loadingPaymentMethods = false;
+            $this->loadingShippingMethods = false;
         }
     }
 
@@ -252,19 +261,33 @@ class Checkout extends Component
         $this->orderPromotion = $orderPromo['promotion'] ?? null;
     }
 
+    protected function getAddressRules()
+    {
+        $rules = $this->rules;
+        
+        // 根据国家设置邮编验证规则
+        if ($this->address['country_id']) {
+            $country = \App\Models\Country::find($this->address['country_id']);
+            $rules['address.postcode'] = $country && $country->postcode_required 
+                ? 'required|string|max:20'
+                : 'nullable|string|max:20';
+        }
+
+        // 根据国家设置地区验证规则
+        $zones = \App\Models\Zone::getZonesByCountryAndLanguage($this->address['country_id'] ?? null);
+        if (!empty($zones)) {
+            $rules['address.zone_id'] = 'required|exists:zones,id';
+        } else {
+            $rules['address.zone_id'] = 'nullable|exists:zones,id';
+        }
+
+        return $rules;
+    }
+
     public function saveAddress()
     {
         try {
-            $rules = $this->rules;
-
-            $zones = \App\Models\Zone::getZonesByCountryAndLanguage($this->address['country_id'] ?? null);
-            if (!empty($zones)) {
-                $rules['address.zone_id'] = 'required|exists:zones,id';
-            } else {
-                $rules['address.zone_id'] = 'nullable|exists:zones,id';
-            }
-
-            $this->validate($rules);
+            $this->validate($this->getAddressRules());
 
             $data = $this->address;
             $data['session_id'] = session()->getId();
@@ -299,6 +322,16 @@ class Checkout extends Component
         }
     }
 
+    // 修正更新配送方式的方法
+    public function changeShippingMethod($value) 
+    {
+        $this->shippingMethod = $value;
+        $method = collect($this->shippingMethods)->firstWhere('value', $value);
+        $this->shippingFee = $method['fee'] ?? 0;
+        $this->shippingDescription = $method['description'] ?? '';
+        $this->recalculateOrderTotal();
+    }
+    
     public function createOrder()
     {
         // 验证收货地址
