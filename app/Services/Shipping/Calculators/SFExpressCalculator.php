@@ -8,6 +8,7 @@ use App\Services\LocaleCurrencyService;
 use App\Services\Shipping\Contracts\ShippingCalculatorInterface;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class SFExpressCalculator implements ShippingCalculatorInterface
 {
@@ -53,7 +54,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
             ];
         } catch (\Throwable $e) {
             // 可选：记录日志
-            // Log::error('SFExpress parse error', ['error' => $e->getMessage(), 'result' => $result]);
+            Log::error('SFExpress parse error', ['error' => $e->getMessage(), 'result' => $result]);
             return [];
         }
     }
