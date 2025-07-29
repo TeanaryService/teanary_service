@@ -37,7 +37,7 @@
     }
 @endphp
 
-<div class="min-h-screen mb-10">
+<div class="min-h-[70vh] mb-10">
     <div class="max-w-7xl mx-auto px-6">
         <x-breadcrumbs :items="$breadcrumbs" />
 

@@ -7,7 +7,7 @@
     ];
 @endphp
 
-<div class="max-w-5xl mx-auto px-6 min-h-screen bg-white">
+<div class="max-w-5xl mx-auto px-6 min-h-[70vh] bg-white">
     <x-breadcrumbs :items="$breadcrumbs" />
 
     <!-- 搜索框 -->

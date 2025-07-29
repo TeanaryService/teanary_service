@@ -15,7 +15,7 @@
     $cover = $article->getFirstMediaUrl('image');
 @endphp
 
-<div class="max-w-5xl mx-auto px-6 min-h-screen mb-10">
+<div class="max-w-5xl mx-auto px-6 min-h-[70vh] mb-10">
     <x-breadcrumbs :items="$breadcrumbs" />
 
     <article class="space-y-8 bg-gray-50 rounded-xl p-6">

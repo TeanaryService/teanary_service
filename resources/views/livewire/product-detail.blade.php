@@ -76,7 +76,7 @@
 
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 min-h-screen">
+<div class="max-w-7xl mx-auto px-6 min-h-[70vh]">
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}

@@ -14,7 +14,7 @@
             </div>
 
             <!-- 快速链接 -->
-            <div>
+            <div class="hidden md:block">
                 <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.quick_links') }}</h3>
                 <ul class="space-y-1">
                     <li><a href="{{ locaRoute('home') }}" class="hover:text-teal-600">{{ __('app.home') }}</a></li>

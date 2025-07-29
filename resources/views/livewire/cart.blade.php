@@ -3,7 +3,7 @@
     $currencyCode = session('currency');
 @endphp
 
-<div class="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-white">
+<div class="max-w-7xl mx-auto px-4 py-10 min-h-[70vh] bg-white">
     <h1 class="text-3xl font-extrabold text-teal-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
     <form wire:submit.prevent="checkout">
         <div class="bg-white rounded-xl shadow-lg p-8">

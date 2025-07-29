@@ -16,7 +16,7 @@
     $textColor = $type === 'error' ? 'text-red-600' : 'text-teal-600';
 @endphp
 
-<div class="min-h-screen flex flex-col items-center justify-center {{ $bgColor }} text-center p-6">
+<div class="min-h-[70vh] flex flex-col items-center justify-center {{ $bgColor }} text-center p-6">
     <main role="main" aria-labelledby="payment-status-title" class="bg-white p-8 rounded-xl shadow-md max-w-md w-full relative">
         
         {{-- 动画图标 --}}
