@@ -88,5 +88,11 @@ return [
     'article_search_placeholder' => '搜索你感兴趣的茶叶文章...',
 
     'images' => '图片',
-    'zoom_on_hover' => '悬停放大'
+    'zoom_on_hover' => '悬停放大',
+
+    // 错误消息
+    'error_no_shipping_address' => '请选择收货地址',
+    'error_no_payment_method' => '请选择支付方式',
+    'error_no_shipping_method' => '请选择配送方式',
+    'error_order_create_failed' => '创建订单失败,请重试',
 ];

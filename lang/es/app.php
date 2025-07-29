@@ -88,5 +88,10 @@ return [
     'article_search_placeholder' => 'Buscar artículos sobre té que te interesen...',
 
     'images' => 'Imagen',
-    'zoom_on_hover' => 'Ampliar al pasar el cursor'
+    'zoom_on_hover' => 'Ampliar al pasar el cursor',
+
+    'error_no_shipping_address' => 'Por favor, selecciona una dirección de envío',
+    'error_no_payment_method' => 'Por favor, selecciona un método de pago',
+    'error_no_shipping_method' => 'Por favor, selecciona un método de envío',
+    'error_order_create_failed' => 'No se pudo crear el pedido, por favor inténtalo de nuevo',
 ];

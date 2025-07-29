@@ -88,5 +88,10 @@ return [
     'article_search_placeholder' => '興味のあるお茶の記事を検索...',
 
     'images' => '画像',
-    'zoom_on_hover' => 'ホバーでズーム'
+    'zoom_on_hover' => 'ホバーでズーム',
+
+    'error_no_shipping_address' => '配送先住所を選択してください',
+    'error_no_payment_method' => '支払い方法を選択してください',
+    'error_no_shipping_method' => '配送方法を選択してください',
+    'error_order_create_failed' => '注文の作成に失敗しました。もう一度お試しください',
 ];

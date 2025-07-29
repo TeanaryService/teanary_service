@@ -301,8 +301,21 @@ class Checkout extends Component
 
     public function createOrder()
     {
+        // 验证收货地址
         if (!$this->shippingAddress) {
-            session()->flash('error', __('app.select_shipping_address'));
+            session()->flash('error', __('app.error_no_shipping_address'));
+            return;
+        }
+
+        // 验证支付方式
+        if (!$this->paymentMethod) {
+            session()->flash('error', __('app.error_no_payment_method'));
+            return;
+        }
+
+        // 验证配送方式
+        if (!$this->shippingMethod) {
+            session()->flash('error', __('app.error_no_shipping_method'));
             return;
         }
 
@@ -310,33 +323,40 @@ class Checkout extends Component
             return redirect()->route('cart');
         }
 
-        $order = Order::create([
-            'user_id' => auth()->id(),
-            'order_no' => 'ORD-' . Str::upper(Str::random(8)),
-            'shipping_address_id' => $this->shippingAddress,
-            'billing_address_id' => $this->billingAddress,
-            'payment_method' => $this->paymentMethod,
-            'shipping_method' => $this->shippingMethod,
-            'shipping_fee' => $this->shippingFee,
-            'total' => $this->total,
-            'status' => OrderStatusEnum::Pending
-        ]);
-
-        foreach ($this->processedItems as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'product_variant_id' => $item['product_variant_id'],
-                'qty' => $item['qty'],
-                'price' => $item['price']
+        try {
+            $currency = app(LocaleCurrencyService::class)->getCurrencyByCode(session('currency'));
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'order_no' => 'ORD-' . Str::upper(Str::random(8)),
+                'shipping_address_id' => $this->shippingAddress,
+                'billing_address_id' => $this->billingAddress,
+                'payment_method' => $this->paymentMethod,
+                'shipping_method' => $this->shippingMethod,
+                'shipping_fee' => $this->shippingFee,
+                'total' => $this->total,
+                'status' => OrderStatusEnum::Pending,
+                'currency_id' => $currency->id,
             ]);
+
+            foreach ($this->processedItems as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product_id'],
+                    'product_variant_id' => $item['product_variant_id'],
+                    'qty' => $item['qty'],
+                    'price' => $item['price']
+                ]);
+            }
+
+            //下单后删除购物车
+            $cartItemIds = collect($this->checkoutItems)->pluck('cart_item_id')->all();
+            CartItem::whereIn('id', $cartItemIds)->delete();
+
+            return redirect()->route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]);
+        } catch (\Exception $e) {
+            session()->flash('error', __('app.error_order_create_failed'));
+            return;
         }
-
-        //下单后删除购物车
-        $cartItemIds = collect($this->checkoutItems)->pluck('cart_item_id')->all();
-        CartItem::whereIn('id', $cartItemIds)->delete();
-
-        return redirect()->route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]);
     }
 
     protected function getAddressLabel($address)

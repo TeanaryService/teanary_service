@@ -88,5 +88,10 @@ return [
     'article_search_placeholder' => 'Suche nach interessanten Teeartikeln...',
 
     'images' => 'Bild',
-    'zoom_on_hover' => 'Vergrößern bei Hover'
+    'zoom_on_hover' => 'Vergrößern bei Hover',
+
+    'error_no_shipping_address' => 'Bitte wähle eine Lieferadresse aus',
+    'error_no_payment_method' => 'Bitte wähle eine Zahlungsmethode aus',
+    'error_no_shipping_method' => 'Bitte wähle eine Versandart aus',
+    'error_order_create_failed' => 'Bestellung konnte nicht erstellt werden, bitte versuche es erneut',
 ];

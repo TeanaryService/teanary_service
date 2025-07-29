@@ -88,5 +88,10 @@ return [
     'article_search_placeholder' => 'Search tea articles...',
 
     'images' => 'Image',
-    'zoom_on_hover' => 'Zoom on Hover'
+    'zoom_on_hover' => 'Zoom on Hover',
+
+    'error_no_shipping_address' => 'Please select a shipping address',
+    'error_no_payment_method' => 'Please select a payment method',
+    'error_no_shipping_method' => 'Please select a shipping method',
+    'error_order_create_failed' => 'Failed to create order, please try again',
 ];

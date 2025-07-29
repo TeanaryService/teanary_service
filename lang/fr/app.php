@@ -88,5 +88,10 @@ return [
     'article_search_placeholder' => 'Recherchez des articles sur le thé qui vous intéressent...',
 
     'images' => 'Image',
-    'zoom_on_hover' => 'Zoom au survol'
+    'zoom_on_hover' => 'Zoom au survol',
+
+    'error_no_shipping_address' => 'Veuillez sélectionner une adresse de livraison',
+    'error_no_payment_method' => 'Veuillez sélectionner un mode de paiement',
+    'error_no_shipping_method' => 'Veuillez sélectionner un mode de livraison',
+    'error_order_create_failed' => 'Échec de la création de la commande, veuillez réessayer',
 ];

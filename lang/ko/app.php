@@ -88,5 +88,10 @@ return [
     'article_search_placeholder' => '관심 있는 차 관련 기사 검색...',
 
     'images' => '이미지',
-    'zoom_on_hover' => '호버 시 확대'
+    'zoom_on_hover' => '호버 시 확대',
+
+    'error_no_shipping_address' => '배송 주소를 선택해주세요',
+    'error_no_payment_method' => '결제 수단을 선택해주세요',
+    'error_no_shipping_method' => '배송 방법을 선택해주세요',
+    'error_order_create_failed' => '주문 생성에 실패했습니다. 다시 시도해주세요',
 ];

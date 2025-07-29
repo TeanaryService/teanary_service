@@ -4,6 +4,13 @@
 @endphp
 
 <div class="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-white">
+    {{-- 添加错误提示 --}}
+    @if (session('error'))
+        <div class="mb-4 p-4 bg-red-50 border-l-4 border-red-400 text-red-700">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <h1 class="text-3xl font-bold text-teal-700 mb-8">{{ __('app.checkout') }}</h1>
 
     @if (!empty($items))

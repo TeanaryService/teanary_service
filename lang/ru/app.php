@@ -88,5 +88,10 @@ return [
     'article_search_placeholder' => 'Ищите интересующие вас статьи о чае...',
 
     'images' => 'Изображение',
-    'zoom_on_hover' => 'Увеличение при наведении'
+    'zoom_on_hover' => 'Увеличение при наведении',
+
+    'error_no_shipping_address' => 'Пожалуйста, выберите адрес доставки',
+    'error_no_payment_method' => 'Пожалуйста, выберите способ оплаты',
+    'error_no_shipping_method' => 'Пожалуйста, выберите способ доставки',
+    'error_order_create_failed' => 'Не удалось создать заказ, попробуйте снова',
 ];
