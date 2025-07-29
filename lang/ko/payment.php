@@ -14,5 +14,10 @@ return [
     'back_home' => '홈으로 돌아가기',
     'view_order' => '주문 보기',
 
-    'redirecting_to_payment' => '결제 페이지로 이동 중입니다...',
+    'processing' => '처리 중...',
+    'redirecting_to_payment' => '결제 게이트웨이로 이동 중입니다. 잠시만 기다려주세요',
+    'error_occurred' => '결제 처리 실패',
+    'payment_error' => '결제 요청이 실패했습니다. 다시 시도하거나 고객 지원에 문의하세요',
+    'retry' => '다시 시도하기',
+    'back_to_order' => '주문으로 돌아가기',
 ];

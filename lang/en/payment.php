@@ -14,5 +14,10 @@ return [
     'back_home' => 'Back to Homepage',
     'view_order' => 'View Order',
 
-    'redirecting_to_payment' => 'Redirecting to payment...',
+    'processing' => 'Processing...',
+    'redirecting_to_payment' => 'Redirecting to payment gateway, please wait',
+    'error_occurred' => 'Payment Processing Failed',
+    'payment_error' => 'Payment request failed, please try again or contact support',
+    'retry' => 'Try Again',
+    'back_to_order' => 'Back to Order',
 ];

@@ -14,5 +14,10 @@ return [
     'back_home' => 'Volver al inicio',
     'view_order' => 'Ver pedido',
 
-    'redirecting_to_payment' => 'Redirigiendo al pago...',
+    'processing' => 'Procesando...',
+    'redirecting_to_payment' => 'Redirigiendo a la pasarela de pago, por favor espera',
+    'error_occurred' => 'Error al procesar el pago',
+    'payment_error' => 'La solicitud de pago falló, intenta nuevamente o contacta al soporte',
+    'retry' => 'Intentar de nuevo',
+    'back_to_order' => 'Volver al pedido',
 ];

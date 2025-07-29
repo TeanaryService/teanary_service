@@ -14,5 +14,10 @@ return [
     'back_home' => 'ホームに戻る',
     'view_order' => '注文を見る',
 
-    'redirecting_to_payment' => '支払いページにリダイレクトしています...',
+    'processing' => '処理中...',
+    'redirecting_to_payment' => '決済ゲートウェイにリダイレクト中です。しばらくお待ちください',
+    'error_occurred' => '支払い処理に失敗しました',
+    'payment_error' => '支払いリクエストに失敗しました。再試行するかサポートに連絡してください',
+    'retry' => '再試行する',
+    'back_to_order' => '注文に戻る',
 ];

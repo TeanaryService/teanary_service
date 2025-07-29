@@ -14,5 +14,10 @@ return [
     'back_home' => 'Retour à l’accueil',
     'view_order' => 'Voir la commande',
 
-    'redirecting_to_payment' => 'Redirection vers le paiement...',
+    'processing' => 'Traitement en cours...',
+    'redirecting_to_payment' => 'Redirection vers la passerelle de paiement, veuillez patienter',
+    'error_occurred' => 'Échec du traitement du paiement',
+    'payment_error' => 'La demande de paiement a échoué, veuillez réessayer ou contacter le support',
+    'retry' => 'Réessayer',
+    'back_to_order' => 'Retour à la commande',
 ];

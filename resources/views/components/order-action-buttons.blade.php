@@ -7,7 +7,7 @@
 
 <div class="flex flex-col gap-2">
     @if ($order->status->canBePaid())
-        <a href="{{ locaRoute('payment.checkout', ['orderId' => $order]) }}"
+        <a target="_blank" href="{{ locaRoute('payment.checkout', ['orderId' => $order]) }}"
             class="{{ $btnClass }} bg-blue-600 hover:bg-blue-700 focus:ring-blue-500">
             <x-heroicon-o-lock-closed class="w-4 h-4" />
             {{ __('orders.pay_now') }}

@@ -14,5 +14,10 @@ return [
     'back_home' => 'Zur Startseite',
     'view_order' => 'Bestellung ansehen',
 
-    'redirecting_to_payment' => 'Weiterleitung zur Zahlung...',
+    'processing' => 'Wird verarbeitet...',
+    'redirecting_to_payment' => 'Weiterleitung zum Zahlungsanbieter, bitte warten',
+    'error_occurred' => 'Zahlungsverarbeitung fehlgeschlagen',
+    'payment_error' => 'Zahlungsanforderung fehlgeschlagen, bitte erneut versuchen oder den Support kontaktieren',
+    'retry' => 'Erneut versuchen',
+    'back_to_order' => 'Zurück zur Bestellung',
 ];
