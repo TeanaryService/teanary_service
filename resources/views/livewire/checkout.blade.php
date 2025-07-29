@@ -150,8 +150,7 @@
                             @if ($addresses)
                                 @foreach ($addresses as $address)
                                     <label
-                                        class="flex items-start p-4 border rounded-lg hover:border-teal-500 transition cursor-pointer"
-                                        :class="{ 'ring-2 ring-teal-500': shippingAddress == {{ $address->id }} }">
+                                        class="{{ $shippingAddress == $address->id ? 'ring-2 ring-teal-500' : '' }} flex items-start p-4 border rounded-lg hover:border-teal-500 transition cursor-pointer">
                                         <input type="radio" wire:model.live="shippingAddress"
                                             value="{{ $address->id }}" class="mt-1 text-teal-500 focus:ring-teal-500 border-teal-300">
                                         <div class="ml-4 space-y-1">
