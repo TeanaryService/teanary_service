@@ -40,7 +40,7 @@
                             <p>{{ $order->shippingAddress->address_1 }} {{ $order->shippingAddress->address_2 }}</p>
                             <p>{{ $order->shippingAddress->city }},
                                 {{ $order->shippingAddress->postcode }}</p>
-                            <p>{{ $order->shippingAddress->zone->zoneTranslations->where('language_id', $lang->id)->first()->name }},{{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()->name }}
+                            <p>{{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()->name }},{{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()->name }}
                             </p>
                         </div>
                     </div>
