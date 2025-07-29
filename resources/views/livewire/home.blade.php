@@ -15,7 +15,7 @@
                     {{ __('home.shop_now') }}
                 </a>
             </div>
-            <div class="flex-1">
+            <div class="flex-1 hidden md:block">
                 <img src="{{ asset('images/banner-tea.png') }}" alt="{{ __('home.hero_image_alt') }}"
                     class="w-full h-auto rounded-2xl shadow-xl">
             </div>
