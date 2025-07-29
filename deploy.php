@@ -10,7 +10,9 @@ set('keep_releases', 2);
 set('default_stage', 'production');
 
 // 共享和可写
-add('shared_files', []);
+add('shared_files', [
+    'public/sitemap.xml'
+]);
 add('shared_dirs', []);
 add('writable_dirs', ['storage', 'bootstrap/cache']);
 

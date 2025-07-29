@@ -17,3 +17,6 @@ Schedule::command('app:clear-cache-if-expired')
 
 Schedule::command('app:clean-orphans')
     ->daily();
+
+Schedule::command('app:sitemap')
+    ->daily();
