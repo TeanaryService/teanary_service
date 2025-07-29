@@ -13,4 +13,6 @@ return [
     'failed_message' => 'お支払い処理中に問題が発生しました。',
     'back_home' => 'ホームに戻る',
     'view_order' => '注文を見る',
+
+    'redirecting_to_payment' => '支払いページにリダイレクトしています...',
 ];

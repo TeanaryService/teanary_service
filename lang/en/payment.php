@@ -13,4 +13,6 @@ return [
     'failed_message' => 'We encountered an issue processing your payment.',
     'back_home' => 'Back to Homepage',
     'view_order' => 'View Order',
+
+    'redirecting_to_payment' => 'Redirecting to payment...',
 ];

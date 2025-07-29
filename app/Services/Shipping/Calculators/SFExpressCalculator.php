@@ -39,6 +39,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
         try {
             $requestData = $this->buildRequestData($processedItems, $address);
             $result = $this->request('COM_RECE_IUOP_ESTIMATE_FEE', $requestData);
+            Log::info($result);
             $data = json_decode($result['apiResultData'] ?? '', true, 512, JSON_THROW_ON_ERROR);
 
             if (empty($data['success'])) {
@@ -49,7 +50,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
             $forCode = $data['msgData']['currency'];
             $fee = $currencyService->convert((float)$data['msgData']['totalFee'], $currencyService->getDefaultCurrencyCode(), $forCode);
             return [
-                'description' => __('app.shipping.description.sf', ['days' => '15-30']),
+                'description' => __('shipping.description.sf', ['days' => '15-30']),
                 'fee' => $fee,
             ];
         } catch (\Throwable $e) {

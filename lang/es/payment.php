@@ -13,4 +13,6 @@ return [
     'failed_message' => 'Hemos encontrado un problema al procesar su pago.',
     'back_home' => 'Volver al inicio',
     'view_order' => 'Ver pedido',
+
+    'redirecting_to_payment' => 'Redirigiendo al pago...',
 ];

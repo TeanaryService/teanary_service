@@ -34,7 +34,7 @@
                         <tbody class="divide-y divide-gray-200">
                             @foreach ($orders as $order)
                                 @php
-                                    $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
+                                    $orderCurrency = $localeService->getCurrencies()->where('id', $order->currency_id)->first();
                                 @endphp
                                 <tr>
                                     <td class="px-6 py-4">{{ $order->order_no }}</td>

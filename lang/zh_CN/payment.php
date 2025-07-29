@@ -13,4 +13,6 @@ return [
     'failed_message' => '我们在处理您的支付时遇到了问题。',
     'back_home' => '返回首页',
     'view_order' => '查看订单',
+
+    'redirecting_to_payment' => '正在跳转支付...',
 ];
