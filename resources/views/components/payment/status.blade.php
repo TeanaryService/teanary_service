@@ -5,8 +5,8 @@
     'message' => '',
     'icon' => ['heroicon-o-check-circle', 'text-teal-500'],
     'button' => [
-        'label' => {{ __('payment.back_home') }},
-        'url' => '/',
+        'label' => "{{ __('payment.back_home') }}",
+        'url' => "{{ localRoute('home') }}",
         'class' => 'bg-teal-600 hover:bg-teal-700'
     ],
 ])
