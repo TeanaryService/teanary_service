@@ -5,10 +5,12 @@ namespace App\Services\Payments;
 use App\Enums\PaymentMethodEnum;
 use App\Services\LocaleCurrencyService;
 use App\Services\Payments\Contracts\PaymentGatewayInterface;
+use Illuminate\Support\Facades\Log;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
+use PayPalHttp\HttpException;
 
 class PaypalGateway implements PaymentGatewayInterface
 {
@@ -32,37 +34,55 @@ class PaypalGateway implements PaymentGatewayInterface
 
     public function create(array $order): string
     {
-        $request = new OrdersCreateRequest();
-        $request->prefer('return=representation');
+        try {
+            $request = new OrdersCreateRequest();
+            $request->prefer('return=representation');
 
-        //处理金额/货币
-        $currencyService = app(LocaleCurrencyService::class);
-        $currentCurrency = session('currency', $currencyService->getDefaultCurrencyCode());
-        $total = $currencyService->convert($order['total'], 'USD', $currentCurrency);
+            // 处理金额/货币
+            $currencyService = app(LocaleCurrencyService::class);
+            $currentCurrency = session('currency', $currencyService->getDefaultCurrencyCode());
+            $total = $currencyService->convert($order['total'], 'USD', $currentCurrency);
 
-        $request->body = [
-            'intent' => 'CAPTURE',
-            'purchase_units' => [[
-                'amount' => [
-                    'currency_code' => 'USD',
-                    'value' => $total,
+            $request->body = [
+                'intent' => 'CAPTURE',
+                'purchase_units' => [[
+                    'amount' => [
+                        'currency_code' => 'USD',
+                        'value' => number_format($total, 2, '.', ''), // 确保是有效格式
+                    ],
+                    'description' => $order['name'],
+                ]],
+                'application_context' => [
+                    'cancel_url' => locaRoute('payment.cancel'),
+                    'return_url' => locaRoute('payment.success'),
                 ],
-                'description' => $order['name'],
-            ]],
-            'application_context' => [
-                'cancel_url' => locaRoute('payment.cancel'),
-                'return_url' => locaRoute('payment.success'),
-            ],
-        ];
+            ];
 
-        $response = $this->client->execute($request);
+            $response = $this->client->execute($request);
 
-        foreach ($response->result->links as $link) {
-            if ($link->rel === 'approve') {
-                return $link->href;
+            foreach ($response->result->links as $link) {
+                if ($link->rel === 'approve') {
+                    return $link->href;
+                }
             }
-        }
 
-        throw new \Exception('PayPal approval link not found.');
+            throw new \Exception('PayPal approval link not found.');
+        } catch (HttpException $e) {
+            Log::error('PayPal HTTP Exception', [
+                'status_code' => $e->statusCode,
+                'message' => $e->getMessage(),
+                'headers' => $e->headers,
+                'response' => $e->getMessage(),
+            ]);
+
+            throw new \Exception('PayPal API error: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::error('General PayPal Error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            throw new \Exception('Something went wrong with PayPal order creation.');
+        }
     }
 }
