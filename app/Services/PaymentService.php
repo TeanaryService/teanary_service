@@ -6,6 +6,8 @@ use App\Models\Address;
 use App\Enums\PaymentMethodEnum;
 use App\Services\Payments\PaymentManager;
 use Illuminate\Support\Facades\Log;
+use App\Models\Order;
+use App\Enums\OrderStatusEnum;
 
 class PaymentService
 {
@@ -33,6 +35,18 @@ class PaymentService
             ]);
 
             return locaRoute('payment.failure');
+        }
+    }
+
+    public function handlePaymentSuccess(Order $order): void
+    {
+        if ($order->status === OrderStatusEnum::Pending) {
+            $order->update([
+                'status' => OrderStatusEnum::Paid
+            ]);
+
+            // 可以在这里触发订单支付成功的事件
+            // event(new OrderPaidEvent($order));
         }
     }
 }

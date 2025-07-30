@@ -51,6 +51,7 @@ class PaypalGateway implements PaymentGatewayInterface
                         'value' => number_format($total, 2, '.', ''), // 确保是有效格式
                     ],
                     'description' => $order['name'],
+                    'custom_id' => $order['order_no'], // 添加订单编号
                 ]],
                 'application_context' => [
                     'cancel_url' => locaRoute('payment.cancel'),
