@@ -286,11 +286,21 @@
                                 'amount' => $currencyService->convertWithSymbol($promotionInfo['discount'], $currencyCode),
                             ]) }}
                     </span>
+                    @if ($variant && $variant->weight)
+                        <span class="ml-2 text-sm text-gray-500">
+                            ({{ $currencyService->convertWithSymbol($finalPrice / $variant->weight, $currencyCode) }}/g)
+                        </span>
+                    @endif
                     @if ($promotionInfo['description'])
                         <div class="text-xs text-red-600 mt-1">{{ $promotionInfo['description'] }}</div>
                     @endif
                 @else
                     <span class="text-2xl font-bold text-teal-700">{{ $price }}</span>
+                    @if ($variant && $variant->weight)
+                        <span class="ml-2 text-sm text-gray-500">
+                            ({{ $currencyService->convertWithSymbol($variant->price / $variant->weight, $currencyCode) }}/g)
+                        </span>
+                    @endif
                 @endif
             </div>
             {{-- 规格参数 --}}
