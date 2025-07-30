@@ -40,12 +40,12 @@ return [
     'storage' => 'Stock: :storage',
 
     // Promotion related
-    'promotions' => 'Tea Promotions',
-    'promotion_rule_order_total_min' => 'Order',
+    'promotions' => 'Promotions',
+    'promotion_rule_order_total_min' => 'Spend at least',
     'promotion_discount_fixed' => 'Save',
-    'promotion_rule_order_qty_min' => 'Buy minimum of',
-    'promotion_discount_percentage' => 'Discount',
-    'promotion_starts_at' => 'Start Time',
-    'promotion_ends_at' => 'End Time',
-    'promotion_text' => ':condition :condition_value get :discount :discount_value',
+    'promotion_rule_order_qty_min' => 'Buy at least',
+    'promotion_discount_percentage' => '% Off',
+    'promotion_starts_at' => 'Start Date',
+    'promotion_ends_at' => 'End Date',
+    'promotion_text' => 'When :condition :condition_value, get :discount :discount_value',
 ];

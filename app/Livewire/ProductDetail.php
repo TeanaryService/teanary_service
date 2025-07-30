@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Product;
 use App\Services\LocaleCurrencyService;
+use App\Services\PromotionService;
 
 class ProductDetail extends Component
 {
@@ -13,6 +14,7 @@ class ProductDetail extends Component
     public $selectedVariantId;
     public $categoryNames = [];
     public $qty = 1;
+    public $availablePromotions = [];
 
     public function mount($slug)
     {
@@ -34,6 +36,13 @@ class ProductDetail extends Component
         // 默认选第一个规格
         $this->selectedVariantId = $this->variants->first()?->id;
 
+        // 获取可用促销信息
+        if ($this->selectedVariantId) {
+            $variant = $this->variants->where('id', $this->selectedVariantId)->first();
+            $promoService = app(PromotionService::class);
+            $this->availablePromotions = $promoService->getAvailablePromotionsForVariant($variant, auth()->user());
+        }
+
         // 分类名（多语言）
         $this->categoryNames = $this->product->productCategories->map(function ($cat) use ($lang) {
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
@@ -44,6 +53,12 @@ class ProductDetail extends Component
     public function selectVariant($variantId)
     {
         $this->selectedVariantId = $variantId;
+
+        // 更新当前规格的可用促销
+        $variant = $this->variants->where('id', $variantId)->first();
+        $promoService = app(PromotionService::class);
+        $this->availablePromotions = $promoService->getAvailablePromotionsForVariant($variant, auth()->user());
+
         // 切换规格时重置数量为1
         $this->qty = 1;
     }
@@ -90,14 +105,7 @@ class ProductDetail extends Component
     public function render()
     {
         $variant = $this->variants->where('id', $this->selectedVariantId)->first();
-        $promotionInfo = null;
         $finalPrice = $variant?->price ?? 0;
-        if ($variant) {
-            $promoService = app(\App\Services\PromotionService::class);
-            $promo = $promoService->calculateVariantPrice($variant, $this->qty, auth()->user());
-            $promotionInfo = $promo['promotion'];
-            $finalPrice = $promo['final_price'];
-        }
 
         return view('livewire.product-detail', [
             'product' => $this->product,
@@ -105,7 +113,7 @@ class ProductDetail extends Component
             'selectedVariantId' => $this->selectedVariantId,
             'categoryNames' => $this->categoryNames,
             'qty' => $this->qty,
-            'promotionInfo' => $promotionInfo,
+            'availablePromotions' => $this->availablePromotions,
             'finalPrice' => $finalPrice,
         ]);
     }

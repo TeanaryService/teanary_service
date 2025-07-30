@@ -40,12 +40,12 @@ return [
     'storage' => '재고: :storage',
 
     // 프로모션 관련
-    'promotions' => '차 선물 할인',
-    'promotion_rule_order_total_min' => '주문 금액',
-    'promotion_discount_fixed' => '즉시 할인',
-    'promotion_rule_order_qty_min' => '구매 수량 달성',
-    'promotion_discount_percentage' => '할인율',
-    'promotion_starts_at' => '시작 시간',
-    'promotion_ends_at' => '종료 시간',
+    'promotions' => '프로모션',
+    'promotion_rule_order_total_min' => '최소 구매 금액',
+    'promotion_discount_fixed' => '할인',
+    'promotion_rule_order_qty_min' => '최소 구매 수량',
+    'promotion_discount_percentage' => '% 할인',
+    'promotion_starts_at' => '시작일',
+    'promotion_ends_at' => '종료일',
     'promotion_text' => ':condition :condition_value 이상 구매 시 :discount :discount_value 적용',
 ];

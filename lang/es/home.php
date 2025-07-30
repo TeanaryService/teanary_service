@@ -40,11 +40,11 @@ return [
     'storage' => 'Stock: :storage',
 
     // 促销相关
-    'promotions' => 'Promociones de té',
-    'promotion_rule_order_total_min' => 'Pedido mínimo',
-    'promotion_discount_fixed' => 'Descuento fijo',
-    'promotion_rule_order_qty_min' => 'Cantidad mínima de compra',
-    'promotion_discount_percentage' => 'Descuento porcentual',
+    'promotions' => 'Promociones',
+    'promotion_rule_order_total_min' => 'Gasta al menos',
+    'promotion_discount_fixed' => 'Ahorra',
+    'promotion_rule_order_qty_min' => 'Compra al menos',
+    'promotion_discount_percentage' => '% de descuento',
     'promotion_starts_at' => 'Fecha de inicio',
     'promotion_ends_at' => 'Fecha de finalización',
     'promotion_text' => ':condition mínimo :condition_value para obtener :discount de :discount_value',

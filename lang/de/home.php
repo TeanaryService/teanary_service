@@ -40,12 +40,12 @@ return [
     'storage' => 'Lagerbestand: :storage',
 
     // Promotion-bezogen
-    'promotions' => 'Teegeschenk-Angebote',
-    'promotion_rule_order_total_min' => 'Bestellung',
-    'promotion_discount_fixed' => 'Direktrabatt',
-    'promotion_rule_order_qty_min' => 'Mindestbestellmenge',
-    'promotion_discount_percentage' => 'Rabatt',
-    'promotion_starts_at' => 'Startzeit',
-    'promotion_ends_at' => 'Endzeit',
+    'promotions' => 'Angebote',
+    'promotion_rule_order_total_min' => 'Mindestausgaben',
+    'promotion_discount_fixed' => 'Sparen Sie',
+    'promotion_rule_order_qty_min' => 'Mindestanzahl kaufen',
+    'promotion_discount_percentage' => '% Rabatt',
+    'promotion_starts_at' => 'Startdatum',
+    'promotion_ends_at' => 'Enddatum',
     'promotion_text' => ':condition ab :condition_value erhalten Sie :discount :discount_value',
 ];

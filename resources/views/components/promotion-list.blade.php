@@ -18,11 +18,11 @@
                             <div class="text-teal-900 font-semibold text-lg">{{ $promotion['name'] }}</div>
 
                             <div class="text-xs text-gray-500 flex gap gap-6 items-center">
-                                @if ($promotion['starts_at'])
+                                {{-- @if ($promotion['starts_at'])
                                     <p>{{ __('home.promotion_starts_at') }}:
                                         {{ \Carbon\Carbon::parse($promotion['starts_at'])->format('Y-m-d H:i') }}
                                     </p>
-                                @endif
+                                @endif --}}
                                 @if ($promotion['ends_at'])
                                     <p class="mt-1">{{ __('home.promotion_ends_at') }}:
                                         {{ \Carbon\Carbon::parse($promotion['ends_at'])->format('Y-m-d H:i') }}

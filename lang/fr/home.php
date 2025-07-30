@@ -40,11 +40,11 @@ return [
     'storage' => 'Stock : :storage',
 
     // Promotions
-    'promotions' => 'Offres spéciales sur les coffrets de thé',
-    'promotion_rule_order_total_min' => 'Commande',
-    'promotion_discount_fixed' => 'Réduction immédiate',
-    'promotion_rule_order_qty_min' => 'Achat minimum',
-    'promotion_discount_percentage' => 'Remise en %',
+    'promotions' => 'Promotions',
+    'promotion_rule_order_total_min' => 'Dépensez au moins',
+    'promotion_discount_fixed' => 'Réduction de',
+    'promotion_rule_order_qty_min' => 'Achetez au moins',
+    'promotion_discount_percentage' => '% de réduction',
     'promotion_starts_at' => 'Date de début',
     'promotion_ends_at' => 'Date de fin',
     'promotion_text' => ':condition atteint :condition_value, bénéficiez de :discount :discount_value',

@@ -40,12 +40,12 @@ return [
     'storage' => '在庫：:storage',
 
     // プロモーション関連
-    'promotions' => 'お茶の特典',
-    'promotion_rule_order_total_min' => '注文合計',
-    'promotion_discount_fixed' => '割引',
-    'promotion_rule_order_qty_min' => '購入数量満',
-    'promotion_discount_percentage' => '割引率',
-    'promotion_starts_at' => '開始日時',
-    'promotion_ends_at' => '終了日時',
+    'promotions' => 'プロモーション',
+    'promotion_rule_order_total_min' => '合計金額が',
+    'promotion_discount_fixed' => '割引額',
+    'promotion_rule_order_qty_min' => '最低購入数',
+    'promotion_discount_percentage' => '％オフ',
+    'promotion_starts_at' => '開始日',
+    'promotion_ends_at' => '終了日',
     'promotion_text' => ':condition が :condition_value 以上で :discount が :discount_value 適用されます',
 ];

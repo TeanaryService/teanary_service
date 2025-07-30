@@ -40,11 +40,11 @@ return [
     'storage' => 'В наличии: :storage',
 
     // Акции и скидки
-    'promotions' => 'Акции на чай',
-    'promotion_rule_order_total_min' => 'Заказ',
+    'promotions' => 'Акции',
+    'promotion_rule_order_total_min' => 'Минимальная сумма заказа',
     'promotion_discount_fixed' => 'Скидка',
-    'promotion_rule_order_qty_min' => 'Минимальное количество для скидки',
-    'promotion_discount_percentage' => 'Процентная скидка',
+    'promotion_rule_order_qty_min' => 'Минимальное количество',
+    'promotion_discount_percentage' => '% скидка',
     'promotion_starts_at' => 'Дата начала',
     'promotion_ends_at' => 'Дата окончания',
     'promotion_text' => ':condition от :condition_value получает :discount :discount_value',

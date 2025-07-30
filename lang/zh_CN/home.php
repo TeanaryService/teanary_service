@@ -41,11 +41,11 @@ return [
 
     // 促销相关
     'promotions' => '茶礼优惠',
-    'promotion_rule_order_total_min' => '订单',
+    'promotion_rule_order_total_min' => '满',
     'promotion_discount_fixed' => '立减',
-    'promotion_rule_order_qty_min' => '购买数量满',
-    'promotion_discount_percentage' => '折扣',
+    'promotion_rule_order_qty_min' => '买满',
+    'promotion_discount_percentage' => '折',
     'promotion_starts_at' => '开始时间',
     'promotion_ends_at' => '结束时间',
-    'promotion_text' => ':condition 满 :condition_value 享 :discount :discount_value',
+    'promotion_text' => ':condition :condition_value，:discount :discount_value',
 ];
