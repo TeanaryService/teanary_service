@@ -13,11 +13,19 @@ class ClearEmptyCarts extends Command
 
     public function handle()
     {
-        $deletedCount = Cart::empty()
-            ->where('created_at', '<', Carbon::now()->subDays(1))
+        // 清理空购物车
+        $emptyCartsCount = Cart::empty()
+            ->where('created_at', '<', Carbon::now()->subDay())
+            ->delete();
+        
+        // 清理匿名但有商品的购物车
+        $anonymousCartsCount = Cart::whereNull('user_id')
+            ->whereHas('cartItems')
+            ->where('created_at', '<', Carbon::now()->subDay())
             ->delete();
             
-        $this->info("已清理 {$deletedCount} 个空购物车");
+        $this->info("已清理 {$emptyCartsCount} 个空购物车");
+        $this->info("已清理 {$anonymousCartsCount} 个匿名购物车");
         
         return 0;
     }
