@@ -16,25 +16,46 @@
             <!-- 快速链接 -->
             <div class="hidden md:block">
                 <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.quick_links') }}</h3>
-                <ul class="space-y-1">
-                    <li><a href="{{ locaRoute('home') }}" class="hover:text-teal-600">{{ __('app.home') }}</a></li>
-                    <li><a href="{{ locaRoute('product') }}" class="hover:text-teal-600">{{ __('app.categories') }}</a>
-                    </li>
-                    <li><a href="{{ locaRoute('auth.login') }}" class="hover:text-teal-600">{{ __('app.login') }}</a>
-                    </li>
-                    {{-- <li><a href="{{ locaRoute('auth.register') }}" class="hover:text-teal-600">{{ __('app.register') }}</a></li> --}}
-                    <li><a href="{{ locaRoute('article.index') }}"
-                            class="hover:text-teal-600">{{ __('article.base_name') }}</a></li>
-                </ul>
+                <div class="grid grid-cols-2  space-x-2">
+                    <ul class="space-y-1">
+                        <li><a href="{{ locaRoute('home') }}" class="hover:text-teal-600">{{ __('app.home') }}</a></li>
+                        <li><a href="{{ locaRoute('auth.login') }}"
+                                class="hover:text-teal-600">{{ __('app.login') }}</a>
+                        </li>
+                        <li><a href="{{ locaRoute('product') }}"
+                                class="hover:text-teal-600">{{ __('app.categories') }}</a>
+                        </li>
+                        <li><a href="{{ locaRoute('article.index') }}"
+                                class="hover:text-teal-600">{{ __('article.base_name') }}</a></li>
+                    </ul>
+                    <ul class="space-y-1">
+                        @foreach ($categories as $category)
+                            <li>
+                                <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}"
+                                    class="hover:text-teal-600">{{ $category['name'] }}</a>
+                            </li>
+                        @endforeach
+
+                    </ul>
+                </div>
             </div>
 
             <!-- 联系方式 -->
             <div>
                 <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.contact_us') }}</h3>
                 <ul class="space-y-1 text-gray-500">
-                    <li>📧 hello@teanary.com</li>
-                    <li>📞 +86 18184839903</li>
-                    <li>📍 {{ __('app.address') }}</li>
+                    <li class="flex gap gap-1 items-center">
+                        <x-heroicon-o-envelope class="w-4 h-4" />
+                        <span>hello@teanary.com</span>
+                    </li>
+                    <li class="flex gap gap-1 items-center">
+                        <x-heroicon-o-phone class="w-4 h-4" />
+                        <span>+86 18184839903</span>
+                    </li>
+                    <li class="flex gap gap-1 items-center">
+                        <x-heroicon-o-map-pin class="w-4 h-4" />
+                        <span>{{ __('app.address') }}</span>
+                    </li>
                 </ul>
             </div>
 

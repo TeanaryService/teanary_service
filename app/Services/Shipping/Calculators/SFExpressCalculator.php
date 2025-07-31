@@ -55,7 +55,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
             ];
         } catch (\Throwable $e) {
             // 可选：记录日志
-            Log::error('SFExpress parse error', ['error' => $e->getMessage(), 'result' => $result]);
+            Log::error('SFExpress parse error', ['error' => $e->getMessage(), 'result' => $result ?? []]);
             return [];
         }
     }

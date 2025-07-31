@@ -94,4 +94,6 @@ return [
     'error_no_payment_method' => 'Bitte wähle eine Zahlungsmethode aus',
     'error_no_shipping_method' => 'Bitte wähle eine Versandart aus',
     'error_order_create_failed' => 'Bestellung konnte nicht erstellt werden, bitte versuche es erneut',
+
+    'checkout_support_message' => 'Wenn während des Bezahlvorgangs Probleme auftreten, kontaktieren Sie uns gerne per E-Mail: hellow@teanary.com oder WeChat: xcalder.',
 ];

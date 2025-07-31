@@ -152,7 +152,8 @@
                                     <label
                                         class="{{ $shippingAddress == $address->id ? 'ring-2 ring-teal-500' : '' }} flex items-start p-4 border rounded-lg hover:border-teal-500 transition cursor-pointer">
                                         <input type="radio" wire:model.live="shippingAddress"
-                                            value="{{ $address->id }}" class="mt-1 text-teal-500 focus:ring-teal-500 border-teal-300">
+                                            value="{{ $address->id }}"
+                                            class="mt-1 text-teal-500 focus:ring-teal-500 border-teal-300">
                                         <div class="ml-4 space-y-1">
                                             <div class="font-medium text-gray-900">{{ $address->firstname }}
                                                 {{ $address->lastname }}</div>
@@ -215,6 +216,7 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="text-gray-300">{{ __('app.checkout_support_message') }}</div>
             </div>
 
             <!-- 右侧订单汇总 -->
@@ -223,12 +225,13 @@
                     <h2 class="text-xl font-semibold text-gray-800">{{ __('app.order_summary') }}</h2>
                     <div class="flex justify-between text-base font-semibold border-t pt-4">
                         <span>{{ __('app.subtotal') }}</span>
-                        <span>{{ $currencyService->convertWithSymbol($orderPromotion ? ($total - $shippingFee) : ($total - $shippingFee), $currencyCode) }}</span>
+                        <span>{{ $currencyService->convertWithSymbol($orderPromotion ? $total - $shippingFee : $total - $shippingFee, $currencyCode) }}</span>
                     </div>
                     @if ($orderPromotion)
                         <div class="flex justify-between text-base font-semibold">
                             <span>{{ __('app.promotion_discount') }}</span>
-                            <span class="text-red-600">-{{ $currencyService->convertWithSymbol($orderPromotion['discount'], $currencyCode) }}</span>
+                            <span
+                                class="text-red-600">-{{ $currencyService->convertWithSymbol($orderPromotion['discount'], $currencyCode) }}</span>
                         </div>
                     @endif
                     <div class="flex justify-between text-base font-semibold">
@@ -237,7 +240,8 @@
                     </div>
                     <div class="flex justify-between text-lg font-bold border-t pt-4">
                         <span>{{ __('app.total') }}</span>
-                        <span class="text-teal-700 text-2xl">{{ $currencyService->convertWithSymbol($total, $currencyCode) }}</span>
+                        <span
+                            class="text-teal-700 text-2xl">{{ $currencyService->convertWithSymbol($total, $currencyCode) }}</span>
                     </div>
                     @if ($orderPromotion)
                         <div class="mt-2 p-3 bg-red-50 border-l-4 border-red-400 rounded text-red-700">
@@ -257,7 +261,7 @@
                     <div class="mt-4">
                         <label class="block mb-2 font-semibold text-gray-700">{{ __('app.payment_method') }}</label>
                         <div wire:init="initCheckoutMethods">
-                            @if($loadingPaymentMethods)
+                            @if ($loadingPaymentMethods)
                                 <div class="animate-pulse flex space-x-4">
                                     <div class="h-12 bg-slate-200 rounded w-full"></div>
                                 </div>
@@ -275,12 +279,14 @@
                     {{-- 配送方式选择 --}}
                     <div class="mt-4">
                         <label class="block mb-2 font-semibold text-gray-700">{{ __('app.shipping_method') }}</label>
-                        @if($loadingShippingMethods)
+                        @if ($loadingShippingMethods)
                             <div class="animate-pulse flex space-x-4">
                                 <div class="h-12 bg-slate-200 rounded w-full"></div>
                             </div>
                         @else
-                            <select wire:model="shippingMethod" wire:change="changeShippingMethod($event.target.value)" class="w-full p-3 rounded-lg border-gray-300">
+                            <select wire:model="shippingMethod"
+                                wire:change="changeShippingMethod($event.target.value)"
+                                class="w-full p-3 rounded-lg border-gray-300">
                                 <option value="">{{ __('app.select_shipping_method') }}</option>
                                 @foreach ($shippingMethods as $method)
                                     <option value="{{ $method['value'] }}">

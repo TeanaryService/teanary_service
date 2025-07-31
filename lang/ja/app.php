@@ -94,4 +94,6 @@ return [
     'error_no_payment_method' => '支払い方法を選択してください',
     'error_no_shipping_method' => '配送方法を選択してください',
     'error_order_create_failed' => '注文の作成に失敗しました。もう一度お試しください',
+
+    'checkout_support_message' => 'チェックアウト中に問題が発生した場合は、Email: hellow@teanary.com または WeChat: xcalder にお気軽にご連絡ください。',
 ];
