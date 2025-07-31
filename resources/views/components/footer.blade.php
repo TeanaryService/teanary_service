@@ -91,8 +91,10 @@
             </div>
         </div>
 
-        <div class="mt-8 text-center text-xs text-gray-400">
-            &copy; {{ now()->year }} {{ config('app.name') }}. {{ __('app.rights_reserved') }}
+        <div class="mt-6 text-center text-xs text-gray-400">
+            <img src="{{ asset('images/my-wechat.jpg') }}" class="w-32 h-32 mx-auto mb-2">
+            <div class="mb-4 text-xl">Contact Us Wechat</div>
+            <div>&copy; {{ now()->year }} {{ config('app.name') }}. {{ __('app.rights_reserved') }}</div>
         </div>
     </div>
 </footer>
