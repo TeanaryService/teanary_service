@@ -1,7 +1,7 @@
 <div class="bg-gray-50">
     {{-- Hero Banner --}}
     <section class="w-full bg-white py-10">
-         <x-promotion-list class="px-6 pb-12"/>
+        <x-promotion-list class="px-6 pb-12" />
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
             <div class="flex-1 max-w-xl">
                 <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
@@ -23,27 +23,27 @@
     </section>
 
     {{-- Featured Products --}}
-    <section class="bg-white py-10">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.featured_products') }}</h2>
-            @livewire('components.featured-products')
-        </div>
+    <section class="max-w-7xl mx-auto px-6 py-10">
+        <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.featured_products') }}</h2>
+        @livewire('components.featured-products')
     </section>
 
     {{-- Categories Quick Access --}}
-    <section class="max-w-7xl mx-auto py-10 px-6">
-        <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.browse_categories') }}</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
-            @foreach ($categories as $category)
-                <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" class="group">
-                    <div class="bg-white rounded-xl shadow-sm p-6 transition duration-200 group-hover:shadow-md">
-                        <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
-                            class="h-auto w-auto mx-auto mb-4 object-cover rounded-lg">
-                        <span
-                            class="text-gray-900 font-medium block text-center group-hover:text-teal-600">{{ $category['name'] }}</span>
-                    </div>
-                </a>
-            @endforeach
+    <section class="bg-white py-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.browse_categories') }}</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
+                @foreach ($categories as $category)
+                    <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" class="group">
+                        <div class="bg-white rounded-xl shadow-sm p-6 transition duration-200 group-hover:shadow-md">
+                            <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
+                                class="h-auto w-auto mx-auto mb-4 object-cover rounded-lg">
+                            <span
+                                class="text-gray-900 font-medium block text-center group-hover:text-teal-600">{{ $category['name'] }}</span>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </section>
 
