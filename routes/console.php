@@ -20,3 +20,6 @@ Schedule::command('app:clean-orphans')
 
 Schedule::command('app:sitemap')
     ->daily();
+
+Schedule::command('carts:clear-empty')
+    ->daily();
