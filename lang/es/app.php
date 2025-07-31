@@ -95,5 +95,5 @@ return [
     'error_no_shipping_method' => 'Por favor, selecciona un método de envío',
     'error_order_create_failed' => 'No se pudo crear el pedido, por favor inténtalo de nuevo',
 
-    'checkout_support_message' => 'Si tienes algún problema durante el proceso de pago, no dudes en contactarnos por correo electrónico: hellow@teanary.com o WeChat: xcalder.',
+    'checkout_support_message' => 'Si tienes algún problema durante el proceso de pago, no dudes en contactarnos por correo electrónico: hello@teanary.com o WeChat: xcalder.',
 ];

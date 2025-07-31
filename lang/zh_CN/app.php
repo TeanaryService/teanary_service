@@ -96,5 +96,5 @@ return [
     'error_no_shipping_method' => '请选择配送方式',
     'error_order_create_failed' => '创建订单失败,请重试',
 
-    'checkout_support_message' => '如果你在结账过程中遇到任何问题，可以通过 Email：hellow@teanary.com 或微信：xcalder 联系我们。',
+    'checkout_support_message' => '如果你在结账过程中遇到任何问题，可以通过 Email：hello@teanary.com 或微信：xcalder 联系我们。',
 ];

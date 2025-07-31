@@ -95,5 +95,5 @@ return [
     'error_no_shipping_method' => '배송 방법을 선택해주세요',
     'error_order_create_failed' => '주문 생성에 실패했습니다. 다시 시도해주세요',
 
-    'checkout_support_message' => '결제 중 문제가 발생하면 언제든지 Email: hellow@teanary.com 또는 WeChat: xcalder로 연락해 주세요.',
+    'checkout_support_message' => '결제 중 문제가 발생하면 언제든지 Email: hello@teanary.com 또는 WeChat: xcalder로 연락해 주세요.',
 ];

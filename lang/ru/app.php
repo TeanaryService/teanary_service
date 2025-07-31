@@ -95,5 +95,5 @@ return [
     'error_no_shipping_method' => 'Пожалуйста, выберите способ доставки',
     'error_order_create_failed' => 'Не удалось создать заказ, попробуйте снова',
 
-    'checkout_support_message' => 'Если у вас возникнут проблемы при оформлении заказа, свяжитесь с нами по Email: hellow@teanary.com или через WeChat: xcalder.',
+    'checkout_support_message' => 'Если у вас возникнут проблемы при оформлении заказа, свяжитесь с нами по Email: hello@teanary.com или через WeChat: xcalder.',
 ];
