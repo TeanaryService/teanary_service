@@ -319,4 +319,8 @@ return [
     'widget.stats_cart_items' => 'Cart Additions Today',
     'widget.stats_today' => 'Today',
     'widget.stats_yesterday' => 'Yesterday',
+
+    'contact.name' => 'Name',
+    'contact.email' => 'Email',
+    'contact.message' => 'Message',
 ];

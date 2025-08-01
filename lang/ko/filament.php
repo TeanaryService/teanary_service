@@ -318,4 +318,8 @@ return [
     'widget.stats_cart_items' => '오늘 장바구니 추가 수',
     'widget.stats_today' => '오늘',
     'widget.stats_yesterday' => '어제',
+
+    'contact.name' => '이름',
+    'contact.email' => '이메일',
+    'contact.message' => '메시지',
 ];

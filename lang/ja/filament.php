@@ -318,4 +318,8 @@ return [
     'widget.stats_cart_items' => '本日のカート追加数',
     'widget.stats_today' => '今日',
     'widget.stats_yesterday' => '昨日',
+
+    'contact.name' => 'お名前',
+    'contact.email' => 'メールアドレス',
+    'contact.message' => 'メッセージ',
 ];

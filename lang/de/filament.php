@@ -318,4 +318,8 @@ return [
     'widget.stats_cart_items' => 'Heute hinzugefügte Warenkorbartikel',
     'widget.stats_today' => 'Heute',
     'widget.stats_yesterday' => 'Gestern',
+
+    'contact.name' => 'Name',
+    'contact.email' => 'E-Mail',
+    'contact.message' => 'Nachricht',
 ];

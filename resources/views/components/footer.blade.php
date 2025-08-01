@@ -1,4 +1,5 @@
-<footer class="bg-white border-t border-gray-200 text-gray-600">
+<footer class="bg-gray-50 border-t border-gray-200 text-gray-600">
+    <livewire:contact-form />
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
 
@@ -92,8 +93,6 @@
         </div>
 
         <div class="mt-6 text-center text-xs text-gray-400">
-            <img src="{{ asset('images/my-wechat.jpg') }}" class="w-32 h-32 mx-auto mb-2">
-            <div class="mb-4 text-xl">Contact Us Wechat</div>
             <div>&copy; {{ now()->year }} {{ config('app.name') }}. {{ __('app.rights_reserved') }}</div>
         </div>
     </div>

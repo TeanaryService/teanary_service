@@ -318,4 +318,8 @@ return [
     'widget.stats_cart_items' => 'Ajouts au panier aujourd\'hui',
     'widget.stats_today' => 'Aujourd\'hui',
     'widget.stats_yesterday' => 'Hier',
+
+    'contact.name' => 'Nom',
+    'contact.email' => 'E-mail',
+    'contact.message' => 'Message',
 ];

@@ -31,10 +31,15 @@ return [
     'CartItemResource.group' => '商务运营',
     'CartItemResource.icon' => 'heroicon-o-shopping-cart',
 
-    'ArticleResource.label' => '文章',
-    'ArticleResource.pluralLabel' => '文章',
+    'ArticleResource.label' => '文章管理',
+    'ArticleResource.pluralLabel' => '文章管理',
     'ArticleResource.group' => '商务运营',
     'ArticleResource.icon' => 'heroicon-o-pencil-square',
+
+    'ContactResource.label' => '联系我们',
+    'ContactResource.pluralLabel' => '联系我们',
+    'ContactResource.group' => '商务运营',
+    'ContactResource.icon' => 'heroicon-o-pencil-square',
 
     'ProductResource.label' => '商品管理',
     'ProductResource.pluralLabel' => '商品管理',
@@ -319,4 +324,9 @@ return [
     'widget.stats_cart_items' => '今日加购物车数',
     'widget.stats_today' => '今日',
     'widget.stats_yesterday' => '昨日',
+
+    // Contact
+    'contact.name' => '姓名',
+    'contact.email' => '邮箱',
+    'contact.message' => '消息',
 ];

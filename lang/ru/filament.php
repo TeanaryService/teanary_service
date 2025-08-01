@@ -319,4 +319,8 @@ return [
     'widget.stats_cart_items' => 'Добавлено в корзину сегодня',
     'widget.stats_today' => 'Сегодня',
     'widget.stats_yesterday' => 'Вчера',
+
+    'contact.name' => 'Имя',
+    'contact.email' => 'Эл. почта',
+    'contact.message' => 'Сообщение',
 ];
