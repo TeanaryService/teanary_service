@@ -76,9 +76,9 @@ class EMSCalculator implements ShippingCalculatorInterface
     protected function getDeliveryDays(int $zone): string
     {
         return match ($zone) {
-            1 => '3-5',
-            2 => '4-7',
-            3, 4, 5 => '7-15',
+            1 => '10-15',
+            2 => '10-15',
+            3, 4, 5 => '15-30',
             default => '15-30'
         };
     }

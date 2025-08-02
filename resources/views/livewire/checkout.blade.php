@@ -289,7 +289,7 @@
                                 class="w-full p-3 rounded-lg border-gray-300">
                                 <option value="">{{ __('app.select_shipping_method') }}</option>
                                 @foreach ($shippingMethods as $method)
-                                    <option value="{{ $method['value'] }}">
+                                    <option value="{{ $method['value'] }}" @if($shippingMethod == $method['value']) selected @endif>
                                         {{ $method['label'] }}（{{ $method['description'] }}，+{{ $currencyService->convertWithSymbol($method['fee'], $currencyCode) }}）
                                     </option>
                                 @endforeach
