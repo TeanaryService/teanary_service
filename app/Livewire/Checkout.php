@@ -237,7 +237,7 @@ class Checkout extends Component
             $address = $this->addresses->where('id', $this->shippingAddress)->first();
         }
         $this->shippingMethods = app(ShippingService::class)->getAvailableMethods($this->processedItems, $address);
-
+        
         // 若当前选中的配送方式不存在于新列表，重置为第一个
         if (!$this->shippingMethod || !collect($this->shippingMethods)->pluck('value')->contains($this->shippingMethod)) {
             $this->shippingMethod = $this->shippingMethods[0]['value'] ?? null;
@@ -264,11 +264,11 @@ class Checkout extends Component
     protected function getAddressRules()
     {
         $rules = $this->rules;
-        
+
         // 根据国家设置邮编验证规则
         if ($this->address['country_id']) {
             $country = \App\Models\Country::find($this->address['country_id']);
-            $rules['address.postcode'] = $country && $country->postcode_required 
+            $rules['address.postcode'] = $country && $country->postcode_required
                 ? 'required|string|max:20'
                 : 'nullable|string|max:20';
         }
@@ -323,7 +323,7 @@ class Checkout extends Component
     }
 
     // 修正更新配送方式的方法
-    public function changeShippingMethod($value) 
+    public function changeShippingMethod($value)
     {
         $this->shippingMethod = $value;
         $method = collect($this->shippingMethods)->firstWhere('value', $value);
@@ -331,7 +331,7 @@ class Checkout extends Component
         $this->shippingDescription = $method['description'] ?? '';
         $this->recalculateOrderTotal();
     }
-    
+
     public function createOrder()
     {
         // 验证收货地址

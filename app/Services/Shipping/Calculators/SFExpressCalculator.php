@@ -6,29 +6,15 @@ use App\Enums\ShippingMethodEnum;
 use App\Models\Address;
 use App\Services\LocaleCurrencyService;
 use App\Services\Shipping\Contracts\ShippingCalculatorInterface;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class SFExpressCalculator implements ShippingCalculatorInterface
 {
-    protected string $partnerId;
-    protected string $checkword;
-    protected string $endpoint;
+    private array $zones;
 
     public function __construct()
     {
-        $config = ShippingMethodEnum::SF_INTERNATIONAL->apiParams();
-        if (app()->environment('production')) {
-            // 生产环境的代码
-            $this->partnerId = $config['prod']['partnerId'];
-            $this->checkword = $config['prod']['checkword'];
-            $this->endpoint = $config['prod']['endpoint'];
-        } else {
-            $this->partnerId = $config['sandBox']['partnerId'];
-            $this->checkword = $config['sandBox']['checkword'];
-            $this->endpoint = $config['sandBox']['endpoint'];
-        }
+        $this->zones = ShippingMethodEnum::SF_INTERNATIONAL->apiParams()['zones'];
     }
 
     public function calculate(array $processedItems, ?Address $address): array
@@ -36,101 +22,61 @@ class SFExpressCalculator implements ShippingCalculatorInterface
         if (!$address) {
             return [];
         }
-        try {
-            $requestData = $this->buildRequestData($processedItems, $address);
-            $result = $this->request('COM_RECE_IUOP_ESTIMATE_FEE', $requestData);
-            Log::info($result);
-            $data = json_decode($result['apiResultData'] ?? '', true, 512, JSON_THROW_ON_ERROR);
 
-            if (empty($data['success'])) {
+        try {
+            // 获取国家所属区域
+            $zone = $this->getZoneForCountry($address->country->iso_code_2);
+            if (!$zone) {
                 return [];
             }
 
+            $totalWeight = $this->calculateTotalWeight($processedItems);
+
+            // 计算运费
+            $fee = $this->calculateFee($zone, $totalWeight);
+            
             $currencyService = app(LocaleCurrencyService::class);
-            $forCode = $data['msgData']['currency'];
-            $fee = $currencyService->convert((float)$data['msgData']['totalFee'], $currencyService->getDefaultCurrencyCode(), $forCode);
+            $forCode = 'CNY';
+            $fee = $currencyService->convert($fee, $currencyService->getDefaultCurrencyCode(), $forCode);
+
             return [
-                'description' => __('shipping.description.sf', ['days' => '15-30']),
+                'description' => __('shipping.description.sf', ['days' => '7-15']),
                 'fee' => $fee,
             ];
         } catch (\Throwable $e) {
-            // 可选：记录日志
-            Log::error('SFExpress parse error', ['error' => $e->getMessage(), 'result' => $result ?? []]);
+            Log::error('SF Express calculation error', ['error' => $e->getMessage()]);
             return [];
         }
     }
 
-    /**
-     * 构建顺丰预估运费请求参数
-     */
-    protected function buildRequestData(array $processedItems, Address $address): array
+    protected function getZoneForCountry(string $countryCode): ?array
     {
-        $totalQty = 0;
-        $totalWeight = 0.0;
-        $declaredValue = 0.0;
-
-        foreach ($processedItems as $item) {
-            $qty = $item['qty'] ?? 1;
-            $weight = $item['weight'] ?? 0;
-            $price = $item['price'] ?? 0;
-
-            $totalQty += $qty;
-            $totalWeight += $weight * $qty;
-            $declaredValue += $price * $qty;
+        foreach ($this->zones as $zone) {
+            if (in_array($countryCode, $zone['countries'])) {
+                return $zone;
+            }
         }
-
-        return [
-            'customerCode'      => $this->partnerId,
-            'interProductCode'  => 'INT0014',
-            'parcelQuantity'    => $totalQty,
-            'parcelTotalWeight' => round($totalWeight, 2),
-            'declaredValue'     => round($declaredValue, 2),
-            'senderInfo' => [
-                'country'  => 'CN',
-                'postCode' => '650200',
-            ],
-            'receiverInfo' => [
-                'country'  => $address->country->code,
-                'postCode' => $address->country->postcode ?? '',
-            ],
-        ];
+        return null;
     }
 
-    /**
-     * 构建请求签名
-     */
-    protected function makeSignature(string $msgData, int $timestamp): string
+    protected function calculateTotalWeight(array $processedItems): float
     {
-        return base64_encode(md5(urlencode($msgData . $timestamp . $this->checkword), true));
+        return array_reduce($processedItems, function ($carry, $item) {
+            return $carry + (($item['weight'] ?? 0) * ($item['qty'] ?? 1));
+        }, 0.0);
     }
 
-    /**
-     * 统一请求方法
-     */
-    protected function request(string $serviceCode, array|string $data): array
+    protected function calculateFee(array $zone, float $totalWeight): float
     {
-        $msgData = is_array($data) ? json_encode($data, JSON_UNESCAPED_UNICODE) : $data;
-        $timestamp = time();
-        $requestID = (string) Str::uuid();
-        $msgDigest = $this->makeSignature($msgData, $timestamp);
-
-        $payload = [
-            'partnerID'  => $this->partnerId,
-            'requestID'  => $requestID,
-            'serviceCode' => $serviceCode,
-            'timestamp'  => $timestamp,
-            'msgDigest'  => $msgDigest,
-            'msgData'    => $msgData,
-        ];
-
-        $response = Http::asForm()
-            ->timeout(30)
-            ->post($this->endpoint, $payload);
-
-        if ($response->successful()) {
-            return $response->json();
+        // 按物品计费
+        $basePrice = $zone['base_item'];
+        
+        // 如果重量超过500g,计算续重费用
+        if ($totalWeight > 500) {
+            $additionalKg = ceil($totalWeight - 500);
+            return $basePrice + ($additionalKg * $zone['per_kg']);
         }
 
-        throw new \Exception('顺丰接口请求失败: ' . $response->body());
+        return $basePrice;
     }
 }

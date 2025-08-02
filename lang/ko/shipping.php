@@ -2,11 +2,13 @@
 
 return [
     'method' => [
-        'sf_international' => 'SF 국제',
+        'sf_international' => 'SF 국제 특송',
+        'ems_international' => '중국우정 EMS 국제',
     ],
 
     'description' => [
         'placeholder' => '예상 배송 시간 계산 중',
-        'sf' => '예상 배송 기간 :days일',
+        'sf' => '예상 배송일 : :days일',
+        'ems' => '예상 배송일 : :days일',
     ],
 ];
