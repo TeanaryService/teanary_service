@@ -9,7 +9,7 @@ class ProductPathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        return 'product/' . now()->format('Y') . '/' . $media->uuid . '/';
+        return 'product/' . $media->uuid . '/';
     }
 
     public function getPathForConversions(Media $media): string

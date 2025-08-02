@@ -9,7 +9,7 @@ class AvatarPathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        return 'avatars/' . now()->format('Y') . '/' . $media->uuid . '/';
+        return 'avatars/' . $media->uuid . '/';
     }
 
     public function getPathForConversions(Media $media): string

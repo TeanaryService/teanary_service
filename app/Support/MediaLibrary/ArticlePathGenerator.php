@@ -9,7 +9,7 @@ class ArticlePathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        return 'article/' . date("Y-m") . "/" . $media->uuid . '/';
+        return 'article/' . $media->uuid . '/';
     }
 
     public function getPathForConversions(Media $media): string

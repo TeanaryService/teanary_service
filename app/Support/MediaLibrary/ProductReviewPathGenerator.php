@@ -9,7 +9,7 @@ class ProductReviewPathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        return 'product-review/' . now()->format('Y') . '/' . $media->uuid . '/';
+        return 'product-review/' . $media->uuid . '/';
     }
 
     public function getPathForConversions(Media $media): string
