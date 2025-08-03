@@ -54,7 +54,7 @@
         </div>
         
         <div class="p-2 md:p-4">
-            <h3 class="text-lg font-medium text-gray-900 mb-2 group-hover:text-teal-700 transition-colors duration-200">
+            <h3 class="line-clamp-2 text-lg font-medium text-gray-900 mb-2 group-hover:text-teal-700 transition-colors duration-200">
                 {{ $name }}
             </h3>
             @if ($priceText)
