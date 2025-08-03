@@ -32,7 +32,7 @@
     <section class="bg-white py-10">
         <div class="max-w-7xl mx-auto px-6">
             <h2 class="text-3xl font-bold text-gray-900 mb-10">{{ __('home.browse_categories') }}</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-10">
                 @foreach ($categories as $category)
                     <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" class="group">
                         <div class="bg-white rounded-xl shadow-sm p-6 transition duration-200 group-hover:shadow-md">
