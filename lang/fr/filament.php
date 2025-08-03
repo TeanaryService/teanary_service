@@ -36,6 +36,11 @@ return [
     'ArticleResource.group' => 'Opérations commerciales',
     'ArticleResource.icon' => 'heroicon-o-pencil-square',
 
+    'ContactResource.label' => 'Contactez-nous',
+    'ContactResource.pluralLabel' => 'Contactez-nous',
+    'ContactResource.group' => 'Opérations commerciales',
+    'ContactResource.icon' => 'heroicon-o-envelope-open',
+
     'ProductResource.label' => 'Gestion des produits',
     'ProductResource.pluralLabel' => 'Gestion des produits',
     'ProductResource.group' => 'Gestion des produits',

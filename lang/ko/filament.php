@@ -36,6 +36,11 @@ return [
     'ArticleResource.group' => '비즈니스 운영',
     'ArticleResource.icon' => 'heroicon-o-pencil-square',
 
+    'ContactResource.label' => '문의하기',
+    'ContactResource.pluralLabel' => '문의하기',
+    'ContactResource.group' => '비즈니스 운영',
+    'ContactResource.icon' => 'heroicon-o-envelope-open',
+
     'ProductResource.label' => '상품 관리',
     'ProductResource.pluralLabel' => '상품 관리',
     'ProductResource.group' => '상품 관리',

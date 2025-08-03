@@ -39,7 +39,7 @@ return [
     'ContactResource.label' => '联系我们',
     'ContactResource.pluralLabel' => '联系我们',
     'ContactResource.group' => '商务运营',
-    'ContactResource.icon' => 'heroicon-o-pencil-square',
+    'ContactResource.icon' => 'heroicon-o-envelope-open',
 
     'ProductResource.label' => '商品管理',
     'ProductResource.pluralLabel' => '商品管理',

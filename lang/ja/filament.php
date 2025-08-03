@@ -36,6 +36,11 @@ return [
     'ArticleResource.group' => 'ビジネス運営',
     'ArticleResource.icon' => 'heroicon-o-pencil-square',
 
+    'ContactResource.label' => 'お問い合わせ',
+    'ContactResource.pluralLabel' => 'お問い合わせ',
+    'ContactResource.group' => 'ビジネス運営',
+    'ContactResource.icon' => 'heroicon-o-envelope-open',
+
     'ProductResource.label' => '商品管理',
     'ProductResource.pluralLabel' => '商品管理',
     'ProductResource.group' => '商品管理',

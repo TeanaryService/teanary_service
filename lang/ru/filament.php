@@ -36,6 +36,11 @@ return [
     'ArticleResource.group' => 'Коммерческие операции',
     'ArticleResource.icon' => 'heroicon-o-pencil-square',
 
+    'ContactResource.label' => 'Связаться с нами',
+    'ContactResource.pluralLabel' => 'Связаться с нами',
+    'ContactResource.group' => 'Коммерческие операции',
+    'ContactResource.icon' => 'heroicon-o-envelope-open',
+
     'ProductResource.label' => 'Управление товарами',
     'ProductResource.pluralLabel' => 'Управление товарами',
     'ProductResource.group' => 'Управление товарами',
