@@ -295,7 +295,7 @@ return [
             'sessions',
             'media',
 
-            'user',
+            'users',
 
             //中间表
             'product_category',
