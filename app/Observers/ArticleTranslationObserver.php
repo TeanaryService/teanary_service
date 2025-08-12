@@ -9,6 +9,12 @@ class ArticleTranslationObserver
 {
     use HandlesEditorUploads;
 
+    public function creating(ArticleTranslation $articleTranslation): void
+    {
+        //
+        $articleTranslation->content = $this->cleanEditorHtml($articleTranslation->content);
+    }
+
     /**
      * Handle the ArticleTranslation "created" event.
      */
@@ -25,6 +31,8 @@ class ArticleTranslationObserver
         $newContent = $articleTranslation->content;
 
         $this->syncEditorUploadsFromHtml($oldContent, $newContent);
+
+        $articleTranslation->content = $this->cleanEditorHtml($articleTranslation->content);
     }
 
     /**

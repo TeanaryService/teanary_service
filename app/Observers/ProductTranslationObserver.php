@@ -9,6 +9,12 @@ class ProductTranslationObserver
 {
     use HandlesEditorUploads;
 
+    public function creating(ProductTranslation $productTranslation): void
+    {
+        //
+        $productTranslation->description = $this->cleanEditorHtml($productTranslation->description);
+    }
+
     /**
      * Handle the ProductTranslation "created" event.
      */
@@ -28,6 +34,8 @@ class ProductTranslationObserver
         $newDescription = $productTranslation->description;
 
         $this->syncEditorUploadsFromHtml($oldDescription, $newDescription);
+
+        $productTranslation->description = $this->cleanEditorHtml($productTranslation->description);
     }
 
     /**
