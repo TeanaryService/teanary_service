@@ -12,6 +12,9 @@ trait HandlesEditorUploads
      */
     public function cleanEditorHtml(string $html): string
     {
+        // 先将 HTML 实体转成普通字符（去掉 &nbsp; 等）
+        $html = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
         // 允许的标签
         $allowedTags = '<p><h1><h2><h3><h4><h5><h6><ul><li><img>';
 
