@@ -52,7 +52,7 @@ class ArticleController extends Controller
 
                 // 替换内容中的图片占位符
                 foreach ($imageMap as $imageId => $url) {
-                    $url = "/stronge" . Str::of($url)->after('/storage');
+                    $url = "/storage" . Str::of($url)->after('/storage');
                     $content = str_replace(
                         "{{image:" . $imageId . "}}",
                         $url,

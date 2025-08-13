@@ -39,14 +39,14 @@ class Test extends Command
      */
     public function handle()
     {
-        // ArticleTranslation::whereIn('article_id', [22, 23, 24, 25])->chunk(100, function ($translations) {
-        //     foreach ($translations as $translation) {
-        //         $content = Str::replace('http://asset.teanary.test', '', $translation->content);
-        //         $translation->update(['content' => $content]);
-        //     }
-        // });
+        ArticleTranslation::whereIn('article_id', [22, 23, 24, 25,26, 27, 28, 29, 30])->chunk(100, function ($translations) {
+            foreach ($translations as $translation) {
+                $content = Str::replace('stronge', 'storage', $translation->content);
+                $translation->update(['content' => $content]);
+            }
+        });
 
-        // dd(123);
+        dd(123);
 
         // $order = Order::first();
         // $order->name = config('app.name') . __('app.order_items');
