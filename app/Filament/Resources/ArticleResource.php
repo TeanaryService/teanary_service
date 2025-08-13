@@ -127,6 +127,7 @@ class ArticleResource extends Resource
                 Tables\Columns\TextColumn::make('articleTranslations.title')
                     ->label(__('filament.article.title'))
                     ->limit(64)
+                    ->description(fn($record): string => $record->slug)
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -137,9 +138,9 @@ class ArticleResource extends Resource
                         $first = $record->articleTranslations->first();
                         return $first ? $first->title : '';
                     }),
-                Tables\Columns\TextColumn::make('slug')
-                    ->label(__('filament.article.slug'))
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('slug')
+                //     ->label(__('filament.article.slug'))
+                //     ->searchable(),
                 Tables\Columns\IconColumn::make('is_published')
                     ->label(__('filament.article.is_published'))
                     ->boolean(),
