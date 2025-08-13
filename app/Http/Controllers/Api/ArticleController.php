@@ -8,6 +8,7 @@ use App\Models\Article;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -24,7 +25,7 @@ class ArticleController extends Controller
             ]);
 
             Log::info(json_encode($request->main_image));
-            
+
             // 2. 处理主图
             if ($request->has('main_image.contents')) {
                 $imageContent = base64_decode($request->main_image['contents']);
@@ -51,6 +52,7 @@ class ArticleController extends Controller
                 
                 // 替换内容中的图片占位符
                 foreach ($imageMap as $imageId => $url) {
+                    $url = Str::replace(url(''), '', $url);
                     $content = str_replace(
                         "{{image:" . $imageId . "}}", 
                         $url, 
