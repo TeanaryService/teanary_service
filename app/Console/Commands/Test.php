@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Enums\PaymentMethodEnum;
 use App\Enums\ShippingMethodEnum;
 use App\Models\Address;
+use App\Models\ArticleTranslation;
 use App\Models\CountryTranslation;
 use App\Models\Order;
 use App\Models\ZoneTranslation;
@@ -15,6 +16,7 @@ use App\Services\TranslationService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class Test extends Command
 {
@@ -37,6 +39,15 @@ class Test extends Command
      */
     public function handle()
     {
+        // ArticleTranslation::whereIn('article_id', [22, 23, 24, 25])->chunk(100, function ($translations) {
+        //     foreach ($translations as $translation) {
+        //         $content = Str::replace('http://asset.teanary.test', '', $translation->content);
+        //         $translation->update(['content' => $content]);
+        //     }
+        // });
+
+        // dd(123);
+
         // $order = Order::first();
         // $order->name = config('app.name') . __('app.order_items');
         // $paymentMethod = PaymentMethodEnum::fromValue('paypal');
