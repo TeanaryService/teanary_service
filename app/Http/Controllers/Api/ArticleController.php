@@ -16,7 +16,7 @@ class ArticleController extends Controller
     {
         try {
             DB::beginTransaction();
-            
+
             // 1. 创建文章基础信息
             $article = Article::create([
                 'slug' => $request->slug,
@@ -41,7 +41,7 @@ class ArticleController extends Controller
                     $mediaItem = $article->addMediaFromString(base64_decode($image['contents']))
                         ->usingFileName($image['image_id'] . '.jpg')
                         ->toMediaCollection('content-images');
-                    
+
                     $imageMap[$image['image_id']] = $mediaItem->getUrl();
                 }
             }
@@ -49,13 +49,13 @@ class ArticleController extends Controller
             // 4. 处理翻译内容
             foreach ($request->translations as $translation) {
                 $content = $translation['content'];
-                
+
                 // 替换内容中的图片占位符
                 foreach ($imageMap as $imageId => $url) {
-                    $url = Str::replace(env('ASSET_URL'), '', $url);
+                    $url = "/stronge" . Str::of($url)->after('/storage');
                     $content = str_replace(
-                        "{{image:" . $imageId . "}}", 
-                        $url, 
+                        "{{image:" . $imageId . "}}",
+                        $url,
                         $content
                     );
                 }
@@ -74,7 +74,6 @@ class ArticleController extends Controller
                 'message' => '文章创建成功',
                 'data' => $article->load(['articleTranslations', 'media'])
             ], 201);
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('文章创建失败：' . $e->getMessage(), [
