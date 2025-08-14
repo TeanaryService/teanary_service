@@ -70,6 +70,9 @@ class ArticleController extends Controller
 
             DB::commit();
 
+            // 手动触发索引
+            $article->searchable();
+
             return response()->json([
                 'message' => '文章创建成功',
                 'data' => $article->load(['articleTranslations', 'media'])
