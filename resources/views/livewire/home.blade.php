@@ -47,8 +47,14 @@
         </div>
     </section>
 
-    {{-- About Store --}}
     <section class="py-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <livewire:components.random-articles :limit="6" />
+        </div>
+    </section>
+
+    {{-- About Store --}}
+    <section class="py-10 bg-white">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-10">
             <div class="md:w-1/2">
                 <h2 class="text-4xl font-bold text-gray-900 mb-6">{{ __('home.about_title') }}</h2>

@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Livewire\Components;
+
+use Livewire\Component;
+use App\Models\Product;
+use App\Services\LocaleCurrencyService;
+
+class RandomProducts extends Component
+{
+    public $limit = 4;
+    public $class = 'grid-cols-2 md:grid-cols-4';  // 默认网格布局
+    private $products = [];
+
+    public function mount($limit = 4, $class = null)
+    {
+        $this->limit = $limit;
+        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        
+        if ($class) {
+            $this->class = $class;
+        }
+        
+        $this->products = Product::with([
+            'productTranslations', 
+            'productVariants.media', 
+            'media'
+        ])
+        ->inRandomOrder()
+        ->take($this->limit)
+        ->get();
+    }
+
+    public function render()
+    {
+        return view('livewire.components.random-products', [
+            'products' => $this->products
+        ]);
+    }
+}

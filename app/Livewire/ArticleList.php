@@ -10,7 +10,7 @@ use Livewire\Attributes\Url;
 
 class ArticleList extends Component
 {
-    use WithPagination;
+    // use WithPagination;
 
     #[Url]
     public $search = '';
