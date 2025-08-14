@@ -9,7 +9,7 @@ use Livewire\Component;
 class RandomArticles extends Component
 {
     public $limit;
-    public $class = 'grid-cols-2 md:grid-cols-4';  // 默认网格布局
+    public $class = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';  // 默认网格布局
 
     public function mount($limit = 3, $class = null)
     {
