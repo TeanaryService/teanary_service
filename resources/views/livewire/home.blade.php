@@ -49,7 +49,7 @@
 
     <section class="py-10">
         <div class="max-w-7xl mx-auto px-6">
-            <livewire:components.random-articles :limit="6" />
+            <livewire:components.random-articles :limit="8" />
         </div>
     </section>
 

@@ -9,10 +9,15 @@ use Livewire\Component;
 class RandomArticles extends Component
 {
     public $limit;
+    public $class = 'grid-cols-2 md:grid-cols-4';  // 默认网格布局
 
-    public function mount($limit = 3)
+    public function mount($limit = 3, $class = null)
     {
         $this->limit = $limit;
+
+        if ($class) {
+            $this->class = $class;
+        }
     }
 
     public function render()
@@ -20,7 +25,7 @@ class RandomArticles extends Component
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
 
         $articles = Article::query()
-            ->with(['media', 'articleTranslations' => fn ($q) => $q->where('language_id', $lang?->id)])
+            ->with(['media', 'articleTranslations' => fn($q) => $q->where('language_id', $lang?->id)])
             ->where('is_published', true)
             ->inRandomOrder()
             ->limit($this->limit)

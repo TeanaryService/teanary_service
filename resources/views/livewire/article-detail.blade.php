@@ -20,7 +20,7 @@
     <div class="flex gap gap-6">
         <div class="hidden lg:block w-1/4">
             <livewire:components.random-products :limit="2" class="grid-cols-1" />
-            <livewire:components.random-articles :limit="4" />
+            <livewire:components.random-articles :limit="4" class="grid-cols-1"/>
         </div>
         <article class="space-y-8 bg-gray-50 rounded-xl p-6 w-full lg:w-3/4">
             {{-- 封面图 --}}
