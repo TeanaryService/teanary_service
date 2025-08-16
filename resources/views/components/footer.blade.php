@@ -65,32 +65,7 @@
                 <!-- 社交媒体 -->
                 <div>
                     <h3 class="font-semibold text-gray-800 mb-2">{{ __('app.follow_us') }}</h3>
-                    <div class="flex gap-4">
-                        <a href="https://www.youtube.com/@tea-sanctuary" target="_black" class="hover:text-teal-600"
-                            aria-label="Youtube">
-                            <img src="{{ asset('icons/youtube.svg') }}" class="w-6 h-6">
-                        </a>
-                        <a target="_black" href="https://www.facebook.com/xcalderdai/" class="hover:text-teal-600"
-                            aria-label="Facebook">
-                            <img src="{{ asset('icons/facebook.svg') }}" class="h-6 w-6">
-                        </a>
-                        <a href="https://www.instagram.com/xcalderdai/" target="_black" class="hover:text-teal-600"
-                            aria-label="Instagram">
-                            <img src="{{ asset('icons/instagram.svg') }}" class="w-7 h-7">
-                        </a>
-                        <a href="https://ca.pinterest.com/calderdai/" target="_black" class="hover:text-teal-600"
-                            aria-label="Pinterest">
-                            <img src="{{ asset('icons/pinterest.svg') }}" class="w-7 h-7">
-                        </a>
-                        <a href="https://www.threads.com/@xcalderdai" target="_black" class="hover:text-teal-600"
-                            aria-label="Threads">
-                            <img src="{{ asset('icons/threads.svg') }}" class="w-7 h-7">
-                        </a>
-                        <a href="https://www.tiktok.com/@teanary" target="_black" class="hover:text-teal-600"
-                            aria-label="Tiktok">
-                            <img src="{{ asset('icons/tiktok.svg') }}" class="w-7 h-7">
-                        </a>
-                    </div>
+                    <x-social-links class="justify-start" />
                 </div>
             </div>
 

@@ -284,10 +284,10 @@
             </div>
 
             {{-- 显示所有可用促销信息 --}}
-            @if(!empty($availablePromotions) && count($availablePromotions) > 0)
+            @if (!empty($availablePromotions) && count($availablePromotions) > 0)
                 <div class="mb-4 p-3 bg-red-50 rounded-lg">
                     <div class="space-y-2">
-                        @foreach($availablePromotions as $promo)
+                        @foreach ($availablePromotions as $promo)
                             <div class="text-sm">
                                 <div class="flex items-start gap-2">
                                     <div class="shrink-0 w-4 h-4 mt-0.5 text-red-500">
@@ -295,21 +295,21 @@
                                     </div>
                                     <div class="flex-1">
                                         <div class="font-medium text-red-700">{{ $promo['name'] }}</div>
-                                        @if($promo['description'])
+                                        @if ($promo['description'])
                                             <div class="text-red-600 mt-0.5">{{ $promo['description'] }}</div>
                                         @endif
-                                        
+
                                         {{-- 显示促销规则 --}}
-                                        @if(!empty($promo['rules']))
+                                        @if (!empty($promo['rules']))
                                             <div class="mt-1 space-y-1">
-                                                @foreach($promo['rules'] as $rule)
+                                                @foreach ($promo['rules'] as $rule)
                                                     <div class="flex items-center gap-1 text-gray-600">
                                                         <span class="text-xs">
                                                             {{ __('home.promotion_text', [
                                                                 'condition' => __('home.promotion_rule_' . ($rule['condition_type'] ?? '')),
-                                                                'condition_value' => isset($rule['condition_value']) 
-                                                                    ? ($rule['condition_type'] === 'order_qty_min' 
-                                                                        ? $rule['condition_value'] 
+                                                                'condition_value' => isset($rule['condition_value'])
+                                                                    ? ($rule['condition_type'] === 'order_qty_min'
+                                                                        ? $rule['condition_value']
                                                                         : $currencyService->convertWithSymbol($rule['condition_value'], $currencyCode))
                                                                     : '',
                                                                 'discount' => __('home.promotion_discount_' . ($rule['discount_type'] ?? '')),
@@ -317,17 +317,18 @@
                                                                     ? ($rule['discount_type'] === 'percentage'
                                                                         ? $rule['discount_value'] . '%'
                                                                         : $currencyService->convertWithSymbol($rule['discount_value'], $currencyCode))
-                                                                    : ''
+                                                                    : '',
                                                             ]) }}
                                                         </span>
                                                     </div>
                                                 @endforeach
                                             </div>
                                         @endif
-                                        
-                                        @if($promo['ends_at'])
+
+                                        @if ($promo['ends_at'])
                                             <div class="text-red-500 text-xs mt-1">
-                                                {{ __('home.promotion_ends_at') }}: {{ \Carbon\Carbon::parse($promo['ends_at'])->format('Y-m-d H:i') }}
+                                                {{ __('home.promotion_ends_at') }}:
+                                                {{ \Carbon\Carbon::parse($promo['ends_at'])->format('Y-m-d H:i') }}
                                             </div>
                                         @endif
                                     </div>
@@ -413,6 +414,9 @@
                     class="w-full px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">
                     {{ __('home.buy_now') }}
                 </button>
+            </div>
+            <div class="py-6">
+                <x-share-buttons />
             </div>
             <x-promotion-list class="py-6" />
         </div>
