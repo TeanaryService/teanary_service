@@ -416,7 +416,8 @@
                 </button>
             </div>
             <div class="py-6">
-                <x-share-buttons />
+                <x-share-buttons title="{{ $name }}" description="{{ $shortDesc }}"
+                    image="{{ $images->first()->getUrl() }}" />
             </div>
             <x-promotion-list class="py-6" />
         </div>

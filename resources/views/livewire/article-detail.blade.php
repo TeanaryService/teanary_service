@@ -20,7 +20,7 @@
     <div class="flex gap gap-6">
         <div class="hidden lg:block w-1/4">
             <livewire:components.random-products :limit="2" class="grid-cols-1" />
-            <livewire:components.random-articles :limit="4" class="grid-cols-1"/>
+            <livewire:components.random-articles :limit="4" class="grid-cols-1" />
         </div>
         <article class="space-y-8 bg-gray-50 rounded-xl p-6 w-full lg:w-3/4">
             {{-- 封面图 --}}
@@ -37,6 +37,10 @@
                 <p class="text-base text-gray-500">
                     {{ $article->created_at->format('F j, Y') }}
                 </p>
+                <div class="py-6">
+                    <x-share-buttons title="{{ $translation?->title }}" description="{{ $translation?->summary }}"
+                        image="{{ $cover }}" />
+                </div>
                 @if ($translation?->summary)
                     <p class="text-lg text-gray-600 leading-relaxed">
                         {{ $translation->summary }}
