@@ -27,7 +27,7 @@ host('teanary')
     ->set('http_user', 'www');
 
 host('local')
-    ->set('hostname', '192.168.1.144')
+    ->set('hostname', '192.168.1.143')
     ->set('port', 22)
     ->set('remote_user', 'xcalder')
     ->setIdentityFile('~/.ssh/teanary_local')
