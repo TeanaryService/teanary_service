@@ -145,7 +145,7 @@
                                 x-transition:leave="transition ease-in duration-300"
                                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
 
-                                <img src="/loading.gif"
+                                <img src="/loading.svg"
                                     data-src="{{ $img->getUrl() }}" 
                                     alt="{{ $name }}"
                                     class="lazy w-full h-full object-cover transition-transform duration-300"
@@ -204,7 +204,7 @@
                                         'border-gray-300 hover:border-teal-400': active !== {{ $i }}
                                     }"
                                     @click="goTo({{ $i }})">
-                                    <img src="/loading.gif"
+                                    <img src="/loading.svg"
                                         data-src="{{ $img->getUrl() }}" 
                                         alt="{{ $name }}"
                                         class="lazy w-full h-full object-cover">

@@ -33,14 +33,14 @@
         <div class="relative w-full aspect-square bg-gray-100 overflow-hidden">
             <!-- 第一张图片 -->
             <img data-src="{{ $firstImage }}" 
-                 src="/loading.gif"
+                 src="/loading.svg"
                  alt="{{ $name }}"
                  class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105 {{ $secondImage ? 'group-hover:opacity-0' : '' }}">
             
             <!-- 第二张图片（如果存在） -->
             @if ($secondImage)
                 <img data-src="{{ $secondImage }}" 
-                     src="/loading.gif"
+                     src="/loading.svg"
                      alt="{{ $name }}"
                      class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-110">
             @endif

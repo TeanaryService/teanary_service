@@ -16,7 +16,7 @@
             <div class="w-40 h-28 flex-shrink-0 overflow-hidden rounded-md">
                 <a href="{{ locaRoute('article.show', ['slug' => $article->slug]) }}">
                     <img data-src="{{ $image }}" 
-                         src="/loading.gif"
+                         src="/loading.svg"
                          alt="{{ $title }}" 
                          class="lazy object-cover w-full h-full">
                 </a>
@@ -43,7 +43,7 @@
             <div class="w-24 h-16 flex-shrink-0 overflow-hidden rounded-md">
                 <a href="{{ locaRoute('article.show', ['slug' => $article->slug]) }}">
                     <img data-src="{{ $image }}" 
-                         src="/loading.gif"
+                         src="/loading.svg"
                          alt="{{ $title }}" 
                          class="lazy object-cover w-full h-full">
                 </a>
