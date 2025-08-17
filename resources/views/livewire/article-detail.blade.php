@@ -41,6 +41,7 @@
                     <x-share-buttons title="{{ $translation?->title }}" description="{{ $translation?->summary }}"
                         image="{{ $cover }}" />
                 </div>
+                <x-promotion-list class="pb-6" />
                 @if ($translation?->summary)
                     <p class="text-lg text-gray-600 leading-relaxed">
                         {{ $translation->summary }}
