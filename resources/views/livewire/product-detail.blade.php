@@ -80,7 +80,7 @@
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}
-        <div class="w-full lg:w-1/2 flex justify-center items-center">
+        <div class="w-full lg:w-1/2 flex justify-center items-center relative">
             @if ($images->count())
                 <!-- Alpine.js 数据和方法 -->
                 <div x-data="{
@@ -193,7 +193,7 @@
 
                     <!-- 缩略图导航 -->
                     @if ($images->count() > 1)
-                        <div class="flex justify-center gap-4 mt-3">
+                        <div class="flex justify-center gap-4 mt-3 absolute bottom-5 w-full">
                             @foreach ($images as $i => $img)
                                 <button type="button"
                                     class="relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105"
