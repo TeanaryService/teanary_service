@@ -19,6 +19,7 @@ class Product extends Component
     public function mount(Request $request)
     {
         $slug = $request->input('slug');
+        $search = $request->input('search');
         $this->attributeFilters = $request->input('attributes', []);
 
         $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
@@ -43,6 +44,12 @@ class Product extends Component
         }
 
         $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues', 'media']);
+
+        // 添加搜索条件
+        if ($search) {
+            $ids = ProductModel::search($search)->keys();
+            $query->whereIn('id', $ids);
+        }
 
         if ($this->categoryId) {
             $query->whereHas('productCategories', function ($q) {

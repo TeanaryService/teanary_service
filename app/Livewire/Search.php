@@ -22,16 +22,23 @@ class Search extends Component
     {
         $products = collect([]);
         $articles = collect([]);
+        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
         
         if ($this->query) {
-            $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
-            
             // 搜索商品
             $productIds = Product::search($this->query)->keys();
             $products = Product::with(['productTranslations', 'productVariants.media', 'media'])
                 ->whereIn('id', $productIds)
                 ->take(5)
                 ->get();
+
+            // 如果没有搜索到商品,则随机显示5个
+            if ($products->isEmpty()) {
+                $products = Product::with(['productTranslations', 'productVariants.media', 'media'])
+                    ->inRandomOrder()
+                    ->take(5)
+                    ->get();
+            }
 
             // 搜索文章
             $articleIds = Article::search($this->query)->keys();
