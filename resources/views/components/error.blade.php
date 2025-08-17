@@ -37,7 +37,7 @@
             <div class="mt-12 select-none pointer-events-none opacity-75">
                 <div class="relative">
                     <div class="absolute -top-16 left-1/2 transform -translate-x-1/2 animate-float">
-                        <x-heroicon-o-globe-alt class="w-40 h-40 text-teal-100" />
+                        <x-heroicon-o-cube class="w-30 h-30 text-teal-100" />
                     </div>
                 </div>
             </div>
