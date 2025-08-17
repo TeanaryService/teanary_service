@@ -145,8 +145,10 @@
                                 x-transition:leave="transition ease-in duration-300"
                                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
 
-                                <img src="{{ $img->getUrl() }}" alt="{{ $name }}"
-                                    class="w-full h-full object-cover transition-transform duration-300"
+                                <img src="/loading.gif"
+                                    data-src="{{ $img->getUrl() }}" 
+                                    alt="{{ $name }}"
+                                    class="lazy w-full h-full object-cover transition-transform duration-300"
                                     :class="{
                                         'scale-100': !isZoomed
                                     }"
@@ -202,8 +204,10 @@
                                         'border-gray-300 hover:border-teal-400': active !== {{ $i }}
                                     }"
                                     @click="goTo({{ $i }})">
-                                    <img src="{{ $img->getUrl() }}" alt="{{ $name }}"
-                                        class="w-full h-full object-cover">
+                                    <img src="/loading.gif"
+                                        data-src="{{ $img->getUrl() }}" 
+                                        alt="{{ $name }}"
+                                        class="lazy w-full h-full object-cover">
                                     <div class="absolute inset-0 bg-black/20 transition-opacity duration-200"
                                         :class="{
                                             'opacity-0': active === {{ $i }},
