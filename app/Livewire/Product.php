@@ -28,7 +28,7 @@ class Product extends Component
 
         if ($slug) {
             $category = $this->categories->where('slug', $slug)->first();
-            $this->categoryId = $category['id'];
+            $this->categoryId = $category ? $category['id'] : null;
         }
 
         // 如果提供了category_id但在分类树中找不到，则返回404
