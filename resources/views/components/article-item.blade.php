@@ -15,7 +15,10 @@
         @if ($image)
             <div class="w-40 h-28 flex-shrink-0 overflow-hidden rounded-md">
                 <a href="{{ locaRoute('article.show', ['slug' => $article->slug]) }}">
-                    <img src="{{ $image }}" alt="{{ $title }}" class="object-cover w-full h-full">
+                    <img data-src="{{ $image }}" 
+                         src="/loading.gif"
+                         alt="{{ $title }}" 
+                         class="lazy object-cover w-full h-full">
                 </a>
             </div>
         @endif
@@ -39,7 +42,10 @@
         @if ($image)
             <div class="w-24 h-16 flex-shrink-0 overflow-hidden rounded-md">
                 <a href="{{ locaRoute('article.show', ['slug' => $article->slug]) }}">
-                    <img src="{{ $image }}" alt="{{ $title }}" class="object-cover w-full h-full">
+                    <img data-src="{{ $image }}" 
+                         src="/loading.gif"
+                         alt="{{ $title }}" 
+                         class="lazy object-cover w-full h-full">
                 </a>
             </div>
         @endif

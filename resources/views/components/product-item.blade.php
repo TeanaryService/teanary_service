@@ -32,13 +32,17 @@
     <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" class="block">
         <div class="relative w-full aspect-square bg-gray-100 overflow-hidden">
             <!-- 第一张图片 -->
-            <img src="{{ $firstImage }}" alt="{{ $name }}"
-                 class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105 {{ $secondImage ? 'group-hover:opacity-0' : '' }}">
+            <img data-src="{{ $firstImage }}" 
+                 src="/loading.gif"
+                 alt="{{ $name }}"
+                 class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105 {{ $secondImage ? 'group-hover:opacity-0' : '' }}">
             
             <!-- 第二张图片（如果存在） -->
             @if ($secondImage)
-                <img src="{{ $secondImage }}" alt="{{ $name }}"
-                     class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-110">
+                <img data-src="{{ $secondImage }}" 
+                     src="/loading.gif"
+                     alt="{{ $name }}"
+                     class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-110">
             @endif
             
             <!-- 图片指示器（如果有多张图片） -->
