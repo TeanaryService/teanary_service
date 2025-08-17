@@ -87,7 +87,7 @@ class FullSeeder extends Seeder
             ['slug' => 'black-tea'],          // 红茶（黑茶在国外叫 Black Tea）
             ['slug' => 'oolong-tea'],         // 乌龙茶
             ['slug' => 'pu-erh-tea'],         // 普洱茶
-            // ['slug' => 'white-tea'],          // 白茶
+            ['slug' => 'white-tea'],          // 白茶
             // ['slug' => 'flower-tea'],         // 花草茶（如菊花、茉莉）
             // ['slug' => 'tea-gift-boxes'],     // 茶礼盒
             // ['slug' => 'aged-tea'],           // 老茶/陈茶（收藏级）

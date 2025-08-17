@@ -1,7 +1,6 @@
 <div class="bg-gray-50">
     {{-- Hero Banner --}}
     <section class="w-full bg-white py-10">
-        <x-promotion-list class="px-6 pb-12" />
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-12">
             <div class="flex-1 max-w-xl">
                 <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
@@ -21,6 +20,8 @@
             </div>
         </div>
     </section>
+
+    <x-promotion-list class="px-6" parentClass="bg-green-100 py-6" />
 
     {{-- Featured Products --}}
     <section class="max-w-7xl mx-auto px-6 py-10">
