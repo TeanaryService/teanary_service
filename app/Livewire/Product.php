@@ -11,8 +11,7 @@ use Illuminate\Http\Request;
 class Product extends Component
 {
     private $categoryId;
-    private $search;
-    private $categories = [];
+    private $categories;
     private $products = [];
     private $attributeFilters = [];
     private $allAttributes = [];
@@ -20,8 +19,6 @@ class Product extends Component
     public function mount(Request $request)
     {
         $slug = $request->input('slug');
-
-        $this->search = $request->input('search');
         $this->attributeFilters = $request->input('attributes', []);
 
         $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
@@ -53,12 +50,6 @@ class Product extends Component
             });
         }
 
-        // 使用 Scout 进行搜索
-        if ($this->search) {
-            $ids = ProductModel::search($this->search)->keys();
-            $query->whereIn('id', $ids);
-        }
-
         // 属性筛选
         foreach ($this->attributeFilters as $attrId => $valueIds) {
             if (!empty($valueIds)) {
@@ -78,7 +69,6 @@ class Product extends Component
             'attributes' => $this->allAttributes,
             'products' => $this->products,
             'categoryId' => $this->categoryId,
-            'search' => $this->search,
             'attributeFilters' => $this->attributeFilters,
         ]);
     }
