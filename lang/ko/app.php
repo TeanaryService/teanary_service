@@ -6,7 +6,6 @@ return [
     'site_description' => 'Teanary는 중국 고품질 차 수출에 특화된 브랜드로, 운남에서 출발하여 녹차, 홍차, 우롱, 보이차 등 좋은 차를 엄선하며 수작업 수확과 전통 공예를 고수합니다. 전 세계 배송과 맞춤 선물 세트를 지원하여 진정한 중국 차를 세계에 전합니다.',
     'welcome' => ':name에 오신 것을 환영합니다 — 당신의 차의 정원, 우리는 고품질 중국 차를 세계로 전하는 데 전념합니다.',
     'shop_now' => '지금 좋은 차 쇼핑하기',
-    'search_placeholder' => '차, 차 선물, 시리즈 제품 검색...',
     'categories' => '차 품목 분류',
     'featured_products' => '추천 차',
     'contact_us' => '문의하기',
@@ -84,8 +83,6 @@ return [
     'delete_cart_success' => '장바구니 상품이 성공적으로 삭제되었습니다~',
 
     'edit_user_success' => '개인정보가 성공적으로 업데이트되었습니다~',
-
-    'article_search_placeholder' => '관심 있는 차 관련 기사 검색...',
 
     'images' => '이미지',
     'zoom_on_hover' => '호버 시 확대',

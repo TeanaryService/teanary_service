@@ -6,7 +6,6 @@ return [
     'site_description' => 'Teanary est une marque spécialisée dans l\'exportation de thés chinois de haute qualité, originaire du Yunnan, sélectionnant des thés verts, noirs, Oolong, Pu’er et autres, avec une cueillette manuelle et un savoir-faire traditionnel. Livraison mondiale et coffrets personnalisés pour faire découvrir le vrai thé chinois au monde.',
     'welcome' => 'Bienvenue chez :name — votre havre de thé, nous nous engageons à apporter du thé chinois de haute qualité au monde entier.',
     'shop_now' => 'Achetez du bon thé maintenant',
-    'search_placeholder' => 'Recherchez du thé, des cadeaux, des séries de produits...',
     'categories' => 'Catégories de thé',
     'featured_products' => 'Thés recommandés',
     'contact_us' => 'Contactez-nous',
@@ -84,8 +83,6 @@ return [
     'delete_cart_success' => 'Suppression du panier réussie~',
 
     'edit_user_success' => 'Profil mis à jour avec succès~',
-
-    'article_search_placeholder' => 'Recherchez des articles sur le thé qui vous intéressent...',
 
     'images' => 'Image',
     'zoom_on_hover' => 'Zoom au survol',

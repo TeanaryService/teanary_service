@@ -6,7 +6,6 @@ return [
     'site_description' => 'Teanaryは中国の高品質茶葉輸出に特化したブランドで、雲南に由来し、緑茶、紅茶、ウーロン茶、プーアル茶などの良質なお茶を厳選。手摘みと伝統的な製法を守り、世界中に配送とギフトボックスのカスタマイズを提供し、本物の中国茶をお届けします。',
     'welcome' => ':name へようこそ——あなたの茶の聖地。私たちは高品質な中国茶を世界に届けることに尽力しています。',
     'shop_now' => '今すぐ良いお茶を選ぶ',
-    'search_placeholder' => '茶葉、茶ギフト、シリーズ製品を検索...',
     'categories' => '茶の種類',
     'featured_products' => 'おすすめ茶品',
     'contact_us' => 'お問い合わせ',
@@ -84,8 +83,6 @@ return [
     'delete_cart_success' => 'カートの商品を削除しました〜',
 
     'edit_user_success' => 'プロフィールが更新されました〜',
-
-    'article_search_placeholder' => '興味のあるお茶の記事を検索...',
 
     'images' => '画像',
     'zoom_on_hover' => 'ホバーでズーム',

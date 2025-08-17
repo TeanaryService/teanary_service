@@ -109,6 +109,8 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
         });
     });
 
+    Route::get('/search', \App\Livewire\Search::class)->name('search');
+
     Route::fallback(function () {
         return abort(404);
     });

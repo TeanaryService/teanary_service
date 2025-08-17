@@ -6,7 +6,6 @@ return [
     'site_description' => 'Teanary 是一家专注中国高品质茶叶出口的品牌，源自云南，精选绿茶、红茶、乌龙、普洱等好茶，坚持手工采摘与传统工艺。支持全球配送与定制礼盒，让世界喝到真正的中国茶。',
     'welcome' => '欢迎来到 :name —— 您的茶之净地，我们致力于将高品质中国茶带向世界。',
     'shop_now' => '立即选购好茶',
-    'search_placeholder' => '搜索茶叶、茶礼、系列产品...',
     'categories' => '茶品分类',
     'featured_products' => '推荐茶品',
     'contact_us' => '联系我们',
@@ -84,8 +83,6 @@ return [
     'delete_cart_success' => '删除购物车商品成功~',
 
     'edit_user_success' => '个人资料更新成功~',
-
-    'article_search_placeholder' => '搜索你感兴趣的茶叶文章...',
 
     'images' => '图片',
     'zoom_on_hover' => '悬停放大',

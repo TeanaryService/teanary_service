@@ -6,7 +6,6 @@ return [
     'site_description' => 'Teanary is a brand focused on exporting high-quality Chinese tea, sourced from Yunnan, carefully selecting green tea, black tea, oolong, and pu\'er tea. We maintain hand-picking and traditional craftsmanship. Supporting global shipping and custom gift boxes, bringing authentic Chinese tea to the world.',
     'welcome' => 'Welcome to :name — Your tea sanctuary, dedicated to bringing premium Chinese tea to the world.',
     'shop_now' => 'Shop Now',
-    'search_placeholder' => 'Search teas, gifts, collections...',
     'categories' => 'Tea Categories',
     'featured_products' => 'Featured Teas',
     'contact_us' => 'Contact Us',
@@ -84,8 +83,6 @@ return [
     'delete_cart_success' => 'Cart item removed successfully!',
 
     'edit_user_success' => 'Profile updated successfully!',
-
-    'article_search_placeholder' => 'Search tea articles...',
 
     'images' => 'Image',
     'zoom_on_hover' => 'Zoom on Hover',
