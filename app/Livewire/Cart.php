@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Cart as CartModel;
 use App\Models\CartItem;
 use App\Services\LocaleCurrencyService;
+use App\Services\CartService;
 
 class Cart extends Component
 {
@@ -16,7 +17,7 @@ class Cart extends Component
 
     public function mount()
     {
-        $cart = $this->getCart();
+        $cart = app(CartService::class)->getCart();
         $promoService = app(\App\Services\PromotionService::class);
         $user = auth()->user();
         $this->cartItems = $cart
@@ -40,16 +41,6 @@ class Cart extends Component
 
         $this->selected = $this->cartItems->pluck('id')->toArray();
         $this->calcTotal();
-    }
-
-    public function getCart()
-    {
-        if (auth()->check()) {
-            return CartModel::firstOrCreate(['user_id' => auth()->id()]);
-        } else {
-            $sessionId = session()->getId();
-            return CartModel::firstOrCreate(['session_id' => $sessionId]);
-        }
     }
 
     public function updateQty($itemId, $qty)

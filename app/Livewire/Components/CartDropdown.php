@@ -3,10 +3,10 @@
 namespace App\Livewire\Components;
 
 use Livewire\Component;
-use App\Models\Cart;
 use App\Models\CartItem;
 use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
+use App\Services\CartService;
 
 class CartDropdown extends Component
 {
@@ -20,7 +20,7 @@ class CartDropdown extends Component
 
     public function mount()
     {
-        $cart = $this->getCart();
+        $cart = app(CartService::class)->getCart();
         $service = app(PromotionService::class);
         $user = auth()->user();
         $this->cartItems = $cart ? $cart->cartItems()->with(['product.productTranslations', 'productVariant.specificationValues.specificationValueTranslations', 'productVariant.media'])->get()->map(function ($item) use ($service, $user) {
@@ -34,20 +34,10 @@ class CartDropdown extends Component
         });
     }
 
-    public function getCart()
-    {
-        if (auth()->check()) {
-            return Cart::firstOrCreate(['user_id' => auth()->id()]);
-        } else {
-            $sessionId = session()->getId();
-            return Cart::firstOrCreate(['session_id' => $sessionId]);
-        }
-    }
-
     public function addToCart($productId, $variantId, $qty)
     {
-        $cart = $this->getCart();
-        $item = \App\Models\CartItem::where('cart_id', $cart->id)
+        $cart = app(CartService::class)->getOrCreateCart();
+        $item = CartItem::where('cart_id', $cart->id)
             ->where('product_id', $productId)
             ->where('product_variant_id', $variantId)
             ->first();
@@ -56,7 +46,7 @@ class CartDropdown extends Component
             $item->qty += $qty;
             $item->save();
         } else {
-            \App\Models\CartItem::create([
+            CartItem::create([
                 'cart_id' => $cart->id,
                 'product_id' => $productId,
                 'product_variant_id' => $variantId,
