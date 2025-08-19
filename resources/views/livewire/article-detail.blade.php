@@ -41,7 +41,11 @@
                     <x-share-buttons title="{{ $translation?->title }}" description="{{ $translation?->summary }}"
                         image="{{ $cover }}" />
                 </div>
-                <x-promotion-list class="pb-6" />
+                
+                <a href="{{ locaRoute('product') }}">
+                    <x-promotion-list class="pb-6" />
+                </a>
+
                 @if ($translation?->summary)
                     <p class="text-lg text-gray-600 leading-relaxed">
                         {{ $translation->summary }}
