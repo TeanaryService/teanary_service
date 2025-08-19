@@ -29,8 +29,8 @@ class SearchEnginePushService
         try {
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . config('search_engine.bing.api_key')
-            ])->post(config('search_engine.bing.api'), [
+                // 'Authorization' => 'Bearer ' . config('search_engine.bing.api_key')
+            ])->post(config('search_engine.bing.api') . '?apikey=' . config('search_engine.bing.api_key'), [
                 'siteUrl' => config('search_engine.bing.site'),
                 'url' => $url
             ]);

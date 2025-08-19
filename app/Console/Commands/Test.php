@@ -41,7 +41,7 @@ class Test extends Command
     public function handle()
     {
         $push = app(SearchEnginePushService::class);
-        dd($push->push(url('')));
+        dd($push->push('https://teanary.com'));
 
         ArticleTranslation::whereIn('article_id', [22, 23, 24, 25,26, 27, 28, 29, 30])->chunk(100, function ($translations) {
             foreach ($translations as $translation) {
