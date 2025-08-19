@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\ZoneTranslation;
 use App\Services\PaymentService;
 use App\Services\PromotionService;
+use App\Services\SearchEnginePushService;
 use App\Services\ShippingService;
 use App\Services\TranslationService;
 use Illuminate\Console\Command;
@@ -39,6 +40,9 @@ class Test extends Command
      */
     public function handle()
     {
+        $push = app(SearchEnginePushService::class);
+        dd($push->push(url('')));
+
         ArticleTranslation::whereIn('article_id', [22, 23, 24, 25,26, 27, 28, 29, 30])->chunk(100, function ($translations) {
             foreach ($translations as $translation) {
                 $content = Str::replace('stronge', 'storage', $translation->content);
