@@ -79,4 +79,3 @@ after('deploy:symlink', 'system:reload');
 after('deploy:symlink', 'artisan:optimize');
 after('deploy:symlink', 'artisan:filament:optimize');
 after('deploy:failed', 'deploy:unlock');
-after('deploy:failed', 'deploy:rollback');
