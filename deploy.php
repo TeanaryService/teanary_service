@@ -30,7 +30,7 @@ host('local')
     ->set('hostname', '192.168.1.143')
     ->set('port', 22)
     ->set('remote_user', 'xcalder')
-    ->setIdentityFile('~/.ssh/teanary_local')
+    ->setIdentityFile('~/.ssh/teanary')
     ->set('deploy_path', '/home/wwwroot/teanary.test')
     ->set('branch', 'main')
     ->set('http_user', 'www');
