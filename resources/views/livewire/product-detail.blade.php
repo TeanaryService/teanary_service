@@ -76,7 +76,7 @@
 
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 min-h-[70vh]">
+<div class="max-w-7xl mx-auto px-6 min-h-[70vh] bg-tea-50 tea-bg-texture">
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}
@@ -238,14 +238,14 @@
         </div>
 
         {{-- 商品信息 --}}
-        <div class="w-full lg:w-1/2 bg-gray-50 rounded-xl p-5">
-            <h1 class="text-3xl font-bold text-teal-700 mb-2">{{ $name }}</h1>
+        <div class="w-full lg:w-1/2 tea-card rounded-xl p-6">
+            <h1 class="text-3xl font-bold text-tea-700 mb-2 tea-title">{{ $name }}</h1>
             <div class="mb-2 text-gray-500">
                 @if ($categoryNames)
                     <span class="mr-2">{{ __('home.categories') }}:</span>
                     @foreach ($categoryNames as $catName)
                         <span
-                            class="inline-block bg-teal-100 text-teal-800 px-2 py-1 rounded mr-1">{{ $catName }}</span>
+                            class="inline-block tea-category-tag mr-1">{{ $catName }}</span>
                     @endforeach
                 @endif
             </div>
@@ -279,7 +279,7 @@
                 <div class="mb-4 text-gray-700">{{ $shortDesc }}</div>
             @endif
             <div class="mb-4">
-                <span class="text-2xl font-bold text-teal-700">{{ $price }}</span>
+                <span class="text-2xl font-bold tea-price">{{ $price }}</span>
                 @if ($variant && $variant->weight)
                     <span class="ml-2 text-sm text-gray-500">
                         ({{ $currencyService->convertWithSymbol($variant->price / $variant->weight, $currencyCode) }}/g)
@@ -410,7 +410,7 @@
             <div class="mt-6 flex items-center gap gap-4">
                 <button
                     wire:click="$dispatch('cart:add', { productId: {{ $productId }}, variantId: {{ $variantId }}, qty: {{ $qty }} })"
-                    class="w-full px-6 py-3 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 transition">
+                    class="w-full px-6 py-3 tea-btn-primary rounded-lg font-bold">
                     {{ __('home.addCart') }}
                 </button>
 
@@ -428,16 +428,16 @@
     </div>
 
     {{-- Tab 切换 --}}
-    <div class="p-6 my-9 bg-gray-50 rounded-xl">
-        <div class="flex border-b mb-4 border-teal-600">
+    <div class="p-6 my-9 tea-card rounded-xl">
+        <div class="flex border-b mb-4 border-tea-600">
             <a href="?tab=desc"
-                class="px-4 py-2 font-semibold {{ $tab == 'desc' ? 'border-b-2 border-teal-600 text-teal-700' : 'text-gray-500' }}">{{ __('home.product_description') }}</a>
+                class="px-4 py-2 font-semibold tea-nav-item {{ $tab == 'desc' ? 'active text-tea-700' : 'text-tea-600' }}">{{ __('home.product_description') }}</a>
             <a href="?tab=reviews"
-                class="px-4 py-2 font-semibold {{ $tab == 'reviews' ? 'border-b-2 border-teal-600 text-teal-700' : 'text-gray-500' }}">{{ __('home.product_reviews') }}</a>
+                class="px-4 py-2 font-semibold tea-nav-item {{ $tab == 'reviews' ? 'active text-tea-700' : 'text-tea-600' }}">{{ __('home.product_reviews') }}</a>
         </div>
         @if ($tab == 'desc')
             @if ($desc)
-                <div class="prose max-w-none text-gray-800 px-6">
+                <div class="prose max-w-none text-tea-800 px-6">
                     {!! $desc !!}
                 </div>
             @endif

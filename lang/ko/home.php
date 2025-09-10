@@ -48,4 +48,10 @@ return [
     'promotion_starts_at' => '시작일',
     'promotion_ends_at' => '종료일',
     'promotion_text' => ':condition :condition_value 이상 구매 시 :discount :discount_value 적용',
+    
+    // Tea culture theme related
+    'featured_products_subtitle' => '엄선된 프리미엄 차잎, 천년의 차 문화를 계승',
+    'browse_categories_subtitle' => '다양한 차 종류를 탐험하고, 차 인생의 본질을 맛보기',
+    'tea_culture_articles' => '차 문화 기사',
+    'tea_culture_articles_subtitle' => '차의 역사, 문화, 감상 지식을 배우기',
 ];

@@ -28,9 +28,9 @@
     }
 @endphp
 
-<div class="group bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
+<div class="group tea-product-card">
     <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" class="block">
-        <div class="relative w-full aspect-square bg-gray-100 overflow-hidden">
+        <div class="relative w-full aspect-square bg-gradient-to-br from-tea-50 to-bamboo-50 overflow-hidden">
             <!-- 第一张图片 -->
             <img data-src="{{ $firstImage }}" 
                  src="/loading.svg"
@@ -54,25 +54,25 @@
             @endif
             
             <!-- 悬停遮罩效果 -->
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300"></div>
+            <div class="absolute inset-0 bg-tea-500/0 group-hover:bg-tea-500/10 transition-all duration-300"></div>
         </div>
         
         <div class="p-2 md:p-4">
-            <h3 class="line-clamp-2 text-lg font-medium text-gray-900 mb-2 group-hover:text-teal-700 transition-colors duration-200">
+            <h3 class="line-clamp-2 text-lg font-medium text-tea-800 mb-2 group-hover:text-tea-600 transition-colors duration-200">
                 {{ $name }}
             </h3>
             @if ($priceText)
-                <p class="text-lg font-bold text-teal-600 group-hover:text-teal-700 transition-colors duration-200">
+                <p class="text-lg font-bold tea-price group-hover:text-tea-700 transition-colors duration-200">
                     {{ $priceText }}
                 </p>
             @endif
-            <p class="mt-2 text-sm text-gray-500 group-hover:text-gray-700 transition-colors duration-200">
+            <p class="mt-2 text-sm text-tea-600 group-hover:text-tea-700 transition-colors duration-200">
                 {{ __('home.product_view_detail') }}
             </p>
             
             <!-- 多图提示 -->
             @if ($secondImage)
-                <div class="mt-2 flex items-center gap-1 text-xs text-gray-400 group-hover:text-teal-600 transition-colors duration-200">
+                <div class="mt-2 flex items-center gap-1 text-xs text-tea-500 group-hover:text-tea-600 transition-colors duration-200">
                     <x-heroicon-o-photo class="w-4 h-4" />
                     <span>{{ $images->count() }} {{ __('app.images') }}</span>
                 </div>

@@ -10,3 +10,230 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* 中国茶文化主题样式 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+/* 茶文化装饰元素 */
+.tea-decoration {
+    position: relative;
+}
+
+.tea-decoration::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #3a9d3a, transparent);
+    opacity: 0.6;
+}
+
+.tea-decoration::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #3a9d3a, transparent);
+    opacity: 0.6;
+}
+
+/* 茶文化背景纹理 */
+.tea-bg-texture {
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(58, 157, 58, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(138, 154, 122, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(184, 165, 133, 0.03) 0%, transparent 50%);
+}
+
+/* 茶文化卡片样式 */
+.tea-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9f7 100%);
+    border: 1px solid rgba(58, 157, 58, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(58, 157, 58, 0.1), 0 2px 4px -1px rgba(58, 157, 58, 0.06);
+    transition: all 0.3s ease;
+}
+
+.tea-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -3px rgba(58, 157, 58, 0.2), 0 4px 6px -2px rgba(58, 157, 58, 0.1);
+    border-color: rgba(58, 157, 58, 0.2);
+}
+
+/* 茶文化按钮样式 */
+.tea-btn-primary {
+    background: linear-gradient(135deg, #3a9d3a 0%, #2d7d2d 100%);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tea-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.tea-btn-primary:hover::before {
+    left: 100%;
+}
+
+.tea-btn-primary:hover {
+    background: linear-gradient(135deg, #2d7d2d 0%, #256325 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(58, 157, 58, 0.3);
+}
+
+/* 茶文化标题样式 */
+.tea-title {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 600;
+    color: #2d7d2d;
+    position: relative;
+}
+
+.tea-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #3a9d3a, #8a9a7a);
+    border-radius: 2px;
+}
+
+/* 茶文化分割线 */
+.tea-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(58, 157, 58, 0.3), transparent);
+    margin: 2rem 0;
+}
+
+/* 茶文化导航样式 */
+.tea-nav-item {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tea-nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #3a9d3a;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.tea-nav-item:hover::after,
+.tea-nav-item.active::after {
+    width: 100%;
+}
+
+/* 茶文化产品卡片 */
+.tea-product-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(58, 157, 58, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tea-product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3a9d3a, #8a9a7a, #b8a585);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tea-product-card:hover::before {
+    opacity: 1;
+}
+
+.tea-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(58, 157, 58, 0.15);
+    border-color: rgba(58, 157, 58, 0.2);
+}
+
+/* 茶文化价格标签 */
+.tea-price {
+    color: #2d7d2d;
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+/* 茶文化分类标签 */
+.tea-category-tag {
+    background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
+    color: #2d7d2d;
+    border: 1px solid rgba(58, 157, 58, 0.2);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* 茶文化页脚样式 */
+.tea-footer {
+    background: linear-gradient(135deg, #f8f9f7 0%, #eef0eb 100%);
+    border-top: 3px solid #3a9d3a;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .tea-decoration::before,
+    .tea-decoration::after {
+        width: 40px;
+    }
+    
+    .tea-title::after {
+        width: 30px;
+    }
+}
+
+/* 动画效果 */
+@keyframes teaFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.tea-float {
+    animation: teaFloat 3s ease-in-out infinite;
+}
+
+/* 茶文化加载动画 */
+.tea-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(58, 157, 58, 0.3);
+    border-radius: 50%;
+    border-top-color: #3a9d3a;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

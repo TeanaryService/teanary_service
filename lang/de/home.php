@@ -48,4 +48,10 @@ return [
     'promotion_starts_at' => 'Startdatum',
     'promotion_ends_at' => 'Enddatum',
     'promotion_text' => ':condition ab :condition_value erhalten Sie :discount :discount_value',
+    
+    // Tea culture theme related
+    'featured_products_subtitle' => 'Sorgfältig ausgewählte Premium-Tees, die Jahrtausende der Teekultur erben',
+    'browse_categories_subtitle' => 'Entdecken Sie verschiedene Teesorten und genießen Sie das Wesen des Teelebens',
+    'tea_culture_articles' => 'Teekultur-Artikel',
+    'tea_culture_articles_subtitle' => 'Erfahren Sie mehr über Teegeschichte, Kultur und Degustationswissen',
 ];

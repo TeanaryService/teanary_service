@@ -37,19 +37,19 @@
     }
 @endphp
 
-<div class="min-h-[70vh] mb-10">
+<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6">
         <x-breadcrumbs :items="$breadcrumbs" />
 
         <div class="flex flex-col md:flex-row gap-8">
             {{-- 分类侧栏 --}}
-            <aside class="md:w-1/4 bg-gray-50 rounded-xl p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">{{ __('home.browse_categories') }}</h2>
+            <aside class="md:w-1/4 tea-card rounded-xl p-6">
+                <h2 class="text-xl font-bold text-tea-800 mb-4 tea-title">{{ __('home.browse_categories') }}</h2>
                 <ul class="space-y-2">
                     @foreach ($categories as $category)
                         <li>
                             <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}"
-                                class="flex gap gap-2 items-center px-4 py-2 rounded hover:bg-teal-100 {{ $categoryId == $category['id'] ? 'bg-teal-200 font-bold' : 'text-gray-700' }}">
+                                class="flex gap gap-2 items-center px-4 py-2 rounded hover:bg-tea-100 transition-colors {{ $categoryId == $category['id'] ? 'bg-tea-200 font-bold text-tea-800' : 'text-tea-700' }}">
                                 <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
                                     class="h-6 w-6 object-cover rounded-lg">
                                 <span>{{ $category['name'] }}</span>
@@ -59,7 +59,7 @@
                                     @foreach ($category['children'] as $child)
                                         <li>
                                             <a href="{{ locaRoute('product', ['slug' => $child['slug']]) }}"
-                                                class="flex gap gap-2 items-center px-3 py-1 rounded hover:bg-teal-50 {{ $categoryId == $child['id'] ? 'bg-teal-200 font-bold' : 'text-gray-600' }}">
+                                                class="flex gap gap-2 items-center px-3 py-1 rounded hover:bg-tea-50 transition-colors {{ $categoryId == $child['id'] ? 'bg-tea-200 font-bold text-tea-800' : 'text-tea-600' }}">
                                                 <img src="{{ $child['image_url'] }}" alt="{{ $child['name'] }}"
                                                     class="h-6 w-6 object-cover rounded-lg">
                                                 <span>{{ $child['name'] }}</span>
@@ -76,19 +76,19 @@
                 <form method="GET" action="{{ locaRoute('product') }}" class="mt-8">
                     @foreach ($attributes as $attr)
                         <div class="mb-4">
-                            <div class="font-semibold text-gray-700 mb-2">{{ $attr['name'] }}</div>
+                            <div class="font-semibold text-tea-700 mb-2">{{ $attr['name'] }}</div>
                             @foreach ($attr['values'] as $val)
                                 <label class="flex items-center py-2 cursor-pointer">
                                     <input type="checkbox" name="attributes[{{ $attr['id'] }}][]"
                                         value="{{ $val['id'] }}" @if (isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array) $attributeFilters[$attr['id']])) checked @endif
-                                        class="mr-2 rounded border-gray-300 text-teal-600 focus:ring-teal-500">
-                                    <span class="text-gray-600">{{ $val['name'] }}</span>
+                                        class="mr-2 rounded border-tea-300 text-tea-600 focus:ring-tea-500">
+                                    <span class="text-tea-600">{{ $val['name'] }}</span>
                                 </label>
                             @endforeach
                         </div>
                     @endforeach
                     <button type="submit"
-                        class="w-full px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 font-semibold mt-2">
+                        class="w-full px-4 py-2 tea-btn-primary rounded font-semibold mt-2">
                         {{ __('home.search') }}
                     </button>
                 </form>
