@@ -26,14 +26,14 @@ host('teanary')
     ->set('branch', 'main')
     ->set('http_user', 'www');
 
-host('local')
-    ->set('hostname', '192.168.1.143')
-    ->set('port', 22)
-    ->set('remote_user', 'xcalder')
-    ->setIdentityFile('~/.ssh/teanary')
-    ->set('deploy_path', '/home/wwwroot/teanary.test')
-    ->set('branch', 'main')
-    ->set('http_user', 'www');
+// host('local')
+//     ->set('hostname', '192.168.1.143')
+//     ->set('port', 22)
+//     ->set('remote_user', 'xcalder')
+//     ->setIdentityFile('~/.ssh/teanary')
+//     ->set('deploy_path', '/home/wwwroot/teanary.test')
+//     ->set('branch', 'main')
+//     ->set('http_user', 'www');
 
 // ⏬ 自定义任务
 
