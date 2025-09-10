@@ -40,7 +40,7 @@
 </head>
 
 <body class="body bg-tea-50 font-chinese">
-    <div class="fixed w-full top-0 bg-white/95 backdrop-blur-sm border-b border-tea-200 z-50 tea-bg-texture">
+    <div class="fixed w-full top-0 bg-white/95 backdrop-blur-sm z-50 tea-bg-texture">
         <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
             <div class="hidden md:block">
                 <a href="{{ locaRoute('home') }}"><x-layouts.logo
