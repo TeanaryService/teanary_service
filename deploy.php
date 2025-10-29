@@ -12,8 +12,10 @@ set('default_stage', 'production');
 // 共享和可写
 add('shared_files', [
     'public/sitemap.xml',
-    'frankenphp'
+    'frankenphp',
+    'frankenphp-worker.php'
 ]);
+
 add('shared_dirs', []);
 add('writable_dirs', ['storage', 'bootstrap/cache']);
 
@@ -27,17 +29,7 @@ host('teanary')
     ->set('branch', 'main')
     ->set('http_user', 'www');
 
-// host('local')
-//     ->set('hostname', '192.168.1.143')
-//     ->set('port', 22)
-//     ->set('remote_user', 'xcalder')
-//     ->setIdentityFile('~/.ssh/teanary')
-//     ->set('deploy_path', '/home/wwwroot/teanary.test')
-//     ->set('branch', 'main')
-//     ->set('http_user', 'www');
-
 // ⏬ 自定义任务
-
 desc('构建前端资源');
 task('npm:build', function () {
     within('{{release_or_current_path}}', function () {
