@@ -106,8 +106,8 @@ task('octane:optimize', function () {
 
 desc('部署 Supervisor 配置');
 task('supervisor:deploy', function () {
-    run('sudo cp {{release_or_current_path}}/supervisor-octane.conf /etc/supervisor/conf.d/octane.conf');
-    run('sudo cp {{release_or_current_path}}/supervisor-queue.conf /etc/supervisor/conf.d/teanary-queue.conf');
+    run('sudo cp {{release_or_current_path}}/deployment/supervisor-octane.conf /etc/supervisor/conf.d/octane.conf');
+    run('sudo cp {{release_or_current_path}}/deployment/supervisor-queue.conf /etc/supervisor/conf.d/teanary-queue.conf');
     run('sudo supervisorctl reread');
     run('sudo supervisorctl update');
     run('sudo supervisorctl start octane:*');
@@ -116,7 +116,7 @@ task('supervisor:deploy', function () {
 
 desc('部署 Nginx 配置');
 task('nginx:deploy', function () {
-    run('sudo cp {{release_or_current_path}}/nginx-teanary-octane.conf /usr/local/nginx/conf/vhost/teanary.com.conf');
+    run('sudo cp {{release_or_current_path}}/deployment/nginx-teanary-octane.conf /usr/local/nginx/conf/vhost/teanary.com.conf');
     run('sudo nginx -t');
     run('sudo lnmp reload');
 });
