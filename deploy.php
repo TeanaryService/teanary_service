@@ -105,15 +105,6 @@ task('octane:optimize', function () {
     });
 });
 
-desc('设置 FrankenPHP 权限');
-task('frankenphp:permissions', function () {
-    within('{{release_or_current_path}}', function () {
-        run('mkdir -p frankenphp');
-        run('chmod 755 frankenphp');
-        run('chown -R www:www frankenphp');
-    });
-});
-
 desc('部署 Supervisor 配置');
 task('supervisor:deploy', function () {
     run('sudo cp {{release_or_current_path}}/deployment/supervisor-octane.conf /etc/supervisor/conf.d/octane.conf');
@@ -150,7 +141,6 @@ task('system:reload', function () {
 // ⏬ Hook 任务顺序
 
 after('deploy:vendors', 'npm:build');
-after('deploy:symlink', 'frankenphp:permissions');
 after('deploy:symlink', 'nginx:deploy');
 after('deploy:symlink', 'supervisor:deploy');
 after('deploy:symlink', 'octane:optimize');
