@@ -259,9 +259,12 @@ teanary/
 - **PHP 8.2+**
 - **MySQL 8.0+**
 - **Redis**
-- **RoadRunner**
+- **FrankenPHP** (应用服务器)
 - **Supervisor** (进程管理)
 - **SSL证书**
+- **域名配置**：
+  - `teanary.com` - 主域名
+  - `asset.teanary.com` - 静态资源 CDN 域名
 
 #### 快速部署
 
@@ -300,8 +303,20 @@ deployment/
 #### 性能优势
 - **更快的响应时间** - 应用在内存中保持活跃状态
 - **更高的并发能力** - 4 个工作进程处理请求
-- **静态文件优化** - 直接由 Nginx 服务，减少 Octane 负载
+- **CDN 加速** - 静态资源通过 `asset.teanary.com` 域名服务，支持 CDN 加速
+- **缓存优化** - 静态资源长期缓存（1年），减少服务器负载
 - **自动重启** - 代码变更时自动重启工作进程
+
+#### 静态资源 CDN 配置
+
+项目配置了独立的静态资源域名 `asset.teanary.com`：
+
+- **主域名** (`teanary.com`) - 处理动态请求，静态文件自动重定向到 CDN
+- **CDN 域名** (`asset.teanary.com`) - 专门服务静态资源，支持长期缓存
+- **缓存策略**：
+  - CSS/JS/字体文件：1年缓存
+  - 图片/媒体文件：30天缓存
+  - 支持 CORS 跨域访问
 
 #### 监控和日志
 ```bash
@@ -316,6 +331,9 @@ sudo supervisorctl tail -f octane
 
 # 查看队列日志
 sudo supervisorctl tail -f teanary-queue
+
+# 查看静态资源日志
+tail -f /home/wwwlogs/asset.teanary.com.log
 
 # 检查 LNMP 状态
 lnmp status
