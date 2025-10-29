@@ -113,14 +113,14 @@ task('supervisor:deploy', function () {
     run('sudo supervisorctl update');
     run('sudo supervisorctl start octane:*');
     run('sudo supervisorctl start teanary-queue:*');
-});
+})->once(); // 一次性操作
 
 desc('部署 Nginx 配置');
 task('nginx:deploy', function () {
     run('sudo cp {{release_or_current_path}}/deployment/nginx-teanary-octane.conf /usr/local/nginx/conf/vhost/teanary.com.conf');
     run('sudo nginx -t');
     run('sudo lnmp reload');
-});
+})->once(); // 一次性操作
 
 desc('重启队列服务');
 task('queue:restart', function () {
@@ -137,6 +137,30 @@ task('system:reload', function () {
     run('sudo supervisorctl reload');
     run('sudo lnmp reload');
 })->once(); // 每个部署只执行一次（一次 per node）
+
+// ⏬ 手动执行任务（首次部署或配置更新时使用）
+
+desc('首次部署 - 设置所有配置');
+task('deploy:first', [
+    'deploy:prepare',
+    'deploy:vendors',
+    'npm:build',
+    'nginx:deploy',
+    'supervisor:deploy',
+    'octane:optimize',
+    'artisan:optimize',
+    'artisan:filament:optimize',
+    'deploy:symlink',
+    'octane:reload',
+    'system:reload'
+]);
+
+desc('更新配置 - 重新部署 Nginx 和 Supervisor');
+task('deploy:config', [
+    'nginx:deploy',
+    'supervisor:deploy',
+    'system:reload'
+]);
 
 // ⏬ Hook 任务顺序
 

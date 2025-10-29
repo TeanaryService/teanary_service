@@ -265,9 +265,19 @@ teanary/
 
 #### 快速部署
 
-在项目根目录执行：
+**首次部署**（包含所有配置设置）：
+```bash
+vendor/bin/dep deploy:first teanary
+```
+
+**常规部署**（只更新代码，不重复配置）：
 ```bash
 vendor/bin/dep deploy teanary
+```
+
+**更新配置**（重新部署 Nginx 和 Supervisor 配置）：
+```bash
+vendor/bin/dep deploy:config teanary
 ```
 
 #### 手动部署
