@@ -13,7 +13,7 @@ set('default_stage', 'production');
 add('shared_files', [
     'public/sitemap.xml',
     'frankenphp',
-    'frankenphp-worker.php'
+    'public/frankenphp-worker.php'
 ]);
 
 add('shared_dirs', []);
