@@ -11,10 +11,11 @@ set('default_stage', 'production');
 
 // 共享和可写
 add('shared_files', [
-    'public/sitemap.xml'
+    'public/sitemap.xml',
+    'frankenphp'
 ]);
 add('shared_dirs', []);
-add('writable_dirs', ['storage', 'bootstrap/cache', 'frankenphp']);
+add('writable_dirs', ['storage', 'bootstrap/cache']);
 
 // 主机配置
 host('teanary')
@@ -81,7 +82,7 @@ task('octane:start', function () {
 });
 
 desc('重启 Octane 服务');
-task('octane:restart', function () {
+task('octane:reload', function () {
     within('{{release_or_current_path}}', function () {
         run('php artisan octane:reload --server=frankenphp');
     });
@@ -153,7 +154,7 @@ after('deploy:symlink', 'frankenphp:permissions');
 after('deploy:symlink', 'nginx:deploy');
 after('deploy:symlink', 'supervisor:deploy');
 after('deploy:symlink', 'octane:optimize');
-after('deploy:symlink', 'octane:restart');
+after('deploy:symlink', 'octane:reload');
 after('deploy:symlink', 'artisan:optimize');
 after('deploy:symlink', 'artisan:filament:optimize');
 after('deploy:symlink', 'system:reload');
