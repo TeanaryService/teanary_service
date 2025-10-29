@@ -14,7 +14,7 @@ add('shared_files', [
     'public/sitemap.xml'
 ]);
 add('shared_dirs', []);
-add('writable_dirs', ['storage', 'bootstrap/cache']);
+add('writable_dirs', ['storage', 'bootstrap/cache', 'frankenphp']);
 
 // 主机配置
 host('teanary')
@@ -76,21 +76,21 @@ task('octane:check', function () {
 desc('启动 Octane 服务');
 task('octane:start', function () {
     within('{{release_or_current_path}}', function () {
-        run('php artisan octane:start --server=roadrunner --host=0.0.0.0 --port=8000 --workers=4 --max-requests=500 --watch');
+        run('php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=8000 --workers=4 --max-requests=500 --watch');
     });
 });
 
 desc('重启 Octane 服务');
 task('octane:restart', function () {
     within('{{release_or_current_path}}', function () {
-        run('php artisan octane:restart --server=roadrunner');
+        run('php artisan octane:reload --server=frankenphp');
     });
 });
 
 desc('停止 Octane 服务');
 task('octane:stop', function () {
     within('{{release_or_current_path}}', function () {
-        run('php artisan octane:stop --server=roadrunner');
+        run('php artisan octane:stop --server=frankenphp');
     });
 });
 
@@ -101,6 +101,15 @@ task('octane:optimize', function () {
         run('php artisan route:cache');
         run('php artisan view:cache');
         run('php artisan event:cache');
+    });
+});
+
+desc('设置 FrankenPHP 权限');
+task('frankenphp:permissions', function () {
+    within('{{release_or_current_path}}', function () {
+        run('mkdir -p frankenphp');
+        run('chmod 755 frankenphp');
+        run('chown -R www:www frankenphp');
     });
 });
 
@@ -140,6 +149,7 @@ task('system:reload', function () {
 // ⏬ Hook 任务顺序
 
 after('deploy:vendors', 'npm:build');
+after('deploy:symlink', 'frankenphp:permissions');
 after('deploy:symlink', 'nginx:deploy');
 after('deploy:symlink', 'supervisor:deploy');
 after('deploy:symlink', 'octane:optimize');
