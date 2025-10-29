@@ -13,11 +13,10 @@ set('default_stage', 'production');
 add('shared_files', [
     'public/sitemap.xml',
     'frankenphp',
-    'public/frankenphp-worker.php'
 ]);
 
 add('shared_dirs', []);
-add('writable_dirs', ['storage', 'bootstrap/cache']);
+add('writable_dirs', ['storage', 'bootstrap/cache', 'public']);
 
 // 主机配置
 host('teanary')
