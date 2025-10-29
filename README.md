@@ -250,7 +250,70 @@ teanary/
 
 ## 🌐 部署指南
 
-### 生产环境配置
+### 高性能部署 (推荐)
+
+本项目已配置 Laravel Octane 高性能部署，使用 RoadRunner 应用服务器。
+
+#### 环境要求
+- **LNMP 环境** (推荐使用 LNMP.org 一键安装包)
+- **PHP 8.2+**
+- **MySQL 8.0+**
+- **Redis**
+- **RoadRunner**
+- **Supervisor** (进程管理)
+- **SSL证书**
+
+#### 快速部署
+
+在项目根目录执行：
+```bash
+vendor/bin/dep deploy teanary
+```
+
+#### 手动部署
+```bash
+# 使用 Deployer 部署
+vendor/bin/dep deploy teanary
+
+# 检查服务状态
+vendor/bin/dep octane:check teanary
+```
+
+#### 部署文件结构
+```
+deployment/
+├── nginx-teanary-octane.conf    # Nginx 配置
+├── supervisor-octane.conf       # Octane 进程管理
+└── supervisor-queue.conf        # 队列进程管理
+```
+
+#### 性能优势
+- **更快的响应时间** - 应用在内存中保持活跃状态
+- **更高的并发能力** - 4 个工作进程处理请求
+- **静态文件优化** - 直接由 Nginx 服务，减少 Octane 负载
+- **自动重启** - 代码变更时自动重启工作进程
+
+#### 监控和日志
+```bash
+# 查看 Octane 状态
+vendor/bin/dep octane:check teanary
+
+# 查看队列状态
+vendor/bin/dep queue:status teanary
+
+# 查看 Octane 日志
+sudo supervisorctl tail -f octane
+
+# 查看队列日志
+sudo supervisorctl tail -f teanary-queue
+
+# 检查 LNMP 状态
+lnmp status
+```
+
+### 传统部署 (备选)
+
+如果不需要高性能部署，也可以使用传统的 PHP-FPM 方式：
 
 1. **服务器要求**
 - PHP 8.1+
