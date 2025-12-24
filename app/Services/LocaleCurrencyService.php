@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Language;
 use App\Models\Currency;
 
@@ -13,6 +14,11 @@ class LocaleCurrencyService
 
     public function getLanguages()
     {
+        // 检查表是否存在，如果不存在则返回空集合（迁移时的情况）
+        if (!Schema::hasTable('languages')) {
+            return collect([]);
+        }
+
         return Cache::rememberForever(self::LANGUAGES_CACHE_KEY, function () {
             return Language::all();
         });
@@ -20,6 +26,11 @@ class LocaleCurrencyService
 
     public function getCurrencies()
     {
+        // 检查表是否存在，如果不存在则返回空集合（迁移时的情况）
+        if (!Schema::hasTable('currencies')) {
+            return collect([]);
+        }
+
         return Cache::rememberForever(self::CURRENCIES_CACHE_KEY, function () {
             return Currency::all();
         });
@@ -65,6 +76,11 @@ class LocaleCurrencyService
      */
     public function setRate(string $code, float $rate): bool
     {
+        // 检查表是否存在
+        if (!Schema::hasTable('currencies')) {
+            return false;
+        }
+
         $currency = Currency::where('code', $code)->first();
         if ($currency) {
             $currency->exchange_rate = $rate;

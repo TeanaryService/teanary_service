@@ -20,10 +20,16 @@ class SetBackLocaleAndCurrency
         // 设置货币
         // ------------------------------
         $currencyCode = $request->query('currency')
-            ?? Session::get('currency');
+            ?? Session::get('currency')
+            ?? $service->getDefaultCurrencyCode();
 
         $currency = $service->getCurrencyByCode($currencyCode);
-        Session::put('currency', $currency->code);
+        if ($currency) {
+            Session::put('currency', $currency->code);
+        } else {
+            // 如果表不存在或货币不存在，使用默认值
+            Session::put('currency', $currencyCode ?: 'CNY');
+        }
 
         return $next($request);
     }

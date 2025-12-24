@@ -39,7 +39,11 @@ Route::get('/', function () use ($service) {
 });
 
 
-$supportedLocales = $service->getLanguages()->pluck('code')->toArray(); // 返回 ['en', 'zh', 'fr', ...]
+// 获取支持的语言代码，如果表不存在则使用默认值（迁移时的情况）
+$supportedLocales = $service->getLanguages()->pluck('code')->toArray();
+if (empty($supportedLocales)) {
+    $supportedLocales = ['en']; // 默认语言代码
+}
 
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
