@@ -124,7 +124,7 @@ npm run build
 php artisan serve
 ```
 
-访问 `http://localhost:8000` 查看网站。
+访问 `http://localhost:8013` 查看网站。
 
 ## 🎨 主题定制
 
