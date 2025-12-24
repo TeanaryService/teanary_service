@@ -27,13 +27,29 @@ class SearchEnginePushService
     protected function pushToBing(string $url)
     {
         try {
+            $apiKey = config('services.bing.api_key');
+            $apiUrl = config('services.bing.api');
+            $site = config('services.bing.site');
+
+            if (!$apiKey || !$apiUrl || !$site) {
+                Log::warning('Bing push skipped: Missing configuration');
+                return false;
+            }
+
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-                // 'Authorization' => 'Bearer ' . config('services.bing.api_key')
-            ])->post(config('services.bing.api') . '?apikey=' . config('services.bing.api_key'), [
-                'siteUrl' => config('services.bing.site'),
+            ])->post($apiUrl . '?apikey=' . $apiKey, [
+                'siteUrl' => $site,
                 'url' => $url
             ]);
+            
+            if (!$response->successful()) {
+                Log::error('Bing push failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return false;
+            }
             
             return $response->json();
         } catch (\Exception $e) {
@@ -45,13 +61,29 @@ class SearchEnginePushService
     protected function pushToGoogle(string $url)
     {
         try {
+            $apiKey = config('services.google.api_key');
+            $apiUrl = config('services.google.api');
+
+            if (!$apiKey || !$apiUrl) {
+                Log::warning('Google push skipped: Missing configuration');
+                return false;
+            }
+
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . config('services.google.api_key')
-            ])->post(config('services.google.api'), [
+                'Authorization' => 'Bearer ' . $apiKey
+            ])->post($apiUrl, [
                 'url' => $url,
                 'type' => 'URL_UPDATED'
             ]);
+            
+            if (!$response->successful()) {
+                Log::error('Google push failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+                return false;
+            }
             
             return $response->json();
         } catch (\Exception $e) {

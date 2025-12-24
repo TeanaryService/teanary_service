@@ -115,7 +115,9 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        // User 模型不应该访问管理面板，只有 Manager 可以
+        // Filament 会通过 authGuard 来区分，但这里明确拒绝更安全
+        return false;
     }
 
     public function registerMediaConversions(?Media $media = null): void

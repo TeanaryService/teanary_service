@@ -40,8 +40,8 @@
                         @if ($address->address_2)
                             <p>{{ $address->address_2 }}</p>
                         @endif
-                        <p>{{ $address->city }}, {{ $address->zone?->zoneTranslations->where('language_id', $lang->id)->first()->name }}</p>
-                        <p>{{ $address->country->countryTranslations->where('language_id', $lang->id)->first()->name }} {{ $address->postcode }}</p>
+                        <p>{{ $address->city }}, {{ $address->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $address->zone?->name ?? '' }}</p>
+                        <p>{{ $address->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $address->country->name ?? '' }} {{ $address->postcode }}</p>
                     </div>
                 </div>
             @endforeach

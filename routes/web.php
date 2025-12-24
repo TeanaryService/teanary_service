@@ -77,15 +77,24 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
     Route::get('articles', ArticleList::class)->name('article.index');
     Route::get('articles/{slug}', ArticleDetail::class)->name('article.show');
 
+    // 管理员登录为其他用户（仅限管理员访问）
     Route::get('login-as/{id}', function (string $locale, int $id) {
-        Auth::logout();
+        // 安全检查：只有已登录的管理员才能使用此功能
+        if (!auth()->check() || !auth()->user()->canAccessPanel(\Filament\Facades\Filament::getPanel('manager'))) {
+            abort(403, 'Unauthorized');
+        }
+
         $user = User::find($id);
-        // 更新认证令牌
+        
+        if (!$user) {
+            abort(404, 'User not found');
+        }
+
+        Auth::logout();
         Auth::guard('web')->loginUsingId($id);
-        // 在会话中存储令牌
-        session()->put('auth_token', $user->auth_token);
+        
         return redirect()->route('user.profile', ['locale' => app()->getLocale()]);
-    })->middleware(['web'])->name('login-as');
+    })->middleware(['web', 'auth'])->name('login-as');
 
     Route::middleware(['auth'])->group(function () {
         // 邮箱验证提示页

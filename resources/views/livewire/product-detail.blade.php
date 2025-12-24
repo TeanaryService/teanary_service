@@ -421,7 +421,7 @@
             </div>
             <div class="py-6">
                 <x-share-buttons title="{{ $name }}" description="{{ $shortDesc }}"
-                    image="{{ $images->first()->getUrl() }}" />
+                    image="{{ $images->first()?->getUrl() ?? '' }}" />
             </div>
             <x-promotion-list class="py-6" />
         </div>
@@ -453,7 +453,7 @@
 
 @pushOnce('seo')
     <x-layouts.seo title="{{ $name }}" description="{{ $shortDesc }}"
-        image="{{ $images->first()->getUrl() }}" />
+        image="{{ $images->first()?->getUrl() ?? '' }}" />
     <script type="application/ld+json">
         {!! json_encode($structuredData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
     </script>

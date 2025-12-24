@@ -40,7 +40,7 @@
                             <p>{{ $order->shippingAddress->address_1 }} {{ $order->shippingAddress->address_2 }}</p>
                             <p>{{ $order->shippingAddress->city }},
                                 {{ $order->shippingAddress->postcode }}</p>
-                            <p>{{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()->name }},{{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()->name }}
+                            <p>{{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }},{{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
                             </p>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                                         <img class="w-12 h-12 rounded" src="{{ $image }}">
                                         <div>
                                             <div class="font-medium text-gray-900">
-                                                {{ $item->product->productTranslations->where('language_id', $lang->id)->first()->name }}
+                                                {{ $item->product->productTranslations->where('language_id', $lang->id)->first()?->name ?? $item->product->slug }}
                                             </div>
                                             @if ($item->productVariant)
                                                 <div class="text-sm text-gray-500">{{ $specs }}</div>
