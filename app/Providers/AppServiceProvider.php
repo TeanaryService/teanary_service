@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\QueryCacheService;
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -15,9 +14,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->singleton(QueryCacheService::class, function () {
-            return new QueryCacheService();
-        });
     }
 
     /**

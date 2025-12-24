@@ -12,12 +12,12 @@ class SearchEnginePushService
         $results = [];
         
         // Bing推送
-        if (config('search_engine.bing.enabled')) {
+        if (config('services.bing.enabled')) {
             $results['bing'] = $this->pushToBing($url);
         }
         
         // Google推送
-        if (config('search_engine.google.enabled')) {
+        if (config('services.google.enabled')) {
             $results['google'] = $this->pushToGoogle($url);
         }
         
@@ -29,9 +29,9 @@ class SearchEnginePushService
         try {
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-                // 'Authorization' => 'Bearer ' . config('search_engine.bing.api_key')
-            ])->post(config('search_engine.bing.api') . '?apikey=' . config('search_engine.bing.api_key'), [
-                'siteUrl' => config('search_engine.bing.site'),
+                // 'Authorization' => 'Bearer ' . config('services.bing.api_key')
+            ])->post(config('services.bing.api') . '?apikey=' . config('services.bing.api_key'), [
+                'siteUrl' => config('services.bing.site'),
                 'url' => $url
             ]);
             
@@ -47,8 +47,8 @@ class SearchEnginePushService
         try {
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . config('search_engine.google.api_key')
-            ])->post(config('search_engine.google.api'), [
+                'Authorization' => 'Bearer ' . config('services.google.api_key')
+            ])->post(config('services.google.api'), [
                 'url' => $url,
                 'type' => 'URL_UPDATED'
             ]);
