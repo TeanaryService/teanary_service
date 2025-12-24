@@ -4,21 +4,30 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 
-// 配置
+// ============================================
+// 基础配置
+// ============================================
 set('repository', 'git@gitee.com:new-cms/teanary_service.git');
-set('keep_releases', 2);
+set('keep_releases', 3);
 set('default_stage', 'production');
 
-// 共享和可写
+// 共享文件和目录
 add('shared_files', [
     'public/sitemap.xml',
-    'frankenphp',
+    'frankenphp'
 ]);
 
 add('shared_dirs', []);
-add('writable_dirs', ['storage', 'bootstrap/cache', 'public']);
 
+add('writable_dirs', [
+    'storage',
+    'bootstrap/cache',
+    'public'
+]);
+
+// ============================================
 // 主机配置
+// ============================================
 host('teanary')
     ->set('hostname', '107.174.127.181')
     ->set('port', 22)
@@ -28,94 +37,51 @@ host('teanary')
     ->set('branch', 'main')
     ->set('http_user', 'www');
 
-// ⏬ 自定义任务
+// ============================================
+// 前端构建任务
+// ============================================
 desc('构建前端资源');
 task('npm:build', function () {
-    within('{{release_or_current_path}}', function () {
-        run('rm -f package-lock.json');
-        run('npm install');
-        run('npm run build');
-        run('rm -rf node_modules tests printer_server');
-        run('mv public/vendor/livewire public/');
-    });
+    cd('{{release_path}}');
+    run('npm ci --prefer-offline --no-audit');
+    run('npm run build');
+    run('rm -rf node_modules tests printer_server');
+    run('mv public/vendor/livewire public/ 2>/dev/null || true');
 });
 
-desc('运行系统测试');
-task('artisan:app:test', function () {
-    within('{{release_or_current_path}}', function () {
-        run('php artisan app:test');
-    });
-});
-
+// ============================================
+// Artisan 任务
+// ============================================
 desc('Filament 缓存优化');
 task('artisan:filament:optimize', function () {
-    run('{{bin/php}} {{release_or_current_path}}/artisan filament:optimize');
-    run('{{bin/php}} {{release_or_current_path}}/artisan filament:cache-components');
+    cd('{{release_path}}');
+    run('{{bin/php}} artisan filament:optimize');
+    run('{{bin/php}} artisan filament:cache-components');
 });
 
-desc('刷新scout/缓存');
-task('artisan:sync:pull', function () {
-    run('{{bin/php}} {{release_or_current_path}}/artisan sync:pull');
-});
-
-desc('检查 Octane 环境');
-task('octane:check', function () {
-    within('{{release_or_current_path}}', function () {
-        run('php artisan octane:status');
-    });
-});
-
-desc('启动 Octane 服务');
-task('octane:start', function () {
-    within('{{release_or_current_path}}', function () {
-        run('php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=8000 --workers=4 --max-requests=500 --watch');
-    });
+// ============================================
+// Octane 任务（由 Supervisor 管理）
+// ============================================
+desc('检查 Octane 状态');
+task('octane:status', function () {
+    run('sudo supervisorctl status octane:*');
 });
 
 desc('重启 Octane 服务');
-task('octane:reload', function () {
-    within('{{release_or_current_path}}', function () {
-        run('php artisan octane:reload --server=frankenphp');
-    });
+task('octane:restart', function () {
+    writeln('<info>正在重启 Octane 服务...</info>');
+    run('sudo supervisorctl restart octane:*');
+    sleep(2);
 });
 
-desc('停止 Octane 服务');
-task('octane:stop', function () {
-    within('{{release_or_current_path}}', function () {
-        run('php artisan octane:stop --server=frankenphp');
-    });
-});
-
-desc('优化 Octane 配置');
-task('octane:optimize', function () {
-    within('{{release_or_current_path}}', function () {
-        run('php artisan config:cache');
-        run('php artisan route:cache');
-        run('php artisan view:cache');
-        run('php artisan event:cache');
-    });
-});
-
-desc('部署 Supervisor 配置');
-task('supervisor:deploy', function () {
-    run('sudo cp {{release_or_current_path}}/deployment/supervisor-octane.conf /etc/supervisor/conf.d/octane.conf');
-    run('sudo cp {{release_or_current_path}}/deployment/supervisor-queue.conf /etc/supervisor/conf.d/teanary-queue.conf');
-    run('sudo supervisorctl reread');
-    run('sudo supervisorctl update');
-    run('sudo supervisorctl start octane:*');
-    run('sudo supervisorctl start teanary-queue:*');
-})->once(); // 一次性操作
-
-desc('部署 Nginx 配置');
-task('nginx:deploy', function () {
-    run('sudo cp {{release_or_current_path}}/deployment/nginx-teanary-octane.conf /usr/local/nginx/conf/vhost/teanary.com.conf');
-    run('sudo nginx -t');
-    run('sudo lnmp reload');
-})->once(); // 一次性操作
-
+// ============================================
+// 队列任务（由 Supervisor 管理）
+// ============================================
 desc('重启队列服务');
 task('queue:restart', function () {
+    writeln('<info>正在重启队列服务...</info>');
     run('sudo supervisorctl restart teanary-queue:*');
+    sleep(1);
 });
 
 desc('检查队列状态');
@@ -123,44 +89,49 @@ task('queue:status', function () {
     run('sudo supervisorctl status teanary-queue:*');
 });
 
-desc('重载系统服务');
-task('system:reload', function () {
-    run('sudo supervisorctl reload');
+desc('检查所有服务状态');
+task('supervisor:status', function () {
+    run('sudo supervisorctl status all');
+});
+
+// ============================================
+// 配置部署任务（仅在需要时手动执行）
+// ============================================
+desc('部署 Supervisor 配置');
+task('supervisor:deploy', function () {
+    run('sudo cp {{release_path}}/deployment/supervisor-octane.conf /etc/supervisor/conf.d/octane.conf');
+    run('sudo cp {{release_path}}/deployment/supervisor-queue.conf /etc/supervisor/conf.d/teanary-queue.conf');
+    run('sudo supervisorctl reread');
+    run('sudo supervisorctl update');
+    run('sudo supervisorctl start octane:* 2>&1 || true');
+    run('sudo supervisorctl start teanary-queue:* 2>&1 || true');
+});
+
+desc('部署 Nginx 配置');
+task('nginx:deploy', function () {
+    run('sudo cp {{release_path}}/deployment/nginx-teanary-octane.conf /usr/local/nginx/conf/vhost/teanary.com.conf');
+    run('sudo nginx -t');
     run('sudo lnmp reload');
-})->once(); // 每个部署只执行一次（一次 per node）
-
-// ⏬ 手动执行任务（首次部署或配置更新时使用）
-
-desc('首次部署 - 设置所有配置');
-task('deploy:first', [
-    'deploy:prepare',
-    'deploy:vendors',
-    'npm:build',
-    'nginx:deploy',
-    'supervisor:deploy',
-    'octane:optimize',
-    'artisan:optimize',
-    'artisan:filament:optimize',
-    'deploy:symlink',
-    'octane:reload',
-    'system:reload'
-]);
+});
 
 desc('更新配置 - 重新部署 Nginx 和 Supervisor');
 task('deploy:config', [
     'nginx:deploy',
     'supervisor:deploy',
-    'system:reload'
 ]);
 
-// ⏬ Hook 任务顺序
-
+// ============================================
+// 部署流程 Hook（使用 Laravel recipe 标准流程）
+// ============================================
+// 前端构建在 vendors 之后
 after('deploy:vendors', 'npm:build');
-after('deploy:symlink', 'nginx:deploy');
-after('deploy:symlink', 'supervisor:deploy');
-after('deploy:symlink', 'octane:optimize');
-after('deploy:symlink', 'octane:reload');
-after('deploy:symlink', 'artisan:optimize');
-after('deploy:symlink', 'artisan:filament:optimize');
-after('deploy:symlink', 'system:reload');
+
+// 在 symlink 之前完成优化和 Octane 准备
+before('deploy:symlink', 'artisan:filament:optimize');
+
+// symlink 之后重启服务（由 Supervisor 管理）
+after('deploy:symlink', 'octane:restart');
+after('deploy:symlink', 'queue:restart');
+
+// 失败处理
 after('deploy:failed', 'deploy:unlock');
