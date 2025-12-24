@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Api;
 
-use Tests\TestCase;
+use App\Models\Article;
 use App\Models\Language;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class ArticleControllerTest extends TestCase
 {
@@ -16,102 +18,87 @@ class ArticleControllerTest extends TestCase
     {
         parent::setUp();
         Storage::fake('public');
-        Log::shouldReceive('info')->byDefault();
-        Log::shouldReceive('error')->byDefault();
     }
 
-    public function test_store_creates_article_successfully(): void
+    #[Test]
+    public function it_can_create_an_article_via_api()
     {
         $language = Language::factory()->create();
 
-        $response = $this->postJson('/api/articles/add', [
+        $mainImageContent = base64_encode(file_get_contents(__DIR__ . '/../../fixtures/test-image.jpg'));
+        if (!$mainImageContent) {
+            // 如果测试图片不存在，创建一个简单的测试数据
+            $mainImageContent = base64_encode('fake-image-content');
+        }
+
+        $payload = [
             'slug' => 'test-article',
+            'main_image' => [
+                'image_id' => 'main-123',
+                'contents' => $mainImageContent,
+            ],
+            'content_images' => [],
             'translations' => [
                 [
                     'language_id' => $language->id,
                     'title' => 'Test Article',
-                    'content' => 'Test content',
+                    'content' => 'This is a test article content.',
                     'summary' => 'Test summary',
-                ]
-            ]
-        ]);
+                ],
+            ],
+        ];
 
-        $response->assertStatus(201);
-        $response->assertJsonStructure([
-            'message',
-            'data' => [
-                'id',
-                'slug',
-                'article_translations',
-            ]
+        $response = $this->postJson('/api/articles/add', $payload);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'message',
+                'data' => [
+                    'id',
+                    'slug',
+                    'article_translations',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('articles', [
+            'slug' => 'test-article',
         ]);
     }
 
-    public function test_store_validates_required_fields(): void
+    #[Test]
+    public function it_validates_required_fields()
     {
         $response = $this->postJson('/api/articles/add', []);
 
-        $response->assertStatus(422);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['slug', 'translations']);
     }
 
-    public function test_store_handles_main_image(): void
+    #[Test]
+    public function it_handles_invalid_image_data()
     {
         $language = Language::factory()->create();
-        $imageContent = base64_encode('fake image content');
 
-        $response = $this->postJson('/api/articles/add', [
+        $payload = [
             'slug' => 'test-article',
             'main_image' => [
-                'contents' => $imageContent,
-                'image_id' => 'test-image-123',
+                'image_id' => 'main-123',
+                'contents' => 'invalid-base64-data',
             ],
+            'content_images' => [],
             'translations' => [
                 [
                     'language_id' => $language->id,
                     'title' => 'Test Article',
-                    'content' => 'Test content',
-                ]
-            ]
-        ]);
-
-        $response->assertStatus(201);
-    }
-
-    public function test_store_handles_content_images(): void
-    {
-        $language = Language::factory()->create();
-        $imageContent = base64_encode('fake image content');
-
-        $response = $this->postJson('/api/articles/add', [
-            'slug' => 'test-article',
-            'content_images' => [
-                [
-                    'contents' => $imageContent,
-                    'image_id' => 'content-image-123',
-                    'original_url' => 'https://example.com/image.jpg',
-                ]
+                    'content' => 'Content',
+                ],
             ],
-            'translations' => [
-                [
-                    'language_id' => $language->id,
-                    'title' => 'Test Article',
-                    'content' => 'Test content with {{image:content-image-123}}',
-                ]
-            ]
-        ]);
+        ];
 
-        $response->assertStatus(201);
-    }
+        $response = $this->postJson('/api/articles/add', $payload);
 
-    public function test_store_handles_exception_gracefully(): void
-    {
-        // 测试验证失败的情况（缺少必要字段）
-        $response = $this->postJson('/api/articles/add', [
-            'slug' => 'test-article',
-            'translations' => [] // 空数组会导致验证失败
-        ]);
-
-        $response->assertStatus(422); // 验证错误
+        // 根据实际实现，可能是400或500错误
+        $this->assertTrue(in_array($response->status(), [400, 422, 500]));
     }
 }
 

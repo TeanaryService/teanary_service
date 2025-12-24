@@ -41,8 +41,8 @@ class PaypalWebhookController extends Controller
                     return response()->json(['error' => 'Order not found'], 404);
                 }
 
-                $paymentService->handlePaymentSuccess($order);
-                return response()->json(['message' => 'success']);
+                    $paymentService->handlePaymentSuccess($order);
+                    return response()->json(['message' => 'success']);
             }
 
             return response()->json(['message' => 'unhandled event']);

@@ -122,7 +122,8 @@ class PromotionService
             return Promotion::with([
                 'promotionTranslations',
                 'promotionRules',
-                'userGroups'
+                'userGroups',
+                'productVariants'
             ])->get();
         });
     }
@@ -173,17 +174,14 @@ class PromotionService
         ?int $langId = null,
     ) {
         $promotions = $this->getAvailablePromotions($user, $langId);
+        $allPromotionModels = static::getAllPromotionsCached();
 
-        return $promotions->filter(function ($promotion) use ($variant) {
-            $promotionModel = RequestQueryCacheService::remember("promotion_{$promotion['id']}", function () use ($promotion) {
-                return Promotion::with(['productVariants' => function ($q) {
-                    $q->withPivot('product_variant_id');
-                }])->find($promotion['id']);
-            });
+        return $promotions->filter(function ($promotion) use ($variant, $allPromotionModels) {
+            // Find the corresponding full model from the pre-loaded cache
+            $promotionModel = $allPromotionModels->firstWhere('id', $promotion['id']);
 
-            return $promotionModel && $promotionModel->productVariants->contains(function ($pv) use ($variant) {
-                return $pv->pivot->product_variant_id === $variant->id;
-            });
+            // If the model is found, check its eager-loaded productVariants relationship
+            return $promotionModel && $promotionModel->productVariants->contains('id', $variant->id);
         })->values();
     }
 

@@ -25,7 +25,7 @@ class SetBackLocaleAndCurrency
 
         $currency = $service->getCurrencyByCode($currencyCode);
         if ($currency) {
-            Session::put('currency', $currency->code);
+        Session::put('currency', $currency->code);
         } else {
             // 如果表不存在或货币不存在，使用默认值
             Session::put('currency', $currencyCode ?: 'CNY');

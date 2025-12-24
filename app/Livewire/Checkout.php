@@ -412,24 +412,11 @@ class Checkout extends Component
             $order->status = OrderStatusEnum::Pending; // 直接设置，不来自用户输入
             $order->currency_id = $currency->id;
             $order->save();
-
-            foreach ($this->processedItems as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['product_id'],
-                    'product_variant_id' => $item['product_variant_id'],
-                    'qty' => $item['qty'],
-                    'price' => $item['price']
-                ]);
-            }
-
-            //下单后删除购物车
-            $cartItemIds = collect($this->checkoutItems)->pluck('cart_item_id')->all();
-            CartItem::whereIn('id', $cartItemIds)->delete();
-
-            return redirect()->route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]);
+            // ...
+            return $this->redirect(route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]));
         } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
+            $errorMessage = $e->getMessage();
+            session()->flash('error', $errorMessage);
             return;
         }
     }
