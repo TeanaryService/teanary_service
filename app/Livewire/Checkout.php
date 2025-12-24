@@ -123,11 +123,19 @@ class Checkout extends Component
 
     protected function loadAddresses()
     {
+        $relations = ['country.countryTranslations', 'zone.zoneTranslations'];
+
         if (auth()->check()) {
-            $this->addresses = \App\Models\Address::where('user_id', auth()->id())->where('deleted', false)->get();
+            $this->addresses = \App\Models\Address::with($relations)
+                ->where('user_id', auth()->id())
+                ->where('deleted', false)
+                ->get();
             $this->shippingAddress = $this->addresses->first()?->id;
         } else {
-            $this->addresses = \App\Models\Address::where('session_id', session()->getId())->where('deleted', false)->get();
+            $this->addresses = \App\Models\Address::with($relations)
+                ->where('session_id', session()->getId())
+                ->where('deleted', false)
+                ->get();
             $this->shippingAddress = $this->addresses->first()?->id;
         }
     }
@@ -138,12 +146,22 @@ class Checkout extends Component
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
         $promoService = app(PromotionService::class);
         $user = auth()->user();
+
+        // --- N+1 性能优化 ---
+        // 1. 收集所有变体ID
+        $variantIds = collect($this->checkoutItems)->pluck('product_variant_id')->all();
+
+        // 2. 一次性加载所有变体及其关联数据，并按ID索引
+        $variants = ProductVariant::with([
+            'product.productTranslations',
+            'specificationValues.specificationValueTranslations',
+            'media'
+        ])->whereIn('id', $variantIds)->get()->keyBy('id');
+
         foreach ($this->checkoutItems as $item) {
-            $variant = ProductVariant::with([
-                'product.productTranslations',
-                'specificationValues.specificationValueTranslations',
-                'media'
-            ])->find($item['product_variant_id']);
+            // 3. 从预加载的集合中获取变体
+            $variant = $variants->get($item['product_variant_id']);
+            // --- 优化结束 ---
 
             if ($variant) {
                 $product = $variant->product;
@@ -357,19 +375,43 @@ class Checkout extends Component
         }
 
         try {
+            // --- 安全修复：在创建订单前，在服务器端重新计算所有金额 ---
+            // 1. 重新获取配送方式和费用，防止篡改
+            $shippingMethodData = collect($this->shippingMethods)->firstWhere('value', $this->shippingMethod);
+            if (!$shippingMethodData) {
+                throw new \Exception('Invalid shipping method selected.');
+            }
+            $serverShippingFee = $shippingMethodData['fee'] ?? 0;
+
+            // 2. 重新计算订单促销和总价
+            $orderModel = new \App\Models\Order();
+            $orderModel->user_id = auth()->id();
+            $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
+                return (object)[
+                    'qty' => $item['qty'],
+                    'price' => $item['price'],
+                ];
+            });
+            $promoService = app(PromotionService::class);
+            $orderPromo = $promoService->calculateOrderTotal($orderModel);
+            $serverSubtotal = $orderPromo['final_total'];
+            $serverTotal = $serverSubtotal + floatval($serverShippingFee);
+            // --- 安全修复结束 ---
+
             $currency = app(LocaleCurrencyService::class)->getCurrencyByCode(session('currency'));
-            $order = Order::create([
-                'user_id' => auth()->id(),
-                'order_no' => 'ORD-' . Str::upper(Str::random(8)),
-                'shipping_address_id' => $this->shippingAddress,
-                'billing_address_id' => $this->billingAddress,
-                'payment_method' => $this->paymentMethod,
-                'shipping_method' => $this->shippingMethod,
-                'shipping_fee' => $this->shippingFee,
-                'total' => $this->total,
-                'status' => OrderStatusEnum::Pending,
-                'currency_id' => $currency->id,
-            ]);
+            
+            $order = new Order();
+            $order->user_id = auth()->id();
+            $order->order_no = 'ORD-' . Str::upper(Str::random(8));
+            $order->shipping_address_id = $this->shippingAddress;
+            $order->billing_address_id = $this->billingAddress;
+            $order->payment_method = $this->paymentMethod;
+            $order->shipping_method = $this->shippingMethod;
+            $order->shipping_fee = $serverShippingFee; // 使用服务器端计算的值
+            $order->total = $serverTotal; // 使用服务器端计算的值
+            $order->status = OrderStatusEnum::Pending; // 直接设置，不来自用户输入
+            $order->currency_id = $currency->id;
+            $order->save();
 
             foreach ($this->processedItems as $item) {
                 OrderItem::create([
@@ -387,7 +429,7 @@ class Checkout extends Component
 
             return redirect()->route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]);
         } catch (\Exception $e) {
-            session()->flash('error', __('app.error_order_create_failed'));
+            session()->flash('error', $e->getMessage());
             return;
         }
     }

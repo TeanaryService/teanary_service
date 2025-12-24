@@ -70,9 +70,6 @@ class Order extends Model
         'shipping_method',
         'shipping_address_id',
         'billing_address_id',
-        'total',
-        'shipping_fee',
-        'status'
     ];
 
     public function shippingAddress(): BelongsTo
