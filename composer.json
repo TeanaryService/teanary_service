@@ -66,15 +66,32 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve --port=8013\" \"php artisan queue:listen --queue=high,scout,low --tries=1\" \"php artisan schedule:run\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ],
-        "ide": [
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:models -M",
-            "php artisan ide-helper:meta"
-        ],
-        "analyse": "phpstan analyse --memory-limit=2G",
+        "format": "./bin/pint",
+        "format:test": "./bin/pint --test",
+        "analyse": "./bin/phpstan analyse --memory-limit=2G",
+        "analyse:clear": "./bin/phpstan clear-result-cache",
         "test": [
             "@php artisan config:clear --ansi",
-            "@php artisan test"
+            "./bin/phpunit"
+        ],
+        "test:unit": "./bin/phpunit --testsuite=Unit",
+        "test:feature": "./bin/phpunit --testsuite=Feature",
+        "test:coverage": [
+            "@php artisan config:clear --ansi",
+            "./bin/phpunit --coverage-html=storage/coverage/html --coverage-text=storage/coverage/coverage.txt"
+        ],
+        "test:coverage:ci": [
+            "@php artisan config:clear --ansi",
+            "./bin/phpunit --coverage-clover=storage/coverage/clover.xml"
+        ],
+        "quality": [
+            "@format:test",
+            "@analyse"
+        ],
+        "check": [
+            "@format:test",
+            "@analyse",
+            "@test"
         ]
     },
     "extra": {
@@ -88,7 +105,6 @@
         "bin-dir": "bin",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },

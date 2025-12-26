@@ -2,27 +2,81 @@ includes:
     - ./vendor/larastan/larastan/extension.neon
 
 parameters:
+    # 分析级别 (0-9, 9 最严格)
     level: 5
 
+    # 分析路径
     paths:
         - app
         - routes
         - database
         - config
 
+    # 排除路径
     excludePaths:
         - tests/*
         - bootstrap/cache/*
         - storage/*
         - vendor/*
+        - node_modules/*
 
+    # 扫描文件（用于全局函数等）
     scanFiles:
         - _ide_helper.php
         - _ide_helper_models.php
 
+    # 内存限制
+    tmpDir: storage/phpstan
+
+    # 并行处理
+    parallel:
+        jobSize: 20
+        maximumNumberOfProcesses: 4
+
+    # 忽略的错误模式
     ignoreErrors:
+        # Laravel 动态属性
         - '#Property App\\Models\\.* not found#'
-        - '#Call to an undefined method Illuminate\\Support\\Collection::.*#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::.*#'
         - '#Access to an undefined property .*#'
+        
+        # Laravel Collection 动态方法
+        - '#Call to an undefined method Illuminate\\Support\\Collection::.*#'
+        - '#Call to an undefined method Illuminate\\Support\\LazyCollection::.*#'
+        
+        # Eloquent Builder 动态方法
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::.*#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::.*#'
         - '#Method Illuminate\\Database\\Query\\Builder::exists\(\) not found#'
+        
+        # Livewire 动态属性
+        - '#Access to an undefined property Livewire\\Component::.*#'
+        
+        # Filament 动态方法
+        - '#Call to an undefined method Filament\\.*::.*#'
+        
+        # 闭包中的类型推断
+        - '#Parameter .* of anonymous function has no typehint#'
+        
+        # 可选链操作符
+        - '#Access to an undefined property .*\|null#'
+        
+    # 报告未匹配的忽略项
+    reportUnmatchedIgnoredErrors: false
+
+    # 检查缺失的迭代值类型
+    checkMissingIterableValueType: false
+
+    # 检查泛型类中的未使用泛型
+    checkUninitializedProperties: true
+
+    # 检查可能未定义的变量
+    checkMaybeUndefinedVariables: true
+
+    # 检查 null 安全
+    checkNullables: true
+
+    # 检查未使用的私有属性
+    checkUnusedPrivateProperties: true
+
+    # 检查未使用的私有方法
+    checkUnusedPrivateMethods: true

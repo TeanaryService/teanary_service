@@ -32,3 +32,11 @@ _ide_helper_models.php
 **/caddy
 frankenphp
 frankenphp-worker.php
+
+# 测试覆盖率报告
+/storage/coverage
+/.phpunit.cache
+.phpunit.result.cache
+
+# PHPStan 缓存
+/storage/phpstan
