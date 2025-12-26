@@ -7,7 +7,7 @@ use App\Models\Cart;
 class CartService
 {
     /**
-     * 只查找，不创建
+     * 只查找，不创建.
      */
     public function getCart()
     {
@@ -21,7 +21,7 @@ class CartService
     }
 
     /**
-     * 查找或创建
+     * 查找或创建.
      */
     public function getOrCreateCart()
     {

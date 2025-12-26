@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 trait HandlesEditorUploads
 {
     /**
-     * 清理富文本内容：只保留指定标签，并去掉标签属性
+     * 清理富文本内容：只保留指定标签，并去掉标签属性.
      */
     public function cleanEditorHtml(string $html): string
     {
@@ -47,7 +47,7 @@ trait HandlesEditorUploads
     }
 
     /**
-     * 提取富文本中的 <img src="..."> 路径，并转换为相对路径
+     * 提取富文本中的 <img src="..."> 路径，并转换为相对路径.
      */
     public function extractImagePathsFromHtml(string $html): array
     {
@@ -79,7 +79,7 @@ trait HandlesEditorUploads
     }
 
     /**
-     * 从富文本中提取图片并标记为已使用（新增过滤）
+     * 从富文本中提取图片并标记为已使用（新增过滤）.
      */
     public function handleEditorUploadsFromHtml(?string $html): void
     {

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class CartItem
+ * Class CartItem.
  *
  * @property int $id
  * @property int $cart_id

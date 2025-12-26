@@ -101,8 +101,7 @@ class ProcessImagesCommand extends Command
                     $this->info("Processed existing JPG file: {$file}");
                 }
 
-                $processedCount++;
-
+                ++$processedCount;
             } catch (\Exception $e) {
                 $this->error("Error processing {$file}: ".$e->getMessage());
 
@@ -121,7 +120,7 @@ class ProcessImagesCommand extends Command
                 try {
                     $disk->delete($file);
                     $this->info("Deleted leftover file: {$file}");
-                    $deletedCount++;
+                    ++$deletedCount;
                 } catch (\Exception $e) {
                     $this->error("Failed to delete {$file}: ".$e->getMessage());
                 }

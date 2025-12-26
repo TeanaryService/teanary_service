@@ -31,7 +31,7 @@ class FullSeeder extends Seeder
     public function run(): void
     {
         /**
-         * Languages
+         * Languages.
          */
         $languages = collect([
             ['code' => 'en',    'name' => 'English',  'default' => true],
@@ -45,7 +45,7 @@ class FullSeeder extends Seeder
         ])->map(fn ($data) => Language::create($data));
 
         /**
-         * Currencies
+         * Currencies.
          */
         $currencies = collect([
             ['code' => 'USD', 'name' => 'US Dollar',       'symbol' => '$',   'default' => true],
@@ -58,7 +58,7 @@ class FullSeeder extends Seeder
         ])->map(fn ($data) => Currency::create($data));
 
         /**
-         * User Groups
+         * User Groups.
          */
         $userGroups = collect([
             ['name' => 'Retail'],
@@ -75,13 +75,13 @@ class FullSeeder extends Seeder
             return $ug;
         });
 
-        /**
+        /*
          * Users
          */
         User::factory(10)->hasArticles()->create();
 
         /**
-         * Categories
+         * Categories.
          */
         $categories = collect([
             ['slug' => 'green-tea'],          // 绿茶
@@ -118,7 +118,7 @@ class FullSeeder extends Seeder
             });
 
         /**
-         * Attributes
+         * Attributes.
          */
         $attributes = collect([
             ['label' => 'stem_length'],
@@ -138,7 +138,7 @@ class FullSeeder extends Seeder
         });
 
         /**
-         * Attribute Values
+         * Attribute Values.
          */
         $attributeValues = $attributes->flatMap(function ($attr) use ($languages) {
             return collect(['Short', 'Medium', 'Long'])->map(function ($value) use ($attr, $languages) {
@@ -158,7 +158,7 @@ class FullSeeder extends Seeder
         });
 
         /**
-         * Specifications
+         * Specifications.
          */
         $specifications = collect([
             ['label' => 'color'],
@@ -177,7 +177,7 @@ class FullSeeder extends Seeder
         });
 
         /**
-         * Specification Values
+         * Specification Values.
          */
         $specificationValues = $specifications->flatMap(function ($spec) use ($languages) {
             $values = match ($spec->code) {
@@ -203,7 +203,7 @@ class FullSeeder extends Seeder
         });
 
         /**
-         * Products
+         * Products.
          */
         $products = collect(range(1, 22))->map(function ($i) use (
             $languages,
@@ -250,7 +250,7 @@ class FullSeeder extends Seeder
             $specsUsed = $specifications->random(rand(1, 2));
 
             // Create variants
-            for ($v = 1; $v <= 3; $v++) {
+            for ($v = 1; $v <= 3; ++$v) {
                 $variant = ProductVariant::create([
                     'product_id' => $product->id,
                     'sku' => 'P-'.$i.'-V'.$v,
@@ -291,7 +291,7 @@ class FullSeeder extends Seeder
         });
 
         /**
-         * Promotions
+         * Promotions.
          */
         $promotions = collect([
             ['type' => \App\Enums\PromotionTypeEnum::Coupon],
@@ -334,7 +334,7 @@ class FullSeeder extends Seeder
     {
         $count = rand($min, $max);
 
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $image = generateRandomImage();
 
             $model->addMedia($image)

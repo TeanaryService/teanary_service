@@ -21,7 +21,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Class Category
+ * Class Category.
  *
  * @property int $id
  * @property int|null $parent_id
@@ -54,12 +54,12 @@ class Category extends Model implements HasMedia
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function categories(): HasMany
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     public function categoryTranslations(): HasMany
@@ -82,7 +82,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * 获取所有顶级分类（含多语言翻译和图片），永久缓存（含子分类）
+     * 获取所有顶级分类（含多语言翻译和图片），永久缓存（含子分类）.
      *
      * @param  int|null  $langId
      * @return \Illuminate\Support\Collection
@@ -103,7 +103,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * 获取当前语言下的分类（含递归子分类）
+     * 获取当前语言下的分类（含递归子分类）.
      */
     public static function getCategoriesForLanguage($langId)
     {
@@ -115,7 +115,7 @@ class Category extends Model implements HasMedia
     }
 
     /**
-     * 格式化分类（含递归子分类）
+     * 格式化分类（含递归子分类）.
      *
      * @param  \App\Models\Category  $category
      */

@@ -19,7 +19,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * Class PromotionRule
+ * Class PromotionRule.
  *
  * @property int $id
  * @property int $promotion_id

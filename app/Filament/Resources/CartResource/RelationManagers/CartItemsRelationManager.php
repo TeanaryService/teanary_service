@@ -49,7 +49,7 @@ class CartItemsRelationManager extends RelationManager
     }
 
     /**
-     * Optional: 为编辑或创建后的记录动态刷新变体翻译标签（仅用于刷新界面）
+     * Optional: 为编辑或创建后的记录动态刷新变体翻译标签（仅用于刷新界面）.
      */
     protected function hydrateProductVariantLabel(CartItem $record): void
     {

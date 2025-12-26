@@ -24,7 +24,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Class User
+ * Class User.
  *
  * @property int $id
  * @property string $name

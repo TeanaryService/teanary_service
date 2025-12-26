@@ -80,7 +80,7 @@ class UpdateEcbRates extends Command
                 // 如果 EUR 在数据库中，推算 EUR 的汇率
                 $currency->exchange_rate = 1 / $eurToDefault;
                 $currency->save();
-                $updated++;
+                ++$updated;
 
                 continue;
             }
@@ -95,7 +95,7 @@ class UpdateEcbRates extends Command
 
             $currency->exchange_rate = $convertedRate;
             $currency->save();
-            $updated++;
+            ++$updated;
         }
 
         $service->clearCurrenciesCache();

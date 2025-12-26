@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class UserGroupTranslation
+ * Class UserGroupTranslation.
  *
  * @property int $id
  * @property int $user_group_id

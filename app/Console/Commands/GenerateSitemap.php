@@ -49,7 +49,7 @@ class GenerateSitemap extends Command
     }
 
     /**
-     * 添加模型路由 URL（分块）
+     * 添加模型路由 URL（分块）.
      */
     protected function addModelUrls(string $modelClass, string $routeName, string $slugField, string $locale): void
     {
@@ -66,7 +66,7 @@ class GenerateSitemap extends Command
     }
 
     /**
-     * 添加 URL（会自动转为完整地址）
+     * 添加 URL（会自动转为完整地址）.
      */
     protected function addUrl(string $path): void
     {
@@ -74,7 +74,7 @@ class GenerateSitemap extends Command
     }
 
     /**
-     * 生成 XML 内容
+     * 生成 XML 内容.
      */
     protected function generateXml(): string
     {

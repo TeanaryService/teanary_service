@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class UserGroup
+ * Class UserGroup.
  *
  * @property int $id
  * @property Carbon|null $created_at

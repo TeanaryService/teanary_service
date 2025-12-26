@@ -7,13 +7,10 @@ use Illuminate\Database\Seeder;
 class ZonesTableSeeder extends Seeder
 {
     /**
-     * Auto generated seed file
-     *
-     * @return void
+     * Auto generated seed file.
      */
     public function run()
     {
-
         \DB::table('zones')->delete();
 
         \DB::table('zones')->insert([
@@ -32562,6 +32559,5 @@ class ZonesTableSeeder extends Seeder
                 'updated_at' => '2025-07-16 18:16:12',
             ],
         ]);
-
     }
 }

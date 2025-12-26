@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class EditorUpload
+ * Class EditorUpload.
  *
  * @property int $id
  * @property string $path

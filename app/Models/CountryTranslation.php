@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class CountryTranslation
+ * Class CountryTranslation.
  *
  * @property int $id
  * @property int $country_id

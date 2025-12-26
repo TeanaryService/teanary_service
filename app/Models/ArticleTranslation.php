@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class ArticleTranslation
+ * Class ArticleTranslation.
  *
  * @property int $id
  * @property int $article_id

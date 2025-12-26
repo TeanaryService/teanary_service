@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class Zone
+ * Class Zone.
  *
  * @property int $id
  * @property int $country_id
@@ -63,7 +63,7 @@ class Zone extends Model
     }
 
     /**
-     * 获取所有地区数据缓存(包含所有语言)
+     * 获取所有地区数据缓存(包含所有语言).
      */
     public static function getCachedZones()
     {
@@ -87,7 +87,7 @@ class Zone extends Model
     }
 
     /**
-     * 从缓存获取指定国家和语言的地区列表
+     * 从缓存获取指定国家和语言的地区列表.
      */
     public static function getZonesByCountryAndLanguage(int $countryId, ?int $langId = null)
     {

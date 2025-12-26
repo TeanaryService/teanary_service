@@ -19,7 +19,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Class ProductVariant
+ * Class ProductVariant.
  *
  * @property int $id
  * @property int $product_id

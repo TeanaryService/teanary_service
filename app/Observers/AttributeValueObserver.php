@@ -7,7 +7,7 @@ use App\Models\AttributeValue;
 class AttributeValueObserver
 {
     /**
-     * 清除所有语言下的属性缓存
+     * 清除所有语言下的属性缓存.
      */
     protected function clearAttributeCache(): void
     {

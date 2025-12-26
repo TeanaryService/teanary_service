@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 class PaymentService
 {
     /**
-     * 获取可用支付方式列表
+     * 获取可用支付方式列表.
      */
     public function getAvailableMethods(?Address $address = null): array
     {

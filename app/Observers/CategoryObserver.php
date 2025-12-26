@@ -31,7 +31,7 @@ class CategoryObserver
     }
 
     /**
-     * 清除所有语言下的分类缓存
+     * 清除所有语言下的分类缓存.
      */
     protected function clearCategoryCache(): void
     {

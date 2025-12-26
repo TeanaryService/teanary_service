@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 class PromotionService
 {
     /**
-     * 计算商品规格的最终支付金额及促销信息
+     * 计算商品规格的最终支付金额及促销信息.
      *
      * @param  ProductVariant  $variant
      * @param  int  $qty
@@ -69,7 +69,7 @@ class PromotionService
     }
 
     /**
-     * 计算订单的最终支付金额及促销信息
+     * 计算订单的最终支付金额及促销信息.
      *
      * @return array ['final_total' => float, 'promotion' => array|null]
      */
@@ -119,7 +119,7 @@ class PromotionService
     }
 
     /**
-     * 总缓存所有促销（含翻译、规则、userGroups），永久缓存
+     * 总缓存所有促销（含翻译、规则、userGroups），永久缓存.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -136,7 +136,7 @@ class PromotionService
     }
 
     /**
-     * 获取可用促销信息列表（用于广告），从总缓存筛选
+     * 获取可用促销信息列表（用于广告），从总缓存筛选.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -180,7 +180,7 @@ class PromotionService
     }
 
     /**
-     * 获取商品规格可用促销，从总缓存筛选
+     * 获取商品规格可用促销，从总缓存筛选.
      */
     public function getAvailablePromotionsForVariant(
         ProductVariant $variant,
@@ -200,7 +200,7 @@ class PromotionService
     }
 
     /**
-     * 获取订单可用促销，从总缓存筛选
+     * 获取订单可用促销，从总缓存筛选.
      */
     public function getAvailablePromotionsForOrder(Order $order, ?User $user = null, ?int $langId = null)
     {
@@ -208,7 +208,7 @@ class PromotionService
     }
 
     /**
-     * 清理所有促销相关缓存（在促销变动时调用）
+     * 清理所有促销相关缓存（在促销变动时调用）.
      */
     public static function clearPromotionCache()
     {
@@ -216,7 +216,7 @@ class PromotionService
     }
 
     /**
-     * 判断促销规则是否满足
+     * 判断促销规则是否满足.
      */
     protected function checkRule(PromotionRule $rule, float $base, int $qty): bool
     {
@@ -234,7 +234,7 @@ class PromotionService
     }
 
     /**
-     * 计算促销规则的优惠金额
+     * 计算促销规则的优惠金额.
      */
     protected function getDiscountAmount(PromotionRule $rule, float $base, int $qty): float
     {

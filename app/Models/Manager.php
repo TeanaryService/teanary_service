@@ -18,7 +18,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Class Manager
+ * Class Manager.
  *
  * @property int $id
  * @property string $name

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class OrderItem
+ * Class OrderItem.
  *
  * @property int $id
  * @property int $order_id

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Class SpecificationTranslation
+ * Class SpecificationTranslation.
  *
  * @property int $id
  * @property int $specification_id

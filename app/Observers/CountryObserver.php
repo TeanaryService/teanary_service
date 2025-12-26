@@ -34,7 +34,7 @@ class CountryObserver
     }
 
     /**
-     * 清除所有语言下的国家缓存
+     * 清除所有语言下的国家缓存.
      */
     protected function clearCountryCache(): void
     {

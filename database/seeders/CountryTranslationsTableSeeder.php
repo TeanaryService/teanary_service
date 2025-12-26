@@ -7,13 +7,10 @@ use Illuminate\Database\Seeder;
 class CountryTranslationsTableSeeder extends Seeder
 {
     /**
-     * Auto generated seed file
-     *
-     * @return void
+     * Auto generated seed file.
      */
     public function run()
     {
-
         \DB::table('country_translations')->delete();
 
         \DB::table('country_translations')->insert([
@@ -16218,6 +16215,5 @@ class CountryTranslationsTableSeeder extends Seeder
                 'updated_at' => '2025-07-24 12:10:59',
             ],
         ]);
-
     }
 }

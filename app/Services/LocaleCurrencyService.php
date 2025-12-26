@@ -66,7 +66,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取指定币种的汇率
+     * 获取指定币种的汇率.
      */
     public function getRate(string $code): float
     {
@@ -76,7 +76,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 设置指定币种的汇率
+     * 设置指定币种的汇率.
      */
     public function setRate(string $code, float $rate): bool
     {
@@ -98,7 +98,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 刷新所有币种汇率（示例，实际可对接第三方API）
+     * 刷新所有币种汇率（示例，实际可对接第三方API）.
      */
     public function refreshRates(array $rates): void
     {
@@ -108,7 +108,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 计算金额的汇率转换（无符号，仅数值）
+     * 计算金额的汇率转换（无符号，仅数值）.
      */
     public function convert(float $amount, ?string $toCode, string $fromCode = ''): float
     {
@@ -124,7 +124,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 计算金额的汇率转换（带目标币种符号，格式化字符串）
+     * 计算金额的汇率转换（带目标币种符号，格式化字符串）.
      */
     public function convertWithSymbol(float $amount, ?string $toCode, string $fromCode = '', int $decimals = 2): string
     {
@@ -138,7 +138,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 格式化金额（带货币符号，不进行汇率转换）
+     * 格式化金额（带货币符号，不进行汇率转换）.
      */
     public function formatWithSymbol(float $amount, ?string $code = null, int $decimals = 2): string
     {
@@ -150,7 +150,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取默认币种 code
+     * 获取默认币种 code.
      */
     public function getDefaultCurrencyCode(): string
     {
@@ -161,7 +161,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取默认语言 code
+     * 获取默认语言 code.
      */
     public function getDefaultLanguageCode(): string
     {
@@ -172,7 +172,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取 [id => 当前语言name] 的语言选项数组，适用于 Filament options
+     * 获取 [id => 当前语言name] 的语言选项数组，适用于 Filament options.
      */
     public function getLanguageOptions(): array
     {
@@ -182,7 +182,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取 [id => 当前语言name] 的货币选项数组，适用于 Filament options
+     * 获取 [id => 当前语言name] 的货币选项数组，适用于 Filament options.
      */
     public function getCurrencyOptions(): array
     {
@@ -192,7 +192,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 根据传入的 locale 判断并返回支持的语言 code
+     * 根据传入的 locale 判断并返回支持的语言 code.
      */
     public function resolveLocale(?string $locale): string
     {

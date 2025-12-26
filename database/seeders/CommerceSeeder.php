@@ -66,7 +66,7 @@ class CommerceSeeder extends Seeder
 
             // 随机添加 1-3 个商品或变体到购物车
             $cartItemsCount = rand(1, 3);
-            for ($i = 0; $i < $cartItemsCount; $i++) {
+            for ($i = 0; $i < $cartItemsCount; ++$i) {
                 $product = $products->random();
 
                 $variant = $productVariants->where('product_id', $product->id)->random();

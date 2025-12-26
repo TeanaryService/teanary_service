@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class SpecificationValue
+ * Class SpecificationValue.
  *
  * @property int $id
  * @property int $specification_id

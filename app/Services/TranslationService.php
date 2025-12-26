@@ -28,7 +28,7 @@ class TranslationService
     }
 
     /**
-     * 翻译文本
+     * 翻译文本.
      *
      * @param  string  $query  要翻译的文本
      * @param  string  $from  原语言，auto 表示自动识别

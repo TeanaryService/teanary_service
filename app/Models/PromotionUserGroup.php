@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * Class PromotionUserGroup
+ * Class PromotionUserGroup.
  *
  * @property int $promotion_id
  * @property int $user_group_id

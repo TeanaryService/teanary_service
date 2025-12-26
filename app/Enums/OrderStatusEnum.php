@@ -46,7 +46,7 @@ enum OrderStatusEnum: string
     }
 
     /**
-     * 判断是否可以取消订单
+     * 判断是否可以取消订单.
      */
     public function canBeCancelled(): bool
     {
@@ -54,7 +54,7 @@ enum OrderStatusEnum: string
     }
 
     /**
-     * 判断是否可以去支付
+     * 判断是否可以去支付.
      */
     public function canBePaid(): bool
     {
@@ -62,7 +62,7 @@ enum OrderStatusEnum: string
     }
 
     /**
-     * 判断是否可以申请售后
+     * 判断是否可以申请售后.
      */
     public function canRequestAfterSale(): bool
     {
@@ -70,7 +70,7 @@ enum OrderStatusEnum: string
     }
 
     /**
-     * 判断是否正在售后处理中
+     * 判断是否正在售后处理中.
      */
     public function isAfterSaleProcessing(): bool
     {
@@ -78,7 +78,7 @@ enum OrderStatusEnum: string
     }
 
     /**
-     * 判断是否已完成售后
+     * 判断是否已完成售后.
      */
     public function isAfterSaleCompleted(): bool
     {

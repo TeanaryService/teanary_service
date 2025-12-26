@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class Attribute
+ * Class Attribute.
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -42,7 +42,7 @@ class Attribute extends Model
     }
 
     /**
-     * 获取所有属性及属性值（多语言），永久缓存
+     * 获取所有属性及属性值（多语言），永久缓存.
      *
      * @param  int|null  $langId
      * @return \Illuminate\Support\Collection

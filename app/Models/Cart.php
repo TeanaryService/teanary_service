@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class Cart
+ * Class Cart.
  *
  * @property int $id
  * @property int|null $user_id

@@ -16,7 +16,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Class ProductReview
+ * Class ProductReview.
  *
  * @property int $id
  * @property int $product_id

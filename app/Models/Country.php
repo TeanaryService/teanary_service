@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class Country
+ * Class Country.
  *
  * @property int $id
  * @property string|null $iso_code_2
@@ -64,7 +64,7 @@ class Country extends Model
     }
 
     /**
-     * 获取所有国家数据缓存(包含所有语言)
+     * 获取所有国家数据缓存(包含所有语言).
      */
     public static function getCachedCountries()
     {
@@ -87,7 +87,7 @@ class Country extends Model
     }
 
     /**
-     * 从缓存获取指定语言的国家列表
+     * 从缓存获取指定语言的国家列表.
      */
     public static function getCountriesByLanguage(?int $langId = null)
     {

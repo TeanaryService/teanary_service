@@ -34,7 +34,7 @@ class ZoneObserver
     }
 
     /**
-     * 清除所有语言下的地区缓存
+     * 清除所有语言下的地区缓存.
      */
     protected function clearZoneCache(): void
     {

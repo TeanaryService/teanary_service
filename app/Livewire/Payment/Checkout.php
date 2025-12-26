@@ -35,7 +35,6 @@ class Checkout extends Component
 
             // 立即跳转到支付页面
             $this->dispatch('redirect-to-payment', url: $redirectUrl);
-
         } catch (\Exception $e) {
             $this->isProcessing = false;
             $this->errorMessage = __('payment.payment_error');

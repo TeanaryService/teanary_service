@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class Specification
+ * Class Specification.
  *
  * @property int $id
  * @property Carbon|null $created_at

@@ -22,7 +22,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * Class Product
+ * Class Product.
  *
  * @property int $id
  * @property string $slug
