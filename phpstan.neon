@@ -20,11 +20,6 @@ parameters:
         - vendor/*
         - node_modules/*
 
-    # 扫描文件（用于全局函数等）
-    scanFiles:
-        - _ide_helper.php
-        - _ide_helper_models.php
-
     # 内存限制
     tmpDir: storage/phpstan
 
@@ -63,9 +58,6 @@ parameters:
     # 报告未匹配的忽略项
     reportUnmatchedIgnoredErrors: false
 
-    # 检查缺失的迭代值类型
-    checkMissingIterableValueType: false
-
     # 检查泛型类中的未使用泛型
     checkUninitializedProperties: true
 
@@ -74,9 +66,3 @@ parameters:
 
     # 检查 null 安全
     checkNullables: true
-
-    # 检查未使用的私有属性
-    checkUnusedPrivateProperties: true
-
-    # 检查未使用的私有方法
-    checkUnusedPrivateMethods: true
