@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Currency
- * 
+ *
  * @property int $id
  * @property string $code
  * @property string $name
@@ -25,24 +25,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property bool $default
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Collection|Order[] $orders
  * @property Collection|ProductVariant[] $productVariants
  * @property Collection|User[] $users
- *
- * @package App\Models
  */
-
- #[ObservedBy([CurrencyObserver::class])]
+#[ObservedBy([CurrencyObserver::class])]
 
 class Currency extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'exchange_rate' => 'float',
-        'default' => 'bool'
+        'default' => 'bool',
     ];
 
     protected $fillable = [
@@ -50,7 +47,7 @@ class Currency extends Model
         'name',
         'symbol',
         'exchange_rate',
-        'default'
+        'default',
     ];
 
     public function orders(): HasMany

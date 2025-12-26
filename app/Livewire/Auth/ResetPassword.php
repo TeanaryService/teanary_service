@@ -2,17 +2,21 @@
 
 namespace App\Livewire\Auth;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Livewire\Component;
 
 class ResetPassword extends Component
 {
     public $token;
+
     public $email = '';
+
     public $password = '';
+
     public $passwordConfirmation = '';
+
     public $success = false;
 
     public function mount($locale, $token)

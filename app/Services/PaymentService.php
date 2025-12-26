@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Address;
+use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
+use App\Models\Address;
+use App\Models\Order;
 use App\Services\Payments\PaymentManager;
 use Illuminate\Support\Facades\Log;
-use App\Models\Order;
-use App\Enums\OrderStatusEnum;
 
 class PaymentService
 {
@@ -16,9 +16,10 @@ class PaymentService
      */
     public function getAvailableMethods(?Address $address = null): array
     {
-        if (!$address) {
+        if (! $address) {
             return [];
         }
+
         return PaymentMethodEnum::cases();
     }
 
@@ -26,6 +27,7 @@ class PaymentService
     {
         try {
             $gateway = PaymentManager::gateway($method);
+
             return $gateway->create($order);
         } catch (\Throwable $e) {
             Log::error('支付创建失败', [
@@ -42,7 +44,7 @@ class PaymentService
     {
         if ($order->status === OrderStatusEnum::Pending) {
             $order->update([
-                'status' => OrderStatusEnum::Paid
+                'status' => OrderStatusEnum::Paid,
             ]);
 
             // 可以在这里触发订单支付成功的事件

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\URL;
 class GenerateSitemap extends Command
 {
     protected $signature = 'app:sitemap';
+
     protected $description = 'Generate sitemap.xml for the website';
 
     protected array $urls = [];
@@ -77,19 +78,19 @@ class GenerateSitemap extends Command
      */
     protected function generateXml(): string
     {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>'.PHP_EOL;
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'.PHP_EOL;
 
         foreach ($this->urls as $url) {
             $xml .= "  <url>\n";
             $xml .= "    <loc>{$url}</loc>\n";
-            $xml .= "    <lastmod>" . now()->toAtomString() . "</lastmod>\n";
+            $xml .= '    <lastmod>'.now()->toAtomString()."</lastmod>\n";
             $xml .= "    <changefreq>weekly</changefreq>\n";
             $xml .= "    <priority>0.8</priority>\n";
             $xml .= "  </url>\n";
         }
 
-        $xml .= '</urlset>' . PHP_EOL;
+        $xml .= '</urlset>'.PHP_EOL;
 
         return $xml;
     }

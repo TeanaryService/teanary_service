@@ -23,40 +23,37 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class Product
- * 
+ *
  * @property int $id
  * @property string $slug
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Collection|CartItem[] $cartItems
  * @property Collection|OrderItem[] $orderItems
  * @property Collection|AttributeValue[] $attributeValues
  * @property Collection|ProductCategory[] $productCategories
  * @property Collection|ProductTranslation[] $productTranslations
  * @property Collection|ProductVariant[] $productVariants
- *
- * @package App\Models
  */
-
 #[ObservedBy([ProductObserver::class])]
 
 class Product extends Model implements HasMedia
 {
+    use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
-    use CascadesMediaDeletes;
     use Searchable;
 
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'status' => ProductStatusEnum::class
+        'status' => ProductStatusEnum::class,
     ];
+
     protected $fillable = [
         'slug',
-        'status'
+        'status',
     ];
 
     public function cartItems(): HasMany
@@ -117,8 +114,8 @@ class Product extends Model implements HasMedia
         $translations = $this->productTranslations;
         $mergedText = '';
         foreach ($translations as $translation) {
-            $mergedText .= strip_tags($translation->name ?? '') . ' ';
-            $mergedText .= strip_tags($translation->description ?? '') . ' ';
+            $mergedText .= strip_tags($translation->name ?? '').' ';
+            $mergedText .= strip_tags($translation->description ?? '').' ';
         }
         $array['content'] = trim($mergedText);
 

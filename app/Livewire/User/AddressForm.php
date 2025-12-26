@@ -11,7 +11,9 @@ use Livewire\Component;
 class AddressForm extends Component
 {
     public ?Address $address = null;
+
     public array $state = [];
+
     public array $zones = [];
 
     public function mount(): void
@@ -51,7 +53,7 @@ class AddressForm extends Component
             'state.postcode' => 'required|string|max:20',
         ];
 
-        if (!empty($zones)) {
+        if (! empty($zones)) {
             $rules['state.zone_id'] = 'required|exists:zones,id';
         } else {
             $rules['state.zone_id'] = 'nullable|exists:zones,id';

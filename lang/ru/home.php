@@ -48,7 +48,7 @@ return [
     'promotion_starts_at' => 'Дата начала',
     'promotion_ends_at' => 'Дата окончания',
     'promotion_text' => ':condition от :condition_value получает :discount :discount_value',
-    
+
     // Tea culture theme related
     'featured_products_subtitle' => 'Тщательно отобранные премиальные чаи, наследуя тысячелетия чайной культуры',
     'browse_categories_subtitle' => 'Исследуйте различные сорта чая, наслаждайтесь сущностью чайной жизни',

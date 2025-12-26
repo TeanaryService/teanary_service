@@ -46,6 +46,7 @@ class EditCountry extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 }

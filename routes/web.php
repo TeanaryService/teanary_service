@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SyncController;
 use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\ArticleDetail;
 use App\Livewire\ArticleList;
@@ -19,7 +18,6 @@ use App\Livewire\Payment\Failure;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
-use App\Livewire\User\Addresses;
 use App\Livewire\User\AddressForm;
 use App\Livewire\User\AddressList;
 use App\Livewire\User\OrderDetail;
@@ -30,14 +28,14 @@ use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-$service = new LocaleCurrencyService();
+$service = new LocaleCurrencyService;
 
 Route::get('/', function () use ($service) {
-    //重定向到带语言前缀的首页
+    // 重定向到带语言前缀的首页
     $lang = $service->getDefaultLanguageCode();
+
     return redirect($lang);
 });
-
 
 // 获取支持的语言代码，如果表不存在则使用默认值（迁移时的情况）
 $supportedLocales = $service->getLanguages()->pluck('code')->toArray();
@@ -47,7 +45,7 @@ if (empty($supportedLocales)) {
 
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
-    //Auth
+    // Auth
     Route::get('login', Login::class)->name('auth.login');
     Route::get('register', Register::class)->name('auth.register');
     Route::get('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
@@ -57,6 +55,7 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
     Route::post('logout', function () {
         Auth::logout();
         $locale = app()->getLocale();
+
         return redirect()->route('home', ['locale' => $locale]);
     })->name('auth.logout');
 
@@ -80,19 +79,19 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
     // 管理员登录为其他用户（仅限管理员访问）
     Route::get('login-as/{id}', function (string $locale, int $id) {
         // 安全检查：只有已登录的管理员才能使用此功能
-        if (!auth()->check() || !auth()->user()->canAccessPanel(\Filament\Facades\Filament::getPanel('manager'))) {
+        if (! auth()->check() || ! auth()->user()->canAccessPanel(\Filament\Facades\Filament::getPanel('manager'))) {
             abort(403, 'Unauthorized');
         }
 
         $user = User::find($id);
-        
-        if (!$user) {
+
+        if (! $user) {
             abort(404, 'User not found');
         }
 
         Auth::logout();
         Auth::guard('web')->loginUsingId($id);
-        
+
         return redirect()->route('user.profile', ['locale' => app()->getLocale()]);
     })->middleware(['web', 'auth'])->name('login-as');
 

@@ -2,18 +2,21 @@
 
 namespace App\Livewire\Components;
 
-use Livewire\Component;
-use Livewire\WithPagination;
 use App\Models\ProductReview;
 use App\Services\LocaleCurrencyService;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class ProductReviews extends Component
 {
     use WithPagination;
 
     public $productId;
+
     public $rating = 5;
+
     public $content = '';
+
     public $variantId = null;
 
     protected $paginationTheme = 'tailwind';
@@ -28,7 +31,7 @@ class ProductReviews extends Component
     {
         $this->validate();
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return;
         }
 

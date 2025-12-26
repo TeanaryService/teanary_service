@@ -2,10 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\Category;
 use App\Services\LocaleCurrencyService;
-use Illuminate\Support\Facades\Cache;
+use Livewire\Component;
 
 class Home extends Component
 {

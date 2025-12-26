@@ -10,7 +10,7 @@ class CookieConsent extends Component
 
     public function mount()
     {
-        $this->show = !request()->cookies->has('cookie_consent');
+        $this->show = ! request()->cookies->has('cookie_consent');
     }
 
     public function accept()

@@ -22,27 +22,23 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class Article
- * 
+ *
  * @property int $id
  * @property string $slug
  * @property bool $is_published
  * @property int|null $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property User|null $user
  * @property Collection|ArticleTranslation[] $articleTranslations
- *
- * @package App\Models
  */
-
 #[ObservedBy([ArticleObserver::class])]
 
 class Article extends Model implements HasMedia
 {
+    use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
-    use CascadesMediaDeletes;
     use Searchable;
 
     /**
@@ -58,26 +54,25 @@ class Article extends Model implements HasMedia
         $translations = $this->articleTranslations;
         $mergedText = '';
         foreach ($translations as $translation) {
-            $mergedText .= strip_tags($translation->title ?? '') . ' ';
-            $mergedText .= strip_tags($translation->content ?? '') . ' ';
+            $mergedText .= strip_tags($translation->title ?? '').' ';
+            $mergedText .= strip_tags($translation->content ?? '').' ';
         }
         $array['content'] = trim($mergedText);
 
         return $array;
     }
 
-
     public static $snakeAttributes = false;
 
     protected $casts = [
         'is_published' => 'bool',
-        'user_id' => 'int'
+        'user_id' => 'int',
     ];
 
     protected $fillable = [
         'slug',
         'is_published',
-        'user_id'
+        'user_id',
     ];
 
     public function user(): BelongsTo

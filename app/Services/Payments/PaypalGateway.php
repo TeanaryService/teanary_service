@@ -7,8 +7,8 @@ use App\Services\LocaleCurrencyService;
 use App\Services\Payments\Contracts\PaymentGatewayInterface;
 use Illuminate\Support\Facades\Log;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
-use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Core\ProductionEnvironment;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalHttp\HttpException;
 
@@ -22,11 +22,11 @@ class PaypalGateway implements PaymentGatewayInterface
         if (app()->environment('production')) {
             $clientId = $config['prod']['client_id'];
             $clientSecret = $config['prod']['secret'];
-            $environment =  new ProductionEnvironment($clientId, $clientSecret);
+            $environment = new ProductionEnvironment($clientId, $clientSecret);
         } else {
             $clientId = $config['sandBox']['client_id'];
             $clientSecret = $config['sandBox']['secret'];
-            $environment =  new SandboxEnvironment($clientId, $clientSecret);
+            $environment = new SandboxEnvironment($clientId, $clientSecret);
         }
 
         $this->client = new PayPalHttpClient($environment);
@@ -35,7 +35,7 @@ class PaypalGateway implements PaymentGatewayInterface
     public function create(array $order): string
     {
         try {
-            $request = new OrdersCreateRequest();
+            $request = new OrdersCreateRequest;
             $request->prefer('return=representation');
 
             // 处理金额/货币
@@ -76,7 +76,7 @@ class PaypalGateway implements PaymentGatewayInterface
                 'response' => $e->getMessage(),
             ]);
 
-            throw new \Exception('PayPal API error: ' . $e->getMessage());
+            throw new \Exception('PayPal API error: '.$e->getMessage());
         } catch (\Throwable $e) {
             Log::error('General PayPal Error', [
                 'message' => $e->getMessage(),

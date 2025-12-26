@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SpecificationResource\RelationManagers\SpecificationValuesRelationManager;
 use App\Filament\Resources\SpecificationValueResource\Pages;
-use App\Filament\Resources\SpecificationValueResource\RelationManagers;
 use App\Models\SpecificationValue;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -15,8 +14,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SpecificationValueResource extends Resource
 {
@@ -25,25 +22,31 @@ class SpecificationValueResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = SpecificationValue::class;
+
     protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 206;
 
     public static function getLabel(): string
     {
         return __('filament.SpecificationValueResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.SpecificationValueResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.SpecificationValueResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.SpecificationValueResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.SpecificationValueResource.icon');
@@ -68,6 +71,7 @@ class SpecificationValueResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->specificationTranslations->first();
+
                         return $first ? $first->name : $record->id;
                     })
                     ->searchable()
@@ -87,7 +91,7 @@ class SpecificationValueResource extends Resource
                         }
 
                         return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.specification_value.name') . " ({$lang->name})")
+                            ->label(__('filament.specification_value.name')." ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
@@ -108,7 +112,7 @@ class SpecificationValueResource extends Resource
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $spec = $record->specification;
-                        if (!$spec) {
+                        if (! $spec) {
                             return null;
                         }
                         $translation = $spec->specificationTranslations->where('language_id', $lang?->id)->first();
@@ -116,6 +120,7 @@ class SpecificationValueResource extends Resource
                             return $translation->name;
                         }
                         $first = $spec->specificationTranslations->first();
+
                         return $first ? $first->name : $spec->id;
                     }),
                 Tables\Columns\TextColumn::make('specificationValueTranslations.name')
@@ -128,19 +133,20 @@ class SpecificationValueResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->specificationValueTranslations->first();
+
                         return $first ? $first->name : '';
                     }),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

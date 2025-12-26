@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
-use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,12 +22,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Filament::registerRenderHook(
             'panels::topbar.end',
-            fn() => \Livewire\Livewire::mount(\App\Filament\Widgets\LanguageCurrencySwitcher::class)
+            fn () => \Livewire\Livewire::mount(\App\Filament\Widgets\LanguageCurrencySwitcher::class)
         );
 
         Filament::registerRenderHook(
             'panels::topbar.start',
-            fn() => '<a class="text-md font-bold" target="_blank" href="' . locaRoute('home') . '">' . __('app.home') . '</a>'
+            fn () => '<a class="text-md font-bold" target="_blank" href="'.locaRoute('home').'">'.__('app.home').'</a>'
         );
     }
 }

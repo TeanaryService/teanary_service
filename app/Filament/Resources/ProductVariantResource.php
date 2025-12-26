@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Filament\Resources\ProductVariantResource\Pages;
-use App\Filament\Resources\ProductVariantResource\RelationManagers;
 use App\Models\ProductVariant;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
@@ -13,16 +12,15 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class ProductVariantResource extends Resource
 {
@@ -31,25 +29,31 @@ class ProductVariantResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = ProductVariant::class;
+
     protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 201;
 
     public static function getLabel(): string
     {
         return __('filament.ProductVariantResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.ProductVariantResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.ProductVariantResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.ProductVariantResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.ProductVariantResource.icon');
@@ -108,6 +112,7 @@ class ProductVariantResource extends Resource
                                         $usedIds[] = $item['specification_id'];
                                     }
                                 }
+
                                 return collect($specOptions)->except($usedIds)->toArray();
                             })
                             ->live()
@@ -121,6 +126,7 @@ class ProductVariantResource extends Resource
                             ->label(__('filament.product_variant.specification_value'))
                             ->options(function ($get) use ($specValueOptions) {
                                 $specId = $get('specification_id');
+
                                 return $specId && isset($specValueOptions[$specId])
                                     ? $specValueOptions[$specId]
                                     : [];
@@ -141,6 +147,7 @@ class ProductVariantResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->productTranslations->first();
+
                         return $first ? $first->name : $record->id;
                     })
                     ->searchable()
@@ -187,9 +194,10 @@ class ProductVariantResource extends Resource
     public static function table(Table $table): Table
     {
         $localeCurrencyService = app(\App\Services\LocaleCurrencyService::class);
+
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
-                fn(Builder $query): Builder => $query
+                fn (Builder $query): Builder => $query
                     ->with([
                         'specifications.specificationTranslations',
                         'specificationValues.specificationValueTranslations',
@@ -208,12 +216,15 @@ class ProductVariantResource extends Resource
                         $locale = app()->getLocale();
                         $lang = $localeCurrencyService->getLanguageByCode($locale);
                         $product = $record->product;
-                        if (!$product) return null;
+                        if (! $product) {
+                            return null;
+                        }
                         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->name) {
                             return $translation->name;
                         }
                         $first = $product->productTranslations->first();
+
                         return $first ? $first->name : $product->id;
                     }),
                 Tables\Columns\TextColumn::make('sku')
@@ -223,12 +234,14 @@ class ProductVariantResource extends Resource
                     ->label(__('filament.product_variant.price'))
                     ->formatStateUsing(function ($state) use ($localeCurrencyService) {
                         $currencyCode = session('currency');
+
                         return $localeCurrencyService->convertWithSymbol($state, $currencyCode);
                     }),
                 Tables\Columns\TextColumn::make('cost')
                     ->label(__('filament.product_variant.cost'))
                     ->formatStateUsing(function ($state) use ($localeCurrencyService) {
                         $currencyCode = session('currency');
+
                         return $localeCurrencyService->convertWithSymbol($state, $currencyCode);
                     }),
                 Tables\Columns\TextColumn::make('stock')
@@ -274,22 +287,23 @@ class ProductVariantResource extends Resource
                             $valName = $valTrans && $valTrans->name
                                 ? $valTrans->name
                                 : ($sv->specificationValueTranslations->first()->name ?? '');
-                            $items[] = $specName . ':' . $valName;
+                            $items[] = $specName.':'.$valName;
                         }
+
                         return implode('，', array_filter($items));
                     })
                     ->limit(46),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

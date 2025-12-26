@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Order
- * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string $order_no
@@ -32,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Address|null $address
  * @property Currency|null $currency
  * @property PaymentMethod|null $paymentMethod
@@ -40,15 +39,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property User|null $user
  * @property Collection|OrderItem[] $orderItems
  * @property Collection|OrderShipment[] $orderShipments
- *
- * @package App\Models
  */
-
 #[ObservedBy([OrderObserver::class])]
 
 class Order extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
@@ -59,7 +56,7 @@ class Order extends Model
         'shipping_address_id' => 'int',
         'billing_address_id' => 'int',
         'total' => 'float',
-        'status' => OrderStatusEnum::class
+        'status' => OrderStatusEnum::class,
     ];
 
     protected $fillable = [
@@ -81,7 +78,6 @@ class Order extends Model
     {
         return $this->belongsTo(Address::class, 'billing_address_id');
     }
-
 
     public function currency(): BelongsTo
     {

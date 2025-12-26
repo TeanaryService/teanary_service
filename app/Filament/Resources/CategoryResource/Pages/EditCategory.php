@@ -28,6 +28,7 @@ class EditCategory extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 

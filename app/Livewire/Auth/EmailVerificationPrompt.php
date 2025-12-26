@@ -2,10 +2,8 @@
 
 namespace App\Livewire\Auth;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Auth\Events\Verified;
+use Livewire\Component;
 
 class EmailVerificationPrompt extends Component
 {

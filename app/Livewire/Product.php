@@ -2,18 +2,21 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\Product as ProductModel;
-use App\Models\Category;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Http\Request;
+use Livewire\Component;
 
 class Product extends Component
 {
     private $categoryId;
+
     private $categories;
+
     private $products = [];
+
     private $attributeFilters = [];
+
     private $allAttributes = [];
 
     public function mount(Request $request)
@@ -28,7 +31,7 @@ class Product extends Component
 
         if ($slug) {
             $category = $this->categories->where('slug', $slug)->first();
-            if(!$category){
+            if (! $category) {
                 abort(404);
             }
             $this->categoryId = $category['id'];
@@ -41,7 +44,7 @@ class Product extends Component
                     collect($category['children'] ?? [])->contains('id', $this->categoryId);
             });
 
-            if (!$categoryExists) {
+            if (! $categoryExists) {
                 abort(404);
             }
         }
@@ -62,9 +65,9 @@ class Product extends Component
 
         // 属性筛选
         foreach ($this->attributeFilters as $attrId => $valueIds) {
-            if (!empty($valueIds)) {
+            if (! empty($valueIds)) {
                 $query->whereHas('attributeValues', function ($q) use ($valueIds) {
-                    $q->whereIn('attribute_value_id', (array)$valueIds);
+                    $q->whereIn('attribute_value_id', (array) $valueIds);
                 });
             }
         }

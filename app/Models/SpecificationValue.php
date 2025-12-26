@@ -16,29 +16,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class SpecificationValue
- * 
+ *
  * @property int $id
  * @property int $specification_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Specification $specification
  * @property Collection|ProductVariant[] $productVariants
  * @property Collection|SpecificationValueTranslation[] $specificationValueTranslations
- *
- * @package App\Models
  */
 class SpecificationValue extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'specification_id' => 'int'
+        'specification_id' => 'int',
     ];
 
     protected $fillable = [
-        'specification_id'
+        'specification_id',
     ];
 
     public function specification(): BelongsTo

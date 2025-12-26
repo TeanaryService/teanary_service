@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CurrencyResource\Pages;
-use App\Filament\Resources\CurrencyResource\RelationManagers;
 use App\Models\Currency;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -13,8 +12,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CurrencyResource extends Resource
 {
@@ -23,24 +20,29 @@ class CurrencyResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Currency::class;
+
     protected static ?int $navigationSort = 402;
 
     public static function getLabel(): string
     {
         return __('filament.CurrencyResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.CurrencyResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.CurrencyResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.CurrencyResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.CurrencyResource.icon');
@@ -87,17 +89,17 @@ class CurrencyResource extends Resource
                     ->label(__('filament.currency.exchange_rate'))
                     ->numeric()
                     ->sortable(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

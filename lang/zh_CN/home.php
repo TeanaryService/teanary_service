@@ -48,7 +48,7 @@ return [
     'promotion_starts_at' => '开始时间',
     'promotion_ends_at' => '结束时间',
     'promotion_text' => ':condition :condition_value，:discount :discount_value',
-    
+
     // 茶文化主题相关
     'featured_products_subtitle' => '精选优质茶叶，传承千年茶文化',
     'browse_categories_subtitle' => '探索不同茶类，品味茶香人生',

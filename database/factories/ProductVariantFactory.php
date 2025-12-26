@@ -18,7 +18,7 @@ class ProductVariantFactory extends Factory
     {
         return [
             'product_id' => \App\Models\Product::factory(),
-            'sku' => 'SKU-' . fake()->unique()->numerify('########'),
+            'sku' => 'SKU-'.fake()->unique()->numerify('########'),
             'price' => fake()->randomFloat(2, 10, 1000),
             'stock' => fake()->numberBetween(0, 100),
         ];

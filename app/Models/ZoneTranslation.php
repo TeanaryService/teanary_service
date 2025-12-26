@@ -13,33 +13,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class ZoneTranslation
- * 
+ *
  * @property int $id
  * @property int $zone_id
  * @property int $language_id
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Language $language
  * @property Zone $zone
- *
- * @package App\Models
  */
 class ZoneTranslation extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'zone_id' => 'int',
-        'language_id' => 'int'
+        'language_id' => 'int',
     ];
 
     protected $fillable = [
         'zone_id',
         'language_id',
-        'name'
+        'name',
     ];
 
     public function language(): BelongsTo

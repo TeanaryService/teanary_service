@@ -2,16 +2,13 @@
 
 namespace App\Filament\Resources\PromotionResource\RelationManagers;
 
-use App\Models\ProductVariant;
 use App\Services\LocaleCurrencyService;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductVariantsRelationManager extends RelationManager
 {
@@ -36,6 +33,7 @@ class ProductVariantsRelationManager extends RelationManager
         $productOptions = \App\Models\Product::with('productTranslations')->get()->mapWithKeys(function ($product) use ($lang) {
             $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->id);
+
             return [$product->id => $name];
         })->toArray();
 
@@ -54,7 +52,7 @@ class ProductVariantsRelationManager extends RelationManager
                     ->label(__('filament_promotion.product_variant'))
                     ->options(function ($get) use ($lang) {
                         $productId = $get('product_id');
-                        if (!$productId) {
+                        if (! $productId) {
                             return [];
                         }
                         $variants = \App\Models\ProductVariant::where('product_id', $productId)
@@ -71,6 +69,7 @@ class ProductVariantsRelationManager extends RelationManager
                             }
                             $options[$variant->id] = $specNames ? implode(' / ', array_filter($specNames)) : $variant->sku;
                         }
+
                         return $options;
                     })
                     ->required()
@@ -91,8 +90,11 @@ class ProductVariantsRelationManager extends RelationManager
                     ->getStateUsing(function ($record) use ($lang) {
                         // 兼容 $record->product 可能为 null
                         $product = $record->product ?? $record->productVariant?->product;
-                        if (!$product) return null;
+                        if (! $product) {
+                            return null;
+                        }
                         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
+
                         return $translation && $translation->name
                             ? $translation->name
                             : ($product->productTranslations->first()->name ?? $product->id);
@@ -107,6 +109,7 @@ class ProductVariantsRelationManager extends RelationManager
                                 ? $translation->name
                                 : ($specValue->specificationValueTranslations->first()->name ?? '');
                         }
+
                         return $specNames ? implode(' / ', array_filter($specNames)) : $record->sku;
                     }),
             ])

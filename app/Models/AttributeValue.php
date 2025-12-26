@@ -18,32 +18,29 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class AttributeValue
- * 
+ *
  * @property int $id
  * @property int $attribute_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Attribute $attribute
  * @property Collection|AttributeValueTranslation[] $attributeValueTranslations
  * @property Collection|Product[] $products
- *
- * @package App\Models
  */
-
 #[ObservedBy([AttributeValueObserver::class])]
 
 class AttributeValue extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'attribute_id' => 'int'
+        'attribute_id' => 'int',
     ];
 
     protected $fillable = [
-        'attribute_id'
+        'attribute_id',
     ];
 
     public function attribute(): BelongsTo

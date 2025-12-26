@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 class RefreshScoutIndexes extends Command
 {
     protected $signature = 'scout:refresh-all';
+
     protected $description = 'Flush and re-import all Scout indexes based on config';
 
     public function handle(): void
@@ -17,6 +18,7 @@ class RefreshScoutIndexes extends Command
 
         if ($models->isEmpty()) {
             $this->warn('No models found in config(scout.meilisearch.index-settings).');
+
             return;
         }
 

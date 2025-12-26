@@ -30,7 +30,7 @@ class ArticleObserver
      */
     public function deleting(Article $article): void
     {
-        //删除正文文件
+        // 删除正文文件
         $article->articleTranslations()->each(function ($translation) {
             $this->deleteEditorUploadsFromHtml($translation->content);
         });

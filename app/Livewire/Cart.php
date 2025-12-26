@@ -2,17 +2,19 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Cart as CartModel;
 use App\Models\CartItem;
-use App\Services\LocaleCurrencyService;
 use App\Services\CartService;
+use App\Services\LocaleCurrencyService;
+use Livewire\Component;
 
 class Cart extends Component
 {
     public $cartItems;
+
     public $selected = [];
+
     public $selectAll = true;
+
     public $total = 0;
 
     public function mount()
@@ -24,13 +26,14 @@ class Cart extends Component
             ? $cart->cartItems()->with([
                 'product.productTranslations',
                 'productVariant.specificationValues.specificationValueTranslations',
-                'productVariant.media'
+                'productVariant.media',
             ])->get()->map(function ($item) use ($promoService, $user) {
                 $promo = $item->productVariant
                     ? $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user)
                     : ['final_price' => $item->productVariant->price ?? 0, 'promotion' => null];
                 $item->final_price = $promo['final_price'];
                 $item->promotion = $promo['promotion'];
+
                 return $item;
             })
             : collect();
@@ -111,12 +114,14 @@ class Cart extends Component
             })->toArray();
 
         session()->put('checkout_items', $selectedItems);
+
         return redirect()->route('checkout', ['locale' => $locale]);
     }
 
     public function render()
     {
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
+
         return view('livewire.cart', [
             'cartItems' => $this->cartItems,
             'selected' => $this->selected,

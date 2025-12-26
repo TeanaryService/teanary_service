@@ -4,7 +4,6 @@ namespace App\Filament\Resources\SpecificationResource\Pages;
 
 use App\Filament\Resources\SpecificationResource;
 use App\Models\Specification;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateSpecification extends CreateRecord

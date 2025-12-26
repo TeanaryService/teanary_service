@@ -318,7 +318,6 @@ return [
     'address.postcode' => 'Postal Code',
     'address.full_address' => 'Full Address',
 
-
     'widget.stats_users' => 'New Users Today',
     'widget.stats_orders' => 'Orders Today',
     'widget.stats_cart_items' => 'Cart Additions Today',

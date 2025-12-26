@@ -13,33 +13,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class UserGroupTranslation
- * 
+ *
  * @property int $id
  * @property int $user_group_id
  * @property int $language_id
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Language $language
  * @property UserGroup $userGroup
- *
- * @package App\Models
  */
 class UserGroupTranslation extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'user_group_id' => 'int',
-        'language_id' => 'int'
+        'language_id' => 'int',
     ];
 
     protected $fillable = [
         'user_group_id',
         'language_id',
-        'name'
+        'name',
     ];
 
     public function language(): BelongsTo

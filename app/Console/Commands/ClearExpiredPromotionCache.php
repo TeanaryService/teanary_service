@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Promotion;
 use App\Services\PromotionService;
+use Illuminate\Console\Command;
 
 class ClearExpiredPromotionCache extends Command
 {
     protected $signature = 'app:clear-cache-if-expired';
+
     protected $description = '检查促销活动是否有过期，自动清理促销缓存';
 
     public function handle()

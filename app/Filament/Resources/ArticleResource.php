@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticleResource\Pages;
-use App\Filament\Resources\ArticleResource\RelationManagers;
 use App\Models\Article;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -18,7 +17,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ArticleResource extends Resource
 {
@@ -27,24 +25,29 @@ class ArticleResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Article::class;
+
     protected static ?int $navigationSort = 104;
 
     public static function getLabel(): string
     {
         return __('filament.ArticleResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.ArticleResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.ArticleResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.ArticleResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.ArticleResource.icon');
@@ -88,6 +91,7 @@ class ArticleResource extends Resource
                                     ->where('language_id', $lang->id)
                                     ->first();
                             }
+
                             return Tabs\Tab::make($lang->name)
                                 ->schema([
                                     Forms\Components\TextInput::make("translations.{$lang->id}.title")
@@ -113,7 +117,7 @@ class ArticleResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
-                fn(Builder $query): Builder => $query
+                fn (Builder $query): Builder => $query
                     ->with([
                         'articleTranslations',
                     ])
@@ -127,7 +131,7 @@ class ArticleResource extends Resource
                 Tables\Columns\TextColumn::make('articleTranslations.title')
                     ->label(__('filament.article.title'))
                     ->limit(64)
-                    ->description(fn($record): string => $record->slug)
+                    ->description(fn ($record): string => $record->slug)
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -136,6 +140,7 @@ class ArticleResource extends Resource
                             return $translation->title;
                         }
                         $first = $record->articleTranslations->first();
+
                         return $first ? $first->title : '';
                     }),
                 // Tables\Columns\TextColumn::make('slug')
@@ -146,17 +151,17 @@ class ArticleResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('filament.article.user_id')),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

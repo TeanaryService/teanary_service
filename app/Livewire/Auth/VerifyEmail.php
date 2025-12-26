@@ -2,21 +2,21 @@
 
 namespace App\Livewire\Auth;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class VerifyEmail extends Component
 {
     public $id;
+
     public $hash;
 
     public function mount($locale, $id, $hash)
     {
         $user = Auth::user();
 
-        if (!$user || $user->getKey() != $id) {
+        if (! $user || $user->getKey() != $id) {
             abort(403);
         }
 
@@ -24,7 +24,7 @@ class VerifyEmail extends Component
             return redirect()->route('home', ['locale' => $locale]);
         }
 
-        if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
             abort(403);
         }
 

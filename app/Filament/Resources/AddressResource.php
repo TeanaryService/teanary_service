@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AddressResource\Pages;
-use App\Filament\Resources\AddressResource\RelationManagers;
 use App\Models\Address;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -15,7 +14,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AddressResource extends Resource
 {
@@ -24,24 +22,29 @@ class AddressResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Address::class;
+
     protected static ?int $navigationSort = 302;
 
     public static function getLabel(): string
     {
         return __('filament.AddressResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.AddressResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.AddressResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.AddressResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.AddressResource.icon');
@@ -91,6 +94,7 @@ class AddressResource extends Resource
                         }
                         // 没有当前语言翻译时，显示第一个翻译的 name
                         $first = $record->countryTranslations->first();
+
                         return $first ? $first->name : $record->name;
                     })
                     ->searchable()
@@ -105,7 +109,7 @@ class AddressResource extends Resource
                     ->label(__('filament.address.zone_id'))
                     ->options(function ($get) {
                         $countryId = $get('country_id');
-                        if (!$countryId) {
+                        if (! $countryId) {
                             return [];
                         }
                         $locale = app()->getLocale();
@@ -121,6 +125,7 @@ class AddressResource extends Resource
                                 $options[$zone->id] = $first ? $first->name : $zone->name;
                             }
                         }
+
                         return $options;
                     })
                     ->searchable()
@@ -150,10 +155,10 @@ class AddressResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
-                fn(Builder $query): Builder => $query
+                fn (Builder $query): Builder => $query
                     ->with([
                         'country.countryTranslations',
-                        'zone.zoneTranslations'
+                        'zone.zoneTranslations',
                     ])
             )
             ->columns([
@@ -189,19 +194,27 @@ class AddressResource extends Resource
                         $parts = [];
                         $fullname = trim("{$record->firstname} {$record->lastname}");
                         if ($fullname || $record->email) {
-                            $parts[] = trim($fullname . ($record->email ? " ({$record->email})" : ''));
+                            $parts[] = trim($fullname.($record->email ? " ({$record->email})" : ''));
                         }
-                        if ($record->telephone) $parts[] = __('filament.address.telephone') . ": {$record->telephone}";
-                        if ($record->company) $parts[] = __('filament.address.company') . ": {$record->company}";
+                        if ($record->telephone) {
+                            $parts[] = __('filament.address.telephone').": {$record->telephone}";
+                        }
+                        if ($record->company) {
+                            $parts[] = __('filament.address.company').": {$record->company}";
+                        }
                         $addressLine = trim("{$record->address_1} {$record->address_2}");
-                        if ($addressLine) $parts[] = $addressLine;
+                        if ($addressLine) {
+                            $parts[] = $addressLine;
+                        }
                         $cityLine = trim(implode(' ', array_filter([
                             $record->city,
                             $zoneName,
                             $countryName,
-                            $record->postcode
+                            $record->postcode,
                         ])));
-                        if ($cityLine) $parts[] = $cityLine;
+                        if ($cityLine) {
+                            $parts[] = $cityLine;
+                        }
 
                         // 防止所有字段都为空时返回空字符串
                         return count($parts) ? implode("\n", $parts) : '-';
@@ -209,17 +222,17 @@ class AddressResource extends Resource
                     ->limit(100)
                     ->toggleable(false)
                     ->wrap(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

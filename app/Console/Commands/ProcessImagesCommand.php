@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ProcessImagesCommand extends Command
 {
@@ -16,39 +16,42 @@ class ProcessImagesCommand extends Command
     public function handle()
     {
         ini_set('memory_limit', '512M');
-        
+
         $disk = Storage::disk('local');
         $folder = 'demo';
-        
+
         // 检查目录是否存在
-        if (!$disk->exists($folder)) {
+        if (! $disk->exists($folder)) {
             $this->error("Directory {$folder} does not exist.");
+
             return 1;
         }
 
         $files = $disk->files($folder);
-        
+
         if (empty($files)) {
             $this->info("No files found in {$folder} directory.");
+
             return 0;
         }
 
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager(new Driver);
         $processedCount = 0;
 
         foreach ($files as $file) {
-            if (!$this->isImage($file)) {
+            if (! $this->isImage($file)) {
                 continue;
             }
-            
+
             try {
                 $this->info("Processing {$file}...");
 
                 $path = $disk->path($file);
-                
+
                 // 检查文件是否存在
-                if (!file_exists($path)) {
+                if (! file_exists($path)) {
                     $this->warn("File {$path} does not exist, skipping.");
+
                     continue;
                 }
 
@@ -56,12 +59,12 @@ class ProcessImagesCommand extends Command
 
                 // 生成新的 jpg 路径
                 $pathInfo = pathinfo($file);
-                $newRelativePath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.jpg';
+                $newRelativePath = $pathInfo['dirname'].'/'.$pathInfo['filename'].'.jpg';
                 // 处理根目录情况
                 if ($pathInfo['dirname'] === '.') {
-                    $newRelativePath = $pathInfo['filename'] . '.jpg';
+                    $newRelativePath = $pathInfo['filename'].'.jpg';
                 }
-                
+
                 $newPath = $disk->path($newRelativePath);
 
                 // 获取原始尺寸
@@ -70,14 +73,15 @@ class ProcessImagesCommand extends Command
 
                 if ($width <= 0 || $height <= 0) {
                     $this->warn("Invalid image dimensions for {$file}, skipping.");
+
                     continue;
                 }
 
                 // 按比例缩放，使短边等于680
                 $minSide = min($width, $height);
                 $scale = 680 / $minSide;
-                $newWidth = (int)round($width * $scale);
-                $newHeight = (int)round($height * $scale);
+                $newWidth = (int) round($width * $scale);
+                $newHeight = (int) round($height * $scale);
 
                 // 缩放图片
                 $img->resize($newWidth, $newHeight);
@@ -100,7 +104,8 @@ class ProcessImagesCommand extends Command
                 $processedCount++;
 
             } catch (\Exception $e) {
-                $this->error("Error processing {$file}: " . $e->getMessage());
+                $this->error("Error processing {$file}: ".$e->getMessage());
+
                 continue;
             }
         }
@@ -109,27 +114,29 @@ class ProcessImagesCommand extends Command
         $this->info('Performing final cleanup...');
         $filesAfter = $disk->files($folder);
         $deletedCount = 0;
-        
+
         foreach ($filesAfter as $file) {
             $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            if (!in_array($ext, ['jpg', 'jpeg'])) {
+            if (! in_array($ext, ['jpg', 'jpeg'])) {
                 try {
                     $disk->delete($file);
                     $this->info("Deleted leftover file: {$file}");
                     $deletedCount++;
                 } catch (\Exception $e) {
-                    $this->error("Failed to delete {$file}: " . $e->getMessage());
+                    $this->error("Failed to delete {$file}: ".$e->getMessage());
                 }
             }
         }
 
         $this->info("Processing completed! Processed: {$processedCount} images, Deleted: {$deletedCount} non-JPG files.");
+
         return 0;
     }
 
     protected function isImage($file)
     {
         $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
         return in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'svg']);
     }
 }

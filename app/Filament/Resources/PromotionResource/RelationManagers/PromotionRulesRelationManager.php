@@ -11,9 +11,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PromotionRulesRelationManager extends RelationManager
 {
@@ -69,12 +67,12 @@ class PromotionRulesRelationManager extends RelationManager
                     ->collection('image'),
                 Tables\Columns\TextColumn::make('condition_type')
                     ->label(__('filament.promotion.condition_type'))
-                    ->formatStateUsing(fn(PromotionConditionTypeEnum $state): string =>  $state->label()),
+                    ->formatStateUsing(fn (PromotionConditionTypeEnum $state): string => $state->label()),
                 Tables\Columns\TextColumn::make('condition_value')
                     ->label(__('filament.promotion.condition_value')),
                 Tables\Columns\TextColumn::make('discount_type')
                     ->label(__('filament.promotion.discount_type'))
-                    ->formatStateUsing(fn(PromotionDiscountTypeEnum $state): string => $state->label()),
+                    ->formatStateUsing(fn (PromotionDiscountTypeEnum $state): string => $state->label()),
                 Tables\Columns\TextColumn::make('discount_value')
                     ->label(__('filament.promotion.discount_value')),
             ])

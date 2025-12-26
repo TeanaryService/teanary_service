@@ -26,6 +26,7 @@ enum ShippingMethodEnum: string
         foreach (self::cases() as $case) {
             $options[$case->value] = $case->label();
         }
+
         return $options;
     }
 
@@ -43,7 +44,7 @@ enum ShippingMethodEnum: string
                     7 => ['base_doc' => 276, 'base_item' => 295, 'per_kg' => 117, 'countries' => ['GB', 'FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'SE', 'CH', 'AT', 'DK', 'NO', 'FI', 'IE', 'PT', 'GR']],  // 欧洲主要国家
                     8 => ['base_doc' => 288, 'base_item' => 306, 'per_kg' => 148, 'countries' => ['AE', 'BR', 'CL', 'KE']],  // 其他区域1
                     9 => ['base_doc' => 314, 'base_item' => 334, 'per_kg' => 216, 'countries' => ['HR', 'BG', 'LT', 'SI', 'TZ']],  // 其他区域2
-                ]
+                ],
             ],
             self::EMS_INTERNATIONAL => [
                 'zones' => [
@@ -51,31 +52,31 @@ enum ShippingMethodEnum: string
                         'base_doc' => 90,
                         'base_item' => 130,
                         'additional' => 30,
-                        'countries' => ['MO', 'TW', 'HK']  // 一区 - 澳门、台湾、香港
+                        'countries' => ['MO', 'TW', 'HK'],  // 一区 - 澳门、台湾、香港
                     ],
                     2 => [
                         'base_doc' => 115,
                         'base_item' => 180,
                         'additional' => 40,
-                        'countries' => ['KP', 'KR', 'JP']  // 二区 - 朝鲜、韩国、日本
+                        'countries' => ['KP', 'KR', 'JP'],  // 二区 - 朝鲜、韩国、日本
                     ],
                     3 => [
                         'base_doc' => 130,
                         'base_item' => 190,
                         'additional' => 45,
-                        'countries' => ['PH', 'KH', 'MY', 'MN', 'TH', 'SG', 'ID', 'AM']  // 三区
+                        'countries' => ['PH', 'KH', 'MY', 'MN', 'TH', 'SG', 'ID', 'AM'],  // 三区
                     ],
                     4 => [
                         'base_doc' => 160,
                         'base_item' => 210,
                         'additional' => 55,
-                        'countries' => ['AU', 'PG', 'NZ']  // 四区
+                        'countries' => ['AU', 'PG', 'NZ'],  // 四区
                     ],
                     5 => [
                         'base_doc' => 180,
                         'base_item' => 240,
                         'additional' => 75,
-                        'countries' => ['US']  // 五区
+                        'countries' => ['US'],  // 五区
                     ],
                     6 => [
                         'base_doc' => 220,
@@ -98,14 +99,14 @@ enum ShippingMethodEnum: string
                             'ES',
                             'GR',
                             'IT',
-                            'GB'
-                        ]  // 六区
+                            'GB',
+                        ],  // 六区
                     ],
                     7 => [
                         'base_doc' => 240,
                         'base_item' => 300,
                         'additional' => 80,
-                        'countries' => ['PK', 'LA', 'BD', 'NP', 'LK', 'TR', 'IN']  // 七区
+                        'countries' => ['PK', 'LA', 'BD', 'NP', 'LK', 'TR', 'IN'],  // 七区
                     ],
                     8 => [
                         'base_doc' => 260,
@@ -127,8 +128,8 @@ enum ShippingMethodEnum: string
                             'UA',
                             'HU',
                             'IL',
-                            'JO'
-                        ]  // 八区
+                            'JO',
+                        ],  // 八区
                     ],
                     9 => [
                         'base_doc' => 280,
@@ -175,10 +176,10 @@ enum ShippingMethodEnum: string
                             'YE',
                             'ZM',
                             'IR',
-                            'TD'
-                        ]  // 九区
+                            'TD',
+                        ],  // 九区
                     ],
-                ]
+                ],
             ],
         };
     }

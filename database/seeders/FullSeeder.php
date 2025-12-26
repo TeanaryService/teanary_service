@@ -2,27 +2,27 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Language;
-use App\Models\Currency;
-use App\Models\UserGroup;
-use App\Models\User;
-use App\Models\Category;
-use App\Models\CategoryTranslation;
 use App\Models\Attribute;
 use App\Models\AttributeTranslation;
 use App\Models\AttributeValue;
 use App\Models\AttributeValueTranslation;
-use App\Models\Specification;
-use App\Models\SpecificationTranslation;
-use App\Models\SpecificationValue;
-use App\Models\SpecificationValueTranslation;
+use App\Models\Category;
+use App\Models\CategoryTranslation;
+use App\Models\Currency;
+use App\Models\Language;
 use App\Models\Product;
 use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
 use App\Models\Promotion;
-use App\Models\PromotionTranslation;
 use App\Models\PromotionRule;
+use App\Models\PromotionTranslation;
+use App\Models\Specification;
+use App\Models\SpecificationTranslation;
+use App\Models\SpecificationValue;
+use App\Models\SpecificationValueTranslation;
+use App\Models\User;
+use App\Models\UserGroup;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -42,7 +42,7 @@ class FullSeeder extends Seeder
             ['code' => 'ja',    'name' => '日本語',     'default' => false],
             ['code' => 'ko',    'name' => '한국어',     'default' => false],
             ['code' => 'ru', 'name' => 'Русский', 'default' => false],
-        ])->map(fn($data) => Language::create($data));
+        ])->map(fn ($data) => Language::create($data));
 
         /**
          * Currencies
@@ -55,7 +55,7 @@ class FullSeeder extends Seeder
             ['code' => 'JPY', 'name' => 'Japanese Yen',    'symbol' => '¥',   'default' => false],
             ['code' => 'KRW', 'name' => 'Korean Won',      'symbol' => '₩',   'default' => false],
             ['code' => 'AUD', 'name' => 'Australian Dollar', 'symbol' => 'A$', 'default' => false],
-        ])->map(fn($data) => Currency::create($data));
+        ])->map(fn ($data) => Currency::create($data));
 
         /**
          * User Groups
@@ -68,9 +68,10 @@ class FullSeeder extends Seeder
             foreach ($languages as $lang) {
                 $ug->userGroupTranslations()->create([
                     'language_id' => $lang->id,
-                    'name' => $group['name'] . ' (' . $lang->code . ')',
+                    'name' => $group['name'].' ('.$lang->code.')',
                 ]);
             }
+
             return $ug;
         });
 
@@ -97,7 +98,7 @@ class FullSeeder extends Seeder
             ->map(function ($cat) use ($languages) {
                 $category = Category::create($cat);
 
-                //添加图片
+                // 添加图片
                 $image = generateRandomImage();
 
                 $category->addMedia($image)
@@ -108,10 +109,11 @@ class FullSeeder extends Seeder
                     CategoryTranslation::create([
                         'category_id' => $category->id,
                         'language_id' => $lang->id,
-                        'name' => ucfirst($cat['slug']) . ' ' . $lang->code,
-                        'description' => 'Description for ' . $cat['slug'] . ' in ' . $lang->code,
+                        'name' => ucfirst($cat['slug']).' '.$lang->code,
+                        'description' => 'Description for '.$cat['slug'].' in '.$lang->code,
                     ]);
                 }
+
                 return $category;
             });
 
@@ -128,7 +130,7 @@ class FullSeeder extends Seeder
                 AttributeTranslation::create([
                     'attribute_id' => $a->id,
                     'language_id' => $lang->id,
-                    'name' => ucfirst($attr['label']) . ' ' . $lang->code,
+                    'name' => ucfirst($attr['label']).' '.$lang->code,
                 ]);
             }
 
@@ -147,9 +149,10 @@ class FullSeeder extends Seeder
                     AttributeValueTranslation::create([
                         'attribute_value_id' => $av->id,
                         'language_id' => $lang->id,
-                        'name' => $value . ' ' . $lang->code,
+                        'name' => $value.' '.$lang->code,
                     ]);
                 }
+
                 return $av;
             });
         });
@@ -166,9 +169,10 @@ class FullSeeder extends Seeder
                 SpecificationTranslation::create([
                     'specification_id' => $s->id,
                     'language_id' => $lang->id,
-                    'name' => ucfirst($spec['label']) . ' ' . $lang->code,
+                    'name' => ucfirst($spec['label']).' '.$lang->code,
                 ]);
             }
+
             return $s;
         });
 
@@ -190,9 +194,10 @@ class FullSeeder extends Seeder
                     SpecificationValueTranslation::create([
                         'specification_value_id' => $sv->id,
                         'language_id' => $lang->id,
-                        'name' => $value . ' ' . $lang->code,
+                        'name' => $value.' '.$lang->code,
                     ]);
                 }
+
                 return $sv;
             });
         });
@@ -203,17 +208,15 @@ class FullSeeder extends Seeder
         $products = collect(range(1, 22))->map(function ($i) use (
             $languages,
             $categories,
-            $userGroups,
-            $currencies,
             $specifications,
             $specificationValues
         ) {
             // 创建产品 (SPU)
             $product = Product::create([
-                'slug' => 'product-' . $i,
+                'slug' => 'product-'.$i,
                 'status' => \App\Enums\ProductStatusEnum::default(),
             ]);
-            //添加图片
+            // 添加图片
             $this->attachRandomImages(model: $product);
 
             $product->productCategories()->attach($categories->random()->id);
@@ -224,9 +227,9 @@ class FullSeeder extends Seeder
                 ProductTranslation::create([
                     'product_id' => $product->id,
                     'language_id' => $lang->id,
-                    'name' => "Product $i " . $lang->code,
-                    'short_description' => "Short description $i in " . $lang->code,
-                    'description' => "Long <img src='$imageUrl'> description $i in " . $lang->code,
+                    'name' => "Product $i ".$lang->code,
+                    'short_description' => "Short description $i in ".$lang->code,
+                    'description' => "Long <img src='$imageUrl'> description $i in ".$lang->code,
                 ]);
             }
 
@@ -243,7 +246,6 @@ class FullSeeder extends Seeder
                 })->toArray()
             );
 
-
             // Assign random specifications
             $specsUsed = $specifications->random(rand(1, 2));
 
@@ -251,13 +253,13 @@ class FullSeeder extends Seeder
             for ($v = 1; $v <= 3; $v++) {
                 $variant = ProductVariant::create([
                     'product_id' => $product->id,
-                    'sku' => 'P-' . $i . '-V' . $v,
+                    'sku' => 'P-'.$i.'-V'.$v,
                     'price' => rand(15, 150),
                     'stock' => rand(1, 20),
                     'weight' => rand(50, 200),
                 ]);
 
-                //添加图片
+                // 添加图片
                 $this->attachRandomImages(model: $variant, min: 1, max: 1, collection: 'image');
 
                 // Link specification values
@@ -304,8 +306,8 @@ class FullSeeder extends Seeder
                 PromotionTranslation::create([
                     'promotion_id' => $promotion->id,
                     'language_id' => $lang->id,
-                    'name' => $promo['type']->value . ' Name ' . $lang->code,
-                    'description' => 'Description of ' . $promo['type']->value . ' in ' . $lang->code,
+                    'name' => $promo['type']->value.' Name '.$lang->code,
+                    'description' => 'Description of '.$promo['type']->value.' in '.$lang->code,
                 ]);
             }
 
@@ -316,7 +318,7 @@ class FullSeeder extends Seeder
                 'discount_type' => \App\Enums\PromotionDiscountTypeEnum::Fixed,
                 'discount_value' => 10,
             ]);
-            //添加图片
+            // 添加图片
             $this->attachRandomImages(model: $promotionRule, min: 1, max: 1, collection: 'image');
 
             $promotion->userGroups()->sync($userGroups->pluck('id')->toArray());
@@ -346,13 +348,14 @@ class FullSeeder extends Seeder
         $image = generateRandomImage();
 
         $newPath = storage_path('app/public/product/description');
-        if (!File::isDirectory($newPath)) {
+        if (! File::isDirectory($newPath)) {
             File::makeDirectory($newPath);
         }
 
-        $newFile = $newPath . "/" . Str::random(40) . '.jpg';
+        $newFile = $newPath.'/'.Str::random(40).'.jpg';
         File::copy($image, $newFile);
         $imageUrl = Str::replace(storage_path('app/public'), 'storage', $newFile);
+
         return asset($imageUrl);
     }
 }

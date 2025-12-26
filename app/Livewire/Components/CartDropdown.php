@@ -2,15 +2,16 @@
 
 namespace App\Livewire\Components;
 
-use Livewire\Component;
 use App\Models\CartItem;
+use App\Services\CartService;
 use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
-use App\Services\CartService;
+use Livewire\Component;
 
 class CartDropdown extends Component
 {
     public $cartItems;
+
     public $cartTotal = 0;
 
     protected $listeners = [
@@ -27,6 +28,7 @@ class CartDropdown extends Component
             $promo = $item->productVariant ? $service->calculateVariantPrice($item->productVariant, $item->qty, $user) : ['final_price' => $item->productVariant->price ?? 0, 'promotion' => null];
             $item->final_price = $promo['final_price'];
             $item->promotion = $promo['promotion'];
+
             return $item;
         }) : collect();
         $this->cartTotal = $this->cartItems->sum(function ($item) {
@@ -87,6 +89,7 @@ class CartDropdown extends Component
         $service = app(LocaleCurrencyService::class);
 
         $lang = $service->getLanguageByCode(session('lang'));
+
         return view('livewire.components.cart-dropdown', [
             'cartItems' => $this->cartItems,
             'cartTotal' => $this->cartTotal,

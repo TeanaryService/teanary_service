@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AttributeResource\Pages;
-use App\Filament\Resources\AttributeResource\RelationManagers;
 use App\Filament\Resources\AttributeResource\RelationManagers\AttributeValuesRelationManager;
 use App\Models\Attribute;
 use App\Services\LocaleCurrencyService;
@@ -17,8 +16,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AttributeResource extends Resource
 {
@@ -27,24 +24,29 @@ class AttributeResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Attribute::class;
+
     protected static ?int $navigationSort = 203;
 
     public static function getLabel(): string
     {
         return __('filament.AttributeResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.AttributeResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.AttributeResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.AttributeResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.AttributeResource.icon');
@@ -54,6 +56,7 @@ class AttributeResource extends Resource
     {
         $languages = app(LocaleCurrencyService::class)->getLanguages();
         $model = $form->getModelInstance();
+
         return $form
             ->schema([
                 // 多语言 name 字段
@@ -68,7 +71,7 @@ class AttributeResource extends Resource
                         }
 
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.attribute.name') . " ({$lang->name})")
+                            ->label(__('filament.attribute.name')." ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
@@ -88,21 +91,22 @@ class AttributeResource extends Resource
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+
                         return optional(
                             $record->attributeTranslations->where('language_id', $lang?->id)->first()
                         )->name;
                     }),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }
@@ -111,7 +115,7 @@ class AttributeResource extends Resource
     {
         return [
             //
-            AttributeValuesRelationManager::class
+            AttributeValuesRelationManager::class,
         ];
     }
 

@@ -48,7 +48,7 @@ return [
     'promotion_starts_at' => '開始日',
     'promotion_ends_at' => '終了日',
     'promotion_text' => ':condition が :condition_value 以上で :discount が :discount_value 適用されます',
-    
+
     // Tea culture theme related
     'featured_products_subtitle' => '厳選されたプレミアム茶葉、千年の茶文化を継承',
     'browse_categories_subtitle' => '様々な茶の種類を探索し、茶の人生の本質を味わう',

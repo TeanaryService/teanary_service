@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Components;
 
-use Livewire\Component;
 use App\Models\Product;
+use Livewire\Component;
 
 class FeaturedProducts extends Component
 {

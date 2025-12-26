@@ -12,24 +12,23 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Contact
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $email
  * @property string|null $message
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
- * @package App\Models
  */
 class Contact extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $fillable = [
         'name',
         'email',
-        'message'
+        'message',
     ];
 }

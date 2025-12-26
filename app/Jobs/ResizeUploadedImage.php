@@ -8,8 +8,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Spatie\Image\Image;
 use Spatie\Image\Enums\Constraint;
+use Spatie\Image\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ResizeUploadedImage implements ShouldQueue
@@ -22,7 +22,7 @@ class ResizeUploadedImage implements ShouldQueue
     {
         $path = $this->media->getPath();
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             return;
         }
 

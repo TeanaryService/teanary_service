@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Enums\PromotionTypeEnum;
 use App\Filament\Resources\PromotionResource\Pages;
-use App\Filament\Resources\PromotionResource\RelationManagers;
 use App\Filament\Resources\PromotionResource\RelationManagers\ProductVariantsRelationManager;
 use App\Filament\Resources\PromotionResource\RelationManagers\PromotionRulesRelationManager;
 use App\Filament\Resources\PromotionResource\RelationManagers\UserGroupsRelationManager;
@@ -18,8 +17,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PromotionResource extends Resource
 {
@@ -28,24 +25,29 @@ class PromotionResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Promotion::class;
+
     protected static ?int $navigationSort = 102;
 
     public static function getLabel(): string
     {
         return __('filament.PromotionResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.PromotionResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.PromotionResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.PromotionResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.PromotionResource.icon');
@@ -82,6 +84,7 @@ class PromotionResource extends Resource
                                     ->where('language_id', $lang->id)
                                     ->first();
                             }
+
                             return Forms\Components\Tabs\Tab::make($lang->name)
                                 ->schema([
                                     Forms\Components\TextInput::make("translations.{$lang->id}.name")
@@ -113,10 +116,11 @@ class PromotionResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->promotionTranslations->first();
+
                         return $first ? $first->name : '';
                     }),
                 Tables\Columns\TextColumn::make('type')
-                    ->formatStateUsing(fn($state): string => $state->label())
+                    ->formatStateUsing(fn ($state): string => $state->label())
                     ->label(__('filament.promotion.type')),
                 Tables\Columns\TextColumn::make('starts_at')
                     ->label(__('filament.promotion.starts_at'))
@@ -129,17 +133,17 @@ class PromotionResource extends Resource
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('filament.promotion.active'))
                     ->boolean(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }
@@ -150,7 +154,7 @@ class PromotionResource extends Resource
             //
             ProductVariantsRelationManager::class,
             UserGroupsRelationManager::class,
-            PromotionRulesRelationManager::class
+            PromotionRulesRelationManager::class,
         ];
     }
 

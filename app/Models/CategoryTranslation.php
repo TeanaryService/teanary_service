@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class CategoryTranslation
- * 
+ *
  * @property int $id
  * @property int $category_id
  * @property int $language_id
@@ -21,27 +21,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Category $category
  * @property Language $language
- *
- * @package App\Models
  */
 class CategoryTranslation extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'category_id' => 'int',
-        'language_id' => 'int'
+        'language_id' => 'int',
     ];
 
     protected $fillable = [
         'category_id',
         'language_id',
         'name',
-        'description'
+        'description',
     ];
 
     public function category(): BelongsTo

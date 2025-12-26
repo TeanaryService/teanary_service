@@ -2,13 +2,15 @@
 
 namespace App\Livewire\Auth;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Login extends Component
 {
     public $email = '';
+
     public $password = '';
+
     public $remember = false;
 
     public function mount()
@@ -25,6 +27,7 @@ class Login extends Component
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             $locale = app()->getLocale();
+
             return redirect()->route('home', ['locale' => $locale]);
         } else {
             $this->addError('email', __('auth.failed'));

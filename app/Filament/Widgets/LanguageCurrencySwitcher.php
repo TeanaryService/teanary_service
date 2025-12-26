@@ -2,20 +2,22 @@
 
 namespace App\Filament\Widgets;
 
-use Livewire\Component;
 use App\Services\LocaleCurrencyService;
+use Livewire\Component;
 
 class LanguageCurrencySwitcher extends Component
 {
     public $selectedLanguage;
+
     public $selectedCurrency;
 
     public $languages;
+
     public $currencies;
 
     public function mount()
     {
-        $service = new LocaleCurrencyService();
+        $service = new LocaleCurrencyService;
         $this->languages = $service->getLanguages();
         $this->currencies = $service->getCurrencies();
 
@@ -25,7 +27,6 @@ class LanguageCurrencySwitcher extends Component
         $currencyCode = session('currency');
         $this->selectedCurrency = $service->getCurrencyByCode($currencyCode);
     }
-
 
     public function render()
     {

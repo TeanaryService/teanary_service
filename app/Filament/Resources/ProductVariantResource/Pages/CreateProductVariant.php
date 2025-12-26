@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ProductVariantResource\Pages;
 
 use App\Filament\Resources\ProductVariantResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateProductVariant extends CreateRecord
@@ -14,15 +13,16 @@ class CreateProductVariant extends CreateRecord
     {
         if (isset($data['specificationValues'])) {
             $data['specificationValues'] = collect($data['specificationValues'])
-                ->filter(fn($item) => !empty($item['specification_id']) && !empty($item['specification_value_id']))
-                ->map(fn($item) => [
-                    'specification_id' => (int)$item['specification_id'],
-                    'specification_value_id' => (int)$item['specification_value_id'],
+                ->filter(fn ($item) => ! empty($item['specification_id']) && ! empty($item['specification_value_id']))
+                ->map(fn ($item) => [
+                    'specification_id' => (int) $item['specification_id'],
+                    'specification_value_id' => (int) $item['specification_value_id'],
                 ])
                 ->unique('specification_id')
                 ->values()
                 ->toArray();
         }
+
         return $data;
     }
 

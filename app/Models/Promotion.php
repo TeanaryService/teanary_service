@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Promotion
- * 
+ *
  * @property int $id
  * @property string $type
  * @property Carbon|null $starts_at
@@ -26,34 +26,31 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property bool $active
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Collection|ProductVariant[] $productVariants
  * @property Collection|PromotionRule[] $promotionRules
  * @property Collection|PromotionTranslation[] $promotionTranslations
  * @property Collection|UserGroup[] $userGroups
- *
- * @package App\Models
  */
-
 #[ObservedBy([PromotionObserver::class])]
 
 class Promotion extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
         'active' => 'bool',
-        'type' => PromotionTypeEnum::class
+        'type' => PromotionTypeEnum::class,
     ];
 
     protected $fillable = [
         'type',
         'starts_at',
         'ends_at',
-        'active'
+        'active',
     ];
 
     public function productVariants(): BelongsToMany

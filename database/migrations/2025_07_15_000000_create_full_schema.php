@@ -1,13 +1,13 @@
 <?php
 
+use App\Enums\OrderStatusEnum;
+use App\Enums\ProductStatusEnum;
+use App\Enums\PromotionConditionTypeEnum;
+use App\Enums\PromotionDiscountTypeEnum;
+use App\Enums\PromotionTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\ProductStatusEnum;
-use App\Enums\OrderStatusEnum;
-use App\Enums\PromotionTypeEnum;
-use App\Enums\PromotionConditionTypeEnum;
-use App\Enums\PromotionDiscountTypeEnum;
 
 return new class extends Migration
 {
@@ -52,7 +52,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        //中间表
+        // 中间表
         Schema::create('product_category', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
@@ -141,7 +141,7 @@ return new class extends Migration
             // 外键关联商品
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
 
-            //可选关联规格
+            // 可选关联规格
             $table->foreignId('product_variants')->nullable()->constrained()->onDelete('set null');
 
             // 可选：关联用户
@@ -159,7 +159,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        //中间表
+        // 中间表
         Schema::create('product_variant_specification_value', function (Blueprint $table) {
             $table->foreignId('product_variant_id')
                 ->constrained()

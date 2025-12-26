@@ -48,7 +48,7 @@ return [
     'promotion_starts_at' => 'Start Date',
     'promotion_ends_at' => 'End Date',
     'promotion_text' => 'When :condition :condition_value, get :discount :discount_value',
-    
+
     // Tea culture theme related
     'featured_products_subtitle' => 'Carefully selected premium teas, inheriting millennia of tea culture',
     'browse_categories_subtitle' => 'Explore different tea varieties, savor the essence of tea life',

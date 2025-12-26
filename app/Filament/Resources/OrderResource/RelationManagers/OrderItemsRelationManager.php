@@ -3,14 +3,11 @@
 namespace App\Filament\Resources\OrderResource\RelationManagers;
 
 use App\Filament\Resources\OrderItemResource;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderItemsRelationManager extends RelationManager
 {
@@ -44,14 +41,14 @@ class OrderItemsRelationManager extends RelationManager
     {
         $action
             ->authorize(
-                static fn(RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record)
+                static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record)
             )
-            ->form(fn(Form $form): Form => $this->form($form->columns(1)));
+            ->form(fn (Form $form): Form => $this->form($form->columns(1)));
     }
 
     protected function configureCreateAction(Tables\Actions\CreateAction $action): void
     {
         $action
-            ->form(fn(Form $form): Form => $this->form($form->columns(1)));
+            ->form(fn (Form $form): Form => $this->form($form->columns(1)));
     }
 }

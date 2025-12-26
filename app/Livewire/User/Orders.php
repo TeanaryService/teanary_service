@@ -32,7 +32,7 @@ class Orders extends Component
             $order->update(['status' => OrderStatusEnum::Cancelled]);
             $this->dispatch('notify', [
                 'message' => __('orders.operation_success'),
-                'type' => 'success'
+                'type' => 'success',
             ]);
         }
     }

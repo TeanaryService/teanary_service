@@ -15,20 +15,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Specification
- * 
+ *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Collection|ProductVariant[] $productVariants
  * @property Collection|SpecificationTranslation[] $specificationTranslations
  * @property Collection|SpecificationValue[] $specificationValues
- *
- * @package App\Models
  */
 class Specification extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     public function productVariants(): BelongsToMany

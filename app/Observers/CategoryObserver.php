@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Category;
-use Illuminate\Support\Facades\Cache;
 
 class CategoryObserver
 {
@@ -36,6 +35,6 @@ class CategoryObserver
      */
     protected function clearCategoryCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget("categories.with.translations");
+        \Illuminate\Support\Facades\Cache::forget('categories.with.translations');
     }
 }

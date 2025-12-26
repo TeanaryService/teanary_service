@@ -2,8 +2,8 @@
 
 namespace App\Services\Shipping\Calculators;
 
-use App\Models\Address;
 use App\Enums\ShippingMethodEnum;
+use App\Models\Address;
 use App\Services\LocaleCurrencyService;
 use App\Services\Shipping\Contracts\ShippingCalculatorInterface;
 use Illuminate\Support\Facades\Log;
@@ -19,15 +19,15 @@ class EMSCalculator implements ShippingCalculatorInterface
 
     public function calculate(array $processedItems, ?Address $address): array
     {
-        if (!$address) {
+        if (! $address) {
             return [];
         }
 
         try {
             // 获取国家所属区域
             $zone = $this->getZoneForCountry($address->country->iso_code_2);
-            
-            if (!$zone) {
+
+            if (! $zone) {
                 return [];
             }
 
@@ -46,6 +46,7 @@ class EMSCalculator implements ShippingCalculatorInterface
             ];
         } catch (\Throwable $e) {
             Log::error('EMS calculation error', ['error' => $e->getMessage()]);
+
             return [];
         }
     }

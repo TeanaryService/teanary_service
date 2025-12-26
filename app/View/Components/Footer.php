@@ -25,6 +25,7 @@ class Footer extends Component
     {
         $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
         $categories = Category::getCategoriesForLanguage($langId);
+
         return view('components.footer', [
             'categories' => $categories,
         ]);

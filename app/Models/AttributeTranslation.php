@@ -13,33 +13,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class AttributeTranslation
- * 
+ *
  * @property int $id
  * @property int $attribute_id
  * @property int $language_id
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Attribute $attribute
  * @property Language $language
- *
- * @package App\Models
  */
 class AttributeTranslation extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'attribute_id' => 'int',
-        'language_id' => 'int'
+        'language_id' => 'int',
     ];
 
     protected $fillable = [
         'attribute_id',
         'language_id',
-        'name'
+        'name',
     ];
 
     public function attribute(): BelongsTo

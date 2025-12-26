@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderItemResource\Pages;
-use App\Filament\Resources\OrderItemResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderItemsRelationManager;
 use App\Models\OrderItem;
 use App\Services\LocaleCurrencyService;
@@ -15,8 +14,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderItemResource extends Resource
 {
@@ -25,25 +22,31 @@ class OrderItemResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = OrderItem::class;
+
     protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 101;
 
     public static function getLabel(): string
     {
         return __('filament.OrderItemResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.OrderItemResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.OrderItemResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.OrderItemResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.OrderItemResource.icon');
@@ -72,6 +75,7 @@ class OrderItemResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->productTranslations->first();
+
                         return $first ? $first->name : $record->id;
                     })
                     ->searchable()
@@ -85,7 +89,7 @@ class OrderItemResource extends Resource
                     ->label(__('filament.order_item.product_variant_id'))
                     ->options(function ($get) {
                         $productId = $get('product_id');
-                        if (!$productId) {
+                        if (! $productId) {
                             return [];
                         }
                         $locale = app()->getLocale();
@@ -102,6 +106,7 @@ class OrderItemResource extends Resource
                             }
                             $options[$variant->id] = implode(' / ', array_filter($specNames)) ?: $variant->id;
                         }
+
                         return $options;
                     })
                     ->searchable()
@@ -137,19 +142,24 @@ class OrderItemResource extends Resource
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $product = $record->product;
-                        if (!$product) return null;
+                        if (! $product) {
+                            return null;
+                        }
                         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->name) {
                             return $translation->name;
                         }
                         $first = $product->productTranslations->first();
+
                         return $first ? $first->name : $product->id;
                     }),
                 Tables\Columns\TextColumn::make('productVariant.id')
                     ->label(__('filament.order_item.product_variant_id'))
                     ->getStateUsing(function ($record) {
                         $variant = $record->productVariant;
-                        if (!$variant) return null;
+                        if (! $variant) {
+                            return null;
+                        }
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $specNames = [];
@@ -159,6 +169,7 @@ class OrderItemResource extends Resource
                                 ? $translation->name
                                 : ($specValue->specificationValueTranslations->first()->name ?? '');
                         }
+
                         return implode(' / ', array_filter($specNames)) ?: $variant->id;
                     }),
                 Tables\Columns\TextColumn::make('qty')
@@ -170,17 +181,17 @@ class OrderItemResource extends Resource
                     ->formatStateUsing(function ($record, $state) use ($service) {
                         return $service->convertWithSymbol($state, session('currency'), $record->order->currency->code);
                     }),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

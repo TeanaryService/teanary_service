@@ -2,15 +2,16 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\User;
-use App\Models\Order;
 use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\User;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Carbon;
 
 class DailyStatsWidget extends Widget
 {
     protected static string $view = 'filament.widgets.daily-stats-widget';
+
     protected static ?int $sort = 200;
 
     protected static ?string $pollingInterval = null;
@@ -35,7 +36,7 @@ class DailyStatsWidget extends Widget
     /**
      * @return int | string | array<string, int | null>
      */
-    public function getColumnSpan(): int | string | array
+    public function getColumnSpan(): int|string|array
     {
         return 'full';
     }

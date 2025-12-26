@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class ProductTranslation
- * 
+ *
  * @property int $id
  * @property int $product_id
  * @property int $language_id
@@ -24,23 +24,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Language $language
  * @property Product $product
- *
- * @package App\Models
  */
-
 #[ObservedBy([ProductTranslationObserver::class])]
 
 class ProductTranslation extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'product_id' => 'int',
-        'language_id' => 'int'
+        'language_id' => 'int',
     ];
 
     protected $fillable = [
@@ -48,7 +45,7 @@ class ProductTranslation extends Model
         'language_id',
         'name',
         'short_description',
-        'description'
+        'description',
     ];
 
     public function language(): BelongsTo

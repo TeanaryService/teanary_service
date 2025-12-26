@@ -6,8 +6,8 @@ interface PaymentGatewayInterface
 {
     /**
      * 创建支付链接
-     * @param array $order ['name' => string, 'amount' => float]
-     * @return string
+     *
+     * @param  array  $order  ['name' => string, 'amount' => float]
      */
     public function create(array $order): string;
 }

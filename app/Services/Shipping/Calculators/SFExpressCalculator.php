@@ -19,14 +19,14 @@ class SFExpressCalculator implements ShippingCalculatorInterface
 
     public function calculate(array $processedItems, ?Address $address): array
     {
-        if (!$address) {
+        if (! $address) {
             return [];
         }
 
         try {
             // 获取国家所属区域
             $zone = $this->getZoneForCountry($address->country->iso_code_2);
-            if (!$zone) {
+            if (! $zone) {
                 return [];
             }
 
@@ -34,7 +34,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
 
             // 计算运费
             $fee = $this->calculateFee($zone, $totalWeight);
-            
+
             $currencyService = app(LocaleCurrencyService::class);
             $forCode = 'CNY';
             $fee = $currencyService->convert($fee, $currencyService->getDefaultCurrencyCode(), $forCode);
@@ -45,6 +45,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
             ];
         } catch (\Throwable $e) {
             Log::error('SF Express calculation error', ['error' => $e->getMessage()]);
+
             return [];
         }
     }
@@ -56,6 +57,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
                 return $zone;
             }
         }
+
         return null;
     }
 
@@ -70,10 +72,11 @@ class SFExpressCalculator implements ShippingCalculatorInterface
     {
         // 按物品计费
         $basePrice = $zone['base_item'];
-        
+
         // 如果重量超过500g,计算续重费用
         if ($totalWeight > 500) {
             $additionalKg = ceil($totalWeight - 500);
+
             return $basePrice + ($additionalKg * $zone['per_kg']);
         }
 

@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Article;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ArticleList extends Component
 {
@@ -27,7 +26,7 @@ class ArticleList extends Component
 
         return view('livewire.article-list', [
             'articles' => $articles,
-            'search' => $search
+            'search' => $search,
         ]);
     }
 }

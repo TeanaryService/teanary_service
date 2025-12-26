@@ -15,20 +15,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class UserGroup
- * 
+ *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Collection|Promotion[] $promotions
  * @property Collection|UserGroupTranslation[] $userGroupTranslations
  * @property Collection|User[] $users
- *
- * @package App\Models
  */
 class UserGroup extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     public function promotions(): BelongsToMany

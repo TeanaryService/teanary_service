@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class ArticleTranslation
- * 
+ *
  * @property int $id
  * @property int $article_id
  * @property string $language_id
@@ -24,21 +24,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $content
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Article $article
- *
- * @package App\Models
  */
-
 #[ObservedBy([ArticleTranslationObserver::class])]
 
 class ArticleTranslation extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'article_id' => 'int'
+        'article_id' => 'int',
     ];
 
     protected $fillable = [
@@ -46,7 +43,7 @@ class ArticleTranslation extends Model
         'language_id',
         'title',
         'summary',
-        'content'
+        'content',
     ];
 
     public function article(): BelongsTo

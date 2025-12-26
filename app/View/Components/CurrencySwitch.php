@@ -22,14 +22,15 @@ class CurrencySwitch extends Component
      */
     public function render(): View|Closure|string
     {
-        $service = new LocaleCurrencyService();
+        $service = new LocaleCurrencyService;
         $currencies = $service->getCurrencies();
 
         $currencyCode = session('currency');
         $selectedCurrency = $service->getCurrencyByCode($currencyCode);
+
         return view('components.currency-switch', [
             'currencies' => $currencies,
-            'selectedCurrency' => $selectedCurrency
+            'selectedCurrency' => $selectedCurrency,
         ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CartResource\Pages;
-use App\Filament\Resources\CartResource\RelationManagers;
 use App\Filament\Resources\CartResource\RelationManagers\CartItemsRelationManager;
 use App\Models\Cart;
 use App\Traits\HasActions;
@@ -14,8 +13,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CartResource extends Resource
 {
@@ -24,24 +21,29 @@ class CartResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Cart::class;
+
     protected static ?int $navigationSort = 103;
 
     public static function getLabel(): string
     {
         return __('filament.CartResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.CartResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.CartResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.CartResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.CartResource.icon');
@@ -74,17 +76,17 @@ class CartResource extends Resource
                 // Tables\Columns\TextColumn::make('session_id')
                 //     ->label(__('filament.cart.session_id'))
                 //     ->searchable(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }
@@ -93,7 +95,7 @@ class CartResource extends Resource
     {
         return [
             //
-            CartItemsRelationManager::class
+            CartItemsRelationManager::class,
         ];
     }
 

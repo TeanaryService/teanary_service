@@ -147,13 +147,13 @@ return [
         'index-settings' => [
             Article::class => [
                 'searchableAttributes' => ['content'],
-                'filterableAttributes' => ['id', 'is_published'], //可过滤
-                'sortableAttributes' => ['id', 'updated_at'], //可排序
+                'filterableAttributes' => ['id', 'is_published'], // 可过滤
+                'sortableAttributes' => ['id', 'updated_at'], // 可排序
             ],
             Product::class => [
                 'searchableAttributes' => ['content'],
-                'filterableAttributes' => ['id', 'status'], //可过滤
-                'sortableAttributes' => ['id', 'updated_at', 'created_at'], //可排序
+                'filterableAttributes' => ['id', 'status'], // 可过滤
+                'sortableAttributes' => ['id', 'updated_at', 'created_at'], // 可排序
             ],
         ],
     ],

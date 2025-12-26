@@ -2,27 +2,28 @@
 
 namespace App\Services;
 
-use App\Models\ProductVariant;
 use App\Models\Order;
+use App\Models\ProductVariant;
 use App\Models\Promotion;
 use App\Models\PromotionRule;
 use App\Models\User;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class PromotionService
 {
     /**
      * 计算商品规格的最终支付金额及促销信息
-     * @param ProductVariant $variant
-     * @param int $qty
-     * @param User|null $user
+     *
+     * @param  ProductVariant  $variant
+     * @param  int  $qty
+     * @param  User|null  $user
      * @return array ['final_price' => float, 'promotion' => array|null]
      */
     protected function getPromotionFromCache($promotionId)
     {
         // 从缓存获取所有促销模型对象
         $allPromotions = static::getAllPromotionsCached();
+
         return $allPromotions->firstWhere('id', $promotionId);
     }
 
@@ -38,7 +39,9 @@ class PromotionService
         foreach ($promotions as $promotion) {
             // 优先用缓存
             $promotionModel = $this->getPromotionFromCache($promotion['id']);
-            if (!$promotionModel) continue;
+            if (! $promotionModel) {
+                continue;
+            }
             foreach ($promotionModel->promotionRules as $rule) {
                 if ($this->checkRule($rule, $basePrice, $qty)) {
                     $discount = $this->getDiscountAmount($rule, $basePrice, $qty);
@@ -67,7 +70,7 @@ class PromotionService
 
     /**
      * 计算订单的最终支付金额及促销信息
-     * @param Order $order
+     *
      * @return array ['final_total' => float, 'promotion' => array|null]
      */
     public function calculateOrderTotal(Order $order): array
@@ -86,7 +89,9 @@ class PromotionService
         foreach ($promotions as $promotion) {
             // 优先用缓存
             $promotionModel = $this->getPromotionFromCache($promotion['id']);
-            if (!$promotionModel) continue;
+            if (! $promotionModel) {
+                continue;
+            }
             foreach ($promotionModel->promotionRules as $rule) {
                 if ($this->checkRule($rule, $baseTotal, $order->orderItems->sum('qty'))) {
                     $discount = $this->getDiscountAmount($rule, $baseTotal, $order->orderItems->sum('qty'));
@@ -106,6 +111,7 @@ class PromotionService
                 }
             }
         }
+
         return [
             'final_total' => $finalTotal,
             'promotion' => $appliedPromotion,
@@ -114,6 +120,7 @@ class PromotionService
 
     /**
      * 总缓存所有促销（含翻译、规则、userGroups），永久缓存
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function getAllPromotionsCached()
@@ -123,15 +130,14 @@ class PromotionService
                 'promotionTranslations',
                 'promotionRules',
                 'userGroups',
-                'productVariants'
+                'productVariants',
             ])->get();
         });
     }
 
     /**
      * 获取可用促销信息列表（用于广告），从总缓存筛选
-     * @param User|null $user
-     * @param int|null $langId
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getAvailablePromotions(?User $user = null, ?int $langId = null)
@@ -141,16 +147,24 @@ class PromotionService
         $userGroupId = $user?->user_group_id;
 
         return static::getAllPromotionsCached()->filter(function ($promotion) use ($now, $userGroupId) {
-            if (!$promotion->active) return false;
-            if ($promotion->starts_at && $promotion->starts_at > $now) return false;
-            if ($promotion->ends_at && $promotion->ends_at < $now) return false;
+            if (! $promotion->active) {
+                return false;
+            }
+            if ($promotion->starts_at && $promotion->starts_at > $now) {
+                return false;
+            }
+            if ($promotion->ends_at && $promotion->ends_at < $now) {
+                return false;
+            }
             if ($promotion->userGroups->count() > 0 && $userGroupId) {
                 return $promotion->userGroups->contains('id', $userGroupId);
             }
+
             // 向上兼容：无userGroups绑定时所有用户可用
             return true;
         })->map(function ($promotion) use ($langId) {
             $trans = $promotion->promotionTranslations->where('language_id', $langId)->first();
+
             return [
                 'id' => $promotion->id,
                 'name' => $trans?->name ?? '',
@@ -225,7 +239,7 @@ class PromotionService
     protected function getDiscountAmount(PromotionRule $rule, float $base, int $qty): float
     {
         // PromotionDiscountTypeEnum: fixed, percentage
-        $type =  $rule->discount_type->value;
+        $type = $rule->discount_type->value;
         switch ($type) {
             case 'fixed':
                 return $rule->discount_value;

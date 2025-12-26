@@ -2,20 +2,21 @@
 
 namespace App\Services;
 
+use App\Models\Currency;
+use App\Models\Language;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Language;
-use App\Models\Currency;
 
 class LocaleCurrencyService
 {
     const LANGUAGES_CACHE_KEY = 'languages.all';
+
     const CURRENCIES_CACHE_KEY = 'currencies.all';
 
     public function getLanguages()
     {
         // 检查表是否存在，如果不存在则返回空集合（迁移时的情况）
-        if (!Schema::hasTable('languages')) {
+        if (! Schema::hasTable('languages')) {
             return collect([]);
         }
 
@@ -27,7 +28,7 @@ class LocaleCurrencyService
     public function getCurrencies()
     {
         // 检查表是否存在，如果不存在则返回空集合（迁移时的情况）
-        if (!Schema::hasTable('currencies')) {
+        if (! Schema::hasTable('currencies')) {
             return collect([]);
         }
 
@@ -49,6 +50,7 @@ class LocaleCurrencyService
     public function getLanguageByCode($code)
     {
         $languages = $this->getLanguages();
+
         return $languages->firstWhere('code', $code)
             ?? $languages->firstWhere('default', true)
             ?? $languages->first();
@@ -57,6 +59,7 @@ class LocaleCurrencyService
     public function getCurrencyByCode($code)
     {
         $currencies = $this->getCurrencies();
+
         return $currencies->firstWhere('code', $code)
             ?? $currencies->firstWhere('default', true)
             ?? $currencies->first();
@@ -68,6 +71,7 @@ class LocaleCurrencyService
     public function getRate(string $code): float
     {
         $currency = $this->getCurrencyByCode($code);
+
         return $currency ? $currency->exchange_rate : 1.0;
     }
 
@@ -77,7 +81,7 @@ class LocaleCurrencyService
     public function setRate(string $code, float $rate): bool
     {
         // 检查表是否存在
-        if (!Schema::hasTable('currencies')) {
+        if (! Schema::hasTable('currencies')) {
             return false;
         }
 
@@ -86,8 +90,10 @@ class LocaleCurrencyService
             $currency->exchange_rate = $rate;
             $result = $currency->save();
             $this->clearCurrenciesCache();
+
             return $result;
         }
+
         return false;
     }
 
@@ -104,7 +110,7 @@ class LocaleCurrencyService
     /**
      * 计算金额的汇率转换（无符号，仅数值）
      */
-    public function convert(float $amount,  ?string $toCode, string $fromCode = ''): float
+    public function convert(float $amount, ?string $toCode, string $fromCode = ''): float
     {
         $fromCode = $fromCode ?: $this->getDefaultCurrencyCode();
         $toCode = $toCode ?: $this->getDefaultCurrencyCode();
@@ -113,6 +119,7 @@ class LocaleCurrencyService
         if ($fromRate == 0) {
             return 0;
         }
+
         return $amount * ($toRate / $fromRate);
     }
 
@@ -123,10 +130,11 @@ class LocaleCurrencyService
     {
         $fromCode = $fromCode ?: $this->getDefaultCurrencyCode();
         $toCode = $toCode ?: $this->getDefaultCurrencyCode();
-        $converted = $this->convert($amount,  $toCode, $fromCode);
+        $converted = $this->convert($amount, $toCode, $fromCode);
         $currency = $this->getCurrencyByCode($toCode);
         $symbol = $currency ? $currency->symbol : '';
-        return $symbol . number_format($converted, $decimals, '.', '');
+
+        return $symbol.number_format($converted, $decimals, '.', '');
     }
 
     /**
@@ -137,7 +145,8 @@ class LocaleCurrencyService
         $code = $code ?: $this->getDefaultCurrencyCode();
         $currency = $this->getCurrencyByCode($code);
         $symbol = $currency ? $currency->symbol : '';
-        return $symbol . number_format($amount, $decimals, '.', '');
+
+        return $symbol.number_format($amount, $decimals, '.', '');
     }
 
     /**
@@ -147,6 +156,7 @@ class LocaleCurrencyService
     {
         $currencies = $this->getCurrencies();
         $default = $currencies->firstWhere('default', true);
+
         return $default ? $default->code : ($currencies->first()->code ?? 'CNY');
     }
 
@@ -157,6 +167,7 @@ class LocaleCurrencyService
     {
         $languages = $this->getLanguages();
         $default = $languages->firstWhere('default', true);
+
         return $default ? $default->code : ($languages->first()->code ?? 'en');
     }
 
@@ -166,6 +177,7 @@ class LocaleCurrencyService
     public function getLanguageOptions(): array
     {
         $languages = $this->getLanguages();
+
         return $languages->pluck('name', 'id')->toArray();
     }
 
@@ -175,6 +187,7 @@ class LocaleCurrencyService
     public function getCurrencyOptions(): array
     {
         $currencies = $this->getCurrencies();
+
         return $currencies->pluck('name', 'id')->toArray();
     }
 
@@ -184,9 +197,10 @@ class LocaleCurrencyService
     public function resolveLocale(?string $locale): string
     {
         $supported = $this->getLanguages()->pluck('code')->toArray();
-        if (!in_array($locale, $supported)) {
+        if (! in_array($locale, $supported)) {
             return $this->getDefaultLanguageCode();
         }
+
         return $locale;
     }
 }

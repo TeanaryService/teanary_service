@@ -38,6 +38,6 @@ class CountryObserver
      */
     protected function clearCountryCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget("countries.with.translations");
+        \Illuminate\Support\Facades\Cache::forget('countries.with.translations');
     }
 }

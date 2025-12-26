@@ -46,6 +46,7 @@ class EditSpecification extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 }

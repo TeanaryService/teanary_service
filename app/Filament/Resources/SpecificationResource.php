@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SpecificationResource\Pages;
-use App\Filament\Resources\SpecificationResource\RelationManagers;
 use App\Filament\Resources\SpecificationResource\RelationManagers\SpecificationValuesRelationManager;
 use App\Models\Specification;
 use App\Services\LocaleCurrencyService;
@@ -11,14 +10,11 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SpecificationResource extends Resource
 {
@@ -27,24 +23,29 @@ class SpecificationResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Specification::class;
+
     protected static ?int $navigationSort = 205;
 
     public static function getLabel(): string
     {
         return __('filament.SpecificationResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.SpecificationResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.SpecificationResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.SpecificationResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.SpecificationResource.icon');
@@ -69,7 +70,7 @@ class SpecificationResource extends Resource
                         }
 
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.specification.name') . " ({$lang->name})")
+                            ->label(__('filament.specification.name')." ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
@@ -95,20 +96,21 @@ class SpecificationResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->specificationTranslations->first();
+
                         return $first ? $first->name : '';
                     }),
                 // ...existing code...
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }
@@ -117,7 +119,7 @@ class SpecificationResource extends Resource
     {
         return [
             //
-            SpecificationValuesRelationManager::class
+            SpecificationValuesRelationManager::class,
         ];
     }
 

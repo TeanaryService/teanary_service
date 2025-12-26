@@ -5,24 +5,20 @@ namespace Database\Seeders;
 use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
 use App\Enums\ShippingMethodEnum;
-use Illuminate\Database\Seeder;
-use App\Models\Language;
-use App\Models\ShippingMethod;
-use App\Models\ShippingMethodTranslation;
-use App\Models\PaymentMethod;
-use App\Models\PaymentMethodTranslation;
-use App\Models\User;
-use App\Models\Currency;
-use App\Models\Product;
-use App\Models\ProductVariant;
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Country;
+use App\Models\Currency;
+use App\Models\Language;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Address;
-use App\Models\Country;
 use App\Models\OrderShipment;
+use App\Models\Product;
+use App\Models\ProductVariant;
+use App\Models\User;
 use App\Models\Zone;
+use Illuminate\Database\Seeder;
 
 class CommerceSeeder extends Seeder
 {
@@ -48,18 +44,18 @@ class CommerceSeeder extends Seeder
                 : null;
 
             $address = Address::create([
-                'user_id'    => $user->id,
-                'firstname'  => fake()->firstName,
-                'lastname'   => fake()->lastName,
-                'email'      => $user->email,
-                'telephone'  => fake()->phoneNumber,
-                'company'    => fake()->company,
-                'address_1'  => fake()->streetAddress,
-                'address_2'  => fake()->streetAddress,
-                'city'       => fake()->city,
-                'postcode'   => fake()->postcode,
+                'user_id' => $user->id,
+                'firstname' => fake()->firstName,
+                'lastname' => fake()->lastName,
+                'email' => $user->email,
+                'telephone' => fake()->phoneNumber,
+                'company' => fake()->company,
+                'address_1' => fake()->streetAddress,
+                'address_2' => fake()->streetAddress,
+                'city' => fake()->city,
+                'postcode' => fake()->postcode,
                 'country_id' => $country?->id,
-                'zone_id'    => $zone?->id,
+                'zone_id' => $zone?->id,
             ]);
 
             // 创建购物车
@@ -91,7 +87,7 @@ class CommerceSeeder extends Seeder
                 'user_id' => $user->id,
                 'shipping_address_id' => $address->id,
                 'billing_address_id' => $address->id,
-                'order_no' => 'ORD-' . strtoupper(uniqid()),
+                'order_no' => 'ORD-'.strtoupper(uniqid()),
                 'currency_id' => $currency->id,
                 'total' => 0, // 后面更新
                 'status' => OrderStatusEnum::default(),

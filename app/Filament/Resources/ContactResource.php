@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactResource\Pages;
-use App\Filament\Resources\ContactResource\RelationManagers;
 use App\Models\Contact;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -13,8 +12,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContactResource extends Resource
 {
@@ -30,18 +27,22 @@ class ContactResource extends Resource
     {
         return __('filament.ContactResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.ContactResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.ContactResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.ContactResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.ContactResource.icon');
@@ -76,17 +77,17 @@ class ContactResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('filament.contact.email'))
                     ->searchable(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

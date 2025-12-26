@@ -4,7 +4,6 @@ namespace App\Filament\Resources\PromotionResource\Pages;
 
 use App\Filament\Resources\PromotionResource;
 use App\Models\Promotion;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePromotion extends CreateRecord

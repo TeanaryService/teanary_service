@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Enums\ShippingMethodEnum;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderShipmentsRelationManager;
 use App\Filament\Resources\OrderShipmentResource\Pages;
-use App\Filament\Resources\OrderShipmentResource\RelationManagers;
 use App\Models\OrderShipment;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -16,8 +15,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderShipmentResource extends Resource
 {
@@ -26,25 +23,31 @@ class OrderShipmentResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = OrderShipment::class;
+
     protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 100;
 
     public static function getLabel(): string
     {
         return __('filament.OrderShipmentResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.OrderShipmentResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.OrderShipmentResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.OrderShipmentResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.OrderShipmentResource.icon');
@@ -93,17 +96,17 @@ class OrderShipmentResource extends Resource
                 Tables\Columns\TextColumn::make('tracking_number')
                     ->label(__('filament.order_shipment.tracking_number'))
                     ->searchable(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

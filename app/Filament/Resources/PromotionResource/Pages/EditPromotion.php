@@ -43,6 +43,7 @@ class EditPromotion extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 

@@ -14,7 +14,7 @@ set('default_stage', 'production');
 // 共享文件和目录
 add('shared_files', [
     'public/sitemap.xml',
-    'frankenphp'
+    'frankenphp',
 ]);
 
 add('shared_dirs', []);
@@ -22,7 +22,7 @@ add('shared_dirs', []);
 add('writable_dirs', [
     'storage',
     'bootstrap/cache',
-    'public'
+    'public',
 ]);
 
 // ============================================

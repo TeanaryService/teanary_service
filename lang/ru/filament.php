@@ -318,7 +318,6 @@ return [
     'address.postcode' => 'Почтовый индекс',
     'address.full_address' => 'Полный адрес',
 
-
     'widget.stats_users' => 'Регистраций сегодня',
     'widget.stats_orders' => 'Заказов сегодня',
     'widget.stats_cart_items' => 'Добавлено в корзину сегодня',

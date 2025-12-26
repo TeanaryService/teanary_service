@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Address;
 use App\Enums\ShippingMethodEnum;
+use App\Models\Address;
 use App\Services\Shipping\ShippingCalculatorFactory;
 
 class ShippingService

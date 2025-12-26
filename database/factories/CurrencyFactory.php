@@ -24,7 +24,7 @@ class CurrencyFactory extends Factory
             ['code' => 'JPY', 'name' => 'Japanese Yen', 'symbol' => '¥'],
         ];
         $currency = fake()->randomElement($currencies);
-        
+
         return [
             'code' => $currency['code'],
             'name' => $currency['name'],

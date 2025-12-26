@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Enums\ProductStatusEnum;
 use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Filament\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Models\Product;
 use App\Services\LocaleCurrencyService;
@@ -12,17 +11,15 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class ProductResource extends Resource
 {
@@ -31,24 +28,29 @@ class ProductResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Product::class;
+
     protected static ?int $navigationSort = 200;
 
     public static function getLabel(): string
     {
         return __('filament.ProductResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.ProductResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.ProductResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.ProductResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.ProductResource.icon');
@@ -77,6 +79,7 @@ class ProductResource extends Resource
             $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
             $translation = $attr->attributeTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($attr->attributeTranslations->first()->name ?? $attr->id);
+
             return [$attr->id => $name];
         })->toArray();
 
@@ -102,6 +105,7 @@ class ProductResource extends Resource
                         ->label(__('filament.product.attribute_value'))
                         ->options(function ($get) use ($attributeValueOptions) {
                             $attrId = $get('attribute_id');
+
                             return $attrId && isset($attributeValueOptions[$attrId])
                                 ? $attributeValueOptions[$attrId]
                                 : [];
@@ -119,6 +123,7 @@ class ProductResource extends Resource
             $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($cat->categoryTranslations->first()->name ?? $cat->id);
+
             return [$cat->id => $name];
         })->toArray();
 
@@ -164,6 +169,7 @@ class ProductResource extends Resource
                                 ->where('language_id', $lang->id)
                                 ->first();
                         }
+
                         return Tabs\Tab::make($lang->name)
                             ->schema([
                                 Forms\Components\TextInput::make("translations.{$lang->id}.name")
@@ -187,7 +193,7 @@ class ProductResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
-                fn(Builder $query): Builder => $query
+                fn (Builder $query): Builder => $query
                     ->with([
                         'productCategories.categoryTranslations',
                     ])
@@ -209,6 +215,7 @@ class ProductResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->productTranslations->first();
+
                         return $first ? $first->name : '';
                     }),
                 Tables\Columns\TextColumn::make('categories')
@@ -223,25 +230,26 @@ class ProductResource extends Resource
                                 ? $translation->name
                                 : ($cat->categoryTranslations->first()->name ?? '');
                         }
+
                         return implode('，', array_filter($names));
                     }),
                 Tables\Columns\TextColumn::make('slug')
                     ->label(__('filament.product.slug'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn($state): string => $state->label())
+                    ->formatStateUsing(fn ($state): string => $state->label())
                     ->label(__('filament.product.status')),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }
@@ -250,7 +258,7 @@ class ProductResource extends Resource
     {
         return [
             //
-            ProductVariantsRelationManager::class
+            ProductVariantsRelationManager::class,
         ];
     }
 

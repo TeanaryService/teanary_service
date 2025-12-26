@@ -14,33 +14,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class OrderShipment
- * 
+ *
  * @property int $id
  * @property int $order_id
  * @property string|null $tracking_number
  * @property string|null $notes
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Order $order
- *
- * @package App\Models
  */
 class OrderShipment extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'order_id' => 'int',
-        'shipping_method' => ShippingMethodEnum::class
+        'shipping_method' => ShippingMethodEnum::class,
     ];
 
     protected $fillable = [
         'order_id',
         'shipping_method',
         'tracking_number',
-        'notes'
+        'notes',
     ];
 
     public function order(): BelongsTo

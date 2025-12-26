@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CountryResource\RelationManagers\ZonesRelationManager;
 use App\Filament\Resources\ZoneResource\Pages;
-use App\Filament\Resources\ZoneResource\RelationManagers;
 use App\Models\Zone;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -16,7 +15,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ZoneResource extends Resource
 {
@@ -25,24 +23,29 @@ class ZoneResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Zone::class;
+
     protected static ?int $navigationSort = 406;
 
     public static function getLabel(): string
     {
         return __('filament.ZoneResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.ZoneResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.ZoneResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.ZoneResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.ZoneResource.icon');
@@ -67,7 +70,7 @@ class ZoneResource extends Resource
                         }
 
                         return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.zone.name') . " ({$lang->name})")
+                            ->label(__('filament.zone.name')." ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
@@ -86,6 +89,7 @@ class ZoneResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->countryTranslations->first();
+
                         return $first ? $first->name : $record->iso_code_2;
                     })
                     ->searchable()
@@ -105,7 +109,7 @@ class ZoneResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
-                fn(Builder $query): Builder => $query
+                fn (Builder $query): Builder => $query
                     ->with([
                         'country.countryTranslations',
                     ])
@@ -118,7 +122,7 @@ class ZoneResource extends Resource
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $country = $record->country;
-                        if (!$country) {
+                        if (! $country) {
                             return null;
                         }
                         $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
@@ -126,6 +130,7 @@ class ZoneResource extends Resource
                             return $translation->name;
                         }
                         $first = $country->countryTranslations->first();
+
                         return $first ? $first->name : $country->iso_code_2;
                     })
                     ->sortable(),
@@ -139,22 +144,23 @@ class ZoneResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->zoneTranslations->first();
+
                         return $first ? $first->name : '';
                     }),
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('filament.zone.active'))
                     ->boolean(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

@@ -12,7 +12,6 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -20,7 +19,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class Manager
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -29,24 +28,22 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
- * @package App\Models
  */
 class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 {
+    use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
-    use CascadesMediaDeletes;
 
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'email_verified_at' => 'datetime'
+        'email_verified_at' => 'datetime',
     ];
 
     protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     protected $fillable = [
@@ -54,7 +51,7 @@ class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMed
         'email',
         'password',
         'email_verified_at',
-        'remember_token'
+        'remember_token',
     ];
 
     public function getFilamentAvatarUrl(): ?string

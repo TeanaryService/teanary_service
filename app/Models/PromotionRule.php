@@ -17,11 +17,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class PromotionRule
- * 
+ *
  * @property int $id
  * @property int $promotion_id
  * @property string $condition_type
@@ -30,19 +29,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property float $discount_value
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Promotion $promotion
- *
- * @package App\Models
  */
-
 #[ObservedBy([PromotionRuleObserver::class])]
 
 class PromotionRule extends Model implements HasMedia
 {
+    use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
-    use CascadesMediaDeletes;
 
     public static $snakeAttributes = false;
 
@@ -59,7 +54,7 @@ class PromotionRule extends Model implements HasMedia
         'condition_type',
         'condition_value',
         'discount_type',
-        'discount_value'
+        'discount_value',
     ];
 
     public function promotion(): BelongsTo

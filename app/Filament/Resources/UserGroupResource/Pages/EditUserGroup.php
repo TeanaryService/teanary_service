@@ -28,6 +28,7 @@ class EditUserGroup extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 

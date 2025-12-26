@@ -14,7 +14,7 @@ class ArticleDetail extends Component
     {
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
 
-        $this->article = Article::with(['media', 'articleTranslations' => fn($q) => $q->where('language_id', $lang?->id)])
+        $this->article = Article::with(['media', 'articleTranslations' => fn ($q) => $q->where('language_id', $lang?->id)])
             ->where('slug', $slug)
             ->where('is_published', true)
             ->firstOrFail();

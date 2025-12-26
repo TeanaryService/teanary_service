@@ -4,7 +4,6 @@ namespace App\Filament\Resources\CartResource\RelationManagers;
 
 use App\Filament\Resources\CartItemResource;
 use App\Models\CartItem;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -56,7 +55,7 @@ class CartItemsRelationManager extends RelationManager
     {
         $variant = $record->productVariant;
 
-        if ($variant && !$variant->relationLoaded('specificationValues')) {
+        if ($variant && ! $variant->relationLoaded('specificationValues')) {
             $variant->load('specificationValues.specificationValueTranslations');
         }
 

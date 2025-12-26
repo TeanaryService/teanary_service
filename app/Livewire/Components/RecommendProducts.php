@@ -2,13 +2,15 @@
 
 namespace App\Livewire\Components;
 
-use Livewire\Component;
 use App\Models\Product;
+use Livewire\Component;
 
 class RecommendProducts extends Component
 {
     public $currentProductId;
+
     public $categoryIds = [];
+
     public $recommendedProducts = [];
 
     public $loaded = false;  // 是否已加载推荐

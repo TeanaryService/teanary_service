@@ -21,15 +21,16 @@ class EditProductVariant extends EditRecord
     {
         if (isset($data['specificationValues'])) {
             $data['specificationValues'] = collect($data['specificationValues'])
-                ->filter(fn($item) => !empty($item['specification_id']) && !empty($item['specification_value_id']))
-                ->map(fn($item) => [
-                    'specification_id' => (int)$item['specification_id'],
-                    'specification_value_id' => (int)$item['specification_value_id'],
+                ->filter(fn ($item) => ! empty($item['specification_id']) && ! empty($item['specification_value_id']))
+                ->map(fn ($item) => [
+                    'specification_id' => (int) $item['specification_id'],
+                    'specification_value_id' => (int) $item['specification_value_id'],
                 ])
                 ->unique('specification_id')
                 ->values()
                 ->toArray();
         }
+
         return $data;
     }
 
@@ -62,6 +63,7 @@ class EditProductVariant extends EditRecord
             }
         }
         $data['specificationValues'] = $specValues;
+
         return $data;
     }
 }

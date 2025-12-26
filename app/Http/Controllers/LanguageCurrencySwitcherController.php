@@ -9,7 +9,7 @@ class LanguageCurrencySwitcherController extends Controller
 {
     public function update(Request $request)
     {
-        $service = new LocaleCurrencyService();
+        $service = new LocaleCurrencyService;
 
         if ($request->filled('lang')) {
             $language = $service->getLanguageByCode($request->input('lang'));

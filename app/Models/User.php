@@ -15,7 +15,6 @@ use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,7 +25,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class User
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -36,25 +35,22 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Currency|null $currency
  * @property Language|null $language
  * @property UserGroup|null $userGroup
  * @property Collection|Address[] $addresses
  * @property Collection|Cart[] $carts
  * @property Collection|Order[] $orders
- *
- * @package App\Models
  */
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasAvatar, HasMedia
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia, MustVerifyEmail
 {
+    use CascadesMediaDeletes;
     use HasFactory, Notifiable;
     use InteractsWithMedia;
-    use CascadesMediaDeletes;
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new CustomVerifyEmail());
+        $this->notify(new CustomVerifyEmail);
     }
 
     public static $snakeAttributes = false;
@@ -66,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     protected $fillable = [
@@ -75,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         'password',
         'email_verified_at',
         'user_group_id',
-        'remember_token'
+        'remember_token',
     ];
 
     public function articles(): HasMany

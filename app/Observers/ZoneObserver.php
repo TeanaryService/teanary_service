@@ -38,6 +38,6 @@ class ZoneObserver
      */
     protected function clearZoneCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget("zones.with.translations");
+        \Illuminate\Support\Facades\Cache::forget('zones.with.translations');
     }
 }

@@ -3,14 +3,11 @@
 namespace App\Filament\Resources\ProductResource\RelationManagers;
 
 use App\Filament\Resources\ProductVariantResource;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductVariantsRelationManager extends RelationManager
 {
@@ -44,9 +41,9 @@ class ProductVariantsRelationManager extends RelationManager
     {
         $action
             ->authorize(
-                static fn(RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record)
+                static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record)
             )
-            ->form(fn(Form $form): Form => $this->form($form->columns(1)))
+            ->form(fn (Form $form): Form => $this->form($form->columns(1)))
             ->mutateRecordDataUsing(function (array $data, Model $record): array {
                 $specificationValues = [];
 
@@ -79,7 +76,7 @@ class ProductVariantsRelationManager extends RelationManager
     protected function configureCreateAction(Tables\Actions\CreateAction $action): void
     {
         $action
-            ->form(fn(Form $form): Form => $this->form($form->columns(1)))
+            ->form(fn (Form $form): Form => $this->form($form->columns(1)))
             ->after(function (Model $record, array $data): void {
                 $pivotData = [];
                 foreach ($data['specificationValues'] ?? [] as $specificationValue) {

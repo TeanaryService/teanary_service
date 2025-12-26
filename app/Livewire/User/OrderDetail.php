@@ -14,7 +14,7 @@ class OrderDetail extends Component
 
     public function mount(Order $order): void
     {
-        if($order->user_id != Auth::user()->id){
+        if ($order->user_id != Auth::user()->id) {
             abort(403);
         }
 
@@ -35,7 +35,7 @@ class OrderDetail extends Component
             $this->order->update(['status' => OrderStatusEnum::Cancelled]);
             $this->dispatch('notify', [
                 'message' => __('orders.operation_success'),
-                'type' => 'success'
+                'type' => 'success',
             ]);
         }
     }

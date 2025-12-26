@@ -17,7 +17,6 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\App;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class ManagerPanelProvider extends PanelProvider
@@ -37,7 +36,7 @@ class ManagerPanelProvider extends PanelProvider
                 'Inter',
                 provider: LocalFontProvider::class,
             )
-            ->brandLogo(fn() => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
+            ->brandLogo(fn () => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
             ->favicon(asset('favicon-32x32.png'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -59,7 +58,7 @@ class ManagerPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                SetBackLocaleAndCurrency::class
+                SetBackLocaleAndCurrency::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

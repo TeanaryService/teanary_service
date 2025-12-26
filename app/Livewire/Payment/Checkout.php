@@ -10,7 +10,9 @@ use Livewire\Component;
 class Checkout extends Component
 {
     public int $orderId;
+
     public bool $isProcessing = false;
+
     public string $errorMessage = '';
 
     public function mount(int $orderId)
@@ -27,17 +29,17 @@ class Checkout extends Component
             $this->errorMessage = '';
 
             $order = Order::where('id', $this->orderId)->firstOrFail();
-            $order->name = config('app.name') . __('app.order_items');
+            $order->name = config('app.name').__('app.order_items');
 
             $redirectUrl = app(PaymentService::class)->createPayment($order->payment_method, $order->toArray());
 
             // 立即跳转到支付页面
             $this->dispatch('redirect-to-payment', url: $redirectUrl);
-            
+
         } catch (\Exception $e) {
             $this->isProcessing = false;
             $this->errorMessage = __('payment.payment_error');
-            Log::error('Payment processing error: ' . $e->getMessage());
+            Log::error('Payment processing error: '.$e->getMessage());
         }
     }
 

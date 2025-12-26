@@ -2,19 +2,19 @@
 
 use App\Services\LocaleCurrencyService;
 use Filament\Forms\Components\RichEditor;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
-if (!function_exists('isImage')) {
+if (! function_exists('isImage')) {
     function isImage($file)
     {
         $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
         return in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']);
     }
 }
 
-if (!function_exists('generateRandomImage')) {
+if (! function_exists('generateRandomImage')) {
     function generateRandomImage()
     {
         $disk = Storage::disk('local');
@@ -34,14 +34,9 @@ if (!function_exists('generateRandomImage')) {
     }
 }
 
-if (!function_exists('locaRoute')) {
+if (! function_exists('locaRoute')) {
     /**
      * Generate a route URL with current locale prefix.
-     *
-     * @param string $name
-     * @param array $parameters
-     * @param bool $absolute
-     * @return string
      */
     function locaRoute(string $name, array $parameters = [], bool $absolute = true): string
     {
@@ -49,7 +44,7 @@ if (!function_exists('locaRoute')) {
         $locale = app()->getLocale();
 
         // 如果已有 locale 参数（优先）就使用它，否则加上当前 locale
-        if (!isset($parameters['locale'])) {
+        if (! isset($parameters['locale'])) {
             $parameters = ['locale' => $locale] + $parameters;
         }
 
@@ -58,13 +53,13 @@ if (!function_exists('locaRoute')) {
     }
 }
 
-if (!function_exists('switch_locale_url')) {
+if (! function_exists('switch_locale_url')) {
     function switch_locale_url(string $newLang): string
     {
         $uri = request()->path(); // e.g. 'en/products/item-1'
         $segments = explode('/', $uri);
 
-        $service = new LocaleCurrencyService();
+        $service = new LocaleCurrencyService;
 
         $supportedLocales = $service->getLanguages()->pluck('code')->toArray();
         if (in_array($segments[0], $supportedLocales)) {
@@ -77,10 +72,11 @@ if (!function_exists('switch_locale_url')) {
     }
 }
 
-if (!function_exists('reusableRichEditor')) {
+if (! function_exists('reusableRichEditor')) {
     function reusableRichEditor(string $field, string $default, $label, $langId): RichEditor
     {
-        $path = 'editor-uploads/' . date("Y-m");
+        $path = 'editor-uploads/'.date('Y-m');
+
         return RichEditor::make($field)
             ->fileAttachmentsDisk('public')
             ->label($label)

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Country
- * 
+ *
  * @property int $id
  * @property string|null $iso_code_2
  * @property string|null $iso_code_3
@@ -24,31 +24,28 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property bool $active
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Collection|Address[] $addresses
  * @property Collection|CountryTranslation[] $countryTranslations
  * @property Collection|Zone[] $zones
- *
- * @package App\Models
  */
-
 #[ObservedBy([CountryObserver::class])]
 
 class Country extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'postcode_required' => 'boolean',
-        'active' => 'bool'
+        'active' => 'bool',
     ];
 
     protected $fillable = [
         'iso_code_2',
         'iso_code_3',
         'postcode_required',
-        'active'
+        'active',
     ];
 
     public function addresses(): HasMany
@@ -71,17 +68,17 @@ class Country extends Model
      */
     public static function getCachedCountries()
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever("countries.with.translations", function () {
+        return \Illuminate\Support\Facades\Cache::rememberForever('countries.with.translations', function () {
             return static::with('countryTranslations')
                 ->get()
-                ->map(function($country) {
+                ->map(function ($country) {
                     return [
                         'id' => $country->id,
                         'translations' => $country->countryTranslations
-                            ->mapWithKeys(function($trans) {
+                            ->mapWithKeys(function ($trans) {
                                 return [$trans->language_id => $trans->name];
                             })->toArray(),
-                        'default_name' => $country->name
+                        'default_name' => $country->name,
                     ];
                 })
                 ->values()
@@ -97,10 +94,10 @@ class Country extends Model
         $countries = self::getCachedCountries();
         $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
-        return collect($countries)->map(function($country) use ($langId) {
+        return collect($countries)->map(function ($country) use ($langId) {
             return [
                 'id' => $country['id'],
-                'name' => $country['translations'][$langId] ?? $country['default_name']
+                'name' => $country['translations'][$langId] ?? $country['default_name'],
             ];
         })->sortBy('name')->values()->toArray();
     }

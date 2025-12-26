@@ -16,14 +16,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Language
- * 
+ *
  * @property int $id
  * @property string $code
  * @property string $name
  * @property bool $default
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Collection|AttributeTranslation[] $attributeTranslations
  * @property Collection|AttributeValueTranslation[] $attributeValueTranslations
  * @property Collection|CategoryTranslation[] $categoryTranslations
@@ -37,25 +36,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection|UserGroupTranslation[] $userGroupTranslations
  * @property Collection|User[] $users
  * @property Collection|ZoneTranslation[] $zoneTranslations
- *
- * @package App\Models
  */
-
- #[ObservedBy([LanguageObserver::class])]
+#[ObservedBy([LanguageObserver::class])]
 
 class Language extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'default' => 'bool'
+        'default' => 'bool',
     ];
 
     protected $fillable = [
         'code',
         'name',
-        'default'
+        'default',
     ];
 
     public function attributeTranslations(): HasMany

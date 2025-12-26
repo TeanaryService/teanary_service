@@ -39,6 +39,7 @@ class EditZone extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 

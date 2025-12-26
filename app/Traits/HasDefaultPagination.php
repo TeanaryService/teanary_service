@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
-use Filament\Tables\Columns\TextColumn;
 
 trait HasDefaultPagination
 {

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CartItemResource\Pages;
-use App\Filament\Resources\CartItemResource\RelationManagers;
 use App\Filament\Resources\CartResource\RelationManagers\CartItemsRelationManager;
 use App\Models\CartItem;
 use App\Services\LocaleCurrencyService;
@@ -15,36 +14,39 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CartItemResource extends Resource
 {
-
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
 
     protected static ?string $model = CartItem::class;
+
     protected static bool $shouldRegisterNavigation = false;
+
     protected static ?int $navigationSort = 104;
 
     public static function getLabel(): string
     {
         return __('filament.CartItemResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.CartItemResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.CartItemResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.CartItemResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.CartItemResource.icon');
@@ -70,6 +72,7 @@ class CartItemResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->productTranslations->first();
+
                         return $first ? $first->name : $record->id;
                     })
                     ->searchable()
@@ -84,7 +87,7 @@ class CartItemResource extends Resource
                     ->label(__('filament.cart_item.product_variant_id'))
                     ->options(function ($get) {
                         $productId = $get('product_id');
-                        if (!$productId) {
+                        if (! $productId) {
                             return [];
                         }
                         $locale = app()->getLocale();
@@ -102,6 +105,7 @@ class CartItemResource extends Resource
                             }
                             $options[$variant->id] = implode(' / ', array_filter($specNames)) ?: $variant->id;
                         }
+
                         return $options;
                     })
                     ->searchable()
@@ -131,19 +135,24 @@ class CartItemResource extends Resource
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $product = $record->product;
-                        if (!$product) return null;
+                        if (! $product) {
+                            return null;
+                        }
                         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->name) {
                             return $translation->name;
                         }
                         $first = $product->productTranslations->first();
+
                         return $first ? $first->name : $product->id;
                     }),
                 Tables\Columns\TextColumn::make('productVariant.id')
                     ->label(__('filament.cart_item.product_variant_id'))
                     ->getStateUsing(function ($record) {
                         $variant = $record->productVariant;
-                        if (!$variant) return null;
+                        if (! $variant) {
+                            return null;
+                        }
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $specNames = [];
@@ -153,23 +162,24 @@ class CartItemResource extends Resource
                                 ? $translation->name
                                 : ($specValue->specificationValueTranslations->first()->name ?? '');
                         }
+
                         return implode(' / ', array_filter($specNames)) ?: $variant->id;
                     }),
                 Tables\Columns\TextColumn::make('qty')
                     ->label(__('filament.cart_item.qty'))
                     ->numeric()
                     ->sortable(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

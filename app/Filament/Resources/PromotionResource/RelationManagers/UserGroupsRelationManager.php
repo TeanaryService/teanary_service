@@ -9,9 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserGroupsRelationManager extends RelationManager
 {
@@ -35,6 +33,7 @@ class UserGroupsRelationManager extends RelationManager
         $userGroupOptions = UserGroup::with('userGroupTranslations')->get()->mapWithKeys(function ($group) use ($lang) {
             $translation = $group->userGroupTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($group->userGroupTranslations->first()->name ?? $group->id);
+
             return [$group->id => $name];
         })->toArray();
 
@@ -61,8 +60,11 @@ class UserGroupsRelationManager extends RelationManager
                     ->label(__('filament.promotion.user_group'))
                     ->getStateUsing(function ($record) use ($lang) {
                         $group = $record->userGroup ?? $record;
-                        if (!$group) return null;
+                        if (! $group) {
+                            return null;
+                        }
                         $translation = $group->userGroupTranslations->where('language_id', $lang?->id)->first();
+
                         return $translation && $translation->name
                             ? $translation->name
                             : ($group->userGroupTranslations->first()->name ?? $group->id);

@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Http;
 class TranslationService
 {
     protected string $appId;
+
     protected string $secretKey;
+
     protected string $apiUrl = 'https://fanyi-api.baidu.com/api/trans/vip/translate';
 
     public function __construct()
@@ -16,7 +18,7 @@ class TranslationService
             [
                 'app_id' => '20180720000187144',
                 'secret_key' => 'Ht60Z8iDm7GuIhuiIX47',
-            ]
+            ],
         ];
         // 随机选择一个 token
         $token = $tokens[array_rand($tokens)];
@@ -28,10 +30,10 @@ class TranslationService
     /**
      * 翻译文本
      *
-     * @param string $query  要翻译的文本
-     * @param string $from   原语言，auto 表示自动识别
-     * @param string $to     目标语言（如 zh、en、jp 等）
-     * @return string|null   翻译结果，失败返回 null
+     * @param  string  $query  要翻译的文本
+     * @param  string  $from  原语言，auto 表示自动识别
+     * @param  string  $to  目标语言（如 zh、en、jp 等）
+     * @return string|null 翻译结果，失败返回 null
      */
     public function translate(string $query, string $from = 'auto', string $to = 'en'): ?string
     {
@@ -39,7 +41,7 @@ class TranslationService
         $to = $this->mapLocaleToBaiduLangCode($to);
 
         $salt = time();
-        $sign = md5($this->appId . $query . $salt . $this->secretKey);
+        $sign = md5($this->appId.$query.$salt.$this->secretKey);
 
         $response = Http::get($this->apiUrl, [
             'q' => $query,

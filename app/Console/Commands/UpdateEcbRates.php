@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Services\LocaleCurrencyService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use App\Services\LocaleCurrencyService;
 
 class UpdateEcbRates extends Command
 {
     protected $signature = 'app:update-ecb';
+
     protected $description = 'Fetch currency exchange rates from ECB and update the currencies table';
 
     public function handle()
@@ -19,6 +20,7 @@ class UpdateEcbRates extends Command
 
         if (! $response->ok()) {
             $this->error('Failed to fetch ECB rates.');
+
             return;
         }
 
@@ -26,16 +28,18 @@ class UpdateEcbRates extends Command
         $cube = $xml->Cube->Cube;
         if (! $cube) {
             $this->error('Invalid ECB XML structure.');
+
             return;
         }
 
-        $service = new LocaleCurrencyService();
+        $service = new LocaleCurrencyService;
 
         $currencies = $service->getCurrencies();
         $defaultCurrency = $currencies->firstWhere('default', true);
 
         if (! $defaultCurrency) {
             $this->error('No default currency found in the database.');
+
             return;
         }
 
@@ -52,6 +56,7 @@ class UpdateEcbRates extends Command
         // Step 2: 检查 ECB 是否提供了默认币的汇率
         if ($defaultCode !== 'EUR' && ! isset($ecbRates[$defaultCode])) {
             $this->error("Default currency [{$defaultCode}] not found in ECB rates.");
+
             return;
         }
 
@@ -76,6 +81,7 @@ class UpdateEcbRates extends Command
                 $currency->exchange_rate = 1 / $eurToDefault;
                 $currency->save();
                 $updated++;
+
                 continue;
             }
 

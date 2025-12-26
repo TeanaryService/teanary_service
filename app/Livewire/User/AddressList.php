@@ -9,6 +9,7 @@ use Livewire\Component;
 class AddressList extends Component
 {
     public bool $showDeleteModal = false;
+
     public ?Address $addressToDelete = null;
 
     public function deleteAddress(Address $address): void

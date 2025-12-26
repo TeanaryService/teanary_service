@@ -28,6 +28,7 @@ class EditAttribute extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 

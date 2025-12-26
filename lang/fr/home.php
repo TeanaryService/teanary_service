@@ -48,7 +48,7 @@ return [
     'promotion_starts_at' => 'Date de début',
     'promotion_ends_at' => 'Date de fin',
     'promotion_text' => ':condition atteint :condition_value, bénéficiez de :discount :discount_value',
-    
+
     // Tea culture theme related
     'featured_products_subtitle' => 'Thés premium soigneusement sélectionnés, héritant de millénaires de culture du thé',
     'browse_categories_subtitle' => 'Explorez différentes variétés de thé, savourez l\'essence de la vie du thé',

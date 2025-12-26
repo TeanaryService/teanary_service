@@ -15,30 +15,28 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Cart
- * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string|null $session_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property User|null $user
  * @property Collection|CartItem[] $cartItems
- *
- * @package App\Models
  */
 class Cart extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'user_id' => 'int'
+        'user_id' => 'int',
     ];
 
     protected $fillable = [
         'user_id',
-        'session_id'
+        'session_id',
     ];
 
     public function user(): BelongsTo

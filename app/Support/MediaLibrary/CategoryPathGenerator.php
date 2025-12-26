@@ -9,16 +9,16 @@ class CategoryPathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        return 'category/' . $media->uuid . '/';
+        return 'category/'.$media->uuid.'/';
     }
 
     public function getPathForConversions(Media $media): string
     {
-        return $this->getPath($media) . 'conversions/';
+        return $this->getPath($media).'conversions/';
     }
 
     public function getPathForResponsiveImages(Media $media): string
     {
-        return $this->getPath($media) . 'responsive/';
+        return $this->getPath($media).'responsive/';
     }
 }

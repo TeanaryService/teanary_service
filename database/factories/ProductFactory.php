@@ -17,7 +17,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'slug' => 'product-' . fake()->unique()->slug(),
+            'slug' => 'product-'.fake()->unique()->slug(),
             'status' => \App\Enums\ProductStatusEnum::Active,
         ];
     }

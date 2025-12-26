@@ -3,9 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Services\LocaleCurrencyService;
 use App\Models\Category;
+use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
@@ -16,8 +15,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CategoryResource extends Resource
 {
@@ -26,24 +23,29 @@ class CategoryResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Category::class;
+
     protected static ?int $navigationSort = 202;
 
     public static function getLabel(): string
     {
         return __('filament.CategoryResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.CategoryResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.CategoryResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.CategoryResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.CategoryResource.icon');
@@ -58,17 +60,17 @@ class CategoryResource extends Resource
         // 获取所有一级分类（parent_id 为 null，且不是当前分类）
         $categories = Category::with('categoryTranslations')
             ->whereNull('parent_id')
-            ->when($currentId, fn($q) => $q->where('id', '!=', $currentId))
+            ->when($currentId, fn ($q) => $q->where('id', '!=', $currentId))
             ->get();
 
         $options = [];
         foreach ($categories as $cat) {
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
             if ($translation && $translation->name) {
-                $options[$cat->id] = $translation->name . "({$cat->id})";
+                $options[$cat->id] = $translation->name."({$cat->id})";
             } else {
                 $first = $cat->categoryTranslations->first();
-                $options[$cat->id] = ($first ? $first->name : $cat->slug) . "({$cat->id})";
+                $options[$cat->id] = ($first ? $first->name : $cat->slug)."({$cat->id})";
             }
         }
 
@@ -108,7 +110,7 @@ class CategoryResource extends Resource
                         }
 
                         return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.category.name') . " ({$lang->name})")
+                            ->label(__('filament.category.name')." ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
@@ -133,15 +135,16 @@ class CategoryResource extends Resource
                     ->label(__('filament.category.parent'))
                     ->getStateUsing(function ($record) use ($lang) {
                         $parent = $record->category;
-                        if (!$parent) {
+                        if (! $parent) {
                             return null;
                         }
                         $translation = $parent->categoryTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->name) {
-                            return $translation->name . "({$parent->id})";
+                            return $translation->name."({$parent->id})";
                         }
                         $first = $parent->categoryTranslations->first();
-                        return ($first ? $first->name : $parent->slug) . "({$parent->id})";
+
+                        return ($first ? $first->name : $parent->slug)."({$parent->id})";
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
@@ -153,21 +156,22 @@ class CategoryResource extends Resource
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+
                         return optional(
                             $record->categoryTranslations->where('language_id', $lang?->id)->first()
                         )->name;
                     }),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

@@ -47,6 +47,7 @@ class EditArticle extends EditRecord
             }
         }
         $data['translations'] = $translations;
+
         return $data;
     }
 

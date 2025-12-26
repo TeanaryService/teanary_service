@@ -4,7 +4,6 @@ namespace App\Filament\Resources\ProductResource\Pages;
 
 use App\Filament\Resources\ProductResource;
 use App\Models\Product;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateProduct extends CreateRecord
@@ -37,9 +36,9 @@ class CreateProduct extends CreateRecord
         }
 
         // 处理属性值
-        if (!empty($attributeValues)) {
+        if (! empty($attributeValues)) {
             $pivotData = collect($attributeValues)
-                ->filter(fn($item) => !empty($item['attribute_value_id']) && !empty($item['attribute_id']))
+                ->filter(fn ($item) => ! empty($item['attribute_value_id']) && ! empty($item['attribute_id']))
                 ->mapWithKeys(function ($item) {
                     return [
                         $item['attribute_value_id'] => ['attribute_id' => $item['attribute_id']],
@@ -51,9 +50,9 @@ class CreateProduct extends CreateRecord
         }
 
         // 处理分类
-        if (!empty($productCategories)) {
+        if (! empty($productCategories)) {
             $ids = collect($productCategories)
-                ->filter(fn($item) => !empty($item['category_id']))
+                ->filter(fn ($item) => ! empty($item['category_id']))
                 ->pluck('category_id')
                 ->unique()
                 ->values()

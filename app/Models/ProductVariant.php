@@ -20,7 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class ProductVariant
- * 
+ *
  * @property int $id
  * @property int $product_id
  * @property string $sku
@@ -33,21 +33,18 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property float|null $height
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Product $product
  * @property Collection|CartItem[] $cartItems
  * @property Collection|OrderItem[] $orderItems
  * @property Collection|Specification[] $specifications
  * @property Collection|SpecificationValue[] $specificationValues
  * @property Collection|Promotion[] $promotions
- *
- * @package App\Models
  */
 class ProductVariant extends Model implements HasMedia
 {
+    use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
-    use CascadesMediaDeletes;
 
     public static $snakeAttributes = false;
 
@@ -59,7 +56,7 @@ class ProductVariant extends Model implements HasMedia
         'weight' => 'float',
         'length' => 'float',
         'width' => 'float',
-        'height' => 'float'
+        'height' => 'float',
     ];
 
     protected $fillable = [
@@ -71,7 +68,7 @@ class ProductVariant extends Model implements HasMedia
         'weight',
         'length',
         'width',
-        'height'
+        'height',
     ];
 
     public function product(): BelongsTo

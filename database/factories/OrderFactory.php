@@ -18,7 +18,7 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => \App\Models\User::factory(),
-            'order_no' => 'ORDER-' . fake()->unique()->numerify('########'),
+            'order_no' => 'ORDER-'.fake()->unique()->numerify('########'),
             'currency_id' => \App\Models\Currency::factory(),
             'payment_method' => \App\Enums\PaymentMethodEnum::PAYPAL,
             'shipping_method' => \App\Enums\ShippingMethodEnum::SF_INTERNATIONAL,

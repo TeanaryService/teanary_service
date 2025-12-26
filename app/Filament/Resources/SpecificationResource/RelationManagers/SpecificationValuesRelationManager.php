@@ -3,14 +3,11 @@
 namespace App\Filament\Resources\SpecificationResource\RelationManagers;
 
 use App\Filament\Resources\SpecificationValueResource;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SpecificationValuesRelationManager extends RelationManager
 {
@@ -37,16 +34,16 @@ class SpecificationValuesRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->label(__('filament.specification.specification_values')),
-            ]);;
+            ]);
     }
 
     protected function configureEditAction(Tables\Actions\EditAction $action): void
     {
         $action
             ->authorize(
-                static fn(RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record)
+                static fn (RelationManager $livewire, Model $record): bool => (! $livewire->isReadOnly()) && $livewire->canEdit($record)
             )
-            ->form(fn(Form $form): Form => $this->form($form->columns(1)))
+            ->form(fn (Form $form): Form => $this->form($form->columns(1)))
             ->mutateRecordDataUsing(function (array $data, Model $record): array {
                 $translations = [];
 
@@ -73,7 +70,7 @@ class SpecificationValuesRelationManager extends RelationManager
     protected function configureCreateAction(Tables\Actions\CreateAction $action): void
     {
         $action
-            ->form(fn(Form $form): Form => $this->form($form->columns(1)))
+            ->form(fn (Form $form): Form => $this->form($form->columns(1)))
             ->after(function (Model $record, array $data): void {
                 foreach ($data['translations'] ?? [] as $languageId => $fields) {
                     $record->specificationValueTranslations()->create([

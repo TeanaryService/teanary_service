@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class CartItem
- * 
+ *
  * @property int $id
  * @property int $cart_id
  * @property int $product_id
@@ -22,16 +22,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $price
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Cart $cart
  * @property Product $product
  * @property ProductVariant|null $productVariant
- *
- * @package App\Models
  */
 class CartItem extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [

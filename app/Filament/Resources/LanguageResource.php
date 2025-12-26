@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LanguageResource\Pages;
-use App\Filament\Resources\LanguageResource\RelationManagers;
 use App\Models\Language;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -13,8 +12,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LanguageResource extends Resource
 {
@@ -23,24 +20,29 @@ class LanguageResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Language::class;
+
     protected static ?int $navigationSort = 401;
 
     public static function getLabel(): string
     {
         return __('filament.LanguageResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.LanguageResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.LanguageResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.LanguageResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.LanguageResource.icon');
@@ -71,17 +73,17 @@ class LanguageResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('filament.language.name'))
                     ->searchable(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

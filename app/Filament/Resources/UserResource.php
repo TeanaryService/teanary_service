@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserGroupResource\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -17,8 +16,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
@@ -27,24 +24,29 @@ class UserResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = User::class;
+
     protected static ?int $navigationSort = 300;
 
     public static function getLabel(): string
     {
         return __('filament.UserResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.UserResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.UserResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.UserResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.UserResource.icon');
@@ -78,16 +80,16 @@ class UserResource extends Resource
                     ->label(__('filament.user.password'))
                     ->password()
                     ->maxLength(255)
-                    ->dehydrateStateUsing(fn($state) => !empty($state) ? bcrypt($state) : null)
-                    ->dehydrated(fn($state) => !empty($state))
-                    ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                    ->dehydrateStateUsing(fn ($state) => ! empty($state) ? bcrypt($state) : null)
+                    ->dehydrated(fn ($state) => ! empty($state))
+                    ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
                     ->same('password_confirmation')
                     ->autocomplete('new-password'),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->label(__('filament.user.password_confirmation'))
                     ->password()
                     ->maxLength(255)
-                    ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                    ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
                     ->dehydrated(false),
                 Forms\Components\DateTimePicker::make('email_verified_at')
                     ->label(__('filament.user.email_verified_at')),
@@ -103,6 +105,7 @@ class UserResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->userGroupTranslations->first();
+
                         return $first ? $first->name : $record->id;
                     })
                     ->searchable()
@@ -117,6 +120,7 @@ class UserResource extends Resource
         if (empty($data['password'])) {
             unset($data['password']);
         }
+
         return $data;
     }
 
@@ -150,9 +154,10 @@ class UserResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->userGroup?->userGroupTranslations->first();
+
                         return $first ? $first->name : $record->userGroup?->id;
                     }),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
@@ -160,14 +165,14 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('login')
                     ->label(__('filament.user.login'))
-                    ->url(fn($record) => locaRoute('login-as', ['id' => (int)$record->id]))
+                    ->url(fn ($record) => locaRoute('login-as', ['id' => (int) $record->id]))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-key'),
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

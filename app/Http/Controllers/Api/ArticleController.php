@@ -30,7 +30,7 @@ class ArticleController extends Controller
             if ($request->has('main_image.contents')) {
                 $imageContent = base64_decode($request->main_image['contents']);
                 $article->addMediaFromString($imageContent)
-                    ->usingFileName($request->main_image['image_id'] . '.jpg')
+                    ->usingFileName($request->main_image['image_id'].'.jpg')
                     ->toMediaCollection('image');
             }
 
@@ -39,7 +39,7 @@ class ArticleController extends Controller
             if ($request->has('content_images')) {
                 foreach ($request->content_images as $image) {
                     $mediaItem = $article->addMediaFromString(base64_decode($image['contents']))
-                        ->usingFileName($image['image_id'] . '.jpg')
+                        ->usingFileName($image['image_id'].'.jpg')
                         ->toMediaCollection('content-images');
 
                     $imageMap[$image['image_id']] = $mediaItem->getUrl();
@@ -52,9 +52,9 @@ class ArticleController extends Controller
 
                 // 替换内容中的图片占位符
                 foreach ($imageMap as $imageId => $url) {
-                    $url = "/storage" . Str::of($url)->after('/storage');
+                    $url = '/storage'.Str::of($url)->after('/storage');
                     $content = str_replace(
-                        "{{image:" . $imageId . "}}",
+                        '{{image:'.$imageId.'}}',
                         $url,
                         $content
                     );
@@ -75,18 +75,18 @@ class ArticleController extends Controller
 
             return response()->json([
                 'message' => '文章创建成功',
-                'data' => $article->load(['articleTranslations', 'media'])
+                'data' => $article->load(['articleTranslations', 'media']),
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('文章创建失败：' . $e->getMessage(), [
+            Log::error('文章创建失败：'.$e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
-                'request' => $request->all()
+                'request' => $request->all(),
             ]);
 
             return response()->json([
                 'message' => '文章创建失败',
-                'error' => config('app.debug') ? $e->getMessage() : '系统错误'
+                'error' => config('app.debug') ? $e->getMessage() : '系统错误',
             ], 500);
         }
     }

@@ -5,8 +5,8 @@ namespace App\Livewire;
 use App\Models\Article;
 use App\Models\Product;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\Component;
 
 class Search extends Component
 {
@@ -23,7 +23,7 @@ class Search extends Component
         $products = collect([]);
         $articles = collect([]);
         $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
-        
+
         if ($this->query) {
             // 搜索商品
             $productIds = Product::search($this->query)->keys();
@@ -42,7 +42,7 @@ class Search extends Component
 
             // 搜索文章
             $articleIds = Article::search($this->query)->keys();
-            $articles = Article::with(['media', 'articleTranslations' => fn($q) => $q->where('language_id', $langId)])
+            $articles = Article::with(['media', 'articleTranslations' => fn ($q) => $q->where('language_id', $langId)])
                 ->whereIn('id', $articleIds)
                 ->where('is_published', true)
                 ->take(5)

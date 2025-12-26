@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Storage;
 use App\Models\EditorUpload;
+use Illuminate\Support\Facades\Storage;
 
 trait HandlesEditorUploads
 {
@@ -28,8 +28,9 @@ trait HandlesEditorUploads
         // 保留 <img> 但只留 src
         $html = preg_replace_callback('/<img[^>]*>/i', function ($matches) {
             if (preg_match('/src\s*=\s*([\'"])(.*?)\1/i', $matches[0], $srcMatch)) {
-                return '<img src="' . htmlspecialchars($srcMatch[2], ENT_QUOTES) . '">';
+                return '<img src="'.htmlspecialchars($srcMatch[2], ENT_QUOTES).'">';
             }
+
             return '<img>';
         }, $html);
 
@@ -65,7 +66,9 @@ trait HandlesEditorUploads
      */
     public function markEditorUploadsAsUsed(array $paths): void
     {
-        if (empty($paths)) return;
+        if (empty($paths)) {
+            return;
+        }
 
         foreach ($paths as $path) {
             EditorUpload::updateOrCreate(
@@ -80,7 +83,9 @@ trait HandlesEditorUploads
      */
     public function handleEditorUploadsFromHtml(?string $html): void
     {
-        if (blank($html)) return;
+        if (blank($html)) {
+            return;
+        }
 
         // 先清理 HTML
         $html = $this->cleanEditorHtml($html);
@@ -100,7 +105,9 @@ trait HandlesEditorUploads
 
     public function deleteEditorUploadsFromHtml(?string $html): void
     {
-        if (blank($html)) return;
+        if (blank($html)) {
+            return;
+        }
 
         $html = $this->cleanEditorHtml($html);
         $paths = $this->extractImagePathsFromHtml($html);

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductReviewResource\Pages;
-use App\Filament\Resources\ProductReviewResource\RelationManagers;
 use App\Models\ProductReview;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
@@ -16,7 +15,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductReviewResource extends Resource
 {
@@ -25,24 +23,29 @@ class ProductReviewResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = ProductReview::class;
+
     protected static ?int $navigationSort = 204;
 
     public static function getLabel(): string
     {
         return __('filament.ProductReviewResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.ProductReviewResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.ProductReviewResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.ProductReviewResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.ProductReviewResource.icon');
@@ -69,6 +72,7 @@ class ProductReviewResource extends Resource
                             $name = $translation && $translation->name
                                 ? $translation->name
                                 : ($product->productTranslations->first()->name ?? $product->slug);
+
                             return [$product->id => $name];
                         })->toArray()
                     )
@@ -83,7 +87,7 @@ class ProductReviewResource extends Resource
                     ->label(__('filament.product_review.product_variant'))
                     ->options(function ($get) use ($lang) {
                         $productId = $get('product_id');
-                        if (!$productId) {
+                        if (! $productId) {
                             return [];
                         }
                         $variants = \App\Models\ProductVariant::where('product_id', $productId)
@@ -93,10 +97,12 @@ class ProductReviewResource extends Resource
                         foreach ($variants as $variant) {
                             $specs = $variant->specificationValues->map(function ($sv) use ($lang) {
                                 $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+
                                 return $trans && $trans->name ? $trans->name : $sv->id;
                             })->implode(' / ');
                             $options[$variant->id] = $specs ?: $variant->sku;
                         }
+
                         return $options;
                     })
                     ->searchable()
@@ -129,9 +135,9 @@ class ProductReviewResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
-                fn(Builder $query): Builder => $query
+                fn (Builder $query): Builder => $query
                     ->with([
-                        'product.productTranslations'
+                        'product.productTranslations',
                     ])
             )
             ->columns([
@@ -146,8 +152,11 @@ class ProductReviewResource extends Resource
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $product = $record->product;
-                        if (!$product) return null;
+                        if (! $product) {
+                            return null;
+                        }
                         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
+
                         return $translation && $translation->name
                             ? $translation->name
                             : ($product->productTranslations->first()->name ?? $product->slug);
@@ -156,13 +165,17 @@ class ProductReviewResource extends Resource
                     ->label(__('filament.product_review.product_variant'))
                     ->getStateUsing(function ($record) {
                         $variant = $record->productVariant;
-                        if (!$variant) return null;
+                        if (! $variant) {
+                            return null;
+                        }
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $specs = $variant->specificationValues->map(function ($sv) use ($lang) {
                             $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+
                             return $trans && $trans->name ? $trans->name : $sv->id;
                         })->implode(' / ');
+
                         return $specs ?: $variant->sku;
                     }),
                 Tables\Columns\TextColumn::make('user.name')
@@ -174,17 +187,17 @@ class ProductReviewResource extends Resource
                 Tables\Columns\IconColumn::make('is_approved')
                     ->label(__('filament.product_review.is_approved'))
                     ->boolean(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

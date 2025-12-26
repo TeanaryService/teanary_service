@@ -22,14 +22,14 @@ class ArticleFactory extends Factory
         return [
             //
             'slug' => Str::random(10),
-            'is_published' => 1
+            'is_published' => 1,
         ];
     }
 
     public function configure()
     {
         return $this->afterCreating(function ($article) {
-            //封面
+            // 封面
             $image = generateRandomImage();
 
             // 添加到媒体库（collection 名要与你注册的一致）

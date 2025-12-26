@@ -4,7 +4,6 @@ namespace App\Filament\Resources\UserGroupResource\Pages;
 
 use App\Filament\Resources\UserGroupResource;
 use App\Models\UserGroup;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUserGroup extends CreateRecord

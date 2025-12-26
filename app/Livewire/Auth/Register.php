@@ -2,16 +2,19 @@
 
 namespace App\Livewire\Auth;
 
-use Livewire\Component;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Livewire\Component;
 
 class Register extends Component
 {
     public $name = '';
+
     public $email = '';
+
     public $password = '';
+
     public $password_confirmation = '';
 
     public function register()
@@ -29,6 +32,7 @@ class Register extends Component
         Auth::login($user);
 
         $locale = app()->getLocale();
+
         return redirect()->route('home', ['locale' => $locale]);
     }
 

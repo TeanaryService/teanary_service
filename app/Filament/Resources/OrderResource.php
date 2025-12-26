@@ -6,7 +6,6 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
 use App\Enums\ShippingMethodEnum;
 use App\Filament\Resources\OrderResource\Pages;
-use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderItemsRelationManager;
 use App\Filament\Resources\OrderResource\RelationManagers\OrderShipmentsRelationManager;
 use App\Models\Order;
@@ -19,7 +18,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderResource extends Resource
 {
@@ -28,24 +26,29 @@ class OrderResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Order::class;
+
     protected static ?int $navigationSort = 100;
 
     public static function getLabel(): string
     {
         return __('filament.OrderResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.OrderResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.OrderResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.OrderResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.OrderResource.icon');
@@ -81,10 +84,13 @@ class OrderResource extends Resource
                     ->relationship(
                         'shippingAddress',
                         'id',
-                        fn($query, $get) => $query->when($get('user_id'), fn($q, $userId) => $q->where('user_id', $userId))
+                        fn ($query, $get) => $query->when($get('user_id'), fn ($q, $userId) => $q->where('user_id', $userId))
                     )
                     ->getOptionLabelFromRecordUsing(function ($record) {
-                        if (!$record) return '';
+                        if (! $record) {
+                            return '';
+                        }
+
                         return "{$record->firstname} {$record->lastname} ({$record->address_1}, {$record->city})";
                     })
                     ->searchable()
@@ -95,10 +101,13 @@ class OrderResource extends Resource
                     ->relationship(
                         'billingAddress',
                         'id',
-                        fn($query, $get) => $query->when($get('user_id'), fn($q, $userId) => $q->where('user_id', $userId))
+                        fn ($query, $get) => $query->when($get('user_id'), fn ($q, $userId) => $q->where('user_id', $userId))
                     )
                     ->getOptionLabelFromRecordUsing(function ($record) {
-                        if (!$record) return '';
+                        if (! $record) {
+                            return '';
+                        }
+
                         return "{$record->firstname} {$record->lastname} ({$record->address_1}, {$record->city})";
                     })
                     ->searchable()
@@ -114,13 +123,13 @@ class OrderResource extends Resource
                 Forms\Components\TextInput::make('total')
                     ->label(__('filament.order.total'))
                     ->required()
-                    ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
+                    ->prefix(fn ($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
                 Forms\Components\TextInput::make('shipping_fee')
                     ->label(__('filament.order.shipping_fee'))
                     ->required()
-                    ->prefix(fn($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
+                    ->prefix(fn ($get) => optional(\App\Models\Currency::find($get('currency_id')))->symbol ?? '¥')
                     ->numeric()
                     ->default(0.00),
                 Forms\Components\Select::make('status')
@@ -134,11 +143,11 @@ class OrderResource extends Resource
     {
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
-                fn(Builder $query): Builder => $query
+                fn (Builder $query): Builder => $query
                     ->with([
                         'currency',
                         'shippingAddress',
-                        'billingAddress'
+                        'billingAddress',
                     ])
             )
             ->columns([
@@ -151,40 +160,46 @@ class OrderResource extends Resource
                     ->label(__('filament.order.shipping_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->shippingAddress;
-                        if (!$addr) return '';
+                        if (! $addr) {
+                            return '';
+                        }
+
                         return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
                     }),
                 Tables\Columns\TextColumn::make('billingAddress')
                     ->label(__('filament.order.billing_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->billingAddress;
-                        if (!$addr) return '';
+                        if (! $addr) {
+                            return '';
+                        }
+
                         return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
                     }),
                 Tables\Columns\TextColumn::make('total')
                     ->label(__('filament.order.total'))
-                    ->prefix(fn($record): string => $record->currency ? $record->currency->symbol : '')
+                    ->prefix(fn ($record): string => $record->currency ? $record->currency->symbol : '')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('shipping_fee')
                     ->label(__('filament.order.shipping_fee'))
-                    ->prefix(fn($record): string => $record->currency ? $record->currency->symbol : '')
+                    ->prefix(fn ($record): string => $record->currency ? $record->currency->symbol : '')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn($state): string => $state->label())
+                    ->formatStateUsing(fn ($state): string => $state->label())
                     ->label(__('filament.order.status')),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }

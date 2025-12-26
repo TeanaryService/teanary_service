@@ -3,22 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CountryResource\Pages;
-use App\Filament\Resources\CountryResource\RelationManagers;
 use App\Filament\Resources\CountryResource\RelationManagers\ZonesRelationManager;
 use App\Models\Country;
+use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Services\LocaleCurrencyService;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
 
 class CountryResource extends Resource
 {
@@ -27,24 +23,29 @@ class CountryResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = Country::class;
+
     protected static ?int $navigationSort = 405;
 
     public static function getLabel(): string
     {
         return __('filament.CountryResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.CountryResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.CountryResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.CountryResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.CountryResource.icon');
@@ -69,7 +70,7 @@ class CountryResource extends Resource
                         }
 
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.country.name') . " ({$lang->name})")
+                            ->label(__('filament.country.name')." ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
@@ -109,6 +110,7 @@ class CountryResource extends Resource
                             return $translation->name;
                         }
                         $first = $record->countryTranslations->first();
+
                         return $first ? $first->name : '';
                     }),
                 Tables\Columns\TextColumn::make('iso_code_2')
@@ -123,17 +125,17 @@ class CountryResource extends Resource
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('filament.country.active'))
                     ->boolean(),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }
@@ -142,7 +144,7 @@ class CountryResource extends Resource
     {
         return [
             //
-            ZonesRelationManager::class
+            ZonesRelationManager::class,
         ];
     }
 

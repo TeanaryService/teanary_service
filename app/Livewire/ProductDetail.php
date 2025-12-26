@@ -2,18 +2,23 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\Product;
 use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
+use Livewire\Component;
 
 class ProductDetail extends Component
 {
     public $product;
+
     public $variants;
+
     public $selectedVariantId;
+
     public $categoryNames = [];
+
     public $qty = 1;
+
     public $availablePromotions = [];
 
     public function mount($slug)
@@ -24,11 +29,11 @@ class ProductDetail extends Component
             'media',
             'productTranslations',
             'productVariants.specificationValues.specificationValueTranslations',
-            'productVariants' => fn($q) => $q->orderBy('price'),
+            'productVariants' => fn ($q) => $q->orderBy('price'),
             'productVariants.media',
             'productCategories.categoryTranslations',
             'attributeValues.attributeValueTranslations',
-            'attributeValues.attribute.attributeTranslations'
+            'attributeValues.attribute.attributeTranslations',
         ])->where('slug', $slug)->firstOrFail();
 
         $this->variants = $this->product->productVariants;
@@ -46,6 +51,7 @@ class ProductDetail extends Component
         // 分类名（多语言）
         $this->categoryNames = $this->product->productCategories->map(function ($cat) use ($lang) {
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
+
             return $translation && $translation->name ? $translation->name : $cat->slug;
         })->toArray();
     }
@@ -99,6 +105,7 @@ class ProductDetail extends Component
 
         session()->put('checkout_items', $selectedItems);
         $locale = app()->getLocale();
+
         return redirect()->route('checkout', ['locale' => $locale]);
     }
 

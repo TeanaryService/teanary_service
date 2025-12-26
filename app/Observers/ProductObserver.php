@@ -8,6 +8,7 @@ use App\Traits\HandlesEditorUploads;
 class ProductObserver
 {
     use HandlesEditorUploads;
+
     /**
      * Handle the Product "created" event.
      */
@@ -37,7 +38,7 @@ class ProductObserver
             $review->delete();
         });
 
-        //删除正文文件
+        // 删除正文文件
         $product->productTranslations()->each(function ($translation) {
             $this->deleteEditorUploadsFromHtml($translation->description);
         });

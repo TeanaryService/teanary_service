@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class OrderItem
- * 
+ *
  * @property int $id
  * @property int $order_id
  * @property int $product_id
@@ -22,16 +22,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float $price
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Order $order
  * @property Product $product
  * @property ProductVariant|null $productVariant
- *
- * @package App\Models
  */
 class OrderItem extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
@@ -39,7 +37,7 @@ class OrderItem extends Model
         'product_id' => 'int',
         'product_variant_id' => 'int',
         'qty' => 'int',
-        'price' => 'float'
+        'price' => 'float',
     ];
 
     protected $fillable = [
@@ -47,7 +45,7 @@ class OrderItem extends Model
         'product_id',
         'product_variant_id',
         'qty',
-        'price'
+        'price',
     ];
 
     public function order(): BelongsTo

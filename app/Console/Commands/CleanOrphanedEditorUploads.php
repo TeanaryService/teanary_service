@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class CleanOrphanedEditorUploads extends Command
 {
     protected $signature = 'app:clean-orphans';
+
     protected $description = '清理孤岛富文本上传文件';
 
     public function handle()

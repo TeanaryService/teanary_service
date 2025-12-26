@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class ProductReview
- * 
+ *
  * @property int $id
  * @property int $product_id
  * @property int|null $product_variants
@@ -27,18 +27,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property bool $is_approved
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Product $product
  * @property ProductVariant|null $productVariant
  * @property User|null $user
- *
- * @package App\Models
  */
 class ProductReview extends Model implements HasMedia
 {
+    use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
-    use CascadesMediaDeletes;
 
     public static $snakeAttributes = false;
 
@@ -47,7 +44,7 @@ class ProductReview extends Model implements HasMedia
         'product_variants' => 'int',
         'user_id' => 'int',
         'rating' => 'int',
-        'is_approved' => 'bool'
+        'is_approved' => 'bool',
     ];
 
     protected $fillable = [
@@ -56,7 +53,7 @@ class ProductReview extends Model implements HasMedia
         'user_id',
         'rating',
         'content',
-        'is_approved'
+        'is_approved',
     ];
 
     public function product(): BelongsTo

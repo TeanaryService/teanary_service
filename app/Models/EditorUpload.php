@@ -12,26 +12,25 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EditorUpload
- * 
+ *
  * @property int $id
  * @property string $path
  * @property bool $used
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
- * @package App\Models
  */
 class EditorUpload extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
-        'used' => 'bool'
+        'used' => 'bool',
     ];
 
     protected $fillable = [
         'path',
-        'used'
+        'used',
     ];
 }

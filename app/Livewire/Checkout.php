@@ -2,16 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\ProductVariant;
 use App\Enums\OrderStatusEnum;
-use App\Enums\PaymentMethodEnum;
-use App\Models\Cart;
-use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\ProductVariant;
 use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
-use App\Services\PaymentService;
 use App\Services\ShippingService;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -19,12 +14,19 @@ use Livewire\Component;
 class Checkout extends Component
 {
     public $checkoutItems = [];
+
     public $processedItems = [];
+
     public $total = 0;
+
     public $shippingAddress;
+
     public $billingAddress;
+
     public $paymentMethod;
+
     public $addresses;
+
     public $showAddressForm = false;
 
     public $orderPromotion;
@@ -39,20 +41,26 @@ class Checkout extends Component
         'city' => '',
         'postcode' => '',
         'country_id' => '',
-        'zone_id' => ''
+        'zone_id' => '',
     ];
 
     public $countries = [];
+
     public $zones = [];
+
     public $paymentMethods = [];
+
     public $shippingMethods = [];
 
     public $shippingMethod;
+
     public $shippingFee = 0;
+
     public $shippingDescription = '';
 
     // 添加loading状态属性
     public $loadingShippingMethods = false;
+
     public $loadingPaymentMethods = false;
 
     protected $rules = [
@@ -79,10 +87,10 @@ class Checkout extends Component
         $this->processCheckoutItems();
 
         // 订单促销处理
-        $orderModel = new \App\Models\Order();
+        $orderModel = new \App\Models\Order;
         $orderModel->user_id = auth()->id();
         $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
-            return (object)[
+            return (object) [
                 'qty' => $item['qty'],
                 'price' => $item['price'],
             ];
@@ -101,7 +109,7 @@ class Checkout extends Component
         $this->countries = \App\Models\Country::getCountriesByLanguage($lang?->id);
 
         // 如果已有地址的国家ID，加载对应的地区数据
-        if (!empty($this->address['country_id'])) {
+        if (! empty($this->address['country_id'])) {
             $this->updatedAddressCountryId($this->address['country_id']);
         }
     }
@@ -155,7 +163,7 @@ class Checkout extends Component
         $variants = ProductVariant::with([
             'product.productTranslations',
             'specificationValues.specificationValueTranslations',
-            'media'
+            'media',
         ])->whereIn('id', $variantIds)->get()->keyBy('id');
 
         foreach ($this->checkoutItems as $item) {
@@ -170,6 +178,7 @@ class Checkout extends Component
 
                 $specs = $variant->specificationValues->map(function ($sv) use ($lang) {
                     $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+
                     return $trans && $trans->name ? $trans->name : $sv->id;
                 })->implode(' / ');
 
@@ -198,9 +207,10 @@ class Checkout extends Component
 
     public function updatedAddressCountryId($value)
     {
-        if (!$value) {
+        if (! $value) {
             $this->zones = [];
             $this->address['zone_id'] = '';
+
             return;
         }
 
@@ -219,7 +229,7 @@ class Checkout extends Component
 
     public function toggleAddressForm()
     {
-        $this->showAddressForm = !$this->showAddressForm;
+        $this->showAddressForm = ! $this->showAddressForm;
     }
 
     public function updatedShippingAddress($value)
@@ -255,9 +265,9 @@ class Checkout extends Component
             $address = $this->addresses->where('id', $this->shippingAddress)->first();
         }
         $this->shippingMethods = app(ShippingService::class)->getAvailableMethods($this->processedItems, $address);
-        
+
         // 若当前选中的配送方式不存在于新列表，重置为第一个
-        if (!$this->shippingMethod || !collect($this->shippingMethods)->pluck('value')->contains($this->shippingMethod)) {
+        if (! $this->shippingMethod || ! collect($this->shippingMethods)->pluck('value')->contains($this->shippingMethod)) {
             $this->shippingMethod = $this->shippingMethods[0]['value'] ?? null;
         }
         $this->updatedShippingMethod($this->shippingMethod);
@@ -265,10 +275,10 @@ class Checkout extends Component
 
     protected function recalculateOrderTotal()
     {
-        $orderModel = new \App\Models\Order();
+        $orderModel = new \App\Models\Order;
         $orderModel->user_id = auth()->id();
         $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
-            return (object)[
+            return (object) [
                 'qty' => $item['qty'],
                 'price' => $item['price'],
             ];
@@ -293,7 +303,7 @@ class Checkout extends Component
 
         // 根据国家设置地区验证规则
         $zones = \App\Models\Zone::getZonesByCountryAndLanguage($this->address['country_id'] ?? null);
-        if (!empty($zones)) {
+        if (! empty($zones)) {
             $rules['address.zone_id'] = 'required|exists:zones,id';
         } else {
             $rules['address.zone_id'] = 'nullable|exists:zones,id';
@@ -329,7 +339,7 @@ class Checkout extends Component
                 'city' => '',
                 'postcode' => '',
                 'country_id' => '',
-                'zone_id' => ''
+                'zone_id' => '',
             ];
 
             $this->updatePaymentMethods();
@@ -353,20 +363,23 @@ class Checkout extends Component
     public function createOrder()
     {
         // 验证收货地址
-        if (!$this->shippingAddress) {
+        if (! $this->shippingAddress) {
             session()->flash('error', __('app.error_no_shipping_address'));
+
             return;
         }
 
         // 验证支付方式
-        if (!$this->paymentMethod) {
+        if (! $this->paymentMethod) {
             session()->flash('error', __('app.error_no_payment_method'));
+
             return;
         }
 
         // 验证配送方式
-        if (!$this->shippingMethod) {
+        if (! $this->shippingMethod) {
             session()->flash('error', __('app.error_no_shipping_method'));
+
             return;
         }
 
@@ -378,16 +391,16 @@ class Checkout extends Component
             // --- 安全修复：在创建订单前，在服务器端重新计算所有金额 ---
             // 1. 重新获取配送方式和费用，防止篡改
             $shippingMethodData = collect($this->shippingMethods)->firstWhere('value', $this->shippingMethod);
-            if (!$shippingMethodData) {
+            if (! $shippingMethodData) {
                 throw new \Exception('Invalid shipping method selected.');
             }
             $serverShippingFee = $shippingMethodData['fee'] ?? 0;
 
             // 2. 重新计算订单促销和总价
-            $orderModel = new \App\Models\Order();
+            $orderModel = new \App\Models\Order;
             $orderModel->user_id = auth()->id();
             $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
-                return (object)[
+                return (object) [
                     'qty' => $item['qty'],
                     'price' => $item['price'],
                 ];
@@ -399,10 +412,10 @@ class Checkout extends Component
             // --- 安全修复结束 ---
 
             $currency = app(LocaleCurrencyService::class)->getCurrencyByCode(session('currency'));
-            
-            $order = new Order();
+
+            $order = new Order;
             $order->user_id = auth()->id();
-            $order->order_no = 'ORD-' . Str::upper(Str::random(8));
+            $order->order_no = 'ORD-'.Str::upper(Str::random(8));
             $order->shipping_address_id = $this->shippingAddress;
             $order->billing_address_id = $this->billingAddress;
             $order->payment_method = $this->paymentMethod;
@@ -412,11 +425,13 @@ class Checkout extends Component
             $order->status = OrderStatusEnum::Pending; // 直接设置，不来自用户输入
             $order->currency_id = $currency->id;
             $order->save();
+
             // ...
             return $this->redirect(route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
             session()->flash('error', $errorMessage);
+
             return;
         }
     }
@@ -446,7 +461,7 @@ class Checkout extends Component
 
         return [
             'country' => $countryName,
-            'zone' => $zoneName
+            'zone' => $zoneName,
         ];
     }
 
@@ -456,6 +471,7 @@ class Checkout extends Component
             $translations = $this->getAddressLabel($address);
             $address->country_name = $translations['country'];
             $address->zone_name = $translations['zone'];
+
             return $address;
         }) : collect();
 

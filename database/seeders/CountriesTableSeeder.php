@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 
 class CountriesTableSeeder extends Seeder
 {
-
     /**
      * Auto generated seed file
      *
@@ -14,13 +13,11 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
         \DB::table('countries')->delete();
-        
-        \DB::table('countries')->insert(array (
-            0 => 
-            array (
+
+        \DB::table('countries')->insert([
+            0 => [
                 'id' => 1,
                 'iso_code_2' => 'AF',
                 'iso_code_3' => 'AFG',
@@ -28,9 +25,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            1 => 
-            array (
+            ],
+            1 => [
                 'id' => 2,
                 'iso_code_2' => 'AL',
                 'iso_code_3' => 'ALB',
@@ -38,9 +34,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            2 => 
-            array (
+            ],
+            2 => [
                 'id' => 3,
                 'iso_code_2' => 'DZ',
                 'iso_code_3' => 'DZA',
@@ -48,9 +43,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            3 => 
-            array (
+            ],
+            3 => [
                 'id' => 4,
                 'iso_code_2' => 'AS',
                 'iso_code_3' => 'ASM',
@@ -58,9 +52,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            4 => 
-            array (
+            ],
+            4 => [
                 'id' => 5,
                 'iso_code_2' => 'AD',
                 'iso_code_3' => 'AND',
@@ -68,9 +61,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            5 => 
-            array (
+            ],
+            5 => [
                 'id' => 6,
                 'iso_code_2' => 'AO',
                 'iso_code_3' => 'AGO',
@@ -78,9 +70,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            6 => 
-            array (
+            ],
+            6 => [
                 'id' => 7,
                 'iso_code_2' => 'AI',
                 'iso_code_3' => 'AIA',
@@ -88,9 +79,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            7 => 
-            array (
+            ],
+            7 => [
                 'id' => 8,
                 'iso_code_2' => 'AQ',
                 'iso_code_3' => 'ATA',
@@ -98,9 +88,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            8 => 
-            array (
+            ],
+            8 => [
                 'id' => 9,
                 'iso_code_2' => 'AG',
                 'iso_code_3' => 'ATG',
@@ -108,9 +97,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            9 => 
-            array (
+            ],
+            9 => [
                 'id' => 10,
                 'iso_code_2' => 'AR',
                 'iso_code_3' => 'ARG',
@@ -118,9 +106,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            10 => 
-            array (
+            ],
+            10 => [
                 'id' => 11,
                 'iso_code_2' => 'AM',
                 'iso_code_3' => 'ARM',
@@ -128,9 +115,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            11 => 
-            array (
+            ],
+            11 => [
                 'id' => 12,
                 'iso_code_2' => 'AW',
                 'iso_code_3' => 'ABW',
@@ -138,9 +124,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            12 => 
-            array (
+            ],
+            12 => [
                 'id' => 13,
                 'iso_code_2' => 'AU',
                 'iso_code_3' => 'AUS',
@@ -148,9 +133,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            13 => 
-            array (
+            ],
+            13 => [
                 'id' => 14,
                 'iso_code_2' => 'AT',
                 'iso_code_3' => 'AUT',
@@ -158,9 +142,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            14 => 
-            array (
+            ],
+            14 => [
                 'id' => 15,
                 'iso_code_2' => 'AZ',
                 'iso_code_3' => 'AZE',
@@ -168,9 +151,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            15 => 
-            array (
+            ],
+            15 => [
                 'id' => 16,
                 'iso_code_2' => 'BS',
                 'iso_code_3' => 'BHS',
@@ -178,9 +160,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            16 => 
-            array (
+            ],
+            16 => [
                 'id' => 17,
                 'iso_code_2' => 'BH',
                 'iso_code_3' => 'BHR',
@@ -188,9 +169,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            17 => 
-            array (
+            ],
+            17 => [
                 'id' => 18,
                 'iso_code_2' => 'BD',
                 'iso_code_3' => 'BGD',
@@ -198,9 +178,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            18 => 
-            array (
+            ],
+            18 => [
                 'id' => 19,
                 'iso_code_2' => 'BB',
                 'iso_code_3' => 'BRB',
@@ -208,9 +187,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            19 => 
-            array (
+            ],
+            19 => [
                 'id' => 20,
                 'iso_code_2' => 'BY',
                 'iso_code_3' => 'BLR',
@@ -218,9 +196,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            20 => 
-            array (
+            ],
+            20 => [
                 'id' => 21,
                 'iso_code_2' => 'BE',
                 'iso_code_3' => 'BEL',
@@ -228,9 +205,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            21 => 
-            array (
+            ],
+            21 => [
                 'id' => 22,
                 'iso_code_2' => 'BZ',
                 'iso_code_3' => 'BLZ',
@@ -238,9 +214,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            22 => 
-            array (
+            ],
+            22 => [
                 'id' => 23,
                 'iso_code_2' => 'BJ',
                 'iso_code_3' => 'BEN',
@@ -248,9 +223,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            23 => 
-            array (
+            ],
+            23 => [
                 'id' => 24,
                 'iso_code_2' => 'BM',
                 'iso_code_3' => 'BMU',
@@ -258,9 +232,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            24 => 
-            array (
+            ],
+            24 => [
                 'id' => 25,
                 'iso_code_2' => 'BT',
                 'iso_code_3' => 'BTN',
@@ -268,9 +241,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            25 => 
-            array (
+            ],
+            25 => [
                 'id' => 26,
                 'iso_code_2' => 'BO',
                 'iso_code_3' => 'BOL',
@@ -278,9 +250,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            26 => 
-            array (
+            ],
+            26 => [
                 'id' => 27,
                 'iso_code_2' => 'BA',
                 'iso_code_3' => 'BIH',
@@ -288,9 +259,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            27 => 
-            array (
+            ],
+            27 => [
                 'id' => 28,
                 'iso_code_2' => 'BW',
                 'iso_code_3' => 'BWA',
@@ -298,9 +268,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            28 => 
-            array (
+            ],
+            28 => [
                 'id' => 29,
                 'iso_code_2' => 'BV',
                 'iso_code_3' => 'BVT',
@@ -308,9 +277,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            29 => 
-            array (
+            ],
+            29 => [
                 'id' => 30,
                 'iso_code_2' => 'BR',
                 'iso_code_3' => 'BRA',
@@ -318,9 +286,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            30 => 
-            array (
+            ],
+            30 => [
                 'id' => 31,
                 'iso_code_2' => 'IO',
                 'iso_code_3' => 'IOT',
@@ -328,9 +295,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            31 => 
-            array (
+            ],
+            31 => [
                 'id' => 32,
                 'iso_code_2' => 'BN',
                 'iso_code_3' => 'BRN',
@@ -338,9 +304,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            32 => 
-            array (
+            ],
+            32 => [
                 'id' => 33,
                 'iso_code_2' => 'BG',
                 'iso_code_3' => 'BGR',
@@ -348,9 +313,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            33 => 
-            array (
+            ],
+            33 => [
                 'id' => 34,
                 'iso_code_2' => 'BF',
                 'iso_code_3' => 'BFA',
@@ -358,9 +322,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            34 => 
-            array (
+            ],
+            34 => [
                 'id' => 35,
                 'iso_code_2' => 'BI',
                 'iso_code_3' => 'BDI',
@@ -368,9 +331,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            35 => 
-            array (
+            ],
+            35 => [
                 'id' => 36,
                 'iso_code_2' => 'KH',
                 'iso_code_3' => 'KHM',
@@ -378,9 +340,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            36 => 
-            array (
+            ],
+            36 => [
                 'id' => 37,
                 'iso_code_2' => 'CM',
                 'iso_code_3' => 'CMR',
@@ -388,9 +349,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            37 => 
-            array (
+            ],
+            37 => [
                 'id' => 38,
                 'iso_code_2' => 'CA',
                 'iso_code_3' => 'CAN',
@@ -398,9 +358,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            38 => 
-            array (
+            ],
+            38 => [
                 'id' => 39,
                 'iso_code_2' => 'CV',
                 'iso_code_3' => 'CPV',
@@ -408,9 +367,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            39 => 
-            array (
+            ],
+            39 => [
                 'id' => 40,
                 'iso_code_2' => 'KY',
                 'iso_code_3' => 'CYM',
@@ -418,9 +376,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            40 => 
-            array (
+            ],
+            40 => [
                 'id' => 41,
                 'iso_code_2' => 'CF',
                 'iso_code_3' => 'CAF',
@@ -428,9 +385,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            41 => 
-            array (
+            ],
+            41 => [
                 'id' => 42,
                 'iso_code_2' => 'TD',
                 'iso_code_3' => 'TCD',
@@ -438,9 +394,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            42 => 
-            array (
+            ],
+            42 => [
                 'id' => 43,
                 'iso_code_2' => 'CL',
                 'iso_code_3' => 'CHL',
@@ -448,9 +403,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            43 => 
-            array (
+            ],
+            43 => [
                 'id' => 44,
                 'iso_code_2' => 'CN',
                 'iso_code_3' => 'CHN',
@@ -458,9 +412,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            44 => 
-            array (
+            ],
+            44 => [
                 'id' => 45,
                 'iso_code_2' => 'CX',
                 'iso_code_3' => 'CXR',
@@ -468,9 +421,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            45 => 
-            array (
+            ],
+            45 => [
                 'id' => 46,
                 'iso_code_2' => 'CC',
                 'iso_code_3' => 'CCK',
@@ -478,9 +430,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            46 => 
-            array (
+            ],
+            46 => [
                 'id' => 47,
                 'iso_code_2' => 'CO',
                 'iso_code_3' => 'COL',
@@ -488,9 +439,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            47 => 
-            array (
+            ],
+            47 => [
                 'id' => 48,
                 'iso_code_2' => 'KM',
                 'iso_code_3' => 'COM',
@@ -498,9 +448,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            48 => 
-            array (
+            ],
+            48 => [
                 'id' => 49,
                 'iso_code_2' => 'CG',
                 'iso_code_3' => 'COG',
@@ -508,9 +457,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            49 => 
-            array (
+            ],
+            49 => [
                 'id' => 50,
                 'iso_code_2' => 'CK',
                 'iso_code_3' => 'COK',
@@ -518,9 +466,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            50 => 
-            array (
+            ],
+            50 => [
                 'id' => 51,
                 'iso_code_2' => 'CR',
                 'iso_code_3' => 'CRI',
@@ -528,9 +475,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            51 => 
-            array (
+            ],
+            51 => [
                 'id' => 52,
                 'iso_code_2' => 'CI',
                 'iso_code_3' => 'CIV',
@@ -538,9 +484,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            52 => 
-            array (
+            ],
+            52 => [
                 'id' => 53,
                 'iso_code_2' => 'HR',
                 'iso_code_3' => 'HRV',
@@ -548,9 +493,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            53 => 
-            array (
+            ],
+            53 => [
                 'id' => 54,
                 'iso_code_2' => 'CU',
                 'iso_code_3' => 'CUB',
@@ -558,9 +502,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            54 => 
-            array (
+            ],
+            54 => [
                 'id' => 55,
                 'iso_code_2' => 'CY',
                 'iso_code_3' => 'CYP',
@@ -568,9 +511,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            55 => 
-            array (
+            ],
+            55 => [
                 'id' => 56,
                 'iso_code_2' => 'CZ',
                 'iso_code_3' => 'CZE',
@@ -578,9 +520,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            56 => 
-            array (
+            ],
+            56 => [
                 'id' => 57,
                 'iso_code_2' => 'DK',
                 'iso_code_3' => 'DNK',
@@ -588,9 +529,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            57 => 
-            array (
+            ],
+            57 => [
                 'id' => 58,
                 'iso_code_2' => 'DJ',
                 'iso_code_3' => 'DJI',
@@ -598,9 +538,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            58 => 
-            array (
+            ],
+            58 => [
                 'id' => 59,
                 'iso_code_2' => 'DM',
                 'iso_code_3' => 'DMA',
@@ -608,9 +547,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            59 => 
-            array (
+            ],
+            59 => [
                 'id' => 60,
                 'iso_code_2' => 'DO',
                 'iso_code_3' => 'DOM',
@@ -618,9 +556,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            60 => 
-            array (
+            ],
+            60 => [
                 'id' => 61,
                 'iso_code_2' => 'TL',
                 'iso_code_3' => 'TLS',
@@ -628,9 +565,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            61 => 
-            array (
+            ],
+            61 => [
                 'id' => 62,
                 'iso_code_2' => 'EC',
                 'iso_code_3' => 'ECU',
@@ -638,9 +574,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            62 => 
-            array (
+            ],
+            62 => [
                 'id' => 63,
                 'iso_code_2' => 'EG',
                 'iso_code_3' => 'EGY',
@@ -648,9 +583,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            63 => 
-            array (
+            ],
+            63 => [
                 'id' => 64,
                 'iso_code_2' => 'SV',
                 'iso_code_3' => 'SLV',
@@ -658,9 +592,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            64 => 
-            array (
+            ],
+            64 => [
                 'id' => 65,
                 'iso_code_2' => 'GQ',
                 'iso_code_3' => 'GNQ',
@@ -668,9 +601,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            65 => 
-            array (
+            ],
+            65 => [
                 'id' => 66,
                 'iso_code_2' => 'ER',
                 'iso_code_3' => 'ERI',
@@ -678,9 +610,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            66 => 
-            array (
+            ],
+            66 => [
                 'id' => 67,
                 'iso_code_2' => 'EE',
                 'iso_code_3' => 'EST',
@@ -688,9 +619,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            67 => 
-            array (
+            ],
+            67 => [
                 'id' => 68,
                 'iso_code_2' => 'ET',
                 'iso_code_3' => 'ETH',
@@ -698,9 +628,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            68 => 
-            array (
+            ],
+            68 => [
                 'id' => 69,
                 'iso_code_2' => 'FK',
                 'iso_code_3' => 'FLK',
@@ -708,9 +637,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            69 => 
-            array (
+            ],
+            69 => [
                 'id' => 70,
                 'iso_code_2' => 'FO',
                 'iso_code_3' => 'FRO',
@@ -718,9 +646,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            70 => 
-            array (
+            ],
+            70 => [
                 'id' => 71,
                 'iso_code_2' => 'FJ',
                 'iso_code_3' => 'FJI',
@@ -728,9 +655,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            71 => 
-            array (
+            ],
+            71 => [
                 'id' => 72,
                 'iso_code_2' => 'FI',
                 'iso_code_3' => 'FIN',
@@ -738,9 +664,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            72 => 
-            array (
+            ],
+            72 => [
                 'id' => 73,
                 'iso_code_2' => 'FR',
                 'iso_code_3' => 'FRA',
@@ -748,9 +673,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            73 => 
-            array (
+            ],
+            73 => [
                 'id' => 74,
                 'iso_code_2' => 'GF',
                 'iso_code_3' => 'GUF',
@@ -758,9 +682,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            74 => 
-            array (
+            ],
+            74 => [
                 'id' => 75,
                 'iso_code_2' => 'PF',
                 'iso_code_3' => 'PYF',
@@ -768,9 +691,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            75 => 
-            array (
+            ],
+            75 => [
                 'id' => 76,
                 'iso_code_2' => 'TF',
                 'iso_code_3' => 'ATF',
@@ -778,9 +700,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            76 => 
-            array (
+            ],
+            76 => [
                 'id' => 77,
                 'iso_code_2' => 'GA',
                 'iso_code_3' => 'GAB',
@@ -788,9 +709,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            77 => 
-            array (
+            ],
+            77 => [
                 'id' => 78,
                 'iso_code_2' => 'GM',
                 'iso_code_3' => 'GMB',
@@ -798,9 +718,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            78 => 
-            array (
+            ],
+            78 => [
                 'id' => 79,
                 'iso_code_2' => 'GE',
                 'iso_code_3' => 'GEO',
@@ -808,9 +727,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            79 => 
-            array (
+            ],
+            79 => [
                 'id' => 80,
                 'iso_code_2' => 'DE',
                 'iso_code_3' => 'DEU',
@@ -818,9 +736,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            80 => 
-            array (
+            ],
+            80 => [
                 'id' => 81,
                 'iso_code_2' => 'GH',
                 'iso_code_3' => 'GHA',
@@ -828,9 +745,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            81 => 
-            array (
+            ],
+            81 => [
                 'id' => 82,
                 'iso_code_2' => 'GI',
                 'iso_code_3' => 'GIB',
@@ -838,9 +754,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            82 => 
-            array (
+            ],
+            82 => [
                 'id' => 83,
                 'iso_code_2' => 'GR',
                 'iso_code_3' => 'GRC',
@@ -848,9 +763,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            83 => 
-            array (
+            ],
+            83 => [
                 'id' => 84,
                 'iso_code_2' => 'GL',
                 'iso_code_3' => 'GRL',
@@ -858,9 +772,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            84 => 
-            array (
+            ],
+            84 => [
                 'id' => 85,
                 'iso_code_2' => 'GD',
                 'iso_code_3' => 'GRD',
@@ -868,9 +781,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            85 => 
-            array (
+            ],
+            85 => [
                 'id' => 86,
                 'iso_code_2' => 'GP',
                 'iso_code_3' => 'GLP',
@@ -878,9 +790,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            86 => 
-            array (
+            ],
+            86 => [
                 'id' => 87,
                 'iso_code_2' => 'GU',
                 'iso_code_3' => 'GUM',
@@ -888,9 +799,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            87 => 
-            array (
+            ],
+            87 => [
                 'id' => 88,
                 'iso_code_2' => 'GT',
                 'iso_code_3' => 'GTM',
@@ -898,9 +808,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            88 => 
-            array (
+            ],
+            88 => [
                 'id' => 89,
                 'iso_code_2' => 'GN',
                 'iso_code_3' => 'GIN',
@@ -908,9 +817,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            89 => 
-            array (
+            ],
+            89 => [
                 'id' => 90,
                 'iso_code_2' => 'GW',
                 'iso_code_3' => 'GNB',
@@ -918,9 +826,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            90 => 
-            array (
+            ],
+            90 => [
                 'id' => 91,
                 'iso_code_2' => 'GY',
                 'iso_code_3' => 'GUY',
@@ -928,9 +835,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            91 => 
-            array (
+            ],
+            91 => [
                 'id' => 92,
                 'iso_code_2' => 'HT',
                 'iso_code_3' => 'HTI',
@@ -938,9 +844,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            92 => 
-            array (
+            ],
+            92 => [
                 'id' => 93,
                 'iso_code_2' => 'HM',
                 'iso_code_3' => 'HMD',
@@ -948,9 +853,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            93 => 
-            array (
+            ],
+            93 => [
                 'id' => 94,
                 'iso_code_2' => 'HN',
                 'iso_code_3' => 'HND',
@@ -958,9 +862,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            94 => 
-            array (
+            ],
+            94 => [
                 'id' => 95,
                 'iso_code_2' => 'HK',
                 'iso_code_3' => 'HKG',
@@ -968,9 +871,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            95 => 
-            array (
+            ],
+            95 => [
                 'id' => 96,
                 'iso_code_2' => 'HU',
                 'iso_code_3' => 'HUN',
@@ -978,9 +880,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            96 => 
-            array (
+            ],
+            96 => [
                 'id' => 97,
                 'iso_code_2' => 'IS',
                 'iso_code_3' => 'ISL',
@@ -988,9 +889,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            97 => 
-            array (
+            ],
+            97 => [
                 'id' => 98,
                 'iso_code_2' => 'IN',
                 'iso_code_3' => 'IND',
@@ -998,9 +898,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            98 => 
-            array (
+            ],
+            98 => [
                 'id' => 99,
                 'iso_code_2' => 'ID',
                 'iso_code_3' => 'IDN',
@@ -1008,9 +907,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            99 => 
-            array (
+            ],
+            99 => [
                 'id' => 100,
                 'iso_code_2' => 'IR',
                 'iso_code_3' => 'IRN',
@@ -1018,9 +916,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            100 => 
-            array (
+            ],
+            100 => [
                 'id' => 101,
                 'iso_code_2' => 'IQ',
                 'iso_code_3' => 'IRQ',
@@ -1028,9 +925,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            101 => 
-            array (
+            ],
+            101 => [
                 'id' => 102,
                 'iso_code_2' => 'IE',
                 'iso_code_3' => 'IRL',
@@ -1038,9 +934,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            102 => 
-            array (
+            ],
+            102 => [
                 'id' => 103,
                 'iso_code_2' => 'IL',
                 'iso_code_3' => 'ISR',
@@ -1048,9 +943,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            103 => 
-            array (
+            ],
+            103 => [
                 'id' => 104,
                 'iso_code_2' => 'IT',
                 'iso_code_3' => 'ITA',
@@ -1058,9 +952,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            104 => 
-            array (
+            ],
+            104 => [
                 'id' => 105,
                 'iso_code_2' => 'JM',
                 'iso_code_3' => 'JAM',
@@ -1068,9 +961,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            105 => 
-            array (
+            ],
+            105 => [
                 'id' => 106,
                 'iso_code_2' => 'JP',
                 'iso_code_3' => 'JPN',
@@ -1078,9 +970,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            106 => 
-            array (
+            ],
+            106 => [
                 'id' => 107,
                 'iso_code_2' => 'JO',
                 'iso_code_3' => 'JOR',
@@ -1088,9 +979,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            107 => 
-            array (
+            ],
+            107 => [
                 'id' => 108,
                 'iso_code_2' => 'KZ',
                 'iso_code_3' => 'KAZ',
@@ -1098,9 +988,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            108 => 
-            array (
+            ],
+            108 => [
                 'id' => 109,
                 'iso_code_2' => 'KE',
                 'iso_code_3' => 'KEN',
@@ -1108,9 +997,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            109 => 
-            array (
+            ],
+            109 => [
                 'id' => 110,
                 'iso_code_2' => 'KI',
                 'iso_code_3' => 'KIR',
@@ -1118,9 +1006,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            110 => 
-            array (
+            ],
+            110 => [
                 'id' => 111,
                 'iso_code_2' => 'KP',
                 'iso_code_3' => 'PRK',
@@ -1128,9 +1015,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            111 => 
-            array (
+            ],
+            111 => [
                 'id' => 112,
                 'iso_code_2' => 'KR',
                 'iso_code_3' => 'KOR',
@@ -1138,9 +1024,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            112 => 
-            array (
+            ],
+            112 => [
                 'id' => 113,
                 'iso_code_2' => 'KW',
                 'iso_code_3' => 'KWT',
@@ -1148,9 +1033,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            113 => 
-            array (
+            ],
+            113 => [
                 'id' => 114,
                 'iso_code_2' => 'KG',
                 'iso_code_3' => 'KGZ',
@@ -1158,9 +1042,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            114 => 
-            array (
+            ],
+            114 => [
                 'id' => 115,
                 'iso_code_2' => 'LA',
                 'iso_code_3' => 'LAO',
@@ -1168,9 +1051,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            115 => 
-            array (
+            ],
+            115 => [
                 'id' => 116,
                 'iso_code_2' => 'LV',
                 'iso_code_3' => 'LVA',
@@ -1178,9 +1060,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            116 => 
-            array (
+            ],
+            116 => [
                 'id' => 117,
                 'iso_code_2' => 'LB',
                 'iso_code_3' => 'LBN',
@@ -1188,9 +1069,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            117 => 
-            array (
+            ],
+            117 => [
                 'id' => 118,
                 'iso_code_2' => 'LS',
                 'iso_code_3' => 'LSO',
@@ -1198,9 +1078,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            118 => 
-            array (
+            ],
+            118 => [
                 'id' => 119,
                 'iso_code_2' => 'LR',
                 'iso_code_3' => 'LBR',
@@ -1208,9 +1087,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            119 => 
-            array (
+            ],
+            119 => [
                 'id' => 120,
                 'iso_code_2' => 'LY',
                 'iso_code_3' => 'LBY',
@@ -1218,9 +1096,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            120 => 
-            array (
+            ],
+            120 => [
                 'id' => 121,
                 'iso_code_2' => 'LI',
                 'iso_code_3' => 'LIE',
@@ -1228,9 +1105,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            121 => 
-            array (
+            ],
+            121 => [
                 'id' => 122,
                 'iso_code_2' => 'LT',
                 'iso_code_3' => 'LTU',
@@ -1238,9 +1114,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            122 => 
-            array (
+            ],
+            122 => [
                 'id' => 123,
                 'iso_code_2' => 'LU',
                 'iso_code_3' => 'LUX',
@@ -1248,9 +1123,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            123 => 
-            array (
+            ],
+            123 => [
                 'id' => 124,
                 'iso_code_2' => 'MO',
                 'iso_code_3' => 'MAC',
@@ -1258,9 +1132,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            124 => 
-            array (
+            ],
+            124 => [
                 'id' => 125,
                 'iso_code_2' => 'MK',
                 'iso_code_3' => 'MKD',
@@ -1268,9 +1141,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            125 => 
-            array (
+            ],
+            125 => [
                 'id' => 126,
                 'iso_code_2' => 'MG',
                 'iso_code_3' => 'MDG',
@@ -1278,9 +1150,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            126 => 
-            array (
+            ],
+            126 => [
                 'id' => 127,
                 'iso_code_2' => 'MW',
                 'iso_code_3' => 'MWI',
@@ -1288,9 +1159,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:57',
                 'updated_at' => '2025-07-16 18:15:57',
-            ),
-            127 => 
-            array (
+            ],
+            127 => [
                 'id' => 128,
                 'iso_code_2' => 'MY',
                 'iso_code_3' => 'MYS',
@@ -1298,9 +1168,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            128 => 
-            array (
+            ],
+            128 => [
                 'id' => 129,
                 'iso_code_2' => 'MV',
                 'iso_code_3' => 'MDV',
@@ -1308,9 +1177,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            129 => 
-            array (
+            ],
+            129 => [
                 'id' => 130,
                 'iso_code_2' => 'ML',
                 'iso_code_3' => 'MLI',
@@ -1318,9 +1186,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            130 => 
-            array (
+            ],
+            130 => [
                 'id' => 131,
                 'iso_code_2' => 'MT',
                 'iso_code_3' => 'MLT',
@@ -1328,9 +1195,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            131 => 
-            array (
+            ],
+            131 => [
                 'id' => 132,
                 'iso_code_2' => 'MH',
                 'iso_code_3' => 'MHL',
@@ -1338,9 +1204,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            132 => 
-            array (
+            ],
+            132 => [
                 'id' => 133,
                 'iso_code_2' => 'MQ',
                 'iso_code_3' => 'MTQ',
@@ -1348,9 +1213,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            133 => 
-            array (
+            ],
+            133 => [
                 'id' => 134,
                 'iso_code_2' => 'MR',
                 'iso_code_3' => 'MRT',
@@ -1358,9 +1222,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            134 => 
-            array (
+            ],
+            134 => [
                 'id' => 135,
                 'iso_code_2' => 'MU',
                 'iso_code_3' => 'MUS',
@@ -1368,9 +1231,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            135 => 
-            array (
+            ],
+            135 => [
                 'id' => 136,
                 'iso_code_2' => 'YT',
                 'iso_code_3' => 'MYT',
@@ -1378,9 +1240,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            136 => 
-            array (
+            ],
+            136 => [
                 'id' => 137,
                 'iso_code_2' => 'MX',
                 'iso_code_3' => 'MEX',
@@ -1388,9 +1249,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            137 => 
-            array (
+            ],
+            137 => [
                 'id' => 138,
                 'iso_code_2' => 'FM',
                 'iso_code_3' => 'FSM',
@@ -1398,9 +1258,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            138 => 
-            array (
+            ],
+            138 => [
                 'id' => 139,
                 'iso_code_2' => 'MD',
                 'iso_code_3' => 'MDA',
@@ -1408,9 +1267,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            139 => 
-            array (
+            ],
+            139 => [
                 'id' => 140,
                 'iso_code_2' => 'MC',
                 'iso_code_3' => 'MCO',
@@ -1418,9 +1276,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            140 => 
-            array (
+            ],
+            140 => [
                 'id' => 141,
                 'iso_code_2' => 'MN',
                 'iso_code_3' => 'MNG',
@@ -1428,9 +1285,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            141 => 
-            array (
+            ],
+            141 => [
                 'id' => 142,
                 'iso_code_2' => 'MS',
                 'iso_code_3' => 'MSR',
@@ -1438,9 +1294,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            142 => 
-            array (
+            ],
+            142 => [
                 'id' => 143,
                 'iso_code_2' => 'MA',
                 'iso_code_3' => 'MAR',
@@ -1448,9 +1303,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            143 => 
-            array (
+            ],
+            143 => [
                 'id' => 144,
                 'iso_code_2' => 'MZ',
                 'iso_code_3' => 'MOZ',
@@ -1458,9 +1312,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            144 => 
-            array (
+            ],
+            144 => [
                 'id' => 145,
                 'iso_code_2' => 'MM',
                 'iso_code_3' => 'MMR',
@@ -1468,9 +1321,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            145 => 
-            array (
+            ],
+            145 => [
                 'id' => 146,
                 'iso_code_2' => 'NA',
                 'iso_code_3' => 'NAM',
@@ -1478,9 +1330,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            146 => 
-            array (
+            ],
+            146 => [
                 'id' => 147,
                 'iso_code_2' => 'NR',
                 'iso_code_3' => 'NRU',
@@ -1488,9 +1339,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            147 => 
-            array (
+            ],
+            147 => [
                 'id' => 148,
                 'iso_code_2' => 'NP',
                 'iso_code_3' => 'NPL',
@@ -1498,9 +1348,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            148 => 
-            array (
+            ],
+            148 => [
                 'id' => 149,
                 'iso_code_2' => 'NL',
                 'iso_code_3' => 'NLD',
@@ -1508,9 +1357,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            149 => 
-            array (
+            ],
+            149 => [
                 'id' => 150,
                 'iso_code_2' => 'AN',
                 'iso_code_3' => 'ANT',
@@ -1518,9 +1366,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            150 => 
-            array (
+            ],
+            150 => [
                 'id' => 151,
                 'iso_code_2' => 'NC',
                 'iso_code_3' => 'NCL',
@@ -1528,9 +1375,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            151 => 
-            array (
+            ],
+            151 => [
                 'id' => 152,
                 'iso_code_2' => 'NZ',
                 'iso_code_3' => 'NZL',
@@ -1538,9 +1384,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            152 => 
-            array (
+            ],
+            152 => [
                 'id' => 153,
                 'iso_code_2' => 'NI',
                 'iso_code_3' => 'NIC',
@@ -1548,9 +1393,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            153 => 
-            array (
+            ],
+            153 => [
                 'id' => 154,
                 'iso_code_2' => 'NE',
                 'iso_code_3' => 'NER',
@@ -1558,9 +1402,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            154 => 
-            array (
+            ],
+            154 => [
                 'id' => 155,
                 'iso_code_2' => 'NG',
                 'iso_code_3' => 'NGA',
@@ -1568,9 +1411,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            155 => 
-            array (
+            ],
+            155 => [
                 'id' => 156,
                 'iso_code_2' => 'NU',
                 'iso_code_3' => 'NIU',
@@ -1578,9 +1420,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            156 => 
-            array (
+            ],
+            156 => [
                 'id' => 157,
                 'iso_code_2' => 'NF',
                 'iso_code_3' => 'NFK',
@@ -1588,9 +1429,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            157 => 
-            array (
+            ],
+            157 => [
                 'id' => 158,
                 'iso_code_2' => 'MP',
                 'iso_code_3' => 'MNP',
@@ -1598,9 +1438,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            158 => 
-            array (
+            ],
+            158 => [
                 'id' => 159,
                 'iso_code_2' => 'NO',
                 'iso_code_3' => 'NOR',
@@ -1608,9 +1447,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            159 => 
-            array (
+            ],
+            159 => [
                 'id' => 160,
                 'iso_code_2' => 'OM',
                 'iso_code_3' => 'OMN',
@@ -1618,9 +1456,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            160 => 
-            array (
+            ],
+            160 => [
                 'id' => 161,
                 'iso_code_2' => 'PK',
                 'iso_code_3' => 'PAK',
@@ -1628,9 +1465,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            161 => 
-            array (
+            ],
+            161 => [
                 'id' => 162,
                 'iso_code_2' => 'PW',
                 'iso_code_3' => 'PLW',
@@ -1638,9 +1474,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            162 => 
-            array (
+            ],
+            162 => [
                 'id' => 163,
                 'iso_code_2' => 'PA',
                 'iso_code_3' => 'PAN',
@@ -1648,9 +1483,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            163 => 
-            array (
+            ],
+            163 => [
                 'id' => 164,
                 'iso_code_2' => 'PG',
                 'iso_code_3' => 'PNG',
@@ -1658,9 +1492,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            164 => 
-            array (
+            ],
+            164 => [
                 'id' => 165,
                 'iso_code_2' => 'PY',
                 'iso_code_3' => 'PRY',
@@ -1668,9 +1501,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            165 => 
-            array (
+            ],
+            165 => [
                 'id' => 166,
                 'iso_code_2' => 'PE',
                 'iso_code_3' => 'PER',
@@ -1678,9 +1510,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            166 => 
-            array (
+            ],
+            166 => [
                 'id' => 167,
                 'iso_code_2' => 'PH',
                 'iso_code_3' => 'PHL',
@@ -1688,9 +1519,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            167 => 
-            array (
+            ],
+            167 => [
                 'id' => 168,
                 'iso_code_2' => 'PN',
                 'iso_code_3' => 'PCN',
@@ -1698,9 +1528,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            168 => 
-            array (
+            ],
+            168 => [
                 'id' => 169,
                 'iso_code_2' => 'PL',
                 'iso_code_3' => 'POL',
@@ -1708,9 +1537,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            169 => 
-            array (
+            ],
+            169 => [
                 'id' => 170,
                 'iso_code_2' => 'PT',
                 'iso_code_3' => 'PRT',
@@ -1718,9 +1546,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            170 => 
-            array (
+            ],
+            170 => [
                 'id' => 171,
                 'iso_code_2' => 'PR',
                 'iso_code_3' => 'PRI',
@@ -1728,9 +1555,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            171 => 
-            array (
+            ],
+            171 => [
                 'id' => 172,
                 'iso_code_2' => 'QA',
                 'iso_code_3' => 'QAT',
@@ -1738,9 +1564,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            172 => 
-            array (
+            ],
+            172 => [
                 'id' => 173,
                 'iso_code_2' => 'RE',
                 'iso_code_3' => 'REU',
@@ -1748,9 +1573,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            173 => 
-            array (
+            ],
+            173 => [
                 'id' => 174,
                 'iso_code_2' => 'RO',
                 'iso_code_3' => 'ROM',
@@ -1758,9 +1582,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            174 => 
-            array (
+            ],
+            174 => [
                 'id' => 175,
                 'iso_code_2' => 'RU',
                 'iso_code_3' => 'RUS',
@@ -1768,9 +1591,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            175 => 
-            array (
+            ],
+            175 => [
                 'id' => 176,
                 'iso_code_2' => 'RW',
                 'iso_code_3' => 'RWA',
@@ -1778,9 +1600,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            176 => 
-            array (
+            ],
+            176 => [
                 'id' => 177,
                 'iso_code_2' => 'KN',
                 'iso_code_3' => 'KNA',
@@ -1788,9 +1609,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            177 => 
-            array (
+            ],
+            177 => [
                 'id' => 178,
                 'iso_code_2' => 'LC',
                 'iso_code_3' => 'LCA',
@@ -1798,9 +1618,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            178 => 
-            array (
+            ],
+            178 => [
                 'id' => 179,
                 'iso_code_2' => 'VC',
                 'iso_code_3' => 'VCT',
@@ -1808,9 +1627,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            179 => 
-            array (
+            ],
+            179 => [
                 'id' => 180,
                 'iso_code_2' => 'WS',
                 'iso_code_3' => 'WSM',
@@ -1818,9 +1636,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            180 => 
-            array (
+            ],
+            180 => [
                 'id' => 181,
                 'iso_code_2' => 'SM',
                 'iso_code_3' => 'SMR',
@@ -1828,9 +1645,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            181 => 
-            array (
+            ],
+            181 => [
                 'id' => 182,
                 'iso_code_2' => 'ST',
                 'iso_code_3' => 'STP',
@@ -1838,9 +1654,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            182 => 
-            array (
+            ],
+            182 => [
                 'id' => 183,
                 'iso_code_2' => 'SA',
                 'iso_code_3' => 'SAU',
@@ -1848,9 +1663,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            183 => 
-            array (
+            ],
+            183 => [
                 'id' => 184,
                 'iso_code_2' => 'SN',
                 'iso_code_3' => 'SEN',
@@ -1858,9 +1672,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            184 => 
-            array (
+            ],
+            184 => [
                 'id' => 185,
                 'iso_code_2' => 'SC',
                 'iso_code_3' => 'SYC',
@@ -1868,9 +1681,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            185 => 
-            array (
+            ],
+            185 => [
                 'id' => 186,
                 'iso_code_2' => 'SL',
                 'iso_code_3' => 'SLE',
@@ -1878,9 +1690,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            186 => 
-            array (
+            ],
+            186 => [
                 'id' => 187,
                 'iso_code_2' => 'SG',
                 'iso_code_3' => 'SGP',
@@ -1888,9 +1699,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            187 => 
-            array (
+            ],
+            187 => [
                 'id' => 188,
                 'iso_code_2' => 'SK',
                 'iso_code_3' => 'SVK',
@@ -1898,9 +1708,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            188 => 
-            array (
+            ],
+            188 => [
                 'id' => 189,
                 'iso_code_2' => 'SI',
                 'iso_code_3' => 'SVN',
@@ -1908,9 +1717,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            189 => 
-            array (
+            ],
+            189 => [
                 'id' => 190,
                 'iso_code_2' => 'SB',
                 'iso_code_3' => 'SLB',
@@ -1918,9 +1726,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            190 => 
-            array (
+            ],
+            190 => [
                 'id' => 191,
                 'iso_code_2' => 'SO',
                 'iso_code_3' => 'SOM',
@@ -1928,9 +1735,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            191 => 
-            array (
+            ],
+            191 => [
                 'id' => 192,
                 'iso_code_2' => 'ZA',
                 'iso_code_3' => 'ZAF',
@@ -1938,9 +1744,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            192 => 
-            array (
+            ],
+            192 => [
                 'id' => 193,
                 'iso_code_2' => 'GS',
                 'iso_code_3' => 'SGS',
@@ -1948,9 +1753,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            193 => 
-            array (
+            ],
+            193 => [
                 'id' => 194,
                 'iso_code_2' => 'ES',
                 'iso_code_3' => 'ESP',
@@ -1958,9 +1762,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            194 => 
-            array (
+            ],
+            194 => [
                 'id' => 195,
                 'iso_code_2' => 'LK',
                 'iso_code_3' => 'LKA',
@@ -1968,9 +1771,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            195 => 
-            array (
+            ],
+            195 => [
                 'id' => 196,
                 'iso_code_2' => 'SH',
                 'iso_code_3' => 'SHN',
@@ -1978,9 +1780,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            196 => 
-            array (
+            ],
+            196 => [
                 'id' => 197,
                 'iso_code_2' => 'PM',
                 'iso_code_3' => 'SPM',
@@ -1988,9 +1789,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            197 => 
-            array (
+            ],
+            197 => [
                 'id' => 198,
                 'iso_code_2' => 'SD',
                 'iso_code_3' => 'SDN',
@@ -1998,9 +1798,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            198 => 
-            array (
+            ],
+            198 => [
                 'id' => 199,
                 'iso_code_2' => 'SR',
                 'iso_code_3' => 'SUR',
@@ -2008,9 +1807,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            199 => 
-            array (
+            ],
+            199 => [
                 'id' => 200,
                 'iso_code_2' => 'SJ',
                 'iso_code_3' => 'SJM',
@@ -2018,9 +1816,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            200 => 
-            array (
+            ],
+            200 => [
                 'id' => 201,
                 'iso_code_2' => 'SZ',
                 'iso_code_3' => 'SWZ',
@@ -2028,9 +1825,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            201 => 
-            array (
+            ],
+            201 => [
                 'id' => 202,
                 'iso_code_2' => 'SE',
                 'iso_code_3' => 'SWE',
@@ -2038,9 +1834,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            202 => 
-            array (
+            ],
+            202 => [
                 'id' => 203,
                 'iso_code_2' => 'CH',
                 'iso_code_3' => 'CHE',
@@ -2048,9 +1843,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            203 => 
-            array (
+            ],
+            203 => [
                 'id' => 204,
                 'iso_code_2' => 'SY',
                 'iso_code_3' => 'SYR',
@@ -2058,9 +1852,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            204 => 
-            array (
+            ],
+            204 => [
                 'id' => 205,
                 'iso_code_2' => 'TW',
                 'iso_code_3' => 'TWN',
@@ -2068,9 +1861,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            205 => 
-            array (
+            ],
+            205 => [
                 'id' => 206,
                 'iso_code_2' => 'TJ',
                 'iso_code_3' => 'TJK',
@@ -2078,9 +1870,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            206 => 
-            array (
+            ],
+            206 => [
                 'id' => 207,
                 'iso_code_2' => 'TZ',
                 'iso_code_3' => 'TZA',
@@ -2088,9 +1879,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            207 => 
-            array (
+            ],
+            207 => [
                 'id' => 208,
                 'iso_code_2' => 'TH',
                 'iso_code_3' => 'THA',
@@ -2098,9 +1888,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            208 => 
-            array (
+            ],
+            208 => [
                 'id' => 209,
                 'iso_code_2' => 'TG',
                 'iso_code_3' => 'TGO',
@@ -2108,9 +1897,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            209 => 
-            array (
+            ],
+            209 => [
                 'id' => 210,
                 'iso_code_2' => 'TK',
                 'iso_code_3' => 'TKL',
@@ -2118,9 +1906,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            210 => 
-            array (
+            ],
+            210 => [
                 'id' => 211,
                 'iso_code_2' => 'TO',
                 'iso_code_3' => 'TON',
@@ -2128,9 +1915,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            211 => 
-            array (
+            ],
+            211 => [
                 'id' => 212,
                 'iso_code_2' => 'TT',
                 'iso_code_3' => 'TTO',
@@ -2138,9 +1924,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            212 => 
-            array (
+            ],
+            212 => [
                 'id' => 213,
                 'iso_code_2' => 'TN',
                 'iso_code_3' => 'TUN',
@@ -2148,9 +1933,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            213 => 
-            array (
+            ],
+            213 => [
                 'id' => 214,
                 'iso_code_2' => 'TR',
                 'iso_code_3' => 'TUR',
@@ -2158,9 +1942,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            214 => 
-            array (
+            ],
+            214 => [
                 'id' => 215,
                 'iso_code_2' => 'TM',
                 'iso_code_3' => 'TKM',
@@ -2168,9 +1951,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            215 => 
-            array (
+            ],
+            215 => [
                 'id' => 216,
                 'iso_code_2' => 'TC',
                 'iso_code_3' => 'TCA',
@@ -2178,9 +1960,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            216 => 
-            array (
+            ],
+            216 => [
                 'id' => 217,
                 'iso_code_2' => 'TV',
                 'iso_code_3' => 'TUV',
@@ -2188,9 +1969,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            217 => 
-            array (
+            ],
+            217 => [
                 'id' => 218,
                 'iso_code_2' => 'UG',
                 'iso_code_3' => 'UGA',
@@ -2198,9 +1978,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            218 => 
-            array (
+            ],
+            218 => [
                 'id' => 219,
                 'iso_code_2' => 'UA',
                 'iso_code_3' => 'UKR',
@@ -2208,9 +1987,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            219 => 
-            array (
+            ],
+            219 => [
                 'id' => 220,
                 'iso_code_2' => 'AE',
                 'iso_code_3' => 'ARE',
@@ -2218,9 +1996,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            220 => 
-            array (
+            ],
+            220 => [
                 'id' => 221,
                 'iso_code_2' => 'GB',
                 'iso_code_3' => 'GBR',
@@ -2228,9 +2005,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            221 => 
-            array (
+            ],
+            221 => [
                 'id' => 222,
                 'iso_code_2' => 'US',
                 'iso_code_3' => 'USA',
@@ -2238,9 +2014,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            222 => 
-            array (
+            ],
+            222 => [
                 'id' => 223,
                 'iso_code_2' => 'UM',
                 'iso_code_3' => 'UMI',
@@ -2248,9 +2023,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            223 => 
-            array (
+            ],
+            223 => [
                 'id' => 224,
                 'iso_code_2' => 'UY',
                 'iso_code_3' => 'URY',
@@ -2258,9 +2032,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            224 => 
-            array (
+            ],
+            224 => [
                 'id' => 225,
                 'iso_code_2' => 'UZ',
                 'iso_code_3' => 'UZB',
@@ -2268,9 +2041,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            225 => 
-            array (
+            ],
+            225 => [
                 'id' => 226,
                 'iso_code_2' => 'VU',
                 'iso_code_3' => 'VUT',
@@ -2278,9 +2050,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            226 => 
-            array (
+            ],
+            226 => [
                 'id' => 227,
                 'iso_code_2' => 'VA',
                 'iso_code_3' => 'VAT',
@@ -2288,9 +2059,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            227 => 
-            array (
+            ],
+            227 => [
                 'id' => 228,
                 'iso_code_2' => 'VE',
                 'iso_code_3' => 'VEN',
@@ -2298,9 +2068,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            228 => 
-            array (
+            ],
+            228 => [
                 'id' => 229,
                 'iso_code_2' => 'VN',
                 'iso_code_3' => 'VNM',
@@ -2308,9 +2077,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            229 => 
-            array (
+            ],
+            229 => [
                 'id' => 230,
                 'iso_code_2' => 'VG',
                 'iso_code_3' => 'VGB',
@@ -2318,9 +2086,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            230 => 
-            array (
+            ],
+            230 => [
                 'id' => 231,
                 'iso_code_2' => 'VI',
                 'iso_code_3' => 'VIR',
@@ -2328,9 +2095,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            231 => 
-            array (
+            ],
+            231 => [
                 'id' => 232,
                 'iso_code_2' => 'WF',
                 'iso_code_3' => 'WLF',
@@ -2338,9 +2104,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            232 => 
-            array (
+            ],
+            232 => [
                 'id' => 233,
                 'iso_code_2' => 'EH',
                 'iso_code_3' => 'ESH',
@@ -2348,9 +2113,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            233 => 
-            array (
+            ],
+            233 => [
                 'id' => 234,
                 'iso_code_2' => 'YE',
                 'iso_code_3' => 'YEM',
@@ -2358,9 +2122,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            234 => 
-            array (
+            ],
+            234 => [
                 'id' => 235,
                 'iso_code_2' => 'CD',
                 'iso_code_3' => 'COD',
@@ -2368,9 +2131,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            235 => 
-            array (
+            ],
+            235 => [
                 'id' => 236,
                 'iso_code_2' => 'ZM',
                 'iso_code_3' => 'ZMB',
@@ -2378,9 +2140,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            236 => 
-            array (
+            ],
+            236 => [
                 'id' => 237,
                 'iso_code_2' => 'ZW',
                 'iso_code_3' => 'ZWE',
@@ -2388,9 +2149,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            237 => 
-            array (
+            ],
+            237 => [
                 'id' => 238,
                 'iso_code_2' => 'ME',
                 'iso_code_3' => 'MNE',
@@ -2398,9 +2158,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            238 => 
-            array (
+            ],
+            238 => [
                 'id' => 239,
                 'iso_code_2' => 'RS',
                 'iso_code_3' => 'SRB',
@@ -2408,9 +2167,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            239 => 
-            array (
+            ],
+            239 => [
                 'id' => 240,
                 'iso_code_2' => 'AX',
                 'iso_code_3' => 'ALA',
@@ -2418,9 +2176,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            240 => 
-            array (
+            ],
+            240 => [
                 'id' => 241,
                 'iso_code_2' => 'BQ',
                 'iso_code_3' => 'BES',
@@ -2428,9 +2185,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            241 => 
-            array (
+            ],
+            241 => [
                 'id' => 242,
                 'iso_code_2' => 'CW',
                 'iso_code_3' => 'CUW',
@@ -2438,9 +2194,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            242 => 
-            array (
+            ],
+            242 => [
                 'id' => 243,
                 'iso_code_2' => 'PS',
                 'iso_code_3' => 'PSE',
@@ -2448,9 +2203,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            243 => 
-            array (
+            ],
+            243 => [
                 'id' => 244,
                 'iso_code_2' => 'SS',
                 'iso_code_3' => 'SSD',
@@ -2458,9 +2212,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            244 => 
-            array (
+            ],
+            244 => [
                 'id' => 245,
                 'iso_code_2' => 'BL',
                 'iso_code_3' => 'BLM',
@@ -2468,9 +2221,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            245 => 
-            array (
+            ],
+            245 => [
                 'id' => 246,
                 'iso_code_2' => 'MF',
                 'iso_code_3' => 'MAF',
@@ -2478,9 +2230,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            246 => 
-            array (
+            ],
+            246 => [
                 'id' => 247,
                 'iso_code_2' => 'IC',
                 'iso_code_3' => 'ICA',
@@ -2488,9 +2239,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            247 => 
-            array (
+            ],
+            247 => [
                 'id' => 248,
                 'iso_code_2' => 'AC',
                 'iso_code_3' => 'ASC',
@@ -2498,9 +2248,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            248 => 
-            array (
+            ],
+            248 => [
                 'id' => 249,
                 'iso_code_2' => 'XK',
                 'iso_code_3' => 'UNK',
@@ -2508,9 +2257,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            249 => 
-            array (
+            ],
+            249 => [
                 'id' => 250,
                 'iso_code_2' => 'IM',
                 'iso_code_3' => 'IMN',
@@ -2518,9 +2266,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            250 => 
-            array (
+            ],
+            250 => [
                 'id' => 251,
                 'iso_code_2' => 'TA',
                 'iso_code_3' => 'SHN',
@@ -2528,9 +2275,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            251 => 
-            array (
+            ],
+            251 => [
                 'id' => 252,
                 'iso_code_2' => 'GG',
                 'iso_code_3' => 'GGY',
@@ -2538,9 +2284,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-            252 => 
-            array (
+            ],
+            252 => [
                 'id' => 253,
                 'iso_code_2' => 'JE',
                 'iso_code_3' => 'JEY',
@@ -2548,9 +2293,8 @@ class CountriesTableSeeder extends Seeder
                 'active' => 1,
                 'created_at' => '2025-07-16 18:15:58',
                 'updated_at' => '2025-07-16 18:15:58',
-            ),
-        ));
-        
-        
+            ],
+        ]);
+
     }
 }

@@ -17,37 +17,34 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Zone
- * 
+ *
  * @property int $id
  * @property int $country_id
  * @property string|null $code
  * @property bool $active
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Country $country
  * @property Collection|Address[] $addresses
  * @property Collection|ZoneTranslation[] $zoneTranslations
- *
- * @package App\Models
  */
-
 #[ObservedBy([ZoneObserver::class])]
 
 class Zone extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'country_id' => 'int',
-        'active' => 'bool'
+        'active' => 'bool',
     ];
 
     protected $fillable = [
         'country_id',
         'code',
-        'active'
+        'active',
     ];
 
     public function country(): BelongsTo
@@ -70,7 +67,7 @@ class Zone extends Model
      */
     public static function getCachedZones()
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever("zones.with.translations", function () {
+        return \Illuminate\Support\Facades\Cache::rememberForever('zones.with.translations', function () {
             return static::with('zoneTranslations')
                 ->get()
                 ->map(function ($zone) {
@@ -81,7 +78,7 @@ class Zone extends Model
                             ->mapWithKeys(function ($trans) {
                                 return [$trans->language_id => $trans->name];
                             })->toArray(),
-                        'default_name' => $zone->name
+                        'default_name' => $zone->name,
                     ];
                 })
                 ->values()
@@ -102,7 +99,7 @@ class Zone extends Model
             ->map(function ($zone) use ($langId) {
                 return [
                     'id' => $zone['id'],
-                    'name' => $zone['translations'][$langId] ?? $zone['default_name']
+                    'name' => $zone['translations'][$langId] ?? $zone['default_name'],
                 ];
             })
             ->sortBy('name')

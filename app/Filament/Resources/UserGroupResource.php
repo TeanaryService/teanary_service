@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserGroupResource\Pages;
-use App\Filament\Resources\UserGroupResource\RelationManagers;
 use App\Filament\Resources\UserGroupResource\RelationManagers\UsersRelationManager;
 use App\Models\UserGroup;
 use App\Services\LocaleCurrencyService;
@@ -11,14 +10,12 @@ use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Table;
 
 class UserGroupResource extends Resource
 {
@@ -27,24 +24,29 @@ class UserGroupResource extends Resource
     use HasTimestampsColumn;
 
     protected static ?string $model = UserGroup::class;
+
     protected static ?int $navigationSort = 301;
 
     public static function getLabel(): string
     {
         return __('filament.UserGroupResource.label');
     }
+
     public static function getPluralLabel(): string
     {
         return __('filament.UserGroupResource.pluralLabel');
     }
+
     public static function getNavigationGroup(): string
     {
         return __('filament.UserGroupResource.group');
     }
+
     public static function getNavigationLabel(): string
     {
         return __('filament.UserGroupResource.label');
     }
+
     public static function getNavigationIcon(): string
     {
         return __('filament.UserGroupResource.icon');
@@ -54,6 +56,7 @@ class UserGroupResource extends Resource
     {
         $languages = app(LocaleCurrencyService::class)->getLanguages();
         $model = $form->getModelInstance();
+
         return $form
             ->schema([
                 // 多语言 name 字段
@@ -66,15 +69,15 @@ class UserGroupResource extends Resource
                                 ->first();
                             $default = $translation ? $translation->name : '';
                         }
-                        
+
                         return TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.user_group.name') . " ({$lang->name})")
+                            ->label(__('filament.user_group.name')." ({$lang->name})")
                             ->required($lang->is_default ?? false)
                             ->columnSpanFull()
                             ->default($default);
                     })->toArray()
                 )->columnSpanFull()
-                ->label(__('filament.user_group.name')),
+                    ->label(__('filament.user_group.name')),
             ]);
     }
 
@@ -88,21 +91,22 @@ class UserGroupResource extends Resource
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+
                         return optional(
                             $record->userGroupTranslations->where('language_id', $lang?->id)->first()
                         )->name;
                     }),
-                ...static::getTimestampsColumns()
+                ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ...static::getActions()
+                ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    ...static::getBulkActions()
+                    ...static::getBulkActions(),
                 ]),
             ]));
     }
@@ -111,7 +115,7 @@ class UserGroupResource extends Resource
     {
         return [
             //
-            UsersRelationManager::class
+            UsersRelationManager::class,
         ];
     }
 

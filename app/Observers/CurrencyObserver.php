@@ -9,11 +9,11 @@ class CurrencyObserver
 {
     public function saved(Currency $currency)
     {
-        (new LocaleCurrencyService())->clearCurrenciesCache();
+        (new LocaleCurrencyService)->clearCurrenciesCache();
     }
 
     public function deleted(Currency $currency)
     {
-        (new LocaleCurrencyService())->clearCurrenciesCache();
+        (new LocaleCurrencyService)->clearCurrenciesCache();
     }
 }

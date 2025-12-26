@@ -22,7 +22,7 @@ class LanguageSwitch extends Component
      */
     public function render(): View|Closure|string
     {
-        $service = new LocaleCurrencyService();
+        $service = new LocaleCurrencyService;
         $languages = $service->getLanguages();
 
         $languageCode = app()->getLocale();
@@ -30,7 +30,7 @@ class LanguageSwitch extends Component
 
         return view('components.language-switch', [
             'languages' => $languages,
-            'selectedLanguage' => $selectedLanguage
+            'selectedLanguage' => $selectedLanguage,
         ]);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -24,8 +23,9 @@ class PromotionList extends Component
     public function render(): View|Closure|string
     {
         $promotions = app(PromotionService::class)->getAvailablePromotions(auth()->user());
+
         return view('components.promotion-list', [
-            'promotions' => $promotions
+            'promotions' => $promotions,
         ]);
     }
 }

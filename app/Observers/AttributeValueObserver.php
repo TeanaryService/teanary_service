@@ -11,7 +11,7 @@ class AttributeValueObserver
      */
     protected function clearAttributeCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget("attributes.with.translations");
+        \Illuminate\Support\Facades\Cache::forget('attributes.with.translations');
     }
 
     /**

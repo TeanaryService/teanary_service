@@ -2,15 +2,18 @@
 
 namespace App\Livewire\User;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Component;
 
 class Profile extends Component
 {
     public $name;
+
     public $email;
+
     public $password = '';
+
     public $password_confirmation = '';
 
     public function mount()

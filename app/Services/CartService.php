@@ -15,6 +15,7 @@ class CartService
             return Cart::where('user_id', auth()->id())->first();
         } else {
             $sessionId = session()->getId();
+
             return Cart::where('session_id', $sessionId)->first();
         }
     }
@@ -28,6 +29,7 @@ class CartService
             return Cart::firstOrCreate(['user_id' => auth()->id()]);
         } else {
             $sessionId = session()->getId();
+
             return Cart::firstOrCreate(['session_id' => $sessionId]);
         }
     }

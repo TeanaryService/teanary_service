@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Article;
 use App\Models\ArticleTranslation;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<ArticleTranslation>
@@ -18,7 +17,7 @@ class ArticleTranslationFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'summary' => $this->faker->sentence(),
-            'content' => '<p>' . implode('</p><p>', $this->faker->paragraphs(3)) . '</p>',
+            'content' => '<p>'.implode('</p><p>', $this->faker->paragraphs(3)).'</p>',
         ];
     }
 }

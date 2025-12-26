@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Address
- * 
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string|null $firstname
@@ -31,23 +31,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $zone_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
  * @property Country|null $country
  * @property User|null $user
  * @property Zone|null $zone
  * @property Collection|Order[] $orders
- *
- * @package App\Models
  */
 class Address extends Model
 {
     use HasFactory;
+
     public static $snakeAttributes = false;
 
     protected $casts = [
         'user_id' => 'int',
         'country_id' => 'int',
-        'zone_id' => 'int'
+        'zone_id' => 'int',
     ];
 
     protected $fillable = [
@@ -64,7 +62,7 @@ class Address extends Model
         'country_id',
         'zone_id',
         'session_id',
-        'deleted'
+        'deleted',
     ];
 
     public function country(): BelongsTo
