@@ -22,12 +22,12 @@ class ArticleController extends Controller
             if ($chineseLanguage) {
                 $chineseTranslation = collect($request->translations)
                     ->firstWhere('language_id', $chineseLanguage->id);
-                
+
                 if ($chineseTranslation && isset($chineseTranslation['title'])) {
                     $existingTranslation = ArticleTranslation::where('language_id', $chineseLanguage->id)
                         ->where('title', $chineseTranslation['title'])
                         ->first();
-                    
+
                     if ($existingTranslation) {
                         return response()->json([
                             'message' => '中文标题已存在',

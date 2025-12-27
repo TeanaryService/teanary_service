@@ -23,6 +23,7 @@ class ArticleFactory extends Factory
             //
             'slug' => Str::random(10),
             'is_published' => 1,
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 
