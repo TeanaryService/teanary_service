@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
 use App\Models\Article;
+use App\Models\ArticleTranslation;
+use App\Models\Language;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +17,25 @@ class ArticleController extends Controller
     public function store(StoreArticleRequest $request): JsonResponse
     {
         try {
+            // 检查中文标题是否重复
+            $chineseLanguage = Language::where('code', 'zh_CN')->first();
+            if ($chineseLanguage) {
+                $chineseTranslation = collect($request->translations)
+                    ->firstWhere('language_id', $chineseLanguage->id);
+                
+                if ($chineseTranslation && isset($chineseTranslation['title'])) {
+                    $existingTranslation = ArticleTranslation::where('language_id', $chineseLanguage->id)
+                        ->where('title', $chineseTranslation['title'])
+                        ->first();
+                    
+                    if ($existingTranslation) {
+                        return response()->json([
+                            'message' => '中文标题已存在',
+                        ], 200);
+                    }
+                }
+            }
+
             DB::beginTransaction();
 
             // 1. 创建文章基础信息
