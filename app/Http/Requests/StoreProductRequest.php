@@ -15,6 +15,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'slug' => 'required|string|unique:products,slug',
+            'source_url' => 'nullable|url|max:255',
             'main_image' => 'nullable|array',
             'main_image.image_id' => 'required_with:main_image|string',
             'main_image.contents' => 'required_with:main_image|string',

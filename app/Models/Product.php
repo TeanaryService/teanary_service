@@ -54,6 +54,7 @@ class Product extends Model implements HasMedia
     protected $fillable = [
         'slug',
         'status',
+        'source_url',
     ];
 
     public function cartItems(): HasMany

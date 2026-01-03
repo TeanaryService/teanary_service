@@ -151,6 +151,16 @@ class ProductResource extends Resource
                 ->label(__('filament.product.status'))
                 ->options(ProductStatusEnum::options())
                 ->required(),
+            Forms\Components\TextInput::make('source_url')
+                ->label('来源URL')
+                ->url()
+                ->maxLength(255)
+                ->hidden(function ($livewire) {
+                    if (!$livewire instanceof \Filament\Resources\Pages\EditRecord) {
+                        return true; // 创建页面默认隐藏
+                    }
+                    return empty($livewire->record->source_url); // 编辑页面：如果没有值则隐藏
+                }),
         ];
     }
 
@@ -235,6 +245,13 @@ class ProductResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('slug')
                     ->label(__('filament.product.slug'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('source_url')
+                    ->label('来源')
+                    ->limit(40)
+                    ->url(fn ($record) => $record->source_url)
+                    ->openUrlInNewTab()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn ($state): string => $state->label())

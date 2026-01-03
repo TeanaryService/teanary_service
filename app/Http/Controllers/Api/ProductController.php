@@ -29,6 +29,7 @@ class ProductController extends Controller
             // 创建商品
             $product = $this->productService->createProduct([
                 'slug' => $request->slug,
+                'source_url' => $request->source_url,
                 'main_image' => $request->main_image,
                 'content_images' => $request->content_images,
                 'translations' => $request->translations,

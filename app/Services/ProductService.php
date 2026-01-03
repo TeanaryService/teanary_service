@@ -24,6 +24,7 @@ class ProductService
     {
         $product = Product::create([
             'slug' => $data['slug'],
+            'source_url' => $data['source_url'] ?? null,
         ]);
 
         // 处理主图
