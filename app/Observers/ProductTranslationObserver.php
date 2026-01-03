@@ -11,8 +11,9 @@ class ProductTranslationObserver
 
     public function creating(ProductTranslation $productTranslation): void
     {
-        //
-        $productTranslation->description = $this->cleanEditorHtml($productTranslation->description);
+        if ($productTranslation->description !== null) {
+            $productTranslation->description = $this->cleanEditorHtml($productTranslation->description);
+        }
     }
 
     /**
@@ -29,13 +30,14 @@ class ProductTranslationObserver
      */
     public function updating(ProductTranslation $productTranslation): void
     {
-        //
         $oldDescription = $productTranslation->getOriginal('description');
         $newDescription = $productTranslation->description;
 
         $this->syncEditorUploadsFromHtml($oldDescription, $newDescription);
 
-        $productTranslation->description = $this->cleanEditorHtml($productTranslation->description);
+        if ($productTranslation->description !== null) {
+            $productTranslation->description = $this->cleanEditorHtml($productTranslation->description);
+        }
     }
 
     /**

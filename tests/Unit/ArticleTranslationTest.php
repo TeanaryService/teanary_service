@@ -22,7 +22,7 @@ class ArticleTranslationTest extends TestCase
         $this->assertNotNull($articleTranslation);
         $this->assertInstanceOf(ArticleTranslation::class, $articleTranslation);
         $this->assertIsInt($articleTranslation->article_id);
-        $this->assertIsString($articleTranslation->language_id);
+        $this->assertIsInt($articleTranslation->language_id);
         $this->assertIsString($articleTranslation->title);
     }
 
@@ -31,12 +31,13 @@ class ArticleTranslationTest extends TestCase
      */
     public function test_article_id_attribute_casting()
     {
+        $article = Article::factory()->create();
         $articleTranslation = ArticleTranslation::factory()->create([
-            'article_id' => 123,
+            'article_id' => $article->id,
         ]);
 
         $this->assertIsInt($articleTranslation->article_id);
-        $this->assertEquals(123, $articleTranslation->article_id);
+        $this->assertEquals($article->id, $articleTranslation->article_id);
     }
 
     /**

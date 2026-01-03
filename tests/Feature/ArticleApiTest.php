@@ -45,7 +45,7 @@ class ArticleApiTest extends TestCase
         ]);
 
         // 根据实际控制器返回的响应调整断言
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('articles', ['slug' => 'test-article']);
     }
 }

@@ -15,6 +15,8 @@ class ArticleTranslationFactory extends Factory
     public function definition(): array
     {
         return [
+            'article_id' => \App\Models\Article::factory(),
+            'language_id' => \App\Models\Language::factory(),
             'title' => $this->faker->sentence(),
             'summary' => $this->faker->sentence(),
             'content' => '<p>'.implode('</p><p>', $this->faker->paragraphs(3)).'</p>',

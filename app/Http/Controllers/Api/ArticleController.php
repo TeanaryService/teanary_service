@@ -16,6 +16,9 @@ class ArticleController extends Controller
 {
     public function store(StoreArticleRequest $request): JsonResponse
     {
+        // 检查是否已经在事务中（测试环境可能已经开启事务）
+        $alreadyInTransaction = DB::transactionLevel() > 0;
+        
         try {
             // 检查中文标题是否重复
             $chineseLanguage = Language::where('code', 'zh_CN')->first();
@@ -36,7 +39,9 @@ class ArticleController extends Controller
                 }
             }
 
-            DB::beginTransaction();
+            if (!$alreadyInTransaction) {
+                DB::beginTransaction();
+            }
 
             // 1. 创建文章基础信息
             $article = Article::create([
@@ -89,7 +94,9 @@ class ArticleController extends Controller
                 ]);
             }
 
-            DB::commit();
+            if (!$alreadyInTransaction) {
+                DB::commit();
+            }
 
             // 手动触发索引
             $article->searchable();
@@ -99,7 +106,9 @@ class ArticleController extends Controller
                 'data' => $article->load(['articleTranslations', 'media']),
             ], 201);
         } catch (\Exception $e) {
-            DB::rollBack();
+            if (!$alreadyInTransaction) {
+                DB::rollBack();
+            }
             Log::error('文章创建失败：'.$e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
                 'request' => $request->all(),

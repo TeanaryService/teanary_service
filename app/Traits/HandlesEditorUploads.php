@@ -10,8 +10,12 @@ trait HandlesEditorUploads
     /**
      * 清理富文本内容：只保留指定标签，并去掉标签属性.
      */
-    public function cleanEditorHtml(string $html): string
+    public function cleanEditorHtml(?string $html): string
     {
+        if ($html === null) {
+            return '';
+        }
+
         // 先将 HTML 实体转成普通字符（去掉 &nbsp; 等）
         $html = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
