@@ -201,6 +201,233 @@ teanary/
 └── tests/               # 测试文件
 ```
 
+## 📡 API 接口文档
+
+### 文章上传接口
+
+**接口地址**: `POST /api/articles/add`
+
+**功能**: 上传文章，支持多语言、图片上传和内容图片占位符替换
+
+**请求参数**:
+
+```json
+{
+  "slug": "article-slug",
+  "main_image": {
+    "image_id": "main-img-1",
+    "contents": "base64编码的图片数据"
+  },
+  "content_images": [
+    {
+      "image_id": "img-1",
+      "original_url": "http://example.com/img1.jpg",
+      "contents": "base64编码的图片数据"
+    }
+  ],
+  "translations": [
+    {
+      "language_id": 1,
+      "title": "文章标题",
+      "summary": "文章摘要",
+      "content": "文章内容，可以使用 {{image:img-1}} 作为图片占位符"
+    }
+  ]
+}
+```
+
+**参数说明**:
+- `slug` (必填): 文章URL别名，必须唯一
+- `main_image` (可选): 主图
+  - `image_id`: 图片ID
+  - `contents`: base64编码的图片数据
+- `content_images` (可选): 内容图片数组
+  - `image_id`: 图片ID，用于在内容中引用
+  - `original_url`: 原始图片URL
+  - `contents`: base64编码的图片数据
+- `translations` (必填): 多语言翻译数组，至少需要一种语言
+  - `language_id`: 语言ID
+  - `title`: 文章标题
+  - `summary`: 文章摘要（可选）
+  - `content`: 文章内容，可以使用 `{{image:图片ID}}` 作为占位符
+
+**响应示例**:
+
+```json
+{
+  "message": "文章创建成功",
+  "data": {
+    "id": 1,
+    "slug": "article-slug",
+    "is_published": true,
+    "articleTranslations": [...],
+    "media": [...]
+  }
+}
+```
+
+**使用示例** (cURL):
+
+```bash
+curl -X POST http://your-domain.com/api/articles/add \
+  -H "Content-Type: application/json" \
+  -d '{
+    "slug": "my-article",
+    "translations": [
+      {
+        "language_id": 1,
+        "title": "我的文章",
+        "content": "这是文章内容"
+      }
+    ]
+  }'
+```
+
+### 商品上传接口
+
+**接口地址**: `POST /api/products/add`
+
+**功能**: 上传商品，支持多语言、多规格、分类自动创建、图片上传
+
+**请求参数**:
+
+```json
+{
+  "slug": "product-slug",
+  "main_image": {
+    "image_id": "main-img-1",
+    "contents": "base64编码的图片数据"
+  },
+  "content_images": [
+    {
+      "image_id": "img-1",
+      "original_url": "http://example.com/img1.jpg",
+      "contents": "base64编码的图片数据"
+    }
+  ],
+  "translations": [
+    {
+      "language_id": 1,
+      "name": "商品名称",
+      "short_description": "简短描述",
+      "description": "详细描述，可以使用 {{image:img-1}} 作为图片占位符"
+    }
+  ],
+  "categories": [
+    {
+      "slug": "category-slug",
+      "parent_id": null,
+      "translations": [
+        {
+          "language_id": 1,
+          "name": "分类名称",
+          "description": "分类描述"
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "sku": "SKU-001",
+      "price": 99.99,
+      "cost": 50.00,
+      "stock": 100,
+      "weight": 1.5,
+      "length": 10,
+      "width": 5,
+      "height": 3,
+      "specification_values": [
+        {
+          "specification_id": 1,
+          "specification_value_id": 1
+        }
+      ]
+    }
+  ]
+}
+```
+
+**参数说明**:
+- `slug` (必填): 商品URL别名，必须唯一
+- `main_image` (可选): 主图，格式同文章接口
+- `content_images` (可选): 内容图片数组，格式同文章接口
+- `translations` (必填): 多语言翻译数组，至少需要一种语言
+  - `language_id`: 语言ID
+  - `name`: 商品名称
+  - `short_description`: 简短描述（可选）
+  - `description`: 详细描述，可以使用 `{{image:图片ID}}` 作为占位符
+- `categories` (可选): 分类数组，如果分类不存在会自动创建
+  - `slug`: 分类slug
+  - `parent_id`: 父分类ID（可选）
+  - `translations`: 分类的多语言翻译数组
+- `variants` (可选): 商品规格数组
+  - `sku`: SKU编码，必须唯一
+  - `price`: 价格（可选）
+  - `cost`: 成本（可选）
+  - `stock`: 库存（可选，默认0）
+  - `weight`: 重量（可选）
+  - `length`: 长度（可选）
+  - `width`: 宽度（可选）
+  - `height`: 高度（可选）
+  - `specification_values`: 规格值关联数组
+    - `specification_id`: 规格ID
+    - `specification_value_id`: 规格值ID
+
+**响应示例**:
+
+```json
+{
+  "message": "商品创建成功",
+  "data": {
+    "id": 1,
+    "slug": "product-slug",
+    "status": "active",
+    "productTranslations": [...],
+    "productCategories": [...],
+    "productVariants": [
+      {
+        "id": 1,
+        "sku": "SKU-001",
+        "price": 99.99,
+        "specificationValues": [...]
+      }
+    ],
+    "media": [...]
+  }
+}
+```
+
+**使用示例** (cURL):
+
+```bash
+curl -X POST http://your-domain.com/api/products/add \
+  -H "Content-Type: application/json" \
+  -d '{
+    "slug": "my-product",
+    "translations": [
+      {
+        "language_id": 1,
+        "name": "我的商品",
+        "short_description": "简短描述"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "SKU-001",
+        "price": 99.99,
+        "stock": 100
+      }
+    ]
+  }'
+```
+
+**注意事项**:
+1. 图片数据必须是有效的 base64 编码的 PNG 格式
+2. 如果分类不存在，系统会自动创建分类及其翻译
+3. SKU 必须全局唯一
+4. 商品 slug 必须全局唯一
+5. 内容中的图片占位符 `{{image:图片ID}}` 会被自动替换为实际图片URL
+
 ## 🔧 开发指南
 
 ### 添加新语言
@@ -382,6 +609,207 @@ npm run build
 php artisan queue:work
 ```
 
+## 🛠️ 开发工具
+
+### Bin 目录工具说明
+
+`bin/` 目录包含了项目使用的各种命令行工具，这些工具由 Composer 自动管理。
+
+#### 开发工具
+
+**PHPStan** (`phpstan` / `phpstan.phar`)
+- 用途：检测代码中的类型错误、未定义方法、潜在 bug 等
+- 使用：`./bin/phpstan analyse` 或 `composer analyse`
+- 配置：`phpstan.neon`
+
+**Pint** (`pint`)
+- 用途：自动修复代码风格问题，统一代码格式（基于 PHP-CS-Fixer）
+- 使用：`./bin/pint` (检查并修复) 或 `./bin/pint --test` (仅检查不修改)
+- 配置：`pint.json`
+
+**PHPUnit** (`phpunit`)
+- 用途：运行单元测试和功能测试
+- 使用：`./bin/phpunit` 或 `composer test`
+- 配置：`phpunit.xml`
+
+**PsySH** (`psysh`)
+- 用途：交互式调试和测试 PHP 代码
+- 使用：`./bin/psysh`
+
+**Tinker**
+- 用途：在 Laravel 应用上下文中交互式执行代码
+- 使用：`php artisan tinker`
+
+#### 部署和服务器工具
+
+**Deployer** (`dep`)
+- 用途：自动化部署应用到服务器
+- 使用：`./bin/dep deploy production`
+- 配置：`deploy.php`
+
+**RoadRunner Worker** (`roadrunner-worker`)
+- 用途：高性能 PHP 应用服务器（用于 Laravel Octane）
+- 使用：通过 Laravel Octane 自动管理
+
+**Swoole Server** (`swoole-server`)
+- 用途：高性能 PHP 应用服务器（用于 Laravel Octane）
+- 使用：通过 Laravel Octane 自动管理
+
+#### 常用命令
+
+```bash
+# 代码质量检查
+composer analyse          # 运行 PHPStan 静态分析
+./bin/pint               # 修复代码风格
+./bin/pint --test        # 仅检查代码风格
+
+# 测试
+composer test            # 运行所有测试
+./bin/phpunit            # 运行测试（直接调用）
+./bin/phpunit --filter   # 运行特定测试
+
+# 代码质量全检查
+composer check           # 运行所有质量检查（代码风格 + 静态分析 + 测试）
+```
+
+## 🧪 测试指南
+
+### 测试类型说明
+
+#### Unit 测试（单元测试）
+**位置**: `tests/Unit/`
+
+**用途**: 测试单个类或方法的功能，通常使用Mock来隔离依赖
+
+**特点**:
+- 测试速度快
+- 不依赖外部资源（数据库、网络等）
+- 专注于单个组件的逻辑
+- 使用 `RefreshDatabase` trait 来重置数据库状态
+
+**示例**:
+```php
+// 测试Model的关系
+public function testUserRelationship()
+{
+    $order = new Order();
+    $relation = $order->user();
+    $this->assertInstanceOf(BelongsTo::class, $relation);
+}
+
+// 测试Service的方法
+public function testCalculateVariantPrice()
+{
+    $service = new PromotionService();
+    $result = $service->calculateVariantPrice($variant, 1);
+    $this->assertEquals(100, $result['final_price']);
+}
+```
+
+#### Feature 测试（功能测试）
+**位置**: `tests/Feature/`
+
+**用途**: 测试完整的功能流程，包括HTTP请求、路由、控制器、中间件等
+
+**特点**:
+- 测试完整的用户流程
+- 可以测试HTTP请求和响应
+- 测试路由、中间件、认证等
+- 更接近真实使用场景
+
+**示例**:
+```php
+// 测试API端点
+public function testCanCreateArticle()
+{
+    $response = $this->postJson('/api/articles/add', [
+        'slug' => 'test-article',
+        'translations' => [...],
+    ]);
+    
+    $response->assertStatus(201);
+    $this->assertDatabaseHas('articles', ['slug' => 'test-article']);
+}
+```
+
+### 测试覆盖情况
+
+#### 枚举类测试（100%覆盖）
+- ✅ OrderStatusEnumTest
+- ✅ PaymentMethodEnumTest  
+- ✅ ProductStatusEnumTest
+- ✅ PromotionConditionTypeEnumTest
+- ✅ PromotionDiscountTypeEnumTest
+- ✅ PromotionTypeEnumTest
+- ✅ ShippingMethodEnumTest
+
+#### Model类测试（约30%覆盖）
+- ✅ AddressTest
+- ✅ ArticleTest
+- ✅ ArticleTranslationTest
+- ✅ CartTest
+- ✅ CartItemTest
+- ✅ CategoryTest
+- ✅ CountryTest
+- ✅ CurrencyTest
+- ✅ LanguageTest
+- ✅ OrderTest
+- ✅ OrderItemTest
+- ✅ ProductTest
+- ✅ ProductVariantTest
+- ✅ PromotionTest
+- ✅ PromotionRuleTest
+- ✅ UserTest
+- ✅ ZoneTest
+
+#### Service类测试（约50%覆盖）
+- ✅ CartServiceTest
+- ✅ LocaleCurrencyServiceTest
+- ✅ PaymentServiceTest
+- ✅ PromotionServiceTest
+- ✅ ShippingServiceTest
+- ✅ ShippingCalculatorFactoryTest
+- ✅ SFExpressCalculatorTest
+- ✅ EMSCalculatorTest
+
+#### Feature测试
+- ✅ ArticleApiTest
+- ✅ ProductApiTest
+- ✅ LanguageCurrencySwitcherTest
+
+### 运行测试
+
+```bash
+# 运行所有测试
+php bin/phpunit
+# 或
+composer test
+
+# 运行Unit测试
+php bin/phpunit tests/Unit/
+
+# 运行Feature测试
+php bin/phpunit tests/Feature/
+
+# 运行特定测试类
+php bin/phpunit tests/Unit/CartServiceTest.php
+
+# 运行特定测试方法
+php bin/phpunit --filter testGetCart
+
+# 运行枚举类测试
+php bin/phpunit tests/Unit/ --filter Enum
+```
+
+### 测试最佳实践
+
+1. **测试命名**: 使用描述性的测试方法名，如 `testCanCreateArticle()`
+2. **AAA模式**: Arrange（准备）-> Act（执行）-> Assert（断言）
+3. **单一职责**: 每个测试方法只测试一个功能点
+4. **独立性**: 测试之间不应该相互依赖
+5. **使用Factory**: 使用Factory创建测试数据，而不是直接操作数据库
+6. **清理数据**: 使用 `RefreshDatabase` trait 确保每次测试后数据库状态干净
+
 ## 🤝 贡献指南
 
 我们欢迎社区贡献！请遵循以下步骤：
@@ -397,6 +825,7 @@ php artisan queue:work
 - 使用有意义的变量和函数名
 - 添加适当的注释
 - 编写单元测试
+- 运行代码质量检查：`composer check`
 
 ## 📄 许可证
 
