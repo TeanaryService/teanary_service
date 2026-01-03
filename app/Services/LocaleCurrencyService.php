@@ -4,14 +4,12 @@ namespace App\Services;
 
 use App\Models\Currency;
 use App\Models\Language;
+use App\Support\CacheKeys;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
 class LocaleCurrencyService
 {
-    const LANGUAGES_CACHE_KEY = 'languages.all';
-
-    const CURRENCIES_CACHE_KEY = 'currencies.all';
 
     public function getLanguages()
     {
@@ -20,7 +18,7 @@ class LocaleCurrencyService
             return collect([]);
         }
 
-        return Cache::rememberForever(self::LANGUAGES_CACHE_KEY, function () {
+        return Cache::rememberForever(CacheKeys::LANGUAGES_ALL, function () {
             return Language::all();
         });
     }
@@ -32,19 +30,19 @@ class LocaleCurrencyService
             return collect([]);
         }
 
-        return Cache::rememberForever(self::CURRENCIES_CACHE_KEY, function () {
+        return Cache::rememberForever(CacheKeys::CURRENCIES_ALL, function () {
             return Currency::all();
         });
     }
 
     public function clearLanguagesCache()
     {
-        Cache::forget(self::LANGUAGES_CACHE_KEY);
+        Cache::forget(CacheKeys::LANGUAGES_ALL);
     }
 
     public function clearCurrenciesCache()
     {
-        Cache::forget(self::CURRENCIES_CACHE_KEY);
+        Cache::forget(CacheKeys::CURRENCIES_ALL);
     }
 
     public function getLanguageByCode($code)

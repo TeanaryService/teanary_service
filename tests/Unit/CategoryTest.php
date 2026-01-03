@@ -72,7 +72,7 @@ class CategoryTest extends TestCase
 
         $this->assertCount(1, $categories);
         $this->assertEquals($parent->id, $categories->first()->id);
-        $this->assertTrue(Cache::has('categories.with.translations'));
+        $this->assertTrue(Cache::has(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS));
     }
 
     public function test_get_categories_for_language()

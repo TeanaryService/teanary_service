@@ -89,7 +89,7 @@ class Category extends Model implements HasMedia
      */
     public static function getCachedCategories()
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever('categories.with.translations', function () {
+        return \Illuminate\Support\Facades\Cache::rememberForever(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS, function () {
             return static::with([
                 'categories.categories',
                 'media',

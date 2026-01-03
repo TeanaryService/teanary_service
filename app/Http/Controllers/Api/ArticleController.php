@@ -3,121 +3,56 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Concerns\HandlesApiTransactions;
+use App\Http\Controllers\Api\Concerns\HandlesApiResponses;
 use App\Http\Requests\StoreArticleRequest;
-use App\Models\Article;
-use App\Models\ArticleTranslation;
-use App\Models\Language;
+use App\Services\ArticleService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
+    use HandlesApiTransactions, HandlesApiResponses;
+
+    public function __construct(
+        protected ArticleService $articleService
+    ) {
+    }
+
     public function store(StoreArticleRequest $request): JsonResponse
     {
-        // 检查是否已经在事务中（测试环境可能已经开启事务）
-        $alreadyInTransaction = DB::transactionLevel() > 0;
+        $openedTransaction = false;
         
         try {
             // 检查中文标题是否重复
-            $chineseLanguage = Language::where('code', 'zh_CN')->first();
-            if ($chineseLanguage) {
-                $chineseTranslation = collect($request->translations)
-                    ->firstWhere('language_id', $chineseLanguage->id);
-
-                if ($chineseTranslation && isset($chineseTranslation['title'])) {
-                    $existingTranslation = ArticleTranslation::where('language_id', $chineseLanguage->id)
-                        ->where('title', $chineseTranslation['title'])
-                        ->first();
-
-                    if ($existingTranslation) {
-                        return response()->json([
-                            'message' => '中文标题已存在',
-                        ], 200);
-                    }
-                }
+            $translations = collect($request->translations);
+            $existingTranslation = $this->articleService->checkDuplicateChineseTitle($translations);
+            
+            if ($existingTranslation) {
+                return $this->successResponse('中文标题已存在', null, 200);
             }
 
-            if (!$alreadyInTransaction) {
-                DB::beginTransaction();
-            }
+            // 开始事务
+            $openedTransaction = $this->beginTransactionIfNotInOne();
 
-            // 1. 创建文章基础信息
-            $article = Article::create([
+            // 创建文章
+            $article = $this->articleService->createArticle([
                 'slug' => $request->slug,
                 'is_published' => true,
-                // 'article_id' => $request->article_id,
+                'main_image' => $request->main_image,
+                'content_images' => $request->content_images,
+                'translations' => $request->translations,
             ]);
 
-            Log::info(json_encode($request->main_image));
+            // 提交事务
+            $this->commitIfOpened($openedTransaction);
 
-            // 2. 处理主图
-            if ($request->has('main_image.contents')) {
-                $imageContent = base64_decode($request->main_image['contents']);
-                $article->addMediaFromString($imageContent)
-                    ->usingFileName($request->main_image['image_id'].'.jpg')
-                    ->toMediaCollection('image');
-            }
-
-            // 3. 处理内容图片
-            $imageMap = [];
-            if ($request->has('content_images')) {
-                foreach ($request->content_images as $image) {
-                    $mediaItem = $article->addMediaFromString(base64_decode($image['contents']))
-                        ->usingFileName($image['image_id'].'.jpg')
-                        ->toMediaCollection('content-images');
-
-                    $imageMap[$image['image_id']] = $mediaItem->getUrl();
-                }
-            }
-
-            // 4. 处理翻译内容
-            foreach ($request->translations as $translation) {
-                $content = $translation['content'];
-
-                // 替换内容中的图片占位符
-                foreach ($imageMap as $imageId => $url) {
-                    $url = '/storage'.Str::of($url)->after('/storage');
-                    $content = str_replace(
-                        '{{image:'.$imageId.'}}',
-                        $url,
-                        $content
-                    );
-                }
-
-                $article->articleTranslations()->create([
-                    'language_id' => $translation['language_id'],
-                    'title' => $translation['title'],
-                    'content' => $content,
-                    'summary' => $translation['summary'] ?? null,
-                ]);
-            }
-
-            if (!$alreadyInTransaction) {
-                DB::commit();
-            }
-
-            // 手动触发索引
-            $article->searchable();
-
-            return response()->json([
-                'message' => '文章创建成功',
-                'data' => $article->load(['articleTranslations', 'media']),
-            ], 201);
+            return $this->successResponse('文章创建成功', $article);
         } catch (\Exception $e) {
-            if (!$alreadyInTransaction) {
-                DB::rollBack();
-            }
-            Log::error('文章创建失败：'.$e->getMessage(), [
-                'trace' => $e->getTraceAsString(),
+            $this->rollbackIfOpened($openedTransaction);
+            
+            return $this->handleException($e, '文章创建失败', [
                 'request' => $request->all(),
             ]);
-
-            return response()->json([
-                'message' => '文章创建失败',
-                'error' => config('app.debug') ? $e->getMessage() : '系统错误',
-            ], 500);
         }
     }
 }
