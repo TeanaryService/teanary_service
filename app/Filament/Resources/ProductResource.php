@@ -252,6 +252,7 @@ class ProductResource extends Resource
                         return implode('，', array_filter($names));
                     }),
                 Tables\Columns\TextColumn::make('slug')
+                    ->limit(16)
                     ->label(__('filament.product.slug'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('source_url')
