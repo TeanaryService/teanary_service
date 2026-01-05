@@ -37,13 +37,18 @@ class MediaService
     protected function downloadImageFromUrl(string $url): string
     {
         try {
+            /** @var \Illuminate\Http\Client\Response $response */
             $response = Http::timeout(30)->get($url);
             
-            if (!$response->successful()) {
+            if ($response->status() !== 200) {
                 throw new Exception("无法下载图片: HTTP {$response->status()}");
             }
             
             $imageContent = $response->body();
+            
+            if (empty($imageContent)) {
+                throw new Exception('下载的图片内容为空');
+            }
             
             // 验证是否为有效的图片数据
             $imageInfo = @getimagesizefromstring($imageContent);
@@ -52,7 +57,7 @@ class MediaService
             }
             
             return $imageContent;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception("下载图片失败: {$e->getMessage()}");
         }
     }
@@ -160,25 +165,40 @@ class MediaService
     }
 
     /**
-     * 替换内容中的图片占位符
+     * 替换内容中的图片占位符为HTML img标签
      *
-     * @param string|null $content 内容
+     * @param string|null $content 内容（HTML格式）
      * @param array $imageMap 图片ID到URL的映射
-     * @return string 替换后的内容
+     * @return string 替换后的HTML内容
      */
     public function replaceImagePlaceholders(?string $content, array $imageMap): string
     {
-        if (!$content || empty($imageMap)) {
-            return $content ?? '';
+        if (!$content) {
+            return '';
+        }
+
+        if (empty($imageMap)) {
+            return $content;
         }
 
         foreach ($imageMap as $imageId => $url) {
+            // 确保URL是相对路径
             $url = '/storage'.Str::of($url)->after('/storage');
-            $content = str_replace(
+            
+            // 替换占位符为HTML img标签
+            $imgTag = '<img src="'.htmlspecialchars($url, ENT_QUOTES, 'UTF-8').'" alt="" class="product-content-image" />';
+            
+            // 替换各种可能的占位符格式
+            $placeholders = [
                 '{{image:'.$imageId.'}}',
-                $url,
-                $content
-            );
+                '{{ image:'.$imageId.' }}',
+                '{{image: '.$imageId.'}}',
+                '{{ image: '.$imageId.' }}',
+            ];
+            
+            foreach ($placeholders as $placeholder) {
+                $content = str_replace($placeholder, $imgTag, $content);
+            }
         }
 
         return $content;

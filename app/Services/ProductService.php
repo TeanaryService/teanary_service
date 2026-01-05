@@ -3,6 +3,10 @@
 namespace App\Services;
 
 use App\Enums\ProductStatusEnum;
+use App\Models\Attribute;
+use App\Models\AttributeTranslation;
+use App\Models\AttributeValue;
+use App\Models\AttributeValueTranslation;
 use App\Models\Product;
 use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
@@ -51,6 +55,14 @@ class ProductService
         // 处理商品规格
         if (!empty($data['variants'])) {
             $this->createProductVariants($product, $data['variants']);
+        }
+
+        // 处理商品属性
+        if (!empty($data['attributes'])) {
+            $languageId = $data['translations'][0]['language_id'] ?? null;
+            if ($languageId) {
+                $this->syncProductAttributes($product, $data['attributes'], $languageId);
+            }
         }
 
         // 触发搜索索引
@@ -145,6 +157,106 @@ class ProductService
                 'short_description' => $translation['short_description'] ?? null,
             ]);
         }
+    }
+
+    /**
+     * 同步商品属性
+     *
+     * @param Product $product
+     * @param array $attributesData
+     * @param int $languageId
+     * @return void
+     */
+    protected function syncProductAttributes(Product $product, array $attributesData, int $languageId): void
+    {
+        $syncData = [];
+
+        foreach ($attributesData as $attrData) {
+            $attributeName = $attrData['name'] ?? '';
+            $attributeValueName = $attrData['value'] ?? '';
+
+            if (empty($attributeName) || empty($attributeValueName)) {
+                continue;
+            }
+
+            // 查找或创建属性
+            $attribute = $this->findOrCreateAttribute($attributeName, $languageId);
+
+            // 查找或创建属性值
+            $attributeValue = $this->findOrCreateAttributeValue($attribute, $attributeValueName, $languageId);
+
+            // 准备同步数据（使用 attribute_value_id 作为键，attribute_id 作为 pivot 数据）
+            $syncData[$attributeValue->id] = [
+                'attribute_id' => $attribute->id,
+            ];
+        }
+
+        // 同步商品属性
+        if (!empty($syncData)) {
+            $product->attributeValues()->sync($syncData);
+        }
+    }
+
+    /**
+     * 查找或创建属性
+     *
+     * @param string $name
+     * @param int $languageId
+     * @return Attribute
+     */
+    protected function findOrCreateAttribute(string $name, int $languageId): Attribute
+    {
+        // 先尝试通过翻译查找
+        $translation = AttributeTranslation::where('name', $name)
+            ->where('language_id', $languageId)
+            ->first();
+
+        if ($translation) {
+            return $translation->attribute;
+        }
+
+        // 如果不存在，创建新属性
+        $attribute = Attribute::create([]);
+        $attribute->attributeTranslations()->create([
+            'language_id' => $languageId,
+            'name' => $name,
+        ]);
+
+        return $attribute;
+    }
+
+    /**
+     * 查找或创建属性值
+     *
+     * @param Attribute $attribute
+     * @param string $valueName
+     * @param int $languageId
+     * @return AttributeValue
+     */
+    protected function findOrCreateAttributeValue(Attribute $attribute, string $valueName, int $languageId): AttributeValue
+    {
+        // 先尝试通过翻译查找该属性下的属性值
+        $translation = AttributeValueTranslation::whereHas('attributeValue', function ($query) use ($attribute) {
+            $query->where('attribute_id', $attribute->id);
+        })
+            ->where('name', $valueName)
+            ->where('language_id', $languageId)
+            ->first();
+
+        if ($translation) {
+            return $translation->attributeValue;
+        }
+
+        // 如果不存在，创建新属性值
+        $attributeValue = AttributeValue::create([
+            'attribute_id' => $attribute->id,
+        ]);
+        $attributeValue->attributeValueTranslations()->create([
+            'language_id' => $languageId,
+            'name' => $valueName,
+        ]);
+
+        return $attributeValue;
     }
 }
 

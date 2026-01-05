@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Log;
 
 class StoreProductRequest extends FormRequest
 {
@@ -11,11 +14,80 @@ class StoreProductRequest extends FormRequest
         return true;
     }
 
+    /**
+     * 验证失败时返回JSON响应
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        // 记录验证失败的详细信息
+        $errors = $validator->errors()->toArray();
+        $requestData = $this->all();
+        
+        // 排除大的图片内容，避免日志过大
+        $logData = [
+            'ip' => $this->ip(),
+            'user_agent' => $this->userAgent(),
+            'url' => $this->fullUrl(),
+            'method' => $this->method(),
+            'validation_errors' => $errors,
+            'request_data' => [
+                'slug' => $requestData['slug'] ?? null,
+                'source_url' => $requestData['source_url'] ?? null,
+                'main_image' => isset($requestData['main_image']) ? [
+                    'image_id' => $requestData['main_image']['image_id'] ?? null,
+                    'has_contents' => isset($requestData['main_image']['contents']),
+                    'has_image_url' => isset($requestData['main_image']['image_url']),
+                ] : null,
+                'content_images_count' => isset($requestData['content_images']) ? count($requestData['content_images']) : 0,
+                'translations_count' => isset($requestData['translations']) ? count($requestData['translations']) : 0,
+                'translations' => isset($requestData['translations']) ? array_map(function ($trans) {
+                    return [
+                        'language_id' => $trans['language_id'] ?? null,
+                        'name' => $trans['name'] ?? null,
+                        'has_description' => isset($trans['description']),
+                        'has_short_description' => isset($trans['short_description']),
+                    ];
+                }, $requestData['translations']) : [],
+                'categories_count' => isset($requestData['categories']) ? count($requestData['categories']) : 0,
+                'variants_count' => isset($requestData['variants']) ? count($requestData['variants']) : 0,
+                'variants' => isset($requestData['variants']) ? array_map(function ($variant) {
+                    return [
+                        'sku' => $variant['sku'] ?? null,
+                        'price' => $variant['price'] ?? null,
+                        'stock' => $variant['stock'] ?? null,
+                        'has_specification_values' => isset($variant['specification_values']),
+                        'specification_values_count' => isset($variant['specification_values']) ? count($variant['specification_values']) : 0,
+                    ];
+                }, $requestData['variants']) : [],
+                'attributes_count' => isset($requestData['attributes']) ? count($requestData['attributes']) : 0,
+                'attributes' => isset($requestData['attributes']) ? array_map(function ($attr) {
+                    return [
+                        'name' => $attr['name'] ?? null,
+                        'value' => $attr['value'] ?? null,
+                    ];
+                }, $requestData['attributes']) : [],
+            ],
+        ];
+        
+        Log::warning('商品上传验证失败', $logData);
+        
+        throw new HttpResponseException(
+            response()->json([
+                'message' => '验证失败',
+                'errors' => $errors,
+            ], 422)
+        );
+    }
+
     public function rules(): array
     {
         return [
             'slug' => 'required|string|unique:products,slug',
-            'source_url' => 'nullable|url|max:255',
+            'source_url' => ['nullable', 'string', 'max:255', function ($attribute, $value, $fail) {
+                if ($value !== null && $value !== '' && !filter_var($value, FILTER_VALIDATE_URL)) {
+                    $fail('source_url必须是有效的URL地址');
+                }
+            }],
             'main_image' => 'nullable|array',
             'main_image.image_id' => 'required_with:main_image|string',
             'main_image.contents' => 'required_without:main_image.image_url|string',
@@ -48,6 +120,9 @@ class StoreProductRequest extends FormRequest
             'variants.*.specification_values' => 'nullable|array',
             'variants.*.specification_values.*.specification_id' => 'required|integer|exists:specifications,id',
             'variants.*.specification_values.*.specification_value_id' => 'required|integer|exists:specification_values,id',
+            'attributes' => 'nullable|array',
+            'attributes.*.name' => 'required|string|max:255',
+            'attributes.*.value' => 'required|string|max:255',
         ];
     }
 
@@ -67,6 +142,8 @@ class StoreProductRequest extends FormRequest
             'variants.*.sku.unique' => 'SKU已存在',
             'variants.*.specification_values.*.specification_id.required' => '规格ID不能为空',
             'variants.*.specification_values.*.specification_value_id.required' => '规格值ID不能为空',
+            'attributes.*.name.required' => '属性名称不能为空',
+            'attributes.*.value.required' => '属性值不能为空',
         ];
     }
 }
