@@ -95,7 +95,6 @@ class ProductVariantResource extends Resource
                     ->imageEditor()
                     ->imageCropAspectRatio('1:1')
                     ->columnSpanFull()
-                    ->required()
                     ->collection('image'),
                 Repeater::make('specificationValues')
                     ->label(__('filament.product_variant.specification_values'))
