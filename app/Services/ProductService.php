@@ -45,9 +45,12 @@ class ProductService
             'translation_status' => TranslationStatusEnum::NotTranslated, // 默认不翻译
         ]);
 
-        // 处理主图
+        // 处理主图（支持单个或数组）
         if (isset($data['main_image'])) {
             $this->mediaService->handleMainImage($product, $data['main_image']);
+        } elseif (isset($data['main_images']) && is_array($data['main_images'])) {
+            // 支持 main_images 数组格式
+            $this->mediaService->handleMainImage($product, $data['main_images']);
         }
 
         // 处理内容图片

@@ -81,7 +81,7 @@ class StoreProductRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'slug' => 'required|string|unique:products,slug',
             'source_url' => ['nullable', 'string', 'max:255', function ($attribute, $value, $fail) {
                 if ($value !== null && $value !== '' && !filter_var($value, FILTER_VALIDATE_URL)) {
@@ -89,42 +89,57 @@ class StoreProductRequest extends FormRequest
                 }
             }],
             'main_image' => 'nullable|array',
-            'main_image.image_id' => 'required_with:main_image|string',
-            'main_image.contents' => 'required_without:main_image.image_url|string',
-            'main_image.image_url' => 'required_without:main_image.contents|url',
-            'content_images' => 'nullable|array',
-            'content_images.*.image_id' => 'required|string',
-            'content_images.*.image_url' => 'required_without:content_images.*.contents|url',
-            'content_images.*.contents' => 'required_without:content_images.*.image_url|string',
-            'translations' => 'required|array|min:1',
-            'translations.*.language_id' => 'required|integer|exists:languages,id',
-            'translations.*.name' => 'required|string|max:255',
-            'translations.*.description' => 'nullable|string',
-            'translations.*.short_description' => 'nullable|string',
-            'categories' => 'nullable|array',
-            'categories.*.slug' => 'required|string',
-            'categories.*.parent_id' => 'nullable|integer|exists:categories,id',
-            'categories.*.translations' => 'nullable|array',
-            'categories.*.translations.*.language_id' => 'required|integer|exists:languages,id',
-            'categories.*.translations.*.name' => 'required|string|max:255',
-            'categories.*.translations.*.description' => 'nullable|string',
-            'variants' => 'nullable|array',
-            'variants.*.sku' => 'required|string|unique:product_variants,sku',
-            'variants.*.price' => 'nullable|numeric|min:0',
-            'variants.*.cost' => 'nullable|numeric|min:0',
-            'variants.*.stock' => 'nullable|integer|min:0',
-            'variants.*.weight' => 'nullable|numeric|min:0',
-            'variants.*.length' => 'nullable|numeric|min:0',
-            'variants.*.width' => 'nullable|numeric|min:0',
-            'variants.*.height' => 'nullable|numeric|min:0',
-            'variants.*.specification_values' => 'nullable|array',
-            // 只支持通过名称创建规格（第三方采集的商品没有ID）
-            'variants.*.specification_values.*.specification_name' => 'required|string|max:255',
-            'variants.*.specification_values.*.specification_value_name' => 'required|string|max:255',
-            'attributes' => 'nullable|array',
-            'attributes.*.name' => 'required|string|max:255',
-            'attributes.*.value' => 'required|string|max:255',
+            'main_images' => 'nullable|array',
         ];
+
+        // 只有当 main_image 存在且不为 null 时才验证其字段
+        if ($this->filled('main_image')) {
+            $rules['main_image.image_id'] = 'required|string';
+            $rules['main_image.contents'] = 'required_without:main_image.image_url|nullable|string';
+            $rules['main_image.image_url'] = 'required_without:main_image.contents|nullable|url';
+        }
+
+        // 只有当 main_images 存在且不为空时才验证其字段
+        if ($this->filled('main_images') && is_array($this->main_images) && count($this->main_images) > 0) {
+            $rules['main_images.*.image_id'] = 'required|string';
+            $rules['main_images.*.image_url'] = 'required_without:main_images.*.contents|nullable|url';
+            $rules['main_images.*.contents'] = 'required_without:main_images.*.image_url|nullable|string';
+        }
+
+        $rules['content_images'] = 'nullable|array';
+        $rules['content_images.*.image_id'] = 'required|string';
+        $rules['content_images.*.image_url'] = 'required_without:content_images.*.contents|url';
+        $rules['content_images.*.contents'] = 'required_without:content_images.*.image_url|string';
+        $rules['translations'] = 'required|array|min:1';
+        $rules['translations.*.language_id'] = 'required|integer|exists:languages,id';
+        $rules['translations.*.name'] = 'required|string|max:255';
+        $rules['translations.*.description'] = 'nullable|string';
+        $rules['translations.*.short_description'] = 'nullable|string';
+        $rules['categories'] = 'nullable|array';
+        $rules['categories.*.slug'] = 'required|string';
+        $rules['categories.*.parent_id'] = 'nullable|integer|exists:categories,id';
+        $rules['categories.*.translations'] = 'nullable|array';
+        $rules['categories.*.translations.*.language_id'] = 'required|integer|exists:languages,id';
+        $rules['categories.*.translations.*.name'] = 'required|string|max:255';
+        $rules['categories.*.translations.*.description'] = 'nullable|string';
+        $rules['variants'] = 'nullable|array';
+        $rules['variants.*.sku'] = 'required|string|unique:product_variants,sku';
+        $rules['variants.*.price'] = 'nullable|numeric|min:0';
+        $rules['variants.*.cost'] = 'nullable|numeric|min:0';
+        $rules['variants.*.stock'] = 'nullable|integer|min:0';
+        $rules['variants.*.weight'] = 'nullable|numeric|min:0';
+        $rules['variants.*.length'] = 'nullable|numeric|min:0';
+        $rules['variants.*.width'] = 'nullable|numeric|min:0';
+        $rules['variants.*.height'] = 'nullable|numeric|min:0';
+        $rules['variants.*.specification_values'] = 'nullable|array';
+        // 只支持通过名称创建规格（第三方采集的商品没有ID）
+        $rules['variants.*.specification_values.*.specification_name'] = 'required|string|max:255';
+        $rules['variants.*.specification_values.*.specification_value_name'] = 'required|string|max:255';
+        $rules['attributes'] = 'nullable|array';
+        $rules['attributes.*.name'] = 'required|string|max:255';
+        $rules['attributes.*.value'] = 'required|string|max:255';
+
+        return $rules;
     }
 
     public function messages(): array

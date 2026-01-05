@@ -86,10 +86,10 @@ class MediaService
     }
 
     /**
-     * 处理主图上传
+     * 处理主图上传（单个或数组）
      *
      * @param Model $model 支持 HasMedia 的模型
-     * @param array|null $mainImage 主图数据，支持 contents (base64) 或 image_url (URL)
+     * @param array|null $mainImage 主图数据，支持单个主图对象或主图数组
      * @param string $extension 文件扩展名，默认 'png'，如果提供image_url会自动检测
      * @return void
      * @throws InvalidArgumentException|Exception
@@ -100,6 +100,30 @@ class MediaService
             return;
         }
 
+        // 检查是否是数组格式（多个主图）
+        // 如果第一个元素是数组，或者数组有数字索引且第一个元素包含 image_id 或 image_url，说明是多个主图的数组
+        if (isset($mainImage[0]) && is_array($mainImage[0]) && (isset($mainImage[0]['image_id']) || isset($mainImage[0]['image_url']) || isset($mainImage[0]['contents']))) {
+            // 处理多个主图
+            foreach ($mainImage as $image) {
+                $this->handleSingleMainImage($model, $image, $extension);
+            }
+        } else {
+            // 处理单个主图（兼容旧格式）
+            $this->handleSingleMainImage($model, $mainImage, $extension);
+        }
+    }
+
+    /**
+     * 处理单个主图上传
+     *
+     * @param Model $model 支持 HasMedia 的模型
+     * @param array $mainImage 主图数据，支持 contents (base64) 或 image_url (URL)
+     * @param string $extension 文件扩展名，默认 'png'，如果提供image_url会自动检测
+     * @return void
+     * @throws InvalidArgumentException|Exception
+     */
+    protected function handleSingleMainImage(Model $model, array $mainImage, string $extension = 'png'): void
+    {
         $imageId = $mainImage['image_id'] ?? Str::random(8);
         $imageContent = null;
         $finalExtension = $extension;

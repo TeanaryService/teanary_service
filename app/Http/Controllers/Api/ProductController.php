@@ -36,6 +36,7 @@ class ProductController extends Controller
                 'has_image_url' => isset($request->main_image['image_url']),
                 'contents_length' => isset($request->main_image['contents']) ? strlen($request->main_image['contents']) : null,
             ] : null,
+            'main_images_count' => $request->main_images ? count($request->main_images) : 0,
             'content_images_count' => $request->content_images ? count($request->content_images) : 0,
             'content_images' => $request->content_images ? array_map(function ($img) {
                 return [
@@ -92,16 +93,24 @@ class ProductController extends Controller
             $openedTransaction = $this->beginTransactionIfNotInOne();
 
             // 创建商品
-            $product = $this->productService->createProduct([
+            $productData = [
                 'slug' => $request->slug,
                 'source_url' => $request->source_url,
-                'main_image' => $request->main_image,
                 'content_images' => $request->content_images,
                 'translations' => $request->translations,
                 'categories' => $request->categories,
                 'variants' => $request->variants,
                 'attributes' => $request->input('attributes', []),
-            ]);
+            ];
+
+            // 支持 main_image（单个）或 main_images（数组）
+            if ($request->has('main_images') && is_array($request->main_images)) {
+                $productData['main_images'] = $request->main_images;
+            } elseif ($request->has('main_image')) {
+                $productData['main_image'] = $request->main_image;
+            }
+
+            $product = $this->productService->createProduct($productData);
 
             // 提交事务
             $this->commitIfOpened($openedTransaction);
