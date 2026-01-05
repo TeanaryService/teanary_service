@@ -28,6 +28,7 @@ class RandomProducts extends Component
             'productVariants.media',
             'media',
         ])
+            ->active()
             ->inRandomOrder()
             ->take($this->limit)
             ->get();

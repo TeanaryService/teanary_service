@@ -49,7 +49,8 @@ class Product extends Component
             }
         }
 
-        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues', 'media']);
+        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues', 'media'])
+            ->active();
 
         // 添加搜索条件
         if ($search) {

@@ -93,6 +93,14 @@ class Product extends Model implements HasMedia
         return $this->hasMany(ProductVariant::class);
     }
 
+    /**
+     * 只查询启用状态的商品
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', ProductStatusEnum::Active);
+    }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
