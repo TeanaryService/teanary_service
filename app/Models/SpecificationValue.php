@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\TranslationStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,10 +34,12 @@ class SpecificationValue extends Model
 
     protected $casts = [
         'specification_id' => 'int',
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
         'specification_id',
+        'translation_status',
     ];
 
     public function specification(): BelongsTo

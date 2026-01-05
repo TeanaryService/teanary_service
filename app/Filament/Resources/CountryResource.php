@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\CountryResource\Pages;
 use App\Filament\Resources\CountryResource\RelationManagers\ZonesRelationManager;
 use App\Models\Country;
@@ -9,6 +10,7 @@ use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -21,6 +23,7 @@ class CountryResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = Country::class;
 
@@ -92,6 +95,11 @@ class CountryResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label(__('filament.country.active'))
                     ->required(),
+                Forms\Components\Select::make('translation_status')
+                    ->label('翻译状态')
+                    ->options(TranslationStatusEnum::options())
+                    ->default(TranslationStatusEnum::NotTranslated->value)
+                    ->required(),
             ]);
     }
 
@@ -125,6 +133,15 @@ class CountryResource extends Resource
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('filament.country.active'))
                     ->boolean(),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    }),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -136,6 +153,7 @@ class CountryResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }

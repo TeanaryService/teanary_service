@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Models\Article;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
@@ -23,6 +25,7 @@ class ArticleResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = Article::class;
 
@@ -80,6 +83,11 @@ class ArticleResource extends Resource
                     ->default(null),
                 Forms\Components\Toggle::make('is_published')
                     ->label(__('filament.article.is_published'))
+                    ->required(),
+                Forms\Components\Select::make('translation_status')
+                    ->label('翻译状态')
+                    ->options(TranslationStatusEnum::options())
+                    ->default(TranslationStatusEnum::NotTranslated->value)
                     ->required(),
 
                 Tabs::make('translations_tabs')
@@ -151,6 +159,15 @@ class ArticleResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('filament.article.user_id')),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    }),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -162,6 +179,7 @@ class ArticleResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }

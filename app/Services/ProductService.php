@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\ProductStatusEnum;
+use App\Enums\TranslationStatusEnum;
 use App\Models\Attribute;
 use App\Models\AttributeTranslation;
 use App\Models\AttributeValue;
@@ -35,6 +36,7 @@ class ProductService
             'slug' => $data['slug'],
             'source_url' => $data['source_url'] ?? null,
             'status' => ProductStatusEnum::Inactive,
+            'translation_status' => TranslationStatusEnum::NotTranslated, // 默认不翻译
         ]);
 
         // 处理主图

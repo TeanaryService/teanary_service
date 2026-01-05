@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ProductStatusEnum;
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
@@ -26,6 +28,7 @@ class ProductResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = Product::class;
 
@@ -151,6 +154,11 @@ class ProductResource extends Resource
                 ->label(__('filament.product.status'))
                 ->options(ProductStatusEnum::options())
                 ->required(),
+            Forms\Components\Select::make('translation_status')
+                ->label('翻译状态')
+                ->options(TranslationStatusEnum::options())
+                ->default(TranslationStatusEnum::NotTranslated->value)
+                ->required(),
             Forms\Components\TextInput::make('source_url')
                 ->label('来源URL')
                 ->url()
@@ -256,6 +264,15 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn ($state): string => $state->label())
                     ->label(__('filament.product.status')),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    }),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -267,6 +284,7 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }

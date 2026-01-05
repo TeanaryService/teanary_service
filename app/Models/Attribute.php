@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\TranslationStatusEnum;
 use App\Observers\AttributeObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -33,10 +34,12 @@ class Attribute extends Model
 
     protected $casts = [
         'is_filterable' => 'boolean',
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
         'is_filterable',
+        'translation_status',
     ];
 
     protected $attributes = [

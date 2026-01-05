@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\TranslationStatusEnum;
 use App\Observers\ZoneObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -39,12 +40,14 @@ class Zone extends Model
     protected $casts = [
         'country_id' => 'int',
         'active' => 'bool',
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
         'country_id',
         'code',
         'active',
+        'translation_status',
     ];
 
     public function country(): BelongsTo

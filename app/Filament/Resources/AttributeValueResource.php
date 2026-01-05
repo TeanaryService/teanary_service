@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\AttributeResource\RelationManagers\AttributeValuesRelationManager;
 use App\Filament\Resources\AttributeValueResource\Pages;
 use App\Models\AttributeValue;
@@ -9,6 +10,7 @@ use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -20,6 +22,7 @@ class AttributeValueResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = AttributeValue::class;
 
@@ -78,6 +81,12 @@ class AttributeValueResource extends Resource
                     ->required()
                     ->columnSpanFull()
                     ->hiddenOn([AttributeValuesRelationManager::class]),
+                Forms\Components\Select::make('translation_status')
+                    ->label('翻译状态')
+                    ->options(TranslationStatusEnum::options())
+                    ->default(TranslationStatusEnum::NotTranslated->value)
+                    ->required()
+                    ->hiddenOn([AttributeValuesRelationManager::class]),
 
                 // 多语言 name 字段
                 Forms\Components\Group::make(
@@ -134,6 +143,16 @@ class AttributeValueResource extends Resource
 
                         return $first ? $first->name : $attribute->id;
                     }),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    })
+                    ->hiddenOn([AttributeValuesRelationManager::class]),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -145,6 +164,7 @@ class AttributeValueResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }
