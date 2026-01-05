@@ -235,7 +235,7 @@ class ProductResource extends Resource
                         $first = $record->productTranslations->first();
 
                         return $first ? $first->name : '';
-                    }),
+                    })->limit(32),
                 Tables\Columns\TextColumn::make('categories')
                     ->label(__('filament.product.categories'))
                     ->getStateUsing(function ($record) {
