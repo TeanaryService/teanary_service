@@ -227,6 +227,8 @@ return [
     'product.product_variants' => '商品仕様',
     'product.attribute' => '属性',
     'product.attribute_value' => '属性値',
+    'product.basic_info' => '基本情報',
+    'product.translations' => '翻訳',
 
     // Product Review
     'product_review.images' => '画像',

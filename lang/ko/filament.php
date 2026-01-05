@@ -227,6 +227,8 @@ return [
     'product.product_variants' => '상품 규격',
     'product.attribute' => '속성',
     'product.attribute_value' => '속성 값',
+    'product.basic_info' => '기본 정보',
+    'product.translations' => '번역',
 
     // Product Review
     'product_review.images' => '이미지',

@@ -227,6 +227,8 @@ return [
     'product.product_variants' => 'Variantes de producto',
     'product.attribute' => 'Atributo',
     'product.attribute_value' => 'Valor de atributo',
+    'product.basic_info' => 'Información Básica',
+    'product.translations' => 'Traducciones',
 
     // Reseña de producto
     'product_review.images' => 'Imágenes',

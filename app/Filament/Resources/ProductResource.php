@@ -62,16 +62,38 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            SpatieMediaLibraryFileUpload::make('images')
-                ->label(__('filament.product.images'))
-                ->multiple()
-                ->columnSpanFull()
-                ->collection('images')
-                ->reorderable(),
-            ...static::getAttributeValuesRepeater(),
-            ...static::getProductCategoriesRepeater(),
-            ...static::getProductBaseFields(),
-            ...static::getProductTranslationsTabs($form),
+            Forms\Components\Tabs::make('product_tabs')
+                ->tabs([
+                    Forms\Components\Tabs\Tab::make('basic')
+                        ->label(__('filament.product.basic_info'))
+                        ->schema([
+                            ...static::getProductBaseFields(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('images')
+                        ->label(__('filament.product.images'))
+                        ->schema([
+                            SpatieMediaLibraryFileUpload::make('images')
+                                ->label(__('filament.product.images'))
+                                ->multiple()
+                                ->columnSpanFull()
+                                ->collection('images')
+                                ->reorderable(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('attributes')
+                        ->label(__('filament.product.attribute_values'))
+                        ->schema([
+                            ...static::getAttributeValuesRepeater(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('categories')
+                        ->label(__('filament.product.categories'))
+                        ->schema([
+                            ...static::getProductCategoriesRepeater(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('translations')
+                        ->label(__('filament.product.translations'))
+                        ->schema(static::getProductTranslationsTabs($form)),
+                ])
+                ->columnSpanFull(),
         ]);
     }
 
@@ -178,7 +200,7 @@ class ProductResource extends Resource
         $model = $form->getModelInstance();
 
         return [
-            Tabs::make('translations_tabs')
+            Forms\Components\Tabs::make('translations_tabs')
                 ->tabs(
                     $languages->map(function ($lang) use ($model) {
                         $translation = null;
@@ -188,7 +210,7 @@ class ProductResource extends Resource
                                 ->first();
                         }
 
-                        return Tabs\Tab::make($lang->name)
+                        return Forms\Components\Tabs\Tab::make($lang->name)
                             ->schema([
                                 Forms\Components\TextInput::make("translations.{$lang->id}.name")
                                     ->label(__('filament.product.name'))
@@ -197,7 +219,7 @@ class ProductResource extends Resource
 
                                 reusableRichEditor("translations.{$lang->id}.description", $translation?->description ?? '', __('filament.product.description'), $lang->id),
 
-                                Textarea::make("translations.{$lang->id}.short_description")
+                                Forms\Components\Textarea::make("translations.{$lang->id}.short_description")
                                     ->label(__('filament.product.short_description'))
                                     ->default($translation ? $translation->short_description : ''),
                             ]);

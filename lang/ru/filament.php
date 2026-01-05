@@ -227,6 +227,8 @@ return [
     'product.product_variants' => 'Характеристики товара',
     'product.attribute' => 'Атрибут',
     'product.attribute_value' => 'Значение атрибута',
+    'product.basic_info' => 'Основная Информация',
+    'product.translations' => 'Переводы',
 
     // Product Review
     'product_review.images' => 'Изображения',

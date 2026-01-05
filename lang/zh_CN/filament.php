@@ -227,6 +227,8 @@ return [
     'product.product_variants' => '商品规格',
     'product.attribute' => '属性',
     'product.attribute_value' => '属性值',
+    'product.basic_info' => '基本信息',
+    'product.translations' => '翻译',
 
     // Product Review
     'product_review.images' => '图片',
