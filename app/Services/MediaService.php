@@ -111,7 +111,7 @@ class MediaService
         
         $model->addMediaFromString($imageContent)
             ->usingFileName($imageId.'.'.$finalExtension)
-            ->toMediaCollection('image');
+            ->toMediaCollection('images');
     }
 
     /**
