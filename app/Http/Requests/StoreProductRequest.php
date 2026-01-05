@@ -118,8 +118,9 @@ class StoreProductRequest extends FormRequest
             'variants.*.width' => 'nullable|numeric|min:0',
             'variants.*.height' => 'nullable|numeric|min:0',
             'variants.*.specification_values' => 'nullable|array',
-            'variants.*.specification_values.*.specification_id' => 'required|integer|exists:specifications,id',
-            'variants.*.specification_values.*.specification_value_id' => 'required|integer|exists:specification_values,id',
+            // 只支持通过名称创建规格（第三方采集的商品没有ID）
+            'variants.*.specification_values.*.specification_name' => 'required|string|max:255',
+            'variants.*.specification_values.*.specification_value_name' => 'required|string|max:255',
             'attributes' => 'nullable|array',
             'attributes.*.name' => 'required|string|max:255',
             'attributes.*.value' => 'required|string|max:255',
@@ -140,8 +141,8 @@ class StoreProductRequest extends FormRequest
             'categories.*.translations.*.name.required' => '分类名称不能为空',
             'variants.*.sku.required' => 'SKU不能为空',
             'variants.*.sku.unique' => 'SKU已存在',
-            'variants.*.specification_values.*.specification_id.required' => '规格ID不能为空',
-            'variants.*.specification_values.*.specification_value_id.required' => '规格值ID不能为空',
+            'variants.*.specification_values.*.specification_name.required' => '规格名称不能为空',
+            'variants.*.specification_values.*.specification_value_name.required' => '规格值名称不能为空',
             'attributes.*.name.required' => '属性名称不能为空',
             'attributes.*.value.required' => '属性值不能为空',
         ];

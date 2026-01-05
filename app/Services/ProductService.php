@@ -10,6 +10,10 @@ use App\Models\AttributeValueTranslation;
 use App\Models\Product;
 use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
+use App\Models\Specification;
+use App\Models\SpecificationTranslation;
+use App\Models\SpecificationValue;
+use App\Models\SpecificationValueTranslation;
 
 class ProductService
 {
@@ -54,14 +58,16 @@ class ProductService
 
         // 处理商品规格
         if (!empty($data['variants'])) {
-            $this->createProductVariants($product, $data['variants']);
+            $languageId = $data['translations'][0]['language_id'] ?? null;
+            $this->createProductVariants($product, $data['variants'], $languageId);
         }
 
         // 处理商品属性
         if (!empty($data['attributes'])) {
+            $attributesData = is_array($data['attributes']) ? $data['attributes'] : (is_object($data['attributes']) ? (array)$data['attributes'] : []);
             $languageId = $data['translations'][0]['language_id'] ?? null;
-            if ($languageId) {
-                $this->syncProductAttributes($product, $data['attributes'], $languageId);
+            if ($languageId && !empty($attributesData)) {
+                $this->syncProductAttributes($product, $attributesData, $languageId);
             }
         }
 
@@ -81,16 +87,17 @@ class ProductService
      *
      * @param Product $product
      * @param array $variantsData
+     * @param int|null $languageId
      * @return void
      */
-    protected function createProductVariants(Product $product, array $variantsData): void
+    protected function createProductVariants(Product $product, array $variantsData, ?int $languageId = null): void
     {
         foreach ($variantsData as $variantData) {
             $variant = $this->createVariant($product, $variantData);
             
             // 关联规格值
             if (!empty($variantData['specification_values'])) {
-                $this->syncVariantSpecificationValues($variant, $variantData['specification_values']);
+                $this->syncVariantSpecificationValues($variant, $variantData['specification_values'], $languageId);
             }
         }
     }
@@ -121,17 +128,42 @@ class ProductService
      *
      * @param ProductVariant $variant
      * @param array $specificationValues
+     * @param int|null $languageId
      * @return void
      */
-    protected function syncVariantSpecificationValues(ProductVariant $variant, array $specificationValues): void
+    protected function syncVariantSpecificationValues(ProductVariant $variant, array $specificationValues, ?int $languageId = null): void
     {
         $syncData = [];
+        
+        // 如果没有传入languageId，尝试从商品翻译中获取
+        if (!$languageId) {
+            $languageId = $variant->product->productTranslations()->first()?->language_id ?? 1;
+        }
+        
         foreach ($specificationValues as $specValue) {
-            $syncData[$specValue['specification_value_id']] = [
-                'specification_id' => $specValue['specification_id'],
+            $specificationName = $specValue['specification_name'] ?? '';
+            $specificationValueName = $specValue['specification_value_name'] ?? '';
+            
+            if (empty($specificationName) || empty($specificationValueName)) {
+                continue;
+            }
+            
+            // 根据名称查找或创建规格和规格值
+            $specification = $this->findOrCreateSpecification($specificationName, $languageId);
+            $specificationValue = $this->findOrCreateSpecificationValue(
+                $specification,
+                $specificationValueName,
+                $languageId
+            );
+            
+            $syncData[$specificationValue->id] = [
+                'specification_id' => $specification->id,
             ];
         }
-        $variant->specificationValues()->sync($syncData);
+        
+        if (!empty($syncData)) {
+            $variant->specificationValues()->sync($syncData);
+        }
     }
 
     /**
@@ -257,6 +289,68 @@ class ProductService
         ]);
 
         return $attributeValue;
+    }
+
+    /**
+     * 查找或创建规格
+     *
+     * @param string $name
+     * @param int $languageId
+     * @return Specification
+     */
+    protected function findOrCreateSpecification(string $name, int $languageId): Specification
+    {
+        // 先尝试通过翻译查找
+        $translation = SpecificationTranslation::where('name', $name)
+            ->where('language_id', $languageId)
+            ->first();
+
+        if ($translation) {
+            return $translation->specification;
+        }
+
+        // 如果不存在，创建新规格
+        $specification = Specification::create([]);
+        $specification->specificationTranslations()->create([
+            'language_id' => $languageId,
+            'name' => $name,
+        ]);
+
+        return $specification;
+    }
+
+    /**
+     * 查找或创建规格值
+     *
+     * @param Specification $specification
+     * @param string $valueName
+     * @param int $languageId
+     * @return SpecificationValue
+     */
+    protected function findOrCreateSpecificationValue(Specification $specification, string $valueName, int $languageId): SpecificationValue
+    {
+        // 先尝试通过翻译查找该规格下的规格值
+        $translation = SpecificationValueTranslation::whereHas('specificationValue', function ($query) use ($specification) {
+            $query->where('specification_id', $specification->id);
+        })
+            ->where('name', $valueName)
+            ->where('language_id', $languageId)
+            ->first();
+
+        if ($translation) {
+            return $translation->specificationValue;
+        }
+
+        // 如果不存在，创建新规格值
+        $specificationValue = SpecificationValue::create([
+            'specification_id' => $specification->id,
+        ]);
+        $specificationValue->specificationValueTranslations()->create([
+            'language_id' => $languageId,
+            'name' => $valueName,
+        ]);
+
+        return $specificationValue;
     }
 }
 

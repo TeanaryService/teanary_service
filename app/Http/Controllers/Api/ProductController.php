@@ -74,13 +74,13 @@ class ProductController extends Controller
                     'specification_values_count' => isset($variant['specification_values']) ? count($variant['specification_values']) : 0,
                 ];
             }, $request->variants) : [],
-            'attributes_count' => $request->has('attributes') && is_array($request->attributes) ? count($request->attributes) : 0,
-            'attributes' => $request->has('attributes') && is_array($request->attributes) ? array_map(function ($attr) {
+            'attributes_count' => $request->has('attributes') && is_array($request->input('attributes')) ? count($request->input('attributes')) : 0,
+            'attributes' => $request->has('attributes') && is_array($request->input('attributes')) ? array_map(function ($attr) {
                 return [
                     'name' => $attr['name'] ?? null,
                     'value' => $attr['value'] ?? null,
                 ];
-            }, $request->attributes) : [],
+            }, $request->input('attributes')) : [],
         ];
         
         Log::info('商品上传接口收到请求', $logData);
@@ -100,7 +100,7 @@ class ProductController extends Controller
                 'translations' => $request->translations,
                 'categories' => $request->categories,
                 'variants' => $request->variants,
-                'attributes' => $request->attributes,
+                'attributes' => $request->input('attributes', []),
             ]);
 
             // 提交事务
