@@ -31,6 +31,18 @@ class Attribute extends Model
 
     public static $snakeAttributes = false;
 
+    protected $casts = [
+        'is_filterable' => 'boolean',
+    ];
+
+    protected $fillable = [
+        'is_filterable',
+    ];
+
+    protected $attributes = [
+        'is_filterable' => true,
+    ];
+
     public function attributeTranslations(): HasMany
     {
         return $this->hasMany(AttributeTranslation::class);
@@ -58,27 +70,31 @@ class Attribute extends Model
     }
 
     /**
-     * 获取当前语言下的属性及属性值
+     * 获取当前语言下的属性及属性值（只返回可筛选的属性）
      */
     public static function getAttributesForLanguage($langId)
     {
         $attributes = static::getCachedAttributes();
 
-        return $attributes->map(function ($attr) use ($langId) {
-            $trans = $attr->attributeTranslations->where('language_id', $langId)->first();
+        return $attributes
+            ->filter(function ($attr) {
+                return $attr->is_filterable ?? true; // 默认为 true 以保持向后兼容
+            })
+            ->map(function ($attr) use ($langId) {
+                $trans = $attr->attributeTranslations->where('language_id', $langId)->first();
 
-            return [
-                'id' => $attr->id,
-                'name' => $trans ? $trans->name : $attr->id,
-                'values' => $attr->attributeValues->map(function ($val) use ($langId) {
-                    $valTrans = $val->attributeValueTranslations->where('language_id', $langId)->first();
+                return [
+                    'id' => $attr->id,
+                    'name' => $trans ? $trans->name : $attr->id,
+                    'values' => $attr->attributeValues->map(function ($val) use ($langId) {
+                        $valTrans = $val->attributeValueTranslations->where('language_id', $langId)->first();
 
-                    return [
-                        'id' => $val->id,
-                        'name' => $valTrans ? $valTrans->name : $val->id,
-                    ];
-                })->values(),
-            ];
-        });
+                        return [
+                            'id' => $val->id,
+                            'name' => $valTrans ? $valTrans->name : $val->id,
+                        ];
+                    })->values(),
+                ];
+            });
     }
 }

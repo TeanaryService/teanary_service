@@ -142,6 +142,8 @@ return [
 
     // Attribute
     'attribute.name' => '名称',
+    'attribute.is_filterable' => '前台筛选显示',
+    'attribute.is_filterable_helper' => '开启后，该属性将显示在前台商品筛选列表中',
     'attribute_value.name' => '名称',
     'attribute_value.attribute' => '属性',
 

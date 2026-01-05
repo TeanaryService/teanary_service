@@ -142,6 +142,8 @@ return [
 
     // Atributo
     'attribute.name' => 'Nombre',
+    'attribute.is_filterable' => 'Mostrar en filtro frontend',
+    'attribute.is_filterable_helper' => 'Cuando está habilitado, este atributo se mostrará en la lista de filtros de productos frontend',
     'attribute_value.name' => 'Nombre',
     'attribute_value.attribute' => 'Atributo',
 

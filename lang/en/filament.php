@@ -142,6 +142,8 @@ return [
 
     // Attribute
     'attribute.name' => 'Name',
+    'attribute.is_filterable' => 'Show in Frontend Filter',
+    'attribute.is_filterable_helper' => 'When enabled, this attribute will be displayed in the frontend product filter list',
     'attribute_value.name' => 'Name',
     'attribute_value.attribute' => 'Attribute',
 

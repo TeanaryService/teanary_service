@@ -142,6 +142,8 @@ return [
 
     // Attribute
     'attribute.name' => '이름',
+    'attribute.is_filterable' => '프론트엔드 필터 표시',
+    'attribute.is_filterable_helper' => '활성화하면 이 속성이 프론트엔드 상품 필터 목록에 표시됩니다',
     'attribute_value.name' => '이름',
     'attribute_value.attribute' => '속성',
 

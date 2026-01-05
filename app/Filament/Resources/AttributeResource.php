@@ -59,6 +59,11 @@ class AttributeResource extends Resource
 
         return $form
             ->schema([
+                Forms\Components\Toggle::make('is_filterable')
+                    ->label(__('filament.attribute.is_filterable'))
+                    ->default(true)
+                    ->helperText(__('filament.attribute.is_filterable_helper'))
+                    ->columnSpanFull(),
                 // 多语言 name 字段
                 Forms\Components\Group::make(
                     $languages->map(function ($lang) use ($model) {
@@ -96,6 +101,10 @@ class AttributeResource extends Resource
                             $record->attributeTranslations->where('language_id', $lang?->id)->first()
                         )->name;
                     }),
+                Tables\Columns\IconColumn::make('is_filterable')
+                    ->label(__('filament.attribute.is_filterable'))
+                    ->boolean()
+                    ->sortable(),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
