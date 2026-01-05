@@ -32,9 +32,15 @@ class ProductService
      */
     public function createProduct(array $data): Product
     {
+        // 处理 source_url，去掉 URL 参数
+        $sourceUrl = $data['source_url'] ?? null;
+        if ($sourceUrl) {
+            $sourceUrl = $this->removeUrlParams($sourceUrl);
+        }
+
         $product = Product::create([
             'slug' => $data['slug'],
-            'source_url' => $data['source_url'] ?? null,
+            'source_url' => $sourceUrl,
             'status' => ProductStatusEnum::Inactive,
             'translation_status' => TranslationStatusEnum::NotTranslated, // 默认不翻译
         ]);
@@ -353,6 +359,50 @@ class ProductService
         ]);
 
         return $specificationValue;
+    }
+
+    /**
+     * 去掉 URL 中的查询参数
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function removeUrlParams(string $url): string
+    {
+        $parsed = parse_url($url);
+        
+        if ($parsed === false) {
+            return $url; // 如果解析失败，返回原 URL
+        }
+
+        // 重新构建 URL，只包含 scheme、host、path，去掉 query 和 fragment
+        $cleanUrl = '';
+        
+        if (isset($parsed['scheme'])) {
+            $cleanUrl .= $parsed['scheme'] . '://';
+        }
+        
+        if (isset($parsed['user'])) {
+            $cleanUrl .= $parsed['user'];
+            if (isset($parsed['pass'])) {
+                $cleanUrl .= ':' . $parsed['pass'];
+            }
+            $cleanUrl .= '@';
+        }
+        
+        if (isset($parsed['host'])) {
+            $cleanUrl .= $parsed['host'];
+        }
+        
+        if (isset($parsed['port'])) {
+            $cleanUrl .= ':' . $parsed['port'];
+        }
+        
+        if (isset($parsed['path'])) {
+            $cleanUrl .= $parsed['path'];
+        }
+
+        return $cleanUrl;
     }
 }
 

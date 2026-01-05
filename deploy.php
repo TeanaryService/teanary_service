@@ -126,7 +126,7 @@ task('deploy:config', [
 // 前端构建在 vendors 之后
 after('deploy:vendors', 'npm:build');
 
-// 在 symlink 之前完成优化和 Octane 准备
+before('deploy:symlink', 'artisan:cache:clear');
 before('deploy:symlink', 'artisan:filament:optimize');
 
 // symlink 之后重启服务（由 Supervisor 管理）
