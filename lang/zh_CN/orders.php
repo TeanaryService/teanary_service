@@ -5,7 +5,7 @@ return [
     'order_no' => '订单编号',
     'order_date' => '下单日期',
     'total' => '订单金额',
-    'status' => '订单状态',
+    'status_label' => '订单状态',
     'view_details' => '查看详情',
     'order_details' => '订单详情',
     'shipping_address' => '收货地址',
@@ -37,4 +37,15 @@ return [
     'confirm_cancel' => '确认取消此订单?',
     'operation_success' => '操作成功',
     'contact_email' => '任何问题请联系 :email',
+
+    // 订单状态（从 order.php 合并）
+    'status' => [
+        'pending' => '待付款',
+        'paid' => '已付款',
+        'shipped' => '已发货',
+        'completed' => '已完成',
+        'cancelled' => '已取消',
+        'after_sale' => '售后处理中',
+        'after_sale_done' => '售后完成',
+    ],
 ];

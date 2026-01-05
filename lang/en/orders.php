@@ -5,7 +5,7 @@ return [
     'order_no' => 'Order Number',
     'order_date' => 'Order Date',
     'total' => 'Order Total',
-    'status' => 'Order Status',
+    'status_label' => 'Order Status',
     'view_details' => 'View Details',
     'order_details' => 'Order Details',
     'shipping_address' => 'Shipping Address',
@@ -37,4 +37,15 @@ return [
     'confirm_cancel' => 'Confirm to cancel this order?',
     'operation_success' => 'Operation Successful',
     'contact_email' => 'For any questions, please contact :email',
+
+    // Order status (merged from order.php)
+    'status' => [
+        'pending' => 'Pending Payment',
+        'paid' => 'Paid',
+        'shipped' => 'Shipped',
+        'completed' => 'Completed',
+        'cancelled' => 'Cancelled',
+        'after_sale' => 'After-sale Processing',
+        'after_sale_done' => 'After-sale Completed',
+    ],
 ];

@@ -27,7 +27,7 @@ class AddressList extends Component
 
             $this->addressToDelete = null;
             $this->showDeleteModal = false;
-            session()->flash('message', __('addresses.address_deleted'));
+            session()->flash('message', __('app.addresses.address_deleted'));
         }
     }
 

@@ -18,7 +18,7 @@
             <a href="{{ locaRoute('user.addresses') }}"
                 class="flex items-center gap-3 px-5 py-4 text-sm font-medium text-gray-700 transition hover:bg-teal-50 hover:text-teal-700">
                 <x-heroicon-o-map-pin class="w-5 h-5 text-teal-600" />
-                {{ __('addresses.my_addresses') }}
+                {{ __('app.addresses.my_addresses') }}
             </a>
         </li>
     </ul>

@@ -54,4 +54,12 @@ return [
     'browse_categories_subtitle' => 'Entdecken Sie verschiedene Teesorten und genießen Sie das Wesen des Teelebens',
     'tea_culture_articles' => 'Teekultur-Artikel',
     'tea_culture_articles_subtitle' => 'Erfahren Sie mehr über Teegeschichte, Kultur und Degustationswissen',
+
+    // Article related (merged from article.php)
+    'article' => [
+        'base_name' => 'Tee-Artikel',
+        'title' => 'Tee-Artikel',
+        'description' => 'Lesen Sie Artikel über Teekultur, gesundheitliche Vorteile und internationalen Teehandel. Teanary bringt Ihnen hochwertiges Teewissen und Brancheneinblicke.',
+        'keywords' => 'Tee-Artikel, Tee-Blog, Teekultur, Tee-Gesundheitsvorteile, Tee-Export, Teanary, chinesischer Tee, grüner Tee, schwarzer Tee, Oolong-Tee, Tee-Nachrichten',
+    ],
 ];

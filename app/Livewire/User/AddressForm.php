@@ -69,7 +69,7 @@ class AddressForm extends Component
             Address::create($this->state);
         }
 
-        session()->flash('message', __('addresses.address_saved'));
+        session()->flash('message', __('app.addresses.address_saved'));
 
         return redirect()->route('user.addresses', ['locale' => app()->getLocale()]);
     }

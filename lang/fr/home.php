@@ -54,4 +54,12 @@ return [
     'browse_categories_subtitle' => 'Explorez différentes variétés de thé, savourez l\'essence de la vie du thé',
     'tea_culture_articles' => 'Articles sur la Culture du Thé',
     'tea_culture_articles_subtitle' => 'Découvrez l\'histoire, la culture et les connaissances de dégustation du thé',
+
+    // Article related (merged from article.php)
+    'article' => [
+        'base_name' => 'Articles sur le Thé',
+        'title' => 'Articles sur le Thé',
+        'description' => 'Lisez des articles sur la culture du thé, les bienfaits pour la santé et le commerce international du thé. Teanary vous apporte des connaissances de qualité sur le thé et des informations sur l\'industrie.',
+        'keywords' => 'articles sur le thé, blog sur le thé, culture du thé, bienfaits du thé pour la santé, exportation de thé, Teanary, thé chinois, thé vert, thé noir, thé oolong, actualités du thé',
+    ],
 ];

@@ -92,5 +92,72 @@ return [
     'error_no_shipping_method' => 'Veuillez sélectionner un mode de livraison',
     'error_order_create_failed' => 'Échec de la création de la commande, veuillez réessayer',
 
-    'checkout_support_message' => 'Si vous rencontrez un problème lors du paiement, n’hésitez pas à nous contacter par Email : hello@teanary.com ou WeChat : xcalder.',
+    'checkout_support_message' => 'Si vous rencontrez un problème lors du paiement, n\'hésitez pas à nous contacter par Email : hello@teanary.com ou WeChat : xcalder.',
+
+    // Product status (merged from product.php)
+    'product' => [
+        'status' => [
+            'active' => 'Actif',
+            'inactive' => 'Inactif',
+        ],
+    ],
+
+    // Promotion related (merged from promotion.php)
+    'promotion' => [
+        'type' => [
+            'coupon' => 'Bon de réduction',
+            'automatic' => 'Promotion automatique',
+        ],
+        'discount_type' => [
+            'fixed' => 'Montant fixe',
+            'percentage' => 'Pourcentage',
+        ],
+        'condition' => [
+            'order_total_min' => 'Montant minimum de commande',
+            'order_qty_min' => 'Quantité minimum de commande',
+        ],
+    ],
+
+    // Contact related (merged from contact.php)
+    'contact' => [
+        'title' => 'Contactez-nous',
+        'description' => 'Ce que vous voyez sur le site web n\'est pas tout ce que nous offrons. Nous fournissons une gamme complète de thés. Si vous avez d\'autres besoins ou suggestions, n\'hésitez pas à nous contacter. Nous avons hâte de vous entendre !',
+        'form' => [
+            'name_placeholder' => 'Votre nom',
+            'email_placeholder' => 'Adresse e-mail',
+            'message_placeholder' => 'Entrez votre message',
+            'submit' => 'Envoyer le message',
+        ],
+        'side_title' => 'Restez en contact',
+        'response_time' => 'Nous répondrons à votre message dans les 24 heures',
+        'wechat_label' => 'Contactez-nous via WeChat',
+    ],
+
+    // Addresses related (merged from addresses.php)
+    'addresses' => [
+        'my_addresses' => 'Mes adresses de livraison',
+        'add_new' => 'Ajouter une nouvelle adresse',
+        'edit_address' => 'Modifier l\'adresse',
+        'firstname' => 'Prénom',
+        'lastname' => 'Nom',
+        'email' => 'Email',
+        'telephone' => 'Téléphone',
+        'company' => 'Entreprise',
+        'address_1' => 'Adresse ligne 1',
+        'address_2' => 'Adresse ligne 2',
+        'city' => 'Ville',
+        'postcode' => 'Code postal',
+        'country' => 'Pays',
+        'zone' => 'État/Province',
+        'save' => 'Enregistrer',
+        'cancel' => 'Annuler',
+        'delete' => 'Supprimer',
+        'set_default' => 'Définir par défaut',
+        'default' => 'Par défaut',
+        'address_saved' => 'Adresse enregistrée avec succès',
+        'address_deleted' => 'Adresse supprimée avec succès',
+        'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer cette adresse ?',
+        'select_country' => 'Veuillez sélectionner un pays',
+        'select_zone' => 'Veuillez sélectionner un état/province',
+    ],
 ];

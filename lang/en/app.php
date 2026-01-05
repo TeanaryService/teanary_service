@@ -93,4 +93,71 @@ return [
     'error_order_create_failed' => 'Failed to create order, please try again',
 
     'checkout_support_message' => 'If you encounter any issues during checkout, feel free to contact us via Email: hello@teanary.com or WeChat: xcalder.',
+
+    // Product status (merged from product.php)
+    'product' => [
+        'status' => [
+            'active' => 'Active',
+            'inactive' => 'Inactive',
+        ],
+    ],
+
+    // Promotion related (merged from promotion.php)
+    'promotion' => [
+        'type' => [
+            'coupon' => 'Coupon',
+            'automatic' => 'Automatic Promotion',
+        ],
+        'discount_type' => [
+            'fixed' => 'Fixed Amount',
+            'percentage' => 'Percentage',
+        ],
+        'condition' => [
+            'order_total_min' => 'Minimum Order Amount',
+            'order_qty_min' => 'Minimum Order Quantity',
+        ],
+    ],
+
+    // Contact related (merged from contact.php)
+    'contact' => [
+        'title' => 'Contact Us',
+        'description' => 'What you see on the website is not all we offer. We supply a full range of teas. If you have other needs or suggestions, feel free to contact us. We look forward to hearing from you!',
+        'form' => [
+            'name_placeholder' => 'Your Name',
+            'email_placeholder' => 'Email Address',
+            'message_placeholder' => 'Enter your message',
+            'submit' => 'Send Message',
+        ],
+        'side_title' => 'Stay in Touch',
+        'response_time' => 'We will respond to your message within 24 hours',
+        'wechat_label' => 'Contact Us via WeChat',
+    ],
+
+    // Addresses related (merged from addresses.php)
+    'addresses' => [
+        'my_addresses' => 'My Shipping Addresses',
+        'add_new' => 'Add New Address',
+        'edit_address' => 'Edit Address',
+        'firstname' => 'First Name',
+        'lastname' => 'Last Name',
+        'email' => 'Email',
+        'telephone' => 'Phone',
+        'company' => 'Company',
+        'address_1' => 'Address Line 1',
+        'address_2' => 'Address Line 2',
+        'city' => 'City',
+        'postcode' => 'Postal Code',
+        'country' => 'Country',
+        'zone' => 'State/Province',
+        'save' => 'Save',
+        'cancel' => 'Cancel',
+        'delete' => 'Delete',
+        'set_default' => 'Set as Default',
+        'default' => 'Default',
+        'address_saved' => 'Address saved successfully',
+        'address_deleted' => 'Address deleted successfully',
+        'confirm_delete' => 'Are you sure you want to delete this address?',
+        'select_country' => 'Please select a country',
+        'select_zone' => 'Please select a state/province',
+    ],
 ];

@@ -19,4 +19,12 @@ return [
 
     'email_verified_title' => '이메일 인증 성공!',
     'email_verified_message' => '이메일 인증이 완료되었습니다. 메인 페이지로 이동합니다...',
+
+    // Email verification related (merged from email_verification.php)
+    'email_verification' => [
+        'title' => '이메일을 확인하세요',
+        'description' => '인증 링크를 이메일로 보냈습니다. 받지 못한 경우 아래 버튼을 클릭하여 다시 보낼 수 있습니다.',
+        'resent' => '새 인증 링크가 이메일로 전송되었습니다.',
+        'resend_button' => '인증 이메일 다시 보내기',
+    ],
 ];

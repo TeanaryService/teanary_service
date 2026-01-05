@@ -93,4 +93,71 @@ return [
     'error_order_create_failed' => '注文の作成に失敗しました。もう一度お試しください',
 
     'checkout_support_message' => 'チェックアウト中に問題が発生した場合は、Email: hello@teanary.com または WeChat: xcalder にお気軽にご連絡ください。',
+
+    // Product status (merged from product.php)
+    'product' => [
+        'status' => [
+            'active' => '有効',
+            'inactive' => '無効',
+        ],
+    ],
+
+    // Promotion related (merged from promotion.php)
+    'promotion' => [
+        'type' => [
+            'coupon' => 'クーポン',
+            'automatic' => '自動プロモーション',
+        ],
+        'discount_type' => [
+            'fixed' => '固定金額',
+            'percentage' => 'パーセンテージ',
+        ],
+        'condition' => [
+            'order_total_min' => '最低注文金額',
+            'order_qty_min' => '最低注文数量',
+        ],
+    ],
+
+    // Contact related (merged from contact.php)
+    'contact' => [
+        'title' => 'お問い合わせ',
+        'description' => 'ウェブサイトに表示されているのは私たちが提供するものの一部に過ぎません。全品目の茶葉を供給しています。他のご要望やご提案がございましたら、お気軽にお問い合わせください。お待ちしております！',
+        'form' => [
+            'name_placeholder' => 'お名前',
+            'email_placeholder' => 'メールアドレス',
+            'message_placeholder' => 'メッセージを入力してください',
+            'submit' => 'メッセージを送信',
+        ],
+        'side_title' => 'お気軽にお問い合わせください',
+        'response_time' => '24時間以内にご返信いたします',
+        'wechat_label' => 'WeChatでお問い合わせ',
+    ],
+
+    // Addresses related (merged from addresses.php)
+    'addresses' => [
+        'my_addresses' => '私の配送先住所',
+        'add_new' => '新しい住所を追加',
+        'edit_address' => '住所を編集',
+        'firstname' => '名',
+        'lastname' => '姓',
+        'email' => 'メールアドレス',
+        'telephone' => '電話番号',
+        'company' => '会社名',
+        'address_1' => '住所1',
+        'address_2' => '住所2',
+        'city' => '市区町村',
+        'postcode' => '郵便番号',
+        'country' => '国',
+        'zone' => '都道府県',
+        'save' => '保存',
+        'cancel' => 'キャンセル',
+        'delete' => '削除',
+        'set_default' => 'デフォルトに設定',
+        'default' => 'デフォルト',
+        'address_saved' => '住所が正常に保存されました',
+        'address_deleted' => '住所が正常に削除されました',
+        'confirm_delete' => 'この住所を削除してもよろしいですか？',
+        'select_country' => '国を選択してください',
+        'select_zone' => '都道府県を選択してください',
+    ],
 ];

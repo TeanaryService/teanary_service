@@ -93,4 +93,71 @@ return [
     'error_order_create_failed' => 'Не удалось создать заказ, попробуйте снова',
 
     'checkout_support_message' => 'Если у вас возникнут проблемы при оформлении заказа, свяжитесь с нами по Email: hello@teanary.com или через WeChat: xcalder.',
+
+    // Product status (merged from product.php)
+    'product' => [
+        'status' => [
+            'active' => 'Активен',
+            'inactive' => 'Неактивен',
+        ],
+    ],
+
+    // Promotion related (merged from promotion.php)
+    'promotion' => [
+        'type' => [
+            'coupon' => 'Купон',
+            'automatic' => 'Автоматическая акция',
+        ],
+        'discount_type' => [
+            'fixed' => 'Фиксированная сумма',
+            'percentage' => 'Процент',
+        ],
+        'condition' => [
+            'order_total_min' => 'Минимальная сумма заказа',
+            'order_qty_min' => 'Минимальное количество заказа',
+        ],
+    ],
+
+    // Contact related (merged from contact.php)
+    'contact' => [
+        'title' => 'Свяжитесь с нами',
+        'description' => 'То, что вы видите на сайте, - это не все, что мы предлагаем. Мы поставляем полный ассортимент чая. Если у вас есть другие потребности или предложения, не стесняйтесь обращаться к нам. Мы с нетерпением ждем вашего ответа!',
+        'form' => [
+            'name_placeholder' => 'Ваше имя',
+            'email_placeholder' => 'Адрес электронной почты',
+            'message_placeholder' => 'Введите ваше сообщение',
+            'submit' => 'Отправить сообщение',
+        ],
+        'side_title' => 'Оставайтесь на связи',
+        'response_time' => 'Мы ответим на ваше сообщение в течение 24 часов',
+        'wechat_label' => 'Свяжитесь с нами через WeChat',
+    ],
+
+    // Addresses related (merged from addresses.php)
+    'addresses' => [
+        'my_addresses' => 'Мои адреса доставки',
+        'add_new' => 'Добавить новый адрес',
+        'edit_address' => 'Редактировать адрес',
+        'firstname' => 'Имя',
+        'lastname' => 'Фамилия',
+        'email' => 'Электронная почта',
+        'telephone' => 'Телефон',
+        'company' => 'Компания',
+        'address_1' => 'Адрес строка 1',
+        'address_2' => 'Адрес строка 2',
+        'city' => 'Город',
+        'postcode' => 'Почтовый индекс',
+        'country' => 'Страна',
+        'zone' => 'Область/Провинция',
+        'save' => 'Сохранить',
+        'cancel' => 'Отмена',
+        'delete' => 'Удалить',
+        'set_default' => 'Установить по умолчанию',
+        'default' => 'По умолчанию',
+        'address_saved' => 'Адрес успешно сохранен',
+        'address_deleted' => 'Адрес успешно удален',
+        'confirm_delete' => 'Вы уверены, что хотите удалить этот адрес?',
+        'select_country' => 'Пожалуйста, выберите страну',
+        'select_zone' => 'Пожалуйста, выберите область/провинцию',
+    ],
 ];

@@ -54,4 +54,12 @@ return [
     'browse_categories_subtitle' => '다양한 차 종류를 탐험하고, 차 인생의 본질을 맛보기',
     'tea_culture_articles' => '차 문화 기사',
     'tea_culture_articles_subtitle' => '차의 역사, 문화, 감상 지식을 배우기',
+
+    // Article related (merged from article.php)
+    'article' => [
+        'base_name' => '차 기사',
+        'title' => '차 기사',
+        'description' => '차 문화, 건강 효과, 국제 차 무역에 관한 기사를 읽어보세요. Teanary는 고품질 차 지식과 업계 통찰력을 제공합니다.',
+        'keywords' => '차 기사, 차 블로그, 차 문화, 차 건강 효과, 차 수출, Teanary, 중국 차, 녹차, 홍차, 우롱차, 차 뉴스',
+    ],
 ];

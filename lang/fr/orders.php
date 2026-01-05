@@ -5,7 +5,7 @@ return [
     'order_no' => 'Numéro de commande',
     'order_date' => 'Date de commande',
     'total' => 'Montant de la commande',
-    'status' => 'Statut de la commande',
+    'status_label' => 'Statut de la commande',
     'view_details' => 'Voir les détails',
     'order_details' => 'Détails de la commande',
     'shipping_address' => 'Adresse de livraison',
@@ -37,4 +37,15 @@ return [
     'confirm_cancel' => 'Confirmer l’annulation de cette commande ?',
     'operation_success' => 'Opération réussie',
     'contact_email' => 'Pour toute question, contactez :email',
+
+    // Order status (merged from order.php)
+    'status' => [
+        'pending' => 'En attente de paiement',
+        'paid' => 'Payé',
+        'shipped' => 'Expédié',
+        'completed' => 'Terminé',
+        'cancelled' => 'Annulé',
+        'after_sale' => 'Traitement après-vente',
+        'after_sale_done' => 'Après-vente terminé',
+    ],
 ];

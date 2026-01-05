@@ -19,4 +19,12 @@ return [
 
     'email_verified_title' => 'E-Mail erfolgreich verifiziert!',
     'email_verified_message' => 'Wir haben Ihre E-Mail-Adresse bestätigt und leiten Sie nun zur Startseite weiter...',
+
+    // Email verification related (merged from email_verification.php)
+    'email_verification' => [
+        'title' => 'Bestätigen Sie Ihre E-Mail',
+        'description' => 'Wir haben einen Bestätigungslink an Ihre E-Mail gesendet. Wenn Sie ihn nicht erhalten haben, klicken Sie auf die Schaltfläche unten, um ihn erneut zu senden.',
+        'resent' => 'Ein neuer Bestätigungslink wurde an Ihre E-Mail gesendet.',
+        'resend_button' => 'Bestätigungs-E-Mail erneut senden',
+    ],
 ];

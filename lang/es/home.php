@@ -54,4 +54,12 @@ return [
     'browse_categories_subtitle' => 'Explora diferentes variedades de té, saborea la esencia de la vida del té',
     'tea_culture_articles' => 'Artículos de Cultura del Té',
     'tea_culture_articles_subtitle' => 'Aprende sobre la historia, cultura y conocimiento de degustación del té',
+
+    // Article related (merged from article.php)
+    'article' => [
+        'base_name' => 'Artículos de Té',
+        'title' => 'Artículos de Té',
+        'description' => 'Lee artículos sobre la cultura del té, beneficios para la salud y comercio internacional del té. Teanary te trae conocimiento de té de alta calidad e información de la industria.',
+        'keywords' => 'artículos de té, blog de té, cultura del té, beneficios para la salud del té, exportación de té, Teanary, té chino, té verde, té negro, té oolong, noticias de té',
+    ],
 ];

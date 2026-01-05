@@ -54,4 +54,12 @@ return [
     'browse_categories_subtitle' => '様々な茶の種類を探索し、茶の人生の本質を味わう',
     'tea_culture_articles' => '茶文化記事',
     'tea_culture_articles_subtitle' => '茶の歴史、文化、鑑賞知識を学ぶ',
+
+    // Article related (merged from article.php)
+    'article' => [
+        'base_name' => '茶の記事',
+        'title' => '茶の記事',
+        'description' => '茶文化、健康効果、国際茶貿易に関する記事をお読みください。Teanaryは高品質な茶の知識と業界の洞察をお届けします。',
+        'keywords' => '茶の記事, 茶ブログ, 茶文化, 茶の健康効果, 茶の輸出, Teanary, 中国茶, 緑茶, 紅茶, 烏龍茶, 茶のニュース',
+    ],
 ];

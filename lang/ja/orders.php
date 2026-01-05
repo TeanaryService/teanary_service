@@ -5,7 +5,7 @@ return [
     'order_no' => '注文番号',
     'order_date' => '注文日',
     'total' => '注文金額',
-    'status' => '注文状況',
+    'status_label' => '注文状況',
     'view_details' => '詳細を見る',
     'order_details' => '注文詳細',
     'shipping_address' => '配送先住所',
@@ -37,4 +37,15 @@ return [
     'confirm_cancel' => 'この注文をキャンセルしてもよろしいですか？',
     'operation_success' => '操作が成功しました',
     'contact_email' => 'ご不明な点は :email までご連絡ください',
+
+    // Order status (merged from order.php)
+    'status' => [
+        'pending' => '支払い待ち',
+        'paid' => '支払い済み',
+        'shipped' => '発送済み',
+        'completed' => '完了',
+        'cancelled' => 'キャンセル済み',
+        'after_sale' => 'アフターサービス処理中',
+        'after_sale_done' => 'アフターサービス完了',
+    ],
 ];

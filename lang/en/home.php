@@ -54,4 +54,12 @@ return [
     'browse_categories_subtitle' => 'Explore different tea varieties, savor the essence of tea life',
     'tea_culture_articles' => 'Tea Culture Articles',
     'tea_culture_articles_subtitle' => 'Learn about tea history, culture, and tasting knowledge',
+
+    // Article related (merged from article.php)
+    'article' => [
+        'base_name' => 'Tea Articles',
+        'title' => 'Tea Articles',
+        'description' => 'Read articles about tea culture, health benefits, and international tea trade. Teanary brings you high-quality tea knowledge and industry insights.',
+        'keywords' => 'tea articles, tea blog, tea culture, tea health benefits, tea export, Teanary, Chinese tea, green tea, black tea, oolong tea, tea news',
+    ],
 ];

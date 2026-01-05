@@ -93,4 +93,71 @@ return [
     'error_order_create_failed' => '주문 생성에 실패했습니다. 다시 시도해주세요',
 
     'checkout_support_message' => '결제 중 문제가 발생하면 언제든지 Email: hello@teanary.com 또는 WeChat: xcalder로 연락해 주세요.',
+
+    // Product status (merged from product.php)
+    'product' => [
+        'status' => [
+            'active' => '활성',
+            'inactive' => '비활성',
+        ],
+    ],
+
+    // Promotion related (merged from promotion.php)
+    'promotion' => [
+        'type' => [
+            'coupon' => '쿠폰',
+            'automatic' => '자동 프로모션',
+        ],
+        'discount_type' => [
+            'fixed' => '고정 금액',
+            'percentage' => '퍼센트',
+        ],
+        'condition' => [
+            'order_total_min' => '최소 주문 금액',
+            'order_qty_min' => '최소 주문 수량',
+        ],
+    ],
+
+    // Contact related (merged from contact.php)
+    'contact' => [
+        'title' => '문의하기',
+        'description' => '웹사이트에서 보시는 것이 우리가 제공하는 전부는 아닙니다. 우리는 모든 종류의 차를 공급합니다. 다른 필요나 제안이 있으시면 언제든지 연락해 주세요. 여러분의 소리를 기다리고 있습니다!',
+        'form' => [
+            'name_placeholder' => '이름',
+            'email_placeholder' => '이메일 주소',
+            'message_placeholder' => '메시지를 입력하세요',
+            'submit' => '메시지 보내기',
+        ],
+        'side_title' => '언제든지 연락하세요',
+        'response_time' => '24시간 이내에 답변드리겠습니다',
+        'wechat_label' => 'WeChat으로 문의하기',
+    ],
+
+    // Addresses related (merged from addresses.php)
+    'addresses' => [
+        'my_addresses' => '내 배송 주소',
+        'add_new' => '새 주소 추가',
+        'edit_address' => '주소 편집',
+        'firstname' => '이름',
+        'lastname' => '성',
+        'email' => '이메일',
+        'telephone' => '전화번호',
+        'company' => '회사',
+        'address_1' => '주소 1',
+        'address_2' => '주소 2',
+        'city' => '도시',
+        'postcode' => '우편번호',
+        'country' => '국가',
+        'zone' => '주/도',
+        'save' => '저장',
+        'cancel' => '취소',
+        'delete' => '삭제',
+        'set_default' => '기본값으로 설정',
+        'default' => '기본값',
+        'address_saved' => '주소가 성공적으로 저장되었습니다',
+        'address_deleted' => '주소가 성공적으로 삭제되었습니다',
+        'confirm_delete' => '이 주소를 삭제하시겠습니까?',
+        'select_country' => '국가를 선택해주세요',
+        'select_zone' => '주/도를 선택해주세요',
+    ],
 ];

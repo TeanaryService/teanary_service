@@ -93,4 +93,71 @@ return [
     'error_order_create_failed' => 'Bestellung konnte nicht erstellt werden, bitte versuche es erneut',
 
     'checkout_support_message' => 'Wenn während des Bezahlvorgangs Probleme auftreten, kontaktieren Sie uns gerne per E-Mail: hello@teanary.com oder WeChat: xcalder.',
+
+    // Product status (merged from product.php)
+    'product' => [
+        'status' => [
+            'active' => 'Aktiv',
+            'inactive' => 'Inaktiv',
+        ],
+    ],
+
+    // Promotion related (merged from promotion.php)
+    'promotion' => [
+        'type' => [
+            'coupon' => 'Gutschein',
+            'automatic' => 'Automatische Aktion',
+        ],
+        'discount_type' => [
+            'fixed' => 'Fester Betrag',
+            'percentage' => 'Prozentsatz',
+        ],
+        'condition' => [
+            'order_total_min' => 'Mindestbestellbetrag',
+            'order_qty_min' => 'Mindestbestellmenge',
+        ],
+    ],
+
+    // Contact related (merged from contact.php)
+    'contact' => [
+        'title' => 'Kontaktieren Sie uns',
+        'description' => 'Was Sie auf der Website sehen, ist nicht alles, was wir anbieten. Wir liefern eine vollständige Palette von Tees. Wenn Sie andere Bedürfnisse oder Vorschläge haben, kontaktieren Sie uns bitte. Wir freuen uns auf Ihre Nachricht!',
+        'form' => [
+            'name_placeholder' => 'Ihr Name',
+            'email_placeholder' => 'E-Mail-Adresse',
+            'message_placeholder' => 'Geben Sie Ihre Nachricht ein',
+            'submit' => 'Nachricht senden',
+        ],
+        'side_title' => 'Bleiben Sie in Kontakt',
+        'response_time' => 'Wir werden Ihre Nachricht innerhalb von 24 Stunden beantworten',
+        'wechat_label' => 'Kontaktieren Sie uns über WeChat',
+    ],
+
+    // Addresses related (merged from addresses.php)
+    'addresses' => [
+        'my_addresses' => 'Meine Lieferadressen',
+        'add_new' => 'Neue Adresse hinzufügen',
+        'edit_address' => 'Adresse bearbeiten',
+        'firstname' => 'Vorname',
+        'lastname' => 'Nachname',
+        'email' => 'E-Mail',
+        'telephone' => 'Telefon',
+        'company' => 'Firma',
+        'address_1' => 'Adresse Zeile 1',
+        'address_2' => 'Adresse Zeile 2',
+        'city' => 'Stadt',
+        'postcode' => 'Postleitzahl',
+        'country' => 'Land',
+        'zone' => 'Bundesland/Region',
+        'save' => 'Speichern',
+        'cancel' => 'Abbrechen',
+        'delete' => 'Löschen',
+        'set_default' => 'Als Standard festlegen',
+        'default' => 'Standard',
+        'address_saved' => 'Adresse erfolgreich gespeichert',
+        'address_deleted' => 'Adresse erfolgreich gelöscht',
+        'confirm_delete' => 'Sind Sie sicher, dass Sie diese Adresse löschen möchten?',
+        'select_country' => 'Bitte wählen Sie ein Land',
+        'select_zone' => 'Bitte wählen Sie ein Bundesland/Region',
+    ],
 ];

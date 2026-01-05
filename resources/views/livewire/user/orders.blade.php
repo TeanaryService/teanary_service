@@ -26,7 +26,7 @@
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">
                                     {{ __('orders.total') }}</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">
-                                    {{ __('orders.status') }}</th>
+                                    {{ __('orders.status_label') }}</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">
                                     {{ __('orders.actions') }}</th>
                             </tr>

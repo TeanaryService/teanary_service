@@ -19,4 +19,12 @@ return [
 
     'email_verified_title' => 'Email vérifié avec succès !',
     'email_verified_message' => 'Votre email a été vérifié, redirection vers la page d\'accueil en cours...',
+
+    // Email verification related (merged from email_verification.php)
+    'email_verification' => [
+        'title' => 'Vérifiez votre email',
+        'description' => 'Nous avons envoyé un lien de vérification à votre email. Si vous ne l\'avez pas reçu, cliquez sur le bouton ci-dessous pour le renvoyer.',
+        'resent' => 'Un nouveau lien de vérification a été envoyé à votre email.',
+        'resend_button' => 'Renvoyer l\'email de vérification',
+    ],
 ];

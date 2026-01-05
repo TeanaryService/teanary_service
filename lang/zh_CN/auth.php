@@ -19,4 +19,12 @@ return [
 
     'email_verified_title' => '邮箱验证成功！',
     'email_verified_message' => '我们已经验证了你的邮箱，正在跳转到首页...',
+
+    // 邮箱验证相关（从 email_verification.php 合并）
+    'email_verification' => [
+        'title' => '验证你的邮箱',
+        'description' => '我们已向你的邮箱发送了一封验证链接。如果你没有收到，可以点击下面的按钮重新发送。',
+        'resent' => '新的验证链接已发送到你的邮箱。',
+        'resend_button' => '重新发送验证邮件',
+    ],
 ];

@@ -29,7 +29,7 @@
                                     class="hover:text-tea-600 transition-colors">{{ __('app.categories') }}</a>
                             </li>
                             <li><a href="{{ locaRoute('article.index') }}"
-                                    class="hover:text-tea-600 transition-colors">{{ __('article.base_name') }}</a></li>
+                                    class="hover:text-tea-600 transition-colors">{{ __('home.article.base_name') }}</a></li>
                         </ul>
                         <ul class="space-y-1">
                             @foreach ($categories as $category)

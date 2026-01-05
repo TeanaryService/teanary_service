@@ -54,4 +54,12 @@ return [
     'browse_categories_subtitle' => '探索不同茶类，品味茶香人生',
     'tea_culture_articles' => '茶文化文章',
     'tea_culture_articles_subtitle' => '了解茶的历史、文化和品鉴知识',
+
+    // 文章相关（从 article.php 合并）
+    'article' => [
+        'base_name' => '茶叶文章',
+        'title' => '茶叶文章',
+        'description' => '阅读关于茶文化、健康功效和国际茶叶贸易的文章。Teanary 为您呈现高品质的茶叶知识与行业洞见。',
+        'keywords' => '茶文章, 茶叶博客, 茶文化, 茶保健, 茶叶出口, Teanary, 中国茶, 绿茶, 红茶, 乌龙茶, 茶叶资讯',
+    ],
 ];

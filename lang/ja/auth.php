@@ -19,4 +19,12 @@ return [
 
     'email_verified_title' => 'メールアドレス認証成功！',
     'email_verified_message' => 'メールアドレスを認証しました。ホームページへリダイレクトしています…',
+
+    // Email verification related (merged from email_verification.php)
+    'email_verification' => [
+        'title' => 'メールアドレスを確認してください',
+        'description' => '確認リンクをメールアドレスに送信しました。受信していない場合は、下のボタンをクリックして再送信してください。',
+        'resent' => '新しい確認リンクがメールアドレスに送信されました。',
+        'resend_button' => '確認メールを再送信',
+    ],
 ];

@@ -7,10 +7,10 @@
    <div class="w-full md:w-1/4"> <x-profile-nav /></div>
     <div class="w-full md:w-3/4">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">{{ __('addresses.my_addresses') }}</h2>
+            <h2 class="text-2xl font-bold">{{ __('app.addresses.my_addresses') }}</h2>
             <a href="{{ locaRoute('user.addresses.form') }}"
                 class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
-                {{ __('addresses.add_new') }}
+                {{ __('app.addresses.add_new') }}
             </a>
         </div>
 
@@ -51,15 +51,15 @@
         @if ($showDeleteModal)
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
                 <div class="bg-white p-6 rounded-xl shadow-lg">
-                    <h3 class="text-lg font-bold mb-4">{{ __('addresses.confirm_delete') }}</h3>
+                    <h3 class="text-lg font-bold mb-4">{{ __('app.addresses.confirm_delete') }}</h3>
                     <div class="flex justify-end space-x-4">
                         <button wire:click="$set('showDeleteModal', false)"
                             class="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors">
-                            {{ __('addresses.cancel') }}
+                            {{ __('app.addresses.cancel') }}
                         </button>
                         <button wire:click="confirmDelete"
                             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
-                            {{ __('addresses.delete') }}
+                            {{ __('app.addresses.delete') }}
                         </button>
                     </div>
                 </div>
@@ -69,5 +69,5 @@
 </div>
 
 @pushOnce('seo')
-    <x-layouts.seo title="{{ __('addresses.my_addresses') }}" />
+    <x-layouts.seo title="{{ __('app.addresses.my_addresses') }}" />
 @endPushOnce

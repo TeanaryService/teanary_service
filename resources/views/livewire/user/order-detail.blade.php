@@ -25,7 +25,7 @@
                                 <span>{{ $order->created_at->format('Y-m-d H:i') }}</span>
                             </p>
                             <p class="flex justify-between">
-                                <span>{{ __('orders.status') }}:</span>
+                                <span>{{ __('orders.status_label') }}:</span>
                                 <span class="text-teal-600">{{ __($order->status->label()) }}</span>
                             </p>
 

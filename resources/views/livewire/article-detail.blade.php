@@ -3,7 +3,7 @@
 
     $breadcrumbs = [
         [
-            'label' => __('article.base_name'),
+            'label' => __('home.article.base_name'),
             'url' => locaRoute('article.index'),
         ],
         [

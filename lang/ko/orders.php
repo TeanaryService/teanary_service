@@ -5,7 +5,7 @@ return [
     'order_no' => '주문 번호',
     'order_date' => '주문 날짜',
     'total' => '총 금액',
-    'status' => '주문 상태',
+    'status_label' => '주문 상태',
     'view_details' => '상세 보기',
     'order_details' => '주문 상세',
     'shipping_address' => '배송 주소',
@@ -37,4 +37,15 @@ return [
     'confirm_cancel' => '이 주문을 취소하시겠습니까?',
     'operation_success' => '작업이 성공적으로 처리되었습니다.',
     'contact_email' => '문의 사항은 :email 으로 연락주세요.',
+
+    // Order status (merged from order.php)
+    'status' => [
+        'pending' => '결제 대기 중',
+        'paid' => '결제 완료',
+        'shipped' => '배송 완료',
+        'completed' => '완료',
+        'cancelled' => '주문 취소됨',
+        'after_sale' => 'A/S 처리 중',
+        'after_sale_done' => 'A/S 완료',
+    ],
 ];

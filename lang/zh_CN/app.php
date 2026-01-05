@@ -94,4 +94,71 @@ return [
     'error_order_create_failed' => '创建订单失败,请重试',
 
     'checkout_support_message' => '如果你在结账过程中遇到任何问题，可以通过 Email：hello@teanary.com 或微信：xcalder 联系我们。',
+
+    // 商品状态（从 product.php 合并）
+    'product' => [
+        'status' => [
+            'active' => '启用',
+            'inactive' => '停用',
+        ],
+    ],
+
+    // 促销相关（从 promotion.php 合并）
+    'promotion' => [
+        'type' => [
+            'coupon' => '优惠券',
+            'automatic' => '自动促销',
+        ],
+        'discount_type' => [
+            'fixed' => '固定金额',
+            'percentage' => '百分比',
+        ],
+        'condition' => [
+            'order_total_min' => '最低订单金额',
+            'order_qty_min' => '最低订购数量',
+        ],
+    ],
+
+    // 联系相关（从 contact.php 合并）
+    'contact' => [
+        'title' => '联系我们',
+        'description' => '你在网站上看到的不是我们的全部,我们有全品类的茶叶供应,如果你有其它需要或建议请随时与我们联系。我们期待听到您的声音！',
+        'form' => [
+            'name_placeholder' => '您的姓名',
+            'email_placeholder' => '电子邮箱',
+            'message_placeholder' => '请输入您的留言',
+            'submit' => '发送消息',
+        ],
+        'side_title' => '随时保持联系',
+        'response_time' => '我们会在24小时内回复您的留言',
+        'wechat_label' => '联系我们 Wechat',
+    ],
+
+    // 地址相关（从 addresses.php 合并）
+    'addresses' => [
+        'my_addresses' => '我的收货地址',
+        'add_new' => '添加新地址',
+        'edit_address' => '编辑地址',
+        'firstname' => '名字',
+        'lastname' => '姓氏',
+        'email' => '邮箱',
+        'telephone' => '电话',
+        'company' => '公司',
+        'address_1' => '详细地址1',
+        'address_2' => '详细地址2',
+        'city' => '城市',
+        'postcode' => '邮编',
+        'country' => '国家',
+        'zone' => '省份/地区',
+        'save' => '保存',
+        'cancel' => '取消',
+        'delete' => '删除',
+        'set_default' => '设为默认',
+        'default' => '默认',
+        'address_saved' => '地址保存成功',
+        'address_deleted' => '地址删除成功',
+        'confirm_delete' => '确定要删除这个地址吗？',
+        'select_country' => '请选择国家',
+        'select_zone' => '请选择地区',
+    ],
 ];

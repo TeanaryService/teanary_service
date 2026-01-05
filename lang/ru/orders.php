@@ -5,7 +5,7 @@ return [
     'order_no' => 'Номер заказа',
     'order_date' => 'Дата заказа',
     'total' => 'Сумма заказа',
-    'status' => 'Статус заказа',
+    'status_label' => 'Статус заказа',
     'view_details' => 'Просмотреть детали',
     'order_details' => 'Детали заказа',
     'shipping_address' => 'Адрес доставки',
@@ -37,4 +37,15 @@ return [
     'confirm_cancel' => 'Подтвердить отмену заказа?',
     'operation_success' => 'Операция выполнена успешно',
     'contact_email' => 'По любым вопросам свяжитесь с :email',
+
+    // Order status (merged from order.php)
+    'status' => [
+        'pending' => 'Ожидает оплаты',
+        'paid' => 'Оплачено',
+        'shipped' => 'Отправлено',
+        'completed' => 'Завершено',
+        'cancelled' => 'Отменено',
+        'after_sale' => 'Обработка после продажи',
+        'after_sale_done' => 'После продажи завершено',
+    ],
 ];

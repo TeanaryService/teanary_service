@@ -1,7 +1,7 @@
 @php
     $breadcrumbs = [
         [
-            'label' => __('article.title'),
+            'label' => __('home.article.title'),
             'url' => '',
         ],
     ];
@@ -29,6 +29,6 @@
 </div>
 
 @pushOnce('seo')
-    <x-layouts.seo title="{{ __('article.title') }}" description="{{ __('article.description') }}"
-        keywords="{{ __('article.keywords') }}" />
+    <x-layouts.seo title="{{ __('home.article.title') }}" description="{{ __('home.article.description') }}"
+        keywords="{{ __('home.article.keywords') }}" />
 @endPushOnce

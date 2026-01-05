@@ -10,8 +10,8 @@ enum PromotionTypeEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Coupon => __('promotion.type.coupon'),
-            self::Automatic => __('promotion.type.automatic'),
+            self::Coupon => __('app.promotion.type.coupon'),
+            self::Automatic => __('app.promotion.type.automatic'),
         };
     }
 

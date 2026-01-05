@@ -93,4 +93,71 @@ return [
     'error_order_create_failed' => 'No se pudo crear el pedido, por favor inténtalo de nuevo',
 
     'checkout_support_message' => 'Si tienes algún problema durante el proceso de pago, no dudes en contactarnos por correo electrónico: hello@teanary.com o WeChat: xcalder.',
+
+    // Product status (merged from product.php)
+    'product' => [
+        'status' => [
+            'active' => 'Activo',
+            'inactive' => 'Inactivo',
+        ],
+    ],
+
+    // Promotion related (merged from promotion.php)
+    'promotion' => [
+        'type' => [
+            'coupon' => 'Cupón',
+            'automatic' => 'Promoción Automática',
+        ],
+        'discount_type' => [
+            'fixed' => 'Cantidad Fija',
+            'percentage' => 'Porcentaje',
+        ],
+        'condition' => [
+            'order_total_min' => 'Importe Mínimo del Pedido',
+            'order_qty_min' => 'Cantidad Mínima del Pedido',
+        ],
+    ],
+
+    // Contact related (merged from contact.php)
+    'contact' => [
+        'title' => 'Contáctanos',
+        'description' => 'Lo que ves en el sitio web no es todo lo que ofrecemos. Suministramos una gama completa de tés. Si tienes otras necesidades o sugerencias, no dudes en contactarnos. ¡Esperamos saber de ti!',
+        'form' => [
+            'name_placeholder' => 'Tu Nombre',
+            'email_placeholder' => 'Correo Electrónico',
+            'message_placeholder' => 'Ingresa tu mensaje',
+            'submit' => 'Enviar Mensaje',
+        ],
+        'side_title' => 'Mantente en Contacto',
+        'response_time' => 'Responderemos a tu mensaje en un plazo de 24 horas',
+        'wechat_label' => 'Contáctanos vía WeChat',
+    ],
+
+    // Addresses related (merged from addresses.php)
+    'addresses' => [
+        'my_addresses' => 'Mis Direcciones de Envío',
+        'add_new' => 'Agregar Nueva Dirección',
+        'edit_address' => 'Editar Dirección',
+        'firstname' => 'Nombre',
+        'lastname' => 'Apellido',
+        'email' => 'Correo Electrónico',
+        'telephone' => 'Teléfono',
+        'company' => 'Empresa',
+        'address_1' => 'Dirección Línea 1',
+        'address_2' => 'Dirección Línea 2',
+        'city' => 'Ciudad',
+        'postcode' => 'Código Postal',
+        'country' => 'País',
+        'zone' => 'Estado/Provincia',
+        'save' => 'Guardar',
+        'cancel' => 'Cancelar',
+        'delete' => 'Eliminar',
+        'set_default' => 'Establecer como Predeterminada',
+        'default' => 'Predeterminada',
+        'address_saved' => 'Dirección guardada exitosamente',
+        'address_deleted' => 'Dirección eliminada exitosamente',
+        'confirm_delete' => '¿Estás seguro de que deseas eliminar esta dirección?',
+        'select_country' => 'Por favor selecciona un país',
+        'select_zone' => 'Por favor selecciona un estado/provincia',
+    ],
 ];
