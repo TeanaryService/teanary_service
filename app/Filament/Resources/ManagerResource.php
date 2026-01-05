@@ -87,6 +87,27 @@ class ManagerResource extends Resource
                     ->required(fn ($context) => $context === 'create'),
                 Forms\Components\DateTimePicker::make('email_verified_at')
                     ->label(__('filament.manager.email_verified_at')),
+                Forms\Components\TextInput::make('token')
+                    ->label('API Token')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->visible(fn ($record) => $record !== null)
+                    ->placeholder('点击"生成Token"按钮生成')
+                    ->suffixAction(
+                        Forms\Components\Actions\Action::make('generateToken')
+                            ->label('生成Token')
+                            ->icon('heroicon-o-key')
+                            ->action(function (Manager $record, Forms\Components\TextInput $component) {
+                                $token = bin2hex(random_bytes(32));
+                                $record->update(['token' => $token]);
+                                $component->state($token);
+                                \Filament\Notifications\Notification::make()
+                                    ->title('Token已生成')
+                                    ->body('新Token: ' . $token)
+                                    ->success()
+                                    ->send();
+                            })
+                    ),
             ]);
     }
 
@@ -109,12 +130,35 @@ class ManagerResource extends Resource
                     ->label(__('filament.manager.email_verified_at'))
                     ->dateTime(format: 'Y-m-d H:i:s')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('token')
+                    ->label('API Token')
+                    ->limit(20)
+                    ->copyable()
+                    ->copyMessage('Token已复制')
+                    ->placeholder('未生成'),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('generateToken')
+                    ->label('生成Token')
+                    ->icon('heroicon-o-key')
+                    ->color('success')
+                    ->action(function (Manager $record) {
+                        $token = bin2hex(random_bytes(32));
+                        $record->update(['token' => $token]);
+                        \Filament\Notifications\Notification::make()
+                            ->title('Token已生成')
+                            ->body('新Token: ' . $token)
+                            ->success()
+                            ->send();
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('生成API Token')
+                    ->modalDescription('这将生成一个新的API访问令牌。旧的令牌将失效。')
+                    ->modalSubmitActionLabel('确认生成'),
                 ...static::getActions(),
             ])
             ->bulkActions([

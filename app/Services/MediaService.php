@@ -4,7 +4,9 @@ namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
+use Exception;
 
 class MediaService
 {
@@ -26,25 +28,89 @@ class MediaService
     }
 
     /**
+     * 从URL下载图片
+     *
+     * @param string $url 图片URL
+     * @return string 图片二进制数据
+     * @throws Exception
+     */
+    protected function downloadImageFromUrl(string $url): string
+    {
+        try {
+            $response = Http::timeout(30)->get($url);
+            
+            if (!$response->successful()) {
+                throw new Exception("无法下载图片: HTTP {$response->status()}");
+            }
+            
+            $imageContent = $response->body();
+            
+            // 验证是否为有效的图片数据
+            $imageInfo = @getimagesizefromstring($imageContent);
+            if ($imageInfo === false) {
+                throw new Exception('下载的内容不是有效的图片');
+            }
+            
+            return $imageContent;
+        } catch (Exception $e) {
+            throw new Exception("下载图片失败: {$e->getMessage()}");
+        }
+    }
+
+    /**
+     * 从URL获取图片扩展名
+     *
+     * @param string $url 图片URL
+     * @return string 扩展名
+     */
+    protected function getImageExtensionFromUrl(string $url): string
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        
+        // 常见的图片扩展名
+        $validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $extension = strtolower($extension);
+        
+        if (in_array($extension, $validExtensions)) {
+            return $extension;
+        }
+        
+        // 默认返回jpg
+        return 'jpg';
+    }
+
+    /**
      * 处理主图上传
      *
      * @param Model $model 支持 HasMedia 的模型
-     * @param array|null $mainImage 主图数据
-     * @param string $extension 文件扩展名，默认 'png'
+     * @param array|null $mainImage 主图数据，支持 contents (base64) 或 image_url (URL)
+     * @param string $extension 文件扩展名，默认 'png'，如果提供image_url会自动检测
      * @return void
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException|Exception
      */
     public function handleMainImage(Model $model, ?array $mainImage, string $extension = 'png'): void
     {
-        if (!$mainImage || !isset($mainImage['contents'])) {
+        if (!$mainImage) {
             return;
         }
 
-        $imageContent = $this->decodeBase64Image($mainImage['contents']);
         $imageId = $mainImage['image_id'] ?? Str::random(8);
+        $imageContent = null;
+        $finalExtension = $extension;
+
+        // 优先使用 image_url，如果没有则使用 contents
+        if (isset($mainImage['image_url'])) {
+            $imageContent = $this->downloadImageFromUrl($mainImage['image_url']);
+            $finalExtension = $this->getImageExtensionFromUrl($mainImage['image_url']);
+        } elseif (isset($mainImage['contents'])) {
+            $imageContent = $this->decodeBase64Image($mainImage['contents']);
+        } else {
+            return;
+        }
         
         $model->addMediaFromString($imageContent)
-            ->usingFileName($imageId.'.'.$extension)
+            ->usingFileName($imageId.'.'.$finalExtension)
             ->toMediaCollection('image');
     }
 
@@ -52,10 +118,10 @@ class MediaService
      * 处理内容图片上传并返回图片映射
      *
      * @param Model $model 支持 HasMedia 的模型
-     * @param array|null $contentImages 内容图片数组
-     * @param string $extension 文件扩展名，默认 'png'
+     * @param array|null $contentImages 内容图片数组，支持 contents (base64) 或 image_url (URL)
+     * @param string $extension 文件扩展名，默认 'png'，如果提供image_url会自动检测
      * @return array 图片ID到URL的映射
-     * @throws InvalidArgumentException
+     * @throws InvalidArgumentException|Exception
      */
     public function handleContentImages(Model $model, ?array $contentImages, string $extension = 'png'): array
     {
@@ -66,14 +132,25 @@ class MediaService
         }
 
         foreach ($contentImages as $image) {
-            if (!isset($image['contents']) || !isset($image['image_id'])) {
+            if (!isset($image['image_id'])) {
                 continue;
             }
 
-            $imageContent = $this->decodeBase64Image($image['contents']);
+            $imageContent = null;
+            $finalExtension = $extension;
+
+            // 优先使用 image_url，如果没有则使用 contents
+            if (isset($image['image_url'])) {
+                $imageContent = $this->downloadImageFromUrl($image['image_url']);
+                $finalExtension = $this->getImageExtensionFromUrl($image['image_url']);
+            } elseif (isset($image['contents'])) {
+                $imageContent = $this->decodeBase64Image($image['contents']);
+            } else {
+                continue;
+            }
             
             $mediaItem = $model->addMediaFromString($imageContent)
-                ->usingFileName($image['image_id'].'.'.$extension)
+                ->usingFileName($image['image_id'].'.'.$finalExtension)
                 ->toMediaCollection('content-images');
 
             $imageMap[$image['image_id']] = $mediaItem->getUrl();

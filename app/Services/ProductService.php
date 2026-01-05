@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ProductStatusEnum;
 use App\Models\Product;
 use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
@@ -25,6 +26,7 @@ class ProductService
         $product = Product::create([
             'slug' => $data['slug'],
             'source_url' => $data['source_url'] ?? null,
+            'status' => ProductStatusEnum::Inactive,
         ]);
 
         // 处理主图

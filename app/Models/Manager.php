@@ -52,6 +52,7 @@ class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMed
         'password',
         'email_verified_at',
         'remember_token',
+        'token',
     ];
 
     public function getFilamentAvatarUrl(): ?string
