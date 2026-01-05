@@ -30,43 +30,43 @@
 
 <div class="group tea-product-card">
     <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" class="block">
-        <div class="relative w-full aspect-square bg-gradient-to-br from-tea-50 to-bamboo-50 overflow-hidden">
+        <div class="relative w-full aspect-square bg-gray-100 overflow-hidden rounded-t-lg">
             <!-- 第一张图片 -->
             <img data-src="{{ $firstImage }}" 
                  src="/loading.svg"
                  alt="{{ $name }}"
-                 class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105 {{ $secondImage ? 'group-hover:opacity-0' : '' }}">
+                 class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-110 {{ $secondImage ? 'group-hover:opacity-0' : '' }}">
             
             <!-- 第二张图片（如果存在） -->
             @if ($secondImage)
                 <img data-src="{{ $secondImage }}" 
                      src="/loading.svg"
                      alt="{{ $name }}"
-                     class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-110">
+                     class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 opacity-0 scale-110 group-hover:opacity-100 group-hover:scale-115">
             @endif
             
             <!-- 图片指示器（如果有多张图片） -->
             @if ($secondImage)
-                <div class="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div class="w-1.5 h-1.5 bg-white/80 rounded-full group-hover:bg-white"></div>
-                    <div class="w-1.5 h-1.5 bg-white/40 rounded-full group-hover:bg-white/60"></div>
+                <div class="absolute bottom-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div class="w-2 h-2 bg-white/90 rounded-full shadow-sm"></div>
+                    <div class="w-2 h-2 bg-white/50 rounded-full shadow-sm"></div>
                 </div>
             @endif
             
             <!-- 悬停遮罩效果 -->
-            <div class="absolute inset-0 bg-tea-500/0 group-hover:bg-tea-500/10 transition-all duration-300"></div>
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300"></div>
         </div>
         
-        <div class="p-2 md:p-4">
-            <h3 class="line-clamp-2 text-lg font-medium text-tea-800 mb-2 group-hover:text-tea-600 transition-colors duration-200">
+        <div class="p-4 md:p-5">
+            <h3 class="line-clamp-2 text-base md:text-lg font-semibold text-gray-900 mb-3 group-hover:text-tea-600 transition-colors duration-200 leading-snug">
                 {{ $name }}
             </h3>
             @if ($priceText)
-                <p class="text-lg font-bold tea-price group-hover:text-tea-700 transition-colors duration-200">
+                <p class="text-lg md:text-xl font-bold tea-price mb-3 group-hover:text-tea-700 transition-colors duration-200">
                     {{ $priceText }}
                 </p>
             @endif
-            <p class="mt-2 text-sm text-tea-600 group-hover:text-tea-700 transition-colors duration-200">
+            <p class="text-sm text-gray-500 group-hover:text-gray-600 transition-colors duration-200">
                 {{ __('home.product_view_detail') }}
             </p>
             

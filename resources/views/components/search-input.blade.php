@@ -28,8 +28,8 @@
         <div class="relative">
             <input type="text" name="search" value="{{ request('search') }}"
                 placeholder="{{ __('search.placeholder') }}"
-                class="w-full px-4 py-3 pl-12 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-            <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                class="w-full px-4 py-2.5 pl-11 text-sm text-gray-900 bg-white rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-tea-500 focus:border-tea-500 transition-all duration-200 placeholder:text-gray-400">
+            <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-tea-600 transition-colors">
                 <x-heroicon-o-magnifying-glass class="w-5 h-5" />
             </button>
         </div>

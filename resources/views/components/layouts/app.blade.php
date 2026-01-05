@@ -39,22 +39,29 @@
 
 </head>
 
-<body class="body bg-tea-50 font-chinese">
-    <div class="fixed w-full top-0 bg-white/95 backdrop-blur-sm z-50 tea-bg-texture">
-        <div class="w-full max-w-7xl mx-auto flex justify-between h-20 items-center px-1 md:px-6">
-            <div class="hidden md:block">
-                <a href="{{ locaRoute('home') }}"><x-layouts.logo
-                        imgClass="max-w-12 max-h-12 md:max-w-14 md:max-h-14" /></a>
+<body class="body bg-gray-50 font-chinese antialiased">
+    <!-- 导航栏 -->
+    <header class="fixed w-full top-0 bg-white/98 backdrop-blur-md z-50 border-b border-gray-200/60 shadow-sm">
+        <div class="w-full max-w-7xl mx-auto flex justify-between items-center h-20 px-4 md:px-8">
+            <!-- Logo -->
+            <div class="hidden md:flex items-center">
+                <a href="{{ locaRoute('home') }}" class="flex items-center gap-3 group">
+                    <x-layouts.logo imgClass="max-w-12 max-h-12 md:max-w-14 md:max-h-14 transition-transform group-hover:scale-105" />
+                </a>
             </div>
 
-            <!-- 搜索框 -->
-            <x-search-input />
-
+            <!-- 移动端 Logo -->
             <div class="block md:hidden">
                 <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
             </div>
 
-            <div class="flex items-center gap-x-4 h-10">
+            <!-- 搜索框 -->
+            <div class="flex-1 max-w-2xl mx-4 md:mx-8">
+                <x-search-input />
+            </div>
+
+            <!-- 右侧操作区 -->
+            <div class="flex items-center gap-3 md:gap-4">
                 @livewire('components.cart-dropdown')
 
                 @auth
@@ -62,26 +69,26 @@
                 @endauth
                 @guest
                     <a href="{{ locaRoute('auth.login') }}"
-                        class="text-tea-600 hover:text-tea-800 font-medium flex items-center gap gap-x-2 tea-nav-item">
-                        <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
-                        <span class="hidden md:block">
-                            {{ __('app.login') }}
-                        </span>
+                        class="hidden sm:flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-tea-600 font-medium transition-colors duration-200 tea-nav-item">
+                        <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5" />
+                        <span class="hidden md:block">{{ __('app.login') }}</span>
                     </a>
                     <a href="{{ locaRoute('auth.register') }}"
-                        class="inline-flex items-center justify-center px-2 md:px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white tea-btn-primary h-10 gap gap-x-2">
-                        <x-heroicon-o-plus-circle class="w-6 h-6" />
+                        class="inline-flex items-center justify-center px-4 md:px-6 py-2 text-sm font-semibold rounded-lg text-white tea-btn-primary h-10 gap-2 shadow-md hover:shadow-lg transition-all duration-200">
+                        <x-heroicon-o-plus-circle class="w-5 h-5" />
                         <span class="hidden md:block">{{ __('app.register') }}</span>
                     </a>
                 @endguest
 
-                <div class="flex items-center gap-x-4 h-10">
+                <div class="flex items-center gap-2 md:gap-3 border-l border-gray-200 pl-3 md:pl-4">
                     <x-language-switch />
                     <x-currency-switch />
                 </div>
             </div>
         </div>
-    </div>
+    </header>
+    
+    <!-- Flash Messages -->
     <div class="h-20 w-full">
         <x-flash-messages />
     </div>
