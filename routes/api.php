@@ -11,6 +11,7 @@ Route::post('webhooks/paypal', \App\Http\Controllers\Api\PaypalWebhookController
 // 同步相关路由（不需要 token 鉴权，使用 API Key）
 Route::prefix('sync')->group(function () {
     Route::post('/receive', [\App\Http\Controllers\Api\SyncController::class, 'receive'])->name('sync.receive');
+    Route::post('/trigger', [\App\Http\Controllers\Api\SyncController::class, 'triggerSync'])->name('sync.trigger');
     Route::get('/status', [\App\Http\Controllers\Api\SyncController::class, 'status'])->name('sync.status');
     Route::get('/download-file/{mediaId}', [\App\Http\Controllers\Api\SyncController::class, 'downloadFile'])->name('sync.download-file');
     Route::get('/download-file/{mediaId}/conversion/{conversion}', [\App\Http\Controllers\Api\SyncController::class, 'downloadFile'])->name('sync.download-file-conversion');
