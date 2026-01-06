@@ -27,11 +27,20 @@ add('writable_dirs', [
 // ============================================
 // 主机配置
 // ============================================
-host('teanary')
+host('teanary-online')
     ->set('hostname', '107.174.127.181')
     ->set('port', 22)
     ->set('remote_user', 'root')
     ->setIdentityFile('~/.ssh/vpn')
+    ->set('deploy_path', '/home/wwwroot/teanary')
+    ->set('branch', 'main')
+    ->set('http_user', 'www');
+
+host('teanary-sync')
+    ->set('hostname', 'chatterup.fun')
+    ->set('port', 2022)
+    ->set('remote_user', 'xcalder')
+    ->setIdentityFile('~/.ssh/pi5')
     ->set('deploy_path', '/home/wwwroot/teanary')
     ->set('branch', 'main')
     ->set('http_user', 'www');
