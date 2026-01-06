@@ -29,5 +29,10 @@ class AppServiceProvider extends ServiceProvider
             'panels::topbar.start',
             fn () => '<a class="text-md font-bold" target="_blank" href="'.locaRoute('home').'">'.__('app.home').'</a>'
         );
+
+        // 注册 Media Observer 用于同步
+        if (config('sync.enabled')) {
+            \Spatie\MediaLibrary\MediaCollections\Models\Media::observe(\App\Observers\MediaObserver::class);
+        }
     }
 }

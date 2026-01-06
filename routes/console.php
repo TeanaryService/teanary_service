@@ -17,3 +17,14 @@ Schedule::command('app:sitemap')
 
 Schedule::command('carts:clear-empty')
     ->daily();
+
+// 数据同步任务
+Schedule::command('sync:pending --queue')
+    ->everyMinute()
+    ->withoutOverlapping()
+    ->runInBackground();
+
+Schedule::command('sync:retry-failed --queue')
+    ->everyFiveMinutes()
+    ->withoutOverlapping()
+    ->runInBackground();
