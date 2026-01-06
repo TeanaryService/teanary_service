@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ProductStatusEnum;
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
@@ -26,6 +28,7 @@ class ProductResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = Product::class;
 
@@ -59,16 +62,38 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            SpatieMediaLibraryFileUpload::make('images')
-                ->label(__('filament.product.images'))
-                ->multiple()
-                ->columnSpanFull()
-                ->collection('images')
-                ->reorderable(),
-            ...static::getAttributeValuesRepeater(),
-            ...static::getProductCategoriesRepeater(),
-            ...static::getProductBaseFields(),
-            ...static::getProductTranslationsTabs($form),
+            Forms\Components\Tabs::make('product_tabs')
+                ->tabs([
+                    Forms\Components\Tabs\Tab::make('basic')
+                        ->label(__('filament.product.basic_info'))
+                        ->schema([
+                            ...static::getProductBaseFields(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('images')
+                        ->label(__('filament.product.images'))
+                        ->schema([
+                            SpatieMediaLibraryFileUpload::make('images')
+                                ->label(__('filament.product.images'))
+                                ->multiple()
+                                ->columnSpanFull()
+                                ->collection('images')
+                                ->reorderable(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('attributes')
+                        ->label(__('filament.product.attribute_values'))
+                        ->schema([
+                            ...static::getAttributeValuesRepeater(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('categories')
+                        ->label(__('filament.product.categories'))
+                        ->schema([
+                            ...static::getProductCategoriesRepeater(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('translations')
+                        ->label(__('filament.product.translations'))
+                        ->schema(static::getProductTranslationsTabs($form)),
+                ])
+                ->columnSpanFull(),
         ]);
     }
 
@@ -151,6 +176,11 @@ class ProductResource extends Resource
                 ->label(__('filament.product.status'))
                 ->options(ProductStatusEnum::options())
                 ->required(),
+            Forms\Components\Select::make('translation_status')
+                ->label('翻译状态')
+                ->options(TranslationStatusEnum::options())
+                ->default(TranslationStatusEnum::NotTranslated->value)
+                ->required(),
             Forms\Components\TextInput::make('source_url')
                 ->label('来源URL')
                 ->url()
@@ -170,7 +200,7 @@ class ProductResource extends Resource
         $model = $form->getModelInstance();
 
         return [
-            Tabs::make('translations_tabs')
+            Forms\Components\Tabs::make('translations_tabs')
                 ->tabs(
                     $languages->map(function ($lang) use ($model) {
                         $translation = null;
@@ -180,7 +210,7 @@ class ProductResource extends Resource
                                 ->first();
                         }
 
-                        return Tabs\Tab::make($lang->name)
+                        return Forms\Components\Tabs\Tab::make($lang->name)
                             ->schema([
                                 Forms\Components\TextInput::make("translations.{$lang->id}.name")
                                     ->label(__('filament.product.name'))
@@ -189,7 +219,7 @@ class ProductResource extends Resource
 
                                 reusableRichEditor("translations.{$lang->id}.description", $translation?->description ?? '', __('filament.product.description'), $lang->id),
 
-                                Textarea::make("translations.{$lang->id}.short_description")
+                                Forms\Components\Textarea::make("translations.{$lang->id}.short_description")
                                     ->label(__('filament.product.short_description'))
                                     ->default($translation ? $translation->short_description : ''),
                             ]);
@@ -227,7 +257,7 @@ class ProductResource extends Resource
                         $first = $record->productTranslations->first();
 
                         return $first ? $first->name : '';
-                    }),
+                    })->limit(32),
                 Tables\Columns\TextColumn::make('categories')
                     ->label(__('filament.product.categories'))
                     ->getStateUsing(function ($record) {
@@ -244,6 +274,7 @@ class ProductResource extends Resource
                         return implode('，', array_filter($names));
                     }),
                 Tables\Columns\TextColumn::make('slug')
+                    ->limit(16)
                     ->label(__('filament.product.slug'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('source_url')
@@ -256,6 +287,15 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn ($state): string => $state->label())
                     ->label(__('filament.product.status')),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    }),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -267,6 +307,7 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }

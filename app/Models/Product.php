@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Enums\ProductStatusEnum;
+use App\Enums\TranslationStatusEnum;
 use App\Observers\ProductObserver;
 use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
@@ -49,12 +50,14 @@ class Product extends Model implements HasMedia
 
     protected $casts = [
         'status' => ProductStatusEnum::class,
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
         'slug',
         'status',
         'source_url',
+        'translation_status',
     ];
 
     public function cartItems(): HasMany
@@ -91,6 +94,14 @@ class Product extends Model implements HasMedia
     public function productVariants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    /**
+     * 只查询启用状态的商品
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', ProductStatusEnum::Active);
     }
 
     public function registerMediaConversions(?Media $media = null): void

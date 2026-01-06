@@ -30,6 +30,7 @@ class RecommendProducts extends Component
         }
 
         $this->recommendedProducts = Product::with(['productTranslations', 'media', 'productVariants'])
+            ->active()
             ->whereHas('productCategories', function ($q) {
                 $q->whereIn('id', $this->categoryIds);
             })

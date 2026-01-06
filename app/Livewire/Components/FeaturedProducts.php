@@ -12,6 +12,7 @@ class FeaturedProducts extends Component
     public function mount()
     {
         $this->products = Product::with(['productTranslations', 'productVariants.media', 'media'])
+            ->active()
             ->latest('id')
             ->take(8)
             ->get();

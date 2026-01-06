@@ -34,7 +34,7 @@ class ProductDetail extends Component
             'productCategories.categoryTranslations',
             'attributeValues.attributeValueTranslations',
             'attributeValues.attribute.attributeTranslations',
-        ])->where('slug', $slug)->firstOrFail();
+        ])->active()->where('slug', $slug)->firstOrFail();
 
         $this->variants = $this->product->productVariants;
 

@@ -14,7 +14,6 @@ set('default_stage', 'production');
 // 共享文件和目录
 add('shared_files', [
     'public/sitemap.xml',
-    'frankenphp',
 ]);
 
 add('shared_dirs', []);
@@ -28,11 +27,20 @@ add('writable_dirs', [
 // ============================================
 // 主机配置
 // ============================================
-host('teanary')
+host('teanary-online')
     ->set('hostname', '107.174.127.181')
     ->set('port', 22)
     ->set('remote_user', 'root')
     ->setIdentityFile('~/.ssh/vpn')
+    ->set('deploy_path', '/home/wwwroot/teanary')
+    ->set('branch', 'main')
+    ->set('http_user', 'www');
+
+host('teanary-sync')
+    ->set('hostname', 'chatterup.fun')
+    ->set('port', 2022)
+    ->set('remote_user', 'xcalder')
+    ->setIdentityFile('~/.ssh/pi5')
     ->set('deploy_path', '/home/wwwroot/teanary')
     ->set('branch', 'main')
     ->set('http_user', 'www');
@@ -60,18 +68,13 @@ task('artisan:filament:optimize', function () {
 });
 
 // ============================================
-// Octane 任务（由 Supervisor 管理）
+// PHP-FCGI 任务
 // ============================================
-desc('检查 Octane 状态');
-task('octane:status', function () {
-    run('sudo supervisorctl status octane:*');
-});
-
-desc('重启 Octane 服务');
-task('octane:restart', function () {
-    writeln('<info>正在重启 Octane 服务...</info>');
-    run('sudo supervisorctl restart octane:*');
-    sleep(2);
+desc('重启 PHP-FCGI 服务');
+task('php-fcgi:restart', function () {
+    writeln('<info>正在重启 PHP-FCGI 服务...</info>');
+    run('sudo /etc/init.d/php-fpm restart');
+    sleep(1);
 });
 
 // ============================================
@@ -99,17 +102,15 @@ task('supervisor:status', function () {
 // ============================================
 desc('部署 Supervisor 配置');
 task('supervisor:deploy', function () {
-    run('sudo cp {{release_path}}/deployment/supervisor-octane.conf /etc/supervisor/conf.d/octane.conf');
     run('sudo cp {{release_path}}/deployment/supervisor-queue.conf /etc/supervisor/conf.d/teanary-queue.conf');
     run('sudo supervisorctl reread');
     run('sudo supervisorctl update');
-    run('sudo supervisorctl start octane:* 2>&1 || true');
     run('sudo supervisorctl start teanary-queue:* 2>&1 || true');
 });
 
 desc('部署 Nginx 配置');
 task('nginx:deploy', function () {
-    run('sudo cp {{release_path}}/deployment/nginx-teanary-octane.conf /usr/local/nginx/conf/vhost/teanary.com.conf');
+    run('sudo cp {{release_path}}/deployment/nginx-teanary-phpfcgi.conf /usr/local/nginx/conf/vhost/teanary.com.conf');
     run('sudo nginx -t');
     run('sudo lnmp reload');
 });
@@ -126,11 +127,11 @@ task('deploy:config', [
 // 前端构建在 vendors 之后
 after('deploy:vendors', 'npm:build');
 
-// 在 symlink 之前完成优化和 Octane 准备
+before('deploy:symlink', 'artisan:cache:clear');
 before('deploy:symlink', 'artisan:filament:optimize');
 
-// symlink 之后重启服务（由 Supervisor 管理）
-after('deploy:symlink', 'octane:restart');
+// symlink 之后重启服务
+after('deploy:symlink', 'php-fcgi:restart');
 after('deploy:symlink', 'queue:restart');
 
 // 失败处理

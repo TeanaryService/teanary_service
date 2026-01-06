@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\CountryResource\RelationManagers\ZonesRelationManager;
 use App\Filament\Resources\ZoneResource\Pages;
 use App\Models\Zone;
@@ -9,6 +10,7 @@ use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -21,6 +23,7 @@ class ZoneResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = Zone::class;
 
@@ -102,6 +105,12 @@ class ZoneResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label(__('filament.zone.active'))
                     ->required(),
+                Forms\Components\Select::make('translation_status')
+                    ->label('翻译状态')
+                    ->options(TranslationStatusEnum::options())
+                    ->default(TranslationStatusEnum::NotTranslated->value)
+                    ->required()
+                    ->hiddenOn([ZonesRelationManager::class]),
             ]);
     }
 
@@ -150,6 +159,16 @@ class ZoneResource extends Resource
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('filament.zone.active'))
                     ->boolean(),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    })
+                    ->hiddenOn([ZonesRelationManager::class]),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -161,6 +180,7 @@ class ZoneResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }

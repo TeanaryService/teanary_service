@@ -142,6 +142,8 @@ return [
 
     // Attribute
     'attribute.name' => 'Name',
+    'attribute.is_filterable' => 'Im Frontend-Filter anzeigen',
+    'attribute.is_filterable_helper' => 'Wenn aktiviert, wird dieses Attribut in der Frontend-Produktfilterliste angezeigt',
     'attribute_value.name' => 'Name',
     'attribute_value.attribute' => 'Eigenschaft',
 
@@ -225,6 +227,8 @@ return [
     'product.product_variants' => 'Produktspezifikationen',
     'product.attribute' => 'Eigenschaft',
     'product.attribute_value' => 'Eigenschaftswert',
+    'product.basic_info' => 'Grundinformationen',
+    'product.translations' => 'Übersetzungen',
 
     // Product Review
     'product_review.images' => 'Bilder',

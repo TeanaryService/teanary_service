@@ -142,6 +142,8 @@ return [
 
     // Attribute
     'attribute.name' => '名称',
+    'attribute.is_filterable' => 'フロントエンドフィルター表示',
+    'attribute.is_filterable_helper' => '有効にすると、この属性はフロントエンド商品フィルターリストに表示されます',
     'attribute_value.name' => '名称',
     'attribute_value.attribute' => '属性',
 
@@ -225,6 +227,8 @@ return [
     'product.product_variants' => '商品仕様',
     'product.attribute' => '属性',
     'product.attribute_value' => '属性値',
+    'product.basic_info' => '基本情報',
+    'product.translations' => '翻訳',
 
     // Product Review
     'product_review.images' => '画像',

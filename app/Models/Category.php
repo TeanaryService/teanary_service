@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\TranslationStatusEnum;
 use App\Observers\CategoryObserver;
 use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
@@ -45,11 +46,13 @@ class Category extends Model implements HasMedia
 
     protected $casts = [
         'parent_id' => 'int',
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
         'parent_id',
         'slug',
+        'translation_status',
     ];
 
     public function category(): BelongsTo

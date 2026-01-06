@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Enums\PromotionTypeEnum;
+use App\Enums\TranslationStatusEnum;
 use App\Observers\PromotionObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -44,6 +45,7 @@ class Promotion extends Model
         'ends_at' => 'datetime',
         'active' => 'bool',
         'type' => PromotionTypeEnum::class,
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
@@ -51,6 +53,7 @@ class Promotion extends Model
         'starts_at',
         'ends_at',
         'active',
+        'translation_status',
     ];
 
     public function productVariants(): BelongsToMany

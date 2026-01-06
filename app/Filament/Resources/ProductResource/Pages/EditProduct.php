@@ -22,6 +22,11 @@ class EditProduct extends EditRecord
         $productCategories = $data['productCategories'] ?? [];
         unset($data['productCategories']);
 
+        // 处理 source_url，去掉 URL 参数
+        if (isset($data['source_url']) && !empty($data['source_url'])) {
+            $data['source_url'] = $this->removeUrlParams($data['source_url']);
+        }
+
         $record->update($data);
 
         // 处理多语言
@@ -111,5 +116,49 @@ class EditProduct extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    /**
+     * 去掉 URL 中的查询参数
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function removeUrlParams(string $url): string
+    {
+        $parsed = parse_url($url);
+        
+        if ($parsed === false) {
+            return $url; // 如果解析失败，返回原 URL
+        }
+
+        // 重新构建 URL，只包含 scheme、host、path，去掉 query 和 fragment
+        $cleanUrl = '';
+        
+        if (isset($parsed['scheme'])) {
+            $cleanUrl .= $parsed['scheme'] . '://';
+        }
+        
+        if (isset($parsed['user'])) {
+            $cleanUrl .= $parsed['user'];
+            if (isset($parsed['pass'])) {
+                $cleanUrl .= ':' . $parsed['pass'];
+            }
+            $cleanUrl .= '@';
+        }
+        
+        if (isset($parsed['host'])) {
+            $cleanUrl .= $parsed['host'];
+        }
+        
+        if (isset($parsed['port'])) {
+            $cleanUrl .= ':' . $parsed['port'];
+        }
+        
+        if (isset($parsed['path'])) {
+            $cleanUrl .= $parsed['path'];
+        }
+
+        return $cleanUrl;
     }
 }

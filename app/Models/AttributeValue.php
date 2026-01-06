@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\TranslationStatusEnum;
 use App\Observers\AttributeValueObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -37,10 +38,12 @@ class AttributeValue extends Model
 
     protected $casts = [
         'attribute_id' => 'int',
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
         'attribute_id',
+        'translation_status',
     ];
 
     public function attribute(): BelongsTo

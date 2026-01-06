@@ -142,6 +142,8 @@ return [
 
     // Attribute
     'attribute.name' => 'Название',
+    'attribute.is_filterable' => 'Показывать в фильтре фронтенда',
+    'attribute.is_filterable_helper' => 'При включении этот атрибут будет отображаться в списке фильтров товаров фронтенда',
     'attribute_value.name' => 'Название',
     'attribute_value.attribute' => 'Атрибут',
 
@@ -225,6 +227,8 @@ return [
     'product.product_variants' => 'Характеристики товара',
     'product.attribute' => 'Атрибут',
     'product.attribute_value' => 'Значение атрибута',
+    'product.basic_info' => 'Основная Информация',
+    'product.translations' => 'Переводы',
 
     // Product Review
     'product_review.images' => 'Изображения',

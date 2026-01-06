@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\TranslationStatusEnum;
 use App\Observers\ArticleObserver;
 use App\Traits\CascadesMediaDeletes;
 use Carbon\Carbon;
@@ -67,12 +68,14 @@ class Article extends Model implements HasMedia
     protected $casts = [
         'is_published' => 'bool',
         'user_id' => 'int',
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
         'slug',
         'is_published',
         'user_id',
+        'translation_status',
     ];
 
     public function user(): BelongsTo

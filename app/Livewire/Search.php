@@ -28,6 +28,7 @@ class Search extends Component
             // 搜索商品
             $productIds = Product::search($this->query)->keys();
             $products = Product::with(['productTranslations', 'productVariants.media', 'media'])
+                ->active()
                 ->whereIn('id', $productIds)
                 ->take(5)
                 ->get();
@@ -35,6 +36,7 @@ class Search extends Component
             // 如果没有搜索到商品,则随机显示5个
             if ($products->isEmpty()) {
                 $products = Product::with(['productTranslations', 'productVariants.media', 'media'])
+                    ->active()
                     ->inRandomOrder()
                     ->take(5)
                     ->get();

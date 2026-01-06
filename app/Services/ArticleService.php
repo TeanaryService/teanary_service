@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\TranslationStatusEnum;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
 use App\Models\Language;
@@ -50,6 +51,7 @@ class ArticleService
         $article = Article::create([
             'slug' => $data['slug'],
             'is_published' => $data['is_published'] ?? true,
+            'translation_status' => TranslationStatusEnum::NotTranslated, // 默认不翻译
         ]);
 
         // 处理主图

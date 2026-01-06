@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Enums\TranslationStatusEnum;
 use App\Observers\CountryObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -39,6 +40,7 @@ class Country extends Model
     protected $casts = [
         'postcode_required' => 'boolean',
         'active' => 'bool',
+        'translation_status' => TranslationStatusEnum::class,
     ];
 
     protected $fillable = [
@@ -46,6 +48,7 @@ class Country extends Model
         'iso_code_3',
         'postcode_required',
         'active',
+        'translation_status',
     ];
 
     public function addresses(): HasMany

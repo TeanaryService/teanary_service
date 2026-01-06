@@ -142,6 +142,8 @@ return [
 
     // Attribute
     'attribute.name' => '이름',
+    'attribute.is_filterable' => '프론트엔드 필터 표시',
+    'attribute.is_filterable_helper' => '활성화하면 이 속성이 프론트엔드 상품 필터 목록에 표시됩니다',
     'attribute_value.name' => '이름',
     'attribute_value.attribute' => '속성',
 
@@ -225,6 +227,8 @@ return [
     'product.product_variants' => '상품 규격',
     'product.attribute' => '속성',
     'product.attribute_value' => '속성 값',
+    'product.basic_info' => '기본 정보',
+    'product.translations' => '번역',
 
     // Product Review
     'product_review.images' => '이미지',

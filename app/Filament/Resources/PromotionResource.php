@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\PromotionTypeEnum;
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\PromotionResource\Pages;
 use App\Filament\Resources\PromotionResource\RelationManagers\ProductVariantsRelationManager;
 use App\Filament\Resources\PromotionResource\RelationManagers\PromotionRulesRelationManager;
@@ -12,6 +13,7 @@ use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -23,6 +25,7 @@ class PromotionResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = Promotion::class;
 
@@ -74,6 +77,11 @@ class PromotionResource extends Resource
                     ->displayFormat('Y-m-d H:i:s'),
                 Forms\Components\Toggle::make('active')
                     ->label(__('filament.promotion.active'))
+                    ->required(),
+                Forms\Components\Select::make('translation_status')
+                    ->label('翻译状态')
+                    ->options(TranslationStatusEnum::options())
+                    ->default(TranslationStatusEnum::NotTranslated->value)
                     ->required(),
                 Forms\Components\Tabs::make('translations_tabs')
                     ->tabs(
@@ -133,6 +141,15 @@ class PromotionResource extends Resource
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('filament.promotion.active'))
                     ->boolean(),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    }),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -144,6 +161,7 @@ class PromotionResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }

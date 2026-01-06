@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
@@ -21,6 +23,7 @@ class CategoryResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = Category::class;
 
@@ -97,6 +100,11 @@ class CategoryResource extends Resource
                     ->label(__('filament.category.slug'))
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('translation_status')
+                    ->label('翻译状态')
+                    ->options(TranslationStatusEnum::options())
+                    ->default(TranslationStatusEnum::NotTranslated->value)
+                    ->required(),
 
                 // 多语言 name 字段
                 Forms\Components\Group::make(
@@ -161,6 +169,15 @@ class CategoryResource extends Resource
                             $record->categoryTranslations->where('language_id', $lang?->id)->first()
                         )->name;
                     }),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    }),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -172,6 +189,7 @@ class CategoryResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }

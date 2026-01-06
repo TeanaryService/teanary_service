@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\SpecificationResource\RelationManagers\SpecificationValuesRelationManager;
 use App\Filament\Resources\SpecificationValueResource\Pages;
 use App\Models\SpecificationValue;
@@ -9,6 +10,7 @@ use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
 use App\Traits\HasDefaultPagination;
 use App\Traits\HasTimestampsColumn;
+use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -20,6 +22,7 @@ class SpecificationValueResource extends Resource
     use HasActions;
     use HasDefaultPagination;
     use HasTimestampsColumn;
+    use HasTranslationStatus;
 
     protected static ?string $model = SpecificationValue::class;
 
@@ -79,6 +82,12 @@ class SpecificationValueResource extends Resource
                     ->columnSpanFull()
                     ->hiddenOn([SpecificationValuesRelationManager::class])
                     ->required(),
+                Forms\Components\Select::make('translation_status')
+                    ->label('翻译状态')
+                    ->options(TranslationStatusEnum::options())
+                    ->default(TranslationStatusEnum::NotTranslated->value)
+                    ->required()
+                    ->hiddenOn([SpecificationValuesRelationManager::class]),
                 // 多语言 name 字段
                 Forms\Components\Group::make(
                     $languages->map(function ($lang) use ($model) {
@@ -136,6 +145,16 @@ class SpecificationValueResource extends Resource
 
                         return $first ? $first->name : '';
                     }),
+                Tables\Columns\TextColumn::make('translation_status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label('翻译状态')
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        TranslationStatusEnum::NotTranslated => 'gray',
+                        TranslationStatusEnum::Pending => 'warning',
+                        TranslationStatusEnum::Translated => 'success',
+                    })
+                    ->hiddenOn([SpecificationValuesRelationManager::class]),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
@@ -147,6 +166,7 @@ class SpecificationValueResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
+                    ...static::getTranslationStatusBulkActions(),
                 ]),
             ]));
     }
