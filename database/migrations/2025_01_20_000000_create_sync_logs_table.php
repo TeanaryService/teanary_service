@@ -32,7 +32,7 @@ return new class extends Migration
         });
 
         // 同步状态表，用于记录每个模型的最后同步时间，避免重复同步
-        Schema::create('sync_status', function (Blueprint $table) {
+        Schema::create('sync_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('model_type'); // 模型类名
             $table->unsignedBigInteger('model_id'); // 模型ID
