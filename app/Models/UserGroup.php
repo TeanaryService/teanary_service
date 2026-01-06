@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Enums\TranslationStatusEnum;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class UserGroup extends Model
 {
     use HasFactory;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

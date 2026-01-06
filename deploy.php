@@ -42,7 +42,7 @@ host('teanary-sync')
     ->set('remote_user', 'xcalder')
     ->setIdentityFile('~/.ssh/pi5')
     ->set('deploy_path', '/home/wwwroot/teanary')
-    ->set('branch', 'main')
+    ->set('branch', 'sync')
     ->set('http_user', 'www');
 
 // ============================================

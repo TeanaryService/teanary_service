@@ -10,6 +10,7 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
 use App\Enums\ShippingMethodEnum;
 use App\Observers\OrderObserver;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
@@ -45,6 +46,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     use HasFactory;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

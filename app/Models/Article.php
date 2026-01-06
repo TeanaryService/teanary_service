@@ -9,6 +9,7 @@ namespace App\Models;
 use App\Enums\TranslationStatusEnum;
 use App\Observers\ArticleObserver;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,6 +42,7 @@ class Article extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
     use Searchable;
+    use Syncable;
 
     /**
      * 获取模型的索引化数据数组。

@@ -10,6 +10,7 @@ use App\Enums\PromotionConditionTypeEnum;
 use App\Enums\PromotionDiscountTypeEnum;
 use App\Observers\PromotionRuleObserver;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,6 +39,7 @@ class PromotionRule extends Model implements HasMedia
     use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

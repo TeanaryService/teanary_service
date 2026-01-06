@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Observers\PromotionUserGroupObserver;
+use App\Traits\Syncable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class PromotionUserGroup extends Pivot
 {
     use HasFactory;
+    use Syncable;
 
     protected $table = 'shop_server.promotion_user_group';
 

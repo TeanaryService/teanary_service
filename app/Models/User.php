@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Notifications\CustomVerifyEmail;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
@@ -47,6 +48,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
     use CascadesMediaDeletes;
     use HasFactory, Notifiable;
     use InteractsWithMedia;
+    use Syncable;
 
     public function sendEmailVerificationNotification()
     {

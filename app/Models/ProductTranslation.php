@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Observers\ProductTranslationObserver;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProductTranslation extends Model
 {
     use HasFactory;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

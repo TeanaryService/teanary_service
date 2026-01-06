@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Enums\ShippingMethodEnum;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class OrderShipment extends Model
 {
     use HasFactory;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +37,7 @@ class ProductReview extends Model implements HasMedia
     use CascadesMediaDeletes;
     use HasFactory;
     use InteractsWithMedia;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

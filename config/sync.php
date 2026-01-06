@@ -54,18 +54,31 @@ return [
         \App\Models\SpecificationValue::class,
         \App\Models\SpecificationValueTranslation::class,
         
-        // 订单相关（可选，根据业务需求）
-        // \App\Models\Order::class,
-        // \App\Models\OrderItem::class,
+        // 订单相关
+        \App\Models\Order::class,
+        \App\Models\OrderItem::class,
+        \App\Models\OrderShipment::class,
+        
+        // 购物车相关
+        \App\Models\Cart::class,
+        \App\Models\CartItem::class,
         
         // 促销相关
         \App\Models\Promotion::class,
         \App\Models\PromotionTranslation::class,
         \App\Models\PromotionRule::class,
+        \App\Models\PromotionUserGroup::class,
         
         // 文章相关
         \App\Models\Article::class,
         \App\Models\ArticleTranslation::class,
+        \App\Models\EditorUpload::class,
+        
+        // 用户相关
+        \App\Models\User::class,
+        \App\Models\UserGroup::class,
+        \App\Models\UserGroupTranslation::class,
+        \App\Models\Address::class,
         
         // 基础数据
         \App\Models\Currency::class,
@@ -74,6 +87,10 @@ return [
         \App\Models\CountryTranslation::class,
         \App\Models\Zone::class,
         \App\Models\ZoneTranslation::class,
+        
+        // 其他
+        \App\Models\Contact::class,
+        \App\Models\Manager::class,
         
         // 媒体文件（图片、资源等）
         \Spatie\MediaLibrary\MediaCollections\Models\Media::class,

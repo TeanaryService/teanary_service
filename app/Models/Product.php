@@ -10,6 +10,7 @@ use App\Enums\ProductStatusEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Observers\ProductObserver;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
@@ -45,6 +46,7 @@ class Product extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
     use Searchable;
+    use Syncable;
 
     public static $snakeAttributes = false;
 
