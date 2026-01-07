@@ -768,7 +768,8 @@ class SyncService
         \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
         string $downloadUrl
     ): void {
-        $response = Http::timeout(300)
+        $timeout = config('sync.media_download_timeout', 900); // 默认15分钟
+        $response = Http::timeout($timeout)
             ->withHeaders([
                 'User-Agent' => 'Teanary-Sync-Client/1.0',
                 'Accept' => '*/*',

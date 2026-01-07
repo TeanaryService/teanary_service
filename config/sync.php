@@ -25,19 +25,19 @@ return [
         'node1' => [
             'url' => env('SYNC_NODE1_URL', 'https://node1.example.com'),
             'api_key' => env('SYNC_NODE1_API_KEY', ''),
-            'timeout' => env('SYNC_NODE1_TIMEOUT', 30),
+            'timeout' => env('SYNC_NODE1_TIMEOUT', 600), // 默认10分钟，适应跨国网络延迟
         ],
         // 示例：节点2配置
         'node2' => [
             'url' => env('SYNC_NODE2_URL', 'https://node2.example.com'),
             'api_key' => env('SYNC_NODE2_API_KEY', ''),
-            'timeout' => env('SYNC_NODE2_TIMEOUT', 30),
+            'timeout' => env('SYNC_NODE2_TIMEOUT', 600), // 默认10分钟，适应跨国网络延迟
         ],
         // 可以继续添加更多节点...
         // 'node3' => [
         //     'url' => env('SYNC_NODE3_URL', 'https://node3.example.com'),
         //     'api_key' => env('SYNC_NODE3_API_KEY', ''),
-        //     'timeout' => env('SYNC_NODE3_TIMEOUT', 30),
+        //     'timeout' => env('SYNC_NODE3_TIMEOUT', 600), // 默认10分钟，适应跨国网络延迟
         // ],
     ],
 
@@ -120,5 +120,10 @@ return [
     'batch_size' => env('SYNC_BATCH_SIZE', 100),
 
     // 同步超时时间（秒）
-    'timeout' => env('SYNC_TIMEOUT', 300),
+    // 默认10分钟，适应跨国网络延迟和大文件传输
+    'timeout' => env('SYNC_TIMEOUT', 600),
+    
+    // 媒体文件下载超时时间（秒）
+    // 默认15分钟，适应大文件传输和跨国网络延迟
+    'media_download_timeout' => env('SYNC_MEDIA_DOWNLOAD_TIMEOUT', 900),
 ];
