@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('attributes', function (Blueprint $table) {
-            $table->boolean('is_filterable')->default(true)->after('id')->comment('是否在前台筛选显示');
+            $table->boolean('is_filterable')->default(false)->after('id')->comment('是否在前台筛选显示');
         });
     }
 

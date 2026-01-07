@@ -45,7 +45,7 @@ class Attribute extends Model
     ];
 
     protected $attributes = [
-        'is_filterable' => true,
+        'is_filterable' => false,
     ];
 
     public function attributeTranslations(): HasMany
@@ -83,7 +83,7 @@ class Attribute extends Model
 
         return $attributes
             ->filter(function ($attr) {
-                return $attr->is_filterable ?? true; // 默认为 true 以保持向后兼容
+                return $attr->is_filterable ?? false; // 默认为 false 以保持向后兼容
             })
             ->map(function ($attr) use ($langId) {
                 $trans = $attr->attributeTranslations->where('language_id', $langId)->first();

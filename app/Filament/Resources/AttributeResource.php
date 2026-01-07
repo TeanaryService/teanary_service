@@ -68,7 +68,7 @@ class AttributeResource extends Resource
             ->schema([
                 Forms\Components\Toggle::make('is_filterable')
                     ->label(__('filament.attribute.is_filterable'))
-                    ->default(true)
+                    ->default(false)
                     ->helperText(__('filament.attribute.is_filterable_helper'))
                     ->columnSpanFull(),
                 Forms\Components\Select::make('translation_status')
