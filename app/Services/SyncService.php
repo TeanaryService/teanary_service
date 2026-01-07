@@ -303,38 +303,48 @@ class SyncService
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
-        // 对于 Media 模型，需要特殊处理（移除文件相关字段和数据库中不存在的字段）
-        $fileFields = ['file_url', 'file_path', 'file_disk', 'file_download_url', 'original_url', 'preview_url'];
+        // 对于 Media 模型，需要特殊处理（只移除 preparePayload 中添加的额外字段，保留所有数据库字段）
+        // 因为节点间数据应该完全相同，所以保留所有数据库字段
+        $fileFields = ['file_url', 'file_path', 'file_disk', 'file_download_url'];
         $cleanPayload = $payload;
         
         if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
-            // 移除所有文件相关字段和数据库中不存在的字段
+            // 对于 Media 模型，只移除 preparePayload 中添加的额外字段（file_url, file_path, file_disk, file_download_url）
+            // 保留所有其他字段，因为节点间数据应该完全相同
+            // Media 表的字段：id, model_type, model_id, uuid, collection_name, name, file_name, 
+            // mime_type, disk, conversions_disk, size, manipulations, custom_properties, 
+            // generated_conversions, responsive_images, order_column, created_at, updated_at
             $cleanPayload = array_diff_key($payload, array_flip($fileFields));
-        }
-        
-        // 获取模型的 fillable 字段
-        $modelInstance = new $modelType();
-        $fillableFields = $modelInstance->getFillable();
-        
-        // 过滤掉不在 fillable 中的字段和 null 值字段
-        $cleanPayload = array_filter($cleanPayload, function ($value, $key) use ($fillableFields) {
-            // 保留时间戳和 ID 字段
-            if (in_array($key, ['created_at', 'updated_at', 'id'])) {
+            
+            // 保留所有可能的数据库字段和访问器字段（original_url, preview_url 等可能是访问器）
+            // 只过滤掉明显不是数据库字段的键（如关联关系数据）
+            // 由于节点间数据应该完全相同，我们保留所有字段，只移除 preparePayload 中添加的额外字段
+        } else {
+            // 对于其他模型，使用原有的过滤逻辑
+            // 获取模型的 fillable 字段
+            $modelInstance = new $modelType();
+            $fillableFields = $modelInstance->getFillable();
+            
+            // 过滤掉不在 fillable 中的字段和 null 值字段
+            $cleanPayload = array_filter($cleanPayload, function ($value, $key) use ($fillableFields) {
+                // 保留时间戳和 ID 字段
+                if (in_array($key, ['created_at', 'updated_at', 'id'])) {
+                    return true;
+                }
+                
+                // 如果字段不在 fillable 中，过滤掉（可能是关联数据或其他字段）
+                if (!in_array($key, $fillableFields)) {
+                    return false;
+                }
+                
+                // 如果字段值为 null，过滤掉（避免必填字段为 null 的错误）
+                if ($value === null) {
+                    return false;
+                }
+                
                 return true;
-            }
-            
-            // 如果字段不在 fillable 中，过滤掉（可能是关联数据或其他字段）
-            if (!in_array($key, $fillableFields)) {
-                return false;
-            }
-            
-            // 如果字段值为 null，过滤掉（避免必填字段为 null 的错误）
-            if ($value === null) {
-                return false;
-            }
-            
-            return true;
-        }, ARRAY_FILTER_USE_BOTH);
+            }, ARRAY_FILTER_USE_BOTH);
+        }
         
         $model = $modelType::find($modelId);
         
