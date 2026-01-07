@@ -86,7 +86,7 @@ class SyncService
                 $syncLog->markAsProcessing();
             });
 
-            // 准备批量数据
+            // 准备批量数据并按依赖关系排序
             $batchData = $syncLogs->map(function ($syncLog) {
                 return [
                     'model_type' => $syncLog->model_type,
@@ -98,6 +98,9 @@ class SyncService
                     'sync_log_id' => $syncLog->id, // 用于标识返回结果
                 ];
             })->values()->toArray();
+            
+            // 按依赖关系排序，确保被依赖的模型先同步
+            $batchData = $this->sortByDependencies($batchData);
 
             // 发送批量请求
             $response = $this->sendBatchSyncRequest($batchData, $remoteConfig);
@@ -146,6 +149,9 @@ class SyncService
             return $results;
         }
 
+        // 按依赖关系排序，确保被依赖的模型先同步
+        $batchData = $this->sortByDependencies($batchData);
+        
         // 按模型类型分组，减少开关同步监听的次数
         $groupedByModelType = [];
         foreach ($batchData as $index => $data) {
@@ -1017,5 +1023,189 @@ class SyncService
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    /**
+     * 按依赖关系排序批量数据
+     * 确保被依赖的模型先于依赖它的模型同步
+     * 
+     * @param array $batchData 批量数据数组
+     * @return array 排序后的批量数据数组
+     */
+    protected function sortByDependencies(array $batchData): array
+    {
+        // 定义模型的依赖关系
+        // 键：依赖模型，值：被依赖的模型数组
+        $dependencies = [
+            // ProductVariant 依赖 Product
+            \App\Models\ProductVariant::class => [\App\Models\Product::class],
+            
+            // ProductTranslation 依赖 Product 和 Language
+            \App\Models\ProductTranslation::class => [\App\Models\Product::class, \App\Models\Language::class],
+            
+            // ProductReview 依赖 Product, ProductVariant, User
+            \App\Models\ProductReview::class => [
+                \App\Models\Product::class,
+                \App\Models\ProductVariant::class,
+                \App\Models\User::class,
+            ],
+            
+            // OrderItem 依赖 Order, Product, ProductVariant
+            \App\Models\OrderItem::class => [
+                \App\Models\Order::class,
+                \App\Models\Product::class,
+                \App\Models\ProductVariant::class,
+            ],
+            
+            // OrderShipment 依赖 Order
+            \App\Models\OrderShipment::class => [\App\Models\Order::class],
+            
+            // Order 依赖 User, Currency, Address
+            \App\Models\Order::class => [
+                \App\Models\User::class,
+                \App\Models\Currency::class,
+                \App\Models\Address::class,
+            ],
+            
+            // CartItem 依赖 Cart, Product, ProductVariant
+            \App\Models\CartItem::class => [
+                \App\Models\Cart::class,
+                \App\Models\Product::class,
+                \App\Models\ProductVariant::class,
+            ],
+            
+            // Cart 依赖 User
+            \App\Models\Cart::class => [\App\Models\User::class],
+            
+            // Address 依赖 User, Country, Zone
+            \App\Models\Address::class => [
+                \App\Models\User::class,
+                \App\Models\Country::class,
+                \App\Models\Zone::class,
+            ],
+            
+            // Zone 依赖 Country
+            \App\Models\Zone::class => [\App\Models\Country::class],
+            
+            // 翻译模型依赖主模型和 Language
+            \App\Models\CategoryTranslation::class => [\App\Models\Category::class, \App\Models\Language::class],
+            \App\Models\AttributeTranslation::class => [\App\Models\Attribute::class, \App\Models\Language::class],
+            \App\Models\AttributeValueTranslation::class => [\App\Models\AttributeValue::class, \App\Models\Language::class],
+            \App\Models\SpecificationTranslation::class => [\App\Models\Specification::class, \App\Models\Language::class],
+            \App\Models\SpecificationValueTranslation::class => [\App\Models\SpecificationValue::class, \App\Models\Language::class],
+            \App\Models\PromotionTranslation::class => [\App\Models\Promotion::class, \App\Models\Language::class],
+            \App\Models\UserGroupTranslation::class => [\App\Models\UserGroup::class, \App\Models\Language::class],
+            \App\Models\CountryTranslation::class => [\App\Models\Country::class, \App\Models\Language::class],
+            \App\Models\ZoneTranslation::class => [\App\Models\Zone::class, \App\Models\Language::class],
+            
+            // AttributeValue 依赖 Attribute
+            \App\Models\AttributeValue::class => [\App\Models\Attribute::class],
+            
+            // SpecificationValue 依赖 Specification
+            \App\Models\SpecificationValue::class => [\App\Models\Specification::class],
+            
+            // PromotionRule 依赖 Promotion
+            \App\Models\PromotionRule::class => [\App\Models\Promotion::class],
+            
+            // PromotionUserGroup 依赖 Promotion, UserGroup
+            \App\Models\PromotionUserGroup::class => [
+                \App\Models\Promotion::class,
+                \App\Models\UserGroup::class,
+            ],
+            
+            // User 依赖 UserGroup
+            \App\Models\User::class => [\App\Models\UserGroup::class],
+            
+            // ArticleTranslation 依赖 Article
+            \App\Models\ArticleTranslation::class => [\App\Models\Article::class],
+            
+            // Article 依赖 User
+            \App\Models\Article::class => [\App\Models\User::class],
+        ];
+
+        // 计算每个模型的优先级（拓扑排序）
+        $priorities = $this->calculateModelPriorities($dependencies);
+        
+        // 按优先级排序
+        // 对于 created/updated：优先级高的（被依赖的）先处理
+        // 对于 deleted：优先级低的（依赖的）先处理（反向）
+        usort($batchData, function ($a, $b) use ($priorities) {
+            $modelTypeA = $a['model_type'] ?? '';
+            $modelTypeB = $b['model_type'] ?? '';
+            $actionA = $a['action'] ?? 'created';
+            $actionB = $b['action'] ?? 'created';
+            
+            $priorityA = $priorities[$modelTypeA] ?? 999;
+            $priorityB = $priorities[$modelTypeB] ?? 999;
+            
+            // 如果优先级相同，保持原有顺序
+            if ($priorityA === $priorityB) {
+                return 0;
+            }
+            
+            // 删除操作需要反向排序（先删除依赖的，再删除被依赖的）
+            if ($actionA === 'deleted' && $actionB === 'deleted') {
+                return $priorityB <=> $priorityA; // 反向
+            } elseif ($actionA === 'deleted') {
+                return 1; // 删除操作放在后面
+            } elseif ($actionB === 'deleted') {
+                return -1; // 删除操作放在后面
+            }
+            
+            // 创建/更新操作：优先级高的先处理
+            return $priorityA <=> $priorityB;
+        });
+        
+        return $batchData;
+    }
+
+    /**
+     * 计算模型的优先级（拓扑排序）
+     * 被依赖的模型优先级更高（数字更小）
+     * 
+     * @param array $dependencies 依赖关系映射
+     * @return array 模型类型 => 优先级
+     */
+    protected function calculateModelPriorities(array $dependencies): array
+    {
+        $priorities = [];
+        $visited = [];
+        
+        // 递归计算优先级
+        $calculatePriority = function ($modelType) use (&$priorities, &$visited, &$dependencies, &$calculatePriority) {
+            if (isset($visited[$modelType])) {
+                return $priorities[$modelType] ?? 0;
+            }
+            
+            $visited[$modelType] = true;
+            
+            // 如果没有依赖，优先级为0
+            if (!isset($dependencies[$modelType])) {
+                $priorities[$modelType] = 0;
+                return 0;
+            }
+            
+            // 计算所有被依赖模型的最高优先级
+            $maxDependencyPriority = -1;
+            foreach ($dependencies[$modelType] as $dependency) {
+                $depPriority = $calculatePriority($dependency);
+                $maxDependencyPriority = max($maxDependencyPriority, $depPriority);
+            }
+            
+            // 当前模型的优先级 = 被依赖模型的最高优先级 + 1
+            $priorities[$modelType] = $maxDependencyPriority + 1;
+            
+            return $priorities[$modelType];
+        };
+        
+        // 计算所有在依赖关系中的模型的优先级
+        foreach ($dependencies as $modelType => $deps) {
+            $calculatePriority($modelType);
+            foreach ($deps as $dep) {
+                $calculatePriority($dep);
+            }
+        }
+        
+        return $priorities;
     }
 }
