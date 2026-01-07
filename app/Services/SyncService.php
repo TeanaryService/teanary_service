@@ -7,6 +7,7 @@ use App\Models\SyncStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -346,40 +347,71 @@ class SyncService
     }
 
     /**
-     * 生成文件下载令牌
+     * 生成文件下载令牌（使用加密方式，支持更长有效期）
      */
     protected function generateFileDownloadToken(\Spatie\MediaLibrary\MediaCollections\Models\Media $media): string
     {
+        $expiresHours = config('sync.file_download_token_expires_hours', 24);
         $payload = [
             'media_id' => $media->id,
-            'expires_at' => now()->addMinutes(10)->timestamp,
+            'expires_at' => now()->addHours($expiresHours)->timestamp,
+            'created_at' => now()->timestamp,
         ];
         
-        return base64_encode(json_encode($payload));
+        // 使用 Laravel 的加密功能，更安全且支持更长有效期
+        return Crypt::encryptString(json_encode($payload));
     }
 
     /**
-     * 验证文件下载令牌
+     * 验证文件下载令牌（使用解密方式）
      */
     public function verifyFileDownloadToken(string $token, int $mediaId): bool
     {
         try {
-            $payload = json_decode(base64_decode($token), true);
+            // 使用 Laravel 的加密功能解密
+            $decrypted = Crypt::decryptString($token);
+            $payload = json_decode($decrypted, true);
             
             if (!$payload || !isset($payload['media_id']) || !isset($payload['expires_at'])) {
+                Log::warning('Token 格式无效', [
+                    'media_id' => $mediaId,
+                ]);
                 return false;
             }
             
-            if ($payload['media_id'] !== $mediaId) {
+            // 类型转换，确保比较正确
+            $tokenMediaId = (int) $payload['media_id'];
+            if ($tokenMediaId !== $mediaId) {
+                Log::warning('Token media_id 不匹配', [
+                    'token_media_id' => $tokenMediaId,
+                    'expected_media_id' => $mediaId,
+                ]);
                 return false;
             }
             
-            if ($payload['expires_at'] < now()->timestamp) {
+            $expiresAt = (int) $payload['expires_at'];
+            if ($expiresAt < now()->timestamp) {
+                Log::warning('Token 已过期', [
+                    'expires_at' => $expiresAt,
+                    'current_timestamp' => now()->timestamp,
+                    'expires_at_date' => date('Y-m-d H:i:s', $expiresAt),
+                    'current_date' => now()->toDateTimeString(),
+                ]);
                 return false;
             }
             
             return true;
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            Log::warning('Token 解密失败', [
+                'media_id' => $mediaId,
+                'error' => $e->getMessage(),
+            ]);
+            return false;
         } catch (\Exception $e) {
+            Log::error('验证 Token 时发生异常', [
+                'media_id' => $mediaId,
+                'error' => $e->getMessage(),
+            ]);
             return false;
         }
     }

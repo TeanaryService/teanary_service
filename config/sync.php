@@ -121,4 +121,7 @@ return [
 
     // 同步超时时间（秒）
     'timeout' => env('SYNC_TIMEOUT', 300),
+
+    // 文件下载令牌有效期（小时）
+    'file_download_token_expires_hours' => env('SYNC_FILE_DOWNLOAD_TOKEN_EXPIRES_HOURS', 24),
 ];

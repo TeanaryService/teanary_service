@@ -197,7 +197,23 @@ class SyncController extends Controller
     {
         $token = $request->query('token');
         
-        if (!$token || !$this->syncService->verifyFileDownloadToken($token, $mediaId)) {
+        if (!$token) {
+            Log::warning('下载文件请求缺少 token', [
+                'media_id' => $mediaId,
+                'conversion' => $conversion,
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => '缺少下载令牌',
+            ], 403);
+        }
+        
+        if (!$this->syncService->verifyFileDownloadToken($token, $mediaId)) {
+            Log::warning('下载文件 token 验证失败', [
+                'media_id' => $mediaId,
+                'conversion' => $conversion,
+                'token' => $token,
+            ]);
             return response()->json([
                 'success' => false,
                 'message' => '无效或过期的下载令牌',
