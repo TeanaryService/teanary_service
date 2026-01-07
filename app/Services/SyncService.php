@@ -26,35 +26,17 @@ class SyncService
             return;
         }
 
-        $config = config('sync');
-        $currentNode = $config['node'];
-        
-        // 获取所有需要同步的目标节点（除了当前节点）
-        $targetNodes = array_keys($config['remote_nodes']);
-        $targetNodes = array_filter($targetNodes, fn($node) => $node !== $currentNode);
+        $targetNodes = $this->getTargetNodes();
+        $modelType = get_class($model);
+        $payload = $this->preparePayload($model, $action);
+        $syncHash = $this->generateSyncHash($model, $action);
 
         foreach ($targetNodes as $targetNode) {
-            // 检查是否已经同步过（避免重复同步）
-            $syncHash = $this->generateSyncHash($model, $action);
-            
-            if ($action !== 'deleted' && !SyncStatus::needsSync(
-                get_class($model),
-                $model->id,
-                $targetNode,
-                $syncHash
-            )) {
-                continue; // 数据未变更，跳过
+            if (!$this->shouldCreateSyncLog($modelType, $model->id, $action, $targetNode, $syncHash)) {
+                continue;
             }
 
-            SyncLog::create([
-                'model_type' => get_class($model),
-                'model_id' => $model->id,
-                'action' => $action,
-                'source_node' => $sourceNode,
-                'target_node' => $targetNode,
-                'status' => 'pending',
-                'payload' => $this->preparePayload($model, $action),
-            ]);
+            $this->createSyncLog($modelType, $model->id, $action, $sourceNode, $targetNode, $payload);
         }
     }
 
@@ -71,80 +53,15 @@ class SyncService
             return;
         }
 
-        $config = config('sync');
-        $currentNode = $config['node'];
-        
-        // 获取所有需要同步的目标节点（除了当前节点）
-        $targetNodes = array_keys($config['remote_nodes']);
-        $targetNodes = array_filter($targetNodes, fn($node) => $node !== $currentNode);
-
+        $targetNodes = $this->getTargetNodes();
         if (empty($targetNodes)) {
             return;
         }
 
-        // 按模型类型和操作类型分组，减少数据库写入
-        $groupedModels = [];
-        foreach ($models as $item) {
-            $model = $item['model'];
-            $action = $item['action'];
-
-            if (!$this->shouldSync($model)) {
-                continue;
-            }
-
-            $modelType = get_class($model);
-            $key = "{$modelType}:{$action}";
-            
-            if (!isset($groupedModels[$key])) {
-                $groupedModels[$key] = [
-                    'model_type' => $modelType,
-                    'action' => $action,
-                    'models' => [],
-                ];
-            }
-
-            $groupedModels[$key]['models'][] = $model;
-        }
-
-        // 批量创建同步日志
-        $syncLogs = [];
-        foreach ($targetNodes as $targetNode) {
-            foreach ($groupedModels as $group) {
-                foreach ($group['models'] as $model) {
-                    // 检查是否已经同步过（避免重复同步）
-                    $syncHash = $this->generateSyncHash($model, $group['action']);
-                    
-                    if ($group['action'] !== 'deleted' && !SyncStatus::needsSync(
-                        $group['model_type'],
-                        $model->id,
-                        $targetNode,
-                        $syncHash
-                    )) {
-                        continue; // 数据未变更，跳过
-                    }
-
-                    $syncLogs[] = [
-                        'model_type' => $group['model_type'],
-                        'model_id' => $model->id,
-                        'action' => $group['action'],
-                        'source_node' => $sourceNode,
-                        'target_node' => $targetNode,
-                        'status' => 'pending',
-                        'payload' => $this->preparePayload($model, $group['action']),
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                }
-            }
-        }
-
-        // 批量插入（如果有很多记录，分批插入）
-        if (!empty($syncLogs)) {
-            $batchSize = config('sync.batch_size', 100);
-            foreach (array_chunk($syncLogs, $batchSize) as $chunk) {
-                SyncLog::insert($chunk);
-            }
-        }
+        $groupedModels = $this->groupModelsForBatchSync($models);
+        $syncLogs = $this->buildBatchSyncLogs($groupedModels, $targetNodes, $sourceNode);
+        
+        $this->insertBatchSyncLogs($syncLogs);
     }
 
     /**
@@ -154,58 +71,18 @@ class SyncService
     {
         try {
             $syncLog->markAsProcessing();
-
-            $config = config('sync');
-            $targetNode = $syncLog->target_node;
-            $remoteConfig = $config['remote_nodes'][$targetNode] ?? null;
-
-            if (!$remoteConfig || !$remoteConfig['api_key']) {
-                throw new \Exception("远程节点配置不存在或未设置 API Key: {$targetNode}");
-            }
-
-            $response = Http::timeout($remoteConfig['timeout'])
-                ->withHeaders([
-                    'Authorization' => 'Bearer ' . $remoteConfig['api_key'],
-                    'Content-Type' => 'application/json',
-                    'X-Sync-Source-Node' => config('sync.node'),
-                ])
-                ->post($remoteConfig['url'] . '/api/sync/receive', [
-                    'model_type' => $syncLog->model_type,
-                    'model_id' => $syncLog->model_id,
-                    'action' => $syncLog->action,
-                    'payload' => $syncLog->payload,
-                    'source_node' => $syncLog->source_node,
-                    'timestamp' => $syncLog->created_at->toIso8601String(),
-                ]);
+            $remoteConfig = $this->getRemoteNodeConfig($syncLog->target_node);
+            
+            $response = $this->sendSyncRequest($syncLog, $remoteConfig);
 
             if ($response->successful()) {
-                $syncLog->markAsCompleted();
-                
-                // 更新同步状态
-                if ($syncLog->action !== 'deleted') {
-                    $model = $syncLog->model_type::find($syncLog->model_id);
-                    if ($model) {
-                        $syncHash = $this->generateSyncHash($model, $syncLog->action);
-                        SyncStatus::updateSyncStatus(
-                            $syncLog->model_type,
-                            $syncLog->model_id,
-                            $targetNode,
-                            $syncHash
-                        );
-                    }
-                }
-
+                $this->handleSuccessfulSync($syncLog);
                 return true;
             } else {
                 throw new \Exception("同步失败: " . $response->body());
             }
         } catch (\Exception $e) {
-            Log::error('同步失败', [
-                'sync_log_id' => $syncLog->id,
-                'error' => $e->getMessage(),
-            ]);
-
-            $syncLog->markAsFailed($e->getMessage());
+            $this->handleSyncFailure($syncLog, $e);
             return false;
         }
     }
@@ -216,62 +93,22 @@ class SyncService
     public function receiveSync(array $data): bool
     {
         try {
+            $this->validateSyncData($data);
+            
+            if ($this->shouldSkipSync($data)) {
+                return true;
+            }
+
             $modelType = $data['model_type'];
-            $modelId = $data['model_id'];
-            $action = $data['action'];
-            $payload = $data['payload'];
-            $sourceNode = $data['source_node'];
-            $timestamp = $data['timestamp'] ?? now()->toIso8601String();
-
-            // 检查模型是否在同步列表中
-            if (!in_array($modelType, config('sync.sync_models'))) {
-                throw new \Exception("模型不在同步列表中: {$modelType}");
-            }
-
-            // 检查时间戳，确保以最新为准
-            $existingModel = $modelType::find($modelId);
-            if ($existingModel && $existingModel->updated_at) {
-                $remoteTimestamp = Carbon::parse($timestamp);
-                if ($existingModel->updated_at->gt($remoteTimestamp)) {
-                    // 本地数据更新，忽略远程同步
-                    return true;
-                }
-            }
-
-            // 禁用同步监听，避免循环同步
             $this->disableSyncForModel($modelType);
 
-            switch ($action) {
-                case 'created':
-                case 'updated':
-                    $model = $this->createOrUpdateModel($modelType, $modelId, $payload);
-                    
-                    // 如果创建/更新失败（返回 null），跳过后续处理
-                    if ($model === null) {
-                        Log::warning('跳过同步记录处理：模型创建/更新失败', [
-                            'model_type' => $modelType,
-                            'model_id' => $modelId,
-                            'action' => $action,
-                        ]);
-                        break;
-                    }
-                    
-                    // 如果是 Media 模型，需要下载文件
-                    if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
-                        $this->downloadAndSaveMediaFile($model, $payload);
-                    }
-                    break;
-                case 'deleted':
-                    $this->deleteModel($modelType, $modelId);
-                    break;
+            try {
+                $this->processSyncAction($data);
+            } finally {
+                $this->enableSyncForModel($modelType);
             }
 
-            // 重新启用同步监听
-            $this->enableSyncForModel($modelType);
-
-            // 同步成功后清除全部缓存
             Cache::flush();
-
             return true;
         } catch (\Exception $e) {
             Log::error('接收同步数据失败', [
@@ -307,34 +144,12 @@ class SyncService
             ];
         }
 
-        // 获取模型的所有属性（包括关联数据）
         $payload = $model->toArray();
-        
-        // 处理时间戳
-        if (isset($payload['created_at']) && $model->created_at) {
-            // 如果已经是字符串，直接使用；如果是 Carbon 实例，转换为 ISO8601 格式
-            $payload['created_at'] = is_string($model->created_at) 
-                ? $model->created_at 
-                : $model->created_at->toIso8601String();
-        }
-        if (isset($payload['updated_at']) && $model->updated_at) {
-            // 如果已经是字符串，直接使用；如果是 Carbon 实例，转换为 ISO8601 格式
-            $payload['updated_at'] = is_string($model->updated_at) 
-                ? $model->updated_at 
-                : $model->updated_at->toIso8601String();
-        }
-
-        // 如果是 Media 模型，添加文件 URL 信息（original_url 已经在 toArray() 中包含）
-        if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
-            $payload['file_url'] = $model->getUrl();
-            $payload['file_path'] = $model->getPath();
-            $payload['file_disk'] = $model->disk;
-        }
+        $this->normalizeTimestampsInPayload($payload, $model);
+        $this->addMediaFileInfo($payload, $model);
 
         return $payload;
     }
-
-
 
     /**
      * 生成同步哈希值
@@ -350,171 +165,19 @@ class SyncService
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
-        // 对于 Media 模型，需要特殊处理（只移除 preparePayload 中添加的额外字段，保留所有数据库字段）
-        // 因为节点间数据应该完全相同，所以保留所有数据库字段
-        $fileFields = ['file_url', 'file_path', 'file_disk'];
-        $cleanPayload = $payload;
-        
-        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
-            // 对于 Media 模型，只保留数据库字段，移除所有访问器字段和额外字段
-            // Media 表的实际字段：id, model_type, model_id, uuid, collection_name, name, file_name, 
-            // mime_type, disk, conversions_disk, size, manipulations, custom_properties, 
-            // generated_conversions, responsive_images, order_column, created_at, updated_at
-            $mediaDbFields = [
-                'id', 'model_type', 'model_id', 'uuid', 'collection_name', 'name', 'file_name',
-                'mime_type', 'disk', 'conversions_disk', 'size', 'manipulations', 
-                'custom_properties', 'generated_conversions', 'responsive_images', 
-                'order_column', 'created_at', 'updated_at'
-            ];
-            
-            // 移除所有非数据库字段（包括访问器字段和额外字段）
-            $fieldsToRemove = array_merge($fileFields, ['original_url', 'preview_url']);
-            $cleanPayload = array_diff_key($payload, array_flip($fieldsToRemove));
-            
-            // 只保留数据库字段
-            $cleanPayload = array_filter($cleanPayload, function ($key) use ($mediaDbFields) {
-                return in_array($key, $mediaDbFields);
-            }, ARRAY_FILTER_USE_KEY);
-        } else {
-            // 对于其他模型，使用原有的过滤逻辑
-            // 获取模型的 fillable 字段
-            $modelInstance = new $modelType();
-            $fillableFields = $modelInstance->getFillable();
-            
-            // 过滤掉不在 fillable 中的字段和 null 值字段
-            $cleanPayload = array_filter($cleanPayload, function ($value, $key) use ($fillableFields) {
-                // 保留时间戳和 ID 字段
-                if (in_array($key, ['created_at', 'updated_at', 'id'])) {
-                    return true;
-                }
-                
-                // 如果字段不在 fillable 中，过滤掉（可能是关联数据或其他字段）
-                if (!in_array($key, $fillableFields)) {
-                    return false;
-                }
-                
-                // 如果字段值为 null，过滤掉（避免必填字段为 null 的错误）
-                if ($value === null) {
-                    return false;
-                }
-                
-                return true;
-            }, ARRAY_FILTER_USE_BOTH);
-        }
-        
+        $cleanPayload = $this->cleanPayloadForModel($modelType, $payload);
         $model = $modelType::find($modelId);
         
         if ($model) {
-            // 更新时间戳，确保以最新为准
-            if (isset($cleanPayload['updated_at'])) {
-                $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
-            }
-            if (isset($cleanPayload['created_at'])) {
-                $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
-            }
-            
-            // 如果清理后的 payload 为空（除了时间戳），跳过更新
-            $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
-            if (!empty($updateData)) {
-                $model->update($cleanPayload);
-            }
-        } else {
-            // 如果通过 ID 找不到，尝试通过唯一字段查找（如 ProductVariant 的 SKU）
-            $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
-            
-            if ($model) {
-                // 找到了，更新记录（但保持原始 ID）
-                if (isset($cleanPayload['updated_at'])) {
-                    $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
-                }
-                if (isset($cleanPayload['created_at'])) {
-                    $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
-                }
-                
-                // 如果 ID 不同，先更新 ID，然后更新其他字段
-                if ($model->id !== $modelId) {
-                    // 如果目标 ID 不存在，更新当前记录的 ID
-                    if (!$modelType::find($modelId)) {
-                        $model->update(['id' => $modelId]);
-                        $model->refresh();
-                    }
-                }
-                
-                $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
-                if (!empty($updateData)) {
-                    $model->update($cleanPayload);
-                }
-            } else {
-                // 没找到，创建新记录
-                $cleanPayload['id'] = $modelId; // 保持原始ID
-                if (isset($cleanPayload['created_at'])) {
-                    $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
-                }
-                if (isset($cleanPayload['updated_at'])) {
-                    $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
-                }
-                
-                try {
-                    $model = $modelType::create($cleanPayload);
-                } catch (\Illuminate\Database\QueryException $e) {
-                    // 如果是唯一约束冲突，尝试再次查找并更新
-                    if ($e->getCode() === '23000' && str_contains($e->getMessage(), 'Duplicate entry')) {
-                        $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
-                        if ($model) {
-                            // 找到了，更新记录
-                            if (isset($cleanPayload['updated_at'])) {
-                                $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
-                            }
-                            if (isset($cleanPayload['created_at'])) {
-                                $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
-                            }
-                            
-                            // 如果 ID 不同，先更新 ID，然后更新其他字段
-                            if ($model->id !== $modelId) {
-                                // 如果目标 ID 不存在，更新当前记录的 ID
-                                if (!$modelType::find($modelId)) {
-                                    $model->update(['id' => $modelId]);
-                                    $model->refresh();
-                                }
-                            }
-                            
-                            $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
-                            if (!empty($updateData)) {
-                                $model->update($cleanPayload);
-                            }
-                        } else {
-                            Log::warning('创建同步记录失败：唯一约束冲突且无法找到记录', [
-                                'model_type' => $modelType,
-                                'model_id' => $modelId,
-                                'clean_payload' => $cleanPayload,
-                                'error' => $e->getMessage(),
-                            ]);
-                            return null;
-                        }
-                    } else {
-                        // 其他错误
-                        Log::warning('创建同步记录失败：可能缺少必填字段', [
-                            'model_type' => $modelType,
-                            'model_id' => $modelId,
-                            'clean_payload' => $cleanPayload,
-                            'error' => $e->getMessage(),
-                        ]);
-                        return null;
-                    }
-                } catch (\Exception $e) {
-                    // 如果创建失败（可能是必填字段缺失），记录错误并返回 null
-                    Log::warning('创建同步记录失败：可能缺少必填字段', [
-                        'model_type' => $modelType,
-                        'model_id' => $modelId,
-                        'clean_payload' => $cleanPayload,
-                        'error' => $e->getMessage(),
-                    ]);
-                    return null;
-                }
-            }
+            return $this->updateExistingModel($model, $cleanPayload);
         }
         
-        return $model;
+        $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
+        if ($model) {
+            return $this->updateModelWithIdSync($model, $modelType, $modelId, $cleanPayload);
+        }
+        
+        return $this->createNewModel($modelType, $modelId, $cleanPayload);
     }
 
     /**
@@ -550,7 +213,6 @@ class SyncService
         \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
         array $payload
     ): void {
-        // 使用 original_url 下载文件
         if (!isset($payload['original_url'])) {
             Log::warning('Media 同步数据缺少 original_url', [
                 'media_id' => $media->id,
@@ -558,163 +220,14 @@ class SyncService
             ]);
             return;
         }
-        
-        $downloadUrl = $payload['original_url'];
 
         try {
-            // 从源节点下载文件
-            // 添加 User-Agent 避免被 Nginx 拦截
-            $response = Http::timeout(300) // 5分钟超时，用于大文件
-                ->withHeaders([
-                    'User-Agent' => 'Teanary-Sync-Client/1.0',
-                    'Accept' => '*/*',
-                ])
-                ->get($downloadUrl);
-
-            if (!$response->successful()) {
-                $errorBody = $response->body();
-                Log::error('下载 Media 文件失败', [
-                    'media_id' => $media->id,
-                    'url' => $downloadUrl,
-                    'status' => $response->status(),
-                    'response' => $errorBody,
-                ]);
-                throw new \Exception("下载文件失败: HTTP " . $response->status() . ($errorBody ? " - {$errorBody}" : ''));
-            }
-
-            // 获取文件内容
-            $fileContent = $response->body();
-            
-            // 保存文件到本地
-            $disk = $media->disk ?? config('media-library.disk_name', 'public');
-            $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
-            
-            // 使用 Media Library 的方法获取正确的文件路径
-            $filePath = $media->getPath();
-            
-            // 确保目录存在
-            $directory = dirname($filePath);
-            if (!$diskInstance->exists($directory)) {
-                $diskInstance->makeDirectory($directory, 0755, true);
-            }
-            
-            // 保存文件
-            $diskInstance->put($filePath, $fileContent);
-            
-            // 如果存在转换文件，也需要下载
-            $conversionsDownloaded = [];
-            $conversionsFailed = [];
-            if (isset($payload['generated_conversions']) && is_array($payload['generated_conversions'])) {
-                foreach ($payload['generated_conversions'] as $conversionName => $converted) {
-                    if ($converted) {
-                        try {
-                            // 使用 original_url 构建转换文件的下载 URL
-                            if (!isset($payload['original_url'])) {
-                                Log::warning('无法构建转换文件 URL：缺少 original_url', [
-                                    'media_id' => $media->id,
-                                    'conversion' => $conversionName,
-                                ]);
-                                $conversionsFailed[] = $conversionName;
-                                continue;
-                            }
-                            
-                            $originalPath = parse_url($payload['original_url'], PHP_URL_PATH);
-                            $pathInfo = pathinfo($originalPath);
-                            $baseUrl = parse_url($payload['original_url'], PHP_URL_SCHEME) . '://' . parse_url($payload['original_url'], PHP_URL_HOST);
-                            // 转换文件路径：/storage/product/uuid/file.jpg -> /storage/product/uuid/conversions/thumb-file.jpg
-                            $conversionUrl = $baseUrl . $pathInfo['dirname'] . '/conversions/' . $conversionName . '-' . $pathInfo['basename'];
-                            
-                            $conversionResponse = Http::timeout(300)
-                                ->withHeaders([
-                                    'User-Agent' => 'Teanary-Sync-Client/1.0',
-                                    'Accept' => '*/*',
-                                ])
-                                ->get($conversionUrl);
-                            if ($conversionResponse->successful()) {
-                                $conversionPath = $media->getPath($conversionName);
-                                $conversionDir = dirname($conversionPath);
-                                if (!$diskInstance->exists($conversionDir)) {
-                                    $diskInstance->makeDirectory($conversionDir, 0755, true);
-                                }
-                                $diskInstance->put($conversionPath, $conversionResponse->body());
-                                $conversionsDownloaded[] = $conversionName;
-                            } else {
-                                $conversionsFailed[] = $conversionName;
-                            }
-                        } catch (\Exception $e) {
-                            Log::warning('下载转换文件失败', [
-                                'media_id' => $media->id,
-                                'conversion' => $conversionName,
-                                'error' => $e->getMessage(),
-                            ]);
-                            $conversionsFailed[] = $conversionName;
-                            // 转换文件下载失败不影响主文件同步
-                        }
-                    }
-                }
-            }
-            
-            // 如果转换文件下载失败或不存在，触发本地生成
-            if (!empty($conversionsFailed) || empty($conversionsDownloaded)) {
-                try {
-                    // 获取关联的模型以触发转换生成
-                    $model = $media->model;
-                    if ($model && method_exists($model, 'registerMediaConversions')) {
-                        // 使用 Media Library 的内部 API 来生成转换
-                        // 通过重新加载 media 并触发转换生成
-                        $media->refresh();
-                        
-                        // 尝试使用 Media Library 的方法来生成转换
-                        // 如果方法存在，使用它；否则跳过（转换会在需要时自动生成）
-                        if (method_exists($media, 'performConversions')) {
-                            $media->performConversions();
-                        } elseif (method_exists($media, 'performOnQueue')) {
-                            $media->performOnQueue();
-                        } else {
-                            // 如果方法不存在，尝试通过关联模型触发
-                            // 使用 Media Library 的 Conversion 类
-                            $collectionName = $media->collection_name;
-                            
-                            // 获取关联模型的转换定义
-                            $model->registerMediaConversions($media);
-                            
-                            // 尝试触发转换生成（通过 Media Library 的内部机制）
-                            // 这里我们依赖 Media Library 的自动转换机制
-                            // 如果文件存在，转换会在首次访问时自动生成
-                            Log::info('Media 转换将在首次访问时自动生成', [
-                                'media_id' => $media->id,
-                                'failed_conversions' => $conversionsFailed,
-                            ]);
-                        }
-                        
-                        Log::info('已触发 Media 转换生成', [
-                            'media_id' => $media->id,
-                            'failed_conversions' => $conversionsFailed,
-                        ]);
-                    }
-                } catch (\Exception $e) {
-                    Log::warning('触发 Media 转换生成失败', [
-                        'media_id' => $media->id,
-                        'error' => $e->getMessage(),
-                    ]);
-                }
-            }
-            
-            // 触发图片调整任务（调整原图大小）
-            try {
-                ResizeUploadedImage::dispatch($media)->onQueue('low');
-            } catch (\Exception $e) {
-                Log::warning('触发图片调整任务失败', [
-                    'media_id' => $media->id,
-                    'error' => $e->getMessage(),
-                ]);
-            }
+            $this->downloadMainMediaFile($media, $payload['original_url']);
+            $this->triggerMediaConversions($media);
+            $this->dispatchImageResizeJob($media);
             
             Log::info('Media 文件同步成功', [
                 'media_id' => $media->id,
-                'file_path' => $filePath,
-                'conversions_downloaded' => $conversionsDownloaded,
-                'conversions_failed' => $conversionsFailed,
             ]);
         } catch (\Exception $e) {
             Log::error('下载 Media 文件失败', [
@@ -758,6 +271,592 @@ class SyncService
             \App\Observers\MediaObserver::$syncDisabled = false;
         } else {
             $modelType::$syncDisabled = false;
+        }
+    }
+
+    /**
+     * 获取目标节点列表（排除当前节点）
+     */
+    protected function getTargetNodes(): array
+    {
+        $config = config('sync');
+        $currentNode = $config['node'];
+        $targetNodes = array_keys($config['remote_nodes']);
+        
+        return array_filter($targetNodes, fn($node) => $node !== $currentNode);
+    }
+
+    /**
+     * 判断是否应该创建同步日志
+     */
+    protected function shouldCreateSyncLog(
+        string $modelType,
+        int $modelId,
+        string $action,
+        string $targetNode,
+        string $syncHash
+    ): bool {
+        if ($action === 'deleted') {
+            return true;
+        }
+
+        return SyncStatus::needsSync($modelType, $modelId, $targetNode, $syncHash);
+    }
+
+    /**
+     * 创建同步日志
+     */
+    protected function createSyncLog(
+        string $modelType,
+        int $modelId,
+        string $action,
+        string $sourceNode,
+        string $targetNode,
+        array $payload
+    ): void {
+        SyncLog::create([
+            'model_type' => $modelType,
+            'model_id' => $modelId,
+            'action' => $action,
+            'source_node' => $sourceNode,
+            'target_node' => $targetNode,
+            'status' => 'pending',
+            'payload' => $payload,
+        ]);
+    }
+
+    /**
+     * 分组模型用于批量同步
+     */
+    protected function groupModelsForBatchSync(array $models): array
+    {
+        $groupedModels = [];
+        
+        foreach ($models as $item) {
+            $model = $item['model'];
+            $action = $item['action'];
+
+            if (!$this->shouldSync($model)) {
+                continue;
+            }
+
+            $modelType = get_class($model);
+            $key = "{$modelType}:{$action}";
+            
+            if (!isset($groupedModels[$key])) {
+                $groupedModels[$key] = [
+                    'model_type' => $modelType,
+                    'action' => $action,
+                    'models' => [],
+                ];
+            }
+
+            $groupedModels[$key]['models'][] = $model;
+        }
+
+        return $groupedModels;
+    }
+
+    /**
+     * 构建批量同步日志
+     */
+    protected function buildBatchSyncLogs(
+        array $groupedModels,
+        array $targetNodes,
+        string $sourceNode
+    ): array {
+        $syncLogs = [];
+        
+        foreach ($targetNodes as $targetNode) {
+            foreach ($groupedModels as $group) {
+                foreach ($group['models'] as $model) {
+                    $syncHash = $this->generateSyncHash($model, $group['action']);
+                    
+                    if (!$this->shouldCreateSyncLog(
+                        $group['model_type'],
+                        $model->id,
+                        $group['action'],
+                        $targetNode,
+                        $syncHash
+                    )) {
+                        continue;
+                    }
+
+                    $syncLogs[] = [
+                        'model_type' => $group['model_type'],
+                        'model_id' => $model->id,
+                        'action' => $group['action'],
+                        'source_node' => $sourceNode,
+                        'target_node' => $targetNode,
+                        'status' => 'pending',
+                        'payload' => $this->preparePayload($model, $group['action']),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
+        }
+
+        return $syncLogs;
+    }
+
+    /**
+     * 批量插入同步日志
+     */
+    protected function insertBatchSyncLogs(array $syncLogs): void
+    {
+        if (empty($syncLogs)) {
+            return;
+        }
+
+        $batchSize = config('sync.batch_size', 100);
+        foreach (array_chunk($syncLogs, $batchSize) as $chunk) {
+            SyncLog::insert($chunk);
+        }
+    }
+
+    /**
+     * 获取远程节点配置
+     */
+    protected function getRemoteNodeConfig(string $targetNode): array
+    {
+        $config = config('sync');
+        $remoteConfig = $config['remote_nodes'][$targetNode] ?? null;
+
+        if (!$remoteConfig || !$remoteConfig['api_key']) {
+            throw new \Exception("远程节点配置不存在或未设置 API Key: {$targetNode}");
+        }
+
+        return $remoteConfig;
+    }
+
+    /**
+     * 发送同步请求
+     */
+    protected function sendSyncRequest(SyncLog $syncLog, array $remoteConfig)
+    {
+        return Http::timeout($remoteConfig['timeout'])
+            ->withHeaders([
+                'Authorization' => 'Bearer ' . $remoteConfig['api_key'],
+                'Content-Type' => 'application/json',
+                'X-Sync-Source-Node' => config('sync.node'),
+            ])
+            ->post($remoteConfig['url'] . '/api/sync/receive', [
+                'model_type' => $syncLog->model_type,
+                'model_id' => $syncLog->model_id,
+                'action' => $syncLog->action,
+                'payload' => $syncLog->payload,
+                'source_node' => $syncLog->source_node,
+                'timestamp' => $syncLog->created_at->toIso8601String(),
+            ]);
+    }
+
+    /**
+     * 处理成功同步
+     */
+    protected function handleSuccessfulSync(SyncLog $syncLog): void
+    {
+        $syncLog->markAsCompleted();
+        
+        if ($syncLog->action !== 'deleted') {
+            $model = $syncLog->model_type::find($syncLog->model_id);
+            if ($model) {
+                $syncHash = $this->generateSyncHash($model, $syncLog->action);
+                SyncStatus::updateSyncStatus(
+                    $syncLog->model_type,
+                    $syncLog->model_id,
+                    $syncLog->target_node,
+                    $syncHash
+                );
+            }
+        }
+    }
+
+    /**
+     * 处理同步失败
+     */
+    protected function handleSyncFailure(SyncLog $syncLog, \Exception $e): void
+    {
+        Log::error('同步失败', [
+            'sync_log_id' => $syncLog->id,
+            'error' => $e->getMessage(),
+        ]);
+
+        $syncLog->markAsFailed($e->getMessage());
+    }
+
+    /**
+     * 验证同步数据
+     */
+    protected function validateSyncData(array $data): void
+    {
+        $modelType = $data['model_type'] ?? null;
+        
+        if (!$modelType || !in_array($modelType, config('sync.sync_models'))) {
+            throw new \Exception("模型不在同步列表中: {$modelType}");
+        }
+    }
+
+    /**
+     * 判断是否应该跳过同步（基于时间戳）
+     */
+    protected function shouldSkipSync(array $data): bool
+    {
+        $modelType = $data['model_type'];
+        $modelId = $data['model_id'];
+        $timestamp = $data['timestamp'] ?? now()->toIso8601String();
+
+        $existingModel = $modelType::find($modelId);
+        if ($existingModel && $existingModel->updated_at) {
+            $remoteTimestamp = Carbon::parse($timestamp);
+            if ($existingModel->updated_at->gt($remoteTimestamp)) {
+                return true; // 本地数据更新，忽略远程同步
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 处理同步操作
+     */
+    protected function processSyncAction(array $data): void
+    {
+        $modelType = $data['model_type'];
+        $modelId = $data['model_id'];
+        $action = $data['action'];
+        $payload = $data['payload'];
+
+        switch ($action) {
+            case 'created':
+            case 'updated':
+                $model = $this->createOrUpdateModel($modelType, $modelId, $payload);
+                
+                if ($model === null) {
+                    Log::warning('跳过同步记录处理：模型创建/更新失败', [
+                        'model_type' => $modelType,
+                        'model_id' => $modelId,
+                        'action' => $action,
+                    ]);
+                    break;
+                }
+                
+                if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
+                    $this->downloadAndSaveMediaFile($model, $payload);
+                }
+                break;
+            case 'deleted':
+                $this->deleteModel($modelType, $modelId);
+                break;
+        }
+    }
+
+    /**
+     * 规范化payload中的时间戳
+     */
+    protected function normalizeTimestampsInPayload(array &$payload, Model $model): void
+    {
+        if (isset($payload['created_at']) && $model->created_at) {
+            $payload['created_at'] = is_string($model->created_at) 
+                ? $model->created_at 
+                : $model->created_at->toIso8601String();
+        }
+        
+        if (isset($payload['updated_at']) && $model->updated_at) {
+            $payload['updated_at'] = is_string($model->updated_at) 
+                ? $model->updated_at 
+                : $model->updated_at->toIso8601String();
+        }
+    }
+
+    /**
+     * 添加媒体文件信息到payload
+     */
+    protected function addMediaFileInfo(array &$payload, Model $model): void
+    {
+        if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
+            $payload['file_url'] = $model->getUrl();
+            $payload['file_path'] = $model->getPath();
+            $payload['file_disk'] = $model->disk;
+        }
+    }
+
+    /**
+     * 清理模型payload（移除非数据库字段）
+     */
+    protected function cleanPayloadForModel(string $modelType, array $payload): array
+    {
+        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
+            return $this->cleanMediaPayload($payload);
+        }
+        
+        return $this->cleanRegularModelPayload($modelType, $payload);
+    }
+
+    /**
+     * 清理Media模型的payload
+     */
+    protected function cleanMediaPayload(array $payload): array
+    {
+        $mediaDbFields = [
+            'id', 'model_type', 'model_id', 'uuid', 'collection_name', 'name', 'file_name',
+            'mime_type', 'disk', 'conversions_disk', 'size', 'manipulations', 
+            'custom_properties', 'generated_conversions', 'responsive_images', 
+            'order_column', 'created_at', 'updated_at'
+        ];
+        
+        $fieldsToRemove = ['file_url', 'file_path', 'file_disk', 'original_url', 'preview_url'];
+        $cleanPayload = array_diff_key($payload, array_flip($fieldsToRemove));
+        
+        return array_filter($cleanPayload, function ($key) use ($mediaDbFields) {
+            return in_array($key, $mediaDbFields);
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
+    /**
+     * 清理常规模型的payload
+     */
+    protected function cleanRegularModelPayload(string $modelType, array $payload): array
+    {
+        $modelInstance = new $modelType();
+        $fillableFields = $modelInstance->getFillable();
+        
+        return array_filter($payload, function ($value, $key) use ($fillableFields) {
+            if (in_array($key, ['created_at', 'updated_at', 'id'])) {
+                return true;
+            }
+            
+            if (!in_array($key, $fillableFields)) {
+                return false;
+            }
+            
+            if ($value === null) {
+                return false;
+            }
+            
+            return true;
+        }, ARRAY_FILTER_USE_BOTH);
+    }
+
+    /**
+     * 更新现有模型
+     */
+    protected function updateExistingModel(Model $model, array $cleanPayload): Model
+    {
+        $this->parseTimestampsInPayload($cleanPayload);
+        
+        if ($this->hasUpdateData($cleanPayload)) {
+            $model->update($cleanPayload);
+        }
+        
+        return $model;
+    }
+
+    /**
+     * 更新模型并同步ID（用于处理ID不一致的情况）
+     */
+    protected function updateModelWithIdSync(
+        Model $model,
+        string $modelType,
+        int $targetId,
+        array $cleanPayload
+    ): Model {
+        $this->parseTimestampsInPayload($cleanPayload);
+        
+        if ($model->id !== $targetId && !$modelType::find($targetId)) {
+            $model->update(['id' => $targetId]);
+            $model->refresh();
+        }
+        
+        if ($this->hasUpdateData($cleanPayload)) {
+            $model->update($cleanPayload);
+        }
+        
+        return $model;
+    }
+
+    /**
+     * 创建新模型
+     */
+    protected function createNewModel(string $modelType, int $modelId, array $cleanPayload): ?Model
+    {
+        $cleanPayload['id'] = $modelId;
+        $this->parseTimestampsInPayload($cleanPayload);
+        
+        try {
+            return $modelType::create($cleanPayload);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() === '23000' && str_contains($e->getMessage(), 'Duplicate entry')) {
+                return $this->handleCreationConflict($modelType, $modelId, $cleanPayload, $e);
+            }
+            
+            return $this->logAndReturnNull($modelType, $modelId, $cleanPayload, $e);
+        } catch (\Exception $e) {
+            return $this->logAndReturnNull($modelType, $modelId, $cleanPayload, $e);
+        }
+    }
+
+    /**
+     * 处理创建冲突（唯一约束冲突）
+     */
+    protected function handleCreationConflict(
+        string $modelType,
+        int $modelId,
+        array $cleanPayload,
+        \Exception $e
+    ): ?Model {
+        $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
+        
+        if ($model) {
+            return $this->updateModelWithIdSync($model, $modelType, $modelId, $cleanPayload);
+        }
+        
+        Log::warning('创建同步记录失败：唯一约束冲突且无法找到记录', [
+            'model_type' => $modelType,
+            'model_id' => $modelId,
+            'clean_payload' => $cleanPayload,
+            'error' => $e->getMessage(),
+        ]);
+        
+        return null;
+    }
+
+    /**
+     * 解析payload中的时间戳为Carbon实例
+     */
+    protected function parseTimestampsInPayload(array &$payload): void
+    {
+        if (isset($payload['updated_at'])) {
+            $payload['updated_at'] = Carbon::parse($payload['updated_at']);
+        }
+        if (isset($payload['created_at'])) {
+            $payload['created_at'] = Carbon::parse($payload['created_at']);
+        }
+    }
+
+    /**
+     * 检查是否有需要更新的数据（排除时间戳和ID）
+     */
+    protected function hasUpdateData(array $cleanPayload): bool
+    {
+        $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
+        return !empty($updateData);
+    }
+
+    /**
+     * 记录警告日志并返回null
+     */
+    protected function logAndReturnNull(
+        string $modelType,
+        int $modelId,
+        array $cleanPayload,
+        \Exception $e
+    ): ?Model {
+        Log::warning('创建同步记录失败：可能缺少必填字段', [
+            'model_type' => $modelType,
+            'model_id' => $modelId,
+            'clean_payload' => $cleanPayload,
+            'error' => $e->getMessage(),
+        ]);
+        return null;
+    }
+
+    /**
+     * 下载主媒体文件
+     */
+    protected function downloadMainMediaFile(
+        \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
+        string $downloadUrl
+    ): void {
+        $response = Http::timeout(300)
+            ->withHeaders([
+                'User-Agent' => 'Teanary-Sync-Client/1.0',
+                'Accept' => '*/*',
+            ])
+            ->get($downloadUrl);
+
+        if (!$response->successful()) {
+            $errorBody = $response->body();
+            Log::error('下载 Media 文件失败', [
+                'media_id' => $media->id,
+                'url' => $downloadUrl,
+                'status' => $response->status(),
+                'response' => $errorBody,
+            ]);
+            throw new \Exception("下载文件失败: HTTP " . $response->status() . ($errorBody ? " - {$errorBody}" : ''));
+        }
+
+        $this->saveMediaFile($media, $response->body());
+    }
+
+    /**
+     * 保存媒体文件到磁盘
+     */
+    protected function saveMediaFile(
+        \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
+        string $fileContent
+    ): void {
+        $disk = $media->disk ?? config('media-library.disk_name', 'public');
+        $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
+        $filePath = $media->getPath();
+        $directory = dirname($filePath);
+        
+        if (!$diskInstance->exists($directory)) {
+            $diskInstance->makeDirectory($directory, 0755, true);
+        }
+        
+        $diskInstance->put($filePath, $fileContent);
+    }
+
+    /**
+     * 触发媒体转换生成
+     */
+    protected function triggerMediaConversions(
+        \Spatie\MediaLibrary\MediaCollections\Models\Media $media
+    ): void {
+        try {
+            $model = $media->model;
+            if (!$model || !method_exists($model, 'registerMediaConversions')) {
+                return;
+            }
+
+            $media->refresh();
+            
+            if (method_exists($media, 'performConversions')) {
+                $media->performConversions();
+            } elseif (method_exists($media, 'performOnQueue')) {
+                $media->performOnQueue();
+            } else {
+                $model->registerMediaConversions($media);
+                Log::info('Media 转换将在首次访问时自动生成', [
+                    'media_id' => $media->id,
+                ]);
+            }
+            
+            Log::info('已触发 Media 转换生成', [
+                'media_id' => $media->id,
+            ]);
+        } catch (\Exception $e) {
+            Log::warning('触发 Media 转换生成失败', [
+                'media_id' => $media->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * 分发图片调整任务
+     */
+    protected function dispatchImageResizeJob(
+        \Spatie\MediaLibrary\MediaCollections\Models\Media $media
+    ): void {
+        try {
+            ResizeUploadedImage::dispatch($media)->onQueue('low');
+        } catch (\Exception $e) {
+            Log::warning('触发图片调整任务失败', [
+                'media_id' => $media->id,
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }
