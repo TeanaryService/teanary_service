@@ -177,11 +177,28 @@ class AttributeResource extends Resource
             ->action(function ($records, array $data) {
                 $isFilterable = (bool) $data['is_filterable'];
                 $count = 0;
+                $syncService = app(\App\Services\SyncService::class);
+                $sourceNode = config('sync.node');
 
-                foreach ($records as $record) {
-                    $record->is_filterable = $isFilterable;
-                    $record->save();
-                    $count++;
+                // 禁用同步，避免每个 save() 都触发同步
+                Attribute::$syncDisabled = true;
+
+                try {
+                    $models = [];
+                    foreach ($records as $record) {
+                        $record->is_filterable = $isFilterable;
+                        $record->save();
+                        $models[] = ['model' => $record, 'action' => 'updated'];
+                        $count++;
+                    }
+
+                    // 批量记录同步
+                    if (!empty($models)) {
+                        $syncService->recordBatchSync($models, $sourceNode);
+                    }
+                } finally {
+                    // 重新启用同步
+                    Attribute::$syncDisabled = false;
                 }
 
                 // 清除属性缓存

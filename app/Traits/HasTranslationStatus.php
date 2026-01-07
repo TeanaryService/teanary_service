@@ -28,11 +28,35 @@ trait HasTranslationStatus
                 ->action(function ($records, array $data) {
                     $status = TranslationStatusEnum::from($data['translation_status']);
                     $count = 0;
-                    
-                    foreach ($records as $record) {
-                        $record->translation_status = $status;
-                        $record->save();
-                        $count++;
+                    $syncService = app(\App\Services\SyncService::class);
+                    $sourceNode = config('sync.node');
+
+                    // 获取模型类（从第一个记录推断）
+                    $firstRecord = $records->first();
+                    if (!$firstRecord) {
+                        return;
+                    }
+                    $modelClass = get_class($firstRecord);
+
+                    // 禁用同步，避免每个 save() 都触发同步
+                    $modelClass::$syncDisabled = true;
+
+                    try {
+                        $models = [];
+                        foreach ($records as $record) {
+                            $record->translation_status = $status;
+                            $record->save();
+                            $models[] = ['model' => $record, 'action' => 'updated'];
+                            $count++;
+                        }
+
+                        // 批量记录同步
+                        if (!empty($models)) {
+                            $syncService->recordBatchSync($models, $sourceNode);
+                        }
+                    } finally {
+                        // 重新启用同步
+                        $modelClass::$syncDisabled = false;
                     }
                     
                     Notification::make()

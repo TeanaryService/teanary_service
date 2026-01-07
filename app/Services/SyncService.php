@@ -58,6 +58,95 @@ class SyncService
     }
 
     /**
+     * 批量记录需要同步的数据变更
+     * 用于批量操作时提高效率
+     * 
+     * @param array $models 模型数组，格式: [['model' => Model, 'action' => 'updated'], ...]
+     * @param string $sourceNode 源节点
+     */
+    public function recordBatchSync(array $models, string $sourceNode): void
+    {
+        if (empty($models)) {
+            return;
+        }
+
+        $config = config('sync');
+        $currentNode = $config['node'];
+        
+        // 获取所有需要同步的目标节点（除了当前节点）
+        $targetNodes = array_keys($config['remote_nodes']);
+        $targetNodes = array_filter($targetNodes, fn($node) => $node !== $currentNode);
+
+        if (empty($targetNodes)) {
+            return;
+        }
+
+        // 按模型类型和操作类型分组，减少数据库写入
+        $groupedModels = [];
+        foreach ($models as $item) {
+            $model = $item['model'];
+            $action = $item['action'];
+
+            if (!$this->shouldSync($model)) {
+                continue;
+            }
+
+            $modelType = get_class($model);
+            $key = "{$modelType}:{$action}";
+            
+            if (!isset($groupedModels[$key])) {
+                $groupedModels[$key] = [
+                    'model_type' => $modelType,
+                    'action' => $action,
+                    'models' => [],
+                ];
+            }
+
+            $groupedModels[$key]['models'][] = $model;
+        }
+
+        // 批量创建同步日志
+        $syncLogs = [];
+        foreach ($targetNodes as $targetNode) {
+            foreach ($groupedModels as $group) {
+                foreach ($group['models'] as $model) {
+                    // 检查是否已经同步过（避免重复同步）
+                    $syncHash = $this->generateSyncHash($model, $group['action']);
+                    
+                    if ($group['action'] !== 'deleted' && !SyncStatus::needsSync(
+                        $group['model_type'],
+                        $model->id,
+                        $targetNode,
+                        $syncHash
+                    )) {
+                        continue; // 数据未变更，跳过
+                    }
+
+                    $syncLogs[] = [
+                        'model_type' => $group['model_type'],
+                        'model_id' => $model->id,
+                        'action' => $group['action'],
+                        'source_node' => $sourceNode,
+                        'target_node' => $targetNode,
+                        'status' => 'pending',
+                        'payload' => $this->preparePayload($model, $group['action']),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
+        }
+
+        // 批量插入（如果有很多记录，分批插入）
+        if (!empty($syncLogs)) {
+            $batchSize = config('sync.batch_size', 100);
+            foreach (array_chunk($syncLogs, $batchSize) as $chunk) {
+                SyncLog::insert($chunk);
+            }
+        }
+    }
+
+    /**
      * 执行同步到远程节点
      */
     public function syncToRemote(SyncLog $syncLog): bool

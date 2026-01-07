@@ -342,11 +342,28 @@ class ProductResource extends Resource
             ->icon('heroicon-o-check-circle')
             ->action(function ($records) {
                 $count = 0;
+                $syncService = app(\App\Services\SyncService::class);
+                $sourceNode = config('sync.node');
 
-                foreach ($records as $record) {
-                    $record->status = ProductStatusEnum::Active;
-                    $record->save();
-                    $count++;
+                // 禁用同步，避免每个 save() 都触发同步
+                Product::$syncDisabled = true;
+
+                try {
+                    $models = [];
+                    foreach ($records as $record) {
+                        $record->status = ProductStatusEnum::Active;
+                        $record->save();
+                        $models[] = ['model' => $record, 'action' => 'updated'];
+                        $count++;
+                    }
+
+                    // 批量记录同步
+                    if (!empty($models)) {
+                        $syncService->recordBatchSync($models, $sourceNode);
+                    }
+                } finally {
+                    // 重新启用同步
+                    Product::$syncDisabled = false;
                 }
 
                 Notification::make()
