@@ -17,8 +17,10 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -308,6 +310,7 @@ class ProductResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
                     ...static::getTranslationStatusBulkActions(),
+                    static::getBulkEnableAction(),
                 ]),
             ]));
     }
@@ -327,5 +330,31 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * 获取批量启用商品的批量操作
+     */
+    public static function getBulkEnableAction(): BulkAction
+    {
+        return BulkAction::make('bulk_enable')
+            ->label('批量启用')
+            ->icon('heroicon-o-check-circle')
+            ->action(function ($records) {
+                $count = 0;
+
+                foreach ($records as $record) {
+                    $record->status = ProductStatusEnum::Active;
+                    $record->save();
+                    $count++;
+                }
+
+                Notification::make()
+                    ->title("已启用 {$count} 个商品")
+                    ->success()
+                    ->send();
+            })
+            ->deselectRecordsAfterCompletion()
+            ->requiresConfirmation();
     }
 }
