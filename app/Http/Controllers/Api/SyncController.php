@@ -30,6 +30,11 @@ class SyncController extends Controller
         
         // 验证来源节点和 API Key
         if (!$sourceNode || !isset($config['remote_nodes'][$sourceNode])) {
+            Log::error('无效的来源节点', [
+                'source_node' => $sourceNode,
+                'config' => $config,
+            ]);
+
             return response()->json([
                 'success' => false,
                 'message' => '无效的来源节点',
@@ -38,6 +43,11 @@ class SyncController extends Controller
 
         $remoteConfig = $config['remote_nodes'][$sourceNode];
         if ($apiKey !== $remoteConfig['api_key']) {
+            Log::error('无效的 API Key', [
+                'api_key' => $apiKey,
+                'remote_config' => $remoteConfig,
+            ]);
+            
             return response()->json([
                 'success' => false,
                 'message' => '无效的 API Key',
