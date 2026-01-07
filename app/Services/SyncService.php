@@ -404,16 +404,25 @@ class SyncService
         $cleanPayload = $payload;
         
         if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
-            // 对于 Media 模型，只移除 preparePayload 中添加的额外字段（file_url, file_path, file_disk, file_download_url）
-            // 保留所有其他字段，因为节点间数据应该完全相同
-            // Media 表的字段：id, model_type, model_id, uuid, collection_name, name, file_name, 
+            // 对于 Media 模型，只保留数据库字段，移除所有访问器字段和额外字段
+            // Media 表的实际字段：id, model_type, model_id, uuid, collection_name, name, file_name, 
             // mime_type, disk, conversions_disk, size, manipulations, custom_properties, 
             // generated_conversions, responsive_images, order_column, created_at, updated_at
-            $cleanPayload = array_diff_key($payload, array_flip($fileFields));
+            $mediaDbFields = [
+                'id', 'model_type', 'model_id', 'uuid', 'collection_name', 'name', 'file_name',
+                'mime_type', 'disk', 'conversions_disk', 'size', 'manipulations', 
+                'custom_properties', 'generated_conversions', 'responsive_images', 
+                'order_column', 'created_at', 'updated_at'
+            ];
             
-            // 保留所有可能的数据库字段和访问器字段（original_url, preview_url 等可能是访问器）
-            // 只过滤掉明显不是数据库字段的键（如关联关系数据）
-            // 由于节点间数据应该完全相同，我们保留所有字段，只移除 preparePayload 中添加的额外字段
+            // 移除所有非数据库字段（包括访问器字段和额外字段）
+            $fieldsToRemove = array_merge($fileFields, ['original_url', 'preview_url']);
+            $cleanPayload = array_diff_key($payload, array_flip($fieldsToRemove));
+            
+            // 只保留数据库字段
+            $cleanPayload = array_filter($cleanPayload, function ($key) use ($mediaDbFields) {
+                return in_array($key, $mediaDbFields);
+            }, ARRAY_FILTER_USE_KEY);
         } else {
             // 对于其他模型，使用原有的过滤逻辑
             // 获取模型的 fillable 字段
