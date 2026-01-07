@@ -13,8 +13,6 @@ Route::prefix('sync')->group(function () {
     Route::post('/receive', [\App\Http\Controllers\Api\SyncController::class, 'receive'])->name('sync.receive');
     Route::post('/trigger', [\App\Http\Controllers\Api\SyncController::class, 'triggerSync'])->name('sync.trigger');
     Route::get('/status', [\App\Http\Controllers\Api\SyncController::class, 'status'])->name('sync.status');
-    Route::get('/download-file/{mediaId}', [\App\Http\Controllers\Api\SyncController::class, 'downloadFile'])->name('sync.download-file');
-    Route::get('/download-file/{mediaId}/conversion/{conversion}', [\App\Http\Controllers\Api\SyncController::class, 'downloadFile'])->name('sync.download-file-conversion');
 });
 
 // 需要token鉴权的API路由

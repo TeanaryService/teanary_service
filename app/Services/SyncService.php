@@ -7,7 +7,6 @@ use App\Models\SyncStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -324,97 +323,17 @@ class SyncService
                 : $model->updated_at->toIso8601String();
         }
 
-        // 如果是 Media 模型，添加文件 URL 和下载信息
+        // 如果是 Media 模型，添加文件 URL 信息（original_url 已经在 toArray() 中包含）
         if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
             $payload['file_url'] = $model->getUrl();
             $payload['file_path'] = $model->getPath();
             $payload['file_disk'] = $model->disk;
-            $payload['file_download_url'] = $this->generateFileDownloadUrl($model);
         }
 
         return $payload;
     }
 
-    /**
-     * 生成文件下载 URL（用于从源节点下载文件）
-     */
-    protected function generateFileDownloadUrl(\Spatie\MediaLibrary\MediaCollections\Models\Media $media): string
-    {
-        $sourceNode = config('sync.node');
-        $baseUrl = config('app.url');
-        
-        return $baseUrl . '/api/sync/download-file/' . $media->id . '?token=' . $this->generateFileDownloadToken($media);
-    }
 
-    /**
-     * 生成文件下载令牌（使用加密方式，支持更长有效期）
-     */
-    protected function generateFileDownloadToken(\Spatie\MediaLibrary\MediaCollections\Models\Media $media): string
-    {
-        $expiresHours = config('sync.file_download_token_expires_hours', 24);
-        $payload = [
-            'media_id' => $media->id,
-            'expires_at' => now()->addHours($expiresHours)->timestamp,
-            'created_at' => now()->timestamp,
-        ];
-        
-        // 使用 Laravel 的加密功能，更安全且支持更长有效期
-        return Crypt::encryptString(json_encode($payload));
-    }
-
-    /**
-     * 验证文件下载令牌（使用解密方式）
-     */
-    public function verifyFileDownloadToken(string $token, int $mediaId): bool
-    {
-        try {
-            // 使用 Laravel 的加密功能解密
-            $decrypted = Crypt::decryptString($token);
-            $payload = json_decode($decrypted, true);
-            
-            if (!$payload || !isset($payload['media_id']) || !isset($payload['expires_at'])) {
-                Log::warning('Token 格式无效', [
-                    'media_id' => $mediaId,
-                ]);
-                return false;
-            }
-            
-            // 类型转换，确保比较正确
-            $tokenMediaId = (int) $payload['media_id'];
-            if ($tokenMediaId !== $mediaId) {
-                Log::warning('Token media_id 不匹配', [
-                    'token_media_id' => $tokenMediaId,
-                    'expected_media_id' => $mediaId,
-                ]);
-                return false;
-            }
-            
-            $expiresAt = (int) $payload['expires_at'];
-            if ($expiresAt < now()->timestamp) {
-                Log::warning('Token 已过期', [
-                    'expires_at' => $expiresAt,
-                    'current_timestamp' => now()->timestamp,
-                    'expires_at_date' => date('Y-m-d H:i:s', $expiresAt),
-                    'current_date' => now()->toDateTimeString(),
-                ]);
-                return false;
-            }
-            
-            return true;
-        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            Log::warning('Token 解密失败', [
-                'media_id' => $mediaId,
-                'error' => $e->getMessage(),
-            ]);
-            return false;
-        } catch (\Exception $e) {
-            Log::error('验证 Token 时发生异常', [
-                'media_id' => $mediaId,
-                'error' => $e->getMessage(),
-            ]);
-            return false;
-        }
-    }
 
     /**
      * 生成同步哈希值
@@ -432,7 +351,7 @@ class SyncService
     {
         // 对于 Media 模型，需要特殊处理（只移除 preparePayload 中添加的额外字段，保留所有数据库字段）
         // 因为节点间数据应该完全相同，所以保留所有数据库字段
-        $fileFields = ['file_url', 'file_path', 'file_disk', 'file_download_url'];
+        $fileFields = ['file_url', 'file_path', 'file_disk'];
         $cleanPayload = $payload;
         
         if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
@@ -532,12 +451,16 @@ class SyncService
         \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
         array $payload
     ): void {
-        if (!isset($payload['file_download_url'])) {
-            Log::warning('Media 同步数据缺少文件下载 URL', [
+        // 使用 original_url 下载文件
+        if (!isset($payload['original_url'])) {
+            Log::warning('Media 同步数据缺少 original_url', [
                 'media_id' => $media->id,
+                'payload_keys' => array_keys($payload),
             ]);
             return;
         }
+        
+        $downloadUrl = $payload['original_url'];
 
         try {
             // 从源节点下载文件
@@ -547,13 +470,13 @@ class SyncService
                     'User-Agent' => 'Teanary-Sync-Client/1.0',
                     'Accept' => '*/*',
                 ])
-                ->get($payload['file_download_url']);
+                ->get($downloadUrl);
 
             if (!$response->successful()) {
                 $errorBody = $response->body();
                 Log::error('下载 Media 文件失败', [
                     'media_id' => $media->id,
-                    'url' => $payload['file_download_url'],
+                    'url' => $downloadUrl,
                     'status' => $response->status(),
                     'response' => $errorBody,
                 ]);
@@ -584,10 +507,20 @@ class SyncService
                 foreach ($payload['generated_conversions'] as $conversionName => $converted) {
                     if ($converted) {
                         try {
-                            // 构建转换文件的下载 URL
-                            $baseUrl = parse_url($payload['file_download_url'], PHP_URL_SCHEME) . '://' . parse_url($payload['file_download_url'], PHP_URL_HOST);
-                            $token = parse_url($payload['file_download_url'], PHP_URL_QUERY);
-                            $conversionUrl = $baseUrl . '/api/sync/download-file/' . $media->id . '/conversion/' . $conversionName . '?' . $token;
+                            // 使用 original_url 构建转换文件的下载 URL
+                            if (!isset($payload['original_url'])) {
+                                Log::warning('无法构建转换文件 URL：缺少 original_url', [
+                                    'media_id' => $media->id,
+                                    'conversion' => $conversionName,
+                                ]);
+                                continue;
+                            }
+                            
+                            $originalPath = parse_url($payload['original_url'], PHP_URL_PATH);
+                            $pathInfo = pathinfo($originalPath);
+                            $baseUrl = parse_url($payload['original_url'], PHP_URL_SCHEME) . '://' . parse_url($payload['original_url'], PHP_URL_HOST);
+                            // 转换文件路径：/storage/product/uuid/file.jpg -> /storage/product/uuid/conversions/thumb-file.jpg
+                            $conversionUrl = $baseUrl . $pathInfo['dirname'] . '/conversions/' . $conversionName . '-' . $pathInfo['basename'];
                             
                             $conversionResponse = Http::timeout(300)
                                 ->withHeaders([
