@@ -15,7 +15,7 @@
 
 ## 概述
 
-这是一个与主代码解耦的双向数据同步方案，用于在国内外两个节点之间同步数据变更（增删改），以时间最新为准。
+这是一个与主代码解耦的双向数据同步方案，用于在多个节点之间同步数据变更（增删改），以时间最新为准。支持任意数量的节点，系统会自动同步到配置中的所有其他节点。
 
 **支持同步的内容：**
 - 数据库记录（模型数据）
@@ -71,29 +71,59 @@ php artisan migrate
 
 在 `.env` 文件中添加以下配置：
 
-**在国内服务器：**
+**配置说明：**
+- `SYNC_NODE`: 当前节点的唯一标识，可以是任意字符串（如 'node1', 'beijing', 'shanghai' 等）
+- 每个远程节点需要配置三个环境变量：`SYNC_{节点名}_URL`、`SYNC_{节点名}_API_KEY`、`SYNC_{节点名}_TIMEOUT`
+- 节点名称建议使用有意义的名称，如地理位置、服务器编号等
+- 系统会自动同步到配置中的所有其他节点（排除当前节点）
+
+**示例：节点1的配置**
 ```env
 SYNC_ENABLED=true
-SYNC_NODE=domestic
-SYNC_DOMESTIC_URL=https://domestic.example.com
-SYNC_DOMESTIC_API_KEY=your-secret-api-key-here
-SYNC_DOMESTIC_TIMEOUT=30
-SYNC_OVERSEAS_URL=https://overseas.example.com
-SYNC_OVERSEAS_API_KEY=your-secret-api-key-here
-SYNC_OVERSEAS_TIMEOUT=30
+SYNC_NODE=node1
+
+# 节点1的配置（当前节点，通常不需要配置自己）
+SYNC_NODE1_URL=https://node1.example.com
+SYNC_NODE1_API_KEY=your-secret-api-key-for-node1
+SYNC_NODE1_TIMEOUT=30
+
+# 节点2的配置（远程节点）
+SYNC_NODE2_URL=https://node2.example.com
+SYNC_NODE2_API_KEY=your-secret-api-key-for-node2
+SYNC_NODE2_TIMEOUT=30
+
+# 节点3的配置（远程节点，可选）
+SYNC_NODE3_URL=https://node3.example.com
+SYNC_NODE3_API_KEY=your-secret-api-key-for-node3
+SYNC_NODE3_TIMEOUT=30
 ```
 
-**在国外服务器：**
+**示例：节点2的配置**
 ```env
 SYNC_ENABLED=true
-SYNC_NODE=overseas
-SYNC_DOMESTIC_URL=https://domestic.example.com
-SYNC_DOMESTIC_API_KEY=your-secret-api-key-here
-SYNC_DOMESTIC_TIMEOUT=30
-SYNC_OVERSEAS_URL=https://overseas.example.com
-SYNC_OVERSEAS_API_KEY=your-secret-api-key-here
-SYNC_OVERSEAS_TIMEOUT=30
+SYNC_NODE=node2
+
+# 节点1的配置（远程节点）
+SYNC_NODE1_URL=https://node1.example.com
+SYNC_NODE1_API_KEY=your-secret-api-key-for-node1
+SYNC_NODE1_TIMEOUT=30
+
+# 节点2的配置（当前节点）
+SYNC_NODE2_URL=https://node2.example.com
+SYNC_NODE2_API_KEY=your-secret-api-key-for-node2
+SYNC_NODE2_TIMEOUT=30
+
+# 节点3的配置（远程节点）
+SYNC_NODE3_URL=https://node3.example.com
+SYNC_NODE3_API_KEY=your-secret-api-key-for-node3
+SYNC_NODE3_TIMEOUT=30
 ```
+
+**重要提示：**
+1. 所有节点的 `config/sync.php` 文件中必须包含所有节点的配置（包括自己）
+2. 每个节点的 `SYNC_NODE` 环境变量必须唯一，且必须在 `remote_nodes` 配置中存在
+3. 系统会自动同步到配置中的所有其他节点，无需手动指定
+4. 可以添加任意数量的节点，只需在配置文件中添加相应的节点配置即可
 
 **可选配置：**
 ```env
@@ -103,8 +133,6 @@ SYNC_RETRY_DELAY=60
 SYNC_BATCH_SIZE=100
 SYNC_TIMEOUT=300  # 文件同步超时时间（秒）
 ```
-
-**重要**：两个节点的 API Key 必须匹配！
 
 ### 3. 在模型中启用同步
 

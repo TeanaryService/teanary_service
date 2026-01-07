@@ -6,28 +6,39 @@ return [
     | 数据同步配置
     |--------------------------------------------------------------------------
     |
-    | 此配置用于管理国内外节点的双向数据同步
+    | 此配置用于管理多个节点之间的双向数据同步
+    | 支持任意数量的节点，根据配置中的节点数量自动同步
     |
     */
 
     // 是否启用同步功能
     'enabled' => env('SYNC_ENABLED', false),
 
-    // 当前节点标识（'domestic' 或 'overseas'）
-    'node' => env('SYNC_NODE', 'domestic'),
+    // 当前节点标识（可以是任意字符串，如 'node1', 'beijing', 'shanghai' 等）
+    'node' => env('SYNC_NODE', 'node1'),
 
     // 远程节点配置
+    // 可以配置任意数量的节点，系统会自动同步到所有其他节点
+    // 节点名称可以是任意字符串，建议使用有意义的名称
     'remote_nodes' => [
-        'domestic' => [
-            'url' => env('SYNC_DOMESTIC_URL', 'https://domestic.example.com'),
-            'api_key' => env('SYNC_DOMESTIC_API_KEY', ''),
-            'timeout' => env('SYNC_DOMESTIC_TIMEOUT', 30),
+        // 示例：节点1配置
+        'node1' => [
+            'url' => env('SYNC_NODE1_URL', 'https://node1.example.com'),
+            'api_key' => env('SYNC_NODE1_API_KEY', ''),
+            'timeout' => env('SYNC_NODE1_TIMEOUT', 30),
         ],
-        'overseas' => [
-            'url' => env('SYNC_OVERSEAS_URL', 'https://overseas.example.com'),
-            'api_key' => env('SYNC_OVERSEAS_API_KEY', ''),
-            'timeout' => env('SYNC_OVERSEAS_TIMEOUT', 30),
+        // 示例：节点2配置
+        'node2' => [
+            'url' => env('SYNC_NODE2_URL', 'https://node2.example.com'),
+            'api_key' => env('SYNC_NODE2_API_KEY', ''),
+            'timeout' => env('SYNC_NODE2_TIMEOUT', 30),
         ],
+        // 可以继续添加更多节点...
+        // 'node3' => [
+        //     'url' => env('SYNC_NODE3_URL', 'https://node3.example.com'),
+        //     'api_key' => env('SYNC_NODE3_API_KEY', ''),
+        //     'timeout' => env('SYNC_NODE3_TIMEOUT', 30),
+        // ],
     ],
 
     // 需要同步的模型列表
