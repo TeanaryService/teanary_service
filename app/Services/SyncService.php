@@ -156,6 +156,16 @@ class SyncService
                 case 'updated':
                     $model = $this->createOrUpdateModel($modelType, $modelId, $payload);
                     
+                    // 如果创建/更新失败（返回 null），跳过后续处理
+                    if ($model === null) {
+                        Log::warning('跳过同步记录处理：模型创建/更新失败', [
+                            'model_type' => $modelType,
+                            'model_id' => $modelId,
+                            'action' => $action,
+                        ]);
+                        break;
+                    }
+                    
                     // 如果是 Media 模型，需要下载文件
                     if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
                         $this->downloadAndSaveMediaFile($model, $payload);
@@ -291,35 +301,79 @@ class SyncService
     /**
      * 创建或更新模型
      */
-    protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): Model
+    protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
-        // 对于 Media 模型，需要特殊处理（移除文件相关字段，稍后单独处理）
-        $fileFields = ['file_url', 'file_path', 'file_disk', 'file_download_url'];
-        $mediaPayload = $payload;
+        // 对于 Media 模型，需要特殊处理（移除文件相关字段和数据库中不存在的字段）
+        $fileFields = ['file_url', 'file_path', 'file_disk', 'file_download_url', 'original_url', 'preview_url'];
+        $cleanPayload = $payload;
+        
         if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
-            $mediaPayload = array_diff_key($payload, array_flip($fileFields));
+            // 移除所有文件相关字段和数据库中不存在的字段
+            $cleanPayload = array_diff_key($payload, array_flip($fileFields));
         }
+        
+        // 获取模型的 fillable 字段
+        $modelInstance = new $modelType();
+        $fillableFields = $modelInstance->getFillable();
+        
+        // 过滤掉不在 fillable 中的字段和 null 值字段
+        $cleanPayload = array_filter($cleanPayload, function ($value, $key) use ($fillableFields) {
+            // 保留时间戳和 ID 字段
+            if (in_array($key, ['created_at', 'updated_at', 'id'])) {
+                return true;
+            }
+            
+            // 如果字段不在 fillable 中，过滤掉（可能是关联数据或其他字段）
+            if (!in_array($key, $fillableFields)) {
+                return false;
+            }
+            
+            // 如果字段值为 null，过滤掉（避免必填字段为 null 的错误）
+            if ($value === null) {
+                return false;
+            }
+            
+            return true;
+        }, ARRAY_FILTER_USE_BOTH);
         
         $model = $modelType::find($modelId);
         
         if ($model) {
             // 更新时间戳，确保以最新为准
-            if (isset($mediaPayload['updated_at'])) {
-                $mediaPayload['updated_at'] = Carbon::parse($mediaPayload['updated_at']);
+            if (isset($cleanPayload['updated_at'])) {
+                $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
             }
-            if (isset($mediaPayload['created_at'])) {
-                $mediaPayload['created_at'] = Carbon::parse($mediaPayload['created_at']);
+            if (isset($cleanPayload['created_at'])) {
+                $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
             }
-            $model->update($mediaPayload);
+            
+            // 如果清理后的 payload 为空（除了时间戳），跳过更新
+            $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
+            if (!empty($updateData)) {
+                $model->update($cleanPayload);
+            }
         } else {
-            $mediaPayload['id'] = $modelId; // 保持原始ID
-            if (isset($mediaPayload['created_at'])) {
-                $mediaPayload['created_at'] = Carbon::parse($mediaPayload['created_at']);
+            
+            $cleanPayload['id'] = $modelId; // 保持原始ID
+            if (isset($cleanPayload['created_at'])) {
+                $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
             }
-            if (isset($mediaPayload['updated_at'])) {
-                $mediaPayload['updated_at'] = Carbon::parse($mediaPayload['updated_at']);
+            if (isset($cleanPayload['updated_at'])) {
+                $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
             }
-            $model = $modelType::create($mediaPayload);
+            
+            try {
+                $model = $modelType::create($cleanPayload);
+            } catch (\Exception $e) {
+                // 如果创建失败（可能是必填字段缺失），记录错误并返回 null
+                Log::warning('创建同步记录失败：可能缺少必填字段', [
+                    'model_type' => $modelType,
+                    'model_id' => $modelId,
+                    'clean_payload' => $cleanPayload,
+                    'error' => $e->getMessage(),
+                ]);
+                return null;
+            }
         }
         
         return $model;
