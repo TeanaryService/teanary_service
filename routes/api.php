@@ -10,7 +10,7 @@ Route::post('webhooks/paypal', \App\Http\Controllers\Api\PaypalWebhookController
 
 // 同步相关路由（不需要 token 鉴权，使用 API Key）
 Route::prefix('sync')->group(function () {
-    Route::post('/receive', [\App\Http\Controllers\Api\SyncController::class, 'receive'])->name('sync.receive');
+    Route::post('/receive-batch', [\App\Http\Controllers\Api\SyncController::class, 'receiveBatch'])->name('sync.receive-batch');
     Route::post('/trigger', [\App\Http\Controllers\Api\SyncController::class, 'triggerSync'])->name('sync.trigger');
     Route::get('/status', [\App\Http\Controllers\Api\SyncController::class, 'status'])->name('sync.status');
 });

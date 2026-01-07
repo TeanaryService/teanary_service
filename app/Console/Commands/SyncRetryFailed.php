@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\SyncDataJob;
+use App\Jobs\SyncBatchDataJob;
 use App\Models\SyncLog;
+use App\Services\SyncService;
 use Illuminate\Console\Command;
 
 class SyncRetryFailed extends Command
@@ -15,7 +16,8 @@ class SyncRetryFailed extends Command
      */
     protected $signature = 'app:sync-retry-failed 
                             {--limit=50 : 每次重试的记录数}
-                            {--queue : 是否使用队列}';
+                            {--queue : 是否使用队列}
+                            {--batch-size=50 : 批量同步时每批的记录数}';
 
     /**
      * The console command description.
@@ -36,46 +38,77 @@ class SyncRetryFailed extends Command
 
         $limit = (int) $this->option('limit');
         $useQueue = $this->option('queue');
+        $batchSize = (int) $this->option('batch-size');
         $maxRetries = config('sync.retry_times', 3);
 
-        $this->info("开始重试失败的同步任务（限制: {$limit} 条，最大重试次数: {$maxRetries}）...");
+        $this->info("开始重试失败的同步任务（限制: {$limit} 条，每批: {$batchSize} 条，最大重试次数: {$maxRetries}）...");
 
-        $failedLogs = SyncLog::where('status', 'failed')
-            ->where('retry_count', '<', $maxRetries)
-            ->orderBy('created_at', 'asc')
-            ->limit($limit)
-            ->get();
+        // 获取所有目标节点
+        $config = config('sync');
+        $currentNode = $config['node'];
+        $targetNodes = array_filter(
+            array_keys($config['remote_nodes']),
+            fn($node) => $node !== $currentNode
+        );
 
-        if ($failedLogs->isEmpty()) {
-            $this->info('没有需要重试的失败记录');
+        if (empty($targetNodes)) {
+            $this->warn('没有配置目标节点');
             return Command::SUCCESS;
         }
 
-        $this->info("找到 {$failedLogs->count()} 条失败记录需要重试");
+        $totalRetried = 0;
 
-        $bar = $this->output->createProgressBar($failedLogs->count());
-        $bar->start();
+        foreach ($targetNodes as $targetNode) {
+            $failedLogs = SyncLog::where('status', 'failed')
+                ->where('target_node', $targetNode)
+                ->where('retry_count', '<', $maxRetries)
+                ->orderBy('created_at', 'asc')
+                ->limit($limit)
+                ->get();
 
-        foreach ($failedLogs as $syncLog) {
+            if ($failedLogs->isEmpty()) {
+                $this->info("节点 {$targetNode}: 没有需要重试的失败记录");
+                continue;
+            }
+
+            $this->info("节点 {$targetNode}: 找到 {$failedLogs->count()} 条失败记录需要重试");
+
             // 重置状态为 pending
-            $syncLog->update([
-                'status' => 'pending',
-                'error_message' => null,
-            ]);
+            $failedLogs->each(function ($syncLog) {
+                $syncLog->update([
+                    'status' => 'pending',
+                    'error_message' => null,
+                ]);
+            });
 
             if ($useQueue) {
-                SyncDataJob::dispatch($syncLog);
+                // 使用队列异步处理
+                SyncBatchDataJob::dispatch($targetNode, $failedLogs->count());
+                $this->info("节点 {$targetNode}: 重试任务已加入队列");
             } else {
-                // 同步执行
-                $syncService = app(\App\Services\SyncService::class);
-                $syncService->syncToRemote($syncLog);
+                // 同步执行批量同步
+                $syncService = app(SyncService::class);
+                $chunks = $failedLogs->chunk($batchSize);
+                $bar = $this->output->createProgressBar($failedLogs->count());
+                $bar->start();
+
+                foreach ($chunks as $chunk) {
+                    $result = $syncService->syncBatchToRemote($chunk, $targetNode);
+                    $totalRetried += $result['success'];
+                    $bar->advance($chunk->count());
+                }
+
+                $bar->finish();
+                $this->newLine();
+                $this->info("节点 {$targetNode}: 重试完成");
             }
-            $bar->advance();
         }
 
-        $bar->finish();
-        $this->newLine();
-        $this->info('重试任务已提交');
+        if ($useQueue) {
+            $this->info('重试任务已提交到队列');
+        } else {
+            $this->info("重试完成，共同步 {$totalRetried} 条记录");
+        }
 
         return Command::SUCCESS;
     }

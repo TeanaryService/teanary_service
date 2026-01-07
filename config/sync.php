@@ -126,4 +126,8 @@ return [
     // 媒体文件下载超时时间（秒）
     // 默认15分钟，适应大文件传输和跨国网络延迟
     'media_download_timeout' => env('SYNC_MEDIA_DOWNLOAD_TIMEOUT', 900),
+    
+    // 批量同步配置
+    // 批量同步时每批处理的记录数（建议50-100，根据网络情况调整）
+    'batch_sync_size' => env('SYNC_BATCH_SYNC_SIZE', 50),
 ];

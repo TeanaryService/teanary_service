@@ -17,82 +17,6 @@ class SyncController extends Controller
     }
 
     /**
-     * 接收来自远程节点的同步数据
-     */
-    public function receive(Request $request): JsonResponse
-    {
-        // 验证 API Key
-        $apiKey = $request->header('Authorization');
-        $apiKey = str_replace('Bearer ', '', $apiKey);
-        
-        $config = config('sync');
-        $sourceNode = $request->header('X-Sync-Source-Node');
-        
-        // 验证来源节点和 API Key
-        if (!$sourceNode || !isset($config['remote_nodes'][$sourceNode])) {
-            Log::error('无效的来源节点', [
-                'source_node' => $sourceNode,
-                'config' => $config,
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => '无效的来源节点',
-            ], 403);
-        }
-
-        $remoteConfig = $config['remote_nodes'][$sourceNode];
-        if ($apiKey !== $remoteConfig['api_key']) {
-            Log::error('无效的 API Key', [
-                'api_key' => $apiKey,
-                'remote_config' => $remoteConfig,
-            ]);
-            
-            return response()->json([
-                'success' => false,
-                'message' => '无效的 API Key',
-            ], 403);
-        }
-
-        // 验证请求数据
-        $validator = Validator::make($request->all(), [
-            'model_type' => 'required|string',
-            'model_id' => 'required|integer',
-            'action' => 'required|in:created,updated,deleted',
-            'payload' => 'required|array',
-            'source_node' => 'required|string',
-            'timestamp' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => '请求数据验证失败',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        try {
-            $this->syncService->receiveSync($request->all());
-
-            return response()->json([
-                'success' => true,
-                'message' => '同步成功',
-            ]);
-        } catch (\Exception $e) {
-            Log::error('接收同步数据失败', [
-                'request' => $request->all(),
-                'error' => $e->getMessage(),
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => '同步失败: ' . $e->getMessage(),
-            ], 500);
-        }
-    }
-
-    /**
      * 获取同步状态（健康检查）
      */
     public function status(): JsonResponse
@@ -186,6 +110,79 @@ class SyncController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '触发同步失败: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * 批量接收来自远程节点的同步数据（高效方案）
+     */
+    public function receiveBatch(Request $request): JsonResponse
+    {
+        // 验证 API Key
+        $apiKey = $request->header('Authorization');
+        $apiKey = str_replace('Bearer ', '', $apiKey);
+        
+        $config = config('sync');
+        $sourceNode = $request->header('X-Sync-Source-Node');
+        
+        // 验证来源节点和 API Key
+        if (!$sourceNode || !isset($config['remote_nodes'][$sourceNode])) {
+            Log::error('无效的来源节点', [
+                'source_node' => $sourceNode,
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => '无效的来源节点',
+            ], 403);
+        }
+
+        $remoteConfig = $config['remote_nodes'][$sourceNode];
+        if ($apiKey !== $remoteConfig['api_key']) {
+            Log::error('无效的 API Key');
+            
+            return response()->json([
+                'success' => false,
+                'message' => '无效的 API Key',
+            ], 403);
+        }
+
+        // 验证请求数据
+        $validator = Validator::make($request->all(), [
+            'batch' => 'required|array|min:1|max:100', // 最多100条
+            'batch.*.model_type' => 'required|string',
+            'batch.*.model_id' => 'required|integer',
+            'batch.*.action' => 'required|in:created,updated,deleted',
+            'batch.*.payload' => 'required|array',
+            'batch.*.source_node' => 'required|string',
+            'batch.*.timestamp' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => '请求数据验证失败',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $result = $this->syncService->receiveBatchSync($request->input('batch'));
+
+            return response()->json([
+                'success' => true,
+                'message' => '批量同步完成',
+                'data' => $result,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('批量接收同步数据失败', [
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => '批量同步失败: ' . $e->getMessage(),
             ], 500);
         }
     }

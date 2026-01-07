@@ -74,7 +74,6 @@ desc('重启 PHP-FCGI 服务');
 task('php-fcgi:restart', function () {
     writeln('<info>正在重启 PHP-FCGI 服务...</info>');
     run('sudo /etc/init.d/php-fpm restart');
-    sleep(1);
 });
 
 // ============================================
@@ -84,7 +83,6 @@ desc('重启队列服务');
 task('queue:restart', function () {
     writeln('<info>正在重启队列服务...</info>');
     run('sudo supervisorctl restart teanary-queue:*');
-    sleep(1);
 });
 
 desc('检查队列状态');

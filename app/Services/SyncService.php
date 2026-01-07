@@ -65,58 +65,168 @@ class SyncService
     }
 
     /**
-     * 执行同步到远程节点
+     * 批量同步到远程节点
+     * 将多条记录打包成一个请求，大幅提升效率
+     * 
+     * @param \Illuminate\Support\Collection $syncLogs 待同步的日志集合
+     * @param string $targetNode 目标节点
+     * @return array ['success' => int, 'failed' => int, 'errors' => array]
      */
-    public function syncToRemote(SyncLog $syncLog): bool
+    public function syncBatchToRemote(\Illuminate\Support\Collection $syncLogs, string $targetNode): array
     {
+        if ($syncLogs->isEmpty()) {
+            return ['success' => 0, 'failed' => 0, 'errors' => []];
+        }
+
         try {
-            $syncLog->markAsProcessing();
-            $remoteConfig = $this->getRemoteNodeConfig($syncLog->target_node);
+            $remoteConfig = $this->getRemoteNodeConfig($targetNode);
             
-            $response = $this->sendSyncRequest($syncLog, $remoteConfig);
+            // 标记所有记录为处理中
+            $syncLogs->each(function ($syncLog) {
+                $syncLog->markAsProcessing();
+            });
+
+            // 准备批量数据
+            $batchData = $syncLogs->map(function ($syncLog) {
+                return [
+                    'model_type' => $syncLog->model_type,
+                    'model_id' => $syncLog->model_id,
+                    'action' => $syncLog->action,
+                    'payload' => $syncLog->payload,
+                    'source_node' => $syncLog->source_node,
+                    'timestamp' => $syncLog->created_at->toIso8601String(),
+                    'sync_log_id' => $syncLog->id, // 用于标识返回结果
+                ];
+            })->values()->toArray();
+
+            // 发送批量请求
+            $response = $this->sendBatchSyncRequest($batchData, $remoteConfig);
 
             if ($response->successful()) {
-                $this->handleSuccessfulSync($syncLog);
-                return true;
+                $result = $response->json();
+                return $this->handleBatchSyncResult($syncLogs, $result, $targetNode);
             } else {
-                throw new \Exception("同步失败: " . $response->body());
+                throw new \Exception("批量同步失败: " . $response->body());
             }
         } catch (\Exception $e) {
-            $this->handleSyncFailure($syncLog, $e);
-            return false;
+            Log::error('批量同步失败', [
+                'target_node' => $targetNode,
+                'count' => $syncLogs->count(),
+                'error' => $e->getMessage(),
+            ]);
+
+            // 标记所有为失败
+            $syncLogs->each(function ($syncLog) use ($e) {
+                $this->handleSyncFailure($syncLog, $e);
+            });
+
+            return [
+                'success' => 0,
+                'failed' => $syncLogs->count(),
+                'errors' => [$e->getMessage()],
+            ];
         }
     }
 
     /**
-     * 接收来自远程节点的同步数据
+     * 批量接收来自远程节点的同步数据
+     * 
+     * @param array $batchData 批量数据数组
+     * @return array ['success' => int, 'failed' => int, 'results' => array]
      */
-    public function receiveSync(array $data): bool
+    public function receiveBatchSync(array $batchData): array
     {
-        try {
-            $this->validateSyncData($data);
-            
-            if ($this->shouldSkipSync($data)) {
-                return true;
+        $results = [
+            'success' => 0,
+            'failed' => 0,
+            'results' => [],
+        ];
+
+        if (empty($batchData) || !is_array($batchData)) {
+            return $results;
+        }
+
+        // 按模型类型分组，减少开关同步监听的次数
+        $groupedByModelType = [];
+        foreach ($batchData as $index => $data) {
+            $modelType = $data['model_type'] ?? null;
+            if (!$modelType) {
+                $results['failed']++;
+                $results['results'][] = [
+                    'index' => $index,
+                    'sync_log_id' => $data['sync_log_id'] ?? null,
+                    'success' => false,
+                    'error' => '缺少 model_type',
+                ];
+                continue;
             }
 
-            $modelType = $data['model_type'];
+            if (!isset($groupedByModelType[$modelType])) {
+                $groupedByModelType[$modelType] = [];
+            }
+
+            $groupedByModelType[$modelType][] = [
+                'index' => $index,
+                'data' => $data,
+            ];
+        }
+
+        // 按模型类型批量处理
+        foreach ($groupedByModelType as $modelType => $items) {
             $this->disableSyncForModel($modelType);
 
             try {
-                $this->processSyncAction($data);
+                foreach ($items as $item) {
+                    $index = $item['index'];
+                    $data = $item['data'];
+
+                    try {
+                        $this->validateSyncData($data);
+                        
+                        if ($this->shouldSkipSync($data)) {
+                            $results['success']++;
+                            $results['results'][] = [
+                                'index' => $index,
+                                'sync_log_id' => $data['sync_log_id'] ?? null,
+                                'success' => true,
+                                'skipped' => true,
+                            ];
+                            continue;
+                        }
+
+                        $this->processSyncAction($data);
+                        
+                        $results['success']++;
+                        $results['results'][] = [
+                            'index' => $index,
+                            'sync_log_id' => $data['sync_log_id'] ?? null,
+                            'success' => true,
+                        ];
+                    } catch (\Exception $e) {
+                        $results['failed']++;
+                        $results['results'][] = [
+                            'index' => $index,
+                            'sync_log_id' => $data['sync_log_id'] ?? null,
+                            'success' => false,
+                            'error' => $e->getMessage(),
+                        ];
+
+                        Log::error('批量同步中单条记录处理失败', [
+                            'index' => $index,
+                            'data' => $data,
+                            'error' => $e->getMessage(),
+                        ]);
+                    }
+                }
             } finally {
                 $this->enableSyncForModel($modelType);
             }
-
-            Cache::flush();
-            return true;
-        } catch (\Exception $e) {
-            Log::error('接收同步数据失败', [
-                'data' => $data,
-                'error' => $e->getMessage(),
-            ]);
-            throw $e;
         }
+
+        // 清除缓存（只清除一次）
+        Cache::flush();
+
+        return $results;
     }
 
     /**
@@ -431,9 +541,9 @@ class SyncService
     }
 
     /**
-     * 发送同步请求
+     * 发送批量同步请求
      */
-    protected function sendSyncRequest(SyncLog $syncLog, array $remoteConfig)
+    protected function sendBatchSyncRequest(array $batchData, array $remoteConfig)
     {
         return Http::timeout($remoteConfig['timeout'])
             ->withHeaders([
@@ -441,14 +551,62 @@ class SyncService
                 'Content-Type' => 'application/json',
                 'X-Sync-Source-Node' => config('sync.node'),
             ])
-            ->post($remoteConfig['url'] . '/api/sync/receive', [
-                'model_type' => $syncLog->model_type,
-                'model_id' => $syncLog->model_id,
-                'action' => $syncLog->action,
-                'payload' => $syncLog->payload,
-                'source_node' => $syncLog->source_node,
-                'timestamp' => $syncLog->created_at->toIso8601String(),
+            ->post($remoteConfig['url'] . '/api/sync/receive-batch', [
+                'batch' => $batchData,
+                'source_node' => config('sync.node'),
+                'timestamp' => now()->toIso8601String(),
             ]);
+    }
+
+    /**
+     * 处理批量同步结果
+     */
+    protected function handleBatchSyncResult(
+        \Illuminate\Support\Collection $syncLogs,
+        array $result,
+        string $targetNode
+    ): array {
+        $successCount = 0;
+        $failedCount = 0;
+        $errors = [];
+
+        // 创建 sync_log_id 到 syncLog 的映射
+        $syncLogMap = $syncLogs->keyBy('id');
+
+        // 处理返回结果
+        if (isset($result['results']) && is_array($result['results'])) {
+            foreach ($result['results'] as $itemResult) {
+                $syncLogId = $itemResult['sync_log_id'] ?? null;
+                $syncLog = $syncLogId ? $syncLogMap->get($syncLogId) : null;
+
+                if ($itemResult['success'] ?? false) {
+                    $successCount++;
+                    if ($syncLog) {
+                        $this->handleSuccessfulSync($syncLog);
+                    }
+                } else {
+                    $failedCount++;
+                    $errorMsg = $itemResult['error'] ?? '未知错误';
+                    $errors[] = $errorMsg;
+                    
+                    if ($syncLog) {
+                        $this->handleSyncFailure($syncLog, new \Exception($errorMsg));
+                    }
+                }
+            }
+        } else {
+            // 如果没有详细结果，假设全部成功
+            $successCount = $syncLogs->count();
+            $syncLogs->each(function ($syncLog) {
+                $this->handleSuccessfulSync($syncLog);
+            });
+        }
+
+        return [
+            'success' => $successCount,
+            'failed' => $failedCount,
+            'errors' => $errors,
+        ];
     }
 
     /**

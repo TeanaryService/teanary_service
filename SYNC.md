@@ -42,15 +42,16 @@
    - 记录每个模型的最后同步状态
    - 通过哈希值检测数据变更，避免重复同步
 
-5. **SyncDataJob** (`app/Jobs/SyncDataJob.php`)
+5. **SyncBatchDataJob** (`app/Jobs/SyncBatchDataJob.php`)
    - 异步队列任务
-   - 执行实际的同步操作
+   - 执行批量同步操作
    - 支持自动重试
+   - 将多条记录打包成一个请求，大幅提升效率
 
 6. **SyncController** (`app/Http/Controllers/Api/SyncController.php`)
-   - 接收来自远程节点的同步请求
+   - 接收来自远程节点的批量同步请求
    - API Key 验证
-   - 处理同步数据
+   - 处理批量同步数据
    - 提供文件下载端点（用于同步媒体文件）
 
 ---
@@ -223,27 +224,31 @@ $product = \App\Models\Product::create([
    - 检查数据是否真的变更（通过哈希值）
    - 为每个目标节点创建一条 `SyncLog` 记录
 
-### 同步执行
+### 批量同步执行
 
-1. 定时任务每分钟执行 `sync:pending` 命令
-2. 命令获取所有待同步的记录，并分发到队列
-3. `SyncDataJob` 执行实际的同步操作：
-   - 发送 HTTP POST 请求到远程节点的 `/api/sync/receive` 端点
+1. 定时任务每分钟执行 `app:sync-pending` 命令
+2. 命令获取所有待同步的记录，按目标节点分组
+3. `SyncBatchDataJob` 执行批量同步操作：
+   - 将多条记录打包成一个请求（默认每批50条）
+   - 发送 HTTP POST 请求到远程节点的 `/api/sync/receive-batch` 端点
    - 包含 API Key 认证
-   - 传递模型数据和操作类型
+   - 传递批量模型数据和操作类型
+   - 大幅减少HTTP请求次数，提升同步效率
 
-### 接收同步数据
+### 接收批量同步数据
 
-1. 远程节点接收到同步请求后，`SyncController::receive()` 方法：
+1. 远程节点接收到批量同步请求后，`SyncController::receiveBatch()` 方法：
    - 验证 API Key
-   - 验证请求数据
-   - 调用 `SyncService::receiveSync()` 处理数据
+   - 验证批量请求数据（最多100条）
+   - 调用 `SyncService::receiveBatchSync()` 处理批量数据
 
-2. `SyncService::receiveSync()` 方法：
-   - 检查时间戳，确保以最新为准
+2. `SyncService::receiveBatchSync()` 方法：
+   - 按模型类型分组处理，减少同步监听开关次数
+   - 对每条记录检查时间戳，确保以最新为准
    - 临时禁用同步监听（避免循环同步）
-   - 执行创建/更新/删除操作
+   - 批量执行创建/更新/删除操作
    - 重新启用同步监听
+   - 返回每条记录的处理结果
 
 ### 冲突解决
 
@@ -257,17 +262,17 @@ $product = \App\Models\Product::create([
 ### 手动触发同步
 
 ```bash
-# 同步所有待处理的数据（同步执行）
-php artisan sync:pending
+# 批量同步所有待处理的数据（同步执行）
+php artisan app:sync-pending
 
-# 同步所有待处理的数据（使用队列，推荐）
+# 批量同步所有待处理的数据（使用队列，推荐）
 php artisan app:sync-pending --queue
 
-# 限制同步数量
-php artisan app:sync-pending --limit=50 --queue
+# 限制同步数量，配置每批大小
+php artisan app:sync-pending --limit=100 --queue --batch-size=50
 
-# 重试失败的同步任务
-php artisan app:sync-retry-failed --queue
+# 重试失败的同步任务（批量）
+php artisan app:sync-retry-failed --queue --batch-size=50
 ```
 
 ### 检查同步状态
