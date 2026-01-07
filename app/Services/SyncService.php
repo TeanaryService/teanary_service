@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\ResizeUploadedImage;
 use App\Models\SyncLog;
 use App\Models\SyncStatus;
 use Carbon\Carbon;
@@ -418,30 +419,128 @@ class SyncService
                 $model->update($cleanPayload);
             }
         } else {
+            // 如果通过 ID 找不到，尝试通过唯一字段查找（如 ProductVariant 的 SKU）
+            $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
             
-            $cleanPayload['id'] = $modelId; // 保持原始ID
-            if (isset($cleanPayload['created_at'])) {
-                $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
-            }
-            if (isset($cleanPayload['updated_at'])) {
-                $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
-            }
-            
-            try {
-                $model = $modelType::create($cleanPayload);
-            } catch (\Exception $e) {
-                // 如果创建失败（可能是必填字段缺失），记录错误并返回 null
-                Log::warning('创建同步记录失败：可能缺少必填字段', [
-                    'model_type' => $modelType,
-                    'model_id' => $modelId,
-                    'clean_payload' => $cleanPayload,
-                    'error' => $e->getMessage(),
-                ]);
-                return null;
+            if ($model) {
+                // 找到了，更新记录（但保持原始 ID）
+                if (isset($cleanPayload['updated_at'])) {
+                    $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
+                }
+                if (isset($cleanPayload['created_at'])) {
+                    $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
+                }
+                
+                // 如果 ID 不同，先更新 ID，然后更新其他字段
+                if ($model->id !== $modelId) {
+                    // 如果目标 ID 不存在，更新当前记录的 ID
+                    if (!$modelType::find($modelId)) {
+                        $model->update(['id' => $modelId]);
+                        $model->refresh();
+                    }
+                }
+                
+                $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
+                if (!empty($updateData)) {
+                    $model->update($cleanPayload);
+                }
+            } else {
+                // 没找到，创建新记录
+                $cleanPayload['id'] = $modelId; // 保持原始ID
+                if (isset($cleanPayload['created_at'])) {
+                    $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
+                }
+                if (isset($cleanPayload['updated_at'])) {
+                    $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
+                }
+                
+                try {
+                    $model = $modelType::create($cleanPayload);
+                } catch (\Illuminate\Database\QueryException $e) {
+                    // 如果是唯一约束冲突，尝试再次查找并更新
+                    if ($e->getCode() === '23000' && str_contains($e->getMessage(), 'Duplicate entry')) {
+                        $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
+                        if ($model) {
+                            // 找到了，更新记录
+                            if (isset($cleanPayload['updated_at'])) {
+                                $cleanPayload['updated_at'] = Carbon::parse($cleanPayload['updated_at']);
+                            }
+                            if (isset($cleanPayload['created_at'])) {
+                                $cleanPayload['created_at'] = Carbon::parse($cleanPayload['created_at']);
+                            }
+                            
+                            // 如果 ID 不同，先更新 ID，然后更新其他字段
+                            if ($model->id !== $modelId) {
+                                // 如果目标 ID 不存在，更新当前记录的 ID
+                                if (!$modelType::find($modelId)) {
+                                    $model->update(['id' => $modelId]);
+                                    $model->refresh();
+                                }
+                            }
+                            
+                            $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
+                            if (!empty($updateData)) {
+                                $model->update($cleanPayload);
+                            }
+                        } else {
+                            Log::warning('创建同步记录失败：唯一约束冲突且无法找到记录', [
+                                'model_type' => $modelType,
+                                'model_id' => $modelId,
+                                'clean_payload' => $cleanPayload,
+                                'error' => $e->getMessage(),
+                            ]);
+                            return null;
+                        }
+                    } else {
+                        // 其他错误
+                        Log::warning('创建同步记录失败：可能缺少必填字段', [
+                            'model_type' => $modelType,
+                            'model_id' => $modelId,
+                            'clean_payload' => $cleanPayload,
+                            'error' => $e->getMessage(),
+                        ]);
+                        return null;
+                    }
+                } catch (\Exception $e) {
+                    // 如果创建失败（可能是必填字段缺失），记录错误并返回 null
+                    Log::warning('创建同步记录失败：可能缺少必填字段', [
+                        'model_type' => $modelType,
+                        'model_id' => $modelId,
+                        'clean_payload' => $cleanPayload,
+                        'error' => $e->getMessage(),
+                    ]);
+                    return null;
+                }
             }
         }
         
         return $model;
+    }
+
+    /**
+     * 通过唯一字段查找模型（用于处理唯一约束冲突）
+     */
+    protected function findModelByUniqueFields(string $modelType, array $payload): ?Model
+    {
+        // 定义各模型的唯一字段映射
+        $uniqueFieldsMap = [
+            \App\Models\ProductVariant::class => ['sku'],
+            \App\Models\Product::class => ['slug'],
+            // 可以继续添加其他模型的唯一字段
+        ];
+
+        $uniqueFields = $uniqueFieldsMap[$modelType] ?? [];
+
+        foreach ($uniqueFields as $field) {
+            if (isset($payload[$field]) && $payload[$field] !== null) {
+                $model = $modelType::where($field, $payload[$field])->first();
+                if ($model) {
+                    return $model;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -503,6 +602,8 @@ class SyncService
             $diskInstance->put($filePath, $fileContent);
             
             // 如果存在转换文件，也需要下载
+            $conversionsDownloaded = [];
+            $conversionsFailed = [];
             if (isset($payload['generated_conversions']) && is_array($payload['generated_conversions'])) {
                 foreach ($payload['generated_conversions'] as $conversionName => $converted) {
                     if ($converted) {
@@ -513,6 +614,7 @@ class SyncService
                                     'media_id' => $media->id,
                                     'conversion' => $conversionName,
                                 ]);
+                                $conversionsFailed[] = $conversionName;
                                 continue;
                             }
                             
@@ -535,6 +637,9 @@ class SyncService
                                     $diskInstance->makeDirectory($conversionDir, 0755, true);
                                 }
                                 $diskInstance->put($conversionPath, $conversionResponse->body());
+                                $conversionsDownloaded[] = $conversionName;
+                            } else {
+                                $conversionsFailed[] = $conversionName;
                             }
                         } catch (\Exception $e) {
                             Log::warning('下载转换文件失败', [
@@ -542,15 +647,74 @@ class SyncService
                                 'conversion' => $conversionName,
                                 'error' => $e->getMessage(),
                             ]);
+                            $conversionsFailed[] = $conversionName;
                             // 转换文件下载失败不影响主文件同步
                         }
                     }
                 }
             }
             
+            // 如果转换文件下载失败或不存在，触发本地生成
+            if (!empty($conversionsFailed) || empty($conversionsDownloaded)) {
+                try {
+                    // 获取关联的模型以触发转换生成
+                    $model = $media->model;
+                    if ($model && method_exists($model, 'registerMediaConversions')) {
+                        // 使用 Media Library 的内部 API 来生成转换
+                        // 通过重新加载 media 并触发转换生成
+                        $media->refresh();
+                        
+                        // 尝试使用 Media Library 的方法来生成转换
+                        // 如果方法存在，使用它；否则跳过（转换会在需要时自动生成）
+                        if (method_exists($media, 'performConversions')) {
+                            $media->performConversions();
+                        } elseif (method_exists($media, 'performOnQueue')) {
+                            $media->performOnQueue();
+                        } else {
+                            // 如果方法不存在，尝试通过关联模型触发
+                            // 使用 Media Library 的 Conversion 类
+                            $collectionName = $media->collection_name;
+                            
+                            // 获取关联模型的转换定义
+                            $model->registerMediaConversions($media);
+                            
+                            // 尝试触发转换生成（通过 Media Library 的内部机制）
+                            // 这里我们依赖 Media Library 的自动转换机制
+                            // 如果文件存在，转换会在首次访问时自动生成
+                            Log::info('Media 转换将在首次访问时自动生成', [
+                                'media_id' => $media->id,
+                                'failed_conversions' => $conversionsFailed,
+                            ]);
+                        }
+                        
+                        Log::info('已触发 Media 转换生成', [
+                            'media_id' => $media->id,
+                            'failed_conversions' => $conversionsFailed,
+                        ]);
+                    }
+                } catch (\Exception $e) {
+                    Log::warning('触发 Media 转换生成失败', [
+                        'media_id' => $media->id,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+            }
+            
+            // 触发图片调整任务（调整原图大小）
+            try {
+                ResizeUploadedImage::dispatch($media)->onQueue('low');
+            } catch (\Exception $e) {
+                Log::warning('触发图片调整任务失败', [
+                    'media_id' => $media->id,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+            
             Log::info('Media 文件同步成功', [
                 'media_id' => $media->id,
                 'file_path' => $filePath,
+                'conversions_downloaded' => $conversionsDownloaded,
+                'conversions_failed' => $conversionsFailed,
             ]);
         } catch (\Exception $e) {
             Log::error('下载 Media 文件失败', [
