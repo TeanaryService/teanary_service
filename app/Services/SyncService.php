@@ -221,11 +221,17 @@ class SyncService
         $payload = $model->toArray();
         
         // 处理时间戳
-        if (isset($payload['created_at'])) {
-            $payload['created_at'] = $model->created_at->toIso8601String();
+        if (isset($payload['created_at']) && $model->created_at) {
+            // 如果已经是字符串，直接使用；如果是 Carbon 实例，转换为 ISO8601 格式
+            $payload['created_at'] = is_string($model->created_at) 
+                ? $model->created_at 
+                : $model->created_at->toIso8601String();
         }
-        if (isset($payload['updated_at'])) {
-            $payload['updated_at'] = $model->updated_at->toIso8601String();
+        if (isset($payload['updated_at']) && $model->updated_at) {
+            // 如果已经是字符串，直接使用；如果是 Carbon 实例，转换为 ISO8601 格式
+            $payload['updated_at'] = is_string($model->updated_at) 
+                ? $model->updated_at 
+                : $model->updated_at->toIso8601String();
         }
 
         // 如果是 Media 模型，添加文件 URL 和下载信息
