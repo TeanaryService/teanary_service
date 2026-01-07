@@ -208,7 +208,7 @@ $product = \App\Models\Product::create([
 
 // 手动触发同步
 // 退出 tinker 后执行：
-// php artisan sync:pending --queue
+// php artisan app:sync-pending --queue
 ```
 
 ---
@@ -261,13 +261,13 @@ $product = \App\Models\Product::create([
 php artisan sync:pending
 
 # 同步所有待处理的数据（使用队列，推荐）
-php artisan sync:pending --queue
+php artisan app:sync-pending --queue
 
 # 限制同步数量
-php artisan sync:pending --limit=50 --queue
+php artisan app:sync-pending --limit=50 --queue
 
 # 重试失败的同步任务
-php artisan sync:retry-failed --queue
+php artisan app:sync-retry-failed --queue
 ```
 
 ### 检查同步状态
@@ -415,13 +415,13 @@ $media->getUrl(); // 应该返回可访问的 URL
 2. 检查 API Key 是否正确
 3. 检查远程节点 URL 是否正确
 4. 查看 `sync_logs` 表中的 `error_message` 字段
-5. 使用 `php artisan sync:retry-failed --queue` 命令重试
+5. 使用 `php artisan app:sync-retry-failed --queue` 命令重试
 
 ### 数据不一致
 
 1. 检查时间戳是否正确
 2. 检查是否有手动修改数据库的情况
-3. 使用 `php artisan sync:pending --queue` 命令手动触发同步
+3. 使用 `php artisan app:sync-pending --queue` 命令手动触发同步
 
 ### 文件同步失败
 
@@ -445,7 +445,7 @@ php artisan tinker
 ```
 
 **Q: 如何重试失败的同步？**  
-A: `php artisan sync:retry-failed --queue`
+A: `php artisan app:sync-retry-failed --queue`
 
 **Q: 不需要同步的模型怎么办？**  
 A: 不添加 `Syncable` trait，或从 `config/sync.php` 的 `sync_models` 数组中移除。

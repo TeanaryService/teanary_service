@@ -13,7 +13,7 @@ class SyncPendingData extends Command
      *
      * @var string
      */
-    protected $signature = 'sync:pending 
+    protected $signature = 'app:sync-pending 
                             {--limit=100 : 每次处理的记录数}
                             {--queue : 是否使用队列}';
 

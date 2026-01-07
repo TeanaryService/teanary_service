@@ -15,16 +15,16 @@ Schedule::command('app:clean-orphans')
 Schedule::command('app:sitemap')
     ->daily();
 
-Schedule::command('carts:clear-empty')
+Schedule::command('app:clear-carts-empty')
     ->daily();
 
 // 数据同步任务
-Schedule::command('sync:pending --queue')
+Schedule::command('app:sync-pending --queue')
     ->everyMinute()
     ->withoutOverlapping()
     ->runInBackground();
 
-Schedule::command('sync:retry-failed --queue')
+Schedule::command('app:sync-retry-failed --queue')
     ->everyFiveMinutes()
     ->withoutOverlapping()
     ->runInBackground();

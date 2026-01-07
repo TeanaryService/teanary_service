@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 class RefreshScoutIndexes extends Command
 {
-    protected $signature = 'scout:refresh-all';
+    protected $signature = 'app:refresh-scout-all';
 
     protected $description = 'Flush and re-import all Scout indexes based on config';
 

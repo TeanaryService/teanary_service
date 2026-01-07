@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class ClearEmptyCarts extends Command
 {
-    protected $signature = 'carts:clear-empty';
+    protected $signature = 'app:clear-carts-empty';
 
     protected $description = '清理没有商品的购物车';
 

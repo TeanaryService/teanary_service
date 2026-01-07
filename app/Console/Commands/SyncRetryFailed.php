@@ -13,7 +13,7 @@ class SyncRetryFailed extends Command
      *
      * @var string
      */
-    protected $signature = 'sync:retry-failed 
+    protected $signature = 'app:sync-retry-failed 
                             {--limit=50 : 每次重试的记录数}
                             {--queue : 是否使用队列}';
 
