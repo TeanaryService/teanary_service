@@ -509,11 +509,23 @@ class SyncService
 
         try {
             // 从源节点下载文件
+            // 添加 User-Agent 避免被 Nginx 拦截
             $response = Http::timeout(300) // 5分钟超时，用于大文件
+                ->withHeaders([
+                    'User-Agent' => 'Teanary-Sync-Client/1.0',
+                    'Accept' => '*/*',
+                ])
                 ->get($payload['file_download_url']);
 
             if (!$response->successful()) {
-                throw new \Exception("下载文件失败: HTTP " . $response->status());
+                $errorBody = $response->body();
+                Log::error('下载 Media 文件失败', [
+                    'media_id' => $media->id,
+                    'url' => $payload['file_download_url'],
+                    'status' => $response->status(),
+                    'response' => $errorBody,
+                ]);
+                throw new \Exception("下载文件失败: HTTP " . $response->status() . ($errorBody ? " - {$errorBody}" : ''));
             }
 
             // 获取文件内容
@@ -545,7 +557,12 @@ class SyncService
                             $token = parse_url($payload['file_download_url'], PHP_URL_QUERY);
                             $conversionUrl = $baseUrl . '/api/sync/download-file/' . $media->id . '/conversion/' . $conversionName . '?' . $token;
                             
-                            $conversionResponse = Http::timeout(300)->get($conversionUrl);
+                            $conversionResponse = Http::timeout(300)
+                                ->withHeaders([
+                                    'User-Agent' => 'Teanary-Sync-Client/1.0',
+                                    'Accept' => '*/*',
+                                ])
+                                ->get($conversionUrl);
                             if ($conversionResponse->successful()) {
                                 $conversionPath = $media->getPath($conversionName);
                                 $conversionDir = dirname($conversionPath);
