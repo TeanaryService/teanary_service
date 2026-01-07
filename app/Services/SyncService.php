@@ -6,6 +6,7 @@ use App\Models\SyncLog;
 use App\Models\SyncStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -167,6 +168,9 @@ class SyncService
 
             // 重新启用同步监听
             $this->enableSyncForModel($modelType);
+
+            // 同步成功后清除全部缓存
+            Cache::flush();
 
             return true;
         } catch (\Exception $e) {

@@ -13,11 +13,15 @@ use App\Traits\HasTimestampsColumn;
 use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Cache;
 
 class AttributeResource extends Resource
 {
@@ -134,6 +138,7 @@ class AttributeResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     ...static::getBulkActions(),
                     ...static::getTranslationStatusBulkActions(),
+                    static::getIsFilterableBulkAction(),
                 ]),
             ]));
     }
@@ -153,5 +158,41 @@ class AttributeResource extends Resource
             'create' => Pages\CreateAttribute::route('/create'),
             'edit' => Pages\EditAttribute::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * 获取前台是否可见的批量操作
+     */
+    public static function getIsFilterableBulkAction(): BulkAction
+    {
+        return BulkAction::make('set_is_filterable')
+            ->label('批量修改前台是否可见')
+            ->icon('heroicon-o-eye')
+            ->form([
+                Toggle::make('is_filterable')
+                    ->label('前台是否可见')
+                    ->default(true)
+                    ->required(),
+            ])
+            ->action(function ($records, array $data) {
+                $isFilterable = (bool) $data['is_filterable'];
+                $count = 0;
+
+                foreach ($records as $record) {
+                    $record->is_filterable = $isFilterable;
+                    $record->save();
+                    $count++;
+                }
+
+                // 清除属性缓存
+                Cache::forget('attributes.with.translations');
+
+                Notification::make()
+                    ->title("已更新 {$count} 条记录的前台可见状态")
+                    ->success()
+                    ->send();
+            })
+            ->deselectRecordsAfterCompletion()
+            ->requiresConfirmation();
     }
 }
