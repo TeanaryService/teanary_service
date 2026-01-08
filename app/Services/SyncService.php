@@ -380,6 +380,11 @@ class SyncService
      */
     protected function disableSyncForModel(string $modelType): void
     {
+        // 检查类是否存在
+        if (!class_exists($modelType)) {
+            return;
+        }
+        
         // 使用静态属性标记，在 Trait 或 Observer 中检查
         if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
             \App\Observers\MediaObserver::$syncDisabled = true;
@@ -393,6 +398,11 @@ class SyncService
      */
     protected function enableSyncForModel(string $modelType): void
     {
+        // 检查类是否存在
+        if (!class_exists($modelType)) {
+            return;
+        }
+        
         if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
             \App\Observers\MediaObserver::$syncDisabled = false;
         } else {
@@ -534,6 +544,14 @@ class SyncService
         if (empty($syncLogs)) {
             return;
         }
+
+        // 确保 payload 正确序列化（SyncLog 的 payload 是 array cast）
+        foreach ($syncLogs as &$log) {
+            if (isset($log['payload']) && is_array($log['payload'])) {
+                $log['payload'] = json_encode($log['payload'], JSON_UNESCAPED_UNICODE);
+            }
+        }
+        unset($log);
 
         $batchSize = config('sync.batch_size', 100);
         foreach (array_chunk($syncLogs, $batchSize) as $chunk) {
