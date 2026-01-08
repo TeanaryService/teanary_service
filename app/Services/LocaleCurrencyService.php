@@ -68,7 +68,7 @@ class LocaleCurrencyService
      */
     public function getRate(string $code): float
     {
-        $currency = $this->getCurrencyByCode($code);
+        $currency = $this->getCurrencies()->firstWhere('code', $code);
 
         return $currency ? $currency->exchange_rate : 1.0;
     }

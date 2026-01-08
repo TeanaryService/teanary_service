@@ -7,18 +7,31 @@ use Illuminate\Http\Request;
 
 class LanguageCurrencySwitcherController extends Controller
 {
+    public function __construct(
+        protected LocaleCurrencyService $localeCurrencyService
+    ) {
+    }
+
     public function update(Request $request)
     {
-        $service = new LocaleCurrencyService;
-
         if ($request->filled('lang')) {
-            $language = $service->getLanguageByCode($request->input('lang'));
-            session(['lang' => $language->code]);
+            $language = $this->localeCurrencyService->getLanguageByCode($request->input('lang'));
+            if ($language) {
+                $request->session()->put('lang', $language->code);
+            } else {
+                // 如果找不到语言，使用默认语言
+                $request->session()->put('lang', $this->localeCurrencyService->getDefaultLanguageCode());
+            }
         }
 
         if ($request->filled('currency')) {
-            $currency = $service->getCurrencyByCode($request->input('currency'));
-            session(['currency' => $currency->code]);
+            $currency = $this->localeCurrencyService->getCurrencyByCode($request->input('currency'));
+            if ($currency) {
+                $request->session()->put('currency', $currency->code);
+            } else {
+                // 如果找不到货币，使用默认货币
+                $request->session()->put('currency', $this->localeCurrencyService->getDefaultCurrencyCode());
+            }
         }
 
         // 简单刷新上一个页面

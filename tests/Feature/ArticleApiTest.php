@@ -30,10 +30,17 @@ class ArticleApiTest extends TestCase
      */
     public function test_can_create_article()
     {
+        $token = \Illuminate\Support\Str::random(60);
+        $user = \App\Models\Manager::factory()->create([
+            'token' => $token,
+        ]);
         $language = Language::factory()->create(['code' => 'en']);
 
-        $response = $this->postJson('/api/articles/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$token,
+        ])->postJson('/api/articles/add', [
             'slug' => 'test-article',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
                     'language_id' => $language->id,

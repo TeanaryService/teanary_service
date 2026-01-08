@@ -18,8 +18,8 @@ class PromotionDiscountTypeEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'promotion.discount_type.fixed' => '固定金额',
-                    'promotion.discount_type.percentage' => '百分比',
+                    'app.promotion.discount_type.fixed' => '固定金额',
+                    'app.promotion.discount_type.percentage' => '百分比',
                 ];
 
                 return $map[$key] ?? $key;
@@ -53,8 +53,8 @@ class PromotionDiscountTypeEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'promotion.discount_type.fixed' => '固定金额',
-                    'promotion.discount_type.percentage' => '百分比',
+                    'app.promotion.discount_type.fixed' => '固定金额',
+                    'app.promotion.discount_type.percentage' => '百分比',
                 ];
 
                 return $map[$key] ?? $key;

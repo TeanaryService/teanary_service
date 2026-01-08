@@ -18,8 +18,8 @@ class PromotionTypeEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'promotion.type.coupon' => '优惠券',
-                    'promotion.type.automatic' => '自动应用',
+                    'app.promotion.type.coupon' => '优惠券',
+                    'app.promotion.type.automatic' => '自动应用',
                 ];
 
                 return $map[$key] ?? $key;
@@ -53,8 +53,8 @@ class PromotionTypeEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'promotion.type.coupon' => '优惠券',
-                    'promotion.type.automatic' => '自动应用',
+                    'app.promotion.type.coupon' => '优惠券',
+                    'app.promotion.type.automatic' => '自动应用',
                 ];
 
                 return $map[$key] ?? $key;

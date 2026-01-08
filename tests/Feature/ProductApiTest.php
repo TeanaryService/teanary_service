@@ -17,18 +17,33 @@ class ProductApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $manager;
+    protected $token;
+    protected $language;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->token = \Illuminate\Support\Str::random(60);
+        $this->manager = \App\Models\Manager::factory()->create([
+            'token' => $this->token,
+        ]);
+        $this->language = Language::factory()->create(['code' => 'zh_CN']);
+    }
+
     /**
      * 测试创建商品API（基础功能）
      */
     public function test_can_create_product_with_translations()
     {
-        $language = Language::factory()->create(['code' => 'zh_CN']);
-
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                     'short_description' => '简短描述',
                     'description' => '详细描述',
@@ -53,13 +68,14 @@ class ProductApiTest extends TestCase
      */
     public function test_can_create_product_with_new_category()
     {
-        $language = Language::factory()->create(['code' => 'zh_CN']);
-
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product-with-category',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                 ],
             ],
@@ -68,7 +84,7 @@ class ProductApiTest extends TestCase
                     'slug' => 'new-category',
                     'translations' => [
                         [
-                            'language_id' => $language->id,
+                            'language_id' => $this->language->id,
                             'name' => '新分类',
                             'description' => '分类描述',
                         ],
@@ -96,14 +112,16 @@ class ProductApiTest extends TestCase
      */
     public function test_can_create_product_with_existing_category()
     {
-        $language = Language::factory()->create(['code' => 'zh_CN']);
         $category = Category::factory()->create(['slug' => 'existing-category']);
 
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product-existing-category',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                 ],
             ],
@@ -112,7 +130,7 @@ class ProductApiTest extends TestCase
                     'slug' => 'existing-category',
                     'translations' => [
                         [
-                            'language_id' => $language->id,
+                            'language_id' => $this->language->id,
                             'name' => '已存在分类',
                         ],
                     ],
@@ -132,14 +150,16 @@ class ProductApiTest extends TestCase
      */
     public function test_can_add_category_translations()
     {
-        $zhLanguage = Language::factory()->create(['code' => 'zh_CN']);
         $enLanguage = Language::factory()->create(['code' => 'en']);
 
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product-multi-lang-category',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $zhLanguage->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                 ],
             ],
@@ -148,7 +168,7 @@ class ProductApiTest extends TestCase
                     'slug' => 'multi-lang-category',
                     'translations' => [
                         [
-                            'language_id' => $zhLanguage->id,
+                            'language_id' => $this->language->id,
                             'name' => '中文分类',
                         ],
                         [
@@ -165,7 +185,7 @@ class ProductApiTest extends TestCase
         $category = Category::where('slug', 'multi-lang-category')->first();
         $this->assertDatabaseHas('category_translations', [
             'category_id' => $category->id,
-            'language_id' => $zhLanguage->id,
+            'language_id' => $this->language->id,
             'name' => '中文分类',
         ]);
         $this->assertDatabaseHas('category_translations', [
@@ -180,13 +200,14 @@ class ProductApiTest extends TestCase
      */
     public function test_can_create_product_with_variants()
     {
-        $language = Language::factory()->create(['code' => 'zh_CN']);
-
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product-with-variants',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                 ],
             ],
@@ -232,16 +253,30 @@ class ProductApiTest extends TestCase
      */
     public function test_can_create_product_with_variants_and_specifications()
     {
-        $language = Language::factory()->create(['code' => 'zh_CN']);
         $specification = Specification::factory()->create();
+        $specification->specificationTranslations()->create([
+            'language_id' => $this->language->id,
+            'name' => '颜色',
+        ]);
         $specValue1 = SpecificationValue::factory()->create(['specification_id' => $specification->id]);
+        $specValue1->specificationValueTranslations()->create([
+            'language_id' => $this->language->id,
+            'name' => '红色',
+        ]);
         $specValue2 = SpecificationValue::factory()->create(['specification_id' => $specification->id]);
+        $specValue2->specificationValueTranslations()->create([
+            'language_id' => $this->language->id,
+            'name' => '蓝色',
+        ]);
 
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product-with-specs',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                 ],
             ],
@@ -253,7 +288,9 @@ class ProductApiTest extends TestCase
                     'specification_values' => [
                         [
                             'specification_id' => $specification->id,
+                            'specification_name' => '颜色',
                             'specification_value_id' => $specValue1->id,
+                            'specification_value_name' => '红色',
                         ],
                     ],
                 ],
@@ -264,7 +301,9 @@ class ProductApiTest extends TestCase
                     'specification_values' => [
                         [
                             'specification_id' => $specification->id,
+                            'specification_name' => '颜色',
                             'specification_value_id' => $specValue2->id,
+                            'specification_value_name' => '蓝色',
                         ],
                     ],
                 ],
@@ -287,13 +326,14 @@ class ProductApiTest extends TestCase
     public function test_can_create_product_with_images()
     {
         Storage::fake('public');
-        $language = Language::factory()->create(['code' => 'zh_CN']);
 
         // 最小的有效 1x1 透明 PNG base64
         // 这是一个有效的 PNG 图片数据
         $placeholder = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product-with-images',
             'main_image' => [
                 'image_id' => 'main-img-1',
@@ -308,7 +348,7 @@ class ProductApiTest extends TestCase
             ],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                     'description' => '描述包含图片：{{image:content-img-1}}',
                 ],
@@ -318,7 +358,7 @@ class ProductApiTest extends TestCase
         $response->assertStatus(201);
 
         $product = Product::where('slug', 'test-product-with-images')->first();
-        $this->assertNotNull($product->getFirstMedia('image'));
+        $this->assertNotNull($product->getFirstMedia('images'));
         $this->assertCount(1, $product->getMedia('content-images'));
 
         // 验证图片占位符已被替换
@@ -332,14 +372,16 @@ class ProductApiTest extends TestCase
      */
     public function test_validation_error_duplicate_slug()
     {
-        $language = Language::factory()->create(['code' => 'zh_CN']);
         Product::factory()->create(['slug' => 'existing-slug']);
 
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'existing-slug',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                 ],
             ],
@@ -354,7 +396,9 @@ class ProductApiTest extends TestCase
      */
     public function test_validation_error_missing_translations()
     {
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product',
         ]);
 
@@ -367,15 +411,17 @@ class ProductApiTest extends TestCase
      */
     public function test_validation_error_duplicate_sku()
     {
-        $language = Language::factory()->create(['code' => 'zh_CN']);
         $product = Product::factory()->create();
         ProductVariant::factory()->create(['product_id' => $product->id, 'sku' => 'EXISTING-SKU']);
 
-        $response = $this->postJson('/api/products/add', [
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$this->token,
+        ])->postJson('/api/products/add', [
             'slug' => 'test-product',
+            'main_image' => ['image_id' => 'test-main-image', 'contents' => 'R0lGODlhAQABAIAAAO/v7wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='],
             'translations' => [
                 [
-                    'language_id' => $language->id,
+                    'language_id' => $this->language->id,
                     'name' => '测试商品',
                 ],
             ],

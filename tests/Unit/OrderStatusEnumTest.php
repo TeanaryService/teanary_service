@@ -20,13 +20,13 @@ class OrderStatusEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'order.status.pending' => '待处理',
-                    'order.status.paid' => '已支付',
-                    'order.status.shipped' => '已发货',
-                    'order.status.completed' => '已完成',
-                    'order.status.cancelled' => '已取消',
-                    'order.status.after_sale' => '售后处理中',
-                    'order.status.after_sale_done' => '售后完成',
+                    'orders.status.pending' => '待处理',
+                    'orders.status.paid' => '已支付',
+                    'orders.status.shipped' => '已发货',
+                    'orders.status.completed' => '已完成',
+                    'orders.status.cancelled' => '已取消',
+                    'orders.status.after_sale' => '售后处理中',
+                    'orders.status.after_sale_done' => '售后完成',
                 ];
 
                 return $map[$key] ?? $key;
@@ -78,13 +78,13 @@ class OrderStatusEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'order.status.pending' => '待处理',
-                    'order.status.paid' => '已支付',
-                    'order.status.shipped' => '已发货',
-                    'order.status.completed' => '已完成',
-                    'order.status.cancelled' => '已取消',
-                    'order.status.after_sale' => '售后处理中',
-                    'order.status.after_sale_done' => '售后完成',
+                    'orders.status.pending' => '待处理',
+                    'orders.status.paid' => '已支付',
+                    'orders.status.shipped' => '已发货',
+                    'orders.status.completed' => '已完成',
+                    'orders.status.cancelled' => '已取消',
+                    'orders.status.after_sale' => '售后处理中',
+                    'orders.status.after_sale_done' => '售后完成',
                 ];
 
                 return $map[$key] ?? $key;

@@ -18,8 +18,8 @@ class ProductStatusEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'product.status.active' => '激活',
-                    'product.status.inactive' => '未激活',
+                    'app.product.status.active' => '激活',
+                    'app.product.status.inactive' => '未激活',
                 ];
 
                 return $map[$key] ?? $key;
@@ -61,8 +61,8 @@ class ProductStatusEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'product.status.active' => '激活',
-                    'product.status.inactive' => '未激活',
+                    'app.product.status.active' => '激活',
+                    'app.product.status.inactive' => '未激活',
                 ];
 
                 return $map[$key] ?? $key;

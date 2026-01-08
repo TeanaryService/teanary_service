@@ -18,8 +18,8 @@ class PromotionConditionTypeEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'promotion.condition.order_total_min' => '订单总额达到最低',
-                    'promotion.condition.order_qty_min' => '订单数量达到最低',
+                    'app.promotion.condition.order_total_min' => '订单总额达到最低',
+                    'app.promotion.condition.order_qty_min' => '订单数量达到最低',
                 ];
 
                 return $map[$key] ?? $key;
@@ -53,8 +53,8 @@ class PromotionConditionTypeEnumTest extends TestCase
             public function get($key)
             {
                 $map = [
-                    'promotion.condition.order_total_min' => '订单总额达到最低',
-                    'promotion.condition.order_qty_min' => '订单数量达到最低',
+                    'app.promotion.condition.order_total_min' => '订单总额达到最低',
+                    'app.promotion.condition.order_qty_min' => '订单数量达到最低',
                 ];
 
                 return $map[$key] ?? $key;
