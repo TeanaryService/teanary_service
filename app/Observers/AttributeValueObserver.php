@@ -33,6 +33,22 @@ class AttributeValueObserver
     }
 
     /**
+     * Handle the AttributeValue "deleting" event.
+     * 
+     * 级联删除所有关联数据（替代数据库外键约束）
+     */
+    public function deleting(AttributeValue $attributeValue): void
+    {
+        // 删除属性值翻译
+        $attributeValue->attributeValueTranslations()->each(function ($translation) {
+            $translation->delete();
+        });
+
+        // 删除中间表关联（产品-属性值）
+        $attributeValue->products()->detach();
+    }
+
+    /**
      * Handle the AttributeValue "deleted" event.
      */
     public function deleted(AttributeValue $attributeValue): void

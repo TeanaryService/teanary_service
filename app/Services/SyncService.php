@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+/**
+ * 数据同步服务（已优化：利用雪花ID全局唯一性，移除外键约束）
+ * 
+ * 优化点：
+ * 1. 由于使用雪花ID，ID是全局唯一的，可以直接通过ID查找，无需通过唯一字段查找
+ * 2. 简化了冲突处理逻辑，ID冲突不会发生
+ * 3. 移除了外键约束，外键约束不会失败，可以直接复制整行数据
+ * 4. 可以直接复制整行数据，无需担心ID冲突和外键约束
+ * 5. 批量同步更高效，可以直接批量插入/更新
+ */
 class SyncService
 {
     /**
@@ -98,9 +108,6 @@ class SyncService
                     'sync_log_id' => $syncLog->id, // 用于标识返回结果
                 ];
             })->values()->toArray();
-            
-            // 按依赖关系排序，确保被依赖的模型先同步
-            $batchData = $this->sortByDependencies($batchData);
 
             // 发送批量请求
             $response = $this->sendBatchSyncRequest($batchData, $remoteConfig);
@@ -148,9 +155,6 @@ class SyncService
         if (empty($batchData) || !is_array($batchData)) {
             return $results;
         }
-
-        // 按依赖关系排序，确保被依赖的模型先同步
-        $batchData = $this->sortByDependencies($batchData);
         
         // 按模型类型分组，减少开关同步监听的次数
         $groupedByModelType = [];
@@ -277,31 +281,37 @@ class SyncService
     }
 
     /**
-     * 创建或更新模型
+     * 创建或更新模型（优化版：利用雪花ID全局唯一性）
+     * 
+     * 由于使用雪花ID，ID是全局唯一的，可以直接通过ID查找，简化逻辑
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
         $cleanPayload = $this->cleanPayloadForModel($modelType, $payload);
+        
+        // 直接通过雪花ID查找（全局唯一，无需担心冲突）
         $model = $modelType::find($modelId);
         
         if ($model) {
+            // 模型已存在，直接更新
             return $this->updateExistingModel($model, $cleanPayload);
         }
         
-        $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
-        if ($model) {
-            return $this->updateModelWithIdSync($model, $modelType, $modelId, $cleanPayload);
-        }
-        
+        // 模型不存在，创建新记录（使用原始雪花ID）
         return $this->createNewModel($modelType, $modelId, $cleanPayload);
     }
 
     /**
-     * 通过唯一字段查找模型（用于处理唯一约束冲突）
+     * 通过唯一字段查找模型（用于处理唯一字段冲突）
+     * 
+     * 注意：
+     * - 由于使用雪花ID，ID冲突不会发生
+     * - 由于移除了外键约束，外键约束不会失败
+     * - 唯一字段冲突（如sku、slug）仍可能发生，需要处理
      */
     protected function findModelByUniqueFields(string $modelType, array $payload): ?Model
     {
-        // 定义各模型的唯一字段映射
+        // 定义各模型的唯一字段映射（排除ID，因为ID是全局唯一的）
         $uniqueFieldsMap = [
             \App\Models\ProductVariant::class => ['sku'],
             \App\Models\Product::class => ['slug'],
@@ -663,6 +673,8 @@ class SyncService
 
     /**
      * 判断是否应该跳过同步（基于时间戳）
+     * 
+     * 优化：由于使用雪花ID，可以直接通过ID查找，无需通过唯一字段查找
      */
     protected function shouldSkipSync(array $data): bool
     {
@@ -670,11 +682,13 @@ class SyncService
         $modelId = $data['model_id'];
         $timestamp = $data['timestamp'] ?? now()->toIso8601String();
 
+        // 直接通过雪花ID查找（全局唯一，快速准确）
         $existingModel = $modelType::find($modelId);
         if ($existingModel && $existingModel->updated_at) {
             $remoteTimestamp = Carbon::parse($timestamp);
+            // 如果本地数据更新，忽略远程同步（以最新为准）
             if ($existingModel->updated_at->gt($remoteTimestamp)) {
-                return true; // 本地数据更新，忽略远程同步
+                return true;
             }
         }
 
@@ -816,42 +830,27 @@ class SyncService
         return $model;
     }
 
-    /**
-     * 更新模型并同步ID（用于处理ID不一致的情况）
-     */
-    protected function updateModelWithIdSync(
-        Model $model,
-        string $modelType,
-        int $targetId,
-        array $cleanPayload
-    ): Model {
-        $this->parseTimestampsInPayload($cleanPayload);
-        
-        if ($model->id !== $targetId && !$modelType::find($targetId)) {
-            $model->update(['id' => $targetId]);
-            $model->refresh();
-        }
-        
-        if ($this->hasUpdateData($cleanPayload)) {
-            $model->update($cleanPayload);
-        }
-        
-        return $model;
-    }
 
     /**
-     * 创建新模型
+     * 创建新模型（优化版：利用雪花ID全局唯一性，移除外键约束）
+     * 
+     * 由于使用雪花ID且移除了外键约束：
+     * - ID冲突不会发生（雪花ID全局唯一）
+     * - 外键约束不会失败（已移除外键约束）
+     * - 唯一字段冲突（如sku、slug）仍可能发生，需要处理
      */
     protected function createNewModel(string $modelType, int $modelId, array $cleanPayload): ?Model
     {
+        // 设置雪花ID（全局唯一，不会冲突）
         $cleanPayload['id'] = $modelId;
         $this->parseTimestampsInPayload($cleanPayload);
         
         try {
             return $modelType::create($cleanPayload);
         } catch (\Illuminate\Database\QueryException $e) {
+            // 唯一约束冲突（唯一字段如sku、slug等，非外键约束）
             if ($e->getCode() === '23000' && str_contains($e->getMessage(), 'Duplicate entry')) {
-                return $this->handleCreationConflict($modelType, $modelId, $cleanPayload, $e);
+                return $this->handleUniqueFieldConflict($modelType, $modelId, $cleanPayload, $e);
             }
             
             return $this->logAndReturnNull($modelType, $modelId, $cleanPayload, $e);
@@ -861,18 +860,53 @@ class SyncService
     }
 
     /**
-     * 处理创建冲突（唯一约束冲突）
+     * 处理唯一字段冲突（非ID冲突，非外键约束）
+     * 
+     * 由于使用雪花ID且移除了外键约束：
+     * - ID冲突不会发生（雪花ID全局唯一）
+     * - 外键约束不会失败（已移除外键约束）
+     * - 唯一字段冲突（如sku、slug）仍可能发生，需要处理
+     * 
+     * 如果找到相同唯一字段的记录，更新该记录（保持原始雪花ID）
      */
-    protected function handleCreationConflict(
+    protected function handleUniqueFieldConflict(
         string $modelType,
         int $modelId,
         array $cleanPayload,
         \Exception $e
     ): ?Model {
+        // 尝试通过唯一字段查找现有记录
         $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
         
         if ($model) {
-            return $this->updateModelWithIdSync($model, $modelType, $modelId, $cleanPayload);
+            // 找到相同唯一字段的记录，更新它（保持原始ID）
+            // 注意：如果ID不同，说明是不同节点创建的相同唯一字段的记录
+            // 这种情况下，我们更新现有记录，但保持其原始ID
+            $this->parseTimestampsInPayload($cleanPayload);
+            
+            // 移除ID，避免更新ID（保持原始记录的ID）
+            unset($cleanPayload['id']);
+            
+            if ($this->hasUpdateData($cleanPayload)) {
+                $model->update($cleanPayload);
+            }
+            
+            Log::info('通过唯一字段找到现有记录并更新', [
+                'model_type' => $modelType,
+                'existing_id' => $model->id,
+                'sync_id' => $modelId,
+                'unique_fields' => $this->getUniqueFields($modelType),
+            ]);
+            
+            return $model;
+        }
+        
+        // 如果找不到，可能是ID冲突（理论上不应该发生，但保留处理）
+        // 尝试直接查找ID
+        $existingModel = $modelType::find($modelId);
+        if ($existingModel) {
+            // ID已存在，直接更新
+            return $this->updateExistingModel($existingModel, $cleanPayload);
         }
         
         Log::warning('创建同步记录失败：唯一约束冲突且无法找到记录', [
@@ -883,6 +917,19 @@ class SyncService
         ]);
         
         return null;
+    }
+    
+    /**
+     * 获取模型的唯一字段列表（用于日志）
+     */
+    protected function getUniqueFields(string $modelType): array
+    {
+        $uniqueFieldsMap = [
+            \App\Models\ProductVariant::class => ['sku'],
+            \App\Models\Product::class => ['slug'],
+        ];
+        
+        return $uniqueFieldsMap[$modelType] ?? [];
     }
 
     /**
@@ -1025,187 +1072,4 @@ class SyncService
         }
     }
 
-    /**
-     * 按依赖关系排序批量数据
-     * 确保被依赖的模型先于依赖它的模型同步
-     * 
-     * @param array $batchData 批量数据数组
-     * @return array 排序后的批量数据数组
-     */
-    protected function sortByDependencies(array $batchData): array
-    {
-        // 定义模型的依赖关系
-        // 键：依赖模型，值：被依赖的模型数组
-        $dependencies = [
-            // ProductVariant 依赖 Product
-            \App\Models\ProductVariant::class => [\App\Models\Product::class],
-            
-            // ProductTranslation 依赖 Product 和 Language
-            \App\Models\ProductTranslation::class => [\App\Models\Product::class, \App\Models\Language::class],
-            
-            // ProductReview 依赖 Product, ProductVariant, User
-            \App\Models\ProductReview::class => [
-                \App\Models\Product::class,
-                \App\Models\ProductVariant::class,
-                \App\Models\User::class,
-            ],
-            
-            // OrderItem 依赖 Order, Product, ProductVariant
-            \App\Models\OrderItem::class => [
-                \App\Models\Order::class,
-                \App\Models\Product::class,
-                \App\Models\ProductVariant::class,
-            ],
-            
-            // OrderShipment 依赖 Order
-            \App\Models\OrderShipment::class => [\App\Models\Order::class],
-            
-            // Order 依赖 User, Currency, Address
-            \App\Models\Order::class => [
-                \App\Models\User::class,
-                \App\Models\Currency::class,
-                \App\Models\Address::class,
-            ],
-            
-            // CartItem 依赖 Cart, Product, ProductVariant
-            \App\Models\CartItem::class => [
-                \App\Models\Cart::class,
-                \App\Models\Product::class,
-                \App\Models\ProductVariant::class,
-            ],
-            
-            // Cart 依赖 User
-            \App\Models\Cart::class => [\App\Models\User::class],
-            
-            // Address 依赖 User, Country, Zone
-            \App\Models\Address::class => [
-                \App\Models\User::class,
-                \App\Models\Country::class,
-                \App\Models\Zone::class,
-            ],
-            
-            // Zone 依赖 Country
-            \App\Models\Zone::class => [\App\Models\Country::class],
-            
-            // 翻译模型依赖主模型和 Language
-            \App\Models\CategoryTranslation::class => [\App\Models\Category::class, \App\Models\Language::class],
-            \App\Models\AttributeTranslation::class => [\App\Models\Attribute::class, \App\Models\Language::class],
-            \App\Models\AttributeValueTranslation::class => [\App\Models\AttributeValue::class, \App\Models\Language::class],
-            \App\Models\SpecificationTranslation::class => [\App\Models\Specification::class, \App\Models\Language::class],
-            \App\Models\SpecificationValueTranslation::class => [\App\Models\SpecificationValue::class, \App\Models\Language::class],
-            \App\Models\PromotionTranslation::class => [\App\Models\Promotion::class, \App\Models\Language::class],
-            \App\Models\UserGroupTranslation::class => [\App\Models\UserGroup::class, \App\Models\Language::class],
-            \App\Models\CountryTranslation::class => [\App\Models\Country::class, \App\Models\Language::class],
-            \App\Models\ZoneTranslation::class => [\App\Models\Zone::class, \App\Models\Language::class],
-            
-            // AttributeValue 依赖 Attribute
-            \App\Models\AttributeValue::class => [\App\Models\Attribute::class],
-            
-            // SpecificationValue 依赖 Specification
-            \App\Models\SpecificationValue::class => [\App\Models\Specification::class],
-            
-            // PromotionRule 依赖 Promotion
-            \App\Models\PromotionRule::class => [\App\Models\Promotion::class],
-            
-            // PromotionUserGroup 依赖 Promotion, UserGroup
-            \App\Models\PromotionUserGroup::class => [
-                \App\Models\Promotion::class,
-                \App\Models\UserGroup::class,
-            ],
-            
-            // User 依赖 UserGroup
-            \App\Models\User::class => [\App\Models\UserGroup::class],
-            
-            // ArticleTranslation 依赖 Article
-            \App\Models\ArticleTranslation::class => [\App\Models\Article::class],
-            
-            // Article 依赖 User
-            \App\Models\Article::class => [\App\Models\User::class],
-        ];
-
-        // 计算每个模型的优先级（拓扑排序）
-        $priorities = $this->calculateModelPriorities($dependencies);
-        
-        // 按优先级排序
-        // 对于 created/updated：优先级高的（被依赖的）先处理
-        // 对于 deleted：优先级低的（依赖的）先处理（反向）
-        usort($batchData, function ($a, $b) use ($priorities) {
-            $modelTypeA = $a['model_type'] ?? '';
-            $modelTypeB = $b['model_type'] ?? '';
-            $actionA = $a['action'] ?? 'created';
-            $actionB = $b['action'] ?? 'created';
-            
-            $priorityA = $priorities[$modelTypeA] ?? 999;
-            $priorityB = $priorities[$modelTypeB] ?? 999;
-            
-            // 如果优先级相同，保持原有顺序
-            if ($priorityA === $priorityB) {
-                return 0;
-            }
-            
-            // 删除操作需要反向排序（先删除依赖的，再删除被依赖的）
-            if ($actionA === 'deleted' && $actionB === 'deleted') {
-                return $priorityB <=> $priorityA; // 反向
-            } elseif ($actionA === 'deleted') {
-                return 1; // 删除操作放在后面
-            } elseif ($actionB === 'deleted') {
-                return -1; // 删除操作放在后面
-            }
-            
-            // 创建/更新操作：优先级高的先处理
-            return $priorityA <=> $priorityB;
-        });
-        
-        return $batchData;
-    }
-
-    /**
-     * 计算模型的优先级（拓扑排序）
-     * 被依赖的模型优先级更高（数字更小）
-     * 
-     * @param array $dependencies 依赖关系映射
-     * @return array 模型类型 => 优先级
-     */
-    protected function calculateModelPriorities(array $dependencies): array
-    {
-        $priorities = [];
-        $visited = [];
-        
-        // 递归计算优先级
-        $calculatePriority = function ($modelType) use (&$priorities, &$visited, &$dependencies, &$calculatePriority) {
-            if (isset($visited[$modelType])) {
-                return $priorities[$modelType] ?? 0;
-            }
-            
-            $visited[$modelType] = true;
-            
-            // 如果没有依赖，优先级为0
-            if (!isset($dependencies[$modelType])) {
-                $priorities[$modelType] = 0;
-                return 0;
-            }
-            
-            // 计算所有被依赖模型的最高优先级
-            $maxDependencyPriority = -1;
-            foreach ($dependencies[$modelType] as $dependency) {
-                $depPriority = $calculatePriority($dependency);
-                $maxDependencyPriority = max($maxDependencyPriority, $depPriority);
-            }
-            
-            // 当前模型的优先级 = 被依赖模型的最高优先级 + 1
-            $priorities[$modelType] = $maxDependencyPriority + 1;
-            
-            return $priorities[$modelType];
-        };
-        
-        // 计算所有在依赖关系中的模型的优先级
-        foreach ($dependencies as $modelType => $deps) {
-            $calculatePriority($modelType);
-            foreach ($deps as $dep) {
-                $calculatePriority($dep);
-            }
-        }
-        
-        return $priorities;
-    }
 }

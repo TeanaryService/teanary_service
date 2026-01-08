@@ -32,6 +32,24 @@ class OrderObserver
     }
 
     /**
+     * Handle the Order "deleting" event.
+     * 
+     * 级联删除所有关联数据（替代数据库外键约束）
+     */
+    public function deleting(Order $order): void
+    {
+        // 删除订单项
+        $order->orderItems()->each(function ($item) {
+            $item->delete();
+        });
+
+        // 删除订单发货记录
+        $order->orderShipments()->each(function ($shipment) {
+            $shipment->delete();
+        });
+    }
+
+    /**
      * Handle the Order "deleted" event.
      */
     public function deleted(Order $order): void

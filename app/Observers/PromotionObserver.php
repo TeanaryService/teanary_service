@@ -27,12 +27,26 @@ class PromotionObserver
 
     /**
      * Handle the Promotion "deleting" event.
+     * 
+     * 级联删除所有关联数据（替代数据库外键约束）
      */
     public function deleting(Promotion $promotion): void
     {
+        // 删除促销规则
         $promotion->promotionRules()->each(function ($rule) {
             $rule->delete();
         });
+
+        // 删除促销翻译
+        $promotion->promotionTranslations()->each(function ($translation) {
+            $translation->delete();
+        });
+
+        // 删除中间表关联（促销-用户组）
+        $promotion->userGroups()->detach();
+
+        // 删除中间表关联（促销-产品变体）
+        $promotion->productVariants()->detach();
     }
 
     /**

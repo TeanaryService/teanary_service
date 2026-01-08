@@ -7,9 +7,11 @@
 namespace App\Models;
 
 use App\Enums\TranslationStatusEnum;
+use App\Observers\SpecificationObserver;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection|SpecificationTranslation[] $specificationTranslations
  * @property Collection|SpecificationValue[] $specificationValues
  */
+#[ObservedBy([SpecificationObserver::class])]
 class Specification extends Model
 {
     use HasFactory;

@@ -27,12 +27,16 @@ class ArticleObserver
 
     /**
      * Handle the Article "deleting" event.
+     * 
+     * 级联删除所有关联数据（替代数据库外键约束）
      */
     public function deleting(Article $article): void
     {
-        // 删除正文文件
+        // 删除文章翻译
         $article->articleTranslations()->each(function ($translation) {
+            // 删除正文文件
             $this->deleteEditorUploadsFromHtml($translation->content);
+            $translation->delete();
         });
     }
 

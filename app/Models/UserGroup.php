@@ -7,9 +7,11 @@
 namespace App\Models;
 
 use App\Enums\TranslationStatusEnum;
+use App\Observers\UserGroupObserver;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection|UserGroupTranslation[] $userGroupTranslations
  * @property Collection|User[] $users
  */
+#[ObservedBy([UserGroupObserver::class])]
 class UserGroup extends Model
 {
     use HasFactory;
