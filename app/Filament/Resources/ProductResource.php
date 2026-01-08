@@ -105,7 +105,8 @@ class ProductResource extends Resource
             $translation = $attr->attributeTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($attr->attributeTranslations->first()->name ?? $attr->id);
 
-            return [$attr->id => $name];
+            // 确保ID是字符串类型，以便在Select中正确匹配
+            return [(string) $attr->id => $name];
         })->toArray();
 
         $attributeValueOptions = [];
@@ -114,7 +115,8 @@ class ProductResource extends Resource
             $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
             $translation = $av->attributeValueTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($av->attributeValueTranslations->first()->name ?? $av->id);
-            $attributeValueOptions[$av->attribute_id][$av->id] = $name;
+            // 确保ID是字符串类型，以便在Select中正确匹配
+            $attributeValueOptions[(string) $av->attribute_id][(string) $av->id] = $name;
         }
 
         return [
@@ -125,18 +127,22 @@ class ProductResource extends Resource
                         ->label(__('filament.product.attribute'))
                         ->options($attributeOptions)
                         ->required()
-                        ->reactive(),
+                        ->reactive()
+                        ->live(),
                     Forms\Components\Select::make('attribute_value_id')
                         ->label(__('filament.product.attribute_value'))
                         ->options(function ($get) use ($attributeValueOptions) {
                             $attrId = $get('attribute_id');
+                            // 确保ID是字符串类型，以便正确匹配
+                            $attrId = $attrId ? (string) $attrId : null;
 
                             return $attrId && isset($attributeValueOptions[$attrId])
                                 ? $attributeValueOptions[$attrId]
                                 : [];
                         })
                         ->required()
-                        ->searchable(),
+                        ->searchable()
+                        ->reactive(),
                 ]),
         ];
     }

@@ -77,12 +77,16 @@ class EditProduct extends EditRecord
     {
         // 回填属性值
         $data['attributeValues'] = [];
-        if ($this->record && $this->record->attributeValues) {
-            foreach ($this->record->attributeValues as $av) {
-                $pivot = $av->pivot ?? null;
+        if ($this->record) {
+            // 确保加载 pivot 数据
+            $attributeValues = $this->record->attributeValues()->withPivot('attribute_id')->get();
+            foreach ($attributeValues as $av) {
+                $pivot = $av->pivot;
+                $attributeId = $pivot && isset($pivot->attribute_id) ? $pivot->attribute_id : $av->attribute_id;
                 $data['attributeValues'][] = [
-                    'attribute_id' => $pivot->attribute_id ?? $av->attribute_id,
-                    'attribute_value_id' => $av->id,
+                    // 确保ID是字符串类型，以便在Select中正确匹配
+                    'attribute_id' => (string) $attributeId,
+                    'attribute_value_id' => (string) $av->id,
                 ];
             }
         }
