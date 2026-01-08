@@ -27,6 +27,30 @@ class AddSnowflakeIdTrait extends Command
                 continue;
             }
             
+            // 跳过基础数据模型（多节点应保持一致，不使用雪花ID）
+            $baseDataModels = [
+                'Country.php',
+                'CountryTranslation.php',
+                'Zone.php',
+                'ZoneTranslation.php',
+                'Language.php',
+                'Currency.php',
+                'PromotionUserGroup.php',
+            ];
+            
+            $shouldSkip = false;
+            foreach ($baseDataModels as $modelName) {
+                if (str_ends_with($path, $modelName)) {
+                    $shouldSkip = true;
+                    break;
+                }
+            }
+            
+            if ($shouldSkip) {
+                $skipped++;
+                continue;
+            }
+            
             // 检查是否使用 Syncable
             if (!str_contains($content, 'use Syncable') && !str_contains($content, 'use App\\Traits\\Syncable')) {
                 continue;
