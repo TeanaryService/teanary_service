@@ -40,6 +40,7 @@ return new class extends Migration
         // -----------------------------
         Schema::create('user_groups', function (Blueprint $table) {
             $table->bigInteger('id')->unsigned()->primary();
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 

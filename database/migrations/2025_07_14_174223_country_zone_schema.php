@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('iso_code_3', 3)->nullable();
             $table->boolean('postcode_required')->default(false);
             $table->boolean('active')->default(true);
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->foreignId('country_id')->constrained()->cascadeOnDelete();
             $table->string('code')->nullable();
             $table->boolean('active')->default(true);
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 

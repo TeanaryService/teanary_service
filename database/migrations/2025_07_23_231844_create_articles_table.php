@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigInteger('id')->unsigned()->primary();
             $table->string('slug')->unique(); // 用于 SEO 路径
             $table->boolean('is_published')->default(false);
+            $table->string('translation_status')->default('not_translated');
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->timestamps();
         });

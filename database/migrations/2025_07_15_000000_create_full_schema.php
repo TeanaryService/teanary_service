@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('id')->unsigned()->primary();
             $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->string('slug')->unique();
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
@@ -40,6 +41,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('source_url')->nullable()->comment('商品来源URL（抓取链接）');
             $table->enum('status', ProductStatusEnum::values())->default(ProductStatusEnum::default()->value);
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
@@ -64,6 +66,8 @@ return new class extends Migration
         // -----------------------------
         Schema::create('attributes', function (Blueprint $table) {
             $table->bigInteger('id')->unsigned()->primary();
+            $table->boolean('is_filterable')->default(false)->comment('是否在前台筛选显示');
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
@@ -78,6 +82,7 @@ return new class extends Migration
         Schema::create('attribute_values', function (Blueprint $table) {
             $table->bigInteger('id')->unsigned()->primary();
             $table->bigInteger('attribute_id')->unsigned();
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
@@ -94,6 +99,7 @@ return new class extends Migration
         // -----------------------------
         Schema::create('specifications', function (Blueprint $table) {
             $table->bigInteger('id')->unsigned()->primary();
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
@@ -108,6 +114,7 @@ return new class extends Migration
         Schema::create('specification_values', function (Blueprint $table) {
             $table->bigInteger('id')->unsigned()->primary();
             $table->bigInteger('specification_id')->unsigned();
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
@@ -230,6 +237,7 @@ return new class extends Migration
             $table->dateTime('starts_at')->nullable();
             $table->dateTime('ends_at')->nullable();
             $table->boolean('active')->default(true);
+            $table->string('translation_status')->default('not_translated');
             $table->timestamps();
         });
 
