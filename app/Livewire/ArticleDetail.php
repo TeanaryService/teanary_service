@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class ArticleDetail extends Component
 {
-    public Article $article;
+    public ?Article $article = null;
 
     public function mount($slug)
     {

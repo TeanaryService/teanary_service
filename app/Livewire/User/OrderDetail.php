@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class OrderDetail extends Component
 {
-    public Order $order;
+    public ?Order $order = null;
 
     public function mount(Order $order): void
     {

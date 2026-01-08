@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;

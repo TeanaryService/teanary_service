@@ -31,6 +31,10 @@ class Checkout extends Component
             $order = Order::where('id', $this->orderId)->firstOrFail();
             $order->name = config('app.name').__('app.order_items');
 
+            if (!$order->payment_method instanceof \App\Enums\PaymentMethodEnum) {
+                throw new \RuntimeException('Invalid payment method');
+            }
+
             $redirectUrl = app(PaymentService::class)->createPayment($order->payment_method, $order->toArray());
 
             // 立即跳转到支付页面

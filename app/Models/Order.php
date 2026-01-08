@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $shipping_address_id
  * @property int|null $billing_address_id
  * @property float $total
- * @property string $status
+ * @property OrderStatusEnum $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Address|null $address

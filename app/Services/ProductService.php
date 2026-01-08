@@ -129,7 +129,8 @@ class ProductService
 
         // 如果没有传入languageId，尝试从商品翻译中获取
         if (! $languageId) {
-            $languageId = $variant->product->productTranslations()->first()?->language_id ?? 1;
+            $firstTranslation = $variant->product->productTranslations()->first();
+            $languageId = $firstTranslation ? ($firstTranslation->language_id ?? 1) : 1;
         }
 
         foreach ($specificationValues as $specValue) {

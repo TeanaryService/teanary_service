@@ -218,7 +218,7 @@ class ProductResource extends Resource
                                     ->required($lang->is_default ?? false)
                                     ->default($translation ? $translation->name : ''),
 
-                                reusableRichEditor("translations.{$lang->id}.description", $translation?->description ?? '', __('filament.product.description'), $lang->id),
+                                reusableRichEditor("translations.{$lang->id}.description", $translation ? ($translation->description ?? '') : '', __('filament.product.description'), $lang->id),
 
                                 Forms\Components\Textarea::make("translations.{$lang->id}.short_description")
                                     ->label(__('filament.product.short_description'))

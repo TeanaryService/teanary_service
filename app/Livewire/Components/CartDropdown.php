@@ -25,14 +25,26 @@ class CartDropdown extends Component
         $service = app(PromotionService::class);
         $user = auth()->user();
         $this->cartItems = $cart ? $cart->cartItems()->with(['product.productTranslations', 'productVariant.specificationValues.specificationValueTranslations', 'productVariant.media'])->get()->map(function ($item) use ($service, $user) {
-            $promo = $item->productVariant ? $service->calculateVariantPrice($item->productVariant, $item->qty, $user) : ['final_price' => $item->productVariant->price ?? 0, 'promotion' => null];
-            $item->final_price = $promo['final_price'];
-            $item->promotion = $promo['promotion'];
+            if ($item->productVariant) {
+                $promo = $service->calculateVariantPrice($item->productVariant, $item->qty, $user);
+                $item->final_price = (float) ($promo['final_price'] ?? $item->productVariant->price ?? 0);
+                $item->promotion = $promo['promotion'] ?? null;
+            } else {
+                $item->final_price = 0.0;
+                $item->promotion = null;
+            }
 
             return $item;
         }) : collect();
         $this->cartTotal = $this->cartItems->sum(function ($item) {
-            return $item->qty * ($item->final_price ?? $item->productVariant->price ?? $item->product->productVariants->first()->price ?? 0);
+            $price = $item->final_price ?? 0;
+            if ($price <= 0 && $item->productVariant) {
+                $price = $item->productVariant->price ?? 0;
+            }
+            if ($price <= 0 && $item->product && $item->product->productVariants->isNotEmpty()) {
+                $price = $item->product->productVariants->first()->price ?? 0;
+            }
+            return $item->qty * $price;
         });
     }
 

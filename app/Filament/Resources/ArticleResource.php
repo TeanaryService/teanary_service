@@ -112,7 +112,7 @@ class ArticleResource extends Resource
                                         ->required($lang->is_default ?? false)
                                         ->default($translation ? $translation->summary : ''),
 
-                                    reusableRichEditor("translations.{$lang->id}.content", $translation?->content ?? '', __('filament.article.content'), $lang->id),
+                                    reusableRichEditor("translations.{$lang->id}.content", $translation ? ($translation->content ?? '') : '', __('filament.article.content'), $lang->id),
 
                                 ]);
                         })->toArray()

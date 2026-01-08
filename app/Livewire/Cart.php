@@ -28,11 +28,14 @@ class Cart extends Component
                 'productVariant.specificationValues.specificationValueTranslations',
                 'productVariant.media',
             ])->get()->map(function ($item) use ($promoService, $user) {
-                $promo = $item->productVariant
-                    ? $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user)
-                    : ['final_price' => $item->productVariant->price ?? 0, 'promotion' => null];
-                $item->final_price = $promo['final_price'];
-                $item->promotion = $promo['promotion'];
+                if ($item->productVariant) {
+                    $promo = $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user);
+                    $item->final_price = (float) ($promo['final_price'] ?? $item->productVariant->price ?? 0);
+                    $item->promotion = $promo['promotion'] ?? null;
+                } else {
+                    $item->final_price = 0.0;
+                    $item->promotion = null;
+                }
 
                 return $item;
             })

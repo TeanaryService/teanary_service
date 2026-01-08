@@ -112,7 +112,7 @@ class ProductDetail extends Component
     public function render()
     {
         $variant = $this->variants->where('id', $this->selectedVariantId)->first();
-        $finalPrice = $variant?->price ?? 0;
+        $finalPrice = $variant ? ($variant->price ?? 0) : 0;
 
         return view('livewire.product-detail', [
             'product' => $this->product,

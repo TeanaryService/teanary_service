@@ -49,10 +49,11 @@ class PromotionService
                     if ($priceAfterDiscount < $finalPrice) {
                         $finalPrice = $priceAfterDiscount;
                         $trans = $promotionModel->promotionTranslations->where('language_id', $langId)->first();
+                        $fallbackTrans = $promotionModel->promotionTranslations->first();
                         $appliedPromotion = [
                             'id' => $promotionModel->id,
-                            'name' => $trans?->name ?? $promotionModel->promotionTranslations->first()?->name ?? '',
-                            'description' => $trans?->description ?? $promotionModel->promotionTranslations->first()?->description ?? '',
+                            'name' => ($trans ? ($trans->name ?? '') : '') ?: ($fallbackTrans ? ($fallbackTrans->name ?? '') : ''),
+                            'description' => ($trans ? ($trans->description ?? '') : '') ?: ($fallbackTrans ? ($fallbackTrans->description ?? '') : ''),
                             'discount' => $discount,
                             'final_price' => $finalPrice,
                             'rule' => $rule->toArray(),
@@ -99,10 +100,11 @@ class PromotionService
                     if ($totalAfterDiscount < $finalTotal) {
                         $finalTotal = $totalAfterDiscount;
                         $trans = $promotionModel->promotionTranslations->where('language_id', $langId)->first();
+                        $fallbackTrans = $promotionModel->promotionTranslations->first();
                         $appliedPromotion = [
                             'id' => $promotionModel->id,
-                            'name' => $trans?->name ?? $promotionModel->promotionTranslations->first()?->name ?? '',
-                            'description' => $trans?->description ?? $promotionModel->promotionTranslations->first()?->description ?? '',
+                            'name' => ($trans ? ($trans->name ?? '') : '') ?: ($fallbackTrans ? ($fallbackTrans->name ?? '') : ''),
+                            'description' => ($trans ? ($trans->description ?? '') : '') ?: ($fallbackTrans ? ($fallbackTrans->description ?? '') : ''),
                             'discount' => $discount,
                             'final_total' => $finalTotal,
                             'rule' => $rule->toArray(),
@@ -167,8 +169,8 @@ class PromotionService
 
             return [
                 'id' => $promotion->id,
-                'name' => $trans?->name ?? '',
-                'description' => $trans?->description ?? '',
+                'name' => $trans ? ($trans->name ?? '') : '',
+                'description' => $trans ? ($trans->description ?? '') : '',
                 'type' => $promotion->type->value ?? '',
                 'starts_at' => $promotion->starts_at,
                 'ends_at' => $promotion->ends_at,
