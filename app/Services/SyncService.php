@@ -627,22 +627,28 @@ class SyncService
 
     /**
      * 处理成功同步
+     * 
+     * 优化：对于已删除的记录，直接标记完成，无需查找模型
      */
     protected function handleSuccessfulSync(SyncLog $syncLog): void
     {
         $syncLog->markAsCompleted();
         
-        if ($syncLog->action !== 'deleted') {
-            $model = $syncLog->model_type::find($syncLog->model_id);
-            if ($model) {
-                $syncHash = $this->generateSyncHash($model, $syncLog->action);
-                SyncStatus::updateSyncStatus(
-                    $syncLog->model_type,
-                    $syncLog->model_id,
-                    $syncLog->target_node,
-                    $syncHash
-                );
-            }
+        // 对于删除操作，不需要更新同步状态（记录已不存在）
+        if ($syncLog->action === 'deleted') {
+            return;
+        }
+        
+        // 对于创建/更新操作，更新同步状态
+        $model = $syncLog->model_type::find($syncLog->model_id);
+        if ($model) {
+            $syncHash = $this->generateSyncHash($model, $syncLog->action);
+            SyncStatus::updateSyncStatus(
+                $syncLog->model_type,
+                $syncLog->model_id,
+                $syncLog->target_node,
+                $syncHash
+            );
         }
     }
 
