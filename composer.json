@@ -63,7 +63,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve --host=0.0.0.0 --port=8013\" \"php artisan queue:work --queue=high,scout,sync,low --tries=1\" \"php artisan schedule:run\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve --host=0.0.0.0 --port=8013\" \"php artisan queue:work --queue=high,scout,sync,low --tries=1\" \"php artisan schedule:run  >> /dev/null 2>&1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
         ],
         "format": "./bin/pint",
         "format:test": "./bin/pint --test",
