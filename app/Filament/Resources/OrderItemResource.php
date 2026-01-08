@@ -104,7 +104,8 @@ class OrderItemResource extends Resource
                                     ? $translation->name
                                     : ($specValue->specificationValueTranslations->first()->name ?? '');
                             }
-                            $options[$variant->id] = implode(' / ', array_filter($specNames)) ?: $variant->id;
+                            // 确保ID是字符串类型，以便在Select中正确匹配
+                            $options[(string) $variant->id] = implode(' / ', array_filter($specNames)) ?: $variant->id;
                         }
 
                         return $options;

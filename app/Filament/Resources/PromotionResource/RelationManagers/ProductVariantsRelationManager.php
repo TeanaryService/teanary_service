@@ -34,7 +34,8 @@ class ProductVariantsRelationManager extends RelationManager
             $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->id);
 
-            return [$product->id => $name];
+            // 确保ID是字符串类型，以便在Select中正确匹配
+            return [(string) $product->id => $name];
         })->toArray();
 
         return $form
@@ -67,7 +68,8 @@ class ProductVariantsRelationManager extends RelationManager
                                     ? $translation->name
                                     : ($specValue->specificationValueTranslations->first()->name ?? '');
                             }
-                            $options[$variant->id] = $specNames ? implode(' / ', array_filter($specNames)) : $variant->sku;
+                            // 确保ID是字符串类型，以便在Select中正确匹配
+                            $options[(string) $variant->id] = $specNames ? implode(' / ', array_filter($specNames)) : $variant->sku;
                         }
 
                         return $options;

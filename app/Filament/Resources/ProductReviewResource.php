@@ -73,7 +73,8 @@ class ProductReviewResource extends Resource
                                 ? $translation->name
                                 : ($product->productTranslations->first()->name ?? $product->slug);
 
-                            return [$product->id => $name];
+                            // 确保ID是字符串类型，以便在Select中正确匹配
+                            return [(string) $product->id => $name];
                         })->toArray()
                     )
                     ->searchable()
@@ -100,7 +101,8 @@ class ProductReviewResource extends Resource
 
                                 return $trans && $trans->name ? $trans->name : $sv->id;
                             })->implode(' / ');
-                            $options[$variant->id] = $specs ?: $variant->sku;
+                            // 确保ID是字符串类型，以便在Select中正确匹配
+                            $options[(string) $variant->id] = $specs ?: $variant->sku;
                         }
 
                         return $options;

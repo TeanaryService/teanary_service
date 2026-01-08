@@ -71,7 +71,8 @@ class ProductVariantResource extends Resource
         $specOptions = [];
         foreach ($specs as $spec) {
             $translation = $spec->specificationTranslations->where('language_id', $lang?->id)->first();
-            $specOptions[$spec->id] = $translation && $translation->name
+            // 确保ID是字符串类型，以便在Select中正确匹配
+            $specOptions[(string) $spec->id] = $translation && $translation->name
                 ? $translation->name
                 : ($spec->specificationTranslations->first()->name ?? $spec->id);
         }
@@ -84,7 +85,8 @@ class ProductVariantResource extends Resource
             $name = $translation && $translation->name
                 ? $translation->name
                 : ($sv->specificationValueTranslations->first()->name ?? $sv->id);
-            $specValueOptions[$sv->specification_id][$sv->id] = $name;
+            // 确保ID是字符串类型，以便在Select中正确匹配
+            $specValueOptions[(string) $sv->specification_id][(string) $sv->id] = $name;
         }
 
         return $form
@@ -125,6 +127,8 @@ class ProductVariantResource extends Resource
                             ->label(__('filament.product_variant.specification_value'))
                             ->options(function ($get) use ($specValueOptions) {
                                 $specId = $get('specification_id');
+                                // 确保ID是字符串类型，以便正确匹配
+                                $specId = $specId ? (string) $specId : null;
 
                                 return $specId && isset($specValueOptions[$specId])
                                     ? $specValueOptions[$specId]

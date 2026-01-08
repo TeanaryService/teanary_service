@@ -95,7 +95,8 @@ class EditProduct extends EditRecord
         if ($this->record && $this->record->productCategories) {
             foreach ($this->record->productCategories as $cat) {
                 $data['productCategories'][] = [
-                    'category_id' => $cat->id,
+                    // 确保ID是字符串类型，以便在Select中正确匹配
+                    'category_id' => (string) $cat->id,
                 ];
             }
         }

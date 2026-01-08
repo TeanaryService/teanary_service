@@ -34,7 +34,8 @@ class UserGroupsRelationManager extends RelationManager
             $translation = $group->userGroupTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($group->userGroupTranslations->first()->name ?? $group->id);
 
-            return [$group->id => $name];
+            // 确保ID是字符串类型，以便在Select中正确匹配
+            return [(string) $group->id => $name];
         })->toArray();
 
         return $form

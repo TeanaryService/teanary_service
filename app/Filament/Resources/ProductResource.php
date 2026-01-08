@@ -155,7 +155,8 @@ class ProductResource extends Resource
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
             $name = $translation && $translation->name ? $translation->name : ($cat->categoryTranslations->first()->name ?? $cat->id);
 
-            return [$cat->id => $name];
+            // 确保ID是字符串类型，以便在Select中正确匹配
+            return [(string) $cat->id => $name];
         })->toArray();
 
         return [

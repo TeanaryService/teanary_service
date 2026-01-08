@@ -56,8 +56,9 @@ class EditProductVariant extends EditRecord
                 $pivot = $sv->pivot ?? null;
                 if ($pivot) {
                     $specValues[] = [
-                        'specification_id' => $pivot->specification_id,
-                        'specification_value_id' => $sv->id,
+                        // 确保ID是字符串类型，以便在Select中正确匹配
+                        'specification_id' => (string) $pivot->specification_id,
+                        'specification_value_id' => (string) $sv->id,
                     ];
                 }
             }
