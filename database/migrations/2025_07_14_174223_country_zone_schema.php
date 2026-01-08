@@ -50,9 +50,9 @@ return new class extends Migration
         });
 
         Schema::create('addresses', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
 
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->bigInteger('user_id')->unsigned()->nullable();
             $table->string('session_id')->nullable();
 
             $table->string('firstname')->nullable();
@@ -66,8 +66,8 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('postcode')->nullable();
 
-            $table->foreignId('country_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('zone_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('country_id')->nullable()->constrained()->nullOnDelete(); // 基础数据，保持外键
+            $table->foreignId('zone_id')->nullable()->constrained()->nullOnDelete(); // 基础数据，保持外键
 
             $table->boolean('deleted')->default(false);
             $table->timestamps();

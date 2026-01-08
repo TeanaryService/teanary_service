@@ -17,16 +17,16 @@ return new class extends Migration
         // Categories
         // -----------------------------
         Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('parent_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->string('slug')->unique();
             $table->timestamps();
         });
 
         Schema::create('category_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('category_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();
@@ -36,7 +36,7 @@ return new class extends Migration
         // Products
         // -----------------------------
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->string('slug')->unique();
             $table->string('source_url')->nullable()->comment('商品来源URL（抓取链接）');
             $table->enum('status', ProductStatusEnum::values())->default(ProductStatusEnum::default()->value);
@@ -44,9 +44,9 @@ return new class extends Migration
         });
 
         Schema::create('product_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
@@ -55,36 +55,36 @@ return new class extends Migration
 
         // 中间表
         Schema::create('product_category', function (Blueprint $table) {
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('category_id')->unsigned();
         });
 
         // -----------------------------
         // Attributes
         // -----------------------------
         Schema::create('attributes', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->timestamps();
         });
 
         Schema::create('attribute_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('attribute_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->timestamps();
         });
 
         Schema::create('attribute_values', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('attribute_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::create('attribute_value_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('attribute_value_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->timestamps();
         });
@@ -93,28 +93,28 @@ return new class extends Migration
         // Specifications
         // -----------------------------
         Schema::create('specifications', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->timestamps();
         });
 
         Schema::create('specification_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('specification_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('specification_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->timestamps();
         });
 
         Schema::create('specification_values', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('specification_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('specification_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::create('specification_value_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('specification_value_id', 'svt_spec_value_fk')->constrained('specification_values')->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('specification_value_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->timestamps();
         });
@@ -123,8 +123,8 @@ return new class extends Migration
         // Product Variants
         // -----------------------------
         Schema::create('product_variants', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('product_id')->unsigned();
             $table->string('sku')->unique();
             $table->decimal('price', 12, 2)->nullable();
             $table->decimal('cost', 12, 2)->nullable();
@@ -137,16 +137,16 @@ return new class extends Migration
         });
 
         Schema::create('product_reviews', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
 
             // 外键关联商品
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->bigInteger('product_id')->unsigned();
 
             // 可选关联规格
-            $table->foreignId('product_variants')->nullable()->constrained()->onDelete('set null');
+            $table->bigInteger('product_variants')->unsigned()->nullable();
 
             // 可选：关联用户
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->bigInteger('user_id')->unsigned()->nullable();
 
             // 星级评分，1~5
             $table->unsignedTinyInteger('rating')->default(5);
@@ -162,25 +162,15 @@ return new class extends Migration
 
         // 中间表
         Schema::create('product_variant_specification_value', function (Blueprint $table) {
-            $table->foreignId('product_variant_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->foreignId('specification_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->foreignId('specification_value_id');
-            // 手动添加外键，指定较短的名字，避免超长
-            $table->foreign('specification_value_id', 'pv_sv_spec_value_fk')
-                ->references('id')->on('specification_values')
-                ->cascadeOnDelete();
+            $table->bigInteger('product_variant_id')->unsigned();
+            $table->bigInteger('specification_id')->unsigned();
+            $table->bigInteger('specification_value_id')->unsigned();
         });
 
         Schema::create('product_attribute_value', function (Blueprint $table) {
-            $table->foreignId('attribute_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('attribute_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('attribute_value_id')->unsigned();
             $table->unique(['product_id', 'attribute_value_id'], 'product_attribute_value_unique');
         });
 
@@ -188,17 +178,17 @@ return new class extends Migration
         // Carts
         // -----------------------------
         Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('user_id')->unsigned()->nullable();
             $table->string('session_id')->nullable();
             $table->timestamps();
         });
 
         Schema::create('cart_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('cart_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('cart_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('product_variant_id')->unsigned();
             $table->integer('qty')->default(1);
             $table->timestamps();
         });
@@ -207,12 +197,12 @@ return new class extends Migration
         // Orders
         // -----------------------------
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('user_id')->unsigned()->nullable();
             $table->string('order_no')->unique();
-            $table->foreignId('currency_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('shipping_address_id')->nullable()->constrained('addresses')->nullOnDelete();
-            $table->foreignId('billing_address_id')->nullable()->constrained('addresses')->nullOnDelete();
+            $table->foreignId('currency_id')->nullable()->constrained()->nullOnDelete(); // 基础数据，保持外键
+            $table->bigInteger('shipping_address_id')->unsigned()->nullable();
+            $table->bigInteger('billing_address_id')->unsigned()->nullable();
             $table->decimal('total', 12, 2)->default(0);
             $table->decimal('shipping_fee', 12, 2)->default(0);
             $table->string('payment_method')->nullable();
@@ -222,10 +212,10 @@ return new class extends Migration
         });
 
         Schema::create('order_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_variant_id')->nullable()->constrained()->nullOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('order_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('product_variant_id')->unsigned()->nullable();
             $table->integer('qty');
             $table->decimal('price', 12, 2);
             $table->timestamps();
@@ -235,7 +225,7 @@ return new class extends Migration
         // Promotions
         // -----------------------------
         Schema::create('promotions', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->enum('type', PromotionTypeEnum::values());
             $table->dateTime('starts_at')->nullable();
             $table->dateTime('ends_at')->nullable();
@@ -244,17 +234,17 @@ return new class extends Migration
         });
 
         Schema::create('promotion_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('promotion_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();
         });
 
         Schema::create('promotion_rules', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('promotion_id')->unsigned();
             $table->enum('condition_type', PromotionConditionTypeEnum::values());
             $table->decimal('condition_value', 12, 2);
             $table->enum('discount_type', PromotionDiscountTypeEnum::values());
@@ -263,20 +253,20 @@ return new class extends Migration
         });
 
         Schema::create('promotion_user_group', function (Blueprint $table) {
-            $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('promotion_id')->unsigned();
+            $table->bigInteger('user_group_id')->unsigned();
         });
 
         Schema::create('promotion_product_variant', function (Blueprint $table) {
-            $table->foreignId('promotion_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_variant_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('promotion_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned();
+            $table->bigInteger('product_variant_id')->unsigned();
             $table->unique(['promotion_id', 'product_variant_id'], 'promotion_variant_unique');
         });
 
         Schema::create('order_shipments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete(); // 关联订单
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('order_id')->unsigned(); // 关联订单
             $table->string('shipping_method')->nullable(); // 配送方式
             $table->string('tracking_number')->nullable();   // 运单号
             $table->text('notes')->nullable();               // 备注

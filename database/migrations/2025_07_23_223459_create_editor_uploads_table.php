@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('editor_uploads', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->string('path');
             $table->boolean('used')->default(false);
             $table->timestamps();

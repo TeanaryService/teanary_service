@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('articles', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->string('slug')->unique(); // 用于 SEO 路径
             $table->boolean('is_published')->default(false);
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->bigInteger('user_id')->unsigned()->nullable();
             $table->timestamps();
         });
 
         Schema::create('article_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('article_id')->constrained('articles')->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('article_id')->unsigned();
             $table->string('language_id');
 
             $table->string('title');

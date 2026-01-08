@@ -39,14 +39,14 @@ return new class extends Migration
         // User Groups
         // -----------------------------
         Schema::create('user_groups', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->timestamps();
         });
 
         Schema::create('user_group_translations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_group_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('language_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('id')->unsigned()->primary();
+            $table->bigInteger('user_group_id')->unsigned();
+            $table->foreignId('language_id')->constrained()->cascadeOnDelete(); // 基础数据，保持外键
             $table->string('name');
             $table->timestamps();
         });
@@ -55,12 +55,12 @@ return new class extends Migration
         // Users
         // -----------------------------
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('user_group_id')->nullable()->constrained()->nullOnDelete();
+            $table->bigInteger('user_group_id')->unsigned()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -74,7 +74,7 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->bigInteger('user_id')->unsigned()->nullable()->index();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
@@ -82,7 +82,7 @@ return new class extends Migration
         });
 
         Schema::create('managers', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id')->unsigned()->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
