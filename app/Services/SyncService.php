@@ -389,7 +389,9 @@ class SyncService
         }
 
         // 使用静态属性标记，在 Trait 或 Observer 中检查
-        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
+        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class
+            || $modelType === \App\Models\Media::class
+            || is_subclass_of($modelType, \Spatie\MediaLibrary\MediaCollections\Models\Media::class)) {
             \App\Observers\MediaObserver::$syncDisabled = true;
         } else {
             $modelType::$syncDisabled = true;
@@ -406,7 +408,9 @@ class SyncService
             return;
         }
 
-        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
+        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class
+            || $modelType === \App\Models\Media::class
+            || is_subclass_of($modelType, \Spatie\MediaLibrary\MediaCollections\Models\Media::class)) {
             \App\Observers\MediaObserver::$syncDisabled = false;
         } else {
             $modelType::$syncDisabled = false;
