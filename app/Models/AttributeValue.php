@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Enums\TranslationStatusEnum;
 use App\Observers\AttributeValueObserver;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -35,6 +36,7 @@ class AttributeValue extends Model
 {
     use HasFactory;
     use Syncable;
+    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

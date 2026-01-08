@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
         // 注册 Media Observer 用于同步
         if (config('sync.enabled')) {
-            \Spatie\MediaLibrary\MediaCollections\Models\Media::observe(\App\Observers\MediaObserver::class);
+            \App\Models\Media::observe(\App\Observers\MediaObserver::class);
         }
     }
 }

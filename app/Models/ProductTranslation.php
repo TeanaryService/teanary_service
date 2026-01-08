@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Observers\ProductTranslationObserver;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -34,6 +35,7 @@ class ProductTranslation extends Model
 {
     use HasFactory;
     use Syncable;
+    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

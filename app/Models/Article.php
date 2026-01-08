@@ -9,6 +9,7 @@ namespace App\Models;
 use App\Enums\TranslationStatusEnum;
 use App\Observers\ArticleObserver;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -40,9 +41,11 @@ class Article extends Model implements HasMedia
 {
     use CascadesMediaDeletes;
     use HasFactory;
+    use HasSnowflakeId;
     use InteractsWithMedia;
     use Searchable;
     use Syncable;
+    use HasSnowflakeId;
 
     /**
      * 获取模型的索引化数据数组。

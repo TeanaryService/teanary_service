@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
+use App\Models\Media;
 use App\Services\SyncService;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaObserver
 {

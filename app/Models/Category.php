@@ -9,6 +9,7 @@ namespace App\Models;
 use App\Enums\TranslationStatusEnum;
 use App\Observers\CategoryObserver;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -41,6 +42,7 @@ class Category extends Model implements HasMedia
 {
     use CascadesMediaDeletes;
     use HasFactory;
+    use HasSnowflakeId;
     use InteractsWithMedia;
     use Syncable;
 

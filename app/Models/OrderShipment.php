@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Enums\ShippingMethodEnum;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +29,7 @@ class OrderShipment extends Model
 {
     use HasFactory;
     use Syncable;
+    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

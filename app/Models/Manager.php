@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Filament\Models\Contracts\FilamentUser;
@@ -36,6 +37,7 @@ class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMed
     use HasFactory;
     use InteractsWithMedia;
     use Syncable;
+    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

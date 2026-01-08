@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -29,6 +30,7 @@ class Cart extends Model
 {
     use HasFactory;
     use Syncable;
+    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

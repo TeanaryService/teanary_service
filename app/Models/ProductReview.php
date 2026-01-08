@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,6 +39,7 @@ class ProductReview extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
     use Syncable;
+    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

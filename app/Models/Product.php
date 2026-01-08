@@ -10,6 +10,7 @@ use App\Enums\ProductStatusEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Observers\ProductObserver;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -44,6 +45,7 @@ class Product extends Model implements HasMedia
 {
     use CascadesMediaDeletes;
     use HasFactory;
+    use HasSnowflakeId;
     use InteractsWithMedia;
     use Searchable;
     use Syncable;

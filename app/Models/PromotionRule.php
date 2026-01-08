@@ -10,6 +10,7 @@ use App\Enums\PromotionConditionTypeEnum;
 use App\Enums\PromotionDiscountTypeEnum;
 use App\Observers\PromotionRuleObserver;
 use App\Traits\CascadesMediaDeletes;
+use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -40,6 +41,7 @@ class PromotionRule extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
     use Syncable;
+    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

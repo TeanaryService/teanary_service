@@ -104,7 +104,7 @@ return [
         \App\Models\Manager::class,
         
         // 媒体文件（图片、资源等）
-        \Spatie\MediaLibrary\MediaCollections\Models\Media::class,
+        \App\Models\Media::class,
     ],
 
     // 同步队列名称
