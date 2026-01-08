@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\Cache;
 
 class CategoryService
 {
-
     /**
-     * 查找或创建分类
+     * 查找或创建分类.
      *
-     * @param array $categoryData 分类数据
-     * @return Category|null
+     * @param  array  $categoryData  分类数据
      */
     public function findOrCreateCategory(array $categoryData): ?Category
     {
@@ -22,7 +20,7 @@ class CategoryService
         $category = Category::where('slug', $categoryData['slug'])->first();
 
         // 如果分类不存在，创建分类
-        if (!$category) {
+        if (! $category) {
             $category = Category::create([
                 'slug' => $categoryData['slug'],
                 'parent_id' => $categoryData['parent_id'] ?? null,
@@ -36,15 +34,11 @@ class CategoryService
     }
 
     /**
-     * 同步分类的多语言翻译
-     *
-     * @param Category $category
-     * @param array $translations
-     * @return void
+     * 同步分类的多语言翻译.
      */
     public function syncCategoryTranslations(Category $category, array $translations): void
     {
-        if (empty($translations) || !is_array($translations)) {
+        if (empty($translations) || ! is_array($translations)) {
             return;
         }
 
@@ -57,7 +51,7 @@ class CategoryService
                 ->first();
 
             // 如果翻译不存在，创建翻译
-            if (!$existingTranslation) {
+            if (! $existingTranslation) {
                 CategoryTranslation::create([
                     'category_id' => $category->id,
                     'language_id' => $translation['language_id'],
@@ -66,7 +60,7 @@ class CategoryService
                 ]);
 
                 // 清除分类缓存（只需清除一次）
-                if (!$cacheCleared) {
+                if (! $cacheCleared) {
                     $this->clearCategoryCache();
                     $cacheCleared = true;
                 }
@@ -75,9 +69,9 @@ class CategoryService
     }
 
     /**
-     * 批量查找或创建分类
+     * 批量查找或创建分类.
      *
-     * @param array $categoriesData 分类数据数组
+     * @param  array  $categoriesData  分类数据数组
      * @return array 分类ID数组
      */
     public function findOrCreateCategories(array $categoriesData): array
@@ -95,13 +89,10 @@ class CategoryService
     }
 
     /**
-     * 清除分类缓存
-     *
-     * @return void
+     * 清除分类缓存.
      */
     protected function clearCategoryCache(): void
     {
         Cache::forget(CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
     }
 }
-

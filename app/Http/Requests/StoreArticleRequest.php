@@ -14,7 +14,7 @@ class StoreArticleRequest extends FormRequest
     }
 
     /**
-     * 验证失败时返回JSON响应
+     * 验证失败时返回JSON响应.
      */
     protected function failedValidation(Validator $validator)
     {

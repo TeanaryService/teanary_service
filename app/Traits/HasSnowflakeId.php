@@ -6,14 +6,14 @@ use App\Services\SnowflakeService;
 use Illuminate\Support\Facades\App;
 
 /**
- * 雪花ID Trait
- * 
+ * 雪花ID Trait.
+ *
  * 为模型提供雪花ID支持
  */
 trait HasSnowflakeId
 {
     /**
-     * Boot the trait
+     * Boot the trait.
      */
     public static function bootHasSnowflakeId(): void
     {
@@ -26,7 +26,7 @@ trait HasSnowflakeId
     }
 
     /**
-     * 获取主键类型
+     * 获取主键类型.
      */
     public function getKeyType(): string
     {
@@ -34,7 +34,7 @@ trait HasSnowflakeId
     }
 
     /**
-     * 获取主键是否自增
+     * 获取主键是否自增.
      */
     public function getIncrementing(): bool
     {

@@ -14,8 +14,6 @@ use App\Traits\HasTimestampsColumn;
 use App\Traits\HasTranslationStatus;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -188,9 +186,10 @@ class ProductResource extends Resource
                 ->url()
                 ->maxLength(255)
                 ->hidden(function ($livewire) {
-                    if (!$livewire instanceof \Filament\Resources\Pages\EditRecord) {
+                    if (! $livewire instanceof \Filament\Resources\Pages\EditRecord) {
                         return true; // 创建页面默认隐藏
                     }
+
                     return empty($livewire->record->source_url); // 编辑页面：如果没有值则隐藏
                 }),
         ];
@@ -333,7 +332,7 @@ class ProductResource extends Resource
     }
 
     /**
-     * 获取批量启用商品的批量操作
+     * 获取批量启用商品的批量操作.
      */
     public static function getBulkEnableAction(): BulkAction
     {
@@ -354,11 +353,11 @@ class ProductResource extends Resource
                         $record->status = ProductStatusEnum::Active;
                         $record->save();
                         $models[] = ['model' => $record, 'action' => 'updated'];
-                        $count++;
+                        ++$count;
                     }
 
                     // 批量记录同步
-                    if (!empty($models)) {
+                    if (! empty($models)) {
                         $syncService->recordBatchSync($models, $sourceNode);
                     }
                 } finally {

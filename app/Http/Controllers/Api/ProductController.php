@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\Concerns\HandlesApiTransactions;
 use App\Http\Controllers\Api\Concerns\HandlesApiResponses;
+use App\Http\Controllers\Api\Concerns\HandlesApiTransactions;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -12,12 +12,11 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
-    use HandlesApiTransactions, HandlesApiResponses;
+    use HandlesApiResponses, HandlesApiTransactions;
 
     public function __construct(
         protected ProductService $productService
-    ) {
-    }
+    ) {}
 
     public function store(StoreProductRequest $request): JsonResponse
     {
@@ -83,11 +82,11 @@ class ProductController extends Controller
                 ];
             }, $request->input('attributes')) : [],
         ];
-        
+
         Log::info('商品上传接口收到请求', $logData);
-        
+
         $openedTransaction = false;
-        
+
         try {
             // 开始事务
             $openedTransaction = $this->beginTransactionIfNotInOne();
@@ -118,7 +117,7 @@ class ProductController extends Controller
             return $this->successResponse('商品创建成功', $product);
         } catch (\Exception $e) {
             $this->rollbackIfOpened($openedTransaction);
-            
+
             return $this->handleException($e, '商品创建失败', [
                 'request' => $request->all(),
             ]);

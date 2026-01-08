@@ -103,7 +103,7 @@ class ManagerResource extends Resource
                                 $component->state($token);
                                 \Filament\Notifications\Notification::make()
                                     ->title('Token已生成')
-                                    ->body('新Token: ' . $token)
+                                    ->body('新Token: '.$token)
                                     ->success()
                                     ->send();
                             })
@@ -151,7 +151,7 @@ class ManagerResource extends Resource
                         $record->update(['token' => $token]);
                         \Filament\Notifications\Notification::make()
                             ->title('Token已生成')
-                            ->body('新Token: ' . $token)
+                            ->body('新Token: '.$token)
                             ->success()
                             ->send();
                     })

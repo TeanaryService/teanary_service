@@ -15,14 +15,14 @@ class StoreProductRequest extends FormRequest
     }
 
     /**
-     * 验证失败时返回JSON响应
+     * 验证失败时返回JSON响应.
      */
     protected function failedValidation(Validator $validator)
     {
         // 记录验证失败的详细信息
         $errors = $validator->errors()->toArray();
         $requestData = $this->all();
-        
+
         // 排除大的图片内容，避免日志过大
         $logData = [
             'ip' => $this->ip(),
@@ -68,9 +68,9 @@ class StoreProductRequest extends FormRequest
                 }, $requestData['attributes']) : [],
             ],
         ];
-        
+
         Log::warning('商品上传验证失败', $logData);
-        
+
         throw new HttpResponseException(
             response()->json([
                 'message' => '验证失败',
@@ -84,7 +84,7 @@ class StoreProductRequest extends FormRequest
         $rules = [
             'slug' => 'required|string|unique:products,slug',
             'source_url' => ['nullable', 'string', 'max:255', function ($attribute, $value, $fail) {
-                if ($value !== null && $value !== '' && !filter_var($value, FILTER_VALIDATE_URL)) {
+                if ($value !== null && $value !== '' && ! filter_var($value, FILTER_VALIDATE_URL)) {
                     $fail('source_url必须是有效的URL地址');
                 }
             }],

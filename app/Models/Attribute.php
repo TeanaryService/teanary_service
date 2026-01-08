@@ -31,8 +31,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Attribute extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 
@@ -77,7 +77,7 @@ class Attribute extends Model
     }
 
     /**
-     * 获取当前语言下的属性及属性值（只返回可筛选的属性）
+     * 获取当前语言下的属性及属性值（只返回可筛选的属性）.
      */
     public static function getAttributesForLanguage($langId)
     {

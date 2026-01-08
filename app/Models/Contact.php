@@ -25,8 +25,8 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

@@ -24,4 +24,3 @@ class SpecificationFactory extends Factory
         ];
     }
 }
-

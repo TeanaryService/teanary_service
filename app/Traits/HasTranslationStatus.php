@@ -10,7 +10,7 @@ use Filament\Tables\Actions\BulkAction;
 trait HasTranslationStatus
 {
     /**
-     * 获取翻译状态批量操作
+     * 获取翻译状态批量操作.
      */
     public static function getTranslationStatusBulkActions(): array
     {
@@ -33,7 +33,7 @@ trait HasTranslationStatus
 
                     // 获取模型类（从第一个记录推断）
                     $firstRecord = $records->first();
-                    if (!$firstRecord) {
+                    if (! $firstRecord) {
                         return;
                     }
                     $modelClass = get_class($firstRecord);
@@ -47,18 +47,18 @@ trait HasTranslationStatus
                             $record->translation_status = $status;
                             $record->save();
                             $models[] = ['model' => $record, 'action' => 'updated'];
-                            $count++;
+                            ++$count;
                         }
 
                         // 批量记录同步
-                        if (!empty($models)) {
+                        if (! empty($models)) {
                             $syncService->recordBatchSync($models, $sourceNode);
                         }
                     } finally {
                         // 重新启用同步
                         $modelClass::$syncDisabled = false;
                     }
-                    
+
                     Notification::make()
                         ->title("已更新 {$count} 条记录的翻译状态")
                         ->success()

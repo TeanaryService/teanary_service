@@ -14,24 +14,22 @@ class ArticleService
 
     public function __construct(
         protected MediaService $mediaService
-    ) {
-    }
+    ) {}
 
     /**
-     * 检查中文标题是否重复
+     * 检查中文标题是否重复.
      *
-     * @param Collection $translations
      * @return ArticleTranslation|null 如果重复返回已存在的翻译，否则返回null
      */
     public function checkDuplicateChineseTitle(Collection $translations): ?ArticleTranslation
     {
         $chineseLanguage = Language::where('code', self::CHINESE_LANGUAGE_CODE)->first();
-        if (!$chineseLanguage) {
+        if (! $chineseLanguage) {
             return null;
         }
 
         $chineseTranslation = $translations->firstWhere('language_id', $chineseLanguage->id);
-        if (!$chineseTranslation || !isset($chineseTranslation['title'])) {
+        if (! $chineseTranslation || ! isset($chineseTranslation['title'])) {
             return null;
         }
 
@@ -41,10 +39,7 @@ class ArticleService
     }
 
     /**
-     * 创建文章
-     *
-     * @param array $data
-     * @return Article
+     * 创建文章.
      */
     public function createArticle(array $data): Article
     {
@@ -72,12 +67,7 @@ class ArticleService
     }
 
     /**
-     * 创建文章翻译
-     *
-     * @param Article $article
-     * @param array $translations
-     * @param array $imageMap
-     * @return void
+     * 创建文章翻译.
      */
     protected function createArticleTranslations(Article $article, array $translations, array $imageMap): void
     {
@@ -96,4 +86,3 @@ class ArticleService
         }
     }
 }
-

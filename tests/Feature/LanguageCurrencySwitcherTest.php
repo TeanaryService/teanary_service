@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Currency;
-use App\Models\Language;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

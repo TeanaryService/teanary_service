@@ -161,7 +161,7 @@ class AttributeResource extends Resource
     }
 
     /**
-     * 获取前台是否可见的批量操作
+     * 获取前台是否可见的批量操作.
      */
     public static function getIsFilterableBulkAction(): BulkAction
     {
@@ -189,11 +189,11 @@ class AttributeResource extends Resource
                         $record->is_filterable = $isFilterable;
                         $record->save();
                         $models[] = ['model' => $record, 'action' => 'updated'];
-                        $count++;
+                        ++$count;
                     }
 
                     // 批量记录同步
-                    if (!empty($models)) {
+                    if (! empty($models)) {
                         $syncService->recordBatchSync($models, $sourceNode);
                     }
                 } finally {

@@ -23,4 +23,3 @@ class CacheKeys
     // 货币相关
     public const CURRENCIES_ALL = 'currencies.all';
 }
-

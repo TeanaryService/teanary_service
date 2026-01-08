@@ -25,7 +25,7 @@ class SyncLog extends Model
     ];
 
     /**
-     * 获取待同步的日志
+     * 获取待同步的日志.
      */
     public static function getPendingLogs(int $limit = 100): \Illuminate\Database\Eloquent\Collection
     {
@@ -36,7 +36,7 @@ class SyncLog extends Model
     }
 
     /**
-     * 标记为处理中
+     * 标记为处理中.
      */
     public function markAsProcessing(): void
     {
@@ -44,7 +44,7 @@ class SyncLog extends Model
     }
 
     /**
-     * 标记为完成
+     * 标记为完成.
      */
     public function markAsCompleted(): void
     {
@@ -55,7 +55,7 @@ class SyncLog extends Model
     }
 
     /**
-     * 标记为失败
+     * 标记为失败.
      */
     public function markAsFailed(string $errorMessage): void
     {

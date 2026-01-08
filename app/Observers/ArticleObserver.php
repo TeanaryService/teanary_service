@@ -27,7 +27,7 @@ class ArticleObserver
 
     /**
      * Handle the Article "deleting" event.
-     * 
+     *
      * 级联删除所有关联数据（替代数据库外键约束）
      */
     public function deleting(Article $article): void

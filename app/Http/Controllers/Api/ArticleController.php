@@ -2,31 +2,30 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\Concerns\HandlesApiTransactions;
 use App\Http\Controllers\Api\Concerns\HandlesApiResponses;
+use App\Http\Controllers\Api\Concerns\HandlesApiTransactions;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
 use App\Services\ArticleService;
 use Illuminate\Http\JsonResponse;
 
 class ArticleController extends Controller
 {
-    use HandlesApiTransactions, HandlesApiResponses;
+    use HandlesApiResponses, HandlesApiTransactions;
 
     public function __construct(
         protected ArticleService $articleService
-    ) {
-    }
+    ) {}
 
     public function store(StoreArticleRequest $request): JsonResponse
     {
         $openedTransaction = false;
-        
+
         try {
             // 检查中文标题是否重复
             $translations = collect($request->translations);
             $existingTranslation = $this->articleService->checkDuplicateChineseTitle($translations);
-            
+
             if ($existingTranslation) {
                 return $this->successResponse('中文标题已存在', null, 200);
             }
@@ -49,7 +48,7 @@ class ArticleController extends Controller
             return $this->successResponse('文章创建成功', $article);
         } catch (\Exception $e) {
             $this->rollbackIfOpened($openedTransaction);
-            
+
             return $this->handleException($e, '文章创建失败', [
                 'request' => $request->all(),
             ]);

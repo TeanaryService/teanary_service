@@ -8,7 +8,7 @@ class UserGroupObserver
 {
     /**
      * Handle the UserGroup "deleting" event.
-     * 
+     *
      * 级联删除所有关联数据（替代数据库外键约束）
      */
     public function deleting(UserGroup $userGroup): void

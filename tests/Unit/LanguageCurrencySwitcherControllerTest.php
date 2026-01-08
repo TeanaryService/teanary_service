@@ -5,12 +5,11 @@ namespace Tests\Unit;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Contracts\Cache\Store as CacheStoreContract;
-use Illuminate\Session\Store as SessionStore; // Use the concrete class
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase; // Use the concrete class
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store as SessionStore;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Session as SessionFacade;
 use Mockery;
 use Tests\TestCase;
 
@@ -118,7 +117,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
             ->once()
             ->with('EUR')
             ->andReturn($currency);
-        
+
         $this->sessionStore->shouldReceive('put')
             ->with('lang', 'fr')
             ->once();
@@ -164,7 +163,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
         $this->localeCurrencyService->shouldReceive('getDefaultCurrencyCode')
             ->once()
             ->andReturn('CNY');
-        
+
         $this->sessionStore->shouldReceive('put')
             ->with('lang', 'en')
             ->once();
@@ -201,7 +200,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
             ->with('fr')
             ->andReturn($language);
         $this->localeCurrencyService->shouldNotReceive('getCurrencyByCode'); // Not called
-        
+
         $this->sessionStore->shouldReceive('put')
             ->with('lang', 'fr')
             ->once();
@@ -235,7 +234,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
             ->once()
             ->with('EUR')
             ->andReturn($currency);
-        
+
         $this->sessionStore->shouldReceive('put')
             ->with('currency', 'EUR')
             ->once();

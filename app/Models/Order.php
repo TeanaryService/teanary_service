@@ -48,8 +48,8 @@ class Order extends Model
 {
     use HasFactory;
     use HasSnowflakeId;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

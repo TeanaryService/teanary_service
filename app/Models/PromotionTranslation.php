@@ -6,12 +6,12 @@
 
 namespace App\Models;
 
+use App\Traits\HasSnowflakeId;
+use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Traits\HasSnowflakeId;
-use App\Traits\Syncable;
 
 /**
  * Class PromotionTranslation.
@@ -29,8 +29,8 @@ use App\Traits\Syncable;
 class PromotionTranslation extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

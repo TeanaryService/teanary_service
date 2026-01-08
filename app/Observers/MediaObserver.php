@@ -8,7 +8,7 @@ use App\Services\SyncService;
 class MediaObserver
 {
     /**
-     * 静态属性，用于临时禁用同步
+     * 静态属性，用于临时禁用同步.
      */
     public static bool $syncDisabled = false;
 
@@ -17,7 +17,7 @@ class MediaObserver
      */
     public function created(Media $media): void
     {
-        if (config('sync.enabled') && !static::$syncDisabled) {
+        if (config('sync.enabled') && ! static::$syncDisabled) {
             app(SyncService::class)->recordSync($media, 'created', config('sync.node'));
         }
     }
@@ -27,7 +27,7 @@ class MediaObserver
      */
     public function updated(Media $media): void
     {
-        if (config('sync.enabled') && !static::$syncDisabled) {
+        if (config('sync.enabled') && ! static::$syncDisabled) {
             app(SyncService::class)->recordSync($media, 'updated', config('sync.node'));
         }
     }
@@ -37,7 +37,7 @@ class MediaObserver
      */
     public function deleted(Media $media): void
     {
-        if (config('sync.enabled') && !static::$syncDisabled) {
+        if (config('sync.enabled') && ! static::$syncDisabled) {
             app(SyncService::class)->recordSync($media, 'deleted', config('sync.node'));
         }
     }

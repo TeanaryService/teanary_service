@@ -17,14 +17,14 @@ class ResizeUploadedImage implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * 如果模型不存在，自动删除任务而不抛出异常
+     * 如果模型不存在，自动删除任务而不抛出异常.
      */
     public $deleteWhenMissingModels = true;
 
     public function __construct(public Media $media) {}
 
     /**
-     * 处理任务失败的情况（模型不存在）
+     * 处理任务失败的情况（模型不存在）.
      */
     public function failed(\Throwable $exception): void
     {
@@ -34,6 +34,7 @@ class ResizeUploadedImage implements ShouldQueue
                 'media_id' => $this->media->id ?? null,
                 'error' => $exception->getMessage(),
             ]);
+
             return;
         }
 
@@ -47,10 +48,11 @@ class ResizeUploadedImage implements ShouldQueue
     public function handle(): void
     {
         // 检查模型是否仍然存在（可能在队列等待期间被删除）
-        if (!$this->media->exists) {
+        if (! $this->media->exists) {
             Log::warning('图片调整任务跳过：Media 模型不存在', [
                 'media_id' => $this->media->id ?? null,
             ]);
+
             return;
         }
 
@@ -64,6 +66,7 @@ class ResizeUploadedImage implements ShouldQueue
                 'media_id' => $this->media->id,
                 'path' => $path,
             ]);
+
             return;
         }
 

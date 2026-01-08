@@ -6,13 +6,12 @@ use App\Enums\ProductStatusEnum;
 use App\Models\Product;
 use App\Models\SyncLog;
 use App\Models\SyncStatus;
-use App\Services\SyncService;
 use App\Services\SnowflakeService;
+use App\Services\SyncService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class SyncServiceTest extends TestCase
@@ -24,8 +23,8 @@ class SyncServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new SyncService();
-        
+        $this->service = new SyncService;
+
         // 配置同步服务
         Config::set('sync.enabled', true);
         Config::set('sync.node', 'node1');
@@ -44,9 +43,9 @@ class SyncServiceTest extends TestCase
     public function test_record_sync_creates_sync_log_for_enabled_model()
     {
         $product = Product::factory()->create();
-        
+
         $this->service->recordSync($product, 'created', 'node1');
-        
+
         $this->assertDatabaseHas('sync_logs', [
             'model_type' => Product::class,
             'model_id' => $product->id,
@@ -61,9 +60,9 @@ class SyncServiceTest extends TestCase
     {
         Config::set('sync.enabled', false);
         $product = Product::factory()->create();
-        
+
         $this->service->recordSync($product, 'created', 'node1');
-        
+
         $this->assertDatabaseMissing('sync_logs', [
             'model_type' => Product::class,
             'model_id' => $product->id,
@@ -74,9 +73,9 @@ class SyncServiceTest extends TestCase
     {
         Config::set('sync.sync_models', []);
         $product = Product::factory()->create();
-        
+
         $this->service->recordSync($product, 'created', 'node1');
-        
+
         $this->assertDatabaseMissing('sync_logs', [
             'model_type' => Product::class,
             'model_id' => $product->id,
@@ -88,23 +87,23 @@ class SyncServiceTest extends TestCase
         // 清理之前的测试数据
         SyncLog::truncate();
         SyncStatus::truncate();
-        
+
         $product = Product::factory()->create();
-        
+
         // 先记录一次同步，获取正确的哈希值
         $this->service->recordSync($product, 'updated', 'node1');
-        
+
         // 获取刚创建的同步日志的哈希值
         $syncLog = SyncLog::first();
         $this->assertNotNull($syncLog);
-        
+
         // 使用反射调用 protected 方法生成哈希
         $reflection = new \ReflectionClass($this->service);
         $generateHashMethod = $reflection->getMethod('generateSyncHash');
         $generateHashMethod->setAccessible(true);
-        
+
         $syncHash = $generateHashMethod->invoke($this->service, $product, 'updated');
-        
+
         // 创建同步状态
         SyncStatus::create([
             'model_type' => Product::class,
@@ -112,13 +111,13 @@ class SyncServiceTest extends TestCase
             'node' => 'node2',
             'sync_hash' => $syncHash,
         ]);
-        
+
         // 清理之前的日志
         SyncLog::truncate();
-        
+
         // 再次记录同步，应该跳过（因为哈希值相同）
         $this->service->recordSync($product, 'updated', 'node1');
-        
+
         // 应该不会创建新的同步日志（因为哈希值相同）
         $this->assertDatabaseCount('sync_logs', 0);
     }
@@ -128,24 +127,24 @@ class SyncServiceTest extends TestCase
         // 清理之前的测试数据
         SyncLog::truncate();
         SyncStatus::truncate();
-        
+
         // 临时禁用同步，避免创建产品时自动触发同步
         Config::set('sync.enabled', false);
-        
+
         $products = Product::factory()->count(3)->create();
-        
+
         // 重新启用同步
         Config::set('sync.enabled', true);
-        
+
         $models = $products->map(function ($product) {
             return ['model' => $product, 'action' => 'created'];
         })->toArray();
-        
+
         $this->service->recordBatchSync($models, 'node1');
-        
+
         // 每个产品为每个目标节点创建一条日志（3个产品 × 1个目标节点 = 3条）
         $this->assertDatabaseCount('sync_logs', 3);
-        
+
         // 验证所有日志都是为 node2 创建的
         $this->assertDatabaseHas('sync_logs', [
             'source_node' => 'node1',
@@ -156,7 +155,7 @@ class SyncServiceTest extends TestCase
     public function test_record_batch_sync_skips_empty_array()
     {
         $this->service->recordBatchSync([], 'node1');
-        
+
         $this->assertDatabaseCount('sync_logs', 0);
     }
 
@@ -171,7 +170,7 @@ class SyncServiceTest extends TestCase
                 ],
             ], 200),
         ]);
-        
+
         $product = Product::factory()->create();
         $syncLog = SyncLog::create([
             'model_type' => Product::class,
@@ -182,12 +181,12 @@ class SyncServiceTest extends TestCase
             'status' => 'pending',
             'payload' => $product->toArray(),
         ]);
-        
+
         $result = $this->service->syncBatchToRemote(collect([$syncLog]), 'node2');
-        
+
         $this->assertEquals(1, $result['success']);
         $this->assertEquals(0, $result['failed']);
-        
+
         Http::assertSent(function ($request) {
             return str_contains($request->url(), '/api/sync/receive-batch') &&
                    $request->hasHeader('Authorization');
@@ -199,7 +198,7 @@ class SyncServiceTest extends TestCase
         Http::fake([
             'node2.example.com/api/sync/batch' => Http::response([], 500),
         ]);
-        
+
         $product = Product::factory()->create();
         $syncLog = new SyncLog([
             'model_type' => Product::class,
@@ -211,13 +210,13 @@ class SyncServiceTest extends TestCase
             'payload' => $product->toArray(),
         ]);
         $syncLog->save();
-        
+
         $result = $this->service->syncBatchToRemote(collect([$syncLog]), 'node2');
-        
+
         $this->assertEquals(0, $result['success']);
         $this->assertEquals(1, $result['failed']);
         $this->assertNotEmpty($result['errors']);
-        
+
         $syncLog->refresh();
         $this->assertEquals('failed', $syncLog->status);
     }
@@ -229,12 +228,12 @@ class SyncServiceTest extends TestCase
         $productData = $product->toArray();
         $productData['id'] = $productId;
         // 确保包含所有必需的字段
-        if (!isset($productData['status'])) {
+        if (! isset($productData['status'])) {
             $productData['status'] = 'active';
         }
         // 移除可能干扰的字段
         unset($productData['product_variants'], $productData['product_translations']);
-        
+
         $batchData = [
             [
                 'model_type' => Product::class,
@@ -245,9 +244,9 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
         ];
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertEquals(1, $result['success']);
         $this->assertEquals(0, $result['failed']);
         // 验证产品已创建（ID可能因为HasSnowflakeId trait而不同，但应该有一条记录）
@@ -261,7 +260,7 @@ class SyncServiceTest extends TestCase
         $product = Product::factory()->create();
         $updatedData = $product->toArray();
         $updatedData['status'] = 'inactive';
-        
+
         $batchData = [
             [
                 'model_type' => Product::class,
@@ -272,12 +271,12 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
         ];
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertEquals(1, $result['success']);
         $this->assertEquals(0, $result['failed']);
-        
+
         $product->refresh();
         // status 是枚举类型，需要比较枚举值
         $this->assertEquals(ProductStatusEnum::Inactive, $product->status);
@@ -287,7 +286,7 @@ class SyncServiceTest extends TestCase
     {
         $product = Product::factory()->create();
         $productId = $product->id;
-        
+
         $batchData = [
             [
                 'model_type' => Product::class,
@@ -298,9 +297,9 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
         ];
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertEquals(1, $result['success']);
         $this->assertEquals(0, $result['failed']);
         // Product 没有软删除，使用硬删除
@@ -312,7 +311,7 @@ class SyncServiceTest extends TestCase
         $product = Product::factory()->create();
         $product->updated_at = now();
         $product->save();
-        
+
         $oldTimestamp = now()->subHour()->toIso8601String();
         $batchData = [
             [
@@ -324,9 +323,9 @@ class SyncServiceTest extends TestCase
                 'timestamp' => $oldTimestamp,
             ],
         ];
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertEquals(1, $result['success']);
         $this->assertTrue($result['results'][0]['skipped'] ?? false);
     }
@@ -343,9 +342,9 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
         ];
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertEquals(0, $result['success']);
         $this->assertEquals(1, $result['failed']);
         $this->assertStringContainsString('模型不在同步列表中', $result['results'][0]['error'] ?? '');
@@ -362,9 +361,9 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
         ];
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertEquals(0, $result['success']);
         $this->assertEquals(1, $result['failed']);
         $this->assertEquals('缺少 model_type', $result['results'][0]['error'] ?? '');
@@ -373,10 +372,10 @@ class SyncServiceTest extends TestCase
     public function test_receive_batch_sync_clears_cache()
     {
         Cache::put('test_key', 'test_value', 60);
-        
+
         $product = Product::factory()->make();
         $productId = app(SnowflakeService::class)->nextId();
-        
+
         $batchData = [
             [
                 'model_type' => Product::class,
@@ -387,9 +386,9 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
         ];
-        
+
         $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertNull(Cache::get('test_key'));
     }
 
@@ -397,7 +396,7 @@ class SyncServiceTest extends TestCase
     {
         $products = Product::factory()->count(2)->create();
         $productIds = $products->pluck('id');
-        
+
         $batchData = $products->map(function ($product, $index) {
             return [
                 'model_type' => Product::class,
@@ -408,9 +407,9 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ];
         })->toArray();
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         $this->assertEquals(2, $result['success']);
         $this->assertEquals(0, $result['failed']);
     }
@@ -419,7 +418,7 @@ class SyncServiceTest extends TestCase
     {
         // 创建一个已有slug的产品
         $existingProduct = Product::factory()->create(['slug' => 'test-product']);
-        
+
         // 尝试同步一个相同slug但不同ID的产品
         $newProductId = app(SnowflakeService::class)->nextId();
         $batchData = [
@@ -438,13 +437,13 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
         ];
-        
+
         $result = $this->service->receiveBatchSync($batchData);
-        
+
         // 应该成功处理（通过唯一字段找到现有记录并更新）
         $this->assertEquals(1, $result['success']);
         $this->assertEquals(0, $result['failed']);
-        
+
         // 现有产品应该被更新，而不是创建新记录
         $this->assertDatabaseCount('products', 1);
     }

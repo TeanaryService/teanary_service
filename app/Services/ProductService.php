@@ -9,7 +9,6 @@ use App\Models\AttributeTranslation;
 use App\Models\AttributeValue;
 use App\Models\AttributeValueTranslation;
 use App\Models\Product;
-use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
 use App\Models\Specification;
 use App\Models\SpecificationTranslation;
@@ -21,14 +20,10 @@ class ProductService
     public function __construct(
         protected MediaService $mediaService,
         protected CategoryService $categoryService
-    ) {
-    }
+    ) {}
 
     /**
      * 创建商品
-     *
-     * @param array $data
-     * @return Product
      */
     public function createProduct(array $data): Product
     {
@@ -57,9 +52,9 @@ class ProductService
         $imageMap = $this->mediaService->handleContentImages($product, $data['content_images'] ?? null);
 
         // 处理分类
-        if (!empty($data['categories'])) {
+        if (! empty($data['categories'])) {
             $categoryIds = $this->categoryService->findOrCreateCategories($data['categories']);
-            if (!empty($categoryIds)) {
+            if (! empty($categoryIds)) {
                 $product->productCategories()->syncWithoutDetaching($categoryIds);
             }
         }
@@ -68,16 +63,16 @@ class ProductService
         $this->createProductTranslations($product, $data['translations'], $imageMap);
 
         // 处理商品规格
-        if (!empty($data['variants'])) {
+        if (! empty($data['variants'])) {
             $languageId = $data['translations'][0]['language_id'] ?? null;
             $this->createProductVariants($product, $data['variants'], $languageId);
         }
 
         // 处理商品属性
-        if (!empty($data['attributes'])) {
-            $attributesData = is_array($data['attributes']) ? $data['attributes'] : (is_object($data['attributes']) ? (array)$data['attributes'] : []);
+        if (! empty($data['attributes'])) {
+            $attributesData = is_array($data['attributes']) ? $data['attributes'] : (is_object($data['attributes']) ? (array) $data['attributes'] : []);
             $languageId = $data['translations'][0]['language_id'] ?? null;
-            if ($languageId && !empty($attributesData)) {
+            if ($languageId && ! empty($attributesData)) {
                 $this->syncProductAttributes($product, $attributesData, $languageId);
             }
         }
@@ -95,19 +90,14 @@ class ProductService
 
     /**
      * 创建商品规格
-     *
-     * @param Product $product
-     * @param array $variantsData
-     * @param int|null $languageId
-     * @return void
      */
     protected function createProductVariants(Product $product, array $variantsData, ?int $languageId = null): void
     {
         foreach ($variantsData as $variantData) {
             $variant = $this->createVariant($product, $variantData);
-            
+
             // 关联规格值
-            if (!empty($variantData['specification_values'])) {
+            if (! empty($variantData['specification_values'])) {
                 $this->syncVariantSpecificationValues($variant, $variantData['specification_values'], $languageId);
             }
         }
@@ -115,10 +105,6 @@ class ProductService
 
     /**
      * 创建单个商品规格
-     *
-     * @param Product $product
-     * @param array $variantData
-     * @return ProductVariant
      */
     protected function createVariant(Product $product, array $variantData): ProductVariant
     {
@@ -135,30 +121,25 @@ class ProductService
     }
 
     /**
-     * 同步规格值关联
-     *
-     * @param ProductVariant $variant
-     * @param array $specificationValues
-     * @param int|null $languageId
-     * @return void
+     * 同步规格值关联.
      */
     protected function syncVariantSpecificationValues(ProductVariant $variant, array $specificationValues, ?int $languageId = null): void
     {
         $syncData = [];
-        
+
         // 如果没有传入languageId，尝试从商品翻译中获取
-        if (!$languageId) {
+        if (! $languageId) {
             $languageId = $variant->product->productTranslations()->first()?->language_id ?? 1;
         }
-        
+
         foreach ($specificationValues as $specValue) {
             $specificationName = $specValue['specification_name'] ?? '';
             $specificationValueName = $specValue['specification_value_name'] ?? '';
-            
+
             if (empty($specificationName) || empty($specificationValueName)) {
                 continue;
             }
-            
+
             // 根据名称查找或创建规格和规格值
             $specification = $this->findOrCreateSpecification($specificationName, $languageId);
             $specificationValue = $this->findOrCreateSpecificationValue(
@@ -166,24 +147,19 @@ class ProductService
                 $specificationValueName,
                 $languageId
             );
-            
+
             $syncData[$specificationValue->id] = [
                 'specification_id' => $specification->id,
             ];
         }
-        
-        if (!empty($syncData)) {
+
+        if (! empty($syncData)) {
             $variant->specificationValues()->sync($syncData);
         }
     }
 
     /**
-     * 创建商品翻译
-     *
-     * @param Product $product
-     * @param array $translations
-     * @param array $imageMap
-     * @return void
+     * 创建商品翻译.
      */
     protected function createProductTranslations(Product $product, array $translations, array $imageMap): void
     {
@@ -203,12 +179,7 @@ class ProductService
     }
 
     /**
-     * 同步商品属性
-     *
-     * @param Product $product
-     * @param array $attributesData
-     * @param int $languageId
-     * @return void
+     * 同步商品属性.
      */
     protected function syncProductAttributes(Product $product, array $attributesData, int $languageId): void
     {
@@ -235,17 +206,13 @@ class ProductService
         }
 
         // 同步商品属性
-        if (!empty($syncData)) {
+        if (! empty($syncData)) {
             $product->attributeValues()->sync($syncData);
         }
     }
 
     /**
-     * 查找或创建属性
-     *
-     * @param string $name
-     * @param int $languageId
-     * @return Attribute
+     * 查找或创建属性.
      */
     protected function findOrCreateAttribute(string $name, int $languageId): Attribute
     {
@@ -270,11 +237,6 @@ class ProductService
 
     /**
      * 查找或创建属性值
-     *
-     * @param Attribute $attribute
-     * @param string $valueName
-     * @param int $languageId
-     * @return AttributeValue
      */
     protected function findOrCreateAttributeValue(Attribute $attribute, string $valueName, int $languageId): AttributeValue
     {
@@ -304,10 +266,6 @@ class ProductService
 
     /**
      * 查找或创建规格
-     *
-     * @param string $name
-     * @param int $languageId
-     * @return Specification
      */
     protected function findOrCreateSpecification(string $name, int $languageId): Specification
     {
@@ -332,11 +290,6 @@ class ProductService
 
     /**
      * 查找或创建规格值
-     *
-     * @param Specification $specification
-     * @param string $valueName
-     * @param int $languageId
-     * @return SpecificationValue
      */
     protected function findOrCreateSpecificationValue(Specification $specification, string $valueName, int $languageId): SpecificationValue
     {
@@ -365,42 +318,39 @@ class ProductService
     }
 
     /**
-     * 去掉 URL 中的查询参数
-     *
-     * @param string $url
-     * @return string
+     * 去掉 URL 中的查询参数.
      */
     protected function removeUrlParams(string $url): string
     {
         $parsed = parse_url($url);
-        
+
         if ($parsed === false) {
             return $url; // 如果解析失败，返回原 URL
         }
 
         // 重新构建 URL，只包含 scheme、host、path，去掉 query 和 fragment
         $cleanUrl = '';
-        
+
         if (isset($parsed['scheme'])) {
-            $cleanUrl .= $parsed['scheme'] . '://';
+            $cleanUrl .= $parsed['scheme'].'://';
         }
-        
+
         if (isset($parsed['user'])) {
             $cleanUrl .= $parsed['user'];
             if (isset($parsed['pass'])) {
-                $cleanUrl .= ':' . $parsed['pass'];
+                $cleanUrl .= ':'.$parsed['pass'];
             }
             $cleanUrl .= '@';
         }
-        
+
         if (isset($parsed['host'])) {
             $cleanUrl .= $parsed['host'];
         }
-        
+
         if (isset($parsed['port'])) {
-            $cleanUrl .= ':' . $parsed['port'];
+            $cleanUrl .= ':'.$parsed['port'];
         }
-        
+
         if (isset($parsed['path'])) {
             $cleanUrl .= $parsed['path'];
         }
@@ -408,4 +358,3 @@ class ProductService
         return $cleanUrl;
     }
 }
-

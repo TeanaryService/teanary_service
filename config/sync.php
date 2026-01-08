@@ -48,49 +48,49 @@ return [
         \App\Models\ProductTranslation::class,
         \App\Models\ProductVariant::class,
         \App\Models\ProductReview::class,
-        
+
         // 分类相关
         \App\Models\Category::class,
         \App\Models\CategoryTranslation::class,
-        
+
         // 属性相关
         \App\Models\Attribute::class,
         \App\Models\AttributeTranslation::class,
         \App\Models\AttributeValue::class,
         \App\Models\AttributeValueTranslation::class,
-        
+
         // 规格相关
         \App\Models\Specification::class,
         \App\Models\SpecificationTranslation::class,
         \App\Models\SpecificationValue::class,
         \App\Models\SpecificationValueTranslation::class,
-        
+
         // 订单相关
         \App\Models\Order::class,
         \App\Models\OrderItem::class,
         \App\Models\OrderShipment::class,
-        
+
         // 购物车相关
         \App\Models\Cart::class,
         \App\Models\CartItem::class,
-        
+
         // 促销相关
         \App\Models\Promotion::class,
         \App\Models\PromotionTranslation::class,
         \App\Models\PromotionRule::class,
         \App\Models\PromotionUserGroup::class,
-        
+
         // 文章相关
         \App\Models\Article::class,
         \App\Models\ArticleTranslation::class,
         \App\Models\EditorUpload::class,
-        
+
         // 用户相关
         \App\Models\User::class,
         \App\Models\UserGroup::class,
         \App\Models\UserGroupTranslation::class,
         \App\Models\Address::class,
-        
+
         // 基础数据
         \App\Models\Currency::class,
         \App\Models\Language::class,
@@ -98,11 +98,11 @@ return [
         \App\Models\CountryTranslation::class,
         \App\Models\Zone::class,
         \App\Models\ZoneTranslation::class,
-        
+
         // 其他
         \App\Models\Contact::class,
         \App\Models\Manager::class,
-        
+
         // 媒体文件（图片、资源等）
         \App\Models\Media::class,
     ],
@@ -122,11 +122,11 @@ return [
     // 同步超时时间（秒）
     // 默认10分钟，适应跨国网络延迟和大文件传输
     'timeout' => env('SYNC_TIMEOUT', 600),
-    
+
     // 媒体文件下载超时时间（秒）
     // 默认15分钟，适应大文件传输和跨国网络延迟
     'media_download_timeout' => env('SYNC_MEDIA_DOWNLOAD_TIMEOUT', 900),
-    
+
     // 批量同步配置
     // 批量同步时每批处理的记录数（建议50-100，根据网络情况调整）
     'batch_sync_size' => env('SYNC_BATCH_SYNC_SIZE', 50),

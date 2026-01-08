@@ -39,9 +39,9 @@ class PromotionRule extends Model implements HasMedia
 {
     use CascadesMediaDeletes;
     use HasFactory;
+    use HasSnowflakeId;
     use InteractsWithMedia;
     use Syncable;
-    use HasSnowflakeId;
 
     public static $snakeAttributes = false;
 

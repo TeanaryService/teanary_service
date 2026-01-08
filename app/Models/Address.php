@@ -41,8 +41,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Address extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

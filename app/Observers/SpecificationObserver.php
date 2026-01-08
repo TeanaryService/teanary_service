@@ -8,7 +8,7 @@ class SpecificationObserver
 {
     /**
      * Handle the Specification "deleting" event.
-     * 
+     *
      * 级联删除所有关联数据（替代数据库外键约束）
      */
     public function deleting(Specification $specification): void

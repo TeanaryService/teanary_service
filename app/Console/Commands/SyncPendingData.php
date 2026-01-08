@@ -31,8 +31,9 @@ class SyncPendingData extends Command
      */
     public function handle(): int
     {
-        if (!config('sync.enabled')) {
+        if (! config('sync.enabled')) {
             $this->error('同步功能未启用，请在 .env 中设置 SYNC_ENABLED=true');
+
             return Command::FAILURE;
         }
 
@@ -44,7 +45,7 @@ class SyncPendingData extends Command
     }
 
     /**
-     * 处理批量同步
+     * 处理批量同步.
      */
     protected function handleBatchSync(int $limit, bool $useQueue, int $batchSize): int
     {
@@ -55,11 +56,12 @@ class SyncPendingData extends Command
         $currentNode = $config['node'];
         $targetNodes = array_filter(
             array_keys($config['remote_nodes']),
-            fn($node) => $node !== $currentNode
+            fn ($node) => $node !== $currentNode
         );
 
         if (empty($targetNodes)) {
             $this->warn('没有配置目标节点');
+
             return Command::SUCCESS;
         }
 

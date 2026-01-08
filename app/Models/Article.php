@@ -42,10 +42,10 @@ class Article extends Model implements HasMedia
     use CascadesMediaDeletes;
     use HasFactory;
     use HasSnowflakeId;
+    use HasSnowflakeId;
     use InteractsWithMedia;
     use Searchable;
     use Syncable;
-    use HasSnowflakeId;
 
     /**
      * 获取模型的索引化数据数组。

@@ -9,8 +9,7 @@ class LanguageCurrencySwitcherController extends Controller
 {
     public function __construct(
         protected LocaleCurrencyService $localeCurrencyService
-    ) {
-    }
+    ) {}
 
     public function update(Request $request)
     {

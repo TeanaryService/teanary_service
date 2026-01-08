@@ -13,11 +13,10 @@ class SyncController extends Controller
 {
     public function __construct(
         protected SyncService $syncService
-    ) {
-    }
+    ) {}
 
     /**
-     * 获取同步状态（健康检查）
+     * 获取同步状态（健康检查）.
      */
     public function status(): JsonResponse
     {
@@ -31,16 +30,16 @@ class SyncController extends Controller
 
     /**
      * 手动触发模型同步
-     * 用于在直接操作数据库后触发同步
+     * 用于在直接操作数据库后触发同步.
      */
     public function triggerSync(Request $request): JsonResponse
     {
         // 验证 API Key
         $apiKey = $request->header('Authorization');
         $apiKey = str_replace('Bearer ', '', $apiKey);
-        
+
         $config = config('sync');
-        
+
         // 验证 API Key（使用任一远程节点的 API Key）
         $validApiKey = false;
         foreach ($config['remote_nodes'] as $nodeConfig) {
@@ -49,8 +48,8 @@ class SyncController extends Controller
                 break;
             }
         }
-        
-        if (!$validApiKey) {
+
+        if (! $validApiKey) {
             return response()->json([
                 'success' => false,
                 'message' => '无效的 API Key',
@@ -78,7 +77,7 @@ class SyncController extends Controller
             $action = $request->input('action');
 
             // 检查模型类是否存在
-            if (!class_exists($modelType)) {
+            if (! class_exists($modelType)) {
                 return response()->json([
                     'success' => false,
                     'message' => "模型类不存在: {$modelType}",
@@ -87,7 +86,7 @@ class SyncController extends Controller
 
             // 查找模型实例
             $model = $modelType::find($modelId);
-            if (!$model) {
+            if (! $model) {
                 return response()->json([
                     'success' => false,
                     'message' => "模型实例不存在: {$modelType}::{$modelId}",
@@ -109,25 +108,25 @@ class SyncController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => '触发同步失败: ' . $e->getMessage(),
+                'message' => '触发同步失败: '.$e->getMessage(),
             ], 500);
         }
     }
 
     /**
-     * 批量接收来自远程节点的同步数据（高效方案）
+     * 批量接收来自远程节点的同步数据（高效方案）.
      */
     public function receiveBatch(Request $request): JsonResponse
     {
         // 验证 API Key
         $apiKey = $request->header('Authorization');
         $apiKey = str_replace('Bearer ', '', $apiKey);
-        
+
         $config = config('sync');
         $sourceNode = $request->header('X-Sync-Source-Node');
-        
+
         // 验证来源节点和 API Key
-        if (!$sourceNode || !isset($config['remote_nodes'][$sourceNode])) {
+        if (! $sourceNode || ! isset($config['remote_nodes'][$sourceNode])) {
             Log::error('无效的来源节点', [
                 'source_node' => $sourceNode,
             ]);
@@ -141,7 +140,7 @@ class SyncController extends Controller
         $remoteConfig = $config['remote_nodes'][$sourceNode];
         if ($apiKey !== $remoteConfig['api_key']) {
             Log::error('无效的 API Key');
-            
+
             return response()->json([
                 'success' => false,
                 'message' => '无效的 API Key',
@@ -182,9 +181,8 @@ class SyncController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => '批量同步失败: ' . $e->getMessage(),
+                'message' => '批量同步失败: '.$e->getMessage(),
             ], 500);
         }
     }
-
 }

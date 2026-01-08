@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Product;
-use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
@@ -32,7 +31,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试创建商品API（基础功能）
+     * 测试创建商品API（基础功能）.
      */
     public function test_can_create_product_with_translations()
     {
@@ -64,7 +63,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试创建商品时自动创建分类
+     * 测试创建商品时自动创建分类.
      */
     public function test_can_create_product_with_new_category()
     {
@@ -108,7 +107,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试创建商品时使用已存在的分类
+     * 测试创建商品时使用已存在的分类.
      */
     public function test_can_create_product_with_existing_category()
     {
@@ -146,7 +145,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试创建商品时添加分类的多语言翻译
+     * 测试创建商品时添加分类的多语言翻译.
      */
     public function test_can_add_category_translations()
     {
@@ -321,7 +320,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试创建商品时处理主图和内容图片
+     * 测试创建商品时处理主图和内容图片.
      */
     public function test_can_create_product_with_images()
     {
@@ -368,7 +367,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试验证错误 - slug 重复
+     * 测试验证错误 - slug 重复.
      */
     public function test_validation_error_duplicate_slug()
     {
@@ -392,7 +391,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试验证错误 - 缺少翻译
+     * 测试验证错误 - 缺少翻译.
      */
     public function test_validation_error_missing_translations()
     {
@@ -407,7 +406,7 @@ class ProductApiTest extends TestCase
     }
 
     /**
-     * 测试验证错误 - SKU 重复
+     * 测试验证错误 - SKU 重复.
      */
     public function test_validation_error_duplicate_sku()
     {
@@ -437,4 +436,3 @@ class ProductApiTest extends TestCase
         $response->assertJsonValidationErrors(['variants.0.sku']);
     }
 }
-

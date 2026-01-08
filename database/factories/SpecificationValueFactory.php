@@ -25,4 +25,3 @@ class SpecificationValueFactory extends Factory
         ];
     }
 }
-

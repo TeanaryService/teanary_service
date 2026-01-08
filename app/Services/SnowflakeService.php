@@ -3,8 +3,8 @@
 namespace App\Services;
 
 /**
- * 雪花ID生成器
- * 
+ * 雪花ID生成器.
+ *
  * 生成全局唯一的64位整数ID
  * 格式：1位符号位 + 41位时间戳 + 10位机器ID + 12位序列号
  */
@@ -39,14 +39,14 @@ class SnowflakeService
     {
         // 从环境变量获取机器ID，如果没有则使用IP地址的最后一段
         $this->machineId = $machineId ?? $this->getMachineId();
-        
+
         if ($this->machineId < 0 || $this->machineId > self::MAX_MACHINE_ID) {
-            throw new \InvalidArgumentException("机器ID必须在0到" . self::MAX_MACHINE_ID . "之间");
+            throw new \InvalidArgumentException('机器ID必须在0到'.self::MAX_MACHINE_ID.'之间');
         }
     }
 
     /**
-     * 生成雪花ID
+     * 生成雪花ID.
      */
     public function nextId(): int
     {
@@ -54,13 +54,13 @@ class SnowflakeService
 
         // 如果时间回退，抛出异常
         if ($timestamp < $this->lastTimestamp) {
-            throw new \RuntimeException("时钟回退，无法生成ID");
+            throw new \RuntimeException('时钟回退，无法生成ID');
         }
 
         // 同一毫秒内，序列号递增
         if ($timestamp === $this->lastTimestamp) {
             $this->sequence = ($this->sequence + 1) & self::MAX_SEQUENCE;
-            
+
             // 序列号溢出，等待下一毫秒
             if ($this->sequence === 0) {
                 $timestamp = $this->waitNextMillis($this->lastTimestamp);
@@ -79,7 +79,7 @@ class SnowflakeService
     }
 
     /**
-     * 获取当前时间戳（毫秒）
+     * 获取当前时间戳（毫秒）.
      */
     private function currentTimestamp(): int
     {
@@ -87,7 +87,7 @@ class SnowflakeService
     }
 
     /**
-     * 等待下一毫秒
+     * 等待下一毫秒.
      */
     private function waitNextMillis(int $lastTimestamp): int
     {
@@ -95,12 +95,13 @@ class SnowflakeService
         while ($timestamp <= $lastTimestamp) {
             $timestamp = $this->currentTimestamp();
         }
+
         return $timestamp;
     }
 
     /**
      * 获取机器ID
-     * 优先使用环境变量，否则使用IP地址的最后一段
+     * 优先使用环境变量，否则使用IP地址的最后一段.
      */
     private function getMachineId(): int
     {
@@ -115,6 +116,7 @@ class SnowflakeService
         if ($ip && $ip !== gethostname()) {
             $parts = explode('.', $ip);
             $lastPart = (int) end($parts);
+
             return $lastPart % (self::MAX_MACHINE_ID + 1);
         }
 
@@ -123,7 +125,7 @@ class SnowflakeService
     }
 
     /**
-     * 从雪花ID解析时间戳
+     * 从雪花ID解析时间戳.
      */
     public static function parseTimestamp(int $id): int
     {
@@ -131,7 +133,7 @@ class SnowflakeService
     }
 
     /**
-     * 从雪花ID解析机器ID
+     * 从雪花ID解析机器ID.
      */
     public static function parseMachineId(int $id): int
     {
@@ -139,7 +141,7 @@ class SnowflakeService
     }
 
     /**
-     * 从雪花ID解析序列号
+     * 从雪花ID解析序列号.
      */
     public static function parseSequence(int $id): int
     {

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Schema;
 
 class LocaleCurrencyService
 {
-
     public function getLanguages()
     {
         // 检查表是否存在，如果不存在则返回空集合（迁移时的情况）

@@ -41,7 +41,7 @@ class SyncStatus extends Model
     }
 
     /**
-     * 检查是否需要同步（通过哈希值判断数据是否变更）
+     * 检查是否需要同步（通过哈希值判断数据是否变更）.
      */
     public static function needsSync(
         string $modelType,
@@ -54,7 +54,7 @@ class SyncStatus extends Model
             ->where('node', $node)
             ->first();
 
-        if (!$status) {
+        if (! $status) {
             return true; // 从未同步过，需要同步
         }
 

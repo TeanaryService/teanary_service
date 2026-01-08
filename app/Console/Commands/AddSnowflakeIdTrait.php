@@ -14,19 +14,19 @@ class AddSnowflakeIdTrait extends Command
     {
         $modelsPath = app_path('Models');
         $files = File::allFiles($modelsPath);
-        
+
         $updated = 0;
         $skipped = 0;
-        
+
         foreach ($files as $file) {
             $path = $file->getPathname();
             $content = File::get($path);
-            
+
             // 跳过同步表模型
             if (str_contains($path, 'SyncLog') || str_contains($path, 'SyncStatus')) {
                 continue;
             }
-            
+
             // 跳过基础数据模型（多节点应保持一致，不使用雪花ID）
             $baseDataModels = [
                 'Country.php',
@@ -37,7 +37,7 @@ class AddSnowflakeIdTrait extends Command
                 'Currency.php',
                 'PromotionUserGroup.php',
             ];
-            
+
             $shouldSkip = false;
             foreach ($baseDataModels as $modelName) {
                 if (str_ends_with($path, $modelName)) {
@@ -45,23 +45,23 @@ class AddSnowflakeIdTrait extends Command
                     break;
                 }
             }
-            
+
             if ($shouldSkip) {
-                $skipped++;
+                ++$skipped;
                 continue;
             }
-            
+
             // 检查是否使用 Syncable
-            if (!str_contains($content, 'use Syncable') && !str_contains($content, 'use App\\Traits\\Syncable')) {
+            if (! str_contains($content, 'use Syncable') && ! str_contains($content, 'use App\\Traits\\Syncable')) {
                 continue;
             }
-            
+
             // 检查是否已经有 HasSnowflakeId
             if (str_contains($content, 'HasSnowflakeId')) {
-                $skipped++;
+                ++$skipped;
                 continue;
             }
-            
+
             // 添加 use 语句
             if (str_contains($content, 'use App\\Traits\\Syncable;')) {
                 $content = str_replace(
@@ -76,7 +76,7 @@ class AddSnowflakeIdTrait extends Command
                     $content
                 );
             }
-            
+
             // 在类中添加 trait
             if (preg_match('/class\s+\w+\s+extends.*?\{/s', $content, $matches)) {
                 $classStart = $matches[0];
@@ -84,10 +84,10 @@ class AddSnowflakeIdTrait extends Command
                 if (preg_match('/class\s+\w+\s+extends.*?\{([^}]*?)(use\s+\w+;)/s', $content, $useMatches)) {
                     // 在第一个 use 语句后添加 HasSnowflakeId
                     $firstUse = $useMatches[2];
-                    if (!str_contains($firstUse, 'HasSnowflakeId')) {
+                    if (! str_contains($firstUse, 'HasSnowflakeId')) {
                         $content = str_replace(
                             $firstUse,
-                            $firstUse . "\n    use HasSnowflakeId;",
+                            $firstUse."\n    use HasSnowflakeId;",
                             $content
                         );
                     }
@@ -95,19 +95,19 @@ class AddSnowflakeIdTrait extends Command
                     // 如果没有找到 use 语句，在类开始后添加
                     $content = str_replace(
                         $classStart,
-                        $classStart . "\n    use HasSnowflakeId;",
+                        $classStart."\n    use HasSnowflakeId;",
                         $content
                     );
                 }
             }
-            
+
             File::put($path, $content);
-            $updated++;
-            $this->info("Updated: " . basename($path));
+            ++$updated;
+            $this->info('Updated: '.basename($path));
         }
-        
+
         $this->info("完成！更新了 {$updated} 个文件，跳过了 {$skipped} 个文件");
-        
+
         return Command::SUCCESS;
     }
 }

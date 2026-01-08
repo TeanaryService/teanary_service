@@ -34,8 +34,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class SpecificationValue extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

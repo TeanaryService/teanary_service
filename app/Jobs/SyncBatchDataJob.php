@@ -50,6 +50,7 @@ class SyncBatchDataJob implements ShouldQueue
                 Log::info('批量同步：没有待同步的记录', [
                     'target_node' => $this->targetNode,
                 ]);
+
                 return;
             }
 
@@ -60,10 +61,10 @@ class SyncBatchDataJob implements ShouldQueue
 
             // 分批处理，每批最多 batchSize 条
             $chunks = $pendingLogs->chunk($this->batchSize);
-            
+
             foreach ($chunks as $chunk) {
                 $result = $syncService->syncBatchToRemote($chunk, $this->targetNode);
-                
+
                 Log::info('批量同步完成', [
                     'target_node' => $this->targetNode,
                     'success' => $result['success'],

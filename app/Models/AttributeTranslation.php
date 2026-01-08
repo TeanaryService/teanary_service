@@ -28,8 +28,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AttributeTranslation extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

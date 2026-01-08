@@ -34,8 +34,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProductTranslation extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 

@@ -24,8 +24,8 @@ use Illuminate\Database\Eloquent\Model;
 class EditorUpload extends Model
 {
     use HasFactory;
-    use Syncable;
     use HasSnowflakeId;
+    use Syncable;
 
     public static $snakeAttributes = false;
 
