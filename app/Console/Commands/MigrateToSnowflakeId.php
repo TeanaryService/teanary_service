@@ -34,6 +34,7 @@ class MigrateToSnowflakeId extends Command
         
         // 基础表（无外键依赖）
         'users',
+        'managers',
         'categories',
         'attributes',
         'specifications',
@@ -42,7 +43,6 @@ class MigrateToSnowflakeId extends Command
         'promotions',
         'contacts',
         'editor_uploads',
-        'media',
         
         // 依赖基础表的表
         'category_translations',
@@ -67,10 +67,11 @@ class MigrateToSnowflakeId extends Command
         'promotion_rules',
         'user_group_translations',
         
-        // 中间表（多对多关系）
-        'product_category',
-        'product_attribute_value',
-        'product_specification_value',
+        // media 表必须在所有可能被它引用的表之后迁移（因为它使用多态关联）
+        'media',
+        
+        // 注意：中间表（product_category, product_attribute_value, product_variant_specification_value）
+        // 不在 migrationOrder 中，它们会在后面单独处理
     ];
 
     public function __construct()
@@ -124,7 +125,7 @@ class MigrateToSnowflakeId extends Command
         } else {
             $this->info("\n[试运行] 将清空以下表: ".implode(', ', $tables));
         }
-
+        
         $totalRecords = 0;
         $totalErrors = 0;
 
@@ -153,7 +154,7 @@ class MigrateToSnowflakeId extends Command
 
         // 迁移中间表
         $this->info("\n处理中间表（多对多关系）");
-        foreach (['product_category', 'product_attribute_value', 'product_specification_value'] as $pivotTable) {
+        foreach (['product_category', 'product_attribute_value', 'product_variant_specification_value', 'promotion_user_group', 'promotion_product_variant'] as $pivotTable) {
             if (!in_array($pivotTable, $tables)) {
                 continue;
             }
@@ -229,7 +230,9 @@ class MigrateToSnowflakeId extends Command
         // 添加中间表
         $tables[] = 'product_category';
         $tables[] = 'product_attribute_value';
-        $tables[] = 'product_specification_value';
+        $tables[] = 'product_variant_specification_value';
+        $tables[] = 'promotion_user_group';
+        $tables[] = 'promotion_product_variant';
         
         // 添加基础数据表（ID保持原样，不转换为雪花ID）
         $baseDataTables = ['languages', 'currencies', 'countries', 'country_translations', 'zones', 'zone_translations'];
@@ -435,6 +438,11 @@ class MigrateToSnowflakeId extends Command
      */
     private function updateForeignKeys(string $table, array $data): array
     {
+        // 特殊处理 media 表的多态关联
+        if ($table === 'media') {
+            return $this->updateMediaForeignKeys($data);
+        }
+        
         // 定义表的外键关系
         $foreignKeys = [
             'categories' => ['parent_id' => 'categories'], // 自引用
@@ -492,14 +500,81 @@ class MigrateToSnowflakeId extends Command
     }
 
     /**
+     * 更新 media 表的多态关联外键
+     */
+    private function updateMediaForeignKeys(array $data): array
+    {
+        // 模型类型到表名的映射（支持多种格式）
+        $modelTypeToTable = [
+            // 完整命名空间格式
+            'App\\Models\\User' => 'users',
+            'App\\Models\\Category' => 'categories',
+            'App\\Models\\Product' => 'products',
+            'App\\Models\\ProductVariant' => 'product_variants',
+            'App\\Models\\ProductReview' => 'product_reviews',
+            'App\\Models\\Article' => 'articles',
+            'App\\Models\\PromotionRule' => 'promotion_rules',
+            'App\\Models\\Manager' => 'managers',
+            // 短名称格式（以防万一）
+            'User' => 'users',
+            'Category' => 'categories',
+            'Product' => 'products',
+            'ProductVariant' => 'product_variants',
+            'ProductReview' => 'product_reviews',
+            'Article' => 'articles',
+            'PromotionRule' => 'promotion_rules',
+            'Manager' => 'managers',
+        ];
+        
+        if (isset($data['model_id']) && isset($data['model_type']) && $data['model_id'] !== null) {
+            $modelType = $data['model_type'];
+            $oldModelId = $data['model_id'];
+            
+            // 查找对应的表名
+            $relatedTable = $modelTypeToTable[$modelType] ?? null;
+            
+            if ($relatedTable) {
+                // 如果引用的是基础数据表，ID保持原样，不需要映射
+                if ($this->isBaseDataTable($relatedTable)) {
+                    // 基础数据表的ID保持原样，不需要转换
+                    return $data;
+                }
+                
+                // 其他表需要映射转换
+                if (isset($this->idMappings[$relatedTable][$oldModelId])) {
+                    $newModelId = $this->idMappings[$relatedTable][$oldModelId];
+                    $data['model_id'] = $newModelId;
+                    $this->line("    转换 media model_id: {$oldModelId} -> {$newModelId} (model_type: {$modelType}, table: {$relatedTable})");
+                } else {
+                    // 如果找不到映射，输出调试信息
+                    $this->warn("    警告: media 表的 model_id = {$oldModelId} (model_type: {$modelType}, table: {$relatedTable}) 找不到映射");
+                    $this->warn("    可用的映射表: " . implode(', ', array_keys($this->idMappings)));
+                    if (isset($this->idMappings[$relatedTable])) {
+                        $this->warn("    {$relatedTable} 表的映射数量: " . count($this->idMappings[$relatedTable]));
+                    } else {
+                        $this->warn("    {$relatedTable} 表的映射不存在");
+                    }
+                    $data['model_id'] = null;
+                }
+            } else {
+                $this->warn("    警告: media 表的 model_type = {$modelType} 未在映射表中，跳过 model_id 转换");
+            }
+        }
+        
+        return $data;
+    }
+
+    /**
      * 获取中间表的外键字段
      */
     private function getPivotTableForeignKeys(string $table): array
     {
         $pivotKeys = [
             'product_category' => ['product_id', 'category_id'],
-            'product_attribute_value' => ['product_id', 'attribute_value_id'],
-            'product_specification_value' => ['product_id', 'specification_value_id'],
+            'product_attribute_value' => ['attribute_id', 'product_id', 'attribute_value_id'],
+            'product_variant_specification_value' => ['product_variant_id', 'specification_id', 'specification_value_id'],
+            'promotion_user_group' => ['promotion_id', 'user_group_id'],
+            'promotion_product_variant' => ['promotion_id', 'product_id', 'product_variant_id'],
         ];
         
         return $pivotKeys[$table] ?? [];
@@ -516,12 +591,23 @@ class MigrateToSnowflakeId extends Command
                 'category_id' => 'categories',
             ],
             'product_attribute_value' => [
+                'attribute_id' => 'attributes',
                 'product_id' => 'products',
                 'attribute_value_id' => 'attribute_values',
             ],
-            'product_specification_value' => [
-                'product_id' => 'products',
+            'product_variant_specification_value' => [
+                'product_variant_id' => 'product_variants',
+                'specification_id' => 'specifications',
                 'specification_value_id' => 'specification_values',
+            ],
+            'promotion_user_group' => [
+                'promotion_id' => 'promotions',
+                'user_group_id' => 'user_groups',
+            ],
+            'promotion_product_variant' => [
+                'promotion_id' => 'promotions',
+                'product_id' => 'products',
+                'product_variant_id' => 'product_variants',
             ],
         ];
         
@@ -537,7 +623,7 @@ class MigrateToSnowflakeId extends Command
         $reverseOrder = array_reverse($this->migrationOrder);
         
         // 添加中间表到清空列表（中间表应该最先清空）
-        $pivotTables = ['product_category', 'product_attribute_value', 'product_specification_value'];
+        $pivotTables = ['product_category', 'product_attribute_value', 'product_variant_specification_value', 'promotion_user_group', 'promotion_product_variant'];
         $tablesToClear = array_merge($pivotTables, $reverseOrder);
         
         // 去重并过滤出实际需要清空的表
