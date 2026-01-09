@@ -146,14 +146,42 @@ class Product extends Model implements HasMedia
             foreach ($changes['detached'] ?? [] as $attributeValueId) {
                 $pivot = $pivotsToDelete->get($attributeValueId);
                 if ($pivot) {
+                    // 使用完整记录触发同步
                     $syncService->recordSync($pivot, 'deleted', $currentNode);
                 } else {
-                    // 如果找不到完整记录，使用部分信息创建（作为后备方案）
-                    $pivot = new \App\Models\ProductAttributeValue([
-                        'product_id' => $this->id,
-                        'attribute_value_id' => $attributeValueId,
-                    ]);
-                    $syncService->recordSync($pivot, 'deleted', $currentNode);
+                    // 如果找不到完整记录，尝试从数据库查询（可能是在 sync 之前就被删除了）
+                    $pivot = \App\Models\ProductAttributeValue::where('product_id', $this->id)
+                        ->where('attribute_value_id', $attributeValueId)
+                        ->first();
+                    
+                    if ($pivot) {
+                        // 找到了记录，使用它触发同步
+                        $syncService->recordSync($pivot, 'deleted', $currentNode);
+                    } else {
+                        // 如果还是找不到，尝试通过 attribute_value 查找 attribute_id
+                        $attributeValue = \App\Models\AttributeValue::find($attributeValueId);
+                        if ($attributeValue && $attributeValue->attribute_id) {
+                            // 使用所有已知字段创建记录（用于删除同步）
+                            $pivot = new \App\Models\ProductAttributeValue([
+                                'product_id' => $this->id,
+                                'attribute_value_id' => $attributeValueId,
+                                'attribute_id' => $attributeValue->attribute_id,
+                            ]);
+                            $syncService->recordSync($pivot, 'deleted', $currentNode);
+                        } else {
+                            // 最后的后备方案：只使用 product_id 和 attribute_value_id
+                            // 注意：这可能导致目标节点无法正确删除（如果缺少 attribute_id）
+                            \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 删除同步：无法获取完整记录', [
+                                'product_id' => $this->id,
+                                'attribute_value_id' => $attributeValueId,
+                            ]);
+                            $pivot = new \App\Models\ProductAttributeValue([
+                                'product_id' => $this->id,
+                                'attribute_value_id' => $attributeValueId,
+                            ]);
+                            $syncService->recordSync($pivot, 'deleted', $currentNode);
+                        }
+                    }
                 }
             }
         }

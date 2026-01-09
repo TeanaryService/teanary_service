@@ -636,15 +636,32 @@ class SyncService
                 foreach ($whereConditions as $field => $value) {
                     $query->where($field, $value);
                 }
-                $model = $query->first();
+                $models = $query->get();
                 
-                if ($model) {
-                    $model->delete();
-                } else {
-                    Log::debug('删除 Pivot 表记录：未找到匹配的记录', [
+                if ($models->isEmpty()) {
+                    Log::warning('删除 Pivot 表记录：未找到匹配的记录', [
+                        'model_type' => $modelType,
+                        'where_conditions' => $whereConditions,
+                        'payload' => $payload,
+                    ]);
+                } elseif ($models->count() === 1) {
+                    // 只有一条记录，直接删除
+                    $models->first()->delete();
+                    Log::debug('删除 Pivot 表记录成功', [
                         'model_type' => $modelType,
                         'where_conditions' => $whereConditions,
                     ]);
+                } else {
+                    // 多条记录匹配，记录警告但删除所有匹配的记录
+                    Log::warning('删除 Pivot 表记录：找到多条匹配记录，将删除所有匹配的记录', [
+                        'model_type' => $modelType,
+                        'where_conditions' => $whereConditions,
+                        'count' => $models->count(),
+                        'payload' => $payload,
+                    ]);
+                    foreach ($models as $model) {
+                        $model->delete();
+                    }
                 }
             } catch (\Exception $e) {
                 Log::warning('删除 Pivot 表记录失败', [
