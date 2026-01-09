@@ -1080,17 +1080,35 @@ class SyncService
             // 刷新 Media 模型以确保数据是最新的
             $media->refresh();
             
-            // 确保 model 关联已加载
-            if (! $media->relationLoaded('model')) {
-                $media->load('model');
+            // 从 Media 的 model_type 和 model_id 字段获取关联的 model
+            // 而不是依赖关联加载（因为同步时可能关联没有正确设置）
+            $modelType = $media->model_type;
+            $modelId = $media->model_id;
+            
+            if (! $modelType || ! $modelId) {
+                Log::warning('Media 转换跳过：缺少 model_type 或 model_id', [
+                    'media_id' => $media->id,
+                    'model_type' => $modelType,
+                    'model_id' => $modelId,
+                ]);
+                return;
             }
             
-            $model = $media->model;
+            // 直接通过 model_type 和 model_id 查找 model
+            if (! class_exists($modelType)) {
+                Log::warning('Media 转换跳过：model_type 类不存在', [
+                    'media_id' => $media->id,
+                    'model_type' => $modelType,
+                ]);
+                return;
+            }
+            
+            $model = $modelType::find($modelId);
             if (! $model) {
                 Log::warning('Media 转换跳过：关联的 model 不存在', [
                     'media_id' => $media->id,
-                    'model_type' => $media->model_type,
-                    'model_id' => $media->model_id,
+                    'model_type' => $modelType,
+                    'model_id' => $modelId,
                 ]);
                 return;
             }
