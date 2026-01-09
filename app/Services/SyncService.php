@@ -1206,27 +1206,12 @@ class SyncService
                 return;
             }
             
-            // 使用 Spatie Media Library 的标准 Job 来生成 conversions
-            $jobClass = config('media-library.jobs.perform_conversions', 
-                \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class);
-            
-            if (! class_exists($jobClass)) {
-                Log::warning('Media 转换跳过：PerformConversionsJob 类不存在', [
-                    'media_id' => $media->id,
-                    'job_class' => $jobClass,
-                ]);
-                return;
-            }
-            
-            // 分发到队列
-            // PerformConversionsJob 需要 ConversionCollection 作为第一个参数，Media 作为第二个参数
-            // 注意：Job 执行时可能会更新 Media 模型，需要在 Job 中禁用同步
-            // 但由于 Job 是异步执行的，我们无法在这里控制
-            // 因此，我们依赖 receiveBatchSync 中的同步禁用机制
+            // 使用自定义的 Job 包装器，在执行时禁用 Media 同步
+            // 防止转换过程中更新 Media 模型时触发同步导致死循环
             $queueConnection = config('media-library.queue_connection_name');
             $queueName = config('media-library.queue_name', 'default');
             
-            dispatch(new $jobClass($conversions, $media))
+            dispatch(new \App\Jobs\PerformMediaConversionsJob($conversions, $media))
                 ->onConnection($queueConnection ?: config('queue.default'))
                 ->onQueue($queueName);
             
