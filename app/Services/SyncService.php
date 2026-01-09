@@ -608,9 +608,43 @@ class SyncService
         if ($isPivot) {
             // Pivot 表使用复合键删除
             try {
-                $model = $modelType::where($payload)->first();
+                // 对于 Pivot 表，payload 应该包含所有 fillable 字段
+                // 如果 payload 不完整，尝试使用所有 fillable 字段构建查询条件
+                $modelInstance = new $modelType();
+                $fillableFields = $modelInstance->getFillable();
+                
+                // 构建查询条件：只使用 payload 中存在的 fillable 字段
+                $whereConditions = [];
+                foreach ($fillableFields as $field) {
+                    if (isset($payload[$field])) {
+                        $whereConditions[$field] = $payload[$field];
+                    }
+                }
+                
+                // 如果没有任何条件，记录警告并返回
+                if (empty($whereConditions)) {
+                    Log::warning('删除 Pivot 表记录失败：payload 中缺少必要的字段', [
+                        'model_type' => $modelType,
+                        'payload' => $payload,
+                        'fillable_fields' => $fillableFields,
+                    ]);
+                    return;
+                }
+                
+                // 使用构建的条件查找记录
+                $query = $modelType::query();
+                foreach ($whereConditions as $field => $value) {
+                    $query->where($field, $value);
+                }
+                $model = $query->first();
+                
                 if ($model) {
                     $model->delete();
+                } else {
+                    Log::debug('删除 Pivot 表记录：未找到匹配的记录', [
+                        'model_type' => $modelType,
+                        'where_conditions' => $whereConditions,
+                    ]);
                 }
             } catch (\Exception $e) {
                 Log::warning('删除 Pivot 表记录失败', [
