@@ -182,6 +182,8 @@ class SyncService
             ];
         }
 
+        // Media 同步已移除，不再需要排序
+
         // 按模型类型批量处理
         foreach ($groupedByModelType as $modelType => $items) {
             $this->disableSyncForModel($modelType);
@@ -310,58 +312,15 @@ class SyncService
 
     /**
      * 下载并保存 Media 文件.
+     * 
+     * 已移除，稍后重写
      */
-    protected function downloadAndSaveMediaFile(
-        \App\Models\Media $media,
-        array $payload
-    ): void {
-        // 优先使用 original_url，如果没有则尝试 file_url
-        $downloadUrl = $payload['original_url'] ?? $payload['file_url'] ?? null;
-        
-        if (! $downloadUrl) {
-            Log::warning('Media 同步数据缺少下载 URL', [
-                'media_id' => $media->id,
-                'payload_keys' => array_keys($payload),
-                'payload' => $payload,
-            ]);
-
-            return;
-        }
-
-        // 检查文件是否已存在
-        if ($this->mediaFileExists($media)) {
-            Log::info('Media 文件已存在，跳过下载', [
-                'media_id' => $media->id,
-                'file_path' => $this->getMediaFilePath($media),
-            ]);
-            
-            // 即使文件存在，也触发转换和调整任务
-            $this->triggerMediaConversions($media);
-            $this->dispatchImageResizeJob($media);
-            
-            return;
-        }
-
-        try {
-            $this->downloadMainMediaFile($media, $downloadUrl);
-            $this->triggerMediaConversions($media);
-            $this->dispatchImageResizeJob($media);
-
-            Log::info('Media 文件同步成功', [
-                'media_id' => $media->id,
-                'file_path' => $this->getMediaFilePath($media),
-                'file_size' => $this->getMediaFileSize($media),
-            ]);
-        } catch (\Exception $e) {
-            Log::error('下载 Media 文件失败', [
-                'media_id' => $media->id,
-                'url' => $downloadUrl,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            throw $e;
-        }
-    }
+    // protected function downloadAndSaveMediaFile(
+    //     \App\Models\Media $media,
+    //     array $payload
+    // ): void {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
     /**
      * 删除模型.
@@ -744,9 +703,10 @@ class SyncService
                     break;
                 }
 
-                if ($model instanceof \App\Models\Media) {
-                    $this->downloadAndSaveMediaFile($model, $payload);
-                }
+                // Media 同步已移除，稍后重写
+                // if ($model instanceof \App\Models\Media) {
+                //     $this->downloadAndSaveMediaFile($model, $payload);
+                // }
                 break;
             case 'deleted':
                 $this->deleteModel($modelType, $modelId);
@@ -774,16 +734,18 @@ class SyncService
 
     /**
      * 添加媒体文件信息到payload.
+     * 
+     * 已移除，稍后重写
      */
     protected function addMediaFileInfo(array &$payload, Model $model): void
     {
-        if ($model instanceof \App\Models\Media) {
-            $payload['file_url'] = $model->getUrl();
-            $payload['file_path'] = $model->getPath();
-            $payload['file_disk'] = $model->disk;
-            // 添加 original_url，用于同步时下载文件
-            $payload['original_url'] = $model->getUrl();
-        }
+        // Media 同步功能已移除，稍后重写
+        // if ($model instanceof \App\Models\Media) {
+        //     $payload['file_url'] = $model->getUrl();
+        //     $payload['file_path'] = $model->getPath();
+        //     $payload['file_disk'] = $model->disk;
+        //     $payload['original_url'] = $model->getUrl();
+        // }
     }
 
     /**
@@ -905,281 +867,88 @@ class SyncService
     }
 
     /**
-     * 下载主媒体文件（带重试机制）.
+     * 下载并保存文件（带重试机制）.
+     * 
+     * 已移除，稍后重写
      */
-    protected function downloadMainMediaFile(
-        \App\Models\Media $media,
-        string $downloadUrl
-    ): void {
-        $timeout = config('sync.media_download_timeout', 900); // 默认15分钟
-        $maxRetries = 3;
-        $retryDelay = 2; // 秒
-        
-        $lastException = null;
-        
-        for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
-            try {
-                Log::info('开始下载 Media 文件', [
-                    'media_id' => $media->id,
-                    'url' => $downloadUrl,
-                    'attempt' => $attempt,
-                    'max_retries' => $maxRetries,
-                ]);
-
-                $response = Http::timeout($timeout)
-                    ->withHeaders([
-                        'User-Agent' => 'Teanary-Sync-Client/1.0',
-                        'Accept' => '*/*',
-                        'Accept-Encoding' => 'gzip, deflate',
-                    ])
-                    ->retry(2, 1000) // HTTP 客户端级别的重试
-                    ->get($downloadUrl);
-
-                if (! $response->successful()) {
-                    $errorBody = substr($response->body(), 0, 500); // 限制错误信息长度
-                    throw new \Exception('下载文件失败: HTTP '.$response->status().($errorBody ? " - {$errorBody}" : ''));
-                }
-
-                $fileContent = $response->body();
-                
-                // 验证文件内容不为空
-                if (empty($fileContent)) {
-                    throw new \Exception('下载的文件内容为空');
-                }
-                
-                // 验证是否为有效的图片（如果是图片类型）
-                if (str_starts_with($media->mime_type ?? '', 'image/')) {
-                    $imageInfo = @getimagesizefromstring($fileContent);
-                    if ($imageInfo === false) {
-                        throw new \Exception('下载的内容不是有效的图片文件');
-                    }
-                }
-
-                // 保存文件
-                $this->saveMediaFile($media, $fileContent);
-                
-                Log::info('Media 文件下载成功', [
-                    'media_id' => $media->id,
-                    'file_size' => strlen($fileContent),
-                    'attempt' => $attempt,
-                ]);
-                
-                return; // 成功，退出重试循环
-                
-            } catch (\Exception $e) {
-                $lastException = $e;
-                
-                Log::warning('Media 文件下载失败（尝试 '.$attempt.'/'.$maxRetries.'）', [
-                    'media_id' => $media->id,
-                    'url' => $downloadUrl,
-                    'error' => $e->getMessage(),
-                    'attempt' => $attempt,
-                ]);
-                
-                // 如果不是最后一次尝试，等待后重试
-                if ($attempt < $maxRetries) {
-                    sleep($retryDelay);
-                    $retryDelay *= 2; // 指数退避
-                }
-            }
-        }
-        
-        // 所有重试都失败
-        Log::error('Media 文件下载最终失败', [
-            'media_id' => $media->id,
-            'url' => $downloadUrl,
-            'max_retries' => $maxRetries,
-            'error' => $lastException?->getMessage(),
-        ]);
-        
-        throw new \Exception('下载文件失败（已重试 '.$maxRetries.' 次）: '.($lastException?->getMessage() ?? '未知错误'));
-    }
+    // protected function downloadAndSaveFile(
+    //     \App\Models\Media $media,
+    //     string $downloadUrl
+    // ): void {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
     /**
      * 保存媒体文件到磁盘.
+     * 
+     * 已移除，稍后重写
      */
-    protected function saveMediaFile(
-        \App\Models\Media $media,
-        string $fileContent
-    ): void {
-        $disk = $media->disk ?? config('media-library.disk_name', 'public');
-        $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
-        $filePath = $this->getMediaFilePath($media);
-        $directory = dirname($filePath);
-
-        // 确保目录存在
-        if (! $diskInstance->exists($directory)) {
-            $diskInstance->makeDirectory($directory, 0755, true);
-        }
-
-        // 保存文件
-        $diskInstance->put($filePath, $fileContent);
-        
-        // 验证文件是否成功保存
-        if (! $diskInstance->exists($filePath)) {
-            throw new \Exception('文件保存失败：文件不存在于磁盘');
-        }
-    }
+    // protected function saveMediaFile(
+    //     \App\Models\Media $media,
+    //     string $fileContent
+    // ): void {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
     /**
-     * 获取 Media 文件的完整路径（相对路径，用于 Storage）。
+     * 获取 Media 文件的相对路径（用于 Storage）.
      * 
-     * 注意：需要确保返回的是相对路径，而不是绝对路径。
-     * 使用 PathGeneratorFactory 来获取正确的 PathGenerator。
+     * 已移除，稍后重写
      */
-    protected function getMediaFilePath(\App\Models\Media $media): string
-    {
-        $fileName = $media->file_name ?? $media->name ?? 'file';
-        
-        // 使用 PathGeneratorFactory 获取正确的 PathGenerator
-        $pathGeneratorFactory = app(\Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory::class);
-        $pathGenerator = $pathGeneratorFactory->create($media);
-        
-        // 使用 PathGenerator 获取目录路径（相对路径）
-        $directory = $pathGenerator->getPath($media);
-        
-        // 拼接文件名，返回相对路径
-        return rtrim($directory, '/').'/'.$fileName;
-    }
+    // protected function getMediaFilePath(\App\Models\Media $media): string
+    // {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
     /**
      * 检查 Media 文件是否已存在.
+     * 
+     * 已移除，稍后重写
      */
-    protected function mediaFileExists(\App\Models\Media $media): bool
-    {
-        $disk = $media->disk ?? config('media-library.disk_name', 'public');
-        $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
-        $filePath = $this->getMediaFilePath($media);
-        
-        return $diskInstance->exists($filePath);
-    }
+    // protected function mediaFileExists(\App\Models\Media $media): bool
+    // {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
     /**
      * 获取 Media 文件大小.
+     * 
+     * 已移除，稍后重写
      */
-    protected function getMediaFileSize(\App\Models\Media $media): ?int
-    {
-        $disk = $media->disk ?? config('media-library.disk_name', 'public');
-        $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
-        $filePath = $this->getMediaFilePath($media);
-        
-        if ($diskInstance->exists($filePath)) {
-            return $diskInstance->size($filePath);
-        }
-        
-        return null;
-    }
+    // protected function getMediaFileSize(\App\Models\Media $media): ?int
+    // {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
     /**
-     * 触发媒体转换生成.
+     * 触发媒体转换生成（使用 Spatie Media Library 标准方法）.
+     * 
+     * 已移除，稍后重写
      */
-    protected function triggerMediaConversions(
-        \App\Models\Media $media
-    ): void {
-        try {
-            // 刷新 Media 模型以确保数据是最新的
-            $media->refresh();
-            
-            // 从 Media 的 model_type 和 model_id 字段获取关联的 model
-            // 而不是依赖关联加载（因为同步时可能关联没有正确设置）
-            $modelType = $media->model_type;
-            $modelId = $media->model_id;
-            
-            if (! $modelType || ! $modelId) {
-                Log::warning('Media 转换跳过：缺少 model_type 或 model_id', [
-                    'media_id' => $media->id,
-                    'model_type' => $modelType,
-                    'model_id' => $modelId,
-                ]);
-                return;
-            }
-            
-            // 直接通过 model_type 和 model_id 查找 model
-            if (! class_exists($modelType)) {
-                Log::warning('Media 转换跳过：model_type 类不存在', [
-                    'media_id' => $media->id,
-                    'model_type' => $modelType,
-                ]);
-                return;
-            }
-            
-            $model = $modelType::find($modelId);
-            if (! $model) {
-                Log::warning('Media 转换跳过：关联的 model 不存在', [
-                    'media_id' => $media->id,
-                    'model_type' => $modelType,
-                    'model_id' => $modelId,
-                ]);
-                return;
-            }
+    // protected function triggerMediaConversions(
+    //     \App\Models\Media $media
+    // ): void {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
-            // 检查 model 是否有 registerMediaConversions 方法
-            if (! method_exists($model, 'registerMediaConversions')) {
-                Log::info('Media 转换跳过：model 没有 registerMediaConversions 方法', [
-                    'media_id' => $media->id,
-                    'model_type' => get_class($model),
-                ]);
-                return;
-            }
-
-            // 使用 Spatie Media Library 的 PerformConversionsJob 来生成 conversions
-            // 从配置中获取 job class
-            $jobClass = config('media-library.jobs.perform_conversions');
-            if (! $jobClass || ! class_exists($jobClass)) {
-                // 如果配置中没有，尝试使用默认的类名
-                $jobClass = \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class;
-            }
-            
-            if (class_exists($jobClass)) {
-                $queueConnection = config('media-library.queue_connection_name');
-                $queueName = config('media-library.queue_name', 'default');
-                
-                // 分发 conversion job 到队列
-                dispatch(new $jobClass($media))
-                    ->onConnection($queueConnection ?: config('queue.default'))
-                    ->onQueue($queueName);
-                
-                Log::info('已分发 Media 转换任务到队列', [
-                    'media_id' => $media->id,
-                    'model_type' => get_class($model),
-                    'queue' => $queueName,
-                    'queue_connection' => $queueConnection,
-                ]);
-            } else {
-                // 如果 job class 不存在，尝试直接调用 performConversions（如果存在）
-                if (method_exists($media, 'performConversions')) {
-                    $media->performConversions();
-                    Log::info('已触发 Media 转换生成（同步）', [
-                        'media_id' => $media->id,
-                    ]);
-                } else {
-                    Log::warning('Media 转换跳过：无法找到 PerformConversionsJob 或 performConversions 方法', [
-                        'media_id' => $media->id,
-                    ]);
-                }
-            }
-        } catch (\Exception $e) {
-            Log::error('触发 Media 转换生成失败', [
-                'media_id' => $media->id,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-        }
-    }
+    /**
+     * 获取 Media 关联的 model.
+     * 
+     * 已移除，稍后重写
+     */
+    // protected function getMediaModel(\App\Models\Media $media): ?Model
+    // {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 
     /**
      * 分发图片调整任务
+     * 
+     * 已移除，稍后重写
      */
-    protected function dispatchImageResizeJob(
-        \App\Models\Media $media
-    ): void {
-        try {
-            ResizeUploadedImage::dispatch($media)->onQueue('low');
-        } catch (\Exception $e) {
-            Log::warning('触发图片调整任务失败', [
-                'media_id' => $media->id,
-                'error' => $e->getMessage(),
-            ]);
-        }
-    }
+    // protected function dispatchImageResizeJob(
+    //     \App\Models\Media $media
+    // ): void {
+    //     // Media 同步功能已移除，稍后重写
+    // }
 }

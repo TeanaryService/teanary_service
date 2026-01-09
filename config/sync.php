@@ -103,8 +103,8 @@ return [
         \App\Models\Contact::class,
         \App\Models\Manager::class,
 
-        // 媒体文件（图片、资源等）
-        \App\Models\Media::class,
+        // 媒体文件（图片、资源等）- 已移除，稍后重写
+        // \App\Models\Media::class,
     ],
 
     // 同步队列名称
