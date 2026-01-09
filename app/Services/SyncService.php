@@ -759,6 +759,8 @@ class SyncService
             $payload['file_url'] = $model->getUrl();
             $payload['file_path'] = $model->getPath();
             $payload['file_disk'] = $model->disk;
+            // 添加 original_url，用于同步时下载文件
+            $payload['original_url'] = $model->getUrl();
         }
     }
 

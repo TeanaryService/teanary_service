@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Image\Enums\Constraint;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -60,18 +61,31 @@ class ResizeUploadedImage implements ShouldQueue
         $this->media->refresh();
 
         $path = $this->media->getPath();
+        $disk = $this->media->disk ?? config('media-library.disk_name', 'public');
+        $diskInstance = Storage::disk($disk);
 
-        if (! file_exists($path)) {
+        // 使用 Storage facade 检查文件是否存在（支持不同的 disk）
+        if (! $diskInstance->exists($path)) {
             Log::warning('图片调整任务跳过：文件不存在', [
                 'media_id' => $this->media->id,
                 'path' => $path,
+                'disk' => $disk,
             ]);
 
             return;
         }
 
         try {
-            $image = Image::load($path);
+            // 对于本地磁盘，直接加载
+            if ($disk === 'local' || $disk === 'public') {
+                $image = Image::load($diskInstance->path($path));
+                $tempPath = null; // 不需要临时文件
+            } else {
+                // 对于远程磁盘（如 S3），下载到临时文件
+                $tempPath = sys_get_temp_dir().'/'.uniqid('resize_').'_'.basename($path);
+                file_put_contents($tempPath, $diskInstance->get($path));
+                $image = Image::load($tempPath);
+            }
 
             $width = $image->getWidth();
             $height = $image->getHeight();
@@ -88,9 +102,21 @@ class ResizeUploadedImage implements ShouldQueue
                 $image->height(800, [Constraint::PreserveAspectRatio]);
             }
 
-            // 保存处理图到临时路径
-            $image->save($path);
-            Log::info('图片调整完成', ['path' => $path]);
+            // 保存处理后的图片
+            if ($disk === 'local' || $disk === 'public') {
+                $image->save($diskInstance->path($path));
+            } else {
+                // 对于远程磁盘，保存到临时文件后上传
+                $image->save($tempPath);
+                $diskInstance->put($path, file_get_contents($tempPath));
+            }
+            
+            // 清理临时文件（如果存在）
+            if (isset($tempPath) && $tempPath && file_exists($tempPath)) {
+                @unlink($tempPath);
+            }
+            
+            Log::info('图片调整完成', ['path' => $path, 'disk' => $disk]);
         } catch (\Exception $e) {
             Log::error('图片调整失败', [
                 'media_id' => $this->media->id,
