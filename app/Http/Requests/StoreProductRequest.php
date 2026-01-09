@@ -15,61 +15,40 @@ class StoreProductRequest extends FormRequest
     }
 
     /**
+     * 准备验证数据，去掉 source_url 的查询参数.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('source_url') && $this->source_url !== null && $this->source_url !== '') {
+            $url = $this->source_url;
+            // 去掉查询参数（? 后面的部分）和锚点（# 后面的部分）
+            $questionMarkPos = strpos($url, '?');
+            if ($questionMarkPos !== false) {
+                $url = substr($url, 0, $questionMarkPos);
+            }
+            
+            $this->merge([
+                'source_url' => $url,
+            ]);
+        }
+    }
+
+    /**
      * 验证失败时返回JSON响应.
      */
     protected function failedValidation(Validator $validator)
     {
-        // 记录验证失败的详细信息
+        // 直接记录原始请求数据和验证错误
         $errors = $validator->errors()->toArray();
-        $requestData = $this->all();
-
-        // 排除大的图片内容，避免日志过大
-        $logData = [
+        
+        Log::warning('商品上传验证失败', [
             'ip' => $this->ip(),
             'user_agent' => $this->userAgent(),
             'url' => $this->fullUrl(),
             'method' => $this->method(),
             'validation_errors' => $errors,
-            'request_data' => [
-                'slug' => $requestData['slug'] ?? null,
-                'source_url' => $requestData['source_url'] ?? null,
-                'main_image' => isset($requestData['main_image']) ? [
-                    'image_id' => $requestData['main_image']['image_id'] ?? null,
-                    'has_contents' => isset($requestData['main_image']['contents']),
-                    'has_image_url' => isset($requestData['main_image']['image_url']),
-                ] : null,
-                'content_images_count' => isset($requestData['content_images']) ? count($requestData['content_images']) : 0,
-                'translations_count' => isset($requestData['translations']) ? count($requestData['translations']) : 0,
-                'translations' => isset($requestData['translations']) ? array_map(function ($trans) {
-                    return [
-                        'language_id' => $trans['language_id'] ?? null,
-                        'name' => $trans['name'] ?? null,
-                        'has_description' => isset($trans['description']),
-                        'has_short_description' => isset($trans['short_description']),
-                    ];
-                }, $requestData['translations']) : [],
-                'categories_count' => isset($requestData['categories']) ? count($requestData['categories']) : 0,
-                'variants_count' => isset($requestData['variants']) ? count($requestData['variants']) : 0,
-                'variants' => isset($requestData['variants']) ? array_map(function ($variant) {
-                    return [
-                        'sku' => $variant['sku'] ?? null,
-                        'price' => $variant['price'] ?? null,
-                        'stock' => $variant['stock'] ?? null,
-                        'has_specification_values' => isset($variant['specification_values']),
-                        'specification_values_count' => isset($variant['specification_values']) ? count($variant['specification_values']) : 0,
-                    ];
-                }, $requestData['variants']) : [],
-                'attributes_count' => isset($requestData['attributes']) ? count($requestData['attributes']) : 0,
-                'attributes' => isset($requestData['attributes']) ? array_map(function ($attr) {
-                    return [
-                        'name' => $attr['name'] ?? null,
-                        'value' => $attr['value'] ?? null,
-                    ];
-                }, $requestData['attributes']) : [],
-            ],
-        ];
-
-        Log::warning('商品上传验证失败', $logData);
+            'request_data' => $this->all(),
+        ]);
 
         throw new HttpResponseException(
             response()->json([
