@@ -365,7 +365,17 @@ class SyncService
             // 移除 id 字段，因为 update 不应该更新主键
             $updatePayload = $payload;
             unset($updatePayload['id']);
-            $model->update($updatePayload);
+            
+            // 对于 Media 模型，使用 withoutEvents 禁用所有事件（包括 Observer）
+            // 防止更新时触发同步导致死循环
+            if ($modelType === \App\Models\Media::class) {
+                $model->withoutEvents(function () use ($model, $updatePayload) {
+                    $model->update($updatePayload);
+                });
+            } else {
+                $model->update($updatePayload);
+            }
+            
             return $model;
         }
 
@@ -435,51 +445,62 @@ class SyncService
 
     /**
      * 下载并保存 Media 文件，并生成缩略图.
+     * 
+     * 注意：此方法在同步接收过程中调用，需要禁用 Media 同步以避免死循环
      */
     protected function downloadAndSaveMediaFile(
         \App\Models\Media $media,
         array $payload
     ): void {
-        // 获取下载 URL
-        $downloadUrl = $payload['original_url'] ?? $payload['file_url'] ?? null;
+        // 确保 Media 同步被禁用（防止文件下载和转换过程中触发同步导致死循环）
+        $wasDisabled = \App\Observers\MediaObserver::$syncDisabled;
+        \App\Observers\MediaObserver::$syncDisabled = true;
         
-        if (! $downloadUrl) {
-            Log::warning('Media 同步数据缺少下载 URL', [
-                'media_id' => $media->id,
-                'payload_keys' => array_keys($payload),
-            ]);
-            return;
-        }
-
-        // 检查文件是否已存在
-        if ($this->mediaFileExists($media)) {
-            Log::info('Media 文件已存在，跳过下载', [
-                'media_id' => $media->id,
-                'file_path' => $this->getMediaFilePath($media),
-            ]);
-            // 文件已存在，只需触发 conversions（如果还没有生成）
-            $this->triggerMediaConversions($media);
-            return;
-        }
-
-        // 下载并保存文件
         try {
-            $this->downloadAndSaveFile($media, $downloadUrl);
+            // 获取下载 URL
+            $downloadUrl = $payload['original_url'] ?? $payload['file_url'] ?? null;
             
-            // 文件保存成功后，触发 conversions 生成缩略图
-            $this->triggerMediaConversions($media);
+            if (! $downloadUrl) {
+                Log::warning('Media 同步数据缺少下载 URL', [
+                    'media_id' => $media->id,
+                    'payload_keys' => array_keys($payload),
+                ]);
+                return;
+            }
 
-            Log::info('Media 文件同步成功', [
-                'media_id' => $media->id,
-                'file_size' => $this->getMediaFileSize($media),
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Media 文件同步失败', [
-                'media_id' => $media->id,
-                'url' => $downloadUrl,
-                'error' => $e->getMessage(),
-            ]);
-            // 不抛出异常，避免影响其他数据的同步
+            // 检查文件是否已存在
+            if ($this->mediaFileExists($media)) {
+                Log::info('Media 文件已存在，跳过下载', [
+                    'media_id' => $media->id,
+                    'file_path' => $this->getMediaFilePath($media),
+                ]);
+                // 文件已存在，只需触发 conversions（如果还没有生成）
+                $this->triggerMediaConversions($media);
+                return;
+            }
+
+            // 下载并保存文件
+            try {
+                $this->downloadAndSaveFile($media, $downloadUrl);
+                
+                // 文件保存成功后，触发 conversions 生成缩略图
+                $this->triggerMediaConversions($media);
+
+                Log::info('Media 文件同步成功', [
+                    'media_id' => $media->id,
+                    'file_size' => $this->getMediaFileSize($media),
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Media 文件同步失败', [
+                    'media_id' => $media->id,
+                    'url' => $downloadUrl,
+                    'error' => $e->getMessage(),
+                ]);
+                // 不抛出异常，避免影响其他数据的同步
+            }
+        } finally {
+            // 恢复之前的同步状态
+            \App\Observers\MediaObserver::$syncDisabled = $wasDisabled;
         }
     }
 
@@ -1143,10 +1164,17 @@ class SyncService
 
     /**
      * 触发媒体转换生成（使用 Spatie Media Library 标准方法）.
+     * 
+     * 注意：此方法在同步接收过程中调用，Media 同步应该已经被禁用
+     * 但为了安全起见，这里再次确保同步被禁用
      */
     protected function triggerMediaConversions(
         \App\Models\Media $media
     ): void {
+        // 确保 Media 同步被禁用（防止转换过程中触发同步导致死循环）
+        $wasDisabled = \App\Observers\MediaObserver::$syncDisabled;
+        \App\Observers\MediaObserver::$syncDisabled = true;
+        
         try {
             $media->refresh();
             
@@ -1192,6 +1220,9 @@ class SyncService
             
             // 分发到队列
             // PerformConversionsJob 需要 ConversionCollection 作为第一个参数，Media 作为第二个参数
+            // 注意：Job 执行时可能会更新 Media 模型，需要在 Job 中禁用同步
+            // 但由于 Job 是异步执行的，我们无法在这里控制
+            // 因此，我们依赖 receiveBatchSync 中的同步禁用机制
             $queueConnection = config('media-library.queue_connection_name');
             $queueName = config('media-library.queue_name', 'default');
             
@@ -1211,6 +1242,9 @@ class SyncService
                 'media_id' => $media->id,
                 'error' => $e->getMessage(),
             ]);
+        } finally {
+            // 恢复之前的同步状态
+            \App\Observers\MediaObserver::$syncDisabled = $wasDisabled;
         }
     }
 
