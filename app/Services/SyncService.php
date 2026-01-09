@@ -289,10 +289,15 @@ class SyncService
      * 创建或更新模型.
      * 
      * 原样写入源节点数据，不过滤任何字段（包括id等）.
+     * 对于 Media 模型，移除非数据库字段（如 original_url, preview_url）.
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
-        // 原样使用 payload，不过滤任何字段
+        // 对于 Media 模型，移除非数据库字段
+        if ($modelType === \App\Models\Media::class) {
+            $payload = $this->cleanMediaPayload($payload);
+        }
+
         // 只处理时间戳格式转换
         $this->parseTimestampsInPayload($payload);
 
@@ -317,6 +322,23 @@ class SyncService
             ]);
             return null;
         }
+    }
+
+    /**
+     * 清理 Media payload，移除非数据库字段.
+     * 
+     * 根据迁移文件，Media 表的字段包括：
+     * id, model_type, model_id, uuid, collection_name, name, file_name,
+     * mime_type, disk, conversions_disk, size, manipulations,
+     * custom_properties, generated_conversions, responsive_images,
+     * order_column, created_at, updated_at
+     */
+    protected function cleanMediaPayload(array $payload): array
+    {
+        // 移除非数据库字段（这些是 preparePayload 中添加的计算字段）
+        $fieldsToRemove = ['original_url', 'preview_url', 'file_url', 'file_path', 'file_disk'];
+        
+        return array_diff_key($payload, array_flip($fieldsToRemove));
     }
 
     /**
