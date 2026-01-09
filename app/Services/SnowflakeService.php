@@ -101,14 +101,14 @@ class SnowflakeService
 
     /**
      * 获取机器ID
-     * 优先使用环境变量，否则使用IP地址的最后一段.
+     * 优先使用配置文件中的机器ID，否则使用IP地址的最后一段.
      */
     private function getMachineId(): int
     {
-        // 从环境变量获取
-        $envMachineId = env('SNOWFLAKE_MACHINE_ID');
-        if ($envMachineId !== null) {
-            return (int) $envMachineId;
+        // 从配置文件获取（配置文件会读取环境变量）
+        $configMachineId = config('snowflake.machine_id');
+        if ($configMachineId !== null) {
+            return (int) $configMachineId;
         }
 
         // 使用IP地址的最后一段
@@ -120,7 +120,7 @@ class SnowflakeService
             return $lastPart % (self::MAX_MACHINE_ID + 1);
         }
 
-        // 默认使用随机数
+        // 默认使用随机数（不推荐，可能导致ID冲突）
         return mt_rand(0, self::MAX_MACHINE_ID);
     }
 

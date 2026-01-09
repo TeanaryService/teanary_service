@@ -104,22 +104,31 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
-6. **运行数据库迁移**
+6. **配置雪花ID机器ID（多节点部署必需）**
+在多节点部署时，每个节点必须配置不同的机器ID以确保ID唯一性：
+```env
+# 雪花ID机器ID，范围：0-1023
+# 单节点部署可以不配置，系统会自动使用IP地址或随机数
+# 多节点部署时，每个节点必须配置不同的值
+SNOWFLAKE_MACHINE_ID=1
+```
+
+7. **运行数据库迁移**
 ```bash
 php artisan migrate
 ```
 
-7. **填充示例数据**
+8. **填充示例数据**
 ```bash
 php artisan db:seed
 ```
 
-8. **构建前端资源**
+9. **构建前端资源**
 ```bash
 npm run build
 ```
 
-9. **启动开发服务器**
+10. **启动开发服务器**
 ```bash
 php artisan serve
 ```
