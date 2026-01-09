@@ -63,6 +63,7 @@ class AttributeValue extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_attribute_value')
-            ->withPivot('attribute_id');
+            ->withPivot('attribute_id')
+            ->using(\App\Models\ProductAttributeValue::class);
     }
 }

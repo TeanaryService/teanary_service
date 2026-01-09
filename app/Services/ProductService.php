@@ -55,7 +55,21 @@ class ProductService
         if (! empty($data['categories'])) {
             $categoryIds = $this->categoryService->findOrCreateCategories($data['categories']);
             if (! empty($categoryIds)) {
-                $product->productCategories()->syncWithoutDetaching($categoryIds);
+                // 使用 syncWithoutDetaching 然后手动触发同步
+                $changes = $product->productCategories()->syncWithoutDetaching($categoryIds);
+                if (config('sync.enabled')) {
+                    $syncService = app(\App\Services\SyncService::class);
+                    $currentNode = config('sync.node');
+                    foreach ($changes['attached'] ?? [] as $categoryId) {
+                        $pivot = \App\Models\ProductCategory::where([
+                            'product_id' => $product->id,
+                            'category_id' => $categoryId,
+                        ])->first();
+                        if ($pivot) {
+                            $syncService->recordSync($pivot, 'created', $currentNode);
+                        }
+                    }
+                }
             }
         }
 
@@ -155,7 +169,9 @@ class ProductService
         }
 
         if (! empty($syncData)) {
-            $variant->specificationValues()->sync($syncData);
+            $variant->syncSpecificationValues($syncData);
+        } else {
+            $variant->syncSpecificationValues([]);
         }
     }
 
@@ -206,9 +222,12 @@ class ProductService
             ];
         }
 
-        // 同步商品属性
+        // 同步商品属性（使用自定义方法以触发同步）
         if (! empty($syncData)) {
-            $product->attributeValues()->sync($syncData);
+            $product->syncAttributeValues($syncData);
+        } else {
+            // 如果 syncData 为空，清空所有关联
+            $product->syncAttributeValues([]);
         }
     }
 

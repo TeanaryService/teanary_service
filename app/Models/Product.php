@@ -82,12 +82,103 @@ class Product extends Model implements HasMedia
     public function attributeValues(): BelongsToMany
     {
         return $this->belongsToMany(AttributeValue::class, 'product_attribute_value')
-            ->withPivot('attribute_id');
+            ->withPivot('attribute_id')
+            ->using(\App\Models\ProductAttributeValue::class);
+    }
+
+    /**
+     * 同步属性值并触发同步.
+     */
+    public function syncAttributeValues(array $ids, bool $detaching = true): array
+    {
+        $changes = $this->attributeValues()->sync($ids, $detaching);
+        
+        // 手动触发 Pivot 模型的同步
+        if (config('sync.enabled')) {
+            $syncService = app(\App\Services\SyncService::class);
+            $currentNode = config('sync.node');
+            
+            // 处理新增的记录
+            foreach ($changes['attached'] ?? [] as $attributeValueId => $pivotData) {
+                $pivot = \App\Models\ProductAttributeValue::where([
+                    'product_id' => $this->id,
+                    'attribute_value_id' => $attributeValueId,
+                    'attribute_id' => $pivotData['attribute_id'] ?? null,
+                ])->first();
+                
+                if ($pivot) {
+                    $syncService->recordSync($pivot, 'created', $currentNode);
+                }
+            }
+            
+            // 处理更新的记录
+            foreach ($changes['updated'] ?? [] as $attributeValueId => $pivotData) {
+                $pivot = \App\Models\ProductAttributeValue::where([
+                    'product_id' => $this->id,
+                    'attribute_value_id' => $attributeValueId,
+                    'attribute_id' => $pivotData['attribute_id'] ?? null,
+                ])->first();
+                
+                if ($pivot) {
+                    $syncService->recordSync($pivot, 'updated', $currentNode);
+                }
+            }
+            
+            // 处理删除的记录
+            foreach ($changes['detached'] ?? [] as $attributeValueId) {
+                // 构造一个 Pivot 模型实例用于同步删除
+                $pivot = new \App\Models\ProductAttributeValue([
+                    'product_id' => $this->id,
+                    'attribute_value_id' => $attributeValueId,
+                ]);
+                $syncService->recordSync($pivot, 'deleted', $currentNode);
+            }
+        }
+        
+        return $changes;
     }
 
     public function productCategories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'product_category');
+        return $this->belongsToMany(Category::class, 'product_category')
+            ->using(\App\Models\ProductCategory::class);
+    }
+
+    /**
+     * 同步分类并触发同步.
+     */
+    public function syncProductCategories(array $ids, bool $detaching = true): array
+    {
+        $changes = $this->productCategories()->sync($ids, $detaching);
+        
+        // 手动触发 Pivot 模型的同步
+        if (config('sync.enabled')) {
+            $syncService = app(\App\Services\SyncService::class);
+            $currentNode = config('sync.node');
+            
+            // 处理新增的记录
+            foreach ($changes['attached'] ?? [] as $categoryId) {
+                $pivot = \App\Models\ProductCategory::where([
+                    'product_id' => $this->id,
+                    'category_id' => $categoryId,
+                ])->first();
+                
+                if ($pivot) {
+                    $syncService->recordSync($pivot, 'created', $currentNode);
+                }
+            }
+            
+            // 处理删除的记录
+            foreach ($changes['detached'] ?? [] as $categoryId) {
+                $pivot = new \App\Models\ProductCategory([
+                    'product_id' => $this->id,
+                    'category_id' => $categoryId,
+                ]);
+                $syncService->recordSync($pivot, 'deleted', $currentNode);
+            }
+        }
+        
+        return $changes;
     }
 
     public function productTranslations(): HasMany

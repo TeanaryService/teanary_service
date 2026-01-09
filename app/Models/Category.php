@@ -76,7 +76,8 @@ class Category extends Model implements HasMedia
 
     public function productCategories(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'product_category');
+        return $this->belongsToMany(Product::class, 'product_category')
+            ->using(\App\Models\ProductCategory::class);
     }
 
     public function registerMediaConversions(?Media $media = null): void

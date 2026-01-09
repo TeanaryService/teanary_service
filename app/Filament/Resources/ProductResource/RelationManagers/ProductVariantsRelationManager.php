@@ -66,9 +66,9 @@ class ProductVariantsRelationManager extends RelationManager
                     foreach ($data['specificationValues'] as $specificationValue) {
                         $pivotData[] = $specificationValue;
                     }
-                    $record->specificationValues()->sync($pivotData);
+                    $record->syncSpecificationValues($pivotData);
                 } else {
-                    $record->specificationValues()->sync([]);
+                    $record->syncSpecificationValues([]);
                 }
             });
     }
@@ -82,7 +82,7 @@ class ProductVariantsRelationManager extends RelationManager
                 foreach ($data['specificationValues'] ?? [] as $specificationValue) {
                     $pivotData[] = $specificationValue;
                 }
-                $record->specificationValues()->sync($pivotData);
+                $record->syncSpecificationValues($pivotData);
             });
     }
 }

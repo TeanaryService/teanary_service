@@ -52,9 +52,9 @@ class EditProduct extends EditRecord
                 })
                 ->toArray();
 
-            $record->attributeValues()->sync($pivotData);
+            $record->syncAttributeValues($pivotData);
         } else {
-            $record->attributeValues()->sync([]);
+            $record->syncAttributeValues([]);
         }
 
         // 处理分类
@@ -65,9 +65,9 @@ class EditProduct extends EditRecord
                 ->unique()
                 ->values()
                 ->toArray();
-            $record->productCategories()->sync($ids);
+            $record->syncProductCategories($ids);
         } else {
-            $record->productCategories()->sync([]);
+            $record->syncProductCategories([]);
         }
 
         return $record;

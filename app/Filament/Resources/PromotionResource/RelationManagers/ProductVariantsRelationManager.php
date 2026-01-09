@@ -122,8 +122,8 @@ class ProductVariantsRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make()
                     ->label(__('filament_promotion.attach_product_variant'))
                     ->action(function (array $data, $livewire) {
-                        // 附加
-                        $livewire->getOwnerRecord()->productVariants()->attach(
+                        // 附加（使用自定义方法以触发同步）
+                        $livewire->getOwnerRecord()->attachProductVariant(
                             $data['product_variant_id'],
                             ['product_id' => $data['product_id']]
                         );
@@ -133,8 +133,8 @@ class ProductVariantsRelationManager extends RelationManager
                 Tables\Actions\DeleteAction::make()
                     ->label(__('filament_promotion.detach_product_variant'))
                     ->action(function ($record, $livewire) {
-                        // 分离
-                        $livewire->getOwnerRecord()->productVariants()->detach($record->product_variant_id);
+                        // 分离（使用自定义方法以触发同步）
+                        $livewire->getOwnerRecord()->detachProductVariant($record->product_variant_id);
                     }),
             ])
             ->bulkActions([
@@ -143,7 +143,7 @@ class ProductVariantsRelationManager extends RelationManager
                         ->label(__('filament_promotion.detach_product_variant'))
                         ->action(function ($records, $livewire) {
                             $ids = $records->pluck('product_variant_id')->all();
-                            $livewire->getOwnerRecord()->productVariants()->detach($ids);
+                            $livewire->getOwnerRecord()->detachProductVariant($ids);
                         }),
                 ]),
             ]);

@@ -46,7 +46,7 @@ class CreateProduct extends CreateRecord
                 })
                 ->toArray();
 
-            $product->attributeValues()->sync($pivotData);
+            $product->syncAttributeValues($pivotData);
         }
 
         // 处理分类
@@ -57,7 +57,7 @@ class CreateProduct extends CreateRecord
                 ->unique()
                 ->values()
                 ->toArray();
-            $product->productCategories()->sync($ids);
+            $product->syncProductCategories($ids);
         }
 
         return $product;

@@ -43,7 +43,7 @@ class EditProductVariant extends EditRecord
             foreach ($data['specificationValues'] as $item) {
                 $syncData[$item['specification_value_id']] = ['specification_id' => $item['specification_id']];
             }
-            $record->specificationValues()->sync($syncData);
+            $record->syncSpecificationValues($syncData);
         }
     }
 

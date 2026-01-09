@@ -98,19 +98,73 @@ class ProductVariant extends Model implements HasMedia
     public function specifications(): BelongsToMany
     {
         return $this->belongsToMany(Specification::class, 'product_variant_specification_value')
-            ->withPivot('specification_value_id');
+            ->withPivot('specification_value_id')
+            ->using(\App\Models\ProductVariantSpecificationValue::class);
     }
 
     public function specificationValues(): BelongsToMany
     {
         return $this->belongsToMany(SpecificationValue::class, 'product_variant_specification_value')
-            ->withPivot('specification_id');
+            ->withPivot('specification_id')
+            ->using(\App\Models\ProductVariantSpecificationValue::class);
     }
 
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
-            ->withPivot(['product_id', 'product_variant_id', 'promotion_id']);
+            ->withPivot(['product_id', 'product_variant_id', 'promotion_id'])
+            ->using(\App\Models\PromotionProductVariant::class);
+    }
+
+    /**
+     * 同步规格值并触发同步.
+     */
+    public function syncSpecificationValues(array $ids, bool $detaching = true): array
+    {
+        $changes = $this->specificationValues()->sync($ids, $detaching);
+        
+        // 手动触发 Pivot 模型的同步
+        if (config('sync.enabled')) {
+            $syncService = app(\App\Services\SyncService::class);
+            $currentNode = config('sync.node');
+            
+            // 处理新增的记录
+            foreach ($changes['attached'] ?? [] as $specificationValueId => $pivotData) {
+                $pivot = \App\Models\ProductVariantSpecificationValue::where([
+                    'product_variant_id' => $this->id,
+                    'specification_value_id' => $specificationValueId,
+                    'specification_id' => $pivotData['specification_id'] ?? null,
+                ])->first();
+                
+                if ($pivot) {
+                    $syncService->recordSync($pivot, 'created', $currentNode);
+                }
+            }
+            
+            // 处理更新的记录
+            foreach ($changes['updated'] ?? [] as $specificationValueId => $pivotData) {
+                $pivot = \App\Models\ProductVariantSpecificationValue::where([
+                    'product_variant_id' => $this->id,
+                    'specification_value_id' => $specificationValueId,
+                    'specification_id' => $pivotData['specification_id'] ?? null,
+                ])->first();
+                
+                if ($pivot) {
+                    $syncService->recordSync($pivot, 'updated', $currentNode);
+                }
+            }
+            
+            // 处理删除的记录
+            foreach ($changes['detached'] ?? [] as $specificationValueId) {
+                $pivot = new \App\Models\ProductVariantSpecificationValue([
+                    'product_variant_id' => $this->id,
+                    'specification_value_id' => $specificationValueId,
+                ]);
+                $syncService->recordSync($pivot, 'deleted', $currentNode);
+            }
+        }
+        
+        return $changes;
     }
 
     public function registerMediaConversions(?Media $media = null): void
