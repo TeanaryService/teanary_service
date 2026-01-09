@@ -286,28 +286,37 @@ class SyncService
     }
 
     /**
-     * 创建或更新模型（优化版：利用雪花ID全局唯一性，同步接近实时）.
-     *
-     * 优化点：
-     * - 使用雪花ID，ID全局唯一，直接通过ID查找即可
-     * - 同步接近实时，无需处理唯一字段冲突（sku、slug等）
-     * - 直接根据ID插入或覆盖，简化逻辑
+     * 创建或更新模型.
+     * 
+     * 原样写入源节点数据，不过滤任何字段（包括id等）.
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
-        // 基本清理：移除关系数据和非fillable字段（toArray可能包含关系数据）
-        $cleanPayload = $this->cleanPayloadForModel($modelType, $payload);
+        // 原样使用 payload，不过滤任何字段
+        // 只处理时间戳格式转换
+        $this->parseTimestampsInPayload($payload);
 
         // 直接通过雪花ID查找（全局唯一）
         $model = $modelType::find($modelId);
 
         if ($model) {
-            // 模型已存在，直接更新覆盖
-            return $this->updateExistingModel($model, $cleanPayload);
+            // 模型已存在，直接更新覆盖（原样数据）
+            $model->update($payload);
+            return $model;
         }
 
-        // 模型不存在，创建新记录（使用原始雪花ID）
-        return $this->createNewModel($modelType, $modelId, $cleanPayload);
+        // 模型不存在，创建新记录（使用原始雪花ID和原样数据）
+        $payload['id'] = $modelId;
+        try {
+            return $modelType::create($payload);
+        } catch (\Exception $e) {
+            Log::warning('创建同步记录失败', [
+                'model_type' => $modelType,
+                'model_id' => $modelId,
+                'error' => $e->getMessage(),
+            ]);
+            return null;
+        }
     }
 
     /**
@@ -735,103 +744,20 @@ class SyncService
     /**
      * 添加媒体文件信息到payload.
      * 
-     * 已移除，稍后重写
+     * 只同步表数据，不处理文件同步
      */
     protected function addMediaFileInfo(array &$payload, Model $model): void
     {
-        // Media 同步功能已移除，稍后重写
-        // if ($model instanceof \App\Models\Media) {
-        //     $payload['file_url'] = $model->getUrl();
-        //     $payload['file_path'] = $model->getPath();
-        //     $payload['file_disk'] = $model->disk;
-        //     $payload['original_url'] = $model->getUrl();
-        // }
+        // Media 只同步表数据，不添加文件相关信息
+        // 文件同步稍后单独处理
     }
 
-    /**
-     * 清理模型payload（移除非数据库字段）.
-     */
-    protected function cleanPayloadForModel(string $modelType, array $payload): array
-    {
-        if ($modelType === \App\Models\Media::class) {
-            return $this->cleanMediaPayload($payload);
-        }
-
-        return $this->cleanRegularModelPayload($modelType, $payload);
-    }
-
-    /**
-     * 清理Media模型的payload.
-     * 
-     * 只移除计算字段（非数据库字段），保留所有数据库字段。
-     * 因为使用雪花ID且同步接近实时，可以直接原样插入。
-     */
-    protected function cleanMediaPayload(array $payload): array
-    {
-        // 只移除计算字段（这些是 preparePayload 中添加的，不是数据库字段）
-        $fieldsToRemove = ['file_url', 'file_path', 'file_disk', 'original_url', 'preview_url'];
-        
-        return array_diff_key($payload, array_flip($fieldsToRemove));
-    }
-
-    /**
-     * 清理常规模型的payload.
-     * 
-     * 只移除明显不是数据库字段的字段（如关系数据）。
-     * Laravel 的 create/update 会自动过滤非 fillable 字段，所以可以原样传递。
-     * 因为使用雪花ID且同步接近实时，可以直接原样插入。
-     */
-    protected function cleanRegularModelPayload(string $modelType, array $payload): array
-    {
-        // 移除关系数据（toArray 默认不包含关系，但为了安全起见还是检查）
-        // 关系数据通常是数组或对象，且字段名通常是关系方法名（如 product_translations）
-        // 这里只移除明显的关系数据，保留所有可能的数据库字段
-        
-        // 实际上，如果 toArray() 没有加载关系，就不会有关系数据
-        // 所以这里基本不需要清理，直接返回即可
-        // Laravel 的 create/update 会自动处理非 fillable 字段
-        
-        return $payload;
-    }
-
-    /**
-     * 更新现有模型（直接覆盖）.
-     */
-    protected function updateExistingModel(Model $model, array $cleanPayload): Model
-    {
-        $this->parseTimestampsInPayload($cleanPayload);
-        $model->update($cleanPayload);
-
-        return $model;
-    }
-
-    /**
-     * 创建新模型（优化版：利用雪花ID全局唯一性，同步接近实时）.
-     *
-     * 优化点：
-     * - 使用雪花ID，ID全局唯一，不会冲突
-     * - 同步接近实时，唯一字段冲突（sku、slug）不会发生
-     * - 直接创建，无需处理冲突
-     */
-    protected function createNewModel(string $modelType, int $modelId, array $cleanPayload): ?Model
-    {
-        // 设置雪花ID（全局唯一）
-        $cleanPayload['id'] = $modelId;
-        $this->parseTimestampsInPayload($cleanPayload);
-
-        try {
-            return $modelType::create($cleanPayload);
-        } catch (\Exception $e) {
-            // 如果创建失败（理论上不应该发生），记录日志
-            Log::warning('创建同步记录失败', [
-                'model_type' => $modelType,
-                'model_id' => $modelId,
-                'error' => $e->getMessage(),
-            ]);
-
-            return null;
-        }
-    }
+    // 已移除清理逻辑，原样写入数据
+    // protected function cleanPayloadForModel(...) { ... }
+    // protected function cleanMediaPayload(...) { ... }
+    // protected function cleanRegularModelPayload(...) { ... }
+    // protected function updateExistingModel(...) { ... }
+    // protected function createNewModel(...) { ... }
 
     /**
      * 解析payload中的时间戳为Carbon实例.
