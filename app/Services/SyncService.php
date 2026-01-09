@@ -1166,6 +1166,18 @@ class SyncService
                 return;
             }
 
+            // 获取 conversions collection
+            // 使用 ConversionCollection::createForMedia 创建 conversions collection
+            $conversions = \Spatie\MediaLibrary\Conversions\ConversionCollection::createForMedia($media);
+            
+            if ($conversions->isEmpty()) {
+                Log::debug('Media 转换跳过：没有定义的 conversions', [
+                    'media_id' => $media->id,
+                    'model_type' => get_class($model),
+                ]);
+                return;
+            }
+            
             // 使用 Spatie Media Library 的标准 Job 来生成 conversions
             $jobClass = config('media-library.jobs.perform_conversions', 
                 \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class);
@@ -1179,16 +1191,18 @@ class SyncService
             }
             
             // 分发到队列
+            // PerformConversionsJob 需要 ConversionCollection 作为第一个参数，Media 作为第二个参数
             $queueConnection = config('media-library.queue_connection_name');
             $queueName = config('media-library.queue_name', 'default');
             
-            dispatch(new $jobClass($media))
+            dispatch(new $jobClass($conversions, $media))
                 ->onConnection($queueConnection ?: config('queue.default'))
                 ->onQueue($queueName);
             
             Log::info('已分发 Media 转换任务', [
                 'media_id' => $media->id,
                 'model_type' => get_class($model),
+                'conversions_count' => $conversions->count(),
                 'queue' => $queueName,
             ]);
             
