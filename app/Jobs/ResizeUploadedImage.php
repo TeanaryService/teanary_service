@@ -60,7 +60,13 @@ class ResizeUploadedImage implements ShouldQueue
         // 重新加载模型以确保数据是最新的
         $this->media->refresh();
 
-        $path = $this->media->getPath();
+        // 使用 PathGeneratorFactory 获取正确的相对路径
+        $pathGeneratorFactory = app(\Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory::class);
+        $pathGenerator = $pathGeneratorFactory->create($this->media);
+        $directory = $pathGenerator->getPath($this->media);
+        $fileName = $this->media->file_name ?? $this->media->name ?? 'file';
+        $path = rtrim($directory, '/').'/'.$fileName;
+        
         $disk = $this->media->disk ?? config('media-library.disk_name', 'public');
         $diskInstance = Storage::disk($disk);
 
