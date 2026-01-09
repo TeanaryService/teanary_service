@@ -447,4 +447,695 @@ class SyncServiceTest extends TestCase
         // 现有产品应该被更新，而不是创建新记录
         $this->assertDatabaseCount('products', 1);
     }
+
+    /**
+     * 测试：recordSync 处理 deleted action
+     */
+    public function test_record_sync_handles_deleted_action()
+    {
+        $product = Product::factory()->create();
+        $productId = $product->id;
+        
+        // 删除产品
+        $product->delete();
+
+        $this->service->recordSync($product, 'deleted', 'node1');
+
+        $this->assertDatabaseHas('sync_logs', [
+            'model_type' => Product::class,
+            'model_id' => $productId,
+            'action' => 'deleted',
+            'source_node' => 'node1',
+            'target_node' => 'node2',
+            'status' => 'pending',
+        ]);
+    }
+
+    /**
+     * 测试：recordSync 处理多个目标节点
+     */
+    public function test_record_sync_creates_logs_for_multiple_target_nodes()
+    {
+        SyncLog::truncate();
+        SyncStatus::truncate();
+
+        Config::set('sync.remote_nodes', [
+            'node2' => [
+                'url' => 'https://node2.example.com',
+                'api_key' => 'test-api-key-2',
+                'timeout' => 600,
+            ],
+            'node3' => [
+                'url' => 'https://node3.example.com',
+                'api_key' => 'test-api-key-3',
+                'timeout' => 600,
+            ],
+        ]);
+
+        // 临时禁用同步，避免创建产品时自动触发同步
+        Config::set('sync.enabled', false);
+        $product = Product::factory()->create();
+        Config::set('sync.enabled', true);
+
+        $this->service->recordSync($product, 'created', 'node1');
+
+        // 应该为每个目标节点创建一条日志
+        $this->assertDatabaseCount('sync_logs', 2);
+        $this->assertDatabaseHas('sync_logs', [
+            'target_node' => 'node2',
+        ]);
+        $this->assertDatabaseHas('sync_logs', [
+            'target_node' => 'node3',
+        ]);
+    }
+
+    /**
+     * 测试：recordSync 处理空目标节点列表
+     */
+    public function test_record_sync_handles_empty_target_nodes()
+    {
+        Config::set('sync.remote_nodes', []);
+        Config::set('sync.node', 'node1');
+
+        $product = Product::factory()->create();
+        $this->service->recordSync($product, 'created', 'node1');
+
+        // 应该不创建任何日志（因为没有目标节点）
+        $this->assertDatabaseCount('sync_logs', 0);
+    }
+
+    /**
+     * 测试：recordBatchSync 处理混合 action
+     */
+    public function test_record_batch_sync_handles_mixed_actions()
+    {
+        SyncLog::truncate();
+        SyncStatus::truncate();
+
+        Config::set('sync.enabled', false);
+        $products = Product::factory()->count(3)->create();
+        Config::set('sync.enabled', true);
+
+        $models = [
+            ['model' => $products[0], 'action' => 'created'],
+            ['model' => $products[1], 'action' => 'updated'],
+            ['model' => $products[2], 'action' => 'deleted'],
+        ];
+
+        $this->service->recordBatchSync($models, 'node1');
+
+        // 应该创建3条日志
+        $this->assertDatabaseCount('sync_logs', 3);
+        
+        // 验证不同的 action
+        $this->assertDatabaseHas('sync_logs', [
+            'model_id' => $products[0]->id,
+            'action' => 'created',
+        ]);
+        $this->assertDatabaseHas('sync_logs', [
+            'model_id' => $products[1]->id,
+            'action' => 'updated',
+        ]);
+        $this->assertDatabaseHas('sync_logs', [
+            'model_id' => $products[2]->id,
+            'action' => 'deleted',
+        ]);
+    }
+
+    /**
+     * 测试：recordBatchSync 跳过不在同步列表的模型
+     */
+    public function test_record_batch_sync_skips_models_not_in_sync_list()
+    {
+        SyncLog::truncate();
+        SyncStatus::truncate();
+
+        Config::set('sync.enabled', false);
+        $product = Product::factory()->create();
+        $category = \App\Models\Category::factory()->create();
+        Config::set('sync.enabled', true);
+
+        // 只同步 Product，不同步 Category
+        Config::set('sync.sync_models', [Product::class]);
+
+        $models = [
+            ['model' => $product, 'action' => 'created'],
+            ['model' => $category, 'action' => 'created'],
+        ];
+
+        $this->service->recordBatchSync($models, 'node1');
+
+        // 应该只创建1条日志（Category不在同步列表中）
+        $this->assertDatabaseCount('sync_logs', 1);
+        $this->assertDatabaseHas('sync_logs', [
+            'model_id' => $product->id,
+            'model_type' => Product::class,
+        ]);
+    }
+
+    /**
+     * 测试：recordBatchSync 处理空目标节点
+     */
+    public function test_record_batch_sync_handles_empty_target_nodes()
+    {
+        Config::set('sync.remote_nodes', []);
+
+        Config::set('sync.enabled', false);
+        $products = Product::factory()->count(2)->create();
+        Config::set('sync.enabled', true);
+
+        $models = $products->map(function ($product) {
+            return ['model' => $product, 'action' => 'created'];
+        })->toArray();
+
+        $this->service->recordBatchSync($models, 'node1');
+
+        // 应该不创建任何日志
+        $this->assertDatabaseCount('sync_logs', 0);
+    }
+
+    /**
+     * 测试：syncBatchToRemote 处理空集合
+     */
+    public function test_sync_batch_to_remote_handles_empty_collection()
+    {
+        $result = $this->service->syncBatchToRemote(collect([]), 'node2');
+
+        $this->assertEquals(0, $result['success']);
+        $this->assertEquals(0, $result['failed']);
+        $this->assertEmpty($result['errors']);
+    }
+
+    /**
+     * 测试：syncBatchToRemote 处理部分成功部分失败
+     */
+    public function test_sync_batch_to_remote_handles_partial_success()
+    {
+        $products = Product::factory()->count(2)->create();
+        $syncLogs = $products->map(function ($product) {
+            return SyncLog::create([
+                'model_type' => Product::class,
+                'model_id' => $product->id,
+                'action' => 'created',
+                'source_node' => 'node1',
+                'target_node' => 'node2',
+                'status' => 'pending',
+                'payload' => $product->toArray(),
+            ]);
+        });
+
+        // 使用实际的 syncLog ID
+        Http::fake([
+            'node2.example.com/api/sync/receive-batch' => Http::response([
+                'success' => 1,
+                'failed' => 1,
+                'results' => [
+                    ['index' => 0, 'sync_log_id' => $syncLogs[0]->id, 'success' => true],
+                    ['index' => 1, 'sync_log_id' => $syncLogs[1]->id, 'success' => false, 'error' => '处理失败'],
+                ],
+            ], 200),
+        ]);
+
+        $result = $this->service->syncBatchToRemote($syncLogs, 'node2');
+
+        $this->assertEquals(1, $result['success']);
+        $this->assertEquals(1, $result['failed']);
+        $this->assertNotEmpty($result['errors']);
+
+        // 验证第一个日志成功
+        $syncLogs[0]->refresh();
+        $this->assertEquals('completed', $syncLogs[0]->status);
+
+        // 验证第二个日志失败
+        $syncLogs[1]->refresh();
+        $this->assertEquals('failed', $syncLogs[1]->status);
+    }
+
+    /**
+     * 测试：syncBatchToRemote 处理无效的远程节点配置
+     */
+    public function test_sync_batch_to_remote_handles_invalid_remote_config()
+    {
+        $product = Product::factory()->create();
+        $syncLog = SyncLog::create([
+            'model_type' => Product::class,
+            'model_id' => $product->id,
+            'action' => 'created',
+            'source_node' => 'node1',
+            'target_node' => 'invalid-node',
+            'status' => 'pending',
+            'payload' => $product->toArray(),
+        ]);
+
+        $result = $this->service->syncBatchToRemote(collect([$syncLog]), 'invalid-node');
+
+        $this->assertEquals(0, $result['success']);
+        $this->assertEquals(1, $result['failed']);
+        $this->assertStringContainsString('远程节点配置不存在', $result['errors'][0] ?? '');
+    }
+
+    /**
+     * 测试：syncBatchToRemote 处理响应格式错误（没有 results）
+     */
+    public function test_sync_batch_to_remote_handles_missing_results_in_response()
+    {
+        Http::fake([
+            'node2.example.com/api/sync/receive-batch' => Http::response([
+                'success' => true,
+                // 没有 results 字段
+            ], 200),
+        ]);
+
+        $product = Product::factory()->create();
+        $syncLog = SyncLog::create([
+            'model_type' => Product::class,
+            'model_id' => $product->id,
+            'action' => 'created',
+            'source_node' => 'node1',
+            'target_node' => 'node2',
+            'status' => 'pending',
+            'payload' => $product->toArray(),
+        ]);
+
+        $result = $this->service->syncBatchToRemote(collect([$syncLog]), 'node2');
+
+        // 如果没有详细结果，假设全部成功
+        $this->assertEquals(1, $result['success']);
+        $this->assertEquals(0, $result['failed']);
+
+        $syncLog->refresh();
+        $this->assertEquals('completed', $syncLog->status);
+    }
+
+    /**
+     * 测试：receiveBatchSync 处理空数组输入
+     */
+    public function test_receive_batch_sync_handles_empty_array_input()
+    {
+        $result = $this->service->receiveBatchSync([]);
+        $this->assertEquals(0, $result['success']);
+        $this->assertEquals(0, $result['failed']);
+    }
+
+    /**
+     * 测试：receiveBatchSync 处理混合模型类型
+     */
+    public function test_receive_batch_sync_handles_mixed_model_types()
+    {
+        Config::set('sync.sync_models', [
+            Product::class,
+            \App\Models\Category::class,
+        ]);
+
+        $productId = app(SnowflakeService::class)->nextId();
+        $product = Product::factory()->make();
+        $productData = $product->toArray();
+        $productData['id'] = $productId;
+        if (! isset($productData['status'])) {
+            $productData['status'] = 'active';
+        }
+        unset($productData['product_variants'], $productData['product_translations']);
+
+        $categoryId = app(SnowflakeService::class)->nextId();
+        $category = \App\Models\Category::factory()->make();
+        $categoryData = $category->toArray();
+        $categoryData['id'] = $categoryId;
+
+        $batchData = [
+            [
+                'model_type' => Product::class,
+                'model_id' => $productId,
+                'action' => 'created',
+                'payload' => $productData,
+                'source_node' => 'node2',
+                'timestamp' => now()->toIso8601String(),
+            ],
+            [
+                'model_type' => \App\Models\Category::class,
+                'model_id' => $categoryId,
+                'action' => 'created',
+                'payload' => $categoryData,
+                'source_node' => 'node2',
+                'timestamp' => now()->toIso8601String(),
+            ],
+        ];
+
+        $result = $this->service->receiveBatchSync($batchData);
+
+        $this->assertEquals(2, $result['success']);
+        $this->assertEquals(0, $result['failed']);
+        $this->assertDatabaseCount('products', 1);
+        $this->assertDatabaseCount('categories', 1);
+    }
+
+    /**
+     * 测试：receiveBatchSync 处理时间戳边界情况（相同时间）
+     */
+    public function test_receive_batch_sync_handles_same_timestamp()
+    {
+        $product = Product::factory()->create();
+        $product->updated_at = now();
+        $product->save();
+
+        $sameTimestamp = $product->updated_at->toIso8601String();
+        $batchData = [
+            [
+                'model_type' => Product::class,
+                'model_id' => $product->id,
+                'action' => 'updated',
+                'payload' => $product->toArray(),
+                'source_node' => 'node2',
+                'timestamp' => $sameTimestamp,
+            ],
+        ];
+
+        $result = $this->service->receiveBatchSync($batchData);
+
+        // 相同时间戳应该同步（本地时间不大于远程时间）
+        $this->assertEquals(1, $result['success']);
+        $this->assertFalse($result['results'][0]['skipped'] ?? false);
+    }
+
+    /**
+     * 测试：receiveBatchSync 处理时间戳为 null 的情况
+     */
+    public function test_receive_batch_sync_handles_null_timestamp()
+    {
+        $productId = app(SnowflakeService::class)->nextId();
+        $product = Product::factory()->make();
+        $productData = $product->toArray();
+        $productData['id'] = $productId;
+        if (! isset($productData['status'])) {
+            $productData['status'] = 'active';
+        }
+        unset($productData['product_variants'], $productData['product_translations']);
+
+        $batchData = [
+            [
+                'model_type' => Product::class,
+                'model_id' => $productId,
+                'action' => 'created',
+                'payload' => $productData,
+                'source_node' => 'node2',
+                // 不设置 timestamp，应该使用默认值
+            ],
+        ];
+
+        $result = $this->service->receiveBatchSync($batchData);
+
+        $this->assertEquals(1, $result['success']);
+        $this->assertEquals(0, $result['failed']);
+    }
+
+    /**
+     * 测试：receiveBatchSync 处理模型创建失败（无效的模型类型）
+     */
+    public function test_receive_batch_sync_handles_model_creation_failure()
+    {
+        $productId = app(SnowflakeService::class)->nextId();
+        
+        // 使用无效的模型类型
+        $batchData = [
+            [
+                'model_type' => 'NonExistentModel',
+                'model_id' => $productId,
+                'action' => 'created',
+                'payload' => [
+                    'id' => $productId,
+                ],
+                'source_node' => 'node2',
+                'timestamp' => now()->toIso8601String(),
+            ],
+        ];
+
+        $result = $this->service->receiveBatchSync($batchData);
+
+        // 应该失败（模型不在同步列表中）
+        $this->assertEquals(0, $result['success']);
+        $this->assertEquals(1, $result['failed']);
+        $this->assertStringContainsString('模型不在同步列表中', $result['results'][0]['error'] ?? '');
+    }
+
+    /**
+     * 测试：receiveBatchSync 处理批量数据中部分失败
+     */
+    public function test_receive_batch_sync_handles_partial_failure_in_batch()
+    {
+        $productId1 = app(SnowflakeService::class)->nextId();
+        $product1 = Product::factory()->make();
+        $productData1 = $product1->toArray();
+        $productData1['id'] = $productId1;
+        if (! isset($productData1['status'])) {
+            $productData1['status'] = 'active';
+        }
+        unset($productData1['product_variants'], $productData1['product_translations']);
+
+        $productId2 = app(SnowflakeService::class)->nextId();
+
+        $batchData = [
+            [
+                'model_type' => Product::class,
+                'model_id' => $productId1,
+                'action' => 'created',
+                'payload' => $productData1,
+                'source_node' => 'node2',
+                'timestamp' => now()->toIso8601String(),
+            ],
+            [
+                'model_type' => 'InvalidModel',
+                'model_id' => $productId2,
+                'action' => 'created',
+                'payload' => [],
+                'source_node' => 'node2',
+                'timestamp' => now()->toIso8601String(),
+            ],
+        ];
+
+        $result = $this->service->receiveBatchSync($batchData);
+
+        // 第一个成功，第二个失败
+        $this->assertEquals(1, $result['success']);
+        $this->assertEquals(1, $result['failed']);
+        $this->assertDatabaseCount('products', 1);
+    }
+
+    /**
+     * 测试：receiveBatchSync 处理 updated_at 为 null 的情况
+     */
+    public function test_receive_batch_sync_handles_null_updated_at()
+    {
+        $product = Product::factory()->create();
+        // 设置 updated_at 为 null（模拟新创建的记录）
+        $product->updated_at = null;
+        $product->save();
+
+        $batchData = [
+            [
+                'model_type' => Product::class,
+                'model_id' => $product->id,
+                'action' => 'updated',
+                'payload' => $product->toArray(),
+                'source_node' => 'node2',
+                'timestamp' => now()->subHour()->toIso8601String(),
+            ],
+        ];
+
+        $result = $this->service->receiveBatchSync($batchData);
+
+        // updated_at 为 null 时应该同步
+        $this->assertEquals(1, $result['success']);
+        $this->assertFalse($result['results'][0]['skipped'] ?? false);
+    }
+
+    /**
+     * 测试：preparePayload 处理 deleted action
+     */
+    public function test_prepare_payload_for_deleted_action()
+    {
+        $product = Product::factory()->create();
+        
+        $reflection = new \ReflectionClass($this->service);
+        $preparePayloadMethod = $reflection->getMethod('preparePayload');
+        $preparePayloadMethod->setAccessible(true);
+
+        $payload = $preparePayloadMethod->invoke($this->service, $product, 'deleted');
+
+        $this->assertArrayHasKey('id', $payload);
+        $this->assertArrayHasKey('deleted_at', $payload);
+        $this->assertEquals($product->id, $payload['id']);
+    }
+
+    /**
+     * 测试：preparePayload 处理时间戳规范化
+     */
+    public function test_prepare_payload_normalizes_timestamps()
+    {
+        $product = Product::factory()->create();
+        
+        $reflection = new \ReflectionClass($this->service);
+        $preparePayloadMethod = $reflection->getMethod('preparePayload');
+        $preparePayloadMethod->setAccessible(true);
+
+        $payload = $preparePayloadMethod->invoke($this->service, $product, 'updated');
+
+        // 验证时间戳是 ISO8601 格式字符串
+        $this->assertIsString($payload['created_at']);
+        $this->assertIsString($payload['updated_at']);
+        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/', $payload['created_at']);
+    }
+
+    /**
+     * 测试：getTargetNodes 排除当前节点
+     */
+    public function test_get_target_nodes_excludes_current_node()
+    {
+        Config::set('sync.node', 'node1');
+        Config::set('sync.remote_nodes', [
+            'node1' => [
+                'url' => 'https://node1.example.com',
+                'api_key' => 'test-api-key-1',
+                'timeout' => 600,
+            ],
+            'node2' => [
+                'url' => 'https://node2.example.com',
+                'api_key' => 'test-api-key-2',
+                'timeout' => 600,
+            ],
+        ]);
+
+        $reflection = new \ReflectionClass($this->service);
+        $getTargetNodesMethod = $reflection->getMethod('getTargetNodes');
+        $getTargetNodesMethod->setAccessible(true);
+
+        $targetNodes = $getTargetNodesMethod->invoke($this->service);
+
+        // 应该排除 node1（当前节点）
+        $this->assertNotContains('node1', $targetNodes);
+        $this->assertContains('node2', $targetNodes);
+    }
+
+    /**
+     * 测试：shouldCreateSyncLog 对于 deleted action 总是返回 true
+     */
+    public function test_should_create_sync_log_always_true_for_deleted()
+    {
+        $product = Product::factory()->create();
+        
+        $reflection = new \ReflectionClass($this->service);
+        $shouldCreateSyncLogMethod = $reflection->getMethod('shouldCreateSyncLog');
+        $shouldCreateSyncLogMethod->setAccessible(true);
+
+        // deleted action 应该总是返回 true
+        $result = $shouldCreateSyncLogMethod->invoke(
+            $this->service,
+            Product::class,
+            $product->id,
+            'deleted',
+            'node2',
+            'any-hash'
+        );
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * 测试：insertBatchSyncLogs 处理批量大小配置
+     */
+    public function test_insert_batch_sync_logs_respects_batch_size()
+    {
+        Config::set('sync.batch_size', 2);
+
+        SyncLog::truncate();
+        SyncStatus::truncate();
+
+        Config::set('sync.enabled', false);
+        $products = Product::factory()->count(5)->create();
+        Config::set('sync.enabled', true);
+
+        $models = $products->map(function ($product) {
+            return ['model' => $product, 'action' => 'created'];
+        })->toArray();
+
+        $this->service->recordBatchSync($models, 'node1');
+
+        // 应该创建5条日志（5个产品 × 1个目标节点）
+        $this->assertDatabaseCount('sync_logs', 5);
+    }
+
+    /**
+     * 测试：updateExistingModel 处理空更新数据
+     */
+    public function test_update_existing_model_handles_empty_update_data()
+    {
+        $product = Product::factory()->create();
+        $originalStatus = $product->status;
+
+        $reflection = new \ReflectionClass($this->service);
+        $updateExistingModelMethod = $reflection->getMethod('updateExistingModel');
+        $updateExistingModelMethod->setAccessible(true);
+
+        // 只包含时间戳和ID的 payload
+        $cleanPayload = [
+            'id' => $product->id,
+            'created_at' => $product->created_at->toIso8601String(),
+            'updated_at' => $product->updated_at->toIso8601String(),
+        ];
+
+        $updatedModel = $updateExistingModelMethod->invoke($this->service, $product, $cleanPayload);
+
+        $this->assertNotNull($updatedModel);
+        $product->refresh();
+        // 状态应该保持不变
+        $this->assertEquals($originalStatus, $product->status);
+    }
+
+    /**
+     * 测试：parseTimestampsInPayload 处理各种时间戳格式
+     */
+    public function test_parse_timestamps_in_payload_handles_various_formats()
+    {
+        $reflection = new \ReflectionClass($this->service);
+        $parseTimestampsMethod = $reflection->getMethod('parseTimestampsInPayload');
+        $parseTimestampsMethod->setAccessible(true);
+
+        // 测试 ISO8601 字符串格式
+        $payload1 = [
+            'created_at' => '2024-01-01T00:00:00+00:00',
+            'updated_at' => '2024-01-01T00:00:00+00:00',
+        ];
+        $parseTimestampsMethod->invokeArgs($this->service, [&$payload1]);
+        $this->assertInstanceOf(\Carbon\Carbon::class, $payload1['created_at']);
+        $this->assertInstanceOf(\Carbon\Carbon::class, $payload1['updated_at']);
+
+        // 测试 Y-m-d H:i:s 格式
+        $payload2 = [
+            'created_at' => '2024-01-01 00:00:00',
+            'updated_at' => '2024-01-01 00:00:00',
+        ];
+        $parseTimestampsMethod->invokeArgs($this->service, [&$payload2]);
+        $this->assertInstanceOf(\Carbon\Carbon::class, $payload2['created_at']);
+    }
+
+    /**
+     * 测试：createNewModel 处理创建失败的情况
+     */
+    public function test_create_new_model_handles_creation_failure()
+    {
+        $productId = app(SnowflakeService::class)->nextId();
+        
+        $reflection = new \ReflectionClass($this->service);
+        $createNewModelMethod = $reflection->getMethod('createNewModel');
+        $createNewModelMethod->setAccessible(true);
+
+        // 缺少必填字段的 payload
+        $cleanPayload = [
+            'id' => $productId,
+            // 缺少 slug（必填字段）
+        ];
+
+        $result = $createNewModelMethod->invoke($this->service, Product::class, $productId, $cleanPayload);
+
+        // 应该返回 null（创建失败）
+        $this->assertNull($result);
+    }
 }
