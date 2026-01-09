@@ -1077,31 +1077,74 @@ class SyncService
         \App\Models\Media $media
     ): void {
         try {
+            // 刷新 Media 模型以确保数据是最新的
+            $media->refresh();
+            
+            // 确保 model 关联已加载
+            if (! $media->relationLoaded('model')) {
+                $media->load('model');
+            }
+            
             $model = $media->model;
-            if (! $model || ! method_exists($model, 'registerMediaConversions')) {
+            if (! $model) {
+                Log::warning('Media 转换跳过：关联的 model 不存在', [
+                    'media_id' => $media->id,
+                    'model_type' => $media->model_type,
+                    'model_id' => $media->model_id,
+                ]);
                 return;
             }
 
-            $media->refresh();
-
-            if (method_exists($media, 'performConversions')) {
-                $media->performConversions();
-            } elseif (method_exists($media, 'performOnQueue')) {
-                $media->performOnQueue();
-            } else {
-                $model->registerMediaConversions($media);
-                Log::info('Media 转换将在首次访问时自动生成', [
+            // 检查 model 是否有 registerMediaConversions 方法
+            if (! method_exists($model, 'registerMediaConversions')) {
+                Log::info('Media 转换跳过：model 没有 registerMediaConversions 方法', [
                     'media_id' => $media->id,
+                    'model_type' => get_class($model),
                 ]);
+                return;
             }
 
-            Log::info('已触发 Media 转换生成', [
-                'media_id' => $media->id,
-            ]);
+            // 使用 Spatie Media Library 的 PerformConversionsJob 来生成 conversions
+            // 从配置中获取 job class
+            $jobClass = config('media-library.jobs.perform_conversions');
+            if (! $jobClass || ! class_exists($jobClass)) {
+                // 如果配置中没有，尝试使用默认的类名
+                $jobClass = \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class;
+            }
+            
+            if (class_exists($jobClass)) {
+                $queueConnection = config('media-library.queue_connection_name');
+                $queueName = config('media-library.queue_name', 'default');
+                
+                // 分发 conversion job 到队列
+                dispatch(new $jobClass($media))
+                    ->onConnection($queueConnection ?: config('queue.default'))
+                    ->onQueue($queueName);
+                
+                Log::info('已分发 Media 转换任务到队列', [
+                    'media_id' => $media->id,
+                    'model_type' => get_class($model),
+                    'queue' => $queueName,
+                    'queue_connection' => $queueConnection,
+                ]);
+            } else {
+                // 如果 job class 不存在，尝试直接调用 performConversions（如果存在）
+                if (method_exists($media, 'performConversions')) {
+                    $media->performConversions();
+                    Log::info('已触发 Media 转换生成（同步）', [
+                        'media_id' => $media->id,
+                    ]);
+                } else {
+                    Log::warning('Media 转换跳过：无法找到 PerformConversionsJob 或 performConversions 方法', [
+                        'media_id' => $media->id,
+                    ]);
+                }
+            }
         } catch (\Exception $e) {
-            Log::warning('触发 Media 转换生成失败', [
+            Log::error('触发 Media 转换生成失败', [
                 'media_id' => $media->id,
                 'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
             ]);
         }
     }
