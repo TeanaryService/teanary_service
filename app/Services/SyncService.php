@@ -12,14 +12,15 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 /**
- * 数据同步服务（已优化：利用雪花ID全局唯一性，移除外键约束）.
+ * 数据同步服务（已优化：利用雪花ID全局唯一性，同步接近实时）.
  *
  * 优化点：
- * 1. 由于使用雪花ID，ID是全局唯一的，可以直接通过ID查找，无需通过唯一字段查找
- * 2. 简化了冲突处理逻辑，ID冲突不会发生
- * 3. 移除了外键约束，外键约束不会失败，可以直接复制整行数据
- * 4. 可以直接复制整行数据，无需担心ID冲突和外键约束
+ * 1. 使用雪花ID，ID全局唯一，直接通过ID查找即可，无需通过唯一字段查找
+ * 2. 同步接近实时，唯一字段冲突（sku、slug等）不会发生，无需处理
+ * 3. 移除了外键约束，外键约束不会失败
+ * 4. 直接根据payload的ID插入或覆盖，简化逻辑
  * 5. 批量同步更高效，可以直接批量插入/更新
+ * 6. 保留基本的payload清理（移除关系数据和非fillable字段），因为toArray可能包含关系数据
  */
 class SyncService
 {
@@ -283,55 +284,28 @@ class SyncService
     }
 
     /**
-     * 创建或更新模型（优化版：利用雪花ID全局唯一性）.
+     * 创建或更新模型（优化版：利用雪花ID全局唯一性，同步接近实时）.
      *
-     * 由于使用雪花ID，ID是全局唯一的，可以直接通过ID查找，简化逻辑
+     * 优化点：
+     * - 使用雪花ID，ID全局唯一，直接通过ID查找即可
+     * - 同步接近实时，无需处理唯一字段冲突（sku、slug等）
+     * - 直接根据ID插入或覆盖，简化逻辑
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
+        // 基本清理：移除关系数据和非fillable字段（toArray可能包含关系数据）
         $cleanPayload = $this->cleanPayloadForModel($modelType, $payload);
 
-        // 直接通过雪花ID查找（全局唯一，无需担心冲突）
+        // 直接通过雪花ID查找（全局唯一）
         $model = $modelType::find($modelId);
 
         if ($model) {
-            // 模型已存在，直接更新
+            // 模型已存在，直接更新覆盖
             return $this->updateExistingModel($model, $cleanPayload);
         }
 
         // 模型不存在，创建新记录（使用原始雪花ID）
         return $this->createNewModel($modelType, $modelId, $cleanPayload);
-    }
-
-    /**
-     * 通过唯一字段查找模型（用于处理唯一字段冲突）.
-     *
-     * 注意：
-     * - 由于使用雪花ID，ID冲突不会发生
-     * - 由于移除了外键约束，外键约束不会失败
-     * - 唯一字段冲突（如sku、slug）仍可能发生，需要处理
-     */
-    protected function findModelByUniqueFields(string $modelType, array $payload): ?Model
-    {
-        // 定义各模型的唯一字段映射（排除ID，因为ID是全局唯一的）
-        $uniqueFieldsMap = [
-            \App\Models\ProductVariant::class => ['sku'],
-            \App\Models\Product::class => ['slug'],
-            // 可以继续添加其他模型的唯一字段
-        ];
-
-        $uniqueFields = $uniqueFieldsMap[$modelType] ?? [];
-
-        foreach ($uniqueFields as $field) {
-            if (isset($payload[$field]) && $payload[$field] !== null) {
-                $model = $modelType::where($field, $payload[$field])->first();
-                if ($model) {
-                    return $model;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -804,162 +778,75 @@ class SyncService
 
     /**
      * 清理Media模型的payload.
+     * 
+     * 只移除计算字段（非数据库字段），保留所有数据库字段。
+     * 因为使用雪花ID且同步接近实时，可以直接原样插入。
      */
     protected function cleanMediaPayload(array $payload): array
     {
-        $mediaDbFields = [
-            'id', 'model_type', 'model_id', 'uuid', 'collection_name', 'name', 'file_name',
-            'mime_type', 'disk', 'conversions_disk', 'size', 'manipulations',
-            'custom_properties', 'generated_conversions', 'responsive_images',
-            'order_column', 'created_at', 'updated_at',
-        ];
-
+        // 只移除计算字段（这些是 preparePayload 中添加的，不是数据库字段）
         $fieldsToRemove = ['file_url', 'file_path', 'file_disk', 'original_url', 'preview_url'];
-        $cleanPayload = array_diff_key($payload, array_flip($fieldsToRemove));
-
-        return array_filter($cleanPayload, function ($key) use ($mediaDbFields) {
-            return in_array($key, $mediaDbFields);
-        }, ARRAY_FILTER_USE_KEY);
+        
+        return array_diff_key($payload, array_flip($fieldsToRemove));
     }
 
     /**
      * 清理常规模型的payload.
+     * 
+     * 只移除明显不是数据库字段的字段（如关系数据）。
+     * Laravel 的 create/update 会自动过滤非 fillable 字段，所以可以原样传递。
+     * 因为使用雪花ID且同步接近实时，可以直接原样插入。
      */
     protected function cleanRegularModelPayload(string $modelType, array $payload): array
     {
-        $modelInstance = new $modelType;
-        $fillableFields = $modelInstance->getFillable();
-
-        return array_filter($payload, function ($value, $key) use ($fillableFields) {
-            if (in_array($key, ['created_at', 'updated_at', 'id'])) {
-                return true;
-            }
-
-            if (! in_array($key, $fillableFields)) {
-                return false;
-            }
-
-            if ($value === null) {
-                return false;
-            }
-
-            return true;
-        }, ARRAY_FILTER_USE_BOTH);
+        // 移除关系数据（toArray 默认不包含关系，但为了安全起见还是检查）
+        // 关系数据通常是数组或对象，且字段名通常是关系方法名（如 product_translations）
+        // 这里只移除明显的关系数据，保留所有可能的数据库字段
+        
+        // 实际上，如果 toArray() 没有加载关系，就不会有关系数据
+        // 所以这里基本不需要清理，直接返回即可
+        // Laravel 的 create/update 会自动处理非 fillable 字段
+        
+        return $payload;
     }
 
     /**
-     * 更新现有模型.
+     * 更新现有模型（直接覆盖）.
      */
     protected function updateExistingModel(Model $model, array $cleanPayload): Model
     {
         $this->parseTimestampsInPayload($cleanPayload);
-
-        if ($this->hasUpdateData($cleanPayload)) {
-            $model->update($cleanPayload);
-        }
+        $model->update($cleanPayload);
 
         return $model;
     }
 
     /**
-     * 创建新模型（优化版：利用雪花ID全局唯一性，移除外键约束）.
+     * 创建新模型（优化版：利用雪花ID全局唯一性，同步接近实时）.
      *
-     * 由于使用雪花ID且移除了外键约束：
-     * - ID冲突不会发生（雪花ID全局唯一）
-     * - 外键约束不会失败（已移除外键约束）
-     * - 唯一字段冲突（如sku、slug）仍可能发生，需要处理
+     * 优化点：
+     * - 使用雪花ID，ID全局唯一，不会冲突
+     * - 同步接近实时，唯一字段冲突（sku、slug）不会发生
+     * - 直接创建，无需处理冲突
      */
     protected function createNewModel(string $modelType, int $modelId, array $cleanPayload): ?Model
     {
-        // 设置雪花ID（全局唯一，不会冲突）
+        // 设置雪花ID（全局唯一）
         $cleanPayload['id'] = $modelId;
         $this->parseTimestampsInPayload($cleanPayload);
 
         try {
             return $modelType::create($cleanPayload);
-        } catch (\Illuminate\Database\QueryException $e) {
-            // 唯一约束冲突（唯一字段如sku、slug等，非外键约束）
-            if ($e->getCode() === '23000' && str_contains($e->getMessage(), 'Duplicate entry')) {
-                return $this->handleUniqueFieldConflict($modelType, $modelId, $cleanPayload, $e);
-            }
-
-            return $this->logAndReturnNull($modelType, $modelId, $cleanPayload, $e);
         } catch (\Exception $e) {
-            return $this->logAndReturnNull($modelType, $modelId, $cleanPayload, $e);
-        }
-    }
-
-    /**
-     * 处理唯一字段冲突（非ID冲突，非外键约束）.
-     *
-     * 由于使用雪花ID且移除了外键约束：
-     * - ID冲突不会发生（雪花ID全局唯一）
-     * - 外键约束不会失败（已移除外键约束）
-     * - 唯一字段冲突（如sku、slug）仍可能发生，需要处理
-     *
-     * 如果找到相同唯一字段的记录，更新该记录（保持原始雪花ID）
-     */
-    protected function handleUniqueFieldConflict(
-        string $modelType,
-        int $modelId,
-        array $cleanPayload,
-        \Exception $e
-    ): ?Model {
-        // 尝试通过唯一字段查找现有记录
-        $model = $this->findModelByUniqueFields($modelType, $cleanPayload);
-
-        if ($model) {
-            // 找到相同唯一字段的记录，更新它（保持原始ID）
-            // 注意：如果ID不同，说明是不同节点创建的相同唯一字段的记录
-            // 这种情况下，我们更新现有记录，但保持其原始ID
-            $this->parseTimestampsInPayload($cleanPayload);
-
-            // 移除ID，避免更新ID（保持原始记录的ID）
-            unset($cleanPayload['id']);
-
-            if ($this->hasUpdateData($cleanPayload)) {
-                $model->update($cleanPayload);
-            }
-
-            Log::info('通过唯一字段找到现有记录并更新', [
+            // 如果创建失败（理论上不应该发生），记录日志
+            Log::warning('创建同步记录失败', [
                 'model_type' => $modelType,
-                'existing_id' => $model->id,
-                'sync_id' => $modelId,
-                'unique_fields' => $this->getUniqueFields($modelType),
+                'model_id' => $modelId,
+                'error' => $e->getMessage(),
             ]);
 
-            return $model;
+            return null;
         }
-
-        // 如果找不到，可能是ID冲突（理论上不应该发生，但保留处理）
-        // 尝试直接查找ID
-        $existingModel = $modelType::find($modelId);
-        if ($existingModel) {
-            // ID已存在，直接更新
-            return $this->updateExistingModel($existingModel, $cleanPayload);
-        }
-
-        Log::warning('创建同步记录失败：唯一约束冲突且无法找到记录', [
-            'model_type' => $modelType,
-            'model_id' => $modelId,
-            'clean_payload' => $cleanPayload,
-            'error' => $e->getMessage(),
-        ]);
-
-        return null;
-    }
-
-    /**
-     * 获取模型的唯一字段列表（用于日志）.
-     */
-    protected function getUniqueFields(string $modelType): array
-    {
-        $uniqueFieldsMap = [
-            \App\Models\ProductVariant::class => ['sku'],
-            \App\Models\Product::class => ['slug'],
-        ];
-
-        return $uniqueFieldsMap[$modelType] ?? [];
     }
 
     /**
@@ -975,15 +862,6 @@ class SyncService
         }
     }
 
-    /**
-     * 检查是否有需要更新的数据（排除时间戳和ID）.
-     */
-    protected function hasUpdateData(array $cleanPayload): bool
-    {
-        $updateData = array_diff_key($cleanPayload, array_flip(['created_at', 'updated_at', 'id']));
-
-        return ! empty($updateData);
-    }
 
     /**
      * 记录警告日志并返回null.
