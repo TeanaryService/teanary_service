@@ -68,7 +68,7 @@ return [
 
     'AttributeValueResource.label' => '属性値',
     'AttributeValueResource.pluralLabel' => '属性値',
-    'AttributeValueResource.group' => '商品管理',
+    'AttributeValueResource.group' => 'メンテナンス',
     'AttributeValueResource.icon' => 'heroicon-o-adjustments-horizontal',
 
     'SpecificationResource.label' => '仕様管理',
@@ -78,7 +78,7 @@ return [
 
     'SpecificationValueResource.label' => '仕様値',
     'SpecificationValueResource.pluralLabel' => '仕様値',
-    'SpecificationValueResource.group' => '商品管理',
+    'SpecificationValueResource.group' => 'メンテナンス',
     'SpecificationValueResource.icon' => 'heroicon-o-puzzle-piece',
 
     'UserGroupResource.label' => 'ユーザーグループ',

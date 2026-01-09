@@ -26,9 +26,7 @@ class SpecificationValueResource extends Resource
 
     protected static ?string $model = SpecificationValue::class;
 
-    protected static bool $shouldRegisterNavigation = false;
-
-    protected static ?int $navigationSort = 206;
+    protected static ?int $navigationSort = 998;
 
     public static function getLabel(): string
     {
@@ -40,7 +38,7 @@ class SpecificationValueResource extends Resource
         return __('filament.SpecificationValueResource.pluralLabel');
     }
 
-    public static function getNavigationGroup(): string
+    public static function getNavigationGroup(): ?string
     {
         return __('filament.SpecificationValueResource.group');
     }

@@ -68,7 +68,7 @@ return [
 
     'AttributeValueResource.label' => 'Значения атрибутов',
     'AttributeValueResource.pluralLabel' => 'Значения атрибутов',
-    'AttributeValueResource.group' => 'Управление товарами',
+    'AttributeValueResource.group' => 'Обслуживание',
     'AttributeValueResource.icon' => 'heroicon-o-adjustments-horizontal',
 
     'SpecificationResource.label' => 'Управление спецификациями',
@@ -78,7 +78,7 @@ return [
 
     'SpecificationValueResource.label' => 'Значения спецификаций',
     'SpecificationValueResource.pluralLabel' => 'Значения спецификаций',
-    'SpecificationValueResource.group' => 'Управление товарами',
+    'SpecificationValueResource.group' => 'Обслуживание',
     'SpecificationValueResource.icon' => 'heroicon-o-puzzle-piece',
 
     'UserGroupResource.label' => 'Группы пользователей',

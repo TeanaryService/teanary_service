@@ -68,7 +68,7 @@ return [
 
     'AttributeValueResource.label' => '속성 값',
     'AttributeValueResource.pluralLabel' => '속성 값',
-    'AttributeValueResource.group' => '상품 관리',
+    'AttributeValueResource.group' => '유지보수',
     'AttributeValueResource.icon' => 'heroicon-o-adjustments-horizontal',
 
     'SpecificationResource.label' => '규격 관리',
@@ -78,7 +78,7 @@ return [
 
     'SpecificationValueResource.label' => '규격 값',
     'SpecificationValueResource.pluralLabel' => '규격 값',
-    'SpecificationValueResource.group' => '상품 관리',
+    'SpecificationValueResource.group' => '유지보수',
     'SpecificationValueResource.icon' => 'heroicon-o-puzzle-piece',
 
     'UserGroupResource.label' => '사용자 그룹',

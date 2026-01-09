@@ -68,7 +68,7 @@ return [
 
     'AttributeValueResource.label' => 'Valeurs d\'attribut',
     'AttributeValueResource.pluralLabel' => 'Valeurs d\'attribut',
-    'AttributeValueResource.group' => 'Gestion des produits',
+    'AttributeValueResource.group' => 'Maintenance',
     'AttributeValueResource.icon' => 'heroicon-o-adjustments-horizontal',
 
     'SpecificationResource.label' => 'Gestion des spécifications',
@@ -78,7 +78,7 @@ return [
 
     'SpecificationValueResource.label' => 'Valeurs de spécification',
     'SpecificationValueResource.pluralLabel' => 'Valeurs de spécification',
-    'SpecificationValueResource.group' => 'Gestion des produits',
+    'SpecificationValueResource.group' => 'Maintenance',
     'SpecificationValueResource.icon' => 'heroicon-o-puzzle-piece',
 
     'UserGroupResource.label' => 'Groupes d\'utilisateurs',
