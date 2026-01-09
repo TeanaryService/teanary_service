@@ -1022,15 +1022,24 @@ class SyncService
     }
 
     /**
-     * 获取 Media 文件的完整路径.
+     * 获取 Media 文件的完整路径（相对路径，用于 Storage）。
      * 
-     * 注意：Spatie Media Library 的 getPath() 方法返回的已经是完整路径（包含文件名），
-     * 所以直接返回即可，不需要再添加文件名。
+     * 注意：需要确保返回的是相对路径，而不是绝对路径。
+     * 使用 PathGeneratorFactory 来获取正确的 PathGenerator。
      */
     protected function getMediaFilePath(\App\Models\Media $media): string
     {
-        // getPath() 已经返回完整路径（包含文件名），直接使用
-        return $media->getPath();
+        $fileName = $media->file_name ?? $media->name ?? 'file';
+        
+        // 使用 PathGeneratorFactory 获取正确的 PathGenerator
+        $pathGeneratorFactory = app(\Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory::class);
+        $pathGenerator = $pathGeneratorFactory->create($media);
+        
+        // 使用 PathGenerator 获取目录路径（相对路径）
+        $directory = $pathGenerator->getPath($media);
+        
+        // 拼接文件名，返回相对路径
+        return rtrim($directory, '/').'/'.$fileName;
     }
 
     /**
