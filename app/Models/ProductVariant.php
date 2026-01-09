@@ -121,6 +121,24 @@ class ProductVariant extends Model implements HasMedia
      */
     public function syncSpecificationValues(array $ids, bool $detaching = true): array
     {
+        // 在同步之前，先获取要删除的记录（用于同步）
+        $pivotsToDelete = [];
+        if (config('sync.enabled') && $detaching) {
+            // 获取当前已关联的规格值ID
+            $currentSpecificationValueIds = $this->specificationValues()->pluck('specification_value_id')->toArray();
+            // 计算要删除的规格值ID
+            $idsToKeep = array_keys($ids);
+            $idsToDelete = array_diff($currentSpecificationValueIds, $idsToKeep);
+            
+            // 获取要删除的完整记录
+            if (!empty($idsToDelete)) {
+                $pivotsToDelete = \App\Models\ProductVariantSpecificationValue::where('product_variant_id', $this->id)
+                    ->whereIn('specification_value_id', $idsToDelete)
+                    ->get()
+                    ->keyBy('specification_value_id');
+            }
+        }
+        
         $changes = $this->specificationValues()->sync($ids, $detaching);
         
         // 手动触发 Pivot 模型的同步
@@ -154,13 +172,19 @@ class ProductVariant extends Model implements HasMedia
                 }
             }
             
-            // 处理删除的记录
+            // 处理删除的记录（使用之前获取的完整记录）
             foreach ($changes['detached'] ?? [] as $specificationValueId) {
-                $pivot = new \App\Models\ProductVariantSpecificationValue([
-                    'product_variant_id' => $this->id,
-                    'specification_value_id' => $specificationValueId,
-                ]);
-                $syncService->recordSync($pivot, 'deleted', $currentNode);
+                $pivot = $pivotsToDelete->get($specificationValueId);
+                if ($pivot) {
+                    $syncService->recordSync($pivot, 'deleted', $currentNode);
+                } else {
+                    // 如果找不到完整记录，使用部分信息创建（作为后备方案）
+                    $pivot = new \App\Models\ProductVariantSpecificationValue([
+                        'product_variant_id' => $this->id,
+                        'specification_value_id' => $specificationValueId,
+                    ]);
+                    $syncService->recordSync($pivot, 'deleted', $currentNode);
+                }
             }
         }
         
