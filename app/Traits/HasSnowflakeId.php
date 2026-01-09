@@ -19,8 +19,10 @@ trait HasSnowflakeId
     {
         // 在创建模型前生成ID
         static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = App::make(SnowflakeService::class)->nextId();
+            $keyName = $model->getKeyName();
+            // 使用更严格的检查：只有当 id 为 null 或未设置时才生成
+            if (! isset($model->{$keyName}) || $model->{$keyName} === null) {
+                $model->{$keyName} = App::make(SnowflakeService::class)->nextId();
             }
         });
     }
