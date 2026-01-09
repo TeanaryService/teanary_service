@@ -1023,13 +1023,14 @@ class SyncService
 
     /**
      * 获取 Media 文件的完整路径.
+     * 
+     * 注意：Spatie Media Library 的 getPath() 方法返回的已经是完整路径（包含文件名），
+     * 所以直接返回即可，不需要再添加文件名。
      */
     protected function getMediaFilePath(\App\Models\Media $media): string
     {
-        $path = $media->getPath();
-        $fileName = $media->file_name ?? $media->name ?? 'file';
-        
-        return rtrim($path, '/').'/'.$fileName;
+        // getPath() 已经返回完整路径（包含文件名），直接使用
+        return $media->getPath();
     }
 
     /**
