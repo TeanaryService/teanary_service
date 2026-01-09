@@ -769,7 +769,7 @@ class SyncService
      */
     protected function cleanPayloadForModel(string $modelType, array $payload): array
     {
-        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class) {
+        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class || $modelType === \App\Models\Media::class) {
             return $this->cleanMediaPayload($payload);
         }
 
