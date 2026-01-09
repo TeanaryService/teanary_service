@@ -109,7 +109,16 @@ class Product extends Model implements HasMedia
             }
         }
         
-        $changes = $this->attributeValues()->sync($ids, $detaching);
+        // 禁用 ProductAttributeValue 的自动同步（因为我们会在下面手动触发同步）
+        $wasSyncDisabled = \App\Models\ProductAttributeValue::$syncDisabled;
+        \App\Models\ProductAttributeValue::$syncDisabled = true;
+        
+        try {
+            $changes = $this->attributeValues()->sync($ids, $detaching);
+        } finally {
+            // 恢复同步状态
+            \App\Models\ProductAttributeValue::$syncDisabled = $wasSyncDisabled;
+        }
         
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
