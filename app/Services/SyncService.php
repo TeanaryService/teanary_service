@@ -41,13 +41,32 @@ class SyncService
         $payload = $this->preparePayload($model, $action);
         $syncHash = $this->generateSyncHash($model, $action);
 
+        // 检查是否是 Pivot 表（无主键）
+        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        
+        // 对于 Pivot 表，使用 payload 的哈希值作为 model_id（因为 Pivot 表没有主键）
+        // 对于普通模型，使用 model->id
+        $modelId = $isPivot ? $this->generatePivotModelId($payload) : $model->id;
+
         foreach ($targetNodes as $targetNode) {
-            if (! $this->shouldCreateSyncLog($modelType, $model->id, $action, $targetNode, $syncHash)) {
+            if (! $this->shouldCreateSyncLog($modelType, $modelId, $action, $targetNode, $syncHash)) {
                 continue;
             }
 
-            $this->createSyncLog($modelType, $model->id, $action, $sourceNode, $targetNode, $payload);
+            $this->createSyncLog($modelType, $modelId, $action, $sourceNode, $targetNode, $payload);
         }
+    }
+
+    /**
+     * 为 Pivot 表生成 model_id（使用 payload 的哈希值）.
+     */
+    protected function generatePivotModelId(array $payload): int
+    {
+        // 对 payload 进行排序，确保相同的数据生成相同的哈希
+        ksort($payload);
+        $hash = md5(json_encode($payload, JSON_UNESCAPED_UNICODE));
+        // 将哈希值的前 15 位转换为整数（避免超出 bigint 范围）
+        return (int) hexdec(substr($hash, 0, 15));
     }
 
     /**
@@ -291,12 +310,21 @@ class SyncService
      * 原样写入源节点数据，不过滤任何字段（包括id等）.
      * 强制使用源节点的 ID，确保不会重新生成 ID.
      * 对于 Media 模型，移除非数据库字段（如 original_url, preview_url）.
+     * 对于 Pivot 表（无主键），使用复合键查找和更新.
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
     {
         // 对于 Media 模型，移除非数据库字段
         if ($modelType === \App\Models\Media::class) {
             $payload = $this->cleanMediaPayload($payload);
+        }
+
+        // 检查是否是 Pivot 表（无主键）
+        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        
+        if ($isPivot) {
+            // Pivot 表使用复合键，直接使用 updateOrCreate
+            return $this->createOrUpdatePivotModel($modelType, $payload);
         }
 
         // 强制使用源节点的 ID（确保不会被重新生成）
@@ -342,6 +370,30 @@ class SyncService
     }
 
     /**
+     * 创建或更新 Pivot 表模型（无主键）.
+     * 
+     * Pivot 表使用复合键，通过所有字段组合来唯一标识记录.
+     */
+    protected function createOrUpdatePivotModel(string $modelType, array $payload): ?Model
+    {
+        try {
+            // Pivot 表使用 updateOrCreate，通过所有 fillable 字段组合来查找
+            // 如果存在则更新，不存在则创建
+            return $modelType::updateOrCreate(
+                $payload, // 使用所有字段作为查找条件
+                $payload  // 如果不存在，使用相同数据创建
+            );
+        } catch (\Exception $e) {
+            Log::warning('创建/更新 Pivot 表记录失败', [
+                'model_type' => $modelType,
+                'error' => $e->getMessage(),
+                'payload' => $payload,
+            ]);
+            return null;
+        }
+    }
+
+    /**
      * 清理 Media payload，移除非数据库字段.
      * 
      * 根据迁移文件，Media 表的字段包括：
@@ -372,9 +424,32 @@ class SyncService
 
     /**
      * 删除模型.
+     * 
+     * 对于 Pivot 表（无主键），使用复合键删除.
      */
-    protected function deleteModel(string $modelType, int $modelId): void
+    protected function deleteModel(string $modelType, int $modelId, array $payload = []): void
     {
+        // 检查是否是 Pivot 表（无主键）
+        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        
+        if ($isPivot) {
+            // Pivot 表使用复合键删除
+            try {
+                $model = $modelType::where($payload)->first();
+                if ($model) {
+                    $model->delete();
+                }
+            } catch (\Exception $e) {
+                Log::warning('删除 Pivot 表记录失败', [
+                    'model_type' => $modelType,
+                    'payload' => $payload,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+            return;
+        }
+
+        // 普通模型通过 ID 删除
         $model = $modelType::find($modelId);
         if ($model) {
             $model->delete();
@@ -707,12 +782,30 @@ class SyncService
      * 判断是否应该跳过同步（基于时间戳）.
      *
      * 优化：由于使用雪花ID，可以直接通过ID查找，无需通过唯一字段查找
+     * 对于 Pivot 表（无主键），使用复合键查找
      */
     protected function shouldSkipSync(array $data): bool
     {
         $modelType = $data['model_type'];
         $modelId = $data['model_id'];
         $timestamp = $data['timestamp'] ?? now()->toIso8601String();
+        $payload = $data['payload'] ?? [];
+
+        // 检查是否是 Pivot 表（无主键）
+        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        
+        if ($isPivot) {
+            // Pivot 表使用复合键查找
+            try {
+                $existingModel = $modelType::where($payload)->first();
+                // Pivot 表通常没有时间戳，所以不检查时间戳
+                // 如果记录已存在，就跳过（避免重复）
+                return $existingModel !== null;
+            } catch (\Exception $e) {
+                // 如果查找失败，不跳过，继续同步
+                return false;
+            }
+        }
 
         // 直接通过雪花ID查找（全局唯一，快速准确）
         $existingModel = $modelType::find($modelId);
@@ -757,7 +850,7 @@ class SyncService
                 // }
                 break;
             case 'deleted':
-                $this->deleteModel($modelType, $modelId);
+                $this->deleteModel($modelType, $modelId, $payload);
                 break;
         }
     }

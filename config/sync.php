@@ -48,6 +48,8 @@ return [
         \App\Models\ProductTranslation::class,
         \App\Models\ProductVariant::class,
         \App\Models\ProductReview::class,
+        \App\Models\ProductCategory::class,
+        \App\Models\ProductAttributeValue::class,
 
         // 分类相关
         \App\Models\Category::class,
@@ -64,6 +66,7 @@ return [
         \App\Models\SpecificationTranslation::class,
         \App\Models\SpecificationValue::class,
         \App\Models\SpecificationValueTranslation::class,
+        \App\Models\ProductVariantSpecificationValue::class,
 
         // 订单相关
         \App\Models\Order::class,
@@ -79,6 +82,7 @@ return [
         \App\Models\PromotionTranslation::class,
         \App\Models\PromotionRule::class,
         \App\Models\PromotionUserGroup::class,
+        \App\Models\PromotionProductVariant::class,
 
         // 文章相关
         \App\Models\Article::class,
