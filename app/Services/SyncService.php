@@ -289,6 +289,7 @@ class SyncService
      * 创建或更新模型.
      * 
      * 原样写入源节点数据，不过滤任何字段（包括id等）.
+     * 强制使用源节点的 ID，确保不会重新生成 ID.
      * 对于 Media 模型，移除非数据库字段（如 original_url, preview_url）.
      */
     protected function createOrUpdateModel(string $modelType, int $modelId, array $payload): ?Model
@@ -298,6 +299,10 @@ class SyncService
             $payload = $this->cleanMediaPayload($payload);
         }
 
+        // 强制使用源节点的 ID（确保不会被重新生成）
+        // 必须在处理时间戳之前设置，确保 id 字段存在
+        $payload['id'] = $modelId;
+
         // 只处理时间戳格式转换
         $this->parseTimestampsInPayload($payload);
 
@@ -305,20 +310,32 @@ class SyncService
         $model = $modelType::find($modelId);
 
         if ($model) {
-            // 模型已存在，直接更新覆盖（原样数据）
-            $model->update($payload);
+            // 模型已存在，直接更新覆盖（原样数据，但确保使用源节点的 id）
+            // 移除 id 字段，因为 update 不应该更新主键
+            $updatePayload = $payload;
+            unset($updatePayload['id']);
+            $model->update($updatePayload);
             return $model;
         }
 
-        // 模型不存在，创建新记录（使用原始雪花ID和原样数据）
-        $payload['id'] = $modelId;
+        // 模型不存在，创建新记录
+        // 使用 withoutEvents 禁用所有模型事件（包括 HasSnowflakeId 的 creating 事件）
+        // 然后使用 fill 设置属性，确保使用源节点的 id
         try {
-            return $modelType::create($payload);
+            return $modelType::withoutEvents(function () use ($modelType, $modelId, $payload) {
+                $model = new $modelType();
+                $model->fill($payload);
+                // 强制确保使用源节点的 id（fill 之后再次设置，确保不被覆盖）
+                $model->id = $modelId;
+                $model->save();
+                return $model;
+            });
         } catch (\Exception $e) {
             Log::warning('创建同步记录失败', [
                 'model_type' => $modelType,
                 'model_id' => $modelId,
                 'error' => $e->getMessage(),
+                'payload_keys' => array_keys($payload),
             ]);
             return null;
         }
