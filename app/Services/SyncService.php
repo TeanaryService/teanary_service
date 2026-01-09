@@ -312,7 +312,7 @@ class SyncService
      * 下载并保存 Media 文件.
      */
     protected function downloadAndSaveMediaFile(
-        \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
+        \App\Models\Media $media,
         array $payload
     ): void {
         if (! isset($payload['original_url'])) {
@@ -363,9 +363,8 @@ class SyncService
         }
 
         // 使用静态属性标记，在 Trait 或 Observer 中检查
-        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class
-            || $modelType === \App\Models\Media::class
-            || is_subclass_of($modelType, \Spatie\MediaLibrary\MediaCollections\Models\Media::class)) {
+        if ($modelType === \App\Models\Media::class
+            || is_subclass_of($modelType, \App\Models\Media::class)) {
             \App\Observers\MediaObserver::$syncDisabled = true;
         } else {
             $modelType::$syncDisabled = true;
@@ -382,9 +381,8 @@ class SyncService
             return;
         }
 
-        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class
-            || $modelType === \App\Models\Media::class
-            || is_subclass_of($modelType, \Spatie\MediaLibrary\MediaCollections\Models\Media::class)) {
+        if ($modelType === \App\Models\Media::class
+            || is_subclass_of($modelType, \App\Models\Media::class)) {
             \App\Observers\MediaObserver::$syncDisabled = false;
         } else {
             $modelType::$syncDisabled = false;
@@ -724,7 +722,7 @@ class SyncService
                     break;
                 }
 
-                if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
+                if ($model instanceof \App\Models\Media) {
                     $this->downloadAndSaveMediaFile($model, $payload);
                 }
                 break;
@@ -757,7 +755,7 @@ class SyncService
      */
     protected function addMediaFileInfo(array &$payload, Model $model): void
     {
-        if ($model instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
+        if ($model instanceof \App\Models\Media) {
             $payload['file_url'] = $model->getUrl();
             $payload['file_path'] = $model->getPath();
             $payload['file_disk'] = $model->disk;
@@ -769,7 +767,7 @@ class SyncService
      */
     protected function cleanPayloadForModel(string $modelType, array $payload): array
     {
-        if ($modelType === \Spatie\MediaLibrary\MediaCollections\Models\Media::class || $modelType === \App\Models\Media::class) {
+        if ($modelType === \App\Models\Media::class) {
             return $this->cleanMediaPayload($payload);
         }
 
@@ -886,7 +884,7 @@ class SyncService
      * 下载主媒体文件.
      */
     protected function downloadMainMediaFile(
-        \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
+        \App\Models\Media $media,
         string $downloadUrl
     ): void {
         $timeout = config('sync.media_download_timeout', 900); // 默认15分钟
@@ -915,7 +913,7 @@ class SyncService
      * 保存媒体文件到磁盘.
      */
     protected function saveMediaFile(
-        \Spatie\MediaLibrary\MediaCollections\Models\Media $media,
+        \App\Models\Media $media,
         string $fileContent
     ): void {
         $disk = $media->disk ?? config('media-library.disk_name', 'public');
@@ -934,7 +932,7 @@ class SyncService
      * 触发媒体转换生成.
      */
     protected function triggerMediaConversions(
-        \Spatie\MediaLibrary\MediaCollections\Models\Media $media
+        \App\Models\Media $media
     ): void {
         try {
             $model = $media->model;
@@ -970,7 +968,7 @@ class SyncService
      * 分发图片调整任务
      */
     protected function dispatchImageResizeJob(
-        \Spatie\MediaLibrary\MediaCollections\Models\Media $media
+        \App\Models\Media $media
     ): void {
         try {
             ResizeUploadedImage::dispatch($media)->onQueue('low');
