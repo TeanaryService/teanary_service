@@ -91,6 +91,24 @@ class Product extends Model implements HasMedia
      */
     public function syncAttributeValues(array $ids, bool $detaching = true): array
     {
+        // 在同步之前，先获取要删除的记录（用于同步）
+        $pivotsToDelete = [];
+        if (config('sync.enabled') && $detaching) {
+            // 获取当前已关联的属性值ID
+            $currentAttributeValueIds = $this->attributeValues()->pluck('attribute_value_id')->toArray();
+            // 计算要删除的属性值ID
+            $idsToKeep = array_keys($ids);
+            $idsToDelete = array_diff($currentAttributeValueIds, $idsToKeep);
+            
+            // 获取要删除的完整记录
+            if (!empty($idsToDelete)) {
+                $pivotsToDelete = \App\Models\ProductAttributeValue::where('product_id', $this->id)
+                    ->whereIn('attribute_value_id', $idsToDelete)
+                    ->get()
+                    ->keyBy('attribute_value_id');
+            }
+        }
+        
         $changes = $this->attributeValues()->sync($ids, $detaching);
         
         // 手动触发 Pivot 模型的同步
@@ -124,14 +142,19 @@ class Product extends Model implements HasMedia
                 }
             }
             
-            // 处理删除的记录
+            // 处理删除的记录（使用之前获取的完整记录）
             foreach ($changes['detached'] ?? [] as $attributeValueId) {
-                // 构造一个 Pivot 模型实例用于同步删除
-                $pivot = new \App\Models\ProductAttributeValue([
-                    'product_id' => $this->id,
-                    'attribute_value_id' => $attributeValueId,
-                ]);
-                $syncService->recordSync($pivot, 'deleted', $currentNode);
+                $pivot = $pivotsToDelete->get($attributeValueId);
+                if ($pivot) {
+                    $syncService->recordSync($pivot, 'deleted', $currentNode);
+                } else {
+                    // 如果找不到完整记录，使用部分信息创建（作为后备方案）
+                    $pivot = new \App\Models\ProductAttributeValue([
+                        'product_id' => $this->id,
+                        'attribute_value_id' => $attributeValueId,
+                    ]);
+                    $syncService->recordSync($pivot, 'deleted', $currentNode);
+                }
             }
         }
         
