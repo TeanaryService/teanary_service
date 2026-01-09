@@ -139,6 +139,7 @@ return [
     'article.title' => 'Title',
     'article.summary' => 'Summary',
     'article.content' => 'Content',
+    'article.translations' => 'Translations',
 
     // Attribute
     'attribute.name' => 'Name',

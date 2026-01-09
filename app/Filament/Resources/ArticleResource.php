@@ -58,67 +58,89 @@ class ArticleResource extends Resource
 
     public static function form(Form $form): Form
     {
+        return $form->schema([
+            Forms\Components\Tabs::make('article_tabs')
+                ->tabs([
+                    Forms\Components\Tabs\Tab::make('basic')
+                        ->label('基本信息')
+                        ->schema([
+                            ...static::getArticleBaseFields(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('translations')
+                        ->label(__('filament.article.translations'))
+                        ->schema(static::getArticleTranslationsTabs($form)),
+                ])
+                ->columnSpanFull(),
+        ]);
+    }
+
+    protected static function getArticleBaseFields(): array
+    {
+        return [
+            SpatieMediaLibraryFileUpload::make('image')
+                ->label(__('filament.article.image'))
+                ->image()
+                ->imageEditor()
+                ->imageCropAspectRatio('16:9')
+                ->columnSpanFull()
+                ->required()
+                ->collection('image'),
+            Forms\Components\TextInput::make('slug')
+                ->required()
+                ->label(__('filament.article.slug'))
+                ->maxLength(255),
+            Forms\Components\Select::make('user_id')
+                ->label(__('filament.article.user_id'))
+                ->relationship('user', 'name')
+                ->searchable()
+                ->preload()
+                ->default(null),
+            Forms\Components\Toggle::make('is_published')
+                ->label(__('filament.article.is_published'))
+                ->required(),
+            Forms\Components\Select::make('translation_status')
+                ->label('翻译状态')
+                ->options(TranslationStatusEnum::options())
+                ->default(TranslationStatusEnum::NotTranslated->value)
+                ->required(),
+        ];
+    }
+
+    protected static function getArticleTranslationsTabs(Form $form): array
+    {
         $languages = app(LocaleCurrencyService::class)->getLanguages();
         $model = $form->getModelInstance();
 
-        return $form
-            ->schema([
-                SpatieMediaLibraryFileUpload::make('image')
-                    ->label(__('filament.article.image'))
-                    ->image()
-                    ->imageEditor()
-                    ->imageCropAspectRatio('16:9')
-                    ->columnSpanFull()
-                    ->required()
-                    ->collection('image'),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->label(__('filament.article.slug'))
-                    ->maxLength(255),
-                Forms\Components\Select::make('user_id')
-                    ->label(__('filament.article.user_id'))
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->default(null),
-                Forms\Components\Toggle::make('is_published')
-                    ->label(__('filament.article.is_published'))
-                    ->required(),
-                Forms\Components\Select::make('translation_status')
-                    ->label('翻译状态')
-                    ->options(TranslationStatusEnum::options())
-                    ->default(TranslationStatusEnum::NotTranslated->value)
-                    ->required(),
+        return [
+            Tabs::make('translations_tabs')
+                ->tabs(
+                    $languages->map(function ($lang) use ($model) {
+                        $translation = null;
+                        if ($model && $model->exists) {
+                            $translation = $model->articleTranslations
+                                ->where('language_id', $lang->id)
+                                ->first();
+                        }
 
-                Tabs::make('translations_tabs')
-                    ->tabs(
-                        $languages->map(function ($lang) use ($model) {
-                            $translation = null;
-                            if ($model && $model->exists) {
-                                $translation = $model->articleTranslations
-                                    ->where('language_id', $lang->id)
-                                    ->first();
-                            }
+                        return Tabs\Tab::make($lang->name)
+                            ->schema([
+                                Forms\Components\TextInput::make("translations.{$lang->id}.title")
+                                    ->label(__('filament.article.title'))
+                                    ->required($lang->is_default ?? false)
+                                    ->default($translation ? $translation->title : ''),
 
-                            return Tabs\Tab::make($lang->name)
-                                ->schema([
-                                    Forms\Components\TextInput::make("translations.{$lang->id}.title")
-                                        ->label(__('filament.article.title'))
-                                        ->required($lang->is_default ?? false)
-                                        ->default($translation ? $translation->title : ''),
+                                Forms\Components\TextInput::make("translations.{$lang->id}.summary")
+                                    ->label(__('filament.article.summary'))
+                                    ->required($lang->is_default ?? false)
+                                    ->default($translation ? $translation->summary : ''),
 
-                                    Forms\Components\TextInput::make("translations.{$lang->id}.summary")
-                                        ->label(__('filament.article.summary'))
-                                        ->required($lang->is_default ?? false)
-                                        ->default($translation ? $translation->summary : ''),
+                                reusableRichEditor("translations.{$lang->id}.content", $translation ? ($translation->content ?? '') : '', __('filament.article.content'), $lang->id),
 
-                                    reusableRichEditor("translations.{$lang->id}.content", $translation ? ($translation->content ?? '') : '', __('filament.article.content'), $lang->id),
-
-                                ]);
-                        })->toArray()
-                    )
-                    ->columnSpanFull(),
-            ]);
+                            ]);
+                    })->toArray()
+                )
+                ->columnSpanFull(),
+        ];
     }
 
     public static function table(Table $table): Table

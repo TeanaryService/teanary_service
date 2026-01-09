@@ -139,6 +139,7 @@ return [
     'article.title' => '제목',
     'article.summary' => '요약',
     'article.content' => '내용',
+    'article.translations' => '번역',
 
     // Attribute
     'attribute.name' => '이름',

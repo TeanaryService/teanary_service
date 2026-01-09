@@ -139,6 +139,7 @@ return [
     'article.title' => 'Заголовок',
     'article.summary' => 'Аннотация',
     'article.content' => 'Содержание',
+    'article.translations' => 'Переводы',
 
     // Attribute
     'attribute.name' => 'Название',

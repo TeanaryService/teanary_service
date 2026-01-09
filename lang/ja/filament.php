@@ -139,6 +139,7 @@ return [
     'article.title' => 'タイトル',
     'article.summary' => '概要',
     'article.content' => '内容',
+    'article.translations' => '翻訳',
 
     // Attribute
     'attribute.name' => '名称',
