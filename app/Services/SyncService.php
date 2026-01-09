@@ -39,6 +39,15 @@ class SyncService
         $targetNodes = $this->getTargetNodes();
         $modelType = get_class($model);
         $payload = $this->preparePayload($model, $action);
+        
+        // 对于翻译模型，检查关键字段是否为空，如果为空则跳过同步
+        if ($this->isTranslationModel($modelType)) {
+            if ($action !== 'deleted' && ! $this->hasRequiredTranslationFields($modelType, $payload)) {
+                // 关键字段为空，跳过同步
+                return;
+            }
+        }
+        
         $syncHash = $this->generateSyncHash($model, $action);
 
         // 检查是否是 Pivot 表（无主键）
@@ -292,6 +301,73 @@ class SyncService
     }
 
     /**
+     * 检查是否是翻译模型.
+     */
+    protected function isTranslationModel(string $modelType): bool
+    {
+        $translationModels = [
+            \App\Models\ProductTranslation::class,
+            \App\Models\CategoryTranslation::class,
+            \App\Models\AttributeTranslation::class,
+            \App\Models\AttributeValueTranslation::class,
+            \App\Models\SpecificationTranslation::class,
+            \App\Models\SpecificationValueTranslation::class,
+            \App\Models\PromotionTranslation::class,
+            \App\Models\ArticleTranslation::class,
+            \App\Models\CountryTranslation::class,
+            \App\Models\ZoneTranslation::class,
+            \App\Models\UserGroupTranslation::class,
+        ];
+
+        return in_array($modelType, $translationModels);
+    }
+
+    /**
+     * 检查翻译模型的关键字段是否为空.
+     * 
+     * 如果关键字段为空，说明这是无效的翻译记录，不应该同步.
+     * 
+     * @param string $modelType 模型类型
+     * @param array $payload 同步数据
+     * @return bool 如果关键字段至少有一个非空，返回 true；否则返回 false
+     */
+    protected function hasRequiredTranslationFields(string $modelType, array $payload): bool
+    {
+        // 定义每个翻译模型的关键字段（必填字段）
+        $requiredFields = [
+            \App\Models\ProductTranslation::class => ['name'],
+            \App\Models\CategoryTranslation::class => ['name'],
+            \App\Models\AttributeTranslation::class => ['name'],
+            \App\Models\AttributeValueTranslation::class => ['name'],
+            \App\Models\SpecificationTranslation::class => ['name'],
+            \App\Models\SpecificationValueTranslation::class => ['name'],
+            \App\Models\PromotionTranslation::class => ['name'],
+            \App\Models\ArticleTranslation::class => ['title'],
+            \App\Models\CountryTranslation::class => ['name'],
+            \App\Models\ZoneTranslation::class => ['name'],
+            \App\Models\UserGroupTranslation::class => ['name'],
+        ];
+
+        $fields = $requiredFields[$modelType] ?? [];
+        
+        if (empty($fields)) {
+            // 如果没有定义关键字段，默认允许同步
+            return true;
+        }
+
+        // 检查所有关键字段是否至少有一个非空
+        foreach ($fields as $field) {
+            $value = $payload[$field] ?? null;
+            if (! empty($value)) {
+                return true;
+            }
+        }
+
+        // 所有关键字段都为空，跳过同步
+        return false;
+    }
+
+    /**
      * 准备同步数据.
      */
     protected function preparePayload(Model $model, string $action): array
@@ -361,6 +437,15 @@ class SyncService
         $model = $modelType::find($modelId);
 
         if ($model) {
+            // 对于翻译模型，如果关键字段为空，则删除该记录而不是更新
+            if ($this->isTranslationModel($modelType) && ! $this->hasRequiredTranslationFields($modelType, $payload)) {
+                // 关键字段为空，删除该记录
+                $model->withoutEvents(function () use ($model) {
+                    $model->delete();
+                });
+                return null;
+            }
+            
             // 模型已存在，直接更新覆盖（原样数据，但确保使用源节点的 id）
             // 移除 id 字段，因为 update 不应该更新主键
             $updatePayload = $payload;
@@ -377,6 +462,12 @@ class SyncService
             }
             
             return $model;
+        }
+
+        // 对于翻译模型，如果关键字段为空，则不创建记录
+        if ($this->isTranslationModel($modelType) && ! $this->hasRequiredTranslationFields($modelType, $payload)) {
+            // 关键字段为空，不创建记录
+            return null;
         }
 
         // 模型不存在，创建新记录
