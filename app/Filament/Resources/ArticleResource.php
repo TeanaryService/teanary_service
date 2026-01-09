@@ -135,16 +135,27 @@ class ArticleResource extends Resource
                     ->label(__('filament.article.image'))
                     ->collection('image')
                     ->conversion('thumb'),
-                // 多语言 name 列
+                // 多语言 title 列
                 Tables\Columns\TextColumn::make('articleTranslations.title')
                     ->label(__('filament.article.title'))
                     ->limit(64)
-                    ->description(fn ($record): string => $record->slug)
+                    ->description(function ($record): string {
+                        $locale = app()->getLocale();
+                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                        $translation = $record->articleTranslations->where('language_id', $lang?->id)->first();
+                        $summary = $translation && $translation->summary ? $translation->summary : '';
+                        if (!$summary) {
+                            $first = $record->articleTranslations->first();
+                            $summary = $first ? ($first->summary ?? '') : '';
+                        }
+                        // 限制为 64 字符
+                        return mb_strlen($summary) > 32 ? mb_substr($summary, 0, 32) . '...' : $summary;
+                    })
                     ->getStateUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
                         $translation = $record->articleTranslations->where('language_id', $lang?->id)->first();
-                        if ($translation && $translation->name) {
+                        if ($translation && $translation->title) {
                             return $translation->title;
                         }
                         $first = $record->articleTranslations->first();
