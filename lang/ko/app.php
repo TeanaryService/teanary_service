@@ -95,7 +95,7 @@ return [
     'checkout_support_message' => '결제 중 문제가 발생하면 언제든지 Email: hello@teanary.com 또는 WeChat: xcalder로 연락해 주세요.',
 
     // Product status (merged from product.php)
-    'product' => [
+    'products' => [
         'status' => [
             'active' => '활성',
             'inactive' => '비활성',

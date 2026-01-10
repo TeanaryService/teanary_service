@@ -95,7 +95,7 @@ return [
     'checkout_support_message' => 'Si vous rencontrez un problème lors du paiement, n\'hésitez pas à nous contacter par Email : hello@teanary.com ou WeChat : xcalder.',
 
     // Product status (merged from product.php)
-    'product' => [
+    'products' => [
         'status' => [
             'active' => 'Actif',
             'inactive' => 'Inactif',

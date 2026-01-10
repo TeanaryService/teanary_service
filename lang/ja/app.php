@@ -95,7 +95,7 @@ return [
     'checkout_support_message' => 'チェックアウト中に問題が発生した場合は、Email: hello@teanary.com または WeChat: xcalder にお気軽にご連絡ください。',
 
     // Product status (merged from product.php)
-    'product' => [
+    'products' => [
         'status' => [
             'active' => '有効',
             'inactive' => '無効',
