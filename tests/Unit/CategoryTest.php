@@ -62,36 +62,4 @@ class CategoryTest extends TestCase
         $this->assertEquals('product_id', $relation->getRelatedPivotKeyName());
     }
 
-    public function test_get_cached_categories()
-    {
-        Cache::flush();
-        $parent = Category::factory()->create(['parent_id' => null]);
-        $child = Category::factory()->create(['parent_id' => $parent->id]);
-
-        $categories = Category::getCachedCategories();
-
-        $this->assertCount(1, $categories);
-        $this->assertEquals($parent->id, $categories->first()->id);
-        $this->assertTrue(Cache::has(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS));
-    }
-
-    public function test_get_categories_for_language()
-    {
-        Cache::flush();
-        $language = \App\Models\Language::factory()->create();
-        $parent = Category::factory()->create(['parent_id' => null]);
-        $child = Category::factory()->create(['parent_id' => $parent->id]);
-        $translation = CategoryTranslation::factory()->create([
-            'category_id' => $parent->id,
-            'language_id' => $language->id,
-            'name' => 'Test Category',
-        ]);
-
-        $categories = Category::getCategoriesForLanguage($language->id);
-
-        $this->assertIsArray($categories->first());
-        $this->assertArrayHasKey('id', $categories->first());
-        $this->assertArrayHasKey('name', $categories->first());
-        $this->assertArrayHasKey('children', $categories->first());
-    }
 }

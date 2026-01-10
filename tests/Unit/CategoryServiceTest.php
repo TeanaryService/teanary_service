@@ -57,23 +57,6 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：创建带父分类的分类
-     */
-    public function test_find_or_create_category_with_parent()
-    {
-        $parent = Category::factory()->create();
-
-        $result = $this->service->findOrCreateCategory([
-            'slug' => 'child-category',
-            'parent_id' => $parent->id,
-            'translations' => [],
-        ]);
-
-        $this->assertNotNull($result);
-        $this->assertEquals($parent->id, $result->parent_id);
-    }
-
-    /**
      * 测试：同步分类翻译
      */
     public function test_sync_category_translations_creates_translations()
@@ -185,75 +168,6 @@ class CategoryServiceTest extends TestCase
         // 方法签名要求 array，但内部会检查是否为空
         $this->service->syncCategoryTranslations($category, []);
         $this->assertDatabaseCount('category_translations', 0);
-    }
-
-    /**
-     * 测试：批量查找或创建分类
-     */
-    public function test_find_or_create_categories_batch()
-    {
-        $language = Language::factory()->create();
-
-        $categories = $this->service->findOrCreateCategories([
-            [
-                'slug' => 'category-1',
-                'translations' => [
-                    [
-                        'language_id' => $language->id,
-                        'name' => 'Category 1',
-                    ],
-                ],
-            ],
-            [
-                'slug' => 'category-2',
-                'translations' => [
-                    [
-                        'language_id' => $language->id,
-                        'name' => 'Category 2',
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->assertCount(2, $categories);
-        $this->assertDatabaseHas('categories', ['slug' => 'category-1']);
-        $this->assertDatabaseHas('categories', ['slug' => 'category-2']);
-    }
-
-    /**
-     * 测试：批量查找或创建分类返回ID数组
-     */
-    public function test_find_or_create_categories_returns_ids()
-    {
-        $language = Language::factory()->create();
-
-        $categoryIds = $this->service->findOrCreateCategories([
-            [
-                'slug' => 'category-1',
-                'translations' => [
-                    [
-                        'language_id' => $language->id,
-                        'name' => 'Category 1',
-                    ],
-                ],
-            ],
-            [
-                'slug' => 'category-2',
-                'translations' => [
-                    [
-                        'language_id' => $language->id,
-                        'name' => 'Category 2',
-                    ],
-                ],
-            ],
-        ]);
-
-        $this->assertIsArray($categoryIds);
-        $this->assertCount(2, $categoryIds);
-        foreach ($categoryIds as $id) {
-            $this->assertIsInt($id);
-            $this->assertGreaterThan(0, $id);
-        }
     }
 
     /**

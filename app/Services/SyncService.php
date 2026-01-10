@@ -703,23 +703,15 @@ class SyncService
                 return;
             }
 
-            try {
-                // 下载并保存文件
-                $this->downloadAndSaveFile($media, $downloadUrl);
-                // 文件保存成功后，触发 conversions 生成缩略图
-                $this->triggerMediaConversions($media);
+            // 下载并保存文件（失败时抛出异常，让上层处理）
+            $this->downloadAndSaveFile($media, $downloadUrl);
+            // 文件保存成功后，触发 conversions 生成缩略图
+            $this->triggerMediaConversions($media);
 
-                Log::info('Media 文件同步成功', [
-                    'media_id' => $media->id,
-                    'file_size' => $this->getMediaFileSize($media),
-                ]);
-            } catch (\Exception $e) {
-                Log::error('Media 文件同步失败', [
-                    'media_id' => $media->id,
-                    'url' => $downloadUrl,
-                    'error' => $e->getMessage(),
-                ]);
-            }
+            Log::info('Media 文件同步成功', [
+                'media_id' => $media->id,
+                'file_size' => $this->getMediaFileSize($media),
+            ]);
         } finally {
             // 恢复之前的同步状态
             \App\Observers\MediaObserver::$syncDisabled = $wasDisabled;

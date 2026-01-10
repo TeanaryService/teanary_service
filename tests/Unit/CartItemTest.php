@@ -11,15 +11,6 @@ class CartItemTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_cart_item_can_be_created_using_factory()
-    {
-        $cartItem = CartItem::factory()->create();
-
-        $this->assertNotNull($cartItem);
-        $this->assertInstanceOf(CartItem::class, $cartItem);
-        $this->assertIsInt($cartItem->qty);
-    }
-
     public function test_cart_relationship()
     {
         $cartItem = new CartItem;

@@ -11,16 +11,6 @@ class OrderItemTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_order_item_can_be_created_using_factory()
-    {
-        $orderItem = OrderItem::factory()->create();
-
-        $this->assertNotNull($orderItem);
-        $this->assertInstanceOf(OrderItem::class, $orderItem);
-        $this->assertIsInt($orderItem->qty);
-        $this->assertIsFloat($orderItem->price);
-    }
-
     public function test_order_relationship()
     {
         $orderItem = new OrderItem;

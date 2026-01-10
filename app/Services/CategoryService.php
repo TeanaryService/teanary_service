@@ -21,10 +21,18 @@ class CategoryService
 
         // 如果分类不存在，创建分类
         if (! $category) {
-            $category = Category::create([
-                'slug' => $categoryData['slug'],
-                'parent_id' => $categoryData['parent_id'] ?? null,
-            ]);
+            // 使用 withoutEvents 避免触发观察者事件，防止ID冲突
+            // 但需要手动生成 ID，因为 withoutEvents 会禁用 HasSnowflakeId 的 creating 事件
+            $categoryId = app(\App\Services\SnowflakeService::class)->nextId();
+            $category = Category::withoutEvents(function () use ($categoryData, $categoryId) {
+                $category = new Category([
+                    'slug' => $categoryData['slug'],
+                    'parent_id' => $categoryData['parent_id'] ?? null,
+                ]);
+                $category->id = $categoryId;
+                $category->save();
+                return $category;
+            });
         }
 
         // 处理分类的多语言翻译
@@ -50,14 +58,17 @@ class CategoryService
                 ->where('language_id', $translation['language_id'])
                 ->first();
 
-            // 如果翻译不存在，创建翻译
+            // 如果翻译不存在，创建翻译（使用 withoutEvents 避免 ID 冲突）
             if (! $existingTranslation) {
-                CategoryTranslation::create([
-                    'category_id' => $category->id,
-                    'language_id' => $translation['language_id'],
-                    'name' => $translation['name'],
-                    'description' => $translation['description'] ?? null,
-                ]);
+                $categoryId = $category->id; // 在闭包外获取 category_id
+                CategoryTranslation::withoutEvents(function () use ($categoryId, $translation) {
+                    CategoryTranslation::create([
+                        'category_id' => $categoryId,
+                        'language_id' => $translation['language_id'],
+                        'name' => $translation['name'],
+                        'description' => $translation['description'] ?? null,
+                    ]);
+                });
 
                 // 清除分类缓存（只需清除一次）
                 if (! $cacheCleared) {

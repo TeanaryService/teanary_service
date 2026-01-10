@@ -325,10 +325,12 @@ class ProductService
             return $translation->specificationValue;
         }
 
-        // 如果不存在，创建新规格值
-        $specificationValue = SpecificationValue::create([
-            'specification_id' => $specification->id,
-        ]);
+        // 如果不存在，创建新规格值（使用 withoutEvents 避免 ID 冲突）
+        $specificationValue = SpecificationValue::withoutEvents(function () use ($specification) {
+            return SpecificationValue::create([
+                'specification_id' => $specification->id,
+            ]);
+        });
         $specificationValue->specificationValueTranslations()->create([
             'language_id' => $languageId,
             'name' => $valueName,

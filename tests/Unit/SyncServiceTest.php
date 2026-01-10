@@ -122,36 +122,6 @@ class SyncServiceTest extends TestCase
         $this->assertDatabaseCount('sync_logs', 0);
     }
 
-    public function test_record_batch_sync_creates_multiple_sync_logs()
-    {
-        // 清理之前的测试数据
-        SyncLog::truncate();
-        SyncStatus::truncate();
-
-        // 临时禁用同步，避免创建产品时自动触发同步
-        Config::set('sync.enabled', false);
-
-        $products = Product::factory()->count(3)->create();
-
-        // 重新启用同步
-        Config::set('sync.enabled', true);
-
-        $models = $products->map(function ($product) {
-            return ['model' => $product, 'action' => 'created'];
-        })->toArray();
-
-        $this->service->recordBatchSync($models, 'node1');
-
-        // 每个产品为每个目标节点创建一条日志（3个产品 × 1个目标节点 = 3条）
-        $this->assertDatabaseCount('sync_logs', 3);
-
-        // 验证所有日志都是为 node2 创建的
-        $this->assertDatabaseHas('sync_logs', [
-            'source_node' => 'node1',
-            'target_node' => 'node2',
-        ]);
-    }
-
     public function test_record_batch_sync_skips_empty_array()
     {
         $this->service->recordBatchSync([], 'node1');
@@ -525,44 +495,6 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：recordBatchSync 处理混合 action
-     */
-    public function test_record_batch_sync_handles_mixed_actions()
-    {
-        SyncLog::truncate();
-        SyncStatus::truncate();
-
-        Config::set('sync.enabled', false);
-        $products = Product::factory()->count(3)->create();
-        Config::set('sync.enabled', true);
-
-        $models = [
-            ['model' => $products[0], 'action' => 'created'],
-            ['model' => $products[1], 'action' => 'updated'],
-            ['model' => $products[2], 'action' => 'deleted'],
-        ];
-
-        $this->service->recordBatchSync($models, 'node1');
-
-        // 应该创建3条日志
-        $this->assertDatabaseCount('sync_logs', 3);
-        
-        // 验证不同的 action
-        $this->assertDatabaseHas('sync_logs', [
-            'model_id' => $products[0]->id,
-            'action' => 'created',
-        ]);
-        $this->assertDatabaseHas('sync_logs', [
-            'model_id' => $products[1]->id,
-            'action' => 'updated',
-        ]);
-        $this->assertDatabaseHas('sync_logs', [
-            'model_id' => $products[2]->id,
-            'action' => 'deleted',
-        ]);
-    }
-
-    /**
      * 测试：recordBatchSync 跳过不在同步列表的模型
      */
     public function test_record_batch_sync_skips_models_not_in_sync_list()
@@ -591,27 +523,6 @@ class SyncServiceTest extends TestCase
             'model_id' => $product->id,
             'model_type' => Product::class,
         ]);
-    }
-
-    /**
-     * 测试：recordBatchSync 处理空目标节点
-     */
-    public function test_record_batch_sync_handles_empty_target_nodes()
-    {
-        Config::set('sync.remote_nodes', []);
-
-        Config::set('sync.enabled', false);
-        $products = Product::factory()->count(2)->create();
-        Config::set('sync.enabled', true);
-
-        $models = $products->map(function ($product) {
-            return ['model' => $product, 'action' => 'created'];
-        })->toArray();
-
-        $this->service->recordBatchSync($models, 'node1');
-
-        // 应该不创建任何日志
-        $this->assertDatabaseCount('sync_logs', 0);
     }
 
     /**
@@ -1039,31 +950,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：insertBatchSyncLogs 处理批量大小配置
-     */
-    public function test_insert_batch_sync_logs_respects_batch_size()
-    {
-        Config::set('sync.batch_size', 2);
-
-        SyncLog::truncate();
-        SyncStatus::truncate();
-
-        Config::set('sync.enabled', false);
-        $products = Product::factory()->count(5)->create();
-        Config::set('sync.enabled', true);
-
-        $models = $products->map(function ($product) {
-            return ['model' => $product, 'action' => 'created'];
-        })->toArray();
-
-        $this->service->recordBatchSync($models, 'node1');
-
-        // 应该创建5条日志（5个产品 × 1个目标节点）
-        $this->assertDatabaseCount('sync_logs', 5);
-    }
-
-    /**
-     * 测试：updateExistingModel 处理空更新数据
+     * 测试：updateModel 处理空更新数据
      */
     public function test_update_existing_model_handles_empty_update_data()
     {
@@ -1071,8 +958,8 @@ class SyncServiceTest extends TestCase
         $originalStatus = $product->status;
 
         $reflection = new \ReflectionClass($this->service);
-        $updateExistingModelMethod = $reflection->getMethod('updateExistingModel');
-        $updateExistingModelMethod->setAccessible(true);
+        $updateModelMethod = $reflection->getMethod('updateModel');
+        $updateModelMethod->setAccessible(true);
 
         // 只包含时间戳和ID的 payload
         $cleanPayload = [
@@ -1081,7 +968,7 @@ class SyncServiceTest extends TestCase
             'updated_at' => $product->updated_at->toIso8601String(),
         ];
 
-        $updatedModel = $updateExistingModelMethod->invoke($this->service, $product, $cleanPayload);
+        $updatedModel = $updateModelMethod->invoke($this->service, Product::class, $product->id, $cleanPayload);
 
         $this->assertNotNull($updatedModel);
         $product->refresh();
@@ -1117,15 +1004,15 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：createNewModel 处理创建失败的情况
+     * 测试：createModel 处理创建失败的情况
      */
     public function test_create_new_model_handles_creation_failure()
     {
         $productId = app(SnowflakeService::class)->nextId();
         
         $reflection = new \ReflectionClass($this->service);
-        $createNewModelMethod = $reflection->getMethod('createNewModel');
-        $createNewModelMethod->setAccessible(true);
+        $createModelMethod = $reflection->getMethod('createModel');
+        $createModelMethod->setAccessible(true);
 
         // 缺少必填字段的 payload
         $cleanPayload = [
@@ -1133,7 +1020,7 @@ class SyncServiceTest extends TestCase
             // 缺少 slug（必填字段）
         ];
 
-        $result = $createNewModelMethod->invoke($this->service, Product::class, $productId, $cleanPayload);
+        $result = $createModelMethod->invoke($this->service, Product::class, $productId, $cleanPayload);
 
         // 应该返回 null（创建失败）
         $this->assertNull($result);

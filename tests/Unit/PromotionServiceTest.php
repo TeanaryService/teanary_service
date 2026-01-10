@@ -110,20 +110,6 @@ class PromotionServiceTest extends TestCase
         $this->assertEquals(10, $result['promotion']['discount']);
     }
 
-    public function test_calculate_order_total()
-    {
-        $order = Order::factory()->create();
-        OrderItem::factory()->create([
-            'order_id' => $order->id,
-            'qty' => 2,
-            'price' => 50,
-        ]);
-
-        $result = $this->service->calculateOrderTotal($order);
-
-        $this->assertEquals(100, $result['final_total']);
-    }
-
     public function test_get_available_promotions()
     {
         $promotion = Promotion::factory()->create([

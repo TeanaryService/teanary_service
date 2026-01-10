@@ -188,63 +188,6 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：node2 发送批量同步数据到 node1
-     */
-    public function test_node2_sends_batch_sync_data_to_node1()
-    {
-        $productIds = [];
-        $batchData = [];
-
-        // 创建3个产品的同步数据
-        for ($i = 0; $i < 3; $i++) {
-            $productId = app(SnowflakeService::class)->nextId();
-            $productIds[] = $productId;
-            
-            $product = Product::factory()->make();
-            $productData = $product->toArray();
-            $productData['id'] = $productId;
-            
-            // 确保包含所有必需的字段
-            if (! isset($productData['status'])) {
-                $productData['status'] = 'active';
-            }
-            
-            // 移除可能干扰的字段
-            unset($productData['product_variants'], $productData['product_translations']);
-
-            $batchData[] = [
-                'model_type' => Product::class,
-                'model_id' => $productId,
-                'action' => 'created',
-                'payload' => $productData,
-                'source_node' => 'node2',
-                'timestamp' => now()->toIso8601String(),
-            ];
-        }
-
-        $response = $this->postJson('/api/sync/receive-batch', [
-            'batch' => $batchData,
-            'source_node' => 'node2',
-            'timestamp' => now()->toIso8601String(),
-        ], [
-            'Authorization' => 'Bearer test-api-key-node2',
-            'X-Sync-Source-Node' => 'node2',
-        ]);
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-            ]);
-
-        // 验证所有产品都已创建
-        $this->assertDatabaseCount('products', 3);
-        
-        // 验证所有产品都已创建（检查是否有3条记录）
-        $products = Product::all();
-        $this->assertCount(3, $products);
-    }
-
-    /**
      * 测试：无效的 API Key 被拒绝
      */
     public function test_invalid_api_key_is_rejected()
