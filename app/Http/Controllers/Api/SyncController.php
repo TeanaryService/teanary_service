@@ -166,6 +166,8 @@ class SyncController extends Controller
             ], 422);
         }
 
+        Log::info('开始接收批量同步数据', ['batch' => $request->input('batch')]);
+
         try {
             $result = $this->syncService->receiveBatchSync($request->input('batch'));
 
