@@ -130,13 +130,52 @@ class Product extends Model implements HasMedia
             
             // 处理新增的记录
             foreach ($changes['attached'] ?? [] as $attributeValueId => $pivotData) {
+                // 如果 attributeValueId 为 0，可能是 Laravel sync 返回的键是数字索引
+                // 尝试从 pivotData 中获取真正的 attribute_value_id
+                $realAttributeValueId = $attributeValueId;
+                if (empty($attributeValueId) || $attributeValueId === 0) {
+                    if (is_array($pivotData)) {
+                        // 如果 pivotData 是数组，可能包含 attribute_value_id
+                        $realAttributeValueId = $pivotData['attribute_value_id'] ?? $pivotData['id'] ?? null;
+                    } elseif (is_numeric($pivotData) && $pivotData > 0) {
+                        // 如果 pivotData 是数字且大于 0，可能是 attribute_value_id
+                        $realAttributeValueId = $pivotData;
+                    }
+                    
+                    // 如果还是无法获取，尝试从 $ids 的键中查找
+                    if (empty($realAttributeValueId) || $realAttributeValueId === 0) {
+                        // 遍历 $ids 查找可能的 attribute_value_id
+                        foreach ($ids as $key => $value) {
+                            if (is_numeric($key) && $key > 0) {
+                                $realAttributeValueId = $key;
+                                $pivotData = $value; // 更新 pivotData
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                // 如果仍然无法获取有效的 attribute_value_id，记录警告但继续处理
+                if (empty($realAttributeValueId) || $realAttributeValueId === 0) {
+                    \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 创建同步：无法确定 attribute_value_id，尝试从数据库查询', [
+                        'product_id' => $this->id,
+                        'original_attribute_value_id' => $attributeValueId,
+                        'pivot_data' => $pivotData,
+                        'ids_keys' => array_keys($ids),
+                        'ids' => $ids,
+                    ]);
+                }
+                
                 // 优先从原始 $ids 中获取 attribute_id（最可靠的数据源）
                 // 注意：需要处理键的类型转换（字符串 vs 数字）
                 $attributeId = null;
                 
-                // 尝试多种键格式
+                // 尝试多种键格式（使用真实的 attribute_value_id）
                 $possibleKeys = [
-                    $attributeValueId,
+                    $realAttributeValueId,
+                    (string) $realAttributeValueId,
+                    (int) $realAttributeValueId,
+                    $attributeValueId, // 也尝试原始的键
                     (string) $attributeValueId,
                     (int) $attributeValueId,
                 ];
@@ -158,34 +197,35 @@ class Product extends Model implements HasMedia
                 if ($attributeId === null) {
                     if (is_array($pivotData)) {
                         $attributeId = $pivotData['attribute_id'] ?? null;
-                    } elseif (is_numeric($pivotData)) {
-                        // 如果 pivotData 是数字，可能是 attribute_id
-                        $attributeId = $pivotData;
+                    } elseif (is_numeric($pivotData) && $pivotData > 0) {
+                        // 如果 pivotData 是数字且大于 0，可能是 attribute_id（但需要验证）
+                        // 这里不直接使用，因为可能是 attribute_value_id
                     }
                 }
                 
                 // 查询 pivot 记录（优先使用 attribute_id，如果查询不到则尝试不限制 attribute_id）
+                // 使用真实的 attribute_value_id
                 $pivot = null;
-                if ($attributeId !== null) {
+                if ($attributeId !== null && $realAttributeValueId > 0) {
                     $pivot = \App\Models\ProductAttributeValue::where([
                         'product_id' => $this->id,
-                        'attribute_value_id' => $attributeValueId,
+                        'attribute_value_id' => $realAttributeValueId,
                         'attribute_id' => $attributeId,
                     ])->first();
                 }
                 
                 // 如果查询不到，尝试不限制 attribute_id 查询
-                if (! $pivot) {
+                if (! $pivot && $realAttributeValueId > 0) {
                     $pivot = \App\Models\ProductAttributeValue::where([
                         'product_id' => $this->id,
-                        'attribute_value_id' => $attributeValueId,
+                        'attribute_value_id' => $realAttributeValueId,
                     ])->first();
                 }
                 
                 // 如果还是查询不到，尝试从 attribute_value 获取 attribute_id 后重新查询
                 $attributeValue = null;
-                if (! $pivot && $attributeValueId) {
-                    $attributeValue = \App\Models\AttributeValue::find($attributeValueId);
+                if (! $pivot && $realAttributeValueId > 0) {
+                    $attributeValue = \App\Models\AttributeValue::find($realAttributeValueId);
                     if ($attributeValue && $attributeValue->attribute_id) {
                         // 如果之前没有 attributeId，现在从 attributeValue 获取
                         if ($attributeId === null) {
@@ -194,7 +234,7 @@ class Product extends Model implements HasMedia
                         
                         $pivot = \App\Models\ProductAttributeValue::where([
                             'product_id' => $this->id,
-                            'attribute_value_id' => $attributeValueId,
+                            'attribute_value_id' => $realAttributeValueId,
                             'attribute_id' => $attributeValue->attribute_id,
                         ])->first();
                     }
@@ -210,44 +250,112 @@ class Product extends Model implements HasMedia
                     }
                     
                     // 如果还是没有，最后尝试从数据库查询 attribute_value
-                    if ($finalAttributeId === null && $attributeValueId) {
-                        $attributeValue = $attributeValue ?? \App\Models\AttributeValue::find($attributeValueId);
+                    if ($finalAttributeId === null && $realAttributeValueId > 0) {
+                        $attributeValue = $attributeValue ?? \App\Models\AttributeValue::find($realAttributeValueId);
                         if ($attributeValue) {
                             $finalAttributeId = $attributeValue->attribute_id ?? null;
                         }
                     }
                     
-                    if ($finalAttributeId !== null) {
+                    // 如果仍然无法获取 attribute_value_id，尝试从所有已关联的 attribute_values 中查找
+                    if (($realAttributeValueId === 0 || empty($realAttributeValueId)) && $finalAttributeId !== null) {
+                        // 通过 attribute_id 查找可能的 attribute_value_id
+                        $possibleAttributeValue = \App\Models\AttributeValue::where('attribute_id', $finalAttributeId)
+                            ->whereHas('products', function ($query) {
+                                $query->where('product_id', $this->id);
+                            })
+                            ->first();
+                        
+                        if ($possibleAttributeValue) {
+                            $realAttributeValueId = $possibleAttributeValue->id;
+                        }
+                    }
+                    
+                    // 验证数据完整性：attribute_value_id 和 attribute_id 都必须有效
+                    if ($finalAttributeId !== null && $realAttributeValueId > 0) {
                         $pivot = new \App\Models\ProductAttributeValue([
                             'product_id' => $this->id,
-                            'attribute_value_id' => $attributeValueId,
+                            'attribute_value_id' => $realAttributeValueId,
                             'attribute_id' => $finalAttributeId,
                         ]);
                         $syncService->recordSync($pivot, 'created', $currentNode);
                     } else {
-                        // 最后的后备方案：记录警告日志
-                        \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 创建同步：无法查询到 pivot 记录且无法获取 attribute_id', [
+                        // 最后的后备方案：记录警告日志，但不跳过（尝试使用已知数据）
+                        \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 创建同步：无法获取完整数据，尝试使用部分数据', [
                             'product_id' => $this->id,
-                            'attribute_value_id' => $attributeValueId,
+                            'original_attribute_value_id' => $attributeValueId,
+                            'real_attribute_value_id' => $realAttributeValueId,
+                            'attribute_id' => $finalAttributeId,
                             'pivot_data' => $pivotData,
                             'pivot_data_type' => gettype($pivotData),
-                            'ids_data' => $ids[$attributeValueId] ?? null,
+                            'ids_data' => $ids[$realAttributeValueId] ?? $ids[$attributeValueId] ?? null,
                             'ids_keys' => array_keys($ids),
                             'attribute_value_exists' => $attributeValue !== null,
                         ]);
+                        
+                        // 即使数据不完整，也尝试同步（可能目标节点能处理）
+                        if ($finalAttributeId !== null) {
+                            // 使用 product_id 和 attribute_id 创建记录（attribute_value_id 为 0）
+                            // 这虽然不理想，但至少能同步部分数据
+                            $pivot = new \App\Models\ProductAttributeValue([
+                                'product_id' => $this->id,
+                                'attribute_value_id' => $realAttributeValueId ?: 0, // 如果无法获取，使用 0
+                                'attribute_id' => $finalAttributeId,
+                            ]);
+                            $syncService->recordSync($pivot, 'created', $currentNode);
+                        }
                     }
                 }
             }
             
             // 处理更新的记录
             foreach ($changes['updated'] ?? [] as $attributeValueId => $pivotData) {
+                // 如果 attributeValueId 为 0，可能是 Laravel sync 返回的键是数字索引
+                // 尝试从 pivotData 中获取真正的 attribute_value_id
+                $realAttributeValueId = $attributeValueId;
+                if (empty($attributeValueId) || $attributeValueId === 0) {
+                    if (is_array($pivotData)) {
+                        // 如果 pivotData 是数组，可能包含 attribute_value_id
+                        $realAttributeValueId = $pivotData['attribute_value_id'] ?? $pivotData['id'] ?? null;
+                    } elseif (is_numeric($pivotData) && $pivotData > 0) {
+                        // 如果 pivotData 是数字且大于 0，可能是 attribute_value_id
+                        $realAttributeValueId = $pivotData;
+                    }
+                    
+                    // 如果还是无法获取，尝试从 $ids 的键中查找
+                    if (empty($realAttributeValueId) || $realAttributeValueId === 0) {
+                        // 遍历 $ids 查找可能的 attribute_value_id
+                        foreach ($ids as $key => $value) {
+                            if (is_numeric($key) && $key > 0) {
+                                $realAttributeValueId = $key;
+                                $pivotData = $value; // 更新 pivotData
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                // 如果仍然无法获取有效的 attribute_value_id，记录警告但继续处理
+                if (empty($realAttributeValueId) || $realAttributeValueId === 0) {
+                    \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 更新同步：无法确定 attribute_value_id，尝试从数据库查询', [
+                        'product_id' => $this->id,
+                        'original_attribute_value_id' => $attributeValueId,
+                        'pivot_data' => $pivotData,
+                        'ids_keys' => array_keys($ids),
+                        'ids' => $ids,
+                    ]);
+                }
+                
                 // 优先从原始 $ids 中获取 attribute_id（最可靠的数据源）
                 // 注意：需要处理键的类型转换（字符串 vs 数字）
                 $attributeId = null;
                 
-                // 尝试多种键格式
+                // 尝试多种键格式（使用真实的 attribute_value_id）
                 $possibleKeys = [
-                    $attributeValueId,
+                    $realAttributeValueId,
+                    (string) $realAttributeValueId,
+                    (int) $realAttributeValueId,
+                    $attributeValueId, // 也尝试原始的键
                     (string) $attributeValueId,
                     (int) $attributeValueId,
                 ];
@@ -269,34 +377,35 @@ class Product extends Model implements HasMedia
                 if ($attributeId === null) {
                     if (is_array($pivotData)) {
                         $attributeId = $pivotData['attribute_id'] ?? null;
-                    } elseif (is_numeric($pivotData)) {
-                        // 如果 pivotData 是数字，可能是 attribute_id
-                        $attributeId = $pivotData;
+                    } elseif (is_numeric($pivotData) && $pivotData > 0) {
+                        // 如果 pivotData 是数字且大于 0，可能是 attribute_id（但需要验证）
+                        // 这里不直接使用，因为可能是 attribute_value_id
                     }
                 }
                 
                 // 查询 pivot 记录（优先使用 attribute_id，如果查询不到则尝试不限制 attribute_id）
+                // 使用真实的 attribute_value_id
                 $pivot = null;
-                if ($attributeId !== null) {
+                if ($attributeId !== null && $realAttributeValueId > 0) {
                     $pivot = \App\Models\ProductAttributeValue::where([
                         'product_id' => $this->id,
-                        'attribute_value_id' => $attributeValueId,
+                        'attribute_value_id' => $realAttributeValueId,
                         'attribute_id' => $attributeId,
                     ])->first();
                 }
                 
                 // 如果查询不到，尝试不限制 attribute_id 查询
-                if (! $pivot) {
+                if (! $pivot && $realAttributeValueId > 0) {
                     $pivot = \App\Models\ProductAttributeValue::where([
                         'product_id' => $this->id,
-                        'attribute_value_id' => $attributeValueId,
+                        'attribute_value_id' => $realAttributeValueId,
                     ])->first();
                 }
                 
                 // 如果还是查询不到，尝试从 attribute_value 获取 attribute_id 后重新查询
                 $attributeValue = null;
-                if (! $pivot && $attributeValueId) {
-                    $attributeValue = \App\Models\AttributeValue::find($attributeValueId);
+                if (! $pivot && $realAttributeValueId > 0) {
+                    $attributeValue = \App\Models\AttributeValue::find($realAttributeValueId);
                     if ($attributeValue && $attributeValue->attribute_id) {
                         // 如果之前没有 attributeId，现在从 attributeValue 获取
                         if ($attributeId === null) {
@@ -305,7 +414,7 @@ class Product extends Model implements HasMedia
                         
                         $pivot = \App\Models\ProductAttributeValue::where([
                             'product_id' => $this->id,
-                            'attribute_value_id' => $attributeValueId,
+                            'attribute_value_id' => $realAttributeValueId,
                             'attribute_id' => $attributeValue->attribute_id,
                         ])->first();
                     }
@@ -321,31 +430,60 @@ class Product extends Model implements HasMedia
                     }
                     
                     // 如果还是没有，最后尝试从数据库查询 attribute_value
-                    if ($finalAttributeId === null && $attributeValueId) {
-                        $attributeValue = $attributeValue ?? \App\Models\AttributeValue::find($attributeValueId);
+                    if ($finalAttributeId === null && $realAttributeValueId > 0) {
+                        $attributeValue = $attributeValue ?? \App\Models\AttributeValue::find($realAttributeValueId);
                         if ($attributeValue) {
                             $finalAttributeId = $attributeValue->attribute_id ?? null;
                         }
                     }
                     
-                    if ($finalAttributeId !== null) {
+                    // 如果仍然无法获取 attribute_value_id，尝试从所有已关联的 attribute_values 中查找
+                    if (($realAttributeValueId === 0 || empty($realAttributeValueId)) && $finalAttributeId !== null) {
+                        // 通过 attribute_id 查找可能的 attribute_value_id
+                        $possibleAttributeValue = \App\Models\AttributeValue::where('attribute_id', $finalAttributeId)
+                            ->whereHas('products', function ($query) {
+                                $query->where('product_id', $this->id);
+                            })
+                            ->first();
+                        
+                        if ($possibleAttributeValue) {
+                            $realAttributeValueId = $possibleAttributeValue->id;
+                        }
+                    }
+                    
+                    // 验证数据完整性：attribute_value_id 和 attribute_id 都必须有效
+                    if ($finalAttributeId !== null && $realAttributeValueId > 0) {
                         $pivot = new \App\Models\ProductAttributeValue([
                             'product_id' => $this->id,
-                            'attribute_value_id' => $attributeValueId,
+                            'attribute_value_id' => $realAttributeValueId,
                             'attribute_id' => $finalAttributeId,
                         ]);
                         $syncService->recordSync($pivot, 'updated', $currentNode);
                     } else {
-                        // 最后的后备方案：记录警告日志
-                        \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 更新同步：无法查询到 pivot 记录且无法获取 attribute_id', [
+                        // 最后的后备方案：记录警告日志，但不跳过（尝试使用已知数据）
+                        \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 更新同步：无法获取完整数据，尝试使用部分数据', [
                             'product_id' => $this->id,
-                            'attribute_value_id' => $attributeValueId,
+                            'original_attribute_value_id' => $attributeValueId,
+                            'real_attribute_value_id' => $realAttributeValueId,
+                            'attribute_id' => $finalAttributeId,
                             'pivot_data' => $pivotData,
                             'pivot_data_type' => gettype($pivotData),
-                            'ids_data' => $ids[$attributeValueId] ?? null,
+                            'ids_data' => $ids[$realAttributeValueId] ?? $ids[$attributeValueId] ?? null,
                             'ids_keys' => array_keys($ids),
                             'attribute_value_exists' => $attributeValue !== null,
                         ]);
+                        
+                        // 即使数据不完整，也尝试同步（可能目标节点能处理）
+                        if ($finalAttributeId !== null) {
+                            // 使用 product_id 和 attribute_id 创建记录（attribute_value_id 为 0）
+                            // 这虽然不理想，但至少能同步部分数据
+                            $pivot = new \App\Models\ProductAttributeValue([
+                                'product_id' => $this->id,
+                                'attribute_value_id' => $realAttributeValueId ?: 0, // 如果无法获取，使用 0
+                                'attribute_id' => $finalAttributeId,
+                            ]);
+                            $syncService->recordSync($pivot, 'updated', $currentNode);
+                        }
                     }
                 }
             }
