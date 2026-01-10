@@ -401,7 +401,21 @@ class SyncService
         if ($action === 'deleted') {
             // Pivot 表删除时需要所有字段用于复合键查找
             if ($isPivot) {
-                return $model->toArray();
+                $payload = $model->toArray();
+                // 只保留 fillable 字段，移除其他字段（如 pivot 相关字段）
+                $fillableFields = $model->getFillable();
+                $cleanPayload = [];
+                foreach ($fillableFields as $field) {
+                    // 严格验证字段名：必须是非空字符串，且长度大于 0
+                    if (is_string($field) && strlen($field) > 0 && isset($payload[$field]) && $payload[$field] !== null) {
+                        $cleanPayload[$field] = $payload[$field];
+                    }
+                }
+                // 额外检查：移除可能存在的空字符串键
+                $cleanPayload = array_filter($cleanPayload, function ($value, $key) {
+                    return is_string($key) && strlen($key) > 0 && $value !== null;
+                }, ARRAY_FILTER_USE_BOTH);
+                return $cleanPayload;
             }
             // 普通模型删除时只需要 id
             return [
@@ -639,10 +653,16 @@ class SyncService
         // 只保留 fillable 字段，且值不为 null
         $cleanPayload = [];
         foreach ($fillableFields as $field) {
-            if (!empty($field) && is_string($field) && isset($payload[$field]) && $payload[$field] !== null) {
+            // 严格验证字段名：必须是非空字符串，且长度大于 0
+            if (is_string($field) && strlen($field) > 0 && isset($payload[$field]) && $payload[$field] !== null) {
                 $cleanPayload[$field] = $payload[$field];
             }
         }
+        
+        // 额外检查：移除 payload 中可能存在的空字符串键
+        $cleanPayload = array_filter($cleanPayload, function ($value, $key) {
+            return is_string($key) && strlen($key) > 0 && $value !== null;
+        }, ARRAY_FILTER_USE_BOTH);
         
         if (empty($cleanPayload)) {
             Log::warning('Pivot 表 payload 中缺少必要的字段', [
@@ -668,7 +688,8 @@ class SyncService
             // 使用所有字段构建查询条件（复合键）
             $query = $modelType::query();
             foreach ($cleanPayload as $field => $value) {
-                if (!empty($field) && is_string($field)) {
+                // 严格验证字段名：必须是非空字符串，且长度大于 0
+                if (is_string($field) && strlen($field) > 0 && $value !== null) {
                     $query->where($field, $value);
                 }
             }
@@ -677,6 +698,7 @@ class SyncService
             Log::warning('查找 Pivot 表记录失败', [
                 'model_type' => $modelType,
                 'error' => $e->getMessage(),
+                'clean_payload' => $cleanPayload,
             ]);
             return null;
         }
@@ -826,7 +848,8 @@ class SyncService
             // 使用所有字段构建查询条件（复合键）
             $query = $modelType::query();
             foreach ($cleanPayload as $field => $value) {
-                if (!empty($field) && is_string($field)) {
+                // 严格验证字段名：必须是非空字符串，且长度大于 0
+                if (is_string($field) && strlen($field) > 0 && $value !== null) {
                     $query->where($field, $value);
                 }
             }
@@ -835,6 +858,7 @@ class SyncService
             Log::warning('查找 Pivot 表记录失败', [
                 'model_type' => $modelType,
                 'error' => $e->getMessage(),
+                'clean_payload' => $cleanPayload,
             ]);
             return collect();
         }
