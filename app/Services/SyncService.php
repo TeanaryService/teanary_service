@@ -645,11 +645,17 @@ class SyncService
                 $modelInstance = new $modelType();
                 $fillableFields = $modelInstance->getFillable();
                 
+                // 清理 payload，移除空键和 null 值
+                $cleanPayload = array_filter($payload, function ($value, $key) {
+                    return !empty($key) && $value !== null;
+                }, ARRAY_FILTER_USE_BOTH);
+                
                 // 构建查询条件：只使用 payload 中存在的 fillable 字段
                 $whereConditions = [];
                 foreach ($fillableFields as $field) {
-                    if (isset($payload[$field])) {
-                        $whereConditions[$field] = $payload[$field];
+                    // 确保字段名不为空，且 payload 中存在该字段
+                    if (!empty($field) && is_string($field) && isset($cleanPayload[$field])) {
+                        $whereConditions[$field] = $cleanPayload[$field];
                     }
                 }
                 
@@ -658,6 +664,7 @@ class SyncService
                     Log::warning('删除 Pivot 表记录失败：payload 中缺少必要的字段', [
                         'model_type' => $modelType,
                         'payload' => $payload,
+                        'clean_payload' => $cleanPayload,
                         'fillable_fields' => $fillableFields,
                     ]);
                     return;
@@ -666,7 +673,17 @@ class SyncService
                 // 使用构建的条件查找记录
                 $query = $modelType::query();
                 foreach ($whereConditions as $field => $value) {
-                    $query->where($field, $value);
+                    // 再次确保字段名不为空且是字符串（双重检查）
+                    if (!empty($field) && is_string($field)) {
+                        $query->where($field, $value);
+                    } else {
+                        Log::warning('删除 Pivot 表记录：跳过无效的字段名', [
+                            'model_type' => $modelType,
+                            'field' => $field,
+                            'field_type' => gettype($field),
+                            'where_conditions' => $whereConditions,
+                        ]);
+                    }
                 }
                 $models = $query->get();
                 
