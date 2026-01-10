@@ -51,10 +51,49 @@
                                     <span>{{ $currencyService->convertWithSymbol($finalPrice, $currencyCode) }}</span>
                                     <span class="text-gray-400 line-through ml-2">{{ $price }}</span>
                                     <span class="ml-2 text-xs text-red-500 font-semibold">
-                                        {{ $promotion['rule']['discount_type'] == 'percent' ? __('app.discount_percent', ['percent' => $promotion['rule']['discount_value']]) : __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotion['discount'], $currencyCode)]) }}
+                                        @php
+                                            $rule = $promotion['rule'] ?? [];
+                                            // 处理 discount_type：可能是枚举对象、数组或字符串
+                                            $discountType = null;
+                                            if (is_array($rule)) {
+                                                $discountType = $rule['discount_type'] ?? null;
+                                                // 如果是枚举对象，获取其值
+                                                if (is_object($discountType) && method_exists($discountType, 'value')) {
+                                                    $discountType = $discountType->value;
+                                                } elseif (is_object($discountType)) {
+                                                    $discountType = (string) $discountType;
+                                                }
+                                            } elseif (is_object($rule)) {
+                                                $discountType = $rule->discount_type ?? null;
+                                                if (is_object($discountType) && method_exists($discountType, 'value')) {
+                                                    $discountType = $discountType->value;
+                                                } elseif (is_object($discountType)) {
+                                                    $discountType = (string) $discountType;
+                                                }
+                                            }
+                                            
+                                            // 处理 discount_value
+                                            $discountValue = is_array($rule) ? ($rule['discount_value'] ?? null) : (is_object($rule) ? ($rule->discount_value ?? null) : null);
+                                            if (is_object($discountValue)) {
+                                                $discountValue = (string) $discountValue;
+                                            }
+                                        @endphp
+                                        @if ($discountType == 'percent' && $discountValue !== null)
+                                            {{ __('app.discount_percent', ['percent' => (string) $discountValue]) }}
+                                        @else
+                                            {{ __('app.discount_amount', ['amount' => $currencyService->convertWithSymbol($promotion['discount'] ?? 0, $currencyCode)]) }}
+                                        @endif
                                     </span>
-                                    @if ($promotion['description'])
-                                        <div class="text-xs text-red-600 mt-1">{{ $promotion['description'] }}</div>
+                                    @if (!empty($promotion['description']))
+                                        @php
+                                            $description = $promotion['description'];
+                                            if (is_array($description)) {
+                                                $description = json_encode($description, JSON_UNESCAPED_UNICODE);
+                                            } elseif (!is_string($description)) {
+                                                $description = (string) $description;
+                                            }
+                                        @endphp
+                                        <div class="text-xs text-red-600 mt-1">{{ $description }}</div>
                                     @endif
                                 @else
                                     <span>{{ $price }}</span>
