@@ -64,14 +64,29 @@ class SyncService
      * 为 Pivot 表生成 model_id（使用 payload 的哈希值）.
      * 
      * Pivot 表没有主键，使用所有字段的哈希值作为唯一标识.
+     * 只使用 fillable 字段，确保生成的 model_id 稳定且唯一.
      * 
      * @param array $payload 同步数据
      * @return int 生成的 model_id
      */
     protected function generatePivotModelId(array $payload): int
     {
-        ksort($payload); // 排序确保相同数据生成相同哈希
-        $hash = md5(json_encode($payload, JSON_UNESCAPED_UNICODE));
+        // 只保留 fillable 字段，移除其他字段（如 pivot 相关字段）
+        // 注意：这里假设 payload 已经包含了所有必要的字段
+        // 如果 payload 来自 preparePayload，它应该已经包含了所有字段
+        
+        // 对字段进行排序，确保相同数据生成相同哈希
+        ksort($payload);
+        
+        // 移除 null 值，确保相同的数据生成相同的哈希
+        $cleanPayload = array_filter($payload, function ($value) {
+            return $value !== null;
+        });
+        
+        // 对键进行排序（因为 array_filter 可能改变键的顺序）
+        ksort($cleanPayload);
+        
+        $hash = md5(json_encode($cleanPayload, JSON_UNESCAPED_UNICODE));
         return (int) hexdec(substr($hash, 0, 15)); // 取前15位避免超出 bigint 范围
     }
 
@@ -240,6 +255,7 @@ class SyncService
 
                         // 检查是否应该跳过同步（避免重复或冲突）
                         if ($this->shouldSkipSync($data)) {
+                            Log::info('跳过'.$data['mode_type']);
                             ++$results['success'];
                             $results['results'][] = [
                                 'index' => $index,
@@ -396,6 +412,19 @@ class SyncService
 
         // 创建/更新操作：返回完整数据
         $payload = $model->toArray();
+        
+        // Pivot 表：只保留 fillable 字段，移除其他字段（如 pivot 相关字段）
+        if ($isPivot) {
+            $fillableFields = $model->getFillable();
+            $cleanPayload = [];
+            foreach ($fillableFields as $field) {
+                if (isset($payload[$field])) {
+                    $cleanPayload[$field] = $payload[$field];
+                }
+            }
+            $payload = $cleanPayload;
+        }
+        
         $this->normalizeTimestampsInPayload($payload, $model);
         $this->addMediaFileInfo($payload, $model); // Media 模型添加文件下载 URL
 
@@ -889,6 +918,14 @@ class SyncService
         // 删除操作总是创建日志
         if ($action === 'deleted') {
             return true;
+        }
+
+        // Pivot 表：由于使用哈希值作为 model_id，相同数据会生成相同的 model_id
+        // 所以可以使用 SyncStatus 来检查是否需要同步
+        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        if ($isPivot) {
+            // 对于 Pivot 表，使用 SyncStatus 检查（基于 model_id 和 sync_hash）
+            return SyncStatus::needsSync($modelType, $modelId, $targetNode, $syncHash);
         }
 
         // 其他操作检查是否真的需要同步（避免重复）
