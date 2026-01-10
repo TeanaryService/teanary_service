@@ -1319,7 +1319,7 @@ class SyncService
         $action = $data['action'];
         $payload = $data['payload'];
 
-        Log::info("开始同步$modelType $modelId $action" . json_encode($$payload));
+        Log::info("开始同步$modelType $modelId $action" . json_encode($payload));
 
         switch ($action) {
             case 'created':
