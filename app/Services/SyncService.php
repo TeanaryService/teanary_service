@@ -401,21 +401,7 @@ class SyncService
         if ($action === 'deleted') {
             // Pivot 表删除时需要所有字段用于复合键查找
             if ($isPivot) {
-                $payload = $model->toArray();
-                // 只保留 fillable 字段，移除其他字段（如 pivot 相关字段）
-                $fillableFields = $model->getFillable();
-                $cleanPayload = [];
-                foreach ($fillableFields as $field) {
-                    // 严格验证字段名：必须是非空字符串，且长度大于 0
-                    if (is_string($field) && strlen($field) > 0 && isset($payload[$field]) && $payload[$field] !== null) {
-                        $cleanPayload[$field] = $payload[$field];
-                    }
-                }
-                // 额外检查：移除可能存在的空字符串键
-                $cleanPayload = array_filter($cleanPayload, function ($value, $key) {
-                    return is_string($key) && strlen($key) > 0 && $value !== null;
-                }, ARRAY_FILTER_USE_BOTH);
-                return $cleanPayload;
+                return $model->toArray();
             }
             // 普通模型删除时只需要 id
             return [
@@ -607,6 +593,7 @@ class SyncService
      * 更新 Pivot 表模型（无主键）.
      * 
      * 先删除旧记录（如果存在），然后创建新记录，确保数据完全同步.
+     * Pivot 表没有主键，不能使用模型的 delete() 方法，需要使用查询构建器直接删除.
      * 
      * @param string $modelType 模型类型
      * @param array $payload 同步数据
@@ -623,7 +610,19 @@ class SyncService
             // 查找是否存在旧记录（使用复合键）
             $existingModel = $this->findPivotModel($modelType, $cleanPayload);
             if ($existingModel) {
-                $existingModel->delete(); // 先删除旧记录
+                // Pivot 表没有主键，使用查询构建器直接删除
+                $tableName = $existingModel->getTable();
+                $query = \Illuminate\Support\Facades\DB::table($tableName);
+                
+                // 使用所有字段构建查询条件（复合键）
+                foreach ($cleanPayload as $field => $value) {
+                    // 严格验证字段名：必须是非空字符串，且长度大于 0
+                    if (is_string($field) && strlen($field) > 0 && $value !== null) {
+                        $query->where($field, $value);
+                    }
+                }
+                
+                $query->delete(); // 先删除旧记录
             }
             
             // 创建新记录（确保数据完全同步）
@@ -653,16 +652,10 @@ class SyncService
         // 只保留 fillable 字段，且值不为 null
         $cleanPayload = [];
         foreach ($fillableFields as $field) {
-            // 严格验证字段名：必须是非空字符串，且长度大于 0
-            if (is_string($field) && strlen($field) > 0 && isset($payload[$field]) && $payload[$field] !== null) {
+            if (!empty($field) && is_string($field) && isset($payload[$field]) && $payload[$field] !== null) {
                 $cleanPayload[$field] = $payload[$field];
             }
         }
-        
-        // 额外检查：移除 payload 中可能存在的空字符串键
-        $cleanPayload = array_filter($cleanPayload, function ($value, $key) {
-            return is_string($key) && strlen($key) > 0 && $value !== null;
-        }, ARRAY_FILTER_USE_BOTH);
         
         if (empty($cleanPayload)) {
             Log::warning('Pivot 表 payload 中缺少必要的字段', [
@@ -688,8 +681,7 @@ class SyncService
             // 使用所有字段构建查询条件（复合键）
             $query = $modelType::query();
             foreach ($cleanPayload as $field => $value) {
-                // 严格验证字段名：必须是非空字符串，且长度大于 0
-                if (is_string($field) && strlen($field) > 0 && $value !== null) {
+                if (!empty($field) && is_string($field)) {
                     $query->where($field, $value);
                 }
             }
@@ -698,7 +690,6 @@ class SyncService
             Log::warning('查找 Pivot 表记录失败', [
                 'model_type' => $modelType,
                 'error' => $e->getMessage(),
-                'clean_payload' => $cleanPayload,
             ]);
             return null;
         }
@@ -798,6 +789,8 @@ class SyncService
     /**
      * 删除 Pivot 表模型（使用复合键）.
      * 
+     * Pivot 表没有主键，不能使用模型的 delete() 方法，需要使用查询构建器直接删除.
+     * 
      * @param string $modelType 模型类型
      * @param array $payload 同步数据
      */
@@ -809,21 +802,28 @@ class SyncService
                 return;
             }
 
-            // 查找所有匹配的记录（可能有多条）
-            $models = $this->findPivotModels($modelType, $cleanPayload);
-            if ($models->isEmpty()) {
-                return;
+            // 获取表名
+            $modelInstance = new $modelType();
+            $tableName = $modelInstance->getTable();
+            
+            // 使用查询构建器直接删除（Pivot 表没有主键，不能使用模型的 delete() 方法）
+            $query = \Illuminate\Support\Facades\DB::table($tableName);
+            
+            // 使用所有字段构建查询条件（复合键）
+            foreach ($cleanPayload as $field => $value) {
+                // 严格验证字段名：必须是非空字符串，且长度大于 0
+                if (is_string($field) && strlen($field) > 0 && $value !== null) {
+                    $query->where($field, $value);
+                }
             }
             
-            // 删除所有匹配的记录
-            foreach ($models as $model) {
-                $model->delete();
-            }
+            // 执行删除
+            $deletedCount = $query->delete();
             
-            if ($models->count() > 1) {
+            if ($deletedCount > 1) {
                 Log::warning('删除 Pivot 表记录：找到多条匹配记录，已全部删除', [
                     'model_type' => $modelType,
-                    'count' => $models->count(),
+                    'count' => $deletedCount,
                 ]);
             }
         } catch (\Exception $e) {
@@ -848,8 +848,7 @@ class SyncService
             // 使用所有字段构建查询条件（复合键）
             $query = $modelType::query();
             foreach ($cleanPayload as $field => $value) {
-                // 严格验证字段名：必须是非空字符串，且长度大于 0
-                if (is_string($field) && strlen($field) > 0 && $value !== null) {
+                if (!empty($field) && is_string($field)) {
                     $query->where($field, $value);
                 }
             }
@@ -858,7 +857,6 @@ class SyncService
             Log::warning('查找 Pivot 表记录失败', [
                 'model_type' => $modelType,
                 'error' => $e->getMessage(),
-                'clean_payload' => $cleanPayload,
             ]);
             return collect();
         }
