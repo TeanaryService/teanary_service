@@ -12,11 +12,6 @@ class LocaleCurrencyService
 {
     public function getLanguages()
     {
-        // 检查表是否存在，如果不存在则返回空集合（迁移时的情况）
-        if (! Schema::hasTable('languages')) {
-            return collect([]);
-        }
-
         return Cache::rememberForever(CacheKeys::LANGUAGES_ALL, function () {
             return Language::all();
         });
@@ -24,11 +19,6 @@ class LocaleCurrencyService
 
     public function getCurrencies()
     {
-        // 检查表是否存在，如果不存在则返回空集合（迁移时的情况）
-        if (! Schema::hasTable('currencies')) {
-            return collect([]);
-        }
-
         return Cache::rememberForever(CacheKeys::CURRENCIES_ALL, function () {
             return Currency::all();
         });
@@ -77,11 +67,6 @@ class LocaleCurrencyService
      */
     public function setRate(string $code, float $rate): bool
     {
-        // 检查表是否存在
-        if (! Schema::hasTable('currencies')) {
-            return false;
-        }
-
         $currency = Currency::where('code', $code)->first();
         if ($currency) {
             $currency->exchange_rate = $rate;
