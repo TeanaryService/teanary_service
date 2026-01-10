@@ -497,16 +497,48 @@ class SyncService
      * 创建或更新 Pivot 表模型（无主键）.
      * 
      * Pivot 表使用复合键，通过所有字段组合来唯一标识记录.
+     * 
+     * 对于更新操作，先删除旧记录（如果存在），然后创建新记录，确保数据完全同步.
      */
     protected function createOrUpdatePivotModel(string $modelType, array $payload): ?Model
     {
         try {
-            // Pivot 表使用 updateOrCreate，通过所有 fillable 字段组合来查找
-            // 如果存在则更新，不存在则创建
-            return $modelType::updateOrCreate(
-                $payload, // 使用所有字段作为查找条件
-                $payload  // 如果不存在，使用相同数据创建
-            );
+            // 获取 fillable 字段，用于构建查询条件
+            $modelInstance = new $modelType();
+            $fillableFields = $modelInstance->getFillable();
+            
+            // 构建查询条件：只使用 payload 中存在的 fillable 字段
+            $whereConditions = [];
+            foreach ($fillableFields as $field) {
+                if (isset($payload[$field])) {
+                    $whereConditions[$field] = $payload[$field];
+                }
+            }
+            
+            // 如果没有任何条件，记录警告并返回
+            if (empty($whereConditions)) {
+                Log::warning('创建/更新 Pivot 表记录失败：payload 中缺少必要的字段', [
+                    'model_type' => $modelType,
+                    'payload' => $payload,
+                    'fillable_fields' => $fillableFields,
+                ]);
+                return null;
+            }
+            
+            // 先查找是否存在旧记录
+            $query = $modelType::query();
+            foreach ($whereConditions as $field => $value) {
+                $query->where($field, $value);
+            }
+            $existingModel = $query->first();
+            
+            // 如果存在旧记录，先删除（确保更新时数据完全同步）
+            if ($existingModel) {
+                $existingModel->delete();
+            }
+            
+            // 创建新记录
+            return $modelType::create($payload);
         } catch (\Exception $e) {
             Log::warning('创建/更新 Pivot 表记录失败', [
                 'model_type' => $modelType,
@@ -1016,19 +1048,31 @@ class SyncService
      *
      * 优化：由于使用雪花ID，可以直接通过ID查找，无需通过唯一字段查找
      * 对于 Pivot 表（无主键），使用复合键查找
+     * 
+     * 注意：
+     * - 删除操作不应该跳过，即使记录存在也要执行删除
+     * - 更新操作不应该跳过，需要先删除旧记录再创建新记录
      */
     protected function shouldSkipSync(array $data): bool
     {
+        $action = $data['action'] ?? null;
         $modelType = $data['model_type'];
         $modelId = $data['model_id'];
         $timestamp = $data['timestamp'] ?? now()->toIso8601String();
         $payload = $data['payload'] ?? [];
+
+        // 删除和更新操作不应该跳过，必须执行
+        // 对于更新操作，需要先删除旧记录再创建新记录，确保数据完全同步
+        if ($action === 'deleted' || $action === 'updated') {
+            return false;
+        }
 
         // 检查是否是 Pivot 表（无主键）
         $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
         
         if ($isPivot) {
             // Pivot 表使用复合键查找
+            // 对于创建操作，如果记录已存在，可以跳过（避免重复）
             try {
                 $existingModel = $modelType::where($payload)->first();
                 // Pivot 表通常没有时间戳，所以不检查时间戳
