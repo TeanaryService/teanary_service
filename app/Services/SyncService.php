@@ -1316,16 +1316,16 @@ class SyncService
         }
 
         // 普通模型：直接通过雪花ID查找（全局唯一）
-        $existingModel = $modelType::find($modelId);
-        if ($action === 'created') {
-            // 创建操作：如果ID已存在，跳过（避免重复）
-            return $existingModel !== null;
-        }
+        // $existingModel = $modelType::find($modelId);
+        // if ($action === 'created') {
+        //     // 创建操作：如果ID已存在，跳过（避免重复）
+        //     return $existingModel !== null;
+        // }
         
-        if ($action === 'updated' && $existingModel && $existingModel->updated_at) {
-            // 更新操作：如果本地数据更新，跳过（以最新为准）
-            return $existingModel->updated_at->gt(Carbon::parse($timestamp));
-        }
+        // if ($action === 'updated' && $existingModel && $existingModel->updated_at) {
+        //     // 更新操作：如果本地数据更新，跳过（以最新为准）
+        //     return $existingModel->updated_at->gt(Carbon::parse($timestamp));
+        // }
 
         return false;
     }
