@@ -6,10 +6,7 @@
     <title>Teanary - 全球多节点电商平台系统</title>
     <meta name="description" content="支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统">
     <meta name="theme-color" content="#3a9d3a">
-    <!-- 标准 SVG favicon（现代浏览器支持） -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- PNG fallback for older browsers -->
     <link rel="alternate icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="alternate icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     <style>
@@ -36,16 +33,29 @@
         /* Header */
         header {
             background: linear-gradient(135deg, #ffffff 0%, #f0f9f0 50%, #dcf2dc 100%);
-            padding: 80px 20px 60px;
+            padding: 100px 20px 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(58, 157, 58, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 154, 122, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
         .header-links {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 30px;
+            right: 30px;
             display: flex;
             gap: 12px;
             z-index: 10;
@@ -54,8 +64,8 @@
         .header-link {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 10px 16px;
+            gap: 8px;
+            padding: 10px 18px;
             background: white;
             color: #3a9d3a;
             text-decoration: none;
@@ -81,24 +91,11 @@
             fill: currentColor;
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(58, 157, 58, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(138, 154, 122, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
         header h1 {
             font-size: 3.5em;
             font-weight: 700;
             color: #111827;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             letter-spacing: -0.025em;
             position: relative;
             z-index: 1;
@@ -107,30 +104,31 @@
         header h1::after {
             content: '';
             position: absolute;
-            bottom: -12px;
+            bottom: -16px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
+            width: 80px;
+            height: 4px;
             background: linear-gradient(90deg, #3a9d3a, #8a9a7a);
             border-radius: 2px;
         }
 
         header p {
-            font-size: 1.3em;
+            font-size: 1.25em;
             color: #4b5563;
             max-width: 800px;
-            margin: 40px auto 0;
+            margin: 48px auto 0;
             position: relative;
             z-index: 1;
+            line-height: 1.8;
         }
 
         .badges {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-top: 40px;
+            margin-top: 48px;
             position: relative;
             z-index: 1;
         }
@@ -138,68 +136,71 @@
         .badge {
             background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
             color: #2d7d2d;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 10px 24px;
+            border-radius: 24px;
             font-size: 0.9em;
             font-weight: 500;
             border: 1px solid rgba(58, 157, 58, 0.2);
         }
 
-        /* Content */
-        .content {
-            background: white;
-            border-radius: 16px;
-            padding: 60px 40px;
-            margin: -30px auto 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(229, 231, 235, 0.8);
+        /* Main Content */
+        .main-content {
+            margin-top: -40px;
             position: relative;
             z-index: 2;
         }
 
-        .section {
-            margin: 60px 0;
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(229, 231, 235, 0.8);
         }
 
-        .section h2 {
+        .section-title {
             color: #111827;
             font-size: 2.5em;
             font-weight: 700;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
             text-align: center;
             letter-spacing: -0.02em;
             position: relative;
-            padding-bottom: 20px;
+            padding-bottom: 24px;
         }
 
-        .section h2::after {
+        .section-title::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
+            width: 100px;
+            height: 4px;
             background: linear-gradient(90deg, #3a9d3a, #8a9a7a);
             border-radius: 2px;
         }
 
-        /* Features */
-        .features {
+        /* Features Grid */
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin: 40px 0;
+            margin-top: 20px;
         }
 
         .feature-card {
             background: #ffffff;
             border: 1px solid rgba(229, 231, 235, 0.8);
-            border-radius: 12px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 32px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .feature-card::before {
@@ -208,16 +209,16 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, #3a9d3a, #8a9a7a, #b8a585);
-            border-radius: 12px 12px 0 0;
+            border-radius: 16px 16px 0 0;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 32px rgba(58, 157, 58, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(58, 157, 58, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
             border-color: rgba(58, 157, 58, 0.25);
         }
 
@@ -228,13 +229,16 @@
         .feature-card h3 {
             color: #3a9d3a;
             margin-bottom: 20px;
-            font-size: 1.5em;
+            font-size: 1.4em;
             font-weight: 600;
+            line-height: 1.3;
         }
 
         .feature-card ul {
             list-style: none;
-            padding-left: 0;
+            padding: 0;
+            margin: 0;
+            flex: 1;
         }
 
         .feature-card ul li {
@@ -242,6 +246,7 @@
             padding-left: 28px;
             position: relative;
             color: #4b5563;
+            line-height: 1.6;
         }
 
         .feature-card ul li:before {
@@ -253,23 +258,138 @@
             font-size: 1.1em;
         }
 
+        /* Version Info */
+        .version-info {
+            background: linear-gradient(135deg, #f0f9f0 0%, #dcf2dc 100%);
+            border: 1px solid rgba(58, 157, 58, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 20px;
+        }
+
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .version-title {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+        }
+
+        .version-number {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #3a9d3a;
+        }
+
+        .version-date {
+            color: #6b7280;
+            font-size: 1em;
+        }
+
+        .version-badge {
+            background: linear-gradient(135deg, #3a9d3a, #2d7d2d);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 24px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .version-description {
+            color: #4b5563;
+            line-height: 1.8;
+            margin-bottom: 32px;
+            font-size: 1.05em;
+        }
+
+        .version-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .version-feature-item {
+            background: white;
+            padding: 16px;
+            border-radius: 10px;
+            border-left: 4px solid #3a9d3a;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .version-feature-item strong {
+            color: #3a9d3a;
+            min-width: 70px;
+            font-size: 0.95em;
+        }
+
+        .version-feature-item span {
+            flex: 1;
+            color: #4b5563;
+        }
+
+        .version-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+
+        .version-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: white;
+            color: #3a9d3a;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 1px solid rgba(58, 157, 58, 0.2);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 0.95em;
+        }
+
+        .version-link:hover {
+            background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
+            border-color: rgba(58, 157, 58, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(58, 157, 58, 0.15);
+        }
+
+        .version-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
         /* Tech Stack */
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 16px;
             justify-content: center;
-            margin: 30px 0;
+            margin-top: 20px;
         }
 
         .tech-item {
             background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
             color: #2d7d2d;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 12px 28px;
+            border-radius: 10px;
             font-weight: 500;
             border: 1px solid rgba(58, 157, 58, 0.2);
             transition: all 0.2s ease;
+            font-size: 0.95em;
         }
 
         .tech-item:hover {
@@ -279,22 +399,24 @@
         }
 
         /* Pricing */
-        .pricing {
+        .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin: 40px 0;
+            margin-top: 20px;
         }
 
         .pricing-card {
             background: white;
             border: 2px solid rgba(229, 231, 235, 0.8);
-            border-radius: 16px;
-            padding: 40px;
+            border-radius: 20px;
+            padding: 40px 32px;
             text-align: center;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
         }
 
         .pricing-card::before {
@@ -305,42 +427,44 @@
             right: 0;
             height: 4px;
             background: linear-gradient(90deg, #3a9d3a, #8a9a7a);
-            border-radius: 16px 16px 0 0;
+            border-radius: 20px 20px 0 0;
         }
 
         .pricing-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 16px 40px rgba(58, 157, 58, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 48px rgba(58, 157, 58, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
             border-color: rgba(58, 157, 58, 0.4);
         }
 
         .pricing-card h3 {
-            font-size: 1.8em;
+            font-size: 1.6em;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: #111827;
         }
 
         .price {
             font-size: 3em;
             font-weight: 700;
-            margin: 20px 0;
+            margin: 24px 0;
             color: #3a9d3a;
             letter-spacing: -0.02em;
+            line-height: 1;
         }
 
         .price small {
             font-size: 0.4em;
             color: #6b7280;
+            font-weight: 500;
         }
 
         .price-tag {
-            font-size: 1em;
+            font-size: 0.95em;
             color: #6b7280;
-            margin-top: 10px;
-            padding: 6px 12px;
+            margin-top: 12px;
+            padding: 8px 16px;
             background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
-            border-radius: 20px;
+            border-radius: 24px;
             display: inline-block;
             border: 1px solid rgba(58, 157, 58, 0.2);
         }
@@ -348,8 +472,9 @@
         .pricing-card ul {
             list-style: none;
             text-align: left;
-            margin: 30px 0;
-            padding-left: 0;
+            margin: 32px 0;
+            padding: 0;
+            flex: 1;
         }
 
         .pricing-card ul li {
@@ -357,6 +482,7 @@
             padding-left: 28px;
             position: relative;
             color: #4b5563;
+            line-height: 1.6;
         }
 
         .pricing-card ul li:before {
@@ -371,18 +497,19 @@
         /* Buttons */
         .btn {
             display: inline-block;
-            padding: 14px 36px;
+            padding: 14px 40px;
             background: linear-gradient(135deg, #3a9d3a 0%, #2d7d2d 100%);
             color: white;
             text-decoration: none;
             border-radius: 30px;
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 24px;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             border: none;
             cursor: pointer;
+            font-size: 0.95em;
         }
 
         .btn::before {
@@ -403,58 +530,11 @@
         .btn:hover {
             background: linear-gradient(135deg, #2d7d2d 0%, #256325 100%);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(58, 157, 58, 0.35);
+            box-shadow: 0 8px 24px rgba(58, 157, 58, 0.35);
         }
 
         .btn:active {
             transform: translateY(0);
-        }
-
-        /* CTA Section */
-        .cta {
-            text-align: center;
-            padding: 60px 40px;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9f0 50%, #dcf2dc 100%);
-            border-radius: 20px;
-            margin: 40px 0;
-            border: 1px solid rgba(229, 231, 235, 0.8);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .cta h2 {
-            color: #111827;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-            font-weight: 700;
-        }
-
-        .cta p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            color: #4b5563;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-
-        .contact-item {
-            text-align: center;
-        }
-
-        .contact-item strong {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-            color: #111827;
-        }
-
-        .contact-item div {
-            color: #6b7280;
         }
 
         /* License Info */
@@ -462,7 +542,6 @@
             background: linear-gradient(135deg, #f9fafb 0%, #f0f9f0 100%);
             padding: 40px;
             border-radius: 16px;
-            margin: 40px 0;
             border: 1px solid rgba(229, 231, 235, 0.8);
         }
 
@@ -475,19 +554,20 @@
 
         .license-info p {
             color: #4b5563;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+            margin-bottom: 32px;
+            font-size: 1.05em;
+            line-height: 1.8;
         }
 
         .license-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 24px;
         }
 
         .license-item {
-            padding: 20px;
+            padding: 24px;
             background: white;
             border-radius: 12px;
             border-left: 4px solid #3a9d3a;
@@ -496,21 +576,22 @@
 
         .license-item h4 {
             color: #3a9d3a;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             font-size: 1.2em;
             font-weight: 600;
         }
 
         .license-item ul {
             list-style: none;
-            padding-left: 0;
+            padding: 0;
         }
 
         .license-item ul li {
-            padding: 6px 0;
+            padding: 8px 0;
             color: #4b5563;
-            padding-left: 20px;
+            padding-left: 24px;
             position: relative;
+            line-height: 1.6;
         }
 
         .license-item ul li:before {
@@ -519,12 +600,60 @@
             left: 0;
             color: #3a9d3a;
             font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 80px 50px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9f0 50%, #dcf2dc 100%);
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(229, 231, 235, 0.8);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .cta-section h2 {
+            color: #111827;
+            margin-bottom: 24px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            color: #4b5563;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-top: 48px;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item strong {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            color: #111827;
+        }
+
+        .contact-item div {
+            color: #6b7280;
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
             border-top: 1px solid rgba(229, 231, 235, 0.8);
             margin-top: 60px;
@@ -532,14 +661,28 @@
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .version-features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .license-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
             header {
-                padding: 100px 20px 60px;
+                padding: 120px 20px 80px;
             }
 
             .header-links {
-                top: 15px;
-                right: 15px;
+                top: 20px;
+                right: 20px;
                 gap: 8px;
             }
 
@@ -561,34 +704,63 @@
                 font-size: 2.5em;
             }
 
-            .content {
-                padding: 40px 20px;
-                margin: -20px auto 20px;
+            header p {
+                font-size: 1.1em;
+                margin-top: 32px;
             }
 
-            .section {
-                margin: 40px 0;
+            .content-card {
+                padding: 40px 30px;
+                margin-bottom: 30px;
             }
 
-            .section h2 {
+            .section-title {
                 font-size: 2em;
+                margin-bottom: 32px;
             }
 
-            .features {
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .pricing-grid {
                 grid-template-columns: 1fr;
             }
 
-            .pricing {
+            .version-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .version-features {
                 grid-template-columns: 1fr;
             }
 
-            .cta h2 {
+            .version-links {
+                flex-direction: column;
+            }
+
+            .version-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .license-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                padding: 60px 30px;
+            }
+
+            .cta-section h2 {
                 font-size: 2em;
             }
 
             .contact-info {
                 flex-direction: column;
-                gap: 20px;
+                gap: 24px;
             }
         }
     </style>
@@ -622,10 +794,11 @@
     </header>
 
     <div class="container">
-        <div class="content">
-            <section class="section">
-                <h2>🌟 核心特性</h2>
-                <div class="features">
+        <div class="main-content">
+            <!-- 核心特性 -->
+            <div class="content-card">
+                <h2 class="section-title">🌟 核心特性</h2>
+                <div class="features-grid">
                     <div class="feature-card">
                         <h3>🌍 多节点数据同步</h3>
                         <ul>
@@ -698,10 +871,76 @@
                         </ul>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <h2>🚀 技术栈</h2>
+            <!-- 发行版本 -->
+            <div class="content-card">
+                <h2 class="section-title">📦 发行版本</h2>
+                <div class="version-info">
+                    <div class="version-header">
+                        <div class="version-title">
+                            <div class="version-number">v1.0.0</div>
+                            <div class="version-date">2026-01-11</div>
+                        </div>
+                        <span class="version-badge">最新版本</span>
+                    </div>
+                    <div class="version-description">
+                        <strong>🎉 首个正式版本发布！</strong><br>
+                        这是一个功能完整的全球多节点电商平台系统，包含多节点数据同步、AI自动翻译、商品采集等核心功能。
+                        系统采用现代化的技术栈，提供高性能、可扩展的电商解决方案。
+                    </div>
+                    <div class="version-features">
+                        <div class="version-feature-item">
+                            <strong>✨ 新增：</strong>
+                            <span>多节点数据双向同步系统</span>
+                        </div>
+                        <div class="version-feature-item">
+                            <strong>✨ 新增：</strong>
+                            <span>AI自动翻译功能（支持8种语言）</span>
+                        </div>
+                        <div class="version-feature-item">
+                            <strong>✨ 新增：</strong>
+                            <span>Chrome插件商品采集工具</span>
+                        </div>
+                        <div class="version-feature-item">
+                            <strong>✨ 新增：</strong>
+                            <span>完整的电商功能模块</span>
+                        </div>
+                        <div class="version-feature-item">
+                            <strong>✨ 新增：</strong>
+                            <span>现代化Filament管理后台</span>
+                        </div>
+                        <div class="version-feature-item">
+                            <strong>✨ 新增：</strong>
+                            <span>Laravel Octane高性能部署</span>
+                        </div>
+                    </div>
+                    <div class="version-links">
+                        <a href="https://github.com/TeanaryService/teanary_srvice/releases" target="_blank" rel="noopener noreferrer" class="version-link">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            查看所有版本
+                        </a>
+                        <a href="https://github.com/TeanaryService/teanary_srvice/archive/refs/tags/v1.0.0.zip" target="_blank" rel="noopener noreferrer" class="version-link">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            下载 ZIP
+                        </a>
+                        <a href="https://github.com/TeanaryService/teanary_srvice/archive/refs/tags/v1.0.0.tar.gz" target="_blank" rel="noopener noreferrer" class="version-link">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            下载 TAR.GZ
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技术栈 -->
+            <div class="content-card">
+                <h2 class="section-title">🚀 技术栈</h2>
                 <div class="tech-stack">
                     <div class="tech-item">Laravel 11.x</div>
                     <div class="tech-item">PHP 8.1+</div>
@@ -713,11 +952,12 @@
                     <div class="tech-item">Laravel Octane</div>
                     <div class="tech-item">Ollama AI</div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <h2>💼 商业服务</h2>
-                <div class="pricing">
+            <!-- 商业服务 -->
+            <div class="content-card">
+                <h2 class="section-title">💼 商业服务</h2>
+                <div class="pricing-grid">
                     <div class="pricing-card">
                         <h3>🚀 部署服务</h3>
                         <div class="price">¥500<small>/次</small></div>
@@ -792,9 +1032,10 @@
                         <a href="mailto:hello@teanary.com?subject=二次开发咨询" class="btn">立即咨询</a>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
+            <!-- 开源协议 -->
+            <div class="content-card">
                 <div class="license-info">
                     <h3>📄 开源协议</h3>
                     <p>本项目采用 <strong>AGPL-3.0</strong> (GNU Affero General Public License v3.0) 开源协议。</p>
@@ -826,10 +1067,11 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
 
-        <div class="cta">
+        <!-- CTA Section -->
+        <div class="cta-section">
             <h2>🚀 开始使用 Teanary</h2>
             <p>立即访问 GitHub 仓库，开始您的全球电商之旅</p>
             <a href="https://github.com/TeanaryService/teanary_srvice" class="btn">查看 GitHub</a>
@@ -852,7 +1094,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Teanary. All rights reserved.</p>
+            <p>&copy; 2026 Teanary. All rights reserved.</p>
             <p>Licensed under AGPL-3.0</p>
         </div>
     </footer>
