@@ -1,26 +1,7 @@
 @php
-    $locale = session('lang');
-    $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
-    $currencyService = app(\App\Services\LocaleCurrencyService::class);
-    $currencyCode = session('currency');
-    $translation = $product->productTranslations->where('language_id', $lang->id)->first();
-    $name = $translation && $translation->name ? $translation->name : $product->slug;
-    $desc = $translation && $translation->description ? $translation->description : '';
-    $shortDesc = $translation && $translation->short_description ? $translation->short_description : '';
     $variant = $variants->where('id', $selectedVariantId)->first();
-    $images = $product->getMedia('images');
-    $price = isset($finalPrice)
-        ? $currencyService->convertWithSymbol($finalPrice, $currencyCode)
-        : ($variant && $variant->price
-            ? $currencyService->convertWithSymbol($variant->price, $currencyCode)
-            : '');
-    $attributes = $product->attributeValues ?? collect();
-
     $productId = $product->id;
     $variantId = $selectedVariantId;
-    $qty = 1;
-    $maxQty = $variant && $variant->stock ? $variant->stock : 1;
-
     $breadcrumbs = [
         [
             'label' => __('app.categories'),
@@ -32,48 +13,6 @@
         ],
     ];
     $tab = request()->input('tab', 'desc');
-
-    // 准备结构化数据
-    $structuredData = [
-        '@context' => 'https://schema.org',
-        '@type' => 'Product',
-        'name' => $name,
-        'description' => $shortDesc,
-        'image' => $images->first()?->getUrl(),
-        'sku' => $variant?->sku,
-    ];
-
-    if ($price) {
-        $structuredData['offers'] = [
-            '@type' => 'Offer',
-            'url' => url()->current(),
-            'priceCurrency' => $currencyCode,
-            'price' => str_replace(['$', '€', '£', '¥'], '', $price),
-            'availability' =>
-                $variant && $variant->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-        ];
-    }
-
-    if ($attributes->count()) {
-        $structuredData['additionalProperty'] = $attributes
-            ->map(function ($attrValue) use ($lang) {
-                $attrTrans = $attrValue->attribute->attributeTranslations->where('language_id', $lang?->id)->first();
-
-                $attrValueTrans = $attrValue->attributeValueTranslations->where('language_id', $lang?->id)->first();
-
-                // 属性名和属性值翻译
-                $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->attribute->id;
-                $attrValueName = $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
-
-                return [
-                    '@type' => 'PropertyValue',
-                    'name' => "{$attrName}: {$attrValueName}",
-                ];
-            })
-            ->values()
-            ->all();
-    }
-
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 min-h-[70vh] bg-tea-50 tea-bg-texture">

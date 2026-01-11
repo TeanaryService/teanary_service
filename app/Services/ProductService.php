@@ -84,7 +84,7 @@ class ProductService
 
         // 处理商品属性
         if (! empty($data['attributes'])) {
-            $attributesData = is_array($data['attributes']) ? $data['attributes'] : (is_object($data['attributes']) ? (array) $data['attributes'] : []);
+            $attributesData = $this->normalizeAttributesData($data['attributes']);
             $languageId = $data['translations'][0]['language_id'] ?? null;
             if ($languageId && ! empty($attributesData)) {
                 $this->syncProductAttributes($product, $attributesData, $languageId);
@@ -347,36 +347,59 @@ class ProductService
         $parsed = parse_url($url);
 
         if ($parsed === false) {
-            return $url; // 如果解析失败，返回原 URL
+            return $url;
         }
 
         // 重新构建 URL，只包含 scheme、host、path，去掉 query 和 fragment
+        $scheme = $parsed['scheme'] ?? '';
+        $user = $parsed['user'] ?? '';
+        $pass = $parsed['pass'] ?? '';
+        $host = $parsed['host'] ?? '';
+        $port = $parsed['port'] ?? '';
+        $path = $parsed['path'] ?? '';
+
         $cleanUrl = '';
 
-        if (isset($parsed['scheme'])) {
-            $cleanUrl .= $parsed['scheme'].'://';
+        if ($scheme) {
+            $cleanUrl .= $scheme.'://';
         }
 
-        if (isset($parsed['user'])) {
-            $cleanUrl .= $parsed['user'];
-            if (isset($parsed['pass'])) {
-                $cleanUrl .= ':'.$parsed['pass'];
+        if ($user) {
+            $cleanUrl .= $user;
+            if ($pass) {
+                $cleanUrl .= ':'.$pass;
             }
             $cleanUrl .= '@';
         }
 
-        if (isset($parsed['host'])) {
-            $cleanUrl .= $parsed['host'];
+        if ($host) {
+            $cleanUrl .= $host;
         }
 
-        if (isset($parsed['port'])) {
-            $cleanUrl .= ':'.$parsed['port'];
+        if ($port) {
+            $cleanUrl .= ':'.$port;
         }
 
-        if (isset($parsed['path'])) {
-            $cleanUrl .= $parsed['path'];
+        if ($path) {
+            $cleanUrl .= $path;
         }
 
         return $cleanUrl;
+    }
+
+    /**
+     * 规范化属性数据格式.
+     */
+    protected function normalizeAttributesData(mixed $attributes): array
+    {
+        if (is_array($attributes)) {
+            return $attributes;
+        }
+
+        if (is_object($attributes)) {
+            return (array) $attributes;
+        }
+
+        return [];
     }
 }
