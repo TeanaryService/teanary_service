@@ -174,6 +174,12 @@
             font-size: 0.4em;
         }
 
+        .price-tag {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
         .pricing-card ul {
             list-style: none;
             text-align: left;
@@ -287,6 +293,15 @@
             margin-bottom: 10px;
         }
 
+        .highlight {
+            background: #fff3cd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2.5em;
@@ -297,6 +312,10 @@
             }
 
             .features {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing {
                 grid-template-columns: 1fr;
             }
         }
@@ -439,6 +458,38 @@
                             <li>数据备份和恢复</li>
                         </ul>
                         <a href="mailto:hello@teanary.com?subject=维护服务咨询" class="btn">立即咨询</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>🛒 采集插件</h3>
+                        <div class="price">¥1500</div>
+                        <div class="price-tag">含3年免费更新支持</div>
+                        <ul>
+                            <li>Chrome 浏览器插件</li>
+                            <li>1688 商品一键采集</li>
+                            <li>图片自动下载上传</li>
+                            <li>批量商品导入</li>
+                            <li>3年免费更新</li>
+                            <li>3年技术支持</li>
+                            <li>使用教程和文档</li>
+                        </ul>
+                        <a href="mailto:hello@teanary.com?subject=采集插件咨询" class="btn">立即咨询</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>🤖 翻译端程序</h3>
+                        <div class="price">¥1500</div>
+                        <div class="price-tag">含3年更新支持</div>
+                        <ul>
+                            <li>独立的翻译服务程序</li>
+                            <li>集成 Ollama AI 模型</li>
+                            <li>支持 8 种语言翻译</li>
+                            <li>商品和文章批量翻译</li>
+                            <li>3年免费更新</li>
+                            <li>3年技术支持</li>
+                            <li>部署指导和技术文档</li>
+                        </ul>
+                        <a href="mailto:hello@teanary.com?subject=翻译端程序咨询" class="btn">立即咨询</a>
                     </div>
 
                     <div class="pricing-card">
