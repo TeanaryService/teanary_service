@@ -8,6 +8,7 @@
 [![Filament](https://img.shields.io/badge/Filament-3.x-6366F1.svg)](https://filamentphp.com)
 
 > 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统。专为解决跨国电商运营难题而设计。
+
 > 代码已通过单元测试和静态分析,普通bug反馈请通过Issues提交；安全相关bug请通过Email(hello@teanary.com)提交
 
 ## 🌟 核心特性
