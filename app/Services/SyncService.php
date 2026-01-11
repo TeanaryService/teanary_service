@@ -255,7 +255,11 @@ class SyncService
 
                         // 检查是否应该跳过同步（避免重复或冲突）
                         if ($this->shouldSkipSync($data)) {
-                            Log::info('跳过'.$data['mode_type']);
+                            Log::info('跳过同步', [
+                                'model_type' => $data['model_type'] ?? 'unknown',
+                                'model_id' => $data['model_id'] ?? null,
+                                'action' => $data['action'] ?? null,
+                            ]);
                             ++$results['success'];
                             $results['results'][] = [
                                 'index' => $index,
