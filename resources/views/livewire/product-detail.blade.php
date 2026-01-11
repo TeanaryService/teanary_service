@@ -80,7 +80,7 @@
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}
-        <div class="w-full lg:w-1/2 flex justify-center items-center relative">
+        <div class="w-full lg:w-1/2 flex justify-center items-center relative" wire:key="product-images-{{ $selectedVariantId }}">
             @if ($images->count())
                 <!-- Alpine.js 数据和方法 -->
                 <div x-data="{
@@ -93,6 +93,14 @@
                     mouseY: 0,
                     init() {
                         this.startAutoplay();
+                        // Livewire更新后重新初始化懒加载
+                        this.$watch('$wire.selectedVariantId', () => {
+                            this.$nextTick(() => {
+                                if (window.updateLazyLoad) {
+                                    window.updateLazyLoad();
+                                }
+                            });
+                        });
                     },
                     startAutoplay() {
                         this.autoplay = setInterval(() => {
@@ -143,7 +151,8 @@
                                 x-transition:enter="transition ease-out duration-500"
                                 x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                                 x-transition:leave="transition ease-in duration-300"
-                                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+                                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                                wire:key="product-image-{{ $selectedVariantId }}-{{ $i }}">
 
                                 <img src="/loading.svg"
                                     data-src="{{ $img->getUrl() }}" 
@@ -203,7 +212,8 @@
                                         'border-teal-600 ring-2 ring-teal-200': active === {{ $i }},
                                         'border-gray-300 hover:border-teal-400': active !== {{ $i }}
                                     }"
-                                    @click="goTo({{ $i }})">
+                                    @click="goTo({{ $i }})"
+                                    wire:key="product-thumb-{{ $selectedVariantId }}-{{ $i }}">
                                     <img src="/loading.svg"
                                         data-src="{{ $img->getUrl() }}" 
                                         alt="{{ $name }}"
@@ -484,4 +494,19 @@
             pointer-events: auto;
         }
     </style>
+
+    <script>
+        // 监听Livewire更新事件，重新初始化懒加载
+        document.addEventListener('livewire:init', () => {
+            Livewire.hook('morph.updated', ({ el, component }) => {
+                // 当组件更新后，重新初始化懒加载
+                if (window.updateLazyLoad) {
+                    // 使用setTimeout确保DOM已完全更新
+                    setTimeout(() => {
+                        window.updateLazyLoad();
+                    }, 100);
+                }
+            });
+        });
+    </script>
 @endPushOnce
