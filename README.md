@@ -120,7 +120,11 @@
 
 1. **克隆项目**
 ```bash
-git clone https://github.com/your-username/teanary_service.git
+git clone https://gitee.com/teanary/teanary_service.git
+cd teanary_service
+```
+```bash
+git clone https://github.com/TeanaryService/teanary_srvice.git
 cd teanary_service
 ```
 
@@ -436,8 +440,8 @@ vendor/bin/dep deploy teanary
 
 ## 📞 联系我们
 
-- **项目主页**: [GitHub Repository](https://github.com/your-username/teanary_service)
-- **问题反馈**: [GitHub Issues](https://github.com/your-username/teanary_service/issues)
+- **项目主页**: [Gitee Repository](https://gitee.com/teanary/teanary_service)|[Github Repository](https://github.com/TeanaryService/teanary_srvice)
+- **问题反馈**: [Gitee Issues](https://gitee.com/teanary/teanary_service/issues)|[Github Issues](https://github.com/TeanaryService/teanary_srvice/issues)
 - **邮箱**: hello@teanary.com
 - **电话**: +86 18184839903
 

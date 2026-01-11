@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teanary - 全球多节点电商平台系统</title>
     <meta name="description" content="支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统">
+    <meta name="theme-color" content="#3a9d3a">
     <style>
         * {
             margin: 0;
@@ -13,36 +14,109 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1f2937;
+            background: #f9fafb;
             min-height: 100vh;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
+        /* Header */
         header {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9f0 50%, #dcf2dc 100%);
+            padding: 80px 20px 60px;
             text-align: center;
-            padding: 60px 20px;
-            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: white;
+            color: #3a9d3a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid rgba(58, 157, 58, 0.2);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-link:hover {
+            background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
+            color: #2d7d2d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(58, 157, 58, 0.2);
+            border-color: rgba(58, 157, 58, 0.3);
+        }
+
+        .header-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(58, 157, 58, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(138, 154, 122, 0.03) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         header h1 {
             font-size: 3.5em;
+            font-weight: 700;
+            color: #111827;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -0.025em;
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #3a9d3a, #8a9a7a);
+            border-radius: 2px;
         }
 
         header p {
             font-size: 1.3em;
-            opacity: 0.95;
+            color: #4b5563;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 40px auto 0;
+            position: relative;
+            z-index: 1;
         }
 
         .badges {
@@ -50,25 +124,61 @@
             justify-content: center;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 30px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
         }
 
         .badge {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
+            background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
+            color: #2d7d2d;
+            padding: 8px 20px;
             border-radius: 20px;
             font-size: 0.9em;
-            backdrop-filter: blur(10px);
+            font-weight: 500;
+            border: 1px solid rgba(58, 157, 58, 0.2);
         }
 
+        /* Content */
         .content {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin: 40px auto;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-radius: 16px;
+            padding: 60px 40px;
+            margin: -30px auto 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+            position: relative;
+            z-index: 2;
         }
 
+        .section {
+            margin: 60px 0;
+        }
+
+        .section h2 {
+            color: #111827;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            letter-spacing: -0.02em;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #3a9d3a, #8a9a7a);
+            border-radius: 2px;
+        }
+
+        /* Features */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -77,21 +187,43 @@
         }
 
         .feature-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #ffffff;
+            border: 1px solid rgba(229, 231, 235, 0.8);
+            border-radius: 12px;
             padding: 30px;
-            border-radius: 15px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3a9d3a, #8a9a7a, #b8a585);
+            border-radius: 12px 12px 0 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(58, 157, 58, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: rgba(58, 157, 58, 0.25);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 15px;
+            color: #3a9d3a;
+            margin-bottom: 20px;
             font-size: 1.5em;
+            font-weight: 600;
         }
 
         .feature-card ul {
@@ -100,141 +232,200 @@
         }
 
         .feature-card ul li {
-            padding: 8px 0;
-            padding-left: 25px;
+            padding: 10px 0;
+            padding-left: 28px;
             position: relative;
+            color: #4b5563;
         }
 
         .feature-card ul li:before {
             content: "✓";
             position: absolute;
             left: 0;
-            color: #667eea;
+            color: #3a9d3a;
             font-weight: bold;
+            font-size: 1.1em;
         }
 
-        .section {
-            margin: 50px 0;
-        }
-
-        .section h2 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
+        /* Tech Stack */
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
+            margin: 30px 0;
         }
 
         .tech-item {
-            background: #f8f9fa;
-            padding: 15px 25px;
-            border-radius: 10px;
-            border: 2px solid #667eea;
+            background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
+            color: #2d7d2d;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-weight: 500;
+            border: 1px solid rgba(58, 157, 58, 0.2);
+            transition: all 0.2s ease;
         }
 
+        .tech-item:hover {
+            background: linear-gradient(135deg, #dcf2dc, #bce5bc);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(58, 157, 58, 0.15);
+        }
+
+        /* Pricing */
         .pricing {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin: 40px 0;
         }
 
         .pricing-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: white;
+            border: 2px solid rgba(229, 231, 235, 0.8);
+            border-radius: 16px;
             padding: 40px;
-            border-radius: 15px;
             text-align: center;
-            transition: transform 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3a9d3a, #8a9a7a);
+            border-radius: 16px 16px 0 0;
         }
 
         .pricing-card:hover {
-            transform: scale(1.05);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(58, 157, 58, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: rgba(58, 157, 58, 0.4);
         }
 
         .pricing-card h3 {
             font-size: 1.8em;
+            font-weight: 600;
             margin-bottom: 20px;
+            color: #111827;
         }
 
         .price {
             font-size: 3em;
-            font-weight: bold;
+            font-weight: 700;
             margin: 20px 0;
+            color: #3a9d3a;
+            letter-spacing: -0.02em;
         }
 
         .price small {
             font-size: 0.4em;
+            color: #6b7280;
         }
 
         .price-tag {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1em;
+            color: #6b7280;
             margin-top: 10px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #f0f9f0, #dcf2dc);
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(58, 157, 58, 0.2);
         }
 
         .pricing-card ul {
             list-style: none;
             text-align: left;
             margin: 30px 0;
+            padding-left: 0;
         }
 
         .pricing-card ul li {
-            padding: 10px 0;
-            padding-left: 25px;
+            padding: 12px 0;
+            padding-left: 28px;
             position: relative;
+            color: #4b5563;
         }
 
         .pricing-card ul li:before {
             content: "✓";
             position: absolute;
             left: 0;
+            color: #3a9d3a;
             font-weight: bold;
+            font-size: 1.1em;
         }
 
+        /* Buttons */
         .btn {
             display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #667eea;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #3a9d3a 0%, #2d7d2d 100%);
+            color: white;
             text-decoration: none;
             border-radius: 30px;
-            font-weight: bold;
+            font-weight: 600;
             margin-top: 20px;
-            transition: all 0.3s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            background: #f0f0f0;
+            background: linear-gradient(135deg, #2d7d2d 0%, #256325 100%);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(58, 157, 58, 0.35);
         }
 
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* CTA Section */
         .cta {
             text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9f0 50%, #dcf2dc 100%);
             border-radius: 20px;
             margin: 40px 0;
+            border: 1px solid rgba(229, 231, 235, 0.8);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .cta h2 {
-            color: white;
+            color: #111827;
             margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: 700;
         }
 
         .cta p {
             font-size: 1.2em;
             margin-bottom: 30px;
-            opacity: 0.95;
+            color: #4b5563;
         }
 
         .contact-info {
@@ -242,7 +433,7 @@
             justify-content: center;
             gap: 40px;
             flex-wrap: wrap;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .contact-item {
@@ -253,62 +444,128 @@
             display: block;
             margin-bottom: 10px;
             font-size: 1.1em;
+            color: #111827;
         }
 
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-            opacity: 0.9;
+        .contact-item div {
+            color: #6b7280;
         }
 
+        /* License Info */
         .license-info {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #f9fafb 0%, #f0f9f0 100%);
+            padding: 40px;
+            border-radius: 16px;
             margin: 40px 0;
+            border: 1px solid rgba(229, 231, 235, 0.8);
         }
 
         .license-info h3 {
-            color: #667eea;
+            color: #3a9d3a;
             margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .license-info p {
+            color: #4b5563;
+            margin-bottom: 30px;
+            font-size: 1.1em;
         }
 
         .license-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .license-item {
-            padding: 15px;
+            padding: 20px;
             background: white;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-radius: 12px;
+            border-left: 4px solid #3a9d3a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .license-item h4 {
-            color: #667eea;
-            margin-bottom: 10px;
+            color: #3a9d3a;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
         }
 
-        .highlight {
-            background: #fff3cd;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
-            display: inline-block;
-            margin-top: 10px;
+        .license-item ul {
+            list-style: none;
+            padding-left: 0;
         }
 
+        .license-item ul li {
+            padding: 6px 0;
+            color: #4b5563;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .license-item ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #3a9d3a;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border-top: 1px solid rgba(229, 231, 235, 0.8);
+            margin-top: 60px;
+            color: #6b7280;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            header {
+                padding: 100px 20px 60px;
+            }
+
+            .header-links {
+                top: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+
+            .header-link {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+
+            .header-link span {
+                display: none;
+            }
+
+            .header-link svg {
+                width: 20px;
+                height: 20px;
+            }
+
             header h1 {
                 font-size: 2.5em;
             }
 
             .content {
-                padding: 20px;
+                padding: 40px 20px;
+                margin: -20px auto 20px;
+            }
+
+            .section {
+                margin: 40px 0;
+            }
+
+            .section h2 {
+                font-size: 2em;
             }
 
             .features {
@@ -318,11 +575,34 @@
             .pricing {
                 grid-template-columns: 1fr;
             }
+
+            .cta h2 {
+                font-size: 2em;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
+        <div class="header-links">
+            <a href="https://github.com/TeanaryService/teanary_srvice" target="_blank" rel="noopener noreferrer" class="header-link" title="GitHub">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span>GitHub</span>
+            </a>
+            <a href="https://gitee.com/teanary/teanary_service" target="_blank" rel="noopener noreferrer" class="header-link" title="Gitee">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.984 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.016 0zm6.09 5.333c.183 4.04-2.83 8.544-8.164 8.544-1.622 0-3.131-.397-4.29-1.088l.126-.186a4.736 4.736 0 0 0 1.38-.646 2.47 2.47 0 0 1-1.714-.874 2.474 2.474 0 0 1-.504-1.505c0-.28.03-.54.094-.79a7.096 7.096 0 0 1-.324-2.608c0-4.543 3.17-8.25 7.08-8.25 4.41 0 7.99 3.58 7.99 7.99 0 3.81-2.405 7.07-5.736 8.21-.896.2-1.393.74-1.393 1.482 0 .66.484 1.224 1.13 1.224.638 0 1.14-.49 1.178-1.123.12-1.71-.7-2.98-1.832-3.558.218-.49.327-1.026.327-1.56 0-1.37-.7-2.58-1.8-3.28a3.7 3.7 0 0 0-1.9-.51c-.96 0-1.85.28-2.58.76-.42-.14-.86-.24-1.32-.24-2.36 0-4.28 1.92-4.28 4.28 0 .94.38 1.81 1.03 2.44-.1 1.07-.26 2.13-.26 3.2 0 .3.03.6.08.9-.08-.98-.08-1.98 0-2.95 0-4.1 1.26-7.74 3.8-10.2-.13-.38-.76-.38-.89 0-2.54 2.46-3.8 6.1-3.8 10.2 0 .98.08 1.98 0 2.95-.08.3-.08.6-.08.9 0 1.07.16 2.13.26 3.2.65-.63 1.03-1.5 1.03-2.44 0-2.36-1.92-4.28-4.28-4.28-.46 0-.9.1-1.32.24-.73-.48-1.62-.76-2.58-.76-1.1 0-2.1.28-1.9.51-1.1.7-1.8 1.91-1.8 3.28 0 .53.11 1.07.33 1.56-1.13.58-1.95 1.85-1.83 3.56.04.63.54 1.12 1.18 1.12.65 0 1.13-.56 1.13-1.22 0-.74-.5-1.28-1.39-1.48-3.33-1.14-5.74-4.37-5.74-8.21 0-4.41 3.58-7.99 7.99-7.99 3.91 0 7.08 3.71 7.08 8.25 0 .9-.11 1.78-.32 2.61z"/>
+                </svg>
+                <span>Gitee</span>
+            </a>
+        </div>
         <div class="container">
             <h1>🌍 Teanary</h1>
             <p>全球多节点电商平台系统 - 支持多节点部署、AI自动翻译、商品采集的现代化电商解决方案</p>
@@ -546,7 +826,7 @@
         <div class="cta">
             <h2>🚀 开始使用 Teanary</h2>
             <p>立即访问 GitHub 仓库，开始您的全球电商之旅</p>
-            <a href="https://github.com/your-username/teanary_service" class="btn" style="background: white; color: #667eea;">查看 GitHub</a>
+            <a href="https://github.com/TeanaryService/teanary_srvice" class="btn">查看 GitHub</a>
             <div class="contact-info">
                 <div class="contact-item">
                     <strong>📧 邮箱</strong>
