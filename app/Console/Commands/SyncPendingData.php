@@ -5,10 +5,13 @@ namespace App\Console\Commands;
 use App\Jobs\SyncBatchDataJob;
 use App\Models\SyncLog;
 use App\Services\SyncService;
+use App\Traits\HandlesSyncBatch;
 use Illuminate\Console\Command;
 
 class SyncPendingData extends Command
 {
+    use HandlesSyncBatch;
+
     /**
      * The name and signature of the console command.
      *
@@ -86,17 +89,13 @@ class SyncPendingData extends Command
             } else {
                 // 同步执行
                 $syncService = app(SyncService::class);
-                $pendingLogs = SyncLog::where('status', 'pending')
-                    ->where('target_node', $targetNode)
-                    ->orderBy('created_at', 'asc')
-                    ->limit($limit)
-                    ->get();
+                $pendingLogs = $this->getPendingLogsWithGrouping($targetNode, $limit);
 
                 if ($pendingLogs->isEmpty()) {
                     continue;
                 }
 
-                $chunks = $pendingLogs->chunk($batchSize);
+                $chunks = $this->chunkLogsByModel($pendingLogs, $batchSize);
                 $bar = $this->output->createProgressBar($pendingLogs->count());
                 $bar->start();
 

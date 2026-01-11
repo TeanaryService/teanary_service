@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\SyncLog;
 use App\Services\SyncService;
+use App\Traits\HandlesSyncBatch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class SyncBatchDataJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, HandlesSyncBatch;
 
     public int $tries;
     public int $backoff;
@@ -39,12 +40,8 @@ class SyncBatchDataJob implements ShouldQueue
     public function handle(SyncService $syncService): void
     {
         try {
-            // 获取待同步的记录（按目标节点分组）
-            $pendingLogs = SyncLog::where('status', 'pending')
-                ->where('target_node', $this->targetNode)
-                ->orderBy('created_at', 'asc')
-                ->limit($this->limit)
-                ->get();
+            // 获取待同步的记录，确保同一行的多次修改都被包含
+            $pendingLogs = $this->getPendingLogsWithGrouping($this->targetNode, $this->limit);
 
             if ($pendingLogs->isEmpty()) {
                 Log::info('批量同步：没有待同步的记录', [
@@ -59,8 +56,8 @@ class SyncBatchDataJob implements ShouldQueue
                 'count' => $pendingLogs->count(),
             ]);
 
-            // 分批处理，每批最多 batchSize 条
-            $chunks = $pendingLogs->chunk($this->batchSize);
+            // 分批处理，确保同一行的多次修改在同一批次中
+            $chunks = $this->chunkLogsByModel($pendingLogs, $this->batchSize);
 
             foreach ($chunks as $chunk) {
                 $result = $syncService->syncBatchToRemote($chunk, $this->targetNode);
