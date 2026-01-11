@@ -265,7 +265,7 @@ git push gitee v1.0.0
 
 ### 🔧 技术栈
 
-- Laravel 11.x
+- Laravel 12.x
 - PHP 8.1+
 - MySQL 8.0+
 - Redis

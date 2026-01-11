@@ -83,7 +83,7 @@
 ## 🚀 技术栈
 
 ### 后端技术
-- **Laravel 11.x** - PHP Web 框架
+- **Laravel 12.x** - PHP Web 框架
 - **PHP 8.1+** - 服务器端语言
 - **MySQL 8.0+** - 数据库
 - **Redis** - 缓存和会话存储
