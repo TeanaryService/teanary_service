@@ -1293,7 +1293,7 @@ class SyncService
         $payload = $data['payload'] ?? [];
 
         // 删除操作不应该跳过，必须执行
-        if ($action === 'deleted') {
+        if ($action === 'deleted' || $action === 'updated') {
             return false;
         }
 
