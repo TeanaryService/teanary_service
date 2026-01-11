@@ -7,7 +7,7 @@ require 'recipe/laravel.php';
 // ============================================
 // 基础配置
 // ============================================
-set('repository', 'git@gitee.com:new-cms/teanary_service.git');
+set('repository', 'git@gitee.com:teanary/teanary_service.git');
 set('keep_releases', 3);
 set('default_stage', 'production');
 
