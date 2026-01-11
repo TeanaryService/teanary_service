@@ -33,7 +33,7 @@ host('teanary-online')
     ->set('remote_user', 'root')
     ->setIdentityFile('~/.ssh/vpn')
     ->set('deploy_path', '/home/wwwroot/teanary')
-    ->set('branch', 'main')
+    ->set('branch', 'dev')
     ->set('http_user', 'www');
 
 host('teanary-sync')
@@ -42,7 +42,7 @@ host('teanary-sync')
     ->set('remote_user', 'xcalder')
     ->setIdentityFile('~/.ssh/pi5')
     ->set('deploy_path', '/home/wwwroot/teanary')
-    ->set('branch', 'main')
+    ->set('branch', 'dev')
     ->set('http_user', 'www');
 
 // ============================================
