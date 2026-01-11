@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teanary - 全球多节点电商平台系统</title>
+    <meta name="description" content="支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .feature-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-card ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .section {
+            margin: 50px 0;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .tech-item {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            font-weight: 500;
+        }
+
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .price small {
+            font-size: 0.4em;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 30px 0;
+        }
+
+        .pricing-card ul li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .pricing-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .cta h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .license-info {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .license-info h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .license-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .license-item {
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .license-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌍 Teanary</h1>
+            <p>全球多节点电商平台系统 - 支持多节点部署、AI自动翻译、商品采集的现代化电商解决方案</p>
+            <div class="badges">
+                <span class="badge">AGPL-3.0 开源</span>
+                <span class="badge">Laravel 11</span>
+                <span class="badge">多节点同步</span>
+                <span class="badge">AI 翻译</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <section class="section">
+                <h2>🌟 核心特性</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <h3>🌍 多节点数据同步</h3>
+                        <ul>
+                            <li>解决跨国服务器管理难题</li>
+                            <li>中国管理节点，全球销售节点</li>
+                            <li>双向数据自动同步</li>
+                            <li>支持任意数量节点</li>
+                            <li>自动重试和故障恢复</li>
+                            <li>完整的同步监控</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🤖 AI 自动翻译</h3>
+                        <ul>
+                            <li>支持 8 种语言自动翻译</li>
+                            <li>商品信息自动翻译</li>
+                            <li>文章内容智能翻译</li>
+                            <li>集成 Ollama 本地 AI</li>
+                            <li>批量翻译处理</li>
+                            <li>翻译状态实时跟踪</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🛒 Chrome 插件采集</h3>
+                        <ul>
+                            <li>1688 商品一键采集</li>
+                            <li>图片自动下载上传</li>
+                            <li>多语言数据处理</li>
+                            <li>批量商品导入</li>
+                            <li>自动同步到所有节点</li>
+                            <li>简化商品管理流程</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🛍️ 完整电商功能</h3>
+                        <ul>
+                            <li>多规格商品管理</li>
+                            <li>多语言产品信息</li>
+                            <li>购物车和订单系统</li>
+                            <li>支付集成（PayPal等）</li>
+                            <li>促销和优惠券系统</li>
+                            <li>用户管理系统</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🎨 现代化管理后台</h3>
+                        <ul>
+                            <li>Filament 3.x 管理面板</li>
+                            <li>实时数据统计</li>
+                            <li>多语言内容管理</li>
+                            <li>媒体文件管理</li>
+                            <li>系统配置管理</li>
+                            <li>响应式设计</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>⚡ 高性能架构</h3>
+                        <ul>
+                            <li>Laravel Octane 高性能服务器</li>
+                            <li>Redis 缓存加速</li>
+                            <li>队列异步处理</li>
+                            <li>CDN 静态资源加速</li>
+                            <li>数据库优化</li>
+                            <li>批量操作优化</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>🚀 技术栈</h2>
+                <div class="tech-stack">
+                    <div class="tech-item">Laravel 11.x</div>
+                    <div class="tech-item">PHP 8.1+</div>
+                    <div class="tech-item">MySQL 8.0+</div>
+                    <div class="tech-item">Redis</div>
+                    <div class="tech-item">Tailwind CSS 3.x</div>
+                    <div class="tech-item">Livewire 3.x</div>
+                    <div class="tech-item">Filament 3.x</div>
+                    <div class="tech-item">Laravel Octane</div>
+                    <div class="tech-item">Ollama AI</div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>💼 商业服务</h2>
+                <div class="pricing">
+                    <div class="pricing-card">
+                        <h3>🚀 部署服务</h3>
+                        <div class="price">¥500<small>/次</small></div>
+                        <ul>
+                            <li>服务器环境配置</li>
+                            <li>代码部署和优化</li>
+                            <li>数据库配置</li>
+                            <li>多节点同步配置</li>
+                            <li>SSL 证书配置</li>
+                            <li>性能优化</li>
+                        </ul>
+                        <a href="mailto:hello@teanary.com?subject=部署服务咨询" class="btn">立即咨询</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>🔧 维护服务</h3>
+                        <div class="price">¥1500<small>/年</small></div>
+                        <ul>
+                            <li>系统更新和维护</li>
+                            <li>安全补丁更新</li>
+                            <li>性能监控和优化</li>
+                            <li>技术支持（邮件/电话）</li>
+                            <li>故障排查和修复</li>
+                            <li>数据备份和恢复</li>
+                        </ul>
+                        <a href="mailto:hello@teanary.com?subject=维护服务咨询" class="btn">立即咨询</a>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>🎨 界面二次开发</h3>
+                        <div class="price">定制<small>报价</small></div>
+                        <ul>
+                            <li>自定义主题开发</li>
+                            <li>界面定制和优化</li>
+                            <li>新功能开发</li>
+                            <li>第三方系统集成</li>
+                            <li>专业设计支持</li>
+                            <li>长期技术支持</li>
+                        </ul>
+                        <a href="mailto:hello@teanary.com?subject=二次开发咨询" class="btn">立即咨询</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="license-info">
+                    <h3>📄 开源协议</h3>
+                    <p>本项目采用 <strong>AGPL-3.0</strong> (GNU Affero General Public License v3.0) 开源协议。</p>
+                    
+                    <div class="license-grid">
+                        <div class="license-item">
+                            <h4>✅ 您可以</h4>
+                            <ul>
+                                <li>自由使用、研究、修改</li>
+                                <li>自由分发代码</li>
+                                <li>用于商业项目</li>
+                            </ul>
+                        </div>
+                        <div class="license-item">
+                            <h4>⚠️ 您必须</h4>
+                            <ul>
+                                <li>公开修改后的源代码</li>
+                                <li>保留版权声明</li>
+                                <li>使用相同协议</li>
+                            </ul>
+                        </div>
+                        <div class="license-item">
+                            <h4>❌ 您不能</h4>
+                            <ul>
+                                <li>修改后闭源售卖</li>
+                                <li>移除版权声明</li>
+                                <li>违反协议规定</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="cta">
+            <h2>🚀 开始使用 Teanary</h2>
+            <p>立即访问 GitHub 仓库，开始您的全球电商之旅</p>
+            <a href="https://github.com/your-username/teanary_service" class="btn" style="background: white; color: #667eea;">查看 GitHub</a>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>📧 邮箱</strong>
+                    <div>hello@teanary.com</div>
+                </div>
+                <div class="contact-item">
+                    <strong>📱 电话</strong>
+                    <div>+86 18184839903</div>
+                </div>
+                <div class="contact-item">
+                    <strong>💬 微信</strong>
+                    <div>通过邮箱联系获取</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Teanary. All rights reserved.</p>
+            <p>Licensed under AGPL-3.0</p>
+        </div>
+    </footer>
+</body>
+</html>
