@@ -45,6 +45,15 @@ host('teanary-sync')
     ->set('branch', 'dev')
     ->set('http_user', 'www');
 
+host('teanary-demo')
+    ->set('hostname', '192.168.31.56')
+    ->set('port', 22)
+    ->set('remote_user', 'xcalder')
+    ->setIdentityFile('~/.ssh/pi5')
+    ->set('deploy_path', '/home/wwwroot/teanary-demo')
+    ->set('branch', 'dev')
+    ->set('http_user', 'www');
+
 // ============================================
 // 前端构建任务
 // ============================================
