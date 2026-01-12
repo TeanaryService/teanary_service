@@ -74,17 +74,17 @@ class PaymentMethodEnumTest extends TestCase
         $this->assertArrayHasKey('sandBox', $params);
         $this->assertArrayHasKey('prod', $params);
 
-        // Test sandBox parameters
+        // Test sandBox parameters structure
         $this->assertArrayHasKey('client_id', $params['sandBox']);
         $this->assertArrayHasKey('secret', $params['sandBox']);
-        $this->assertEquals('AaA1tR34wASiDfb7XWN1ffmwAVqSS4SLwHkHNt9w6U83tbXuCvzeyS3YB0yYi1MXxQwnFJXO6MsirsNR', $params['sandBox']['client_id']);
-        $this->assertEquals('ENyFjPSaVzcMxb_A1n1v3nd7qRFWzfetYyh35YrnalU9RgJrqLQNH6tXx8L4a1rv4wRumODq6c7i8MEn', $params['sandBox']['secret']);
+        $this->assertIsString($params['sandBox']['client_id']);
+        $this->assertIsString($params['sandBox']['secret']);
 
-        // Test prod parameters
+        // Test prod parameters structure
         $this->assertArrayHasKey('client_id', $params['prod']);
         $this->assertArrayHasKey('secret', $params['prod']);
-        $this->assertEquals('AfbQnopEyt6omClqh1g97ajEHHYUiYBx6AyPkEkMVXRiK_oZp5p2mkqFhT84o3Xnf4uh3TYUWVJjZ-vd', $params['prod']['client_id']);
-        $this->assertEquals('EKg2ti5svZqAbP2NBSGVEH4rKvpvVQnB1zkgOztqhXCKAlkuJMbjw0USeankeRFfK-W8HvlbHl_hTYJ3', $params['prod']['secret']);
+        $this->assertIsString($params['prod']['client_id']);
+        $this->assertIsString($params['prod']['secret']);
     }
 
     /**

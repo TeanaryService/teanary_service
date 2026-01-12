@@ -50,8 +50,8 @@ class SnowflakeServiceTest extends TestCase
         $this->assertIsInt($id1);
         $this->assertGreaterThan(0, $id1);
 
-        // 最大机器ID
-        $service2 = new SnowflakeService(1023);
+        // 最大机器ID（5位机器ID，最大值是31）
+        $service2 = new SnowflakeService(31);
         $id2 = $service2->nextId();
         $this->assertIsInt($id2);
         $this->assertGreaterThan(0, $id2);
@@ -63,9 +63,9 @@ class SnowflakeServiceTest extends TestCase
     public function test_invalid_machine_id_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('机器ID必须在0到1023之间');
+        $this->expectExceptionMessage('机器ID必须在0到31之间');
 
-        new SnowflakeService(1024);
+        new SnowflakeService(32);
     }
 
     /**
@@ -74,7 +74,7 @@ class SnowflakeServiceTest extends TestCase
     public function test_negative_machine_id_throws_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('机器ID必须在0到1023之间');
+        $this->expectExceptionMessage('机器ID必须在0到31之间');
 
         new SnowflakeService(-1);
     }
@@ -99,7 +99,7 @@ class SnowflakeServiceTest extends TestCase
      */
     public function test_parse_machine_id()
     {
-        $machineId = 42;
+        $machineId = 15;
         $service = new SnowflakeService($machineId);
         $id = $service->nextId();
 
@@ -180,13 +180,13 @@ class SnowflakeServiceTest extends TestCase
     public function test_uses_config_machine_id()
     {
         // 设置配置（模拟从 .env 读取）
-        config(['snowflake.machine_id' => 100]);
+        config(['snowflake.machine_id' => 20]);
 
         $service = new SnowflakeService();
         $id = $service->nextId();
 
         $parsedMachineId = SnowflakeService::parseMachineId($id);
-        $this->assertEquals(100, $parsedMachineId);
+        $this->assertEquals(20, $parsedMachineId);
 
         // 清理配置
         config(['snowflake.machine_id' => null]);
@@ -267,8 +267,8 @@ class SnowflakeServiceTest extends TestCase
     public function test_ids_from_different_machines_do_not_collide()
     {
         $service1 = new SnowflakeService(1);
-        $service2 = new SnowflakeService(500);
-        $service3 = new SnowflakeService(1023);
+        $service2 = new SnowflakeService(15);
+        $service3 = new SnowflakeService(31);
 
         $ids1 = [];
         $ids2 = [];
@@ -290,10 +290,10 @@ class SnowflakeServiceTest extends TestCase
             $this->assertEquals(1, SnowflakeService::parseMachineId($id));
         }
         foreach ($ids2 as $id) {
-            $this->assertEquals(500, SnowflakeService::parseMachineId($id));
+            $this->assertEquals(15, SnowflakeService::parseMachineId($id));
         }
         foreach ($ids3 as $id) {
-            $this->assertEquals(1023, SnowflakeService::parseMachineId($id));
+            $this->assertEquals(31, SnowflakeService::parseMachineId($id));
         }
     }
 }

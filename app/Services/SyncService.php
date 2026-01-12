@@ -1293,7 +1293,7 @@ class SyncService
         $payload = $data['payload'] ?? [];
 
         // 删除操作不应该跳过，必须执行
-        if ($action === 'deleted' || $action === 'updated') {
+        if ($action === 'deleted') {
             return false;
         }
 
@@ -1315,18 +1315,9 @@ class SyncService
             return false;
         }
 
-        // 普通模型：直接通过雪花ID查找（全局唯一）
-        // $existingModel = $modelType::find($modelId);
-        // if ($action === 'created') {
-        //     // 创建操作：如果ID已存在，跳过（避免重复）
-        //     return $existingModel !== null;
-        // }
-        
-        // if ($action === 'updated' && $existingModel && $existingModel->updated_at) {
-        //     // 更新操作：如果本地数据更新，跳过（以最新为准）
-        //     return $existingModel->updated_at->gt(Carbon::parse($timestamp));
-        // }
-
+        // 普通模型：创建和更新操作都不跳过，必须执行
+        // 原因：如果源数据有多个更新，同步到远程时，如果第一个更新后本地数据的时间戳更新了，
+        // 后续的更新就会被错误地跳过，导致数据不一致
         return false;
     }
 
