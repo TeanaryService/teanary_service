@@ -28,7 +28,9 @@
                             $variant = $item->productVariant;
                             $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
                             $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
-                            $image = $variant ? $variant->getFirstMediaUrl('image', 'thumb') : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'));
+                            $image = $variant
+                                ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
+                                : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
                             $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
                                 $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
                                 return $trans && $trans->name ? $trans->name : $sv->id;

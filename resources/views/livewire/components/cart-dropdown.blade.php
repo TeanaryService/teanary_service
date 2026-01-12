@@ -41,9 +41,8 @@
                             ? $translation->name
                             : $product->productTranslations->first()->name ?? $product->slug;
                     $image = $variant
-                        ? $variant->getFirstMediaUrl('image', 'thumb')
-                        : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?:
-                        asset('logo.svg'));
+                        ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
+                        : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
                     $specs = $variant
                         ? $variant->specificationValues
                             ->map(function ($sv) use ($lang) {

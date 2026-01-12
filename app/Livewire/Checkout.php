@@ -162,6 +162,7 @@ class Checkout extends Component
         // 2. 一次性加载所有变体及其关联数据，并按ID索引
         $variants = ProductVariant::with([
             'product.productTranslations',
+            'product.media',
             'specificationValues.specificationValueTranslations',
             'media',
         ])->whereIn('id', $variantIds)->get()->keyBy('id');
@@ -196,7 +197,7 @@ class Checkout extends Component
                     'price' => $promo['final_price'],
                     'product_name' => $name,
                     'specs' => $specs,
-                    'image' => $variant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'),
+                    'image' => $variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'),
                     'subtotal' => $promo['final_price'] * $item['qty'],
                     'promotion' => $promo['promotion'],
                     'original_price' => $variant->price,
