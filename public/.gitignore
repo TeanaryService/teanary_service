@@ -1,5 +1,8 @@
 *
 !.gitignore
+!images/
+!images/screenshot/
+!images/screenshot/**
 !images/banner-tea.png
 !images/about-banner.jpg
 !.htaccess

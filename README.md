@@ -26,6 +26,105 @@
 - 🌐 如果您愿意赞助服务器资源部署 Demo，我们可以部署多节点同步演示环境，展示完整的多节点同步功能
 - 📧 如有赞助意向或想了解更多信息，请联系：hello@teanary.com
 
+### 📸 系统截图
+
+<div align="center">
+
+#### 🖥️ 前端界面（8张）
+
+![前端首页](public/images/screenshot/home-page.png)
+*前端首页展示*
+
+![分类页面](public/images/screenshot/category-page.png)
+*分类页面*
+
+![商品详情](public/images/screenshot/product-detailk-page.png)
+*商品详情页面*
+
+![购物车](public/images/screenshot/cart-page.png)
+*购物车页面*
+
+![结算页面](public/images/screenshot/checkout-page.png)
+*结算页面*
+
+![订单页面](public/images/screenshot/order-page.png)
+*订单页面*
+
+![文章推荐](public/images/screenshot/articles-recommand.png)
+*文章推荐页面*
+
+![联系我们](public/images/screenshot/contact-us-plug.png)
+*联系我们页面*
+
+#### ⚙️ 后台管理（20张）
+
+![后台首页](public/images/screenshot/admin-dashboard-page.png)
+*后台管理首页*
+
+![商品管理](public/images/screenshot/admin-product-manager-page.png)
+*商品管理界面*
+
+![商品编辑](public/images/screenshot/admin-product-edit-page.png)
+*商品编辑页面*
+
+![商品属性值管理](public/images/screenshot/admin-product-attribute-value-manager-page.png)
+*商品属性值管理*
+
+![商品规格管理](public/images/screenshot/admin-product-specification-manager-page.png)
+*商品规格管理*
+
+![商品规格值管理](public/images/screenshot/admin-product-specification-value-managet-page.png)
+*商品规格值管理*
+
+![商品评价](public/images/screenshot/admin-product-review-page.png)
+*商品评价管理*
+
+![分类管理](public/images/screenshot/admin-category-page.png)
+*分类管理*
+
+![属性管理](public/images/screenshot/admin-attribute-manager-page.png)
+*属性管理*
+
+![订单管理](public/images/screenshot/admin-order-manager-page.png)
+*订单管理*
+
+![用户管理](public/images/screenshot/admin-user-manager-page.png)
+*用户管理*
+
+![管理用户](public/images/screenshot/admin-manager-user-page.png)
+*管理用户页面*
+
+![用户组管理](public/images/screenshot/admin-user-group-page.png)
+*用户组管理*
+
+![促销管理](public/images/screenshot/admin-promotions-page.png)
+*促销管理*
+
+![收货地址管理](public/images/screenshot/admin-shopping-address-page.png)
+*收货地址管理*
+
+![文章管理](public/images/screenshot/admin-aricles-page.png)
+*文章管理*
+
+![货币管理](public/images/screenshot/admin-currency-manager-page.png)
+*货币管理*
+
+![语言管理](public/images/screenshot/admin-langage-page.png)
+*语言管理*
+
+![国家管理](public/images/screenshot/admin-country-manager-page.png)
+*国家管理*
+
+![区域管理](public/images/screenshot/admin-zone-manager-page.png)
+*区域管理*
+
+#### 🔧 其他功能（1张）
+
+![Chrome采集插件](public/images/screenshot/chrome-spider-product-extension.png)
+*Chrome采集插件*
+
+</div>
+
 ## 🌟 核心特性
 
 ### 🌍 多节点数据同步系统

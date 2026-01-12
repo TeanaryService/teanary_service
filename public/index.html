@@ -438,6 +438,57 @@
             margin-bottom: 6px;
         }
 
+        /* Screenshots Gallery */
+        .screenshots-gallery {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(58, 157, 58, 0.15);
+        }
+
+        .screenshots-gallery h3 {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .screenshot-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .screenshot-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .screenshot-item .screenshot-caption {
+            padding: 12px;
+            text-align: center;
+            color: #4b5563;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
         .demo-warnings a {
             color: var(--primary);
             text-decoration: none;
@@ -1074,6 +1125,15 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshots-gallery {
+                margin-top: 24px;
+                padding-top: 24px;
+            }
         }
     </style>
 </head>
@@ -1152,6 +1212,139 @@
                         <p>💻 当前 Demo 服务器运行在一台树莓派上，性能有限，请谅解</p>
                         <p>🌐 如果您愿意赞助服务器资源部署 Demo，我们可以部署多节点同步演示环境，展示完整的多节点同步功能</p>
                         <p>📧 如有赞助意向或想了解更多信息，请联系：<a href="mailto:hello@teanary.com">hello@teanary.com</a></p>
+                    </div>
+                    
+                    <!-- 系统截图 -->
+                    <div class="screenshots-gallery">
+                        <h3>📸 系统截图</h3>
+                        
+                        <h4 style="color: var(--primary); font-size: 1.1em; margin: 24px 0 16px 0; text-align: left; font-weight: 600;">🖥️ 前端界面</h4>
+                        <div class="screenshots-grid">
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/home-page.png" alt="前端首页" loading="lazy">
+                                <div class="screenshot-caption">前端首页</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/category-page.png" alt="分类页面" loading="lazy">
+                                <div class="screenshot-caption">分类页面</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/product-detailk-page.png" alt="商品详情" loading="lazy">
+                                <div class="screenshot-caption">商品详情</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/cart-page.png" alt="购物车" loading="lazy">
+                                <div class="screenshot-caption">购物车</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/checkout-page.png" alt="结算页面" loading="lazy">
+                                <div class="screenshot-caption">结算页面</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/order-page.png" alt="订单页面" loading="lazy">
+                                <div class="screenshot-caption">订单页面</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/articles-recommand.png" alt="文章推荐" loading="lazy">
+                                <div class="screenshot-caption">文章推荐</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/contact-us-plug.png" alt="联系我们" loading="lazy">
+                                <div class="screenshot-caption">联系我们</div>
+                            </div>
+                        </div>
+
+                        <h4 style="color: var(--primary); font-size: 1.1em; margin: 32px 0 16px 0; text-align: left; font-weight: 600;">⚙️ 后台管理</h4>
+                        <div class="screenshots-grid">
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-dashboard-page.png" alt="后台首页" loading="lazy">
+                                <div class="screenshot-caption">后台首页</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-product-manager-page.png" alt="商品管理" loading="lazy">
+                                <div class="screenshot-caption">商品管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-product-edit-page.png" alt="商品编辑" loading="lazy">
+                                <div class="screenshot-caption">商品编辑</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-product-attribute-value-manager-page.png" alt="商品属性值管理" loading="lazy">
+                                <div class="screenshot-caption">商品属性值管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-product-specification-manager-page.png" alt="商品规格管理" loading="lazy">
+                                <div class="screenshot-caption">商品规格管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-product-specification-value-managet-page.png" alt="商品规格值管理" loading="lazy">
+                                <div class="screenshot-caption">商品规格值管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-product-review-page.png" alt="商品评价" loading="lazy">
+                                <div class="screenshot-caption">商品评价</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-category-page.png" alt="分类管理" loading="lazy">
+                                <div class="screenshot-caption">分类管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-attribute-manager-page.png" alt="属性管理" loading="lazy">
+                                <div class="screenshot-caption">属性管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-order-manager-page.png" alt="订单管理" loading="lazy">
+                                <div class="screenshot-caption">订单管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-user-manager-page.png" alt="用户管理" loading="lazy">
+                                <div class="screenshot-caption">用户管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-manager-user-page.png" alt="管理用户" loading="lazy">
+                                <div class="screenshot-caption">管理用户</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-user-group-page.png" alt="用户组管理" loading="lazy">
+                                <div class="screenshot-caption">用户组管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-promotions-page.png" alt="促销管理" loading="lazy">
+                                <div class="screenshot-caption">促销管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-shopping-address-page.png" alt="收货地址管理" loading="lazy">
+                                <div class="screenshot-caption">收货地址管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-aricles-page.png" alt="文章管理" loading="lazy">
+                                <div class="screenshot-caption">文章管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-currency-manager-page.png" alt="货币管理" loading="lazy">
+                                <div class="screenshot-caption">货币管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-langage-page.png" alt="语言管理" loading="lazy">
+                                <div class="screenshot-caption">语言管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-country-manager-page.png" alt="国家管理" loading="lazy">
+                                <div class="screenshot-caption">国家管理</div>
+                            </div>
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/admin-zone-manager-page.png" alt="区域管理" loading="lazy">
+                                <div class="screenshot-caption">区域管理</div>
+                            </div>
+                        </div>
+
+                        <h4 style="color: var(--primary); font-size: 1.1em; margin: 32px 0 16px 0; text-align: left; font-weight: 600;">🔧 其他功能</h4>
+                        <div class="screenshots-grid">
+                            <div class="screenshot-item">
+                                <img src="images/screenshot/chrome-spider-product-extension.png" alt="Chrome采集插件" loading="lazy">
+                                <div class="screenshot-caption">Chrome采集插件</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
