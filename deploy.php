@@ -37,8 +37,8 @@ host('teanary-online')
     ->set('http_user', 'www');
 
 host('teanary-sync')
-    ->set('hostname', 'chatterup.fun')
-    ->set('port', 2022)
+    ->set('hostname', '192.168.31.56')
+    ->set('port', 22)
     ->set('remote_user', 'xcalder')
     ->setIdentityFile('~/.ssh/pi5')
     ->set('deploy_path', '/home/wwwroot/teanary')
@@ -83,7 +83,7 @@ desc('重启 PHP-FCGI 服务');
 task('php-fcgi:restart', function () {
     writeln('<info>正在重启 PHP-FCGI 服务...</info>');
     run('sudo /etc/init.d/php-fpm restart');
-});
+})->once();
 
 // ============================================
 // 队列任务（由 Supervisor 管理）
@@ -91,12 +91,12 @@ task('php-fcgi:restart', function () {
 desc('重启队列服务');
 task('queue:restart', function () {
     writeln('<info>正在重启队列服务...</info>');
-    run('sudo supervisorctl restart teanary-queue:*');
-});
+    run('sudo supervisorctl restart all');
+})->once();
 
 desc('检查队列状态');
 task('queue:status', function () {
-    run('sudo supervisorctl status teanary-queue:*');
+    run('sudo supervisorctl status all');
 });
 
 desc('检查所有服务状态');
