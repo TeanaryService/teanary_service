@@ -2,12 +2,7 @@
 @props(['type' => 'default', 'intensity' => 'light'])
 
 @php
-    $intensities = [
-        'light' => 'opacity-5',
-        'medium' => 'opacity-10',
-        'strong' => 'opacity-15'
-    ];
-    $intensityClass = $intensities[$intensity] ?? $intensities['light'];
+    $intensityClass = getTeaBackgroundIntensityClass($intensity);
 @endphp
 
 @if($type === 'tea-garden')

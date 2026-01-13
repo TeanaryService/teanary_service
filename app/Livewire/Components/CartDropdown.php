@@ -96,16 +96,60 @@ class CartDropdown extends Component
         $this->mount();
     }
 
+    /**
+     * 获取购物车项显示数据
+     */
+    protected function getCartItemDisplayData($item, $lang): array
+    {
+        $currencyService = app(LocaleCurrencyService::class);
+        $currencyCode = session('currency');
+        
+        $product = $item->product;
+        $variant = $item->productVariant;
+        $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
+        $name = $translation && $translation->name
+            ? $translation->name
+            : $product->productTranslations->first()->name ?? $product->slug;
+        $image = $variant
+            ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
+            : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
+        $specs = $variant
+            ? $variant->specificationValues
+                ->map(function ($sv) use ($lang) {
+                    $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+                    return $trans && $trans->name ? $trans->name : $sv->id;
+                })
+                ->implode(' / ')
+            : '';
+        $price = $variant && $variant->price
+            ? $currencyService->convertWithSymbol($variant->price, $currencyCode)
+            : '';
+        $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
+        $promotion = $item->promotion ?? null;
+        
+        return [
+            'name' => $name,
+            'image' => $image,
+            'specs' => $specs,
+            'price' => $price,
+            'finalPrice' => $finalPrice,
+            'promotion' => $promotion,
+        ];
+    }
+
     public function render()
     {
         $service = app(LocaleCurrencyService::class);
-
         $lang = $service->getLanguageByCode(session('lang'));
+        $currencyService = app(LocaleCurrencyService::class);
+        $currencyCode = session('currency');
 
         return view('livewire.components.cart-dropdown', [
             'cartItems' => $this->cartItems,
             'cartTotal' => $this->cartTotal,
             'lang' => $lang,
+            'currencyService' => $currencyService,
+            'currencyCode' => $currencyCode,
         ]);
     }
 }

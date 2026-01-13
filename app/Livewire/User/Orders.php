@@ -20,7 +20,14 @@ class Orders extends Component
             ->latest()
             ->paginate(10);
 
-        return view('livewire.user.orders', compact('orders'));
+        $localeService = app(\App\Services\LocaleCurrencyService::class);
+        $lang = $localeService->getLanguageByCode(session('lang'));
+
+        return view('livewire.user.orders', [
+            'orders' => $orders,
+            'localeService' => $localeService,
+            'lang' => $lang,
+        ]);
     }
 
     public function cancelOrder(int $orderId): void

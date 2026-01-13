@@ -184,6 +184,46 @@ class ProductDetail extends Component
     }
 
     /**
+     * 获取产品变体规格字符串
+     */
+    protected function getProductVariantSpecs($productVariant, $lang): string
+    {
+        if (!$productVariant) {
+            return '';
+        }
+        
+        return $productVariant->specificationValues
+            ->map(function ($sv) use ($lang) {
+                $trans = $sv->specificationValueTranslations
+                    ->where('language_id', $lang?->id)
+                    ->first();
+                return $trans && $trans->name ? $trans->name : $sv->id;
+            })
+            ->implode(' / ');
+    }
+
+    /**
+     * 获取属性显示名称
+     */
+    protected function getAttributeDisplayNames($attrValue, $lang): array
+    {
+        $attrTrans = $attrValue->attribute->attributeTranslations
+            ->where('language_id', $lang?->id)
+            ->first();
+        $attrValueTrans = $attrValue->attributeValueTranslations
+            ->where('language_id', $lang?->id)
+            ->first();
+
+        $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->attribute->id;
+        $attrValueName = $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
+
+        return [
+            'attrName' => $attrName,
+            'attrValueName' => $attrValueName,
+        ];
+    }
+
+    /**
      * 构建结构化数据（用于 SEO）.
      */
     protected function buildStructuredData(

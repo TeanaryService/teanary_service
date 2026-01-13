@@ -1,6 +1,5 @@
 @php
-    $locale = session('lang');
-    $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+    $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 py-10">

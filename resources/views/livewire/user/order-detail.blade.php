@@ -1,9 +1,3 @@
-@php
-    $locale = session('lang');
-    $localeService = app(\App\Services\LocaleCurrencyService::class);
-    $lang = $localeService->getLanguageByCode($locale);
-    $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
-@endphp
 
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-12 py-10">
     <div class="w-full md:w-1/4"> <x-profile-nav /></div>
@@ -102,14 +96,7 @@
                                         ? $item->productVariant->getFirstMediaUrl('image', 'thumb')
                                         : asset('logo.svg');
                                     $specs = $item->productVariant
-                                        ? $item->productVariant->specificationValues
-                                            ->map(function ($sv) use ($lang) {
-                                                $trans = $sv->specificationValueTranslations
-                                                    ->where('language_id', $lang?->id)
-                                                    ->first();
-                                                return $trans && $trans->name ? $trans->name : $sv->id;
-                                            })
-                                            ->implode(' / ')
+                                        ? $this->getProductVariantSpecs($item->productVariant, $lang)
                                         : '';
                                 @endphp
 

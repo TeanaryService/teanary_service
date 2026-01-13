@@ -121,15 +121,102 @@ class Cart extends Component
         return redirect()->route('checkout', ['locale' => $locale]);
     }
 
+    /**
+     * 获取购物车项显示数据
+     */
+    protected function getCartItemDisplayData($item, $lang): array
+    {
+        $currencyService = app(LocaleCurrencyService::class);
+        $currencyCode = session('currency');
+        
+        $product = $item->product;
+        $variant = $item->productVariant;
+        $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
+        $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
+        $image = $variant
+            ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
+            : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
+        $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
+            $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+            return $trans && $trans->name ? $trans->name : $sv->id;
+        })->implode(' / ') : '';
+        $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
+        $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
+        $promotion = $item->promotion ?? null;
+        
+        return [
+            'name' => $name,
+            'image' => $image,
+            'specs' => $specs,
+            'price' => $price,
+            'finalPrice' => $finalPrice,
+            'promotion' => $promotion,
+        ];
+    }
+
+    /**
+     * 获取促销折扣文本
+     */
+    protected function getPromotionDiscountText($promotion, $rule): array
+    {
+        // 处理 discount_type：可能是枚举对象、数组或字符串
+        $discountType = null;
+        if (is_array($rule)) {
+            $discountType = $rule['discount_type'] ?? null;
+            // 如果是枚举对象，获取其值
+            if (is_object($discountType) && method_exists($discountType, 'value')) {
+                $discountType = $discountType->value;
+            } elseif (is_object($discountType)) {
+                $discountType = (string) $discountType;
+            }
+        } elseif (is_object($rule)) {
+            $discountType = $rule->discount_type ?? null;
+            if (is_object($discountType) && method_exists($discountType, 'value')) {
+                $discountType = $discountType->value;
+            } elseif (is_object($discountType)) {
+                $discountType = (string) $discountType;
+            }
+        }
+        
+        // 处理 discount_value
+        $discountValue = is_array($rule) ? ($rule['discount_value'] ?? null) : (is_object($rule) ? ($rule->discount_value ?? null) : null);
+        if (is_object($discountValue)) {
+            $discountValue = (string) $discountValue;
+        }
+        
+        return [
+            'discountType' => $discountType,
+            'discountValue' => $discountValue,
+        ];
+    }
+
+    /**
+     * 规范化促销描述
+     */
+    protected function normalizePromotionDescription($description): string
+    {
+        if (is_array($description)) {
+            return json_encode($description, JSON_UNESCAPED_UNICODE);
+        } elseif (!is_string($description)) {
+            return (string) $description;
+        }
+        
+        return $description;
+    }
+
     public function render()
     {
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
+        $currencyService = app(LocaleCurrencyService::class);
+        $currencyCode = session('currency');
 
         return view('livewire.cart', [
             'cartItems' => $this->cartItems,
             'selected' => $this->selected,
             'total' => $this->total,
             'lang' => $lang,
+            'currencyService' => $currencyService,
+            'currencyCode' => $currencyCode,
         ]);
     }
 }

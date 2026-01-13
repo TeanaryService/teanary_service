@@ -2,16 +2,7 @@
     $variant = $variants->where('id', $selectedVariantId)->first();
     $productId = $product->id;
     $variantId = $selectedVariantId;
-    $breadcrumbs = [
-        [
-            'label' => __('app.categories'),
-            'url' => locaRoute('product'),
-        ],
-        [
-            'label' => $name,
-            'url' => '',
-        ],
-    ];
+    $breadcrumbs = buildProductDetailBreadcrumbs($name);
     $tab = request()->input('tab', 'desc');
 @endphp
 
@@ -205,16 +196,9 @@
                     {{-- <span class="mr-2">{{ __('home.attributes') }}:</span> --}}
                     @foreach ($attributes as $attrValue)
                         @php
-                            $attrTrans = $attrValue->attribute->attributeTranslations
-                                ->where('language_id', $lang?->id)
-                                ->first();
-                            $attrValueTrans = $attrValue->attributeValueTranslations
-                                ->where('language_id', $lang?->id)
-                                ->first();
-
-                            $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->attribute->id;
-                            $attrValueName =
-                                $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
+                            $attrNames = $this->getAttributeDisplayNames($attrValue, $lang);
+                            $attrName = $attrNames['attrName'];
+                            $attrValueName = $attrNames['attrValueName'];
                         @endphp
                         <div class="text-gray-800 flex gap gap-2 py-0.5">
                             <p> {{ $attrName }}: </p>
@@ -328,16 +312,9 @@
                     <label class="block mb-2 font-semibold text-gray-700">{{ __('home.select_variant') }}</label>
                     <div class="flex flex-wrap gap-2">
                         @foreach ($variants as $v)
-                            @php
-                                $specs = $v->specificationValues
-                                    ->map(function ($sv) use ($lang) {
-                                        $trans = $sv->specificationValueTranslations
-                                            ->where('language_id', $lang?->id)
-                                            ->first();
-                                        return $trans && $trans->name ? $trans->name : $sv->id;
-                                    })
-                                    ->implode(' / ');
-                            @endphp
+                        @php
+                            $specs = $this->getProductVariantSpecs($v, $lang);
+                        @endphp
                             <button wire:click="selectVariant({{ $v->id }})"
                                 class="px-4 py-2 rounded border cursor-pointer {{ $selectedVariantId == $v->id ? 'bg-teal-600 text-white' : 'bg-gray-100 text-gray-700' }}">
                                 {{ $specs ?: $v->sku }}

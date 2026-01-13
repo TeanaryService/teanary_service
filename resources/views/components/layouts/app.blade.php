@@ -103,7 +103,7 @@
     <!-- Google Analytics -->
     @if (app()->environment('production'))
         @php
-            $googleAnalyticsId = 'G-YQ5990WVX5';
+            $googleAnalyticsId = getGoogleAnalyticsId();
         @endphp
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>
         <script>

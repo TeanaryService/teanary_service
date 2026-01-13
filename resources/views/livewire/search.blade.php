@@ -1,10 +1,5 @@
 @php
-    $breadcrumbs = [
-        [
-            'label' => __('search.title'),
-            'url' => '',
-        ],
-    ];
+    $breadcrumbs = buildSearchBreadcrumbs();
 @endphp
 
 <div class="min-h-[70vh] mb-10">

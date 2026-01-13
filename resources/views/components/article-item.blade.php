@@ -4,10 +4,10 @@
 ])
 
 @php
-    $translation = $article->articleTranslations->first();
-    $title = $translation?->title ?? 'Untitled';
-    $summary = $translation?->summary ?? '';
-    $image = $article->getFirstMediaUrl('image', 'thumb');
+    $articleData = getArticleDisplayData($article);
+    $title = $articleData['title'];
+    $summary = $articleData['summary'];
+    $image = $articleData['image'];
 @endphp
 
 @if($size === 'large')

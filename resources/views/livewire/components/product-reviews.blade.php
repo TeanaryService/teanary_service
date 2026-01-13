@@ -71,17 +71,7 @@
                     </span>
                     @if ($review->productVariant)
                         <span class="text-gray-500 text-xs ml-2">
-                            @php
-                                $specs = $review->productVariant->specificationValues
-                                    ->map(function ($sv) use ($lang) {
-                                        $trans = $sv->specificationValueTranslations
-                                            ->where('language_id', $lang?->id)
-                                            ->first();
-                                        return $trans && $trans->name ? $trans->name : $sv->id;
-                                    })
-                                    ->implode(' / ');
-                            @endphp
-                            {{ $specs }}
+                            {{ $this->getProductVariantSpecs($review->productVariant, $lang) }}
                         </span>
                     @endif
                 </div>

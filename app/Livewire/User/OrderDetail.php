@@ -40,8 +40,35 @@ class OrderDetail extends Component
         }
     }
 
+    /**
+     * 获取产品变体规格字符串
+     */
+    protected function getProductVariantSpecs($productVariant, $lang): string
+    {
+        if (!$productVariant) {
+            return '';
+        }
+        
+        return $productVariant->specificationValues
+            ->map(function ($sv) use ($lang) {
+                $trans = $sv->specificationValueTranslations
+                    ->where('language_id', $lang?->id)
+                    ->first();
+                return $trans && $trans->name ? $trans->name : $sv->id;
+            })
+            ->implode(' / ');
+    }
+
     public function render(): View
     {
-        return view('livewire.user.order-detail');
+        $localeService = app(\App\Services\LocaleCurrencyService::class);
+        $lang = $localeService->getLanguageByCode(session('lang'));
+        $orderCurrency = $localeService->getCurrencies()->find($this->order->currency_id);
+
+        return view('livewire.user.order-detail', [
+            'localeService' => $localeService,
+            'lang' => $lang,
+            'orderCurrency' => $orderCurrency,
+        ]);
     }
 }

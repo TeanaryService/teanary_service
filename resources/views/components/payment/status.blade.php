@@ -12,8 +12,9 @@
 ])
 
 @php
-    $bgColor = $type === 'error' ? 'bg-red-50' : 'bg-teal-50';
-    $textColor = $type === 'error' ? 'text-red-600' : 'text-teal-600';
+    $statusClasses = getPaymentStatusClasses($type);
+    $bgColor = $statusClasses['bgColor'];
+    $textColor = $statusClasses['textColor'];
 @endphp
 
 <div class="min-h-[70vh] flex flex-col items-center justify-center {{ $bgColor }} text-center p-6">
