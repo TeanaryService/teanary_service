@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Filament\Resources\ProductVariantResource\Pages;
 use App\Models\ProductVariant;
 use App\Models\Specification;
@@ -141,7 +140,6 @@ class ProductVariantResource extends Resource
                 Forms\Components\Select::make('product_id')
                     ->label(__('filament.product_variant.product_id'))
                     ->relationship('product', 'id')
-                    ->hiddenOn([ProductVariantsRelationManager::class])
                     ->getOptionLabelFromRecordUsing(function ($record) {
                         $locale = app()->getLocale();
                         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
@@ -214,7 +212,6 @@ class ProductVariantResource extends Resource
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('product.name')
                     ->label(__('filament.product_variant.product_id'))
-                    ->hiddenOn([ProductVariantsRelationManager::class])
                     ->formatStateUsing(function ($record) use ($localeCurrencyService) {
                         $locale = app()->getLocale();
                         $lang = $localeCurrencyService->getLanguageByCode($locale);

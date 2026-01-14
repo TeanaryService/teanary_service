@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Enums\ProductStatusEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers\ProductVariantsRelationManager;
 use App\Models\Product;
 use App\Services\LocaleCurrencyService;
 use App\Traits\HasActions;
@@ -89,6 +88,16 @@ class ProductResource extends Resource
                         ->schema([
                             ...static::getProductCategoriesRepeater(),
                         ]),
+                    Forms\Components\Tabs\Tab::make('variants')
+                        ->label(__('filament.product.product_variants'))
+                        ->schema([
+                            Forms\Components\View::make('filament.forms.product-variants-manager')
+                                ->columnSpanFull()
+                                ->viewData(fn ($get, $livewire) => [
+                                    'productId' => $livewire instanceof \Filament\Resources\Pages\EditRecord ? $livewire->record->id : null,
+                                ]),
+                        ])
+                        ->visible(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord),
                     Forms\Components\Tabs\Tab::make('translations')
                         ->label(__('filament.product.translations'))
                         ->schema(static::getProductTranslationsTabs($form)),
@@ -325,7 +334,6 @@ class ProductResource extends Resource
     {
         return [
             //
-            ProductVariantsRelationManager::class,
         ];
     }
 
