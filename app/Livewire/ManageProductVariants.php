@@ -7,6 +7,7 @@ use App\Models\ProductVariant;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
 use App\Services\LocaleCurrencyService;
+use App\Services\ProductVariantService;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -37,6 +38,7 @@ class ManageProductVariants extends Component
     
     protected $localeCurrencyService;
     protected $currency;
+    protected ?ProductVariantService $variantService = null;
 
     public function mount($productId)
     {
@@ -45,6 +47,7 @@ class ManageProductVariants extends Component
         
         $this->localeCurrencyService = app(LocaleCurrencyService::class);
         $this->currency = $this->localeCurrencyService->getCurrencyByCode(session('currency'));
+        $this->variantService = app(ProductVariantService::class);
         
         // 加载现有的 SKU 数据
         $this->loadExistingVariants();
@@ -237,8 +240,13 @@ class ManageProductVariants extends Component
             return;
         }
         
+        // 确保 variantService 已初始化
+        if (!$this->variantService) {
+            $this->variantService = app(ProductVariantService::class);
+        }
+        
         // 生成笛卡尔积
-        $combinations = $this->cartesianProduct($specValueArrays);
+        $combinations = $this->variantService->cartesianProduct($specValueArrays);
         
         // 清空旧的 SKU，生成全新的 SKU 数组
         $newSkus = [];
@@ -262,28 +270,6 @@ class ManageProductVariants extends Component
         $this->skus = $newSkus;
     }
 
-    /**
-     * 计算笛卡尔积
-     */
-    protected function cartesianProduct(array $arrays): array
-    {
-        if (empty($arrays)) {
-            return [[]];
-        }
-        
-        $result = [[]];
-        foreach ($arrays as $array) {
-            $newResult = [];
-            foreach ($result as $product) {
-                foreach ($array as $item) {
-                    $newResult[] = array_merge($product, [$item]);
-                }
-            }
-            $result = $newResult;
-        }
-        
-        return $result;
-    }
 
     /**
      * 根据规格值组合查找 SKU
@@ -447,6 +433,42 @@ class ManageProductVariants extends Component
     }
 
     /**
+     * 全选/取消全选所有 SKU
+     * 当用户点击全选复选框时调用
+     */
+    public function toggleSelectAll()
+    {
+        // 切换批量操作状态
+        $this->showBulkActions = !$this->showBulkActions;
+        
+        if ($this->showBulkActions) {
+            // 如果开启批量操作，自动全选所有 SKU
+            if (count($this->skus) > 0) {
+                $this->selectedSkus = array_keys($this->skus);
+            }
+        } else {
+            // 如果关闭批量操作，清空选中项
+            $this->selectedSkus = [];
+        }
+    }
+
+    /**
+     * 当 showBulkActions 改变时（保留此方法以防其他地方直接修改 showBulkActions）
+     */
+    public function updatedShowBulkActions($value)
+    {
+        if ($value) {
+            // 如果开启批量操作，自动全选所有 SKU
+            if (count($this->skus) > 0 && empty($this->selectedSkus)) {
+                $this->selectedSkus = array_keys($this->skus);
+            }
+        } else {
+            // 如果关闭批量操作，清空选中项
+            $this->selectedSkus = [];
+        }
+    }
+
+    /**
      * 保存所有 SKU
      */
     public function saveAll()
@@ -520,11 +542,13 @@ class ManageProductVariants extends Component
         }
         
         // 删除所有现有 SKU（图片会在删除时自动清理，但我们已经在上面保存了文件路径）
+        // 注意：ProductVariant 模型使用了 Syncable trait，delete() 操作会自动触发节点间同步
         foreach ($existingVariants as $variant) {
-            $variant->delete();
+            $variant->delete(); // 自动触发 'deleted' 事件，Syncable trait 会调用 SyncService::recordSync()
         }
         
         // 创建新的 SKU
+        // 注意：ProductVariant 模型使用了 Syncable trait，create() 操作会自动触发节点间同步
         foreach ($this->skus as $sku) {
             $pivotData = [];
             foreach ($sku['specification_values'] as $sv) {
@@ -545,6 +569,7 @@ class ManageProductVariants extends Component
                 ->implode(',');
             
             // 创建新 SKU
+            // create() 会自动触发 'created' 事件，Syncable trait 会调用 SyncService::recordSync()
             $variant = ProductVariant::create([
                 'product_id' => $this->productId,
                 'sku' => $sku['sku'],
@@ -552,6 +577,7 @@ class ManageProductVariants extends Component
                 'cost' => $sku['cost'] ?: null,
                 'stock' => $sku['stock'] ?? 0,
             ]);
+            // syncSpecificationValues() 方法内部会处理 pivot 表的同步（ProductVariantSpecificationValue）
             $variant->syncSpecificationValues($pivotData);
             
             // 处理图片上传

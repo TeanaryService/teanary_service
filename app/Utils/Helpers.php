@@ -350,8 +350,13 @@ if (! function_exists('buildProductBreadcrumbs')) {
     /**
      * 构建产品页面面包屑（用于 product 组件）
      */
-    function buildProductBreadcrumbs(?int $categoryId = null, array $categories = []): array
+    function buildProductBreadcrumbs(?int $categoryId = null, array|\Illuminate\Support\Collection $categories = []): array
     {
+        // 如果是 Collection，转换为数组
+        if ($categories instanceof \Illuminate\Support\Collection) {
+            $categories = $categories->toArray();
+        }
+        
         $breadcrumbs = [
             [
                 'label' => __('app.categories'),

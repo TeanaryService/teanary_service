@@ -306,45 +306,126 @@
                     </div>
                 </div>
             @endif
-            {{-- 规格选择 --}}
-            @if ($variants->count() > 1)
+            {{-- SKU 规格选择组件 --}}
+            @if (!empty($specificationsForSelection))
+                <div class="mb-6 space-y-5">
+                    @foreach ($specificationsForSelection as $spec)
+                        <div>
+                            <label class="block mb-3 text-sm font-semibold text-gray-800">
+                                {{ $spec['name'] }}
+                                @if(isset($selectedOptions[$spec['id']]))
+                                    <span class="text-xs font-normal text-gray-500 ml-2">(已选择)</span>
+                                @endif
+                            </label>
+                            <div class="flex flex-wrap gap-3">
+                                @foreach ($spec['values'] as $value)
+                                    @php
+                                        $status = $this->getSpecificationValueStatus($spec['id'], $value['id']);
+                                        $isSelected = $status === 'selected';
+                                        $isDisabled = $status === 'disabled';
+                                        $imageUrl = $this->getSpecificationValueImage($value['id']);
+                                    @endphp
+                                    <button
+                                        type="button"
+                                        wire:click="toggleSpecificationValue({{ $spec['id'] }}, {{ $value['id'] }})"
+                                        @if($isDisabled) disabled @endif
+                                        class="
+                                            relative px-4 py-2.5 rounded-lg border-2 text-sm font-medium transition-all duration-200
+                                            @if($isSelected)
+                                                bg-orange-50 border-orange-500 text-orange-700 shadow-md ring-2 ring-orange-200
+                                            @elseif($isDisabled)
+                                                bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed opacity-50
+                                            @else
+                                                bg-white border-gray-300 text-gray-700 hover:border-orange-400 hover:bg-orange-50 hover:shadow-sm
+                                            @endif
+                                        "
+                                        @if($isDisabled)
+                                            title="当前选择下无对应 SKU"
+                                        @endif
+                                    >
+                                        @if($imageUrl)
+                                            {{-- 图片规格值 --}}
+                                            <div class="flex items-center gap-2">
+                                                <img src="{{ $imageUrl }}" alt="{{ $value['name'] }}" 
+                                                     class="w-8 h-8 rounded border border-gray-200 object-cover">
+                                                <span>{{ $value['name'] }}</span>
+                                            </div>
+                                        @else
+                                            {{-- 文本规格值 --}}
+                                            {{ $value['name'] }}
+                                        @endif
+                                        
+                                        @if($isSelected)
+                                            <svg class="absolute -top-1 -right-1 w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                        @endif
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                    
+                    {{-- 显示当前选中的 SKU 信息 --}}
+                    @if($selectedVariantId)
+                        @php
+                            $selectedVariant = $variants->firstWhere('id', $selectedVariantId);
+                        @endphp
+                        @if($selectedVariant)
+                            <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="text-sm text-green-800">
+                                    <span class="font-semibold">已选择：</span>
+                                    <span>{{ $selectedVariant->sku }}</span>
+                                    @if($selectedVariant->stock > 0)
+                                        <span class="ml-2 text-green-600">库存：{{ $selectedVariant->stock }}</span>
+                                    @else
+                                        <span class="ml-2 text-red-600">缺货</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            @elseif ($variants->count() > 1)
+                {{-- 如果没有规格，回退到原来的显示方式 --}}
                 <div class="mb-4">
                     <label class="block mb-2 font-semibold text-gray-700">{{ __('home.select_variant') }}</label>
                     <div class="flex flex-wrap gap-2">
                         @foreach ($variants as $v)
-                        @php
-                            $specs = $this->getProductVariantSpecs($v, $lang);
-                        @endphp
                             <button wire:click="selectVariant({{ $v->id }})"
                                 class="px-4 py-2 rounded border cursor-pointer {{ $selectedVariantId == $v->id ? 'bg-teal-600 text-white' : 'bg-gray-100 text-gray-700' }}">
-                                {{ $specs ?: $v->sku }}
+                                {{ $v->sku }}
                             </button>
                         @endforeach
                     </div>
                 </div>
             @endif
-            {{-- 购买数量 --}}
-            <div class="mb-4 flex items-center gap-2">
-                <span class="font-semibold text-gray-700">{{ __('home.qty') }}:</span>
-                <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="decrementQty">-</button>
-                <input type="number" min="1" max="{{ $maxQty }}" wire:model.lazy="qty"
-                    wire:change="updateQty($event.target.value)" class="w-16 text-center border rounded px-2 py-0.5" />
-                <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="incrementQty">+</button>
-                <span class="text-gray-400 ml-2 text-sm">{{ __('home.storage', ['storage' => $maxQty]) }}</span>
-            </div>
-            {{-- 购买按钮 --}}
-            <div class="mt-6 flex items-center gap gap-4">
-                <button
-                    wire:click="$dispatch('cart:add', { productId: {{ $productId }}, variantId: {{ $variantId }}, qty: {{ $qty }} })"
-                    class="w-full px-6 py-3 tea-btn-primary rounded-lg font-bold">
-                    {{ __('home.addCart') }}
-                </button>
+            {{-- 购买数量（只有选中 SKU 时才显示） --}}
+            @if($selectedVariantId && $variants->count() > 0)
+                <div class="mb-4 flex items-center gap-2">
+                    <span class="font-semibold text-gray-700">{{ __('home.qty') }}:</span>
+                    <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="decrementQty">-</button>
+                    <input type="number" min="1" max="{{ $maxQty }}" wire:model.lazy="qty"
+                        wire:change="updateQty($event.target.value)" class="w-16 text-center border rounded px-2 py-0.5" />
+                    <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="incrementQty">+</button>
+                    <span class="text-gray-400 ml-2 text-sm">{{ __('home.storage', ['storage' => $maxQty]) }}</span>
+                </div>
+            @endif
+            {{-- 购买按钮（只有选中 SKU 时才显示） --}}
+            @if($selectedVariantId && $variants->count() > 0)
+                <div class="mt-6 flex items-center gap gap-4">
+                    <button
+                        wire:click="$dispatch('cart:add', { productId: {{ $productId }}, variantId: {{ $variantId }}, qty: {{ $qty }} })"
+                        class="w-full px-6 py-3 tea-btn-primary rounded-lg font-bold">
+                        {{ __('home.addCart') }}
+                    </button>
 
-                <button wire:click="buyNow"
-                    class="w-full px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">
-                    {{ __('home.buy_now') }}
-                </button>
-            </div>
+                    <button wire:click="buyNow"
+                        class="w-full px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">
+                        {{ __('home.buy_now') }}
+                    </button>
+                </div>
+            @endif
             <div class="py-6">
                 <x-share-buttons title="{{ $name }}" description="{{ $shortDesc }}"
                     image="{{ $images->first()?->getUrl() ?? '' }}" />

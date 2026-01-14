@@ -111,7 +111,8 @@
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8">
                             <input 
                                 type="checkbox" 
-                                wire:model.live="showBulkActions"
+                                wire:click="toggleSelectAll"
+                                @if($showBulkActions) checked @endif
                                 class="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                             >
                         </th>
