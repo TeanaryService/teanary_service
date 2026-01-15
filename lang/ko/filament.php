@@ -179,6 +179,7 @@ return [
     'attribute_value.translations' => '번역',
 
     // Cart
+    'cart.cart_items' => '장바구니 상품',
     'cart.user_id' => '사용자',
     'cart.session_id' => '세션 ID',
     'cart_item.cart_id' => '장바구니 ID',

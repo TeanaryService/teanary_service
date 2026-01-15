@@ -179,6 +179,7 @@ return [
     'attribute_value.translations' => 'Переводы',
 
     // Cart
+    'cart.cart_items' => 'Товары в Корзине',
     'cart.user_id' => 'Пользователь',
     'cart.session_id' => 'ID сессии',
     'cart_item.cart_id' => 'ID Корзины',

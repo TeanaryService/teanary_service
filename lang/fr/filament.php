@@ -185,6 +185,7 @@ return [
     'cart.session_id' => 'ID session',
     'cart.session_id_helper' => 'Identifiant de session pour le panier invité',
     'cart.items_count' => 'Nombre d\'articles',
+    'cart.cart_items' => 'Articles du Panier',
     'cart.has_items' => 'A des articles',
     'cart.empty' => 'Panier vide',
     'cart.basic_info' => 'Informations de Base',

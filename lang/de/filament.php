@@ -179,6 +179,7 @@ return [
     'attribute_value.translations' => 'Übersetzungen',
 
     // Cart
+    'cart.cart_items' => 'Warenkorbartikel',
     'cart.user_id' => 'Benutzer',
     'cart.session_id' => 'Sitzungs-ID',
     'cart_item.cart_id' => 'Warenkorb-ID',

@@ -185,6 +185,7 @@ return [
     'cart.session_id' => 'Session ID',
     'cart.session_id_helper' => 'Session identifier for guest cart',
     'cart.items_count' => 'Items Count',
+    'cart.cart_items' => 'Cart Items',
     'cart.has_items' => 'Has Items',
     'cart.empty' => 'Empty Cart',
     'cart.basic_info' => 'Basic Information',

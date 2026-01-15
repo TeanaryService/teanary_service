@@ -185,44 +185,10 @@ class AddressResource extends Resource
                     })
                     ->searchable(['firstname', 'lastname'])
                     ->sortable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->label(__('filament.address.email'))
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('telephone')
-                    ->label(__('filament.address.telephone'))
-                    ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('country.name')
-                    ->label(__('filament.address.country_id'))
-                    ->getStateUsing(function ($record) use ($lang) {
-                        if (!$record->country) {
-                            return '-';
-                        }
-                        $translation = $record->country->countryTranslations->where('language_id', $lang?->id)->first();
-                        return $translation && $translation->name
-                            ? $translation->name
-                            : ($record->country->countryTranslations->first()->name ?? $record->country->name ?? '-');
-                    })
-                    ->sortable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('zone.name')
-                    ->label(__('filament.address.zone_id'))
-                    ->getStateUsing(function ($record) use ($lang) {
-                        if (!$record->zone) {
-                            return '-';
-                        }
-                        $translation = $record->zone->zoneTranslations->where('language_id', $lang?->id)->first();
-                        return $translation && $translation->name
-                            ? $translation->name
-                            : ($record->zone->zoneTranslations->first()->name ?? $record->zone->name ?? '-');
-                    })
-                    ->toggleable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('full_address')
                     ->label(__('filament.address.full_address'))
-                    ->formatStateUsing(function ($record) use ($lang) {
+                    ->getStateUsing(function ($record) use ($lang) {
                         // 国家多语言
                         $countryName = '';
                         if ($record->country) {
@@ -260,13 +226,48 @@ class AddressResource extends Resource
                         return count($parts) ? implode(', ', $parts) : '-';
                     })
                     ->searchable(['address_1', 'address_2', 'city', 'postcode'])
-                    ->limit(50)
+                    ->limit(80)
                     ->wrap(),
+                Tables\Columns\TextColumn::make('telephone')
+                    ->label(__('filament.address.telephone'))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('filament.address.email'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('orders_count')
                     ->label(__('filament.address.orders_count'))
                     ->counts('orders')
+                    ->numeric()
                     ->sortable()
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('country.name')
+                    ->label(__('filament.address.country_id'))
+                    ->getStateUsing(function ($record) use ($lang) {
+                        if (!$record->country) {
+                            return '-';
+                        }
+                        $translation = $record->country->countryTranslations->where('language_id', $lang?->id)->first();
+                        return $translation && $translation->name
+                            ? $translation->name
+                            : ($record->country->countryTranslations->first()->name ?? $record->country->name ?? '-');
+                    })
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('zone.name')
+                    ->label(__('filament.address.zone_id'))
+                    ->getStateUsing(function ($record) use ($lang) {
+                        if (!$record->zone) {
+                            return '-';
+                        }
+                        $translation = $record->zone->zoneTranslations->where('language_id', $lang?->id)->first();
+                        return $translation && $translation->name
+                            ? $translation->name
+                            : ($record->zone->zoneTranslations->first()->name ?? $record->zone->name ?? '-');
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([

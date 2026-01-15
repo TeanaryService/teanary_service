@@ -185,6 +185,7 @@ return [
     'cart.session_id' => '会话ID',
     'cart.session_id_helper' => '访客购物车的会话标识符',
     'cart.items_count' => '商品数量',
+    'cart.cart_items' => '购物车商品',
     'cart.has_items' => '有商品',
     'cart.empty' => '空购物车',
     'cart.basic_info' => '基本信息',

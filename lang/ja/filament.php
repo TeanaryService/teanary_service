@@ -179,6 +179,7 @@ return [
     'attribute_value.translations' => '翻訳',
 
     // Cart
+    'cart.cart_items' => 'カート商品',
     'cart.user_id' => 'ユーザー',
     'cart.session_id' => 'セッションID',
     'cart_item.cart_id' => 'カートID',
