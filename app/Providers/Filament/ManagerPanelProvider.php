@@ -48,6 +48,9 @@ class ManagerPanelProvider extends PanelProvider
                 \App\Filament\Manager\Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
+            ->livewireComponents([
+                \App\Filament\Manager\Components\ManageProductVariants::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
