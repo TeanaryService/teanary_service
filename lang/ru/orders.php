@@ -36,7 +36,12 @@ return [
     'request_refund' => 'Запросить возврат',
     'confirm_cancel' => 'Подтвердить отмену заказа?',
     'operation_success' => 'Операция выполнена успешно',
+    'cannot_cancel' => 'Этот заказ нельзя отменить',
     'contact_email' => 'По любым вопросам свяжитесь с :email',
+    'start_shopping' => 'Начать покупки',
+    'price_summary' => 'Сводка цен',
+    'and_more_items' => 'еще :count товаров',
+    'total_items' => 'Всего',
 
     // Order status (merged from order.php)
     'status' => [

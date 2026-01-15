@@ -25,8 +25,8 @@ class ManagerPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('manamer')
-            ->path('m')
+            ->id('manager')
+            ->path('manager')
             ->login()
             ->authGuard('manager')
             ->colors([
@@ -38,15 +38,21 @@ class ManagerPanelProvider extends PanelProvider
             )
             ->brandLogo(fn () => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
             ->favicon(asset('favicon-32x32.png'))
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Manager/Resources'), for: 'App\\Filament\\Manager\\Resources')
+            ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\\Filament\\Manager\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                \App\Filament\Manager\Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Manager/Widgets'), for: 'App\\Filament\\Manager\\Widgets')
             ->widgets([
-                \App\Filament\Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
+                \App\Filament\Manager\Widgets\UserStatsWidget::class,
+                \App\Filament\Manager\Widgets\OrderStatsWidget::class,
+                \App\Filament\Manager\Widgets\SalesChartWidget::class,
+                \App\Filament\Manager\Widgets\OrderStatusChartWidget::class,
+                \App\Filament\Manager\Widgets\TopProductsWidget::class,
+            ])
+            ->livewireComponents([
+                \App\Filament\Manager\Components\ManageProductVariants::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -62,6 +68,7 @@ class ManagerPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->maxContentWidth('full');
     }
 }

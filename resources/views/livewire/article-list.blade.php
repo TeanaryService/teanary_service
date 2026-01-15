@@ -1,10 +1,5 @@
 @php
-    $breadcrumbs = [
-        [
-            'label' => __('home.article.title'),
-            'url' => '',
-        ],
-    ];
+    $breadcrumbs = buildArticleListBreadcrumbs();
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 min-h-[70vh] bg-white">

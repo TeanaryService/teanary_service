@@ -13,6 +13,10 @@ class LocaleCurrencyService
     public function getLanguages()
     {
         return Cache::rememberForever(CacheKeys::LANGUAGES_ALL, function () {
+            if (! Schema::hasTable((new Language())->getTable())) {
+                return collect();
+            }
+
             return Language::all();
         });
     }
@@ -20,6 +24,10 @@ class LocaleCurrencyService
     public function getCurrencies()
     {
         return Cache::rememberForever(CacheKeys::CURRENCIES_ALL, function () {
+            if (! Schema::hasTable((new Currency())->getTable())) {
+                return collect();
+            }
+
             return Currency::all();
         });
     }

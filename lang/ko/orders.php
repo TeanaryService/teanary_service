@@ -36,7 +36,12 @@ return [
     'request_refund' => '환불 요청',
     'confirm_cancel' => '이 주문을 취소하시겠습니까?',
     'operation_success' => '작업이 성공적으로 처리되었습니다.',
+    'cannot_cancel' => '이 주문은 취소할 수 없습니다',
     'contact_email' => '문의 사항은 :email 으로 연락주세요.',
+    'start_shopping' => '쇼핑 시작하기',
+    'price_summary' => '가격 요약',
+    'and_more_items' => '추가 :count개 항목',
+    'total_items' => '총',
 
     // Order status (merged from order.php)
     'status' => [

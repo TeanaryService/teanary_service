@@ -36,7 +36,12 @@ return [
     'request_refund' => 'Solicitar Reembolso',
     'confirm_cancel' => '¿Confirmar cancelación del pedido?',
     'operation_success' => 'Operación exitosa',
+    'cannot_cancel' => 'Este pedido no puede ser cancelado',
     'contact_email' => 'Para cualquier consulta, contáctenos en :email',
+    'start_shopping' => 'Comenzar a comprar',
+    'price_summary' => 'Resumen de Precios',
+    'and_more_items' => ':count artículos más',
+    'total_items' => 'Total',
 
     // Order status (merged from order.php)
     'status' => [

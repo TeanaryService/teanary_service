@@ -1,40 +1,5 @@
 @php
-    // 构建面包屑
-    $breadcrumbs = [
-        [
-            'label' => __('app.categories'),
-            'url' => locaRoute('product'),
-        ],
-    ];
-    if ($categoryId && !empty($categories)) {
-        $category = null;
-        $parent = null;
-        foreach ($categories as $cat) {
-            if ($cat['id'] == $categoryId) {
-                $category = $cat;
-                break;
-            }
-            foreach ($cat['children'] ?? [] as $child) {
-                if ($child['id'] == $categoryId) {
-                    $parent = $cat;
-                    $category = $child;
-                    break 2;
-                }
-            }
-        }
-        if ($parent) {
-            $breadcrumbs[] = [
-                'label' => $parent['name'],
-                'url' => locaRoute('product', ['slug' => $parent['slug']]),
-            ];
-        }
-        if ($category) {
-            $breadcrumbs[] = [
-                'label' => $category['name'],
-                'url' => '',
-            ];
-        }
-    }
+    $breadcrumbs = buildProductBreadcrumbs($categoryId, $categories);
 @endphp
 
 <div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -113,53 +78,6 @@
     </div>
 </div>
 
-@php
-    // SEO相关
-    $seoTitle = '';
-    $seoDesc = '';
-    $seoImage = asset('logo.svg');
-    $seoKeywords = '';
-    if ($categoryId && !empty($categories)) {
-        $locale = session('lang');
-        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
-        $category = collect($categories)
-            ->flatMap(function ($cat) {
-                return array_merge([$cat], $cat['children']->toArray() ?? []);
-            })
-            ->firstWhere('id', $categoryId);
-        if ($category) {
-            $seoTitle = $category['name'];
-            $seoDesc = $category['name'];
-            $seoImage = $category['image_url'] ?? asset('logo.svg');
-        }
-    } else {
-        $seoTitle = __('home.product_list_seo_title');
-        $seoDesc = __('home.product_list_seo_desc');
-        $seoImage = asset('logo.svg');
-    }
-    // 筛选条件加到keywords
-    if (!empty($attributeFilters) && !empty($attributes)) {
-        $filterNames = [];
-        foreach ($attributeFilters as $attrId => $valueIds) {
-            $attr = collect($attributes)->firstWhere('id', $attrId);
-            if ($attr && !empty($valueIds)) {
-                foreach ((array) $valueIds as $vid) {
-                    $val = collect($attr['values'])->firstWhere('id', $vid);
-                    if ($val) {
-                        $filterNames[] = $attr['name'] . ':' . $val['name'];
-                    }
-                }
-            }
-        }
-        if ($filterNames) {
-            $strFilterName = implode(',', $filterNames);
-            $seoKeywords .= $strFilterName;
-
-            $seoTitle = $strFilterName . $seoTitle;
-            $seoDesc .= $strFilterName;
-        }
-    }
-@endphp
 
 @pushOnce('seo')
     <x-layouts.seo title="{{ $seoTitle }}" description="{{ $seoDesc }}" image="{{ $seoImage }}"

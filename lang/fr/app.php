@@ -94,6 +94,11 @@ return [
 
     'checkout_support_message' => 'Si vous rencontrez un problème lors du paiement, n\'hésitez pas à nous contacter par Email : hello@teanary.com ou WeChat : xcalder.',
 
+    'back' => 'Retour',
+    'view' => 'Voir',
+    'go_shopping' => 'Aller faire les courses',
+    'back_to_orders' => 'Retour aux Commandes',
+
     // Product status (merged from product.php)
     'products' => [
         'status' => [
@@ -157,6 +162,8 @@ return [
         'address_saved' => 'Adresse enregistrée avec succès',
         'address_deleted' => 'Adresse supprimée avec succès',
         'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer cette adresse ?',
+        'add_first_address' => 'Ajoutez votre première adresse de livraison',
+        'confirm_edit' => 'Êtes-vous sûr de vouloir modifier cette adresse ?',
         'select_country' => 'Veuillez sélectionner un pays',
         'select_zone' => 'Veuillez sélectionner un état/province',
     ],

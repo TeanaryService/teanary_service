@@ -76,14 +76,76 @@ class Product extends Component
         $this->products = $query->latest('id')->paginate(16);
     }
 
+    private function buildSeoData(): array
+    {
+        $seoTitle = '';
+        $seoDesc = '';
+        $seoImage = asset('logo.svg');
+        $seoKeywords = '';
+        
+        if ($this->categoryId && !empty($this->categories)) {
+            $locale = session('lang');
+            $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+            $category = collect($this->categories)
+                ->flatMap(function ($cat) {
+                    return array_merge([$cat], $cat['children']->toArray() ?? []);
+                })
+                ->firstWhere('id', $this->categoryId);
+            if ($category) {
+                $seoTitle = $category['name'];
+                $seoDesc = $category['name'];
+                $seoImage = $category['image_url'] ?? asset('logo.svg');
+            }
+        } else {
+            $seoTitle = __('home.product_list_seo_title');
+            $seoDesc = __('home.product_list_seo_desc');
+            $seoImage = asset('logo.svg');
+        }
+        
+        // 筛选条件加到keywords
+        if (!empty($this->attributeFilters) && !empty($this->allAttributes)) {
+            $filterNames = [];
+            foreach ($this->attributeFilters as $attrId => $valueIds) {
+                $attr = collect($this->allAttributes)->firstWhere('id', $attrId);
+                if ($attr && !empty($valueIds)) {
+                    foreach ((array) $valueIds as $vid) {
+                        $val = collect($attr['values'])->firstWhere('id', $vid);
+                        if ($val) {
+                            $filterNames[] = $attr['name'] . ':' . $val['name'];
+                        }
+                    }
+                }
+            }
+            if ($filterNames) {
+                $strFilterName = implode(',', $filterNames);
+                $seoKeywords .= $strFilterName;
+                $seoTitle = $strFilterName . $seoTitle;
+                $seoDesc .= $strFilterName;
+            }
+        }
+        
+        return [
+            'title' => $seoTitle,
+            'description' => $seoDesc,
+            'image' => $seoImage,
+            'keywords' => $seoKeywords,
+        ];
+    }
+
     public function render()
     {
+        $seoData = $this->buildSeoData();
+        
         return view('livewire.product', [
             'categories' => $this->categories,
             'attributes' => $this->allAttributes,
             'products' => $this->products,
             'categoryId' => $this->categoryId,
             'attributeFilters' => $this->attributeFilters,
+            'seoTitle' => $seoData['title'],
+            'seoDesc' => $seoData['description'],
+            'seoImage' => $seoData['image'],
+            'seoKeywords' => $seoData['keywords'],
         ]);
     }
 }

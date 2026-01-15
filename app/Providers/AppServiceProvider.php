@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Filament::registerRenderHook(
             'panels::topbar.end',
-            fn () => \Livewire\Livewire::mount(\App\Filament\Widgets\LanguageCurrencySwitcher::class)
+            fn () => \Livewire\Livewire::mount(\App\Filament\Manager\Widgets\LanguageCurrencySwitcher::class)
         );
 
         Filament::registerRenderHook(

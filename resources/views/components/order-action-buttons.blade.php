@@ -1,8 +1,7 @@
 @props(['order', 'showDetails' => false])
 
 @php
-    $btnClass =
-        'inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-white rounded-md transition focus:outline-none focus:ring-2 focus:ring-offset-2';
+    $btnClass = getOrderActionButtonClass();
 @endphp
 
 <div class="flex flex-col gap-2">

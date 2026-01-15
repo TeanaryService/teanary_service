@@ -36,7 +36,12 @@ return [
     'request_refund' => 'Rückerstattung beantragen',
     'confirm_cancel' => 'Bestellung wirklich stornieren?',
     'operation_success' => 'Operation erfolgreich',
+    'cannot_cancel' => 'Diese Bestellung kann nicht storniert werden',
     'contact_email' => 'Bei Fragen kontaktieren Sie bitte :email',
+    'start_shopping' => 'Jetzt einkaufen',
+    'price_summary' => 'Preisübersicht',
+    'and_more_items' => ':count weitere Artikel',
+    'total_items' => 'Gesamt',
 
     // Order status (merged from order.php)
     'status' => [

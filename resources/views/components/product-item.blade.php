@@ -1,31 +1,10 @@
 @php
-    $locale = session('lang');
-    $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
-    $currencyService = app(\App\Services\LocaleCurrencyService::class);
-    $currencyCode = session('currency'); // 可根据实际获取当前币种
-    $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-    $name =
-        $translation && $translation->name
-            ? $translation->name
-            : $product->productTranslations->first()->name ?? $product->slug;
-    $variants = $product->productVariants;
-    
-    // 获取产品的所有图片
-    $images = $product->getMedia('images');
-    $firstImage = $images->first()?->getUrl('thumb') ?? $product->getFirstMediaUrl('images', 'thumb');
-    $secondImage = $images->count() > 1 ? $images->get(1)?->getUrl('thumb') : null;
-    
-    $prices = $variants->pluck('price')->filter()->sort()->values();
-    if ($prices->count() === 1) {
-        $converted = $currencyService->convertWithSymbol(amount: $prices->first(), toCode: $currencyCode);
-        $priceText = $converted;
-    } elseif ($prices->count() > 1) {
-        $min = $currencyService->convertWithSymbol(amount: $prices->first(), toCode: $currencyCode);
-        $max = $currencyService->convertWithSymbol(amount: $prices->last(), toCode: $currencyCode);
-        $priceText = $min . ' - ' . $max;
-    } else {
-        $priceText = '';
-    }
+    $productData = getProductDisplayData($product);
+    $name = $productData['name'];
+    $firstImage = $productData['firstImage'];
+    $secondImage = $productData['secondImage'];
+    $priceText = $productData['priceText'];
+    $images = $productData['images'];
 @endphp
 
 <div class="group tea-product-card">

@@ -94,6 +94,11 @@ return [
 
     'checkout_support_message' => '결제 중 문제가 발생하면 언제든지 Email: hello@teanary.com 또는 WeChat: xcalder로 연락해 주세요.',
 
+    'back' => '뒤로',
+    'view' => '보기',
+    'go_shopping' => '쇼핑하러 가기',
+    'back_to_orders' => '주문 목록으로 돌아가기',
+
     // Product status (merged from product.php)
     'products' => [
         'status' => [
@@ -157,6 +162,8 @@ return [
         'address_saved' => '주소가 성공적으로 저장되었습니다',
         'address_deleted' => '주소가 성공적으로 삭제되었습니다',
         'confirm_delete' => '이 주소를 삭제하시겠습니까?',
+        'add_first_address' => '첫 번째 배송 주소 추가',
+        'confirm_edit' => '이 주소를 편집하시겠습니까?',
         'select_country' => '국가를 선택해주세요',
         'select_zone' => '주/도를 선택해주세요',
     ],

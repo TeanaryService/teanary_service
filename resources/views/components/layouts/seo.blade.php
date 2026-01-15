@@ -6,7 +6,7 @@
 ])
 
 @php
-    $metaImage = $image ? asset($image) : asset('images/banner-tea.png');
+    $metaImage = getSeoMetaImage($image);
 @endphp
 
 <title>{{ $title }} - {{ config('app.name') }}</title>

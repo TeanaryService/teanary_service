@@ -1,7 +1,3 @@
-@php
-    $currencyService = app(\App\Services\LocaleCurrencyService::class);
-    $currencyCode = session('currency');
-@endphp
 
 <div class="max-w-7xl mx-auto px-4 py-10 min-h-[70vh] bg-white">
     <h1 class="text-3xl font-extrabold text-teal-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
@@ -24,18 +20,13 @@
                 <tbody>
                     @forelse($cartItems as $item)
                         @php
-                            $product = $item->product;
-                            $variant = $item->productVariant;
-                            $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-                            $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
-                            $image = $variant ? $variant->getFirstMediaUrl('image', 'thumb') : ($product->productVariants->first()?->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'));
-                            $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
-                                $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-                                return $trans && $trans->name ? $trans->name : $sv->id;
-                            })->implode(' / ') : '';
-                            $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
-                            $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
-                            $promotion = $item->promotion ?? null;
+                            $itemData = $this->getCartItemDisplayData($item, $lang);
+                            $name = $itemData['name'];
+                            $image = $itemData['image'];
+                            $specs = $itemData['specs'];
+                            $price = $itemData['price'];
+                            $finalPrice = $itemData['finalPrice'];
+                            $promotion = $itemData['promotion'];
                         @endphp
                         <tr class="bg-gray-50 rounded-lg shadow-sm">
                             <td class="py-2 px-2 align-middle">
@@ -53,30 +44,9 @@
                                     <span class="ml-2 text-xs text-red-500 font-semibold">
                                         @php
                                             $rule = $promotion['rule'] ?? [];
-                                            // 处理 discount_type：可能是枚举对象、数组或字符串
-                                            $discountType = null;
-                                            if (is_array($rule)) {
-                                                $discountType = $rule['discount_type'] ?? null;
-                                                // 如果是枚举对象，获取其值
-                                                if (is_object($discountType) && method_exists($discountType, 'value')) {
-                                                    $discountType = $discountType->value;
-                                                } elseif (is_object($discountType)) {
-                                                    $discountType = (string) $discountType;
-                                                }
-                                            } elseif (is_object($rule)) {
-                                                $discountType = $rule->discount_type ?? null;
-                                                if (is_object($discountType) && method_exists($discountType, 'value')) {
-                                                    $discountType = $discountType->value;
-                                                } elseif (is_object($discountType)) {
-                                                    $discountType = (string) $discountType;
-                                                }
-                                            }
-                                            
-                                            // 处理 discount_value
-                                            $discountValue = is_array($rule) ? ($rule['discount_value'] ?? null) : (is_object($rule) ? ($rule->discount_value ?? null) : null);
-                                            if (is_object($discountValue)) {
-                                                $discountValue = (string) $discountValue;
-                                            }
+                                            $discountData = $this->getPromotionDiscountText($promotion, $rule);
+                                            $discountType = $discountData['discountType'];
+                                            $discountValue = $discountData['discountValue'];
                                         @endphp
                                         @if ($discountType == 'percent' && $discountValue !== null)
                                             {{ __('app.discount_percent', ['percent' => (string) $discountValue]) }}
@@ -85,15 +55,7 @@
                                         @endif
                                     </span>
                                     @if (!empty($promotion['description']))
-                                        @php
-                                            $description = $promotion['description'];
-                                            if (is_array($description)) {
-                                                $description = json_encode($description, JSON_UNESCAPED_UNICODE);
-                                            } elseif (!is_string($description)) {
-                                                $description = (string) $description;
-                                            }
-                                        @endphp
-                                        <div class="text-xs text-red-600 mt-1">{{ $description }}</div>
+                                        <div class="text-xs text-red-600 mt-1">{{ $this->normalizePromotionDescription($promotion['description']) }}</div>
                                     @endif
                                 @else
                                     <span>{{ $price }}</span>

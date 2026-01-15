@@ -95,6 +95,11 @@ return [
 
     'checkout_support_message' => '如果你在结账过程中遇到任何问题，可以通过 Email：hello@teanary.com 或微信：xcalder 联系我们。',
 
+    'back' => '返回',
+    'view' => '查看',
+    'go_shopping' => '去购物',
+    'back_to_orders' => '返回订单列表',
+
     // 商品状态（从 product.php 合并）
     'products' => [
         'status' => [
@@ -158,6 +163,8 @@ return [
         'address_saved' => '地址保存成功',
         'address_deleted' => '地址删除成功',
         'confirm_delete' => '确定要删除这个地址吗？',
+        'confirm_edit' => '确定要编辑这个地址吗？',
+        'add_first_address' => '添加您的第一个收货地址',
         'select_country' => '请选择国家',
         'select_zone' => '请选择地区',
     ],

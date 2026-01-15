@@ -1,17 +1,6 @@
 @php
     $translation = $article->articleTranslations->first();
-
-    $breadcrumbs = [
-        [
-            'label' => __('home.article.base_name'),
-            'url' => locaRoute('article.index'),
-        ],
-        [
-            'label' => $translation?->title,
-            'url' => '',
-        ],
-    ];
-
+    $breadcrumbs = buildArticleDetailBreadcrumbs($article);
     $cover = $article->getFirstMediaUrl('image');
 @endphp
 

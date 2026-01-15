@@ -3,12 +3,6 @@
 use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Livewire\ArticleDetail;
 use App\Livewire\ArticleList;
-use App\Livewire\Auth\EmailVerificationPrompt;
-use App\Livewire\Auth\ForgotPassword;
-use App\Livewire\Auth\Login;
-use App\Livewire\Auth\Register;
-use App\Livewire\Auth\ResetPassword;
-use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Cart;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
@@ -18,11 +12,6 @@ use App\Livewire\Payment\Failure;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
-use App\Livewire\User\AddressForm;
-use App\Livewire\User\AddressList;
-use App\Livewire\User\OrderDetail;
-use App\Livewire\User\Orders;
-use App\Livewire\User\Profile;
 use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
@@ -45,19 +34,7 @@ if (empty($supportedLocales)) {
 
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
-    // Auth
-    Route::get('login', Login::class)->name('auth.login');
-    Route::get('register', Register::class)->name('auth.register');
-    Route::get('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
-    Route::get('reset-password/{token}', ResetPassword::class)
-        ->middleware('guest')
-        ->name('auth.password.reset');
-    Route::post('logout', function () {
-        Auth::logout();
-        $locale = app()->getLocale();
-
-        return redirect()->route('home', ['locale' => $locale]);
-    })->name('auth.logout');
+    // Auth routes moved to Filament user panel (/user)
 
     Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
@@ -78,48 +55,29 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
 
     // 管理员登录为其他用户（仅限管理员访问）
     Route::get('login-as/{id}', function (string $locale, int $id) {
-        // 安全检查：只有已登录的管理员才能使用此功能
-        if (! auth()->check() || ! auth()->user()->canAccessPanel(\Filament\Facades\Filament::getPanel('manager'))) {
-            abort(403, 'Unauthorized');
+        // 检查管理员是否已登录（通过 Filament 管理面板）
+        $panel = \Filament\Facades\Filament::getPanel('manager');
+        
+        if (! $panel || ! $panel->auth()->check()) {
+            abort(403, 'Unauthorized: Please login to the manager panel first.');
         }
 
+        // 查找要登录的用户
         $user = User::find($id);
 
         if (! $user) {
             abort(404, 'User not found');
         }
 
-        Auth::logout();
+        // 登录为用户（这会自动覆盖之前登录的用户，因为 manager 和 user 是不同的 guard）
+        // manager guard 保持登录状态，web guard 登录新用户
         Auth::guard('web')->loginUsingId($id);
 
-        return redirect()->route('user.profile', ['locale' => app()->getLocale()]);
-    })->middleware(['web', 'auth'])->name('login-as');
+        // 重定向到用户个人中心
+        return redirect('/user/profile');
+    })->middleware(['web'])->name('login-as');
 
-    Route::middleware(['auth'])->group(function () {
-        // 邮箱验证提示页
-        Route::get('email-verification/prompt', EmailVerificationPrompt::class)
-            ->name('verification.notice');
-
-        // 邮箱验证链接处理页
-        Route::get('email-verification/verify/{id}/{hash}', VerifyEmail::class)
-            ->middleware(['signed', 'throttle:6,1'])
-            ->name('verification.verify');
-
-        Route::middleware(['verified'])->group(function () {
-            Route::get('profile', Profile::class)
-                ->name('user.profile');
-
-            Route::get('orders', Orders::class)
-                ->name('user.orders');
-
-            Route::get('orders/{order}', OrderDetail::class)
-                ->name('user.orders.show');
-
-            Route::get('addresses', AddressList::class)->name('user.addresses');
-
-            Route::get('addresses/form', AddressForm::class)->name('user.addresses.form');
-        });
-    });
+    // Email verification routes moved to Filament user panel (/user)
 
     Route::get('/search', \App\Livewire\Search::class)->name('search');
 

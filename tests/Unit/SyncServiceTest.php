@@ -283,12 +283,15 @@ class SyncServiceTest extends TestCase
         $product->save();
 
         $oldTimestamp = now()->subHour()->toIso8601String();
+        $updatedData = $product->toArray();
+        $updatedData['status'] = 'inactive';
+        
         $batchData = [
             [
                 'model_type' => Product::class,
                 'model_id' => $product->id,
                 'action' => 'updated',
-                'payload' => $product->toArray(),
+                'payload' => $updatedData,
                 'source_node' => 'node2',
                 'timestamp' => $oldTimestamp,
             ],
@@ -296,8 +299,16 @@ class SyncServiceTest extends TestCase
 
         $result = $this->service->receiveBatchSync($batchData);
 
+        // 更新操作不应该跳过，即使本地数据更新，也要执行同步
+        // 原因：如果源数据有多个更新，同步到远程时，如果第一个更新后本地数据的时间戳更新了，
+        // 后续的更新就会被错误地跳过，导致数据不一致
         $this->assertEquals(1, $result['success']);
-        $this->assertTrue($result['results'][0]['skipped'] ?? false);
+        // 验证没有 skipped 字段（或者 skipped 为 false）
+        $this->assertFalse(isset($result['results'][0]['skipped']) ? $result['results'][0]['skipped'] : false);
+        
+        // 验证数据已更新
+        $product->refresh();
+        $this->assertEquals(ProductStatusEnum::Inactive, $product->status);
     }
 
     public function test_receive_batch_sync_handles_validation_errors()

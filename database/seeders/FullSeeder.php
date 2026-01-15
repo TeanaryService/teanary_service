@@ -161,8 +161,10 @@ class FullSeeder extends Seeder
          * Specifications.
          */
         $specifications = collect([
-            ['label' => 'color'],
-            ['label' => 'size'],
+            ['label' => 'color', 'code' => 'color'],
+            ['label' => 'size', 'code' => 'size'],
+            ['label' => 'material', 'code' => 'material'],
+            ['label' => 'style', 'code' => 'style'],
         ])->map(function ($spec) use ($languages) {
             $s = Specification::create();
             foreach ($languages as $lang) {
@@ -179,11 +181,13 @@ class FullSeeder extends Seeder
         /**
          * Specification Values.
          */
-        $specificationValues = $specifications->flatMap(function ($spec) use ($languages) {
-            $values = match ($spec->code) {
+        $specificationValues = $specifications->flatMap(function ($spec, $index) use ($languages) {
+            $values = match ($spec['code']) {
                 'color' => ['Red', 'Yellow', 'White'],
                 'size' => ['Small', 'Medium', 'Large'],
-                default => ['Default'],
+                'material' => ['Cotton', 'Polyester', 'Silk'],
+                'style' => ['Casual', 'Formal', 'Sport'],
+                default => ['Option 1', 'Option 2', 'Option 3'],
             };
 
             return collect($values)->map(function ($value) use ($spec, $languages) {

@@ -9,6 +9,122 @@
 
 > 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统。专为解决跨国电商运营难题而设计。
 
+> 代码已通过单元测试和静态分析,普通bug反馈请通过Issues提交；安全相关bug请通过Email(hello@teanary.com)提交
+
+## 🎮 在线演示
+
+**前端地址**: [https://demo.chatterup.fun:2003](https://demo.chatterup.fun:2003)  
+**后台管理**: [https://demo.chatterup.fun:2003/m](https://demo.chatterup.fun:2003/m)
+
+**测试账号**（前后端通用）:
+- 邮箱: `demo@demo.com`
+- 密码: `demo123456`
+
+**重要说明**:
+- ⚠️ **Demo 数据每 8 小时自动重置一次**
+- 💻 当前 Demo 服务器运行在一台树莓派上，性能有限，请谅解
+- 🌐 如果您愿意赞助服务器资源部署 Demo，我们可以部署多节点同步演示环境，展示完整的多节点同步功能
+- 📧 如有赞助意向或想了解更多信息，请联系：hello@teanary.com
+
+### 📸 系统截图
+
+<div align="center">
+
+#### 🖥️ 前端界面（8张）
+
+![前端首页](public/images/screenshot/home-page.png)
+*前端首页展示*
+
+![分类页面](public/images/screenshot/category-page.png)
+*分类页面*
+
+![商品详情](public/images/screenshot/product-detailk-page.png)
+*商品详情页面*
+
+![购物车](public/images/screenshot/cart-page.png)
+*购物车页面*
+
+![结算页面](public/images/screenshot/checkout-page.png)
+*结算页面*
+
+![订单页面](public/images/screenshot/order-page.png)
+*订单页面*
+
+![文章推荐](public/images/screenshot/articles-recommand.png)
+*文章推荐页面*
+
+![联系我们](public/images/screenshot/contact-us-plug.png)
+*联系我们页面*
+
+#### ⚙️ 后台管理（20张）
+
+![后台首页](public/images/screenshot/admin-dashboard-page.png)
+*后台管理首页*
+
+![商品管理](public/images/screenshot/admin-product-manager-page.png)
+*商品管理界面*
+
+![商品编辑](public/images/screenshot/admin-product-edit-page.png)
+*商品编辑页面*
+
+![商品属性值管理](public/images/screenshot/admin-product-attribute-value-manager-page.png)
+*商品属性值管理*
+
+![商品规格管理](public/images/screenshot/admin-product-specification-manager-page.png)
+*商品规格管理*
+
+![商品规格值管理](public/images/screenshot/admin-product-specification-value-managet-page.png)
+*商品规格值管理*
+
+![商品评价](public/images/screenshot/admin-product-review-page.png)
+*商品评价管理*
+
+![分类管理](public/images/screenshot/admin-category-page.png)
+*分类管理*
+
+![属性管理](public/images/screenshot/admin-attribute-manager-page.png)
+*属性管理*
+
+![订单管理](public/images/screenshot/admin-order-manager-page.png)
+*订单管理*
+
+![用户管理](public/images/screenshot/admin-user-manager-page.png)
+*用户管理*
+
+![管理用户](public/images/screenshot/admin-manager-user-page.png)
+*管理用户页面*
+
+![用户组管理](public/images/screenshot/admin-user-group-page.png)
+*用户组管理*
+
+![促销管理](public/images/screenshot/admin-promotions-page.png)
+*促销管理*
+
+![收货地址管理](public/images/screenshot/admin-shopping-address-page.png)
+*收货地址管理*
+
+![文章管理](public/images/screenshot/admin-aricles-page.png)
+*文章管理*
+
+![货币管理](public/images/screenshot/admin-currency-manager-page.png)
+*货币管理*
+
+![语言管理](public/images/screenshot/admin-langage-page.png)
+*语言管理*
+
+![国家管理](public/images/screenshot/admin-country-manager-page.png)
+*国家管理*
+
+![区域管理](public/images/screenshot/admin-zone-manager-page.png)
+*区域管理*
+
+#### 🔧 其他功能（1张）
+
+![Chrome采集插件](public/images/screenshot/chrome-spider-product-extension.png)
+*Chrome采集插件*
+
+</div>
+
 ## 🌟 核心特性
 
 ### 🌍 多节点数据同步系统
@@ -83,7 +199,7 @@
 ## 🚀 技术栈
 
 ### 后端技术
-- **Laravel 11.x** - PHP Web 框架
+- **Laravel 12.x** - PHP Web 框架
 - **PHP 8.1+** - 服务器端语言
 - **MySQL 8.0+** - 数据库
 - **Redis** - 缓存和会话存储
@@ -181,6 +297,38 @@ php artisan serve
 访问 `http://localhost:8000` 查看网站。
 
 ## 🌐 多节点部署指南
+
+### 为什么选择程序层同步而不是 MySQL 主从同步？
+
+在跨国多节点部署场景下，我们选择了**程序层数据同步**而非传统的 MySQL 主从同步，主要原因如下：
+
+**1. 高网络延迟环境下的可靠性**
+- 🌍 **跨国网络延迟**：中国到美国/欧洲的数据库连接延迟通常在 200-400ms，MySQL 主从同步在高延迟环境下容易出现超时和连接中断
+- 🔄 **程序层同步**：通过 HTTP/HTTPS API 进行数据同步，可以更好地处理网络波动，支持重试机制和断点续传
+
+**2. 灵活的数据同步策略**
+- 📦 **批量同步**：程序层可以智能地将多条记录打包同步，大幅提升效率
+- 🎯 **选择性同步**：可以只同步需要的数据，避免同步不必要的系统表、日志表等
+- 🔀 **双向同步**：支持任意节点间的双向同步，而 MySQL 主从通常是单向的
+
+**3. 更好的容错和恢复能力**
+- 🔁 **自动重试**：同步失败可以自动重试，不会因为网络波动导致数据丢失
+- 📊 **同步监控**：完整的同步日志和状态跟踪，可以清楚地知道每条数据的同步状态
+- 🛡️ **冲突处理**：可以基于业务逻辑处理数据冲突（如以最新数据为准）
+
+**4. 跨数据库兼容性**
+- 🗄️ **数据库无关**：不依赖特定的数据库类型，可以支持 MySQL、PostgreSQL 等不同数据库
+- 🔧 **易于扩展**：未来如果需要支持其他数据库类型，只需修改同步逻辑，无需改变数据库架构
+
+**5. 业务逻辑集成**
+- 🎨 **数据转换**：可以在同步过程中进行数据转换、验证和业务逻辑处理
+- 📁 **文件同步**：可以同时同步媒体文件、图片等，而 MySQL 主从同步无法处理文件
+
+**6. 安全性考虑**
+- 🔐 **API 认证**：使用 API Key 进行认证，比直接暴露数据库连接更安全
+- 🔒 **HTTPS 加密**：所有数据传输通过 HTTPS 加密，保护数据安全
+
+**总结**：在跨国高延迟网络环境下，程序层同步提供了更好的可靠性、灵活性和可维护性，更适合复杂的多节点电商场景。
 
 ### 场景示例
 

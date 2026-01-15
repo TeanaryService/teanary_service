@@ -48,6 +48,25 @@ class ProductReviews extends Component
         session()->flash('review_submitted', __('app.review_submitted'));
     }
 
+    /**
+     * 获取产品变体规格字符串
+     */
+    protected function getProductVariantSpecs($productVariant, $lang): string
+    {
+        if (!$productVariant) {
+            return '';
+        }
+        
+        return $productVariant->specificationValues
+            ->map(function ($sv) use ($lang) {
+                $trans = $sv->specificationValueTranslations
+                    ->where('language_id', $lang?->id)
+                    ->first();
+                return $trans && $trans->name ? $trans->name : $sv->id;
+            })
+            ->implode(' / ');
+    }
+
     public function render()
     {
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));

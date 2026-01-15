@@ -36,7 +36,12 @@ return [
     'request_refund' => 'Request Refund',
     'confirm_cancel' => 'Confirm to cancel this order?',
     'operation_success' => 'Operation Successful',
+    'cannot_cancel' => 'This order cannot be cancelled',
     'contact_email' => 'For any questions, please contact :email',
+    'start_shopping' => 'Start Shopping',
+    'price_summary' => 'Price Summary',
+    'and_more_items' => ':count more items',
+    'total_items' => 'Total',
 
     // Order status (merged from order.php)
     'status' => [
