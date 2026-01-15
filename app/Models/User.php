@@ -115,9 +115,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // User 模型不应该访问管理面板，只有 Manager 可以
-        // Filament 会通过 authGuard 来区分，但这里明确拒绝更安全
-        return false;
+        // User 可以访问用户面板，但不能访问管理面板
+        return $panel->getId() === 'user';
     }
 
     public function registerMediaConversions(?Media $media = null): void

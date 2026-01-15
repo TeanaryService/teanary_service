@@ -40,6 +40,30 @@ if (! function_exists('locaRoute')) {
      */
     function locaRoute(string $name, array $parameters = [], bool $absolute = true): string
     {
+        // Filament 用户面板路由（不需要 locale 前缀）
+        $filamentUserRoutes = [
+            'user.profile' => '/user/profile',
+            'user.orders' => '/user/orders',
+            'user.orders.show' => '/user/orders/detail',
+            'user.addresses' => '/user/addresses',
+            'user.addresses.form' => '/user/addresses',
+            'auth.login' => '/user/login',
+            'auth.register' => '/user/register',
+            'auth.forgot-password' => '/user/forgot-password',
+            'auth.password.reset' => '/user/reset-password',
+            'auth.logout' => '/user/logout',
+        ];
+
+        if (isset($filamentUserRoutes[$name])) {
+            $url = $filamentUserRoutes[$name];
+            if ($name === 'user.orders.show' && isset($parameters['order'])) {
+                $order = $parameters['order'];
+                $orderId = is_object($order) ? $order->id : $order;
+                $url .= '?record=' . $orderId;
+            }
+            return $absolute ? url($url) : $url;
+        }
+
         // 获取当前语言
         $locale = app()->getLocale();
 
