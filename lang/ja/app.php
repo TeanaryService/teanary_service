@@ -162,6 +162,8 @@ return [
         'address_saved' => '住所が正常に保存されました',
         'address_deleted' => '住所が正常に削除されました',
         'confirm_delete' => 'この住所を削除してもよろしいですか？',
+        'add_first_address' => '最初の配送先住所を追加',
+        'confirm_edit' => 'この住所を編集してもよろしいですか？',
         'select_country' => '国を選択してください',
         'select_zone' => '都道府県を選択してください',
     ],

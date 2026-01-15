@@ -162,6 +162,8 @@ return [
         'address_saved' => 'Adresse erfolgreich gespeichert',
         'address_deleted' => 'Adresse erfolgreich gelöscht',
         'confirm_delete' => 'Sind Sie sicher, dass Sie diese Adresse löschen möchten?',
+        'add_first_address' => 'Fügen Sie Ihre erste Lieferadresse hinzu',
+        'confirm_edit' => 'Möchten Sie diese Adresse wirklich bearbeiten?',
         'select_country' => 'Bitte wählen Sie ein Land',
         'select_zone' => 'Bitte wählen Sie ein Bundesland/Region',
     ],

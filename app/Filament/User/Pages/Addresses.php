@@ -11,18 +11,13 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
-class Addresses extends Page implements HasTable, HasForms
+class Addresses extends Page implements HasForms
 {
-    use InteractsWithTable;
     use InteractsWithForms;
+    use WithPagination;
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
@@ -34,6 +29,19 @@ class Addresses extends Page implements HasTable, HasForms
 
     protected static ?string $title = null;
 
+    public ?array $data = [];
+
+    public ?Address $address = null;
+
+    public bool $showForm = false;
+
+    protected LocaleCurrencyService $localeService;
+
+    public function mount(): void
+    {
+        $this->localeService = app(LocaleCurrencyService::class);
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('app.addresses.my_addresses');
@@ -44,74 +52,76 @@ class Addresses extends Page implements HasTable, HasForms
         return __('app.addresses.my_addresses');
     }
 
-    public ?array $data = [];
-
-    public ?Address $address = null;
-
-    public bool $showForm = false;
-
-    public function table(Table $table): Table
+    public function getAddressesProperty()
     {
-        return $table
-            ->query(Address::query()->where('user_id', Auth::id())->where('deleted', false)->with(['country.countryTranslations', 'zone.zoneTranslations']))
-            ->columns([
-                TextColumn::make('firstname')
-                    ->label(__('app.addresses.firstname'))
-                    ->searchable(),
-                TextColumn::make('lastname')
-                    ->label(__('app.addresses.lastname'))
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label(__('app.email'))
-                    ->searchable(),
-                TextColumn::make('telephone')
-                    ->label(__('app.addresses.telephone'))
-                    ->searchable(),
-                TextColumn::make('address_1')
-                    ->label(__('app.addresses.address_1'))
-                    ->searchable(),
-                TextColumn::make('city')
-                    ->label(__('app.addresses.city'))
-                    ->searchable(),
-                TextColumn::make('country.name')
-                    ->label(__('app.addresses.country'))
-                    ->formatStateUsing(fn ($record) => $record->country?->countryTranslations->first()?->name ?? ''),
-                TextColumn::make('zone.name')
-                    ->label(__('app.addresses.zone'))
-                    ->formatStateUsing(fn ($record) => $record->zone?->zoneTranslations->first()?->name ?? ''),
-            ])
-            ->actions([
-                EditAction::make()
-                    ->form([
-                        $this->getAddressFormSchema(),
-                    ])
-                    ->fillForm(function (Address $record) {
-                        return $record->toArray();
-                    })
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $data['user_id'] = Auth::id();
-                        return $data;
-                    })
-                    ->using(function (Address $record, array $data): Address {
-                        $record->update($data);
-                        return $record;
-                    })
-                    ->successNotification(
-                        Notification::make()
-                            ->title(__('app.addresses.address_saved'))
-                            ->success()
-                    ),
-                DeleteAction::make()
-                    ->using(function (Address $record) {
-                        $record->deleted = true;
-                        $record->save();
-                    })
-                    ->successNotification(
-                        Notification::make()
-                            ->title(__('app.addresses.address_deleted'))
-                            ->success()
-                    ),
-            ]);
+        return Address::query()
+            ->where('user_id', Auth::id())
+            ->where('deleted', false)
+            ->with(['country.countryTranslations', 'zone.zoneTranslations'])
+            ->latest()
+            ->paginate(10);
+    }
+
+    public function editAddress(int $addressId): void
+    {
+        $this->address = Address::where('user_id', Auth::id())
+            ->where('id', $addressId)
+            ->where('deleted', false)
+            ->firstOrFail();
+
+        $this->data = $this->address->toArray();
+        $this->showForm = true;
+    }
+
+    public function cancelEdit(): void
+    {
+        $this->reset(['address', 'data', 'showForm']);
+    }
+
+    public function saveAddress(): void
+    {
+        $data = $this->form->getState();
+        $data['user_id'] = Auth::id();
+
+        if ($this->address) {
+            $this->address->update($data);
+            Notification::make()
+                ->title(__('app.addresses.address_saved'))
+                ->success()
+                ->send();
+        } else {
+            Address::create($data);
+            Notification::make()
+                ->title(__('app.addresses.address_saved'))
+                ->success()
+                ->send();
+        }
+
+        $this->reset(['address', 'data', 'showForm']);
+        $this->resetPage();
+    }
+
+    public function deleteAddress(int $addressId): void
+    {
+        $address = Address::where('user_id', Auth::id())
+            ->where('id', $addressId)
+            ->where('deleted', false)
+            ->firstOrFail();
+
+        $address->update(['deleted' => true]);
+
+        Notification::make()
+            ->title(__('app.addresses.address_deleted'))
+            ->success()
+            ->send();
+
+        $this->resetPage();
+    }
+
+    public function createAddress(): void
+    {
+        $this->reset(['address', 'data']);
+        $this->showForm = true;
     }
 
     protected function getAddressFormSchema(): array
@@ -164,7 +174,7 @@ class Addresses extends Page implements HasTable, HasForms
                 ->searchable()
                 ->preload()
                 ->required()
-                ->reactive()
+                ->live()
                 ->afterStateUpdated(function ($set) {
                     $set('zone_id', null);
                 }),
@@ -192,7 +202,18 @@ class Addresses extends Page implements HasTable, HasForms
                 ->preload()
                 ->required(fn ($get) => !empty($get('country_id')))
                 ->visible(fn ($get) => !empty($get('country_id')))
-                ->reactive(),
+                ->live(),
+        ];
+    }
+
+    protected function getForms(): array
+    {
+        return [
+            'form' => $this->form(
+                $this->makeForm()
+                    ->schema($this->getAddressFormSchema())
+                    ->statePath('data')
+            ),
         ];
     }
 
@@ -200,17 +221,11 @@ class Addresses extends Page implements HasTable, HasForms
     {
         return [
             Action::make('create')
-                ->label(__('app.addresses.add_address'))
-                ->form($this->getAddressFormSchema())
-                ->action(function (array $data) {
-                    $data['user_id'] = Auth::id();
-                    Address::create($data);
-                    Notification::make()
-                        ->title(__('app.addresses.address_saved'))
-                        ->success()
-                        ->send();
-                    $this->resetTable();
-                }),
+                ->label(__('app.addresses.add_new'))
+                ->icon('heroicon-o-plus')
+                ->color('success')
+                ->visible(fn () => !$this->showForm)
+                ->action('createAddress'),
         ];
     }
 }

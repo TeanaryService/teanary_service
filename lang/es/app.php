@@ -162,6 +162,8 @@ return [
         'address_saved' => 'Dirección guardada exitosamente',
         'address_deleted' => 'Dirección eliminada exitosamente',
         'confirm_delete' => '¿Estás seguro de que deseas eliminar esta dirección?',
+        'add_first_address' => 'Agrega tu primera dirección de envío',
+        'confirm_edit' => '¿Estás seguro de que deseas editar esta dirección?',
         'select_country' => 'Por favor selecciona un país',
         'select_zone' => 'Por favor selecciona un estado/provincia',
     ],

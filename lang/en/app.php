@@ -162,6 +162,8 @@ return [
         'address_saved' => 'Address saved successfully',
         'address_deleted' => 'Address deleted successfully',
         'confirm_delete' => 'Are you sure you want to delete this address?',
+        'confirm_edit' => 'Are you sure you want to edit this address?',
+        'add_first_address' => 'Add your first shipping address',
         'select_country' => 'Please select a country',
         'select_zone' => 'Please select a state/province',
     ],
