@@ -94,6 +94,11 @@ return [
 
     'checkout_support_message' => 'Wenn während des Bezahlvorgangs Probleme auftreten, kontaktieren Sie uns gerne per E-Mail: hello@teanary.com oder WeChat: xcalder.',
 
+    'back' => 'Zurück',
+    'view' => 'Ansehen',
+    'go_shopping' => 'Einkaufen gehen',
+    'back_to_orders' => 'Zurück zu Bestellungen',
+
     // Product status (merged from product.php)
     'products' => [
         'status' => [

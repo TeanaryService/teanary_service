@@ -36,7 +36,12 @@ return [
     'request_refund' => '申请退款',
     'confirm_cancel' => '确认取消此订单?',
     'operation_success' => '操作成功',
+    'cannot_cancel' => '此订单无法取消',
     'contact_email' => '任何问题请联系 :email',
+    'start_shopping' => '开始购物吧',
+    'price_summary' => '价格明细',
+    'and_more_items' => '还有 :count 件商品',
+    'total_items' => '共',
 
     // 订单状态（从 order.php 合并）
     'status' => [

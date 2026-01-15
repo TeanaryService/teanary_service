@@ -34,9 +34,14 @@ return [
     'cancel_order' => 'Annuler la commande',
     'pay_now' => 'Payer maintenant',
     'request_refund' => 'Demander un remboursement',
-    'confirm_cancel' => 'Confirmer l’annulation de cette commande ?',
+    'confirm_cancel' => 'Confirmer l'annulation de cette commande ?',
     'operation_success' => 'Opération réussie',
+    'cannot_cancel' => 'Cette commande ne peut pas être annulée',
     'contact_email' => 'Pour toute question, contactez :email',
+    'start_shopping' => 'Commencer à magasiner',
+    'price_summary' => 'Résumé des Prix',
+    'and_more_items' => ':count articles de plus',
+    'total_items' => 'Total',
 
     // Order status (merged from order.php)
     'status' => [

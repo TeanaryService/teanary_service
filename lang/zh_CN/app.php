@@ -95,6 +95,11 @@ return [
 
     'checkout_support_message' => '如果你在结账过程中遇到任何问题，可以通过 Email：hello@teanary.com 或微信：xcalder 联系我们。',
 
+    'back' => '返回',
+    'view' => '查看',
+    'go_shopping' => '去购物',
+    'back_to_orders' => '返回订单列表',
+
     // 商品状态（从 product.php 合并）
     'products' => [
         'status' => [

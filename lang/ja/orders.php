@@ -36,7 +36,12 @@ return [
     'request_refund' => '返金を申請',
     'confirm_cancel' => 'この注文をキャンセルしてもよろしいですか？',
     'operation_success' => '操作が成功しました',
+    'cannot_cancel' => 'この注文はキャンセルできません',
     'contact_email' => 'ご不明な点は :email までご連絡ください',
+    'start_shopping' => 'ショッピングを始める',
+    'price_summary' => '価格の概要',
+    'and_more_items' => 'あと :count 点',
+    'total_items' => '合計',
 
     // Order status (merged from order.php)
     'status' => [

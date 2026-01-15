@@ -55,22 +55,27 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(func
 
     // 管理员登录为其他用户（仅限管理员访问）
     Route::get('login-as/{id}', function (string $locale, int $id) {
-        // 安全检查：只有已登录的管理员才能使用此功能
-        if (! Auth::check() || ! Auth::user()?->canAccessPanel(\Filament\Facades\Filament::getPanel('manager'))) {
-            abort(403, 'Unauthorized');
+        // 检查管理员是否已登录（通过 Filament 管理面板）
+        $panel = \Filament\Facades\Filament::getPanel('manager');
+        
+        if (! $panel || ! $panel->auth()->check()) {
+            abort(403, 'Unauthorized: Please login to the manager panel first.');
         }
 
+        // 查找要登录的用户
         $user = User::find($id);
 
         if (! $user) {
             abort(404, 'User not found');
         }
 
-        Auth::logout();
+        // 登录为用户（这会自动覆盖之前登录的用户，因为 manager 和 user 是不同的 guard）
+        // manager guard 保持登录状态，web guard 登录新用户
         Auth::guard('web')->loginUsingId($id);
 
+        // 重定向到用户个人中心
         return redirect('/user/profile');
-    })->middleware(['web', 'auth'])->name('login-as');
+    })->middleware(['web'])->name('login-as');
 
     // Email verification routes moved to Filament user panel (/user)
 

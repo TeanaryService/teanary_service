@@ -4,20 +4,17 @@ namespace App\Filament\User\Pages;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
+use App\Services\LocaleCurrencyService;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Tables\Actions\Action as TableAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
-use Illuminate\Contracts\View\View;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
-class Orders extends Page implements HasTable
+class Orders extends Page
 {
-    use InteractsWithTable;
+    use WithPagination;
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
@@ -29,6 +26,61 @@ class Orders extends Page implements HasTable
 
     protected static ?string $title = null;
 
+    protected LocaleCurrencyService $localeService;
+
+    public function mount(): void
+    {
+        $this->localeService = app(LocaleCurrencyService::class);
+    }
+
+    public function getOrdersProperty(): LengthAwarePaginator
+    {
+        return Order::query()
+            ->where('user_id', Auth::id())
+            ->with([
+                'orderItems.product.productTranslations',
+                'orderItems.productVariant.specificationValues.specificationValueTranslations',
+                'orderItems.productVariant.media',
+                'orderItems.product.media',
+                'currency',
+            ])
+            ->latest()
+            ->paginate(10);
+    }
+
+    public function cancelOrder(int $orderId): void
+    {
+        $order = Order::query()
+            ->where('user_id', Auth::id())
+            ->findOrFail($orderId);
+
+        if ($order->status->canBeCancelled()) {
+            $order->update(['status' => OrderStatusEnum::Cancelled]);
+            Notification::make()
+                ->title(__('orders.operation_success'))
+                ->success()
+                ->send();
+            
+            $this->resetPage();
+        } else {
+            Notification::make()
+                ->title(__('orders.cannot_cancel'))
+                ->danger()
+                ->send();
+        }
+    }
+
+    public function payOrder(int $orderId): void
+    {
+        $order = Order::query()
+            ->where('user_id', Auth::id())
+            ->findOrFail($orderId);
+
+        if ($order->status->canBePaid()) {
+            $this->redirect(route('payment.checkout', ['orderId' => $order->id]));
+        }
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('orders.my_orders');
@@ -37,49 +89,6 @@ class Orders extends Page implements HasTable
     public function getTitle(): string
     {
         return __('orders.my_orders');
-    }
-
-    public function table(Table $table): Table
-    {
-        return $table
-            ->query(Order::query()->where('user_id', Auth::id())->with(['orderItems.product', 'orderItems.productVariant']))
-            ->columns([
-                TextColumn::make('order_no')
-                    ->label(__('orders.order_no'))
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('status')
-                    ->label(__('orders.status_label'))
-                    ->badge()
-                    ->formatStateUsing(fn ($state) => $state->label()),
-                TextColumn::make('total')
-                    ->label(__('orders.total'))
-                    ->money('CNY')
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->label(__('orders.created_at'))
-                    ->dateTime()
-                    ->sortable(),
-            ])
-            ->actions([
-                TableAction::make('view')
-                    ->label(__('app.view'))
-                    ->url(fn (Order $record) => \App\Filament\User\Pages\OrderDetail::getUrl(['record' => $record->id])),
-                TableAction::make('cancel')
-                    ->label(__('orders.cancel'))
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->visible(fn (Order $record) => $record->status->canBeCancelled())
-                    ->action(function (Order $record) {
-                        $record->update(['status' => OrderStatusEnum::Cancelled]);
-                        Notification::make()
-                            ->title(__('orders.operation_success'))
-                            ->success()
-                            ->send();
-                    }),
-            ])
-            ->defaultSort('created_at', 'desc')
-            ->paginated([10, 25, 50]);
     }
 
     protected function getHeaderActions(): array
