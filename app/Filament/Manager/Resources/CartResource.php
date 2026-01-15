@@ -53,42 +53,82 @@ class CartResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->label(__('filament.cart.user_id'))
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->columnSpanFull()
-                    ->default(null),
-                // Forms\Components\TextInput::make('session_id')
-                //     ->label(__('filament.cart.session_id'))
-                //     ->maxLength(255)
-                //     ->default(null),
+                Forms\Components\Section::make(__('filament.cart.basic_info'))
+                    ->schema([
+                        Forms\Components\Select::make('user_id')
+                            ->label(__('filament.cart.user_id'))
+                            ->relationship('user', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->default(null)
+                            ->helperText(__('filament.cart.user_id_helper')),
+                        Forms\Components\TextInput::make('session_id')
+                            ->label(__('filament.cart.session_id'))
+                            ->maxLength(255)
+                            ->default(null)
+                            ->helperText(__('filament.cart.session_id_helper'))
+                            ->visible(fn ($record) => $record !== null),
+                    ]),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
+            ->modifyQueryUsing(
+                fn (\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder => $query
+                    ->with([
+                        'user',
+                        'cartItems',
+                    ])
+                    ->withCount('cartItems')
+            )
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label(__('filament.cart.id'))
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament.cart.user_id')),
-                // Tables\Columns\TextColumn::make('session_id')
-                //     ->label(__('filament.cart.session_id'))
-                //     ->searchable(),
+                    ->label(__('filament.cart.user_id'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('cart_items_count')
+                    ->label(__('filament.cart.items_count'))
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('session_id')
+                    ->label(__('filament.cart.session_id'))
+                    ->searchable()
+                    ->limit(20)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->label(__('filament.cart.user_id'))
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\Filter::make('has_items')
+                    ->label(__('filament.cart.has_items'))
+                    ->query(fn (\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder => $query->has('cartItems')),
+                Tables\Filters\Filter::make('empty')
+                    ->label(__('filament.cart.empty'))
+                    ->query(fn (\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder => $query->doesntHave('cartItems')),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array

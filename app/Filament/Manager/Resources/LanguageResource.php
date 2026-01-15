@@ -52,14 +52,29 @@ class LanguageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('code')
-                    ->label(__('filament.language.code'))
-                    ->required()
-                    ->maxLength(10),
-                Forms\Components\TextInput::make('name')
-                    ->label(__('filament.language.name'))
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Section::make(__('filament.language.basic_info'))
+                    ->schema([
+                        Forms\Components\TextInput::make('code')
+                            ->label(__('filament.language.code'))
+                            ->required()
+                            ->maxLength(10)
+                            ->unique(ignoreRecord: true)
+                            ->columnSpan(1)
+                            ->helperText(__('filament.language.code_helper'))
+                            ->dehydrateStateUsing(fn ($state) => $state ? strtolower($state) : $state),
+                        Forms\Components\TextInput::make('name')
+                            ->label(__('filament.language.name'))
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(1),
+                        Forms\Components\Toggle::make('default')
+                            ->label(__('filament.language.is_default'))
+                            ->default(false)
+                            ->inline(false)
+                            ->columnSpan(1)
+                            ->helperText(__('filament.language.is_default_helper')),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -69,23 +84,43 @@ class LanguageResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('code')
                     ->label(__('filament.language.code'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('filament.language.name'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->wrap(),
+                Tables\Columns\IconColumn::make('default')
+                    ->label(__('filament.language.is_default'))
+                    ->boolean()
+                    ->trueIcon('heroicon-o-star')
+                    ->falseIcon('heroicon-o-star')
+                    ->trueColor('warning')
+                    ->falseColor('gray')
+                    ->sortable()
+                    ->toggleable(),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('default')
+                    ->label(__('filament.language.is_default'))
+                    ->options([
+                        1 => __('filament.language.default'),
+                        0 => __('filament.language.not_default'),
+                    ]),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('code'));
     }
 
     public static function getRelations(): array

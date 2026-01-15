@@ -3,7 +3,7 @@
 namespace App\Filament\Manager\Resources\PromotionResource\RelationManagers;
 
 use App\Models\UserGroup;
-use App\Services\LocaleCurrencyService;
+use App\Traits\HasTranslationHelpers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserGroupsRelationManager extends RelationManager
 {
+    use HasTranslationHelpers;
+
     protected static string $relationship = 'userGroups';
 
     public static function getLabel(): string
@@ -27,12 +29,15 @@ class UserGroupsRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-        $service = app(LocaleCurrencyService::class);
-        $lang = $service->getLanguageByCode(app()->getLocale());
+        $lang = static::getCurrentLanguage();
 
         $userGroupOptions = UserGroup::with('userGroupTranslations')->get()->mapWithKeys(function ($group) use ($lang) {
-            $translation = $group->userGroupTranslations->where('language_id', $lang?->id)->first();
-            $name = $translation && $translation->name ? $translation->name : ($group->userGroupTranslations->first()->name ?? $group->id);
+            $name = static::getTranslationName(
+                $group->userGroupTranslations,
+                $lang?->id,
+                'name',
+                $group->id
+            );
 
             // 确保ID是字符串类型，以便在Select中正确匹配
             return [(string) $group->id => $name];
@@ -51,8 +56,7 @@ class UserGroupsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
-        $service = app(LocaleCurrencyService::class);
-        $lang = $service->getLanguageByCode(app()->getLocale());
+        $lang = static::getCurrentLanguage();
 
         return $table
             ->recordTitleAttribute('user_group_id')
@@ -64,11 +68,12 @@ class UserGroupsRelationManager extends RelationManager
                         if (! $group) {
                             return null;
                         }
-                        $translation = $group->userGroupTranslations->where('language_id', $lang?->id)->first();
-
-                        return $translation && $translation->name
-                            ? $translation->name
-                            : ($group->userGroupTranslations->first()->name ?? $group->id);
+                        return static::getTranslationName(
+                            $group->userGroupTranslations,
+                            $lang?->id,
+                            'name',
+                            $group->id
+                        );
                     }),
             ])
             ->filters([

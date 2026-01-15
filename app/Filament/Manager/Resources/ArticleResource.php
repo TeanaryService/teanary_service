@@ -62,7 +62,7 @@ class ArticleResource extends Resource
             Forms\Components\Tabs::make('article_tabs')
                 ->tabs([
                     Forms\Components\Tabs\Tab::make('basic')
-                        ->label('基本信息')
+                        ->label(__('filament.article.basic_info'))
                         ->schema([
                             ...static::getArticleBaseFields(),
                         ]),
@@ -77,32 +77,44 @@ class ArticleResource extends Resource
     protected static function getArticleBaseFields(): array
     {
         return [
-            SpatieMediaLibraryFileUpload::make('image')
-                ->label(__('filament.article.image'))
-                ->image()
-                ->imageEditor()
-                ->imageCropAspectRatio('16:9')
-                ->columnSpanFull()
-                ->required()
-                ->collection('image'),
-            Forms\Components\TextInput::make('slug')
-                ->required()
-                ->label(__('filament.article.slug'))
-                ->maxLength(255),
-            Forms\Components\Select::make('user_id')
-                ->label(__('filament.article.user_id'))
-                ->relationship('user', 'name')
-                ->searchable()
-                ->preload()
-                ->default(null),
-            Forms\Components\Toggle::make('is_published')
-                ->label(__('filament.article.is_published'))
-                ->required(),
-            Forms\Components\Select::make('translation_status')
-                ->label('翻译状态')
-                ->options(TranslationStatusEnum::options())
-                ->default(TranslationStatusEnum::NotTranslated->value)
-                ->required(),
+            Forms\Components\Section::make(__('filament.article.basic_info'))
+                ->schema([
+                    SpatieMediaLibraryFileUpload::make('image')
+                        ->label(__('filament.article.image'))
+                        ->image()
+                        ->imageEditor()
+                        ->imageCropAspectRatio('16:9')
+                        ->columnSpanFull()
+                        ->required()
+                        ->collection('image')
+                        ->helperText(__('filament.article.image_helper')),
+                    Forms\Components\TextInput::make('slug')
+                        ->required()
+                        ->label(__('filament.article.slug'))
+                        ->maxLength(255)
+                        ->unique(ignoreRecord: true)
+                        ->helperText(__('filament.article.slug_helper'))
+                        ->columnSpan(2),
+                    Forms\Components\Select::make('user_id')
+                        ->label(__('filament.article.user_id'))
+                        ->relationship('user', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->default(null)
+                        ->helperText(__('filament.article.user_id_helper')),
+                    Forms\Components\Toggle::make('is_published')
+                        ->label(__('filament.article.is_published'))
+                        ->default(false)
+                        ->inline(false)
+                        ->columnSpan(1),
+                    Forms\Components\Select::make('translation_status')
+                        ->label(__('filament.article.translation_status'))
+                        ->options(TranslationStatusEnum::options())
+                        ->default(TranslationStatusEnum::NotTranslated->value)
+                        ->required()
+                        ->columnSpan(1),
+                ])
+                ->columns(3),
         ];
     }
 
@@ -127,15 +139,18 @@ class ArticleResource extends Resource
                                 Forms\Components\TextInput::make("translations.{$lang->id}.title")
                                     ->label(__('filament.article.title'))
                                     ->required($lang->is_default ?? false)
-                                    ->default($translation ? $translation->title : ''),
-
-                                Forms\Components\TextInput::make("translations.{$lang->id}.summary")
+                                    ->maxLength(255)
+                                    ->default($translation ? $translation->title : '')
+                                    ->columnSpanFull(),
+                                Forms\Components\Textarea::make("translations.{$lang->id}.summary")
                                     ->label(__('filament.article.summary'))
                                     ->required($lang->is_default ?? false)
-                                    ->default($translation ? $translation->summary : ''),
-
+                                    ->rows(3)
+                                    ->maxLength(500)
+                                    ->default($translation ? $translation->summary : '')
+                                    ->columnSpanFull()
+                                    ->helperText(__('filament.article.summary_helper')),
                                 reusableRichEditor("translations.{$lang->id}.content", $translation ? ($translation->content ?? '') : '', __('filament.article.content'), $lang->id),
-
                             ]);
                     })->toArray()
                 )
@@ -145,10 +160,15 @@ class ArticleResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $service = app(LocaleCurrencyService::class);
+        $locale = app()->getLocale();
+        $lang = $service->getLanguageByCode($locale);
+
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
                 fn (Builder $query): Builder => $query
                     ->with([
+                        'user',
                         'articleTranslations',
                     ])
             )
@@ -156,65 +176,111 @@ class ArticleResource extends Resource
                 SpatieMediaLibraryImageColumn::make('image')
                     ->label(__('filament.article.image'))
                     ->collection('image')
-                    ->conversion('thumb'),
-                // 多语言 title 列
-                Tables\Columns\TextColumn::make('articleTranslations.title')
+                    ->conversion('thumb')
+                    ->circular()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('title')
                     ->label(__('filament.article.title'))
-                    ->limit(64)
-                    ->description(function ($record): string {
-                        $locale = app()->getLocale();
-                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
-                        $translation = $record->articleTranslations->where('language_id', $lang?->id)->first();
-                        $summary = $translation && $translation->summary ? $translation->summary : '';
-                        if (!$summary) {
-                            $first = $record->articleTranslations->first();
-                            $summary = $first ? ($first->summary ?? '') : '';
-                        }
-                        // 限制为 64 字符
-                        return mb_strlen($summary) > 32 ? mb_substr($summary, 0, 32) . '...' : $summary;
-                    })
-                    ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                    ->getStateUsing(function ($record) use ($lang) {
                         $translation = $record->articleTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->title) {
                             return $translation->title;
                         }
                         $first = $record->articleTranslations->first();
-
-                        return $first ? $first->title : '';
-                    }),
-                // Tables\Columns\TextColumn::make('slug')
-                //     ->label(__('filament.article.slug'))
-                //     ->searchable(),
+                        return $first ? $first->title : $record->slug;
+                    })
+                    ->searchable(query: function (Builder $query, string $search) use ($lang): Builder {
+                        return $query->whereHas('articleTranslations', function ($q) use ($search) {
+                            $q->where('title', 'like', "%{$search}%")
+                                ->orWhere('summary', 'like', "%{$search}%");
+                        });
+                    })
+                    ->sortable(query: function (Builder $query, string $direction) use ($lang): Builder {
+                        $langId = $lang?->id ?? 1;
+                        return $query->leftJoin('article_translations', function ($join) use ($langId) {
+                            $join->on('articles.id', '=', 'article_translations.article_id')
+                                ->where('article_translations.language_id', '=', $langId);
+                        })
+                        ->orderBy('article_translations.title', $direction)
+                        ->select('articles.*')
+                        ->groupBy('articles.id');
+                    })
+                    ->limit(50)
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('summary')
+                    ->label(__('filament.article.summary'))
+                    ->getStateUsing(function ($record) use ($lang) {
+                        $translation = $record->articleTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->summary) {
+                            return $translation->summary;
+                        }
+                        $first = $record->articleTranslations->first();
+                        return $first ? ($first->summary ?? '') : '';
+                    })
+                    ->limit(80)
+                    ->wrap()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->label(__('filament.article.slug'))
+                    ->searchable()
+                    ->limit(30)
+                    ->toggleable(),
                 Tables\Columns\IconColumn::make('is_published')
                     ->label(__('filament.article.is_published'))
-                    ->boolean(),
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament.article.user_id')),
+                    ->label(__('filament.article.user_id'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('translation_status')
                     ->formatStateUsing(fn ($state): string => $state->label())
-                    ->label('翻译状态')
+                    ->label(__('filament.article.translation_status'))
                     ->badge()
                     ->color(fn ($state): string => match ($state) {
                         TranslationStatusEnum::NotTranslated => 'gray',
                         TranslationStatusEnum::Pending => 'warning',
                         TranslationStatusEnum::Translated => 'success',
-                    }),
+                    })
+                    ->sortable()
+                    ->toggleable(),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('is_published')
+                    ->label(__('filament.article.is_published'))
+                    ->options([
+                        1 => __('filament.article.published'),
+                        0 => __('filament.article.unpublished'),
+                    ]),
+                Tables\Filters\SelectFilter::make('translation_status')
+                    ->label(__('filament.article.translation_status'))
+                    ->options(TranslationStatusEnum::options())
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->label(__('filament.article.user_id'))
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                     ...static::getTranslationStatusBulkActions(),
+                    static::getBulkPublishAction(),
+                    static::getBulkUnpublishAction(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array
@@ -231,5 +297,55 @@ class ArticleResource extends Resource
             'create' => Pages\CreateArticle::route('/create'),
             'edit' => Pages\EditArticle::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * 获取批量发布文章的批量操作.
+     */
+    public static function getBulkPublishAction(): Tables\Actions\BulkAction
+    {
+        return Tables\Actions\BulkAction::make('bulk_publish')
+            ->label(__('filament.article.bulk_publish'))
+            ->icon('heroicon-o-check-circle')
+            ->action(function ($records) {
+                $count = 0;
+                foreach ($records as $record) {
+                    $record->is_published = true;
+                    $record->save();
+                    ++$count;
+                }
+
+                \Filament\Notifications\Notification::make()
+                    ->title(__('filament.article.bulk_publish_success', ['count' => $count]))
+                    ->success()
+                    ->send();
+            })
+            ->deselectRecordsAfterCompletion()
+            ->requiresConfirmation();
+    }
+
+    /**
+     * 获取批量取消发布文章的批量操作.
+     */
+    public static function getBulkUnpublishAction(): Tables\Actions\BulkAction
+    {
+        return Tables\Actions\BulkAction::make('bulk_unpublish')
+            ->label(__('filament.article.bulk_unpublish'))
+            ->icon('heroicon-o-x-circle')
+            ->action(function ($records) {
+                $count = 0;
+                foreach ($records as $record) {
+                    $record->is_published = false;
+                    $record->save();
+                    ++$count;
+                }
+
+                \Filament\Notifications\Notification::make()
+                    ->title(__('filament.article.bulk_unpublish_success', ['count' => $count]))
+                    ->success()
+                    ->send();
+            })
+            ->deselectRecordsAfterCompletion()
+            ->requiresConfirmation();
     }
 }

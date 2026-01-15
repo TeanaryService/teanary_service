@@ -82,49 +82,63 @@ class CategoryResource extends Resource
 
         return $form
             ->schema([
-                SpatieMediaLibraryFileUpload::make('image')
-                    ->label(__('filament.category.image'))
-                    ->image()
-                    ->imageEditor()
-                    ->imageCropAspectRatio('1:1')
-                    ->columnSpanFull()
-                    ->required()
-                    ->collection('image'),
-                Forms\Components\Select::make('parent_id')
-                    ->label(__('filament.category.parent'))
-                    ->options($options)
-                    ->searchable()
-                    ->preload()
-                    ->default(null),
-                Forms\Components\TextInput::make('slug')
-                    ->label(__('filament.category.slug'))
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('translation_status')
-                    ->label('翻译状态')
-                    ->options(TranslationStatusEnum::options())
-                    ->default(TranslationStatusEnum::NotTranslated->value)
-                    ->required(),
-
-                // 多语言 name 字段
-                Forms\Components\Group::make(
-                    $languages->map(function ($lang) use ($model) {
-                        $default = '';
-                        if ($model && $model->exists) {
-                            $translation = $model->categoryTranslations
-                                ->where('language_id', $lang->id)
-                                ->first();
-                            $default = $translation ? $translation->name : '';
-                        }
-
-                        return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.category.name')." ({$lang->name})")
-                            ->required($lang->is_default ?? false)
+                Forms\Components\Section::make(__('filament.category.basic_info'))
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('image')
+                            ->label(__('filament.category.image'))
+                            ->image()
+                            ->imageEditor()
+                            ->imageCropAspectRatio('1:1')
                             ->columnSpanFull()
-                            ->default($default);
-                    })->toArray()
-                )->columnSpanFull()
-                    ->label(__('filament.category.name')),
+                            ->required()
+                            ->collection('image')
+                            ->helperText(__('filament.category.image_helper')),
+                        Forms\Components\Select::make('parent_id')
+                            ->label(__('filament.category.parent'))
+                            ->options($options)
+                            ->searchable()
+                            ->preload()
+                            ->default(null)
+                            ->columnSpan(1)
+                            ->helperText(__('filament.category.parent_helper')),
+                        Forms\Components\TextInput::make('slug')
+                            ->label(__('filament.category.slug'))
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->columnSpan(1)
+                            ->helperText(__('filament.category.slug_helper')),
+                        Forms\Components\Select::make('translation_status')
+                            ->label(__('filament.category.translation_status'))
+                            ->options(TranslationStatusEnum::options())
+                            ->default(TranslationStatusEnum::NotTranslated->value)
+                            ->required()
+                            ->columnSpan(1),
+                    ])
+                    ->columns(3),
+                Forms\Components\Section::make(__('filament.category.translations'))
+                    ->schema([
+                        Forms\Components\Group::make(
+                            $languages->map(function ($language) use ($model) {
+                                $default = '';
+                                if ($model && $model->exists) {
+                                    $translation = $model->categoryTranslations
+                                        ->where('language_id', $language->id)
+                                        ->first();
+                                    $default = $translation ? $translation->name : '';
+                                }
+
+                                return Forms\Components\TextInput::make("translations.{$language->id}.name")
+                                    ->label(__('filament.category.name')." ({$language->name})")
+                                    ->required($language->is_default ?? false)
+                                    ->maxLength(255)
+                                    ->columnSpanFull()
+                                    ->default($default)
+                                    ->helperText($language->is_default ? __('filament.category.name_helper') : null);
+                            })->toArray()
+                        )->columnSpanFull(),
+                    ])
+                    ->collapsible(),
             ]);
     }
 
@@ -134,64 +148,119 @@ class CategoryResource extends Resource
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
 
         return static::applyDefaultPagination($table
+            ->modifyQueryUsing(
+                fn (\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder => $query
+                    ->with([
+                        'category.categoryTranslations',
+                        'categoryTranslations',
+                    ])
+            )
             ->columns([
                 SpatieMediaLibraryImageColumn::make('image')
                     ->label(__('filament.category.image'))
                     ->collection('image')
-                    ->conversion('thumb'),
-                Tables\Columns\TextColumn::make('parent_id')
+                    ->conversion('thumb')
+                    ->circular()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('filament.category.name'))
+                    ->getStateUsing(function ($record) use ($lang) {
+                        $translation = $record->categoryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->categoryTranslations->first();
+                        return $first ? $first->name : __('filament.category.unnamed');
+                    })
+                    ->searchable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $search) use ($lang): \Illuminate\Database\Eloquent\Builder {
+                        return $query->whereHas('categoryTranslations', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
+                    })
+                    ->sortable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $direction) use ($lang): \Illuminate\Database\Eloquent\Builder {
+                        $langId = $lang?->id ?? 1;
+                        return $query->leftJoin('category_translations', function ($join) use ($langId) {
+                            $join->on('categories.id', '=', 'category_translations.category_id')
+                                ->where('category_translations.language_id', '=', $langId);
+                        })
+                        ->orderBy('category_translations.name', $direction)
+                        ->select('categories.*')
+                        ->groupBy('categories.id');
+                    })
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('parent.name')
                     ->label(__('filament.category.parent'))
                     ->getStateUsing(function ($record) use ($lang) {
                         $parent = $record->category;
                         if (! $parent) {
-                            return null;
+                            return __('filament.category.root');
                         }
                         $translation = $parent->categoryTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->name) {
-                            return $translation->name."({$parent->id})";
+                            return $translation->name;
                         }
                         $first = $parent->categoryTranslations->first();
-
-                        return ($first ? $first->name : $parent->slug)."({$parent->id})";
+                        return $first ? $first->name : $parent->slug;
                     })
-                    ->sortable(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->label(__('filament.category.slug'))
-                    ->searchable(),
-                // 显示当前语言的 name
-                Tables\Columns\TextColumn::make('categoryTranslations.name')
-                    ->label(__('filament.category.name'))
-                    ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
-
-                        return optional(
-                            $record->categoryTranslations->where('language_id', $lang?->id)->first()
-                        )->name;
-                    }),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('products_count')
+                    ->label(__('filament.category.products_count'))
+                    ->counts('products')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('translation_status')
                     ->formatStateUsing(fn ($state): string => $state->label())
-                    ->label('翻译状态')
+                    ->label(__('filament.category.translation_status'))
                     ->badge()
                     ->color(fn ($state): string => match ($state) {
                         TranslationStatusEnum::NotTranslated => 'gray',
                         TranslationStatusEnum::Pending => 'warning',
                         TranslationStatusEnum::Translated => 'success',
-                    }),
+                    })
+                    ->sortable()
+                    ->toggleable(),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('parent_id')
+                    ->label(__('filament.category.parent'))
+                    ->relationship('category', 'id', function ($query) {
+                        return $query->with('categoryTranslations')->whereNull('parent_id');
+                    })
+                    ->getOptionLabelFromRecordUsing(function ($record) use ($lang) {
+                        $translation = $record->categoryTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->categoryTranslations->first();
+                        return $first ? $first->name : $record->slug;
+                    })
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('translation_status')
+                    ->label(__('filament.category.translation_status'))
+                    ->options(TranslationStatusEnum::options())
+                    ->multiple(),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                     ...static::getTranslationStatusBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array

@@ -16,11 +16,11 @@ trait HasTranslationStatus
     {
         return [
             BulkAction::make('set_translation_status')
-                ->label('批量设置翻译状态')
+                ->label(__('filament.common.bulk_set_translation_status'))
                 ->icon('heroicon-o-language')
                 ->form([
                     Select::make('translation_status')
-                        ->label('翻译状态')
+                        ->label(__('filament.common.translation_status'))
                         ->options(TranslationStatusEnum::options())
                         ->required()
                         ->default(TranslationStatusEnum::Pending->value),
@@ -60,7 +60,7 @@ trait HasTranslationStatus
                     }
 
                     Notification::make()
-                        ->title("已更新 {$count} 条记录的翻译状态")
+                        ->title(__('filament.common.translation_status_updated', ['count' => $count]))
                         ->success()
                         ->send();
                 })

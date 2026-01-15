@@ -81,34 +81,64 @@ class OrderShipmentResource extends Resource
     public static function table(Table $table): Table
     {
         return static::applyDefaultPagination($table
+            ->modifyQueryUsing(
+                fn (\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder => $query
+                    ->with([
+                        'order',
+                    ])
+            )
             ->columns([
-                Tables\Columns\TextColumn::make('order.id')
-                    ->label(__('filament.order_shipment.order_id'))
-                    ->numeric()
+                Tables\Columns\TextColumn::make('order.order_no')
+                    ->label(__('filament.order_shipment.order_no'))
+                    ->searchable()
+                    ->sortable()
                     ->hiddenOn([OrderShipmentsRelationManager::class])
-                    ->sortable(),
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('shipping_method')
                     ->label(__('filament.order_shipment.shipping_method'))
-                    // ->getStateUsing(fn(ShippingMethodEnum $state):string => $state->label()),
                     ->getStateUsing(function ($record) {
                         return $record->shipping_method->label();
-                    }),
+                    })
+                    ->badge()
+                    ->color('info')
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('tracking_number')
                     ->label(__('filament.order_shipment.tracking_number'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->placeholder('-')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('notes')
+                    ->label(__('filament.order_shipment.notes'))
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('shipping_method')
+                    ->label(__('filament.order_shipment.shipping_method'))
+                    ->options(ShippingMethodEnum::options())
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('order_id')
+                    ->label(__('filament.order_shipment.order_id'))
+                    ->relationship('order', 'order_no')
+                    ->searchable()
+                    ->preload()
+                    ->hiddenOn([OrderShipmentsRelationManager::class]),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array

@@ -57,78 +57,112 @@ class AttributeValueResource extends Resource
     {
         $languages = app(LocaleCurrencyService::class)->getLanguages();
         $model = $form->getModelInstance();
+        $locale = app()->getLocale();
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
 
         return $form
             ->schema([
-                Forms\Components\Select::make('attribute_id')
-                    ->label(__('filament.attribute_value.attribute'))
-                    ->relationship('attribute', 'id')
-                    ->getOptionLabelFromRecordUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
-                        $translation = $record->attributeTranslations->where('language_id', $lang?->id)->first();
-                        if ($translation && $translation->name) {
-                            return $translation->name;
-                        }
-                        $first = $record->attributeTranslations->first();
-
-                        return $first ? $first->name : $record->id;
-                    })
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->columnSpanFull()
+                Forms\Components\Section::make(__('filament.attribute_value.basic_info'))
+                    ->schema([
+                        Forms\Components\Select::make('attribute_id')
+                            ->label(__('filament.attribute_value.attribute'))
+                            ->relationship('attribute', 'id', function ($query) {
+                                return $query->with('attributeTranslations');
+                            })
+                            ->getOptionLabelFromRecordUsing(function ($record) use ($lang) {
+                                $translation = $record->attributeTranslations->where('language_id', $lang?->id)->first();
+                                if ($translation && $translation->name) {
+                                    return $translation->name;
+                                }
+                                $first = $record->attributeTranslations->first();
+                                return $first ? $first->name : $record->id;
+                            })
+                            ->searchable()
+                            ->preload()
+                            ->required()
+                            ->columnSpan(1)
+                            ->hiddenOn([AttributeValuesRelationManager::class])
+                            ->helperText(__('filament.attribute_value.attribute_helper')),
+                        Forms\Components\Select::make('translation_status')
+                            ->label(__('filament.attribute_value.translation_status'))
+                            ->options(TranslationStatusEnum::options())
+                            ->default(TranslationStatusEnum::NotTranslated->value)
+                            ->required()
+                            ->columnSpan(1)
+                            ->hiddenOn([AttributeValuesRelationManager::class]),
+                    ])
+                    ->columns(2)
                     ->hiddenOn([AttributeValuesRelationManager::class]),
-                Forms\Components\Select::make('translation_status')
-                    ->label('翻译状态')
-                    ->options(TranslationStatusEnum::options())
-                    ->default(TranslationStatusEnum::NotTranslated->value)
-                    ->required()
-                    ->hiddenOn([AttributeValuesRelationManager::class]),
+                Forms\Components\Section::make(__('filament.attribute_value.translations'))
+                    ->schema([
+                        Forms\Components\Group::make(
+                            $languages->map(function ($language) use ($model) {
+                                $default = '';
+                                if ($model && $model->exists) {
+                                    $translation = $model->attributeValueTranslations
+                                        ->where('language_id', $language->id)
+                                        ->first();
+                                    $default = $translation ? $translation->name : '';
+                                }
 
-                // 多语言 name 字段
-                Forms\Components\Group::make(
-                    $languages->map(function ($lang) use ($model) {
-                        $default = '';
-                        if ($model && $model->exists) {
-                            $translation = $model->attributeValueTranslations
-                                ->where('language_id', $lang->id)
-                                ->first();
-                            $default = $translation ? $translation->name : '';
-                        }
-
-                        return Forms\Components\TextInput::make("translations.{$lang->id}.name")
-                            ->label(__('filament.attribute_value.name')." ({$lang->name})")
-                            ->required($lang->is_default ?? false)
-                            ->columnSpanFull()
-                            ->default($default);
-                    })->toArray()
-                )->columnSpanFull()
-                    ->label(__('filament.attribute_value.name')),
+                                return Forms\Components\TextInput::make("translations.{$language->id}.name")
+                                    ->label(__('filament.attribute_value.name')." ({$language->name})")
+                                    ->required($language->is_default ?? false)
+                                    ->maxLength(255)
+                                    ->columnSpanFull()
+                                    ->default($default)
+                                    ->helperText($language->is_default ? __('filament.attribute_value.name_helper') : null);
+                            })->toArray()
+                        )->columnSpanFull(),
+                    ])
+                    ->collapsible(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        return static::applyDefaultPagination($table
-            ->columns([
-                // 显示当前语言的 name
-                Tables\Columns\TextColumn::make('attributeValueTranslations.name')
-                    ->label(__('filament.attribute_value.name'))
-                    ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $service = app(LocaleCurrencyService::class);
+        $locale = app()->getLocale();
+        $lang = $service->getLanguageByCode($locale);
 
-                        return optional(
-                            $record->attributeValueTranslations->where('language_id', $lang?->id)->first()
-                        )->name;
-                    }),
+        return static::applyDefaultPagination($table
+            ->modifyQueryUsing(
+                fn (\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder => $query
+                    ->with([
+                        'attribute.attributeTranslations',
+                        'attributeValueTranslations',
+                    ])
+            )
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('filament.attribute_value.name'))
+                    ->getStateUsing(function ($record) use ($lang) {
+                        $translation = $record->attributeValueTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->attributeValueTranslations->first();
+                        return $first ? $first->name : __('filament.attribute_value.unnamed');
+                    })
+                    ->searchable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $search) use ($lang): \Illuminate\Database\Eloquent\Builder {
+                        return $query->whereHas('attributeValueTranslations', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
+                    })
+                    ->sortable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $direction) use ($lang): \Illuminate\Database\Eloquent\Builder {
+                        $langId = $lang?->id ?? 1;
+                        return $query->leftJoin('attribute_value_translations', function ($join) use ($langId) {
+                            $join->on('attribute_values.id', '=', 'attribute_value_translations.attribute_value_id')
+                                ->where('attribute_value_translations.language_id', '=', $langId);
+                        })
+                        ->orderBy('attribute_value_translations.name', $direction)
+                        ->select('attribute_values.*')
+                        ->groupBy('attribute_values.id');
+                    })
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('attribute.name')
                     ->label(__('filament.attribute_value.attribute'))
-                    ->hiddenOn([AttributeValuesRelationManager::class])
-                    ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+                    ->getStateUsing(function ($record) use ($lang) {
                         $attribute = $record->attribute;
                         if (! $attribute) {
                             return null;
@@ -138,33 +172,80 @@ class AttributeValueResource extends Resource
                             return $translation->name;
                         }
                         $first = $attribute->attributeTranslations->first();
-
                         return $first ? $first->name : $attribute->id;
-                    }),
+                    })
+                    ->searchable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $search) use ($lang): \Illuminate\Database\Eloquent\Builder {
+                        return $query->whereHas('attribute.attributeTranslations', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
+                    })
+                    ->sortable(query: function (\Illuminate\Database\Eloquent\Builder $query, string $direction) use ($lang): \Illuminate\Database\Eloquent\Builder {
+                        $langId = $lang?->id ?? 1;
+                        return $query->leftJoin('attributes', 'attribute_values.attribute_id', '=', 'attributes.id')
+                            ->leftJoin('attribute_translations', function ($join) use ($langId) {
+                                $join->on('attributes.id', '=', 'attribute_translations.attribute_id')
+                                    ->where('attribute_translations.language_id', '=', $langId);
+                            })
+                            ->orderBy('attribute_translations.name', $direction)
+                            ->select('attribute_values.*')
+                            ->groupBy('attribute_values.id');
+                    })
+                    ->hiddenOn([AttributeValuesRelationManager::class])
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('products_count')
+                    ->label(__('filament.attribute_value.products_count'))
+                    ->counts('products')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('translation_status')
                     ->formatStateUsing(fn ($state): string => $state->label())
-                    ->label('翻译状态')
+                    ->label(__('filament.attribute_value.translation_status'))
                     ->badge()
                     ->color(fn ($state): string => match ($state) {
                         TranslationStatusEnum::NotTranslated => 'gray',
                         TranslationStatusEnum::Pending => 'warning',
                         TranslationStatusEnum::Translated => 'success',
                     })
-                    ->hiddenOn([AttributeValuesRelationManager::class]),
+                    ->sortable()
+                    ->hiddenOn([AttributeValuesRelationManager::class])
+                    ->toggleable(),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('attribute_id')
+                    ->label(__('filament.attribute_value.attribute'))
+                    ->relationship('attribute', 'id', function ($query) use ($lang) {
+                        return $query->with('attributeTranslations');
+                    })
+                    ->getOptionLabelFromRecordUsing(function ($record) use ($lang) {
+                        $translation = $record->attributeTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->attributeTranslations->first();
+                        return $first ? $first->name : $record->id;
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->hiddenOn([AttributeValuesRelationManager::class]),
+                Tables\Filters\SelectFilter::make('translation_status')
+                    ->label(__('filament.attribute_value.translation_status'))
+                    ->options(TranslationStatusEnum::options())
+                    ->multiple()
+                    ->hiddenOn([AttributeValuesRelationManager::class]),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                     ...static::getTranslationStatusBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array

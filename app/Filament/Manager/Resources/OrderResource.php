@@ -145,63 +145,126 @@ class OrderResource extends Resource
             ->modifyQueryUsing(
                 fn (Builder $query): Builder => $query
                     ->with([
+                        'user',
                         'currency',
                         'shippingAddress',
                         'billingAddress',
+                        'orderItems',
                     ])
             )
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('filament.order.user_id')),
                 Tables\Columns\TextColumn::make('order_no')
                     ->label(__('filament.order.order_no'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->copyable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('filament.order.user_id'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->formatStateUsing(fn ($state): string => $state->label())
+                    ->label(__('filament.order.status'))
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        \App\Enums\OrderStatusEnum::Pending => 'gray',
+                        \App\Enums\OrderStatusEnum::Paid => 'info',
+                        \App\Enums\OrderStatusEnum::Shipped => 'warning',
+                        \App\Enums\OrderStatusEnum::Completed => 'success',
+                        \App\Enums\OrderStatusEnum::Cancelled => 'danger',
+                        default => 'gray',
+                    })
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('total')
+                    ->label(__('filament.order.total'))
+                    ->prefix(fn ($record): string => $record->currency ? $record->currency->symbol : '')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('shipping_fee')
+                    ->label(__('filament.order.shipping_fee'))
+                    ->prefix(fn ($record): string => $record->currency ? $record->currency->symbol : '')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('items_count')
+                    ->label(__('filament.order.items_count'))
+                    ->counts('orderItems')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('shippingAddress')
                     ->label(__('filament.order.shipping_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->shippingAddress;
                         if (! $addr) {
-                            return '';
+                            return '-';
                         }
-
-                        return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
-                    }),
+                        return "{$addr->firstname} {$addr->lastname} ({$addr->city})";
+                    })
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('billingAddress')
                     ->label(__('filament.order.billing_address_id'))
                     ->formatStateUsing(function ($record) {
                         $addr = $record->billingAddress;
                         if (! $addr) {
-                            return '';
+                            return '-';
                         }
-
-                        return "{$addr->firstname} {$addr->lastname} ({$addr->address_1}, {$addr->city})";
-                    }),
-                Tables\Columns\TextColumn::make('total')
-                    ->label(__('filament.order.total'))
-                    ->prefix(fn ($record): string => $record->currency ? $record->currency->symbol : '')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('shipping_fee')
-                    ->label(__('filament.order.shipping_fee'))
-                    ->prefix(fn ($record): string => $record->currency ? $record->currency->symbol : '')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn ($state): string => $state->label())
-                    ->label(__('filament.order.status')),
+                        return "{$addr->firstname} {$addr->lastname} ({$addr->city})";
+                    })
+                    ->limit(50)
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->label(__('filament.order.status'))
+                    ->options(OrderStatusEnum::options())
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->label(__('filament.order.user_id'))
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('currency_id')
+                    ->label(__('filament.order.currency_id'))
+                    ->relationship('currency', 'name')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from')
+                            ->label(__('filament.order.created_from')),
+                        Forms\Components\DatePicker::make('created_until')
+                            ->label(__('filament.order.created_until')),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    }),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array

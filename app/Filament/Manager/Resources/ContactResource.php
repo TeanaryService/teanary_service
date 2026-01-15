@@ -52,18 +52,26 @@ class ContactResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label(__('filament.contact.name'))
-                    ->required()
-                    ->maxLength(100),
-                Forms\Components\TextInput::make('email')
-                    ->label(__('filament.contact.email'))
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('message')
-                    ->label(__('filament.contact.message'))
-                    ->columnSpanFull(),
+                Forms\Components\Section::make(__('filament.contact.basic_info'))
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label(__('filament.contact.name'))
+                            ->required()
+                            ->maxLength(100)
+                            ->columnSpan(1),
+                        Forms\Components\TextInput::make('email')
+                            ->label(__('filament.contact.email'))
+                            ->email()
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan(1),
+                        Forms\Components\Textarea::make('message')
+                            ->label(__('filament.contact.message'))
+                            ->rows(5)
+                            ->columnSpanFull()
+                            ->required(),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -73,23 +81,51 @@ class ContactResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('filament.contact.name'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('filament.contact.email'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->copyable(),
+                Tables\Columns\TextColumn::make('message')
+                    ->label(__('filament.contact.message'))
+                    ->limit(100)
+                    ->wrap()
+                    ->toggleable(),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('created_from')
+                            ->label(__('filament.contact.created_from')),
+                        Forms\Components\DatePicker::make('created_until')
+                            ->label(__('filament.contact.created_until')),
+                    ])
+                    ->query(function (\Illuminate\Database\Eloquent\Builder $query, array $data): \Illuminate\Database\Eloquent\Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (\Illuminate\Database\Eloquent\Builder $query, $date): \Illuminate\Database\Eloquent\Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['created_until'],
+                                fn (\Illuminate\Database\Eloquent\Builder $query, $date): \Illuminate\Database\Eloquent\Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    }),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array

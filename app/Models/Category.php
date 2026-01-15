@@ -80,6 +80,12 @@ class Category extends Model implements HasMedia
             ->using(\App\Models\ProductCategory::class);
     }
 
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_category')
+            ->using(\App\Models\ProductCategory::class);
+    }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')

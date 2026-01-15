@@ -193,12 +193,12 @@ class ProductResource extends Resource
                 ->options(ProductStatusEnum::options())
                 ->required(),
             Forms\Components\Select::make('translation_status')
-                ->label('翻译状态')
+                ->label(__('filament.product.translation_status'))
                 ->options(TranslationStatusEnum::options())
                 ->default(TranslationStatusEnum::NotTranslated->value)
                 ->required(),
             Forms\Components\TextInput::make('source_url')
-                ->label('来源URL')
+                ->label(__('filament.product.source_url'))
                 ->url()
                 ->maxLength(255)
                 ->hidden(function ($livewire) {
@@ -248,11 +248,18 @@ class ProductResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $service = app(LocaleCurrencyService::class);
+        $locale = app()->getLocale();
+        $lang = $service->getLanguageByCode($locale);
+        $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
+
         return static::applyDefaultPagination($table
             ->modifyQueryUsing(
                 fn (Builder $query): Builder => $query
                     ->with([
                         'productCategories.categoryTranslations',
+                        'productVariants',
+                        'productTranslations',
                     ])
             )
             ->columns([
@@ -260,26 +267,39 @@ class ProductResource extends Resource
                     ->label(__('filament.product.images'))
                     ->stacked()
                     ->collection('images')
-                    ->conversion('thumb'),
-                // 多语言 name 列
+                    ->conversion('thumb')
+                    ->limit(3)
+                    ->circular(),
                 Tables\Columns\TextColumn::make('productTranslations.name')
                     ->label(__('filament.product.name'))
-                    ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                    ->getStateUsing(function ($record) use ($lang) {
                         $translation = $record->productTranslations->where('language_id', $lang?->id)->first();
                         if ($translation && $translation->name) {
                             return $translation->name;
                         }
                         $first = $record->productTranslations->first();
-
-                        return $first ? $first->name : '';
-                    })->limit(32),
+                        return $first ? $first->name : $record->slug;
+                    })
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query->whereHas('productTranslations', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
+                    })
+                    ->sortable(query: function (Builder $query, string $direction) use ($lang): Builder {
+                        $langId = $lang?->id ?? 1;
+                        return $query->leftJoin('product_translations', function ($join) use ($langId) {
+                            $join->on('products.id', '=', 'product_translations.product_id')
+                                ->where('product_translations.language_id', '=', $langId);
+                        })
+                        ->orderBy('product_translations.name', $direction)
+                        ->select('products.*')
+                        ->groupBy('products.id');
+                    })
+                    ->limit(40)
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('categories')
                     ->label(__('filament.product.categories'))
-                    ->getStateUsing(function ($record) {
-                        $locale = app()->getLocale();
-                        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
+                    ->getStateUsing(function ($record) use ($lang) {
                         $names = [];
                         foreach ($record->productCategories as $cat) {
                             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
@@ -287,47 +307,138 @@ class ProductResource extends Resource
                                 ? $translation->name
                                 : ($cat->categoryTranslations->first()->name ?? '');
                         }
-
-                        return implode('，', array_filter($names));
-                    }),
+                        return implode(', ', array_filter($names)) ?: '-';
+                    })
+                    ->limit(30)
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('price_range')
+                    ->label(__('filament.product.price_range'))
+                    ->getStateUsing(function ($record) use ($service, $currentCurrencyCode) {
+                        $variants = $record->productVariants;
+                        if ($variants->isEmpty()) {
+                            return '-';
+                        }
+                        $prices = $variants->pluck('price')->filter()->sort()->values();
+                        if ($prices->isEmpty()) {
+                            return '-';
+                        }
+                        if ($prices->count() === 1) {
+                            return $service->convertWithSymbol($prices->first(), $currentCurrencyCode);
+                        }
+                        $min = $service->convertWithSymbol($prices->first(), $currentCurrencyCode);
+                        $max = $service->convertWithSymbol($prices->last(), $currentCurrencyCode);
+                        return "{$min} - {$max}";
+                    })
+                    ->sortable(false)
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('total_stock')
+                    ->label(__('filament.product.total_stock'))
+                    ->getStateUsing(function ($record) {
+                        return $record->productVariants->sum('stock');
+                    })
+                    ->numeric()
+                    ->sortable(false)
+                    ->color(fn ($state) => $state > 0 ? 'success' : 'danger')
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('variants_count')
+                    ->label(__('filament.product.variants_count'))
+                    ->getStateUsing(function ($record) {
+                        return $record->productVariants->count();
+                    })
+                    ->numeric()
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query->withCount('productVariants')
+                            ->orderBy('product_variants_count', $direction);
+                    })
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('slug')
-                    ->limit(16)
                     ->label(__('filament.product.slug'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('source_url')
-                    ->label('来源')
-                    ->limit(40)
-                    ->url(fn ($record) => $record->source_url)
-                    ->openUrlInNewTab()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(20)
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn ($state): string => $state->label())
-                    ->label(__('filament.product.status')),
+                    ->label(__('filament.product.status'))
+                    ->badge()
+                    ->color(fn ($state): string => match ($state) {
+                        ProductStatusEnum::Active => 'success',
+                        ProductStatusEnum::Inactive => 'danger',
+                    })
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('translation_status')
                     ->formatStateUsing(fn ($state): string => $state->label())
-                    ->label('翻译状态')
+                    ->label(__('filament.product.translation_status'))
                     ->badge()
                     ->color(fn ($state): string => match ($state) {
                         TranslationStatusEnum::NotTranslated => 'gray',
                         TranslationStatusEnum::Pending => 'warning',
                         TranslationStatusEnum::Translated => 'success',
-                    }),
+                    })
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('source_url')
+                    ->label(__('filament.product.source_url'))
+                    ->limit(40)
+                    ->url(fn ($record) => $record->source_url)
+                    ->openUrlInNewTab()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable(),
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->label(__('filament.product.status'))
+                    ->options(ProductStatusEnum::options())
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('translation_status')
+                    ->label(__('filament.product.translation_status'))
+                    ->options(TranslationStatusEnum::options())
+                    ->multiple(),
+                Tables\Filters\SelectFilter::make('category')
+                    ->label(__('filament.product.categories'))
+                    ->relationship('productCategories', 'id')
+                    ->getOptionLabelFromRecordUsing(function ($record) use ($lang) {
+                        $translation = $record->categoryTranslations->where('language_id', $lang?->id)->first();
+                        return $translation && $translation->name
+                            ? $translation->name
+                            : ($record->categoryTranslations->first()->name ?? $record->id);
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+                Tables\Filters\Filter::make('low_stock')
+                    ->label(__('filament.product.low_stock'))
+                    ->query(function (Builder $query): Builder {
+                        return $query->whereIn('id', function ($subQuery) {
+                            $subQuery->select('product_id')
+                                ->from('product_variants')
+                                ->groupBy('product_id')
+                                ->havingRaw('SUM(stock) <= 10');
+                        });
+                    }),
+                Tables\Filters\Filter::make('out_of_stock')
+                    ->label(__('filament.product.out_of_stock'))
+                    ->query(function (Builder $query): Builder {
+                        return $query->whereIn('id', function ($subQuery) {
+                            $subQuery->select('product_id')
+                                ->from('product_variants')
+                                ->groupBy('product_id')
+                                ->havingRaw('SUM(stock) = 0');
+                        });
+                    }),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                     ...static::getTranslationStatusBulkActions(),
                     static::getBulkEnableAction(),
+                    static::getBulkDisableAction(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array
@@ -352,7 +463,7 @@ class ProductResource extends Resource
     public static function getBulkEnableAction(): BulkAction
     {
         return BulkAction::make('bulk_enable')
-            ->label('批量启用')
+            ->label(__('filament.product.bulk_enable'))
             ->icon('heroicon-o-check-circle')
             ->action(function ($records) {
                 $count = 0;
@@ -381,7 +492,50 @@ class ProductResource extends Resource
                 }
 
                 Notification::make()
-                    ->title("已启用 {$count} 个商品")
+                    ->title(__('filament.product.bulk_enable_success', ['count' => $count]))
+                    ->success()
+                    ->send();
+            })
+            ->deselectRecordsAfterCompletion()
+            ->requiresConfirmation();
+    }
+
+    /**
+     * 获取批量禁用商品的批量操作.
+     */
+    public static function getBulkDisableAction(): BulkAction
+    {
+        return BulkAction::make('bulk_disable')
+            ->label(__('filament.product.bulk_disable'))
+            ->icon('heroicon-o-x-circle')
+            ->action(function ($records) {
+                $count = 0;
+                $syncService = app(\App\Services\SyncService::class);
+                $sourceNode = config('sync.node');
+
+                // 禁用同步，避免每个 save() 都触发同步
+                Product::$syncDisabled = true;
+
+                try {
+                    $models = [];
+                    foreach ($records as $record) {
+                        $record->status = ProductStatusEnum::Inactive;
+                        $record->save();
+                        $models[] = ['model' => $record, 'action' => 'updated'];
+                        ++$count;
+                    }
+
+                    // 批量记录同步
+                    if (! empty($models)) {
+                        $syncService->recordBatchSync($models, $sourceNode);
+                    }
+                } finally {
+                    // 重新启用同步
+                    Product::$syncDisabled = false;
+                }
+
+                Notification::make()
+                    ->title(__('filament.product.bulk_disable_success', ['count' => $count]))
                     ->success()
                     ->send();
             })

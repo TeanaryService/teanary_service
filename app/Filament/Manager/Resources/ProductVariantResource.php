@@ -296,16 +296,60 @@ class ProductVariantResource extends Resource
                 ...static::getTimestampsColumns(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('product_id')
+                    ->label(__('filament.product_variant.product_id'))
+                    ->relationship('product', 'id', function ($query) {
+                        return $query->with('productTranslations');
+                    })
+                    ->getOptionLabelFromRecordUsing(function ($record) use ($localeCurrencyService) {
+                        $locale = app()->getLocale();
+                        $lang = $localeCurrencyService->getLanguageByCode($locale);
+                        $translation = $record->productTranslations->where('language_id', $lang?->id)->first();
+                        if ($translation && $translation->name) {
+                            return $translation->name;
+                        }
+                        $first = $record->productTranslations->first();
+                        return $first ? $first->name : $record->id;
+                    })
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\Filter::make('stock')
+                    ->form([
+                        Forms\Components\TextInput::make('stock_from')
+                            ->label(__('filament.product_variant.stock_from'))
+                            ->numeric(),
+                        Forms\Components\TextInput::make('stock_until')
+                            ->label(__('filament.product_variant.stock_until'))
+                            ->numeric(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['stock_from'],
+                                fn (Builder $query, $stock): Builder => $query->where('stock', '>=', $stock),
+                            )
+                            ->when(
+                                $data['stock_until'],
+                                fn (Builder $query, $stock): Builder => $query->where('stock', '<=', $stock),
+                            );
+                    }),
+                Tables\Filters\Filter::make('low_stock')
+                    ->label(__('filament.product_variant.low_stock'))
+                    ->query(fn (Builder $query): Builder => $query->where('stock', '<=', 10)),
+                Tables\Filters\Filter::make('out_of_stock')
+                    ->label(__('filament.product_variant.out_of_stock'))
+                    ->query(fn (Builder $query): Builder => $query->where('stock', '=', 0)),
             ])
             ->actions([
                 ...static::getActions(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
                     ...static::getBulkActions(),
                 ]),
-            ]));
+            ])
+            ->defaultSort('created_at', 'desc'));
     }
 
     public static function getRelations(): array
