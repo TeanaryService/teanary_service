@@ -363,4 +363,37 @@ return [
     'contact.name' => 'Name',
     'contact.email' => 'Email',
     'contact.message' => 'Message',
+
+    // Dashboard
+    'dashboard.title' => 'Dashboard',
+    'dashboard.heading' => 'E-commerce Management Panel',
+
+    'dashboard.stats.orders_today' => 'Orders Today',
+    'dashboard.stats.orders_today_desc' => ':change% vs yesterday',
+    'dashboard.stats.revenue_today' => 'Revenue Today',
+    'dashboard.stats.revenue_today_desc' => ':change% vs yesterday',
+    'dashboard.stats.pending_orders' => 'Pending Orders',
+    'dashboard.stats.pending_orders_desc' => 'Pending and paid orders',
+    'dashboard.stats.revenue_month' => 'Monthly Revenue',
+    'dashboard.stats.revenue_month_desc' => ':change% vs last month',
+    'dashboard.stats.new_users_today' => 'New Users Today',
+    'dashboard.stats.new_users_today_desc' => ':change% vs yesterday',
+    'dashboard.stats.total_users' => 'Total Users',
+    'dashboard.stats.total_users_desc' => ':change% vs last month',
+    'dashboard.stats.active_users' => 'Active Users',
+    'dashboard.stats.active_users_desc' => ':change% vs last month',
+    'dashboard.stats.avg_order_value' => 'Average Order Value',
+    'dashboard.stats.avg_order_value_desc' => 'Average amount of completed orders',
+
+    'dashboard.charts.sales_trend' => 'Sales Trend',
+    'dashboard.charts.sales' => 'Sales',
+    'dashboard.charts.orders' => 'Orders',
+    'dashboard.charts.order_status' => 'Order Status Distribution',
+    'dashboard.charts.order_count' => 'Order Count',
+
+    'dashboard.widgets.top_products' => 'Top Products',
+    'dashboard.widgets.top_products_desc' => 'Top 10 products by sales',
+    'dashboard.widgets.product_name' => 'Product Name',
+    'dashboard.widgets.total_quantity' => 'Total Quantity',
+    'dashboard.widgets.total_revenue' => 'Total Revenue',
 ];

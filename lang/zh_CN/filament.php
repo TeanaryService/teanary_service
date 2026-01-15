@@ -364,4 +364,37 @@ return [
     'contact.name' => '姓名',
     'contact.email' => '邮箱',
     'contact.message' => '消息',
+
+    // Dashboard
+    'dashboard.title' => '控制台',
+    'dashboard.heading' => '电商管理后台',
+
+    'dashboard.stats.orders_today' => '今日订单',
+    'dashboard.stats.orders_today_desc' => ':change% 较昨日',
+    'dashboard.stats.revenue_today' => '今日销售额',
+    'dashboard.stats.revenue_today_desc' => ':change% 较昨日',
+    'dashboard.stats.pending_orders' => '待处理订单',
+    'dashboard.stats.pending_orders_desc' => '待支付和已支付订单',
+    'dashboard.stats.revenue_month' => '本月销售额',
+    'dashboard.stats.revenue_month_desc' => ':change% 较上月',
+    'dashboard.stats.new_users_today' => '今日新增用户',
+    'dashboard.stats.new_users_today_desc' => ':change% 较昨日',
+    'dashboard.stats.total_users' => '总用户数',
+    'dashboard.stats.total_users_desc' => ':change% 较上月',
+    'dashboard.stats.active_users' => '活跃用户',
+    'dashboard.stats.active_users_desc' => ':change% 较上月',
+    'dashboard.stats.avg_order_value' => '平均订单价值',
+    'dashboard.stats.avg_order_value_desc' => '已完成订单的平均金额',
+
+    'dashboard.charts.sales_trend' => '销售趋势',
+    'dashboard.charts.sales' => '销售额',
+    'dashboard.charts.orders' => '订单数',
+    'dashboard.charts.order_status' => '订单状态分布',
+    'dashboard.charts.order_count' => '订单数量',
+
+    'dashboard.widgets.top_products' => '热门商品',
+    'dashboard.widgets.top_products_desc' => '销量排名前10的商品',
+    'dashboard.widgets.product_name' => '商品名称',
+    'dashboard.widgets.total_quantity' => '总销量',
+    'dashboard.widgets.total_revenue' => '总销售额',
 ];

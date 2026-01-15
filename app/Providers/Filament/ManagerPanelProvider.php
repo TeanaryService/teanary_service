@@ -41,12 +41,15 @@ class ManagerPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Manager/Resources'), for: 'App\\Filament\\Manager\\Resources')
             ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\\Filament\\Manager\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                \App\Filament\Manager\Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Manager/Widgets'), for: 'App\\Filament\\Manager\\Widgets')
             ->widgets([
-                \App\Filament\Manager\Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
+                \App\Filament\Manager\Widgets\UserStatsWidget::class,
+                \App\Filament\Manager\Widgets\OrderStatsWidget::class,
+                \App\Filament\Manager\Widgets\SalesChartWidget::class,
+                \App\Filament\Manager\Widgets\OrderStatusChartWidget::class,
+                \App\Filament\Manager\Widgets\TopProductsWidget::class,
             ])
             ->livewireComponents([
                 \App\Filament\Manager\Components\ManageProductVariants::class,
