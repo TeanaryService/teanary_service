@@ -367,7 +367,7 @@ return [
 
     // Dashboard
     'dashboard.title' => '控制台',
-    'dashboard.heading' => '电商管理后台',
+    'dashboard.heading' => '仪表板',
 
     'dashboard.stats.orders_today' => '今日订单',
     'dashboard.stats.orders_today_desc' => ':change% 较昨日',

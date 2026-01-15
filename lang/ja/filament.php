@@ -332,4 +332,8 @@ return [
     'contact.name' => 'お名前',
     'contact.email' => 'メールアドレス',
     'contact.message' => 'メッセージ',
+
+    // Dashboard
+    'dashboard.title' => 'ダッシュボード',
+    'dashboard.heading' => 'ダッシュボード',
 ];

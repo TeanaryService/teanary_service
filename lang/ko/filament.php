@@ -332,4 +332,8 @@ return [
     'contact.name' => '이름',
     'contact.email' => '이메일',
     'contact.message' => '메시지',
+
+    // Dashboard
+    'dashboard.title' => '대시보드',
+    'dashboard.heading' => '대시보드',
 ];

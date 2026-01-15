@@ -332,4 +332,8 @@ return [
     'contact.name' => 'Name',
     'contact.email' => 'E-Mail',
     'contact.message' => 'Nachricht',
+
+    // Dashboard
+    'dashboard.title' => 'Dashboard',
+    'dashboard.heading' => 'Dashboard',
 ];

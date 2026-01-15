@@ -332,4 +332,8 @@ return [
     'contact.name' => 'Имя',
     'contact.email' => 'Эл. почта',
     'contact.message' => 'Сообщение',
+
+    // Dashboard
+    'dashboard.title' => 'Панель управления',
+    'dashboard.heading' => 'Панель управления',
 ];

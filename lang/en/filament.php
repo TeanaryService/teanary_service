@@ -366,7 +366,7 @@ return [
 
     // Dashboard
     'dashboard.title' => 'Dashboard',
-    'dashboard.heading' => 'E-commerce Management Panel',
+    'dashboard.heading' => 'Dashboard',
 
     'dashboard.stats.orders_today' => 'Orders Today',
     'dashboard.stats.orders_today_desc' => ':change% vs yesterday',
