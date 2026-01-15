@@ -151,6 +151,7 @@ class OrderResource extends Resource
                         'billingAddress',
                         'orderItems',
                     ])
+                    ->withCount('orderItems')
             )
             ->columns([
                 Tables\Columns\TextColumn::make('order_no')
@@ -189,9 +190,8 @@ class OrderResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('items_count')
+                Tables\Columns\TextColumn::make('order_items_count')
                     ->label(__('filament.order.items_count'))
-                    ->counts('orderItems')
                     ->numeric()
                     ->sortable()
                     ->toggleable(),
