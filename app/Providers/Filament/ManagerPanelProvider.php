@@ -26,7 +26,7 @@ class ManagerPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('manamer')
-            ->path('m')
+            ->path('manager')
             ->login()
             ->authGuard('manager')
             ->colors([

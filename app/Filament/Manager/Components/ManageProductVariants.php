@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Filament\Manager\Components;
 
 use App\Models\Product;
 use App\Models\ProductVariant;
