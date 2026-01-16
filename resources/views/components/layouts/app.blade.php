@@ -100,25 +100,6 @@
     <x-footer />
     @livewire('components.cookie-consent')
 
-    <!-- Google Analytics -->
-    @if (app()->environment('production'))
-        @php
-            $googleAnalyticsId = getGoogleAnalyticsId();
-        @endphp
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-
-            gtag('config', '{{ $googleAnalyticsId }}');
-        </script>
-    @endif
-    <!-- End Google Analytics -->
-
 </body>
 
 </html>

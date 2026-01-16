@@ -523,7 +523,7 @@
         </div>
 
         <!-- 开源协议 -->
-        <div class="my-16" id="license"">
+        <div class="my-16" id="license">
             <h3 class="text-gray-900 mb-4 text-2xl font-semibold">
                 <span class="inline-block animate-bounce">📄</span> {{ __('index.license_title') }}
             </h3>

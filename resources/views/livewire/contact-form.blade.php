@@ -1,4 +1,4 @@
-<div class="inset-0 flex items-center justify-center">
+<div class="inset-0 flex items-center justify-center text-gray-400">
     <section class="w-full bg-gray-50 py-10">
         <div class="max-w-7xl mx-auto px-6">
             <h2 class="text-4xl font-bold text-gray-900 leading-tight mb-6">{{ __('app.contact.title') }}</h2>
