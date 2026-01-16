@@ -3,7 +3,6 @@
     $productId = $product->id;
     $variantId = $selectedVariantId;
     $breadcrumbs = buildProductDetailBreadcrumbs($name);
-    $tab = request()->input('tab', 'desc');
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 min-h-[70vh] bg-tea-50 tea-bg-texture">
@@ -430,27 +429,32 @@
                 <x-share-buttons title="{{ $name }}" description="{{ $shortDesc }}"
                     image="{{ $images->first()?->getUrl() ?? '' }}" />
             </div>
-            <x-promotion-list class="py-6" />
         </div>
     </div>
 
-    {{-- Tab 切换 --}}
-    <div class="p-6 my-9 tea-card rounded-xl">
-        <div class="flex border-b mb-4 border-tea-600">
-            <a href="?tab=desc"
-                class="px-4 py-2 font-semibold tea-nav-item {{ $tab == 'desc' ? 'active text-tea-700' : 'text-tea-600' }}">{{ __('home.product_description') }}</a>
-            <a href="?tab=reviews"
-                class="px-4 py-2 font-semibold tea-nav-item {{ $tab == 'reviews' ? 'active text-tea-700' : 'text-tea-600' }}">{{ __('home.product_reviews') }}</a>
+    <x-promotion-list class="py-6" />
+
+    {{-- 产品介绍和茶友评价 - 左右布局 --}}
+    <div class="my-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+            {{-- 左侧：产品介绍 (2/3) --}}
+            <div class="w-full lg:w-2/3 tea-card rounded-xl p-6">
+                <h2 class="text-2xl font-bold text-tea-700 mb-4">{{ __('home.product_description') }}</h2>
+                @if ($desc)
+                    <div class="prose max-w-none text-tea-800">
+                        {!! $desc !!}
+                    </div>
+                @else
+                    <p class="text-gray-500">{{ __('app.no_description') }}</p>
+                @endif
+            </div>
+
+            {{-- 右侧：茶友评价 (1/3) --}}
+            <div class="w-full lg:w-1/3 tea-card rounded-xl p-6">
+                <h2 class="text-2xl font-bold text-tea-700 mb-4">{{ __('home.product_reviews') }}</h2>
+                @livewire('components.product-reviews', ['productId' => $product->id], key('product-reviews-' . $product->id))
+            </div>
         </div>
-        @if ($tab == 'desc')
-            @if ($desc)
-                <div class="prose max-w-none text-tea-800 px-6">
-                    {!! $desc !!}
-                </div>
-            @endif
-        @else
-            @livewire('components.product-reviews', ['productId' => $product->id], key('product-reviews-' . $product->id))
-        @endif
     </div>
 
     <div class="py-10">
