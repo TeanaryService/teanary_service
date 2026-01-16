@@ -13,6 +13,7 @@ return [
     'password' => 'Password',
     'profile' => 'Profile',
     'quick_links' => 'Quick Links',
+    'teanary_open_source' => 'Teanary Open Source',
     'follow_us' => 'Follow Us',
     'rights_reserved' => 'All Rights Reserved.',
     'home' => 'Home',

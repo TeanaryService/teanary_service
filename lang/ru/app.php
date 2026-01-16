@@ -13,6 +13,7 @@ return array (
   'password' => 'Пароль',
   'profile' => 'Профиль',
   'quick_links' => 'Быстрые ссылки',
+  'teanary_open_source' => 'Teanary Открытый исходный код',
   'follow_us' => 'Следите за нами',
   'rights_reserved' => 'Все права защищены.',
   'home' => 'Главная',

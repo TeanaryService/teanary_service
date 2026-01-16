@@ -13,6 +13,7 @@ return array (
   'password' => '비밀번호',
   'profile' => '개인정보',
   'quick_links' => '빠른 링크',
+  'teanary_open_source' => 'Teanary 오픈소스',
   'follow_us' => '팔로우하기',
   'rights_reserved' => '모든 권리 보유.',
   'home' => '홈',

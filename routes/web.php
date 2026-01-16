@@ -27,7 +27,7 @@ Route::get('/', function () use ($service) {
     return redirect($lang);
 });
 
-Route::get('index.html', IndexPage::class);
+Route::get('index.html', IndexPage::class)->name('teanary.open');
 
 // 获取支持的语言代码，如果表不存在则使用默认值（迁移时的情况）
 $supportedLocales = $service->getLanguages()->pluck('code')->toArray();

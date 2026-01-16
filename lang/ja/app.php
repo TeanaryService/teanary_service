@@ -13,6 +13,7 @@ return array (
   'password' => 'パスワード',
   'profile' => 'プロフィール',
   'quick_links' => 'クイックリンク',
+  'teanary_open_source' => 'Teanaryオープンソース',
   'follow_us' => 'フォローする',
   'rights_reserved' => '著作権所有。',
   'home' => 'ホーム',

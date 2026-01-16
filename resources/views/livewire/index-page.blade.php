@@ -18,22 +18,6 @@
             </div>
         </div>
 
-        <!-- Floating Action Buttons -->
-        <div class="absolute top-5 right-5 flex gap-2 z-10">
-            <a href="https://demo.chatterup.fun:2003" target="_blank" rel="noopener noreferrer"
-                class="flex items-center gap-1.5 px-4 py-2 bg-white/95 backdrop-blur-sm text-teal-600 no-underline rounded-full text-sm font-semibold border border-white/30 transition-all duration-300 shadow-lg hover:bg-white hover:text-teal-700 hover:scale-110 hover:shadow-xl hover:rotate-1"
-                title="在线演示">
-                <span class="text-base">🎮</span>
-                <span class="hidden sm:inline">在线演示</span>
-            </a>
-            <a href="https://github.com/TeanaryService/teanary_srvice" target="_blank" rel="noopener noreferrer"
-                class="flex items-center gap-1.5 px-4 py-2 bg-white/95 backdrop-blur-sm text-teal-600 no-underline rounded-full text-sm font-semibold border border-white/30 transition-all duration-300 shadow-lg hover:bg-white hover:text-teal-700 hover:scale-110 hover:shadow-xl hover:-rotate-1"
-                title="GitHub">
-                <span class="text-base">⭐</span>
-                <span class="hidden sm:inline">GitHub</span>
-            </a>
-        </div>
-
         <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
             <h1
                 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight relative z-10 drop-shadow-lg flex items-center justify-center gap-3 animate-bounce">
@@ -302,7 +286,7 @@
                         class="inline-flex items-center gap-2 px-8 py-3 bg-teal-600 text-white no-underline rounded-md font-semibold text-base transition-all duration-300 shadow-md hover:bg-teal-700 hover:-translate-y-0.5 hover:shadow-lg border-none">
                         🚀 访问前端演示
                     </a>
-                    <a href="https://demo.chatterup.fun:2003/m" target="_blank" rel="noopener noreferrer"
+                    <a href="https://demo.chatterup.fun:2003/manager" target="_blank" rel="noopener noreferrer"
                         class="inline-flex items-center gap-2 px-8 py-3 bg-white text-teal-600 no-underline rounded-md font-semibold text-base transition-all duration-300 shadow-sm hover:bg-gray-50 hover:border-teal-700 border border-teal-600">
                         ⚙️ 访问后台管理
                     </a>
