@@ -57,6 +57,15 @@ tasks:
     - run: "rm -rf node_modules tests printer_server"
     - run: "mv public/vendor/livewire public/ 2>/dev/null || true"
 
+  # 清理与 Laravel 无关的文件和目录（安全加固）
+  cleanup:unnecessary:
+    - cd: "{{release_path}}"
+    - run: "rm -f deploy.yaml example-deploy.yaml sync_storage.sh"
+    - run: "rm -f README.md RELEASE.md SYNC.md OPTIMIZATION.md LICENSE"
+    - run: "rm -rf bin/ tests/ deployment/"
+    - run: "rm -f phpstan.neon phpunit.xml pint.json"
+    - run: "rm -f .cursorignore .editorconfig .env.example"
+
   # Filament 缓存优化
   artisan:filament:optimize:
     - cd: "{{release_path}}"
@@ -75,6 +84,7 @@ tasks:
 after:
   deploy:vendors: npm:build
   deploy:symlink:
+    - cleanup:unnecessary
     - artisan:cache:clear
     - artisan:filament:optimize
   deploy:failed: deploy:unlock
