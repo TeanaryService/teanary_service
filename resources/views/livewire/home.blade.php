@@ -1,6 +1,6 @@
 <div class="bg-gray-50">
     {{-- Hero Banner --}}
-    <section class="w-full bg-gradient-to-br from-white via-gray-50 to-tea-50/30 py-20 md:py-28 relative overflow-hidden">
+    <section class="w-full bg-teal-600 bg-gradient-to-br from-teal-600 via-gray-50 to-tea-50/30 py-20 md:py-28 relative overflow-hidden">
         <!-- 茶文化装饰背景 -->
         <x-tea-background type="tea-garden" intensity="light" />
         

@@ -27,8 +27,6 @@ Route::get('/', function () use ($service) {
     return redirect($lang);
 });
 
-Route::get('index.html', IndexPage::class)->name('teanary.open');
-
 // 获取支持的语言代码，如果表不存在则使用默认值（迁移时的情况）
 $supportedLocales = $service->getLanguages()->pluck('code')->toArray();
 if (empty($supportedLocales)) {
@@ -37,6 +35,7 @@ if (empty($supportedLocales)) {
 
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
+    Route::get('index.html', IndexPage::class)->name('teanary.open');
     // Auth routes moved to Filament user panel (/user)
 
     Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])

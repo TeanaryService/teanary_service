@@ -22,7 +22,6 @@ git push origin main
 
 在发布新版本前，需要更新以下文件中的版本信息：
 
-- `public/index.html` - 更新版本号和发行日期
 - `README.md` - 更新版本说明（如果需要）
 - `CHANGELOG.md` - 添加版本更新日志（如果存在）
 
@@ -320,7 +319,6 @@ php artisan migrate
    - Release Notes 可以略有不同（适应不同平台）
 
 4. **更新文档**
-   - 发布新版本后，记得更新 `public/index.html` 中的版本信息
    - 更新 `README.md` 中的版本说明（如果需要）
 
 ## 🔗 相关链接
