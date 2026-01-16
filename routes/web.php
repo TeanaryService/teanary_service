@@ -6,6 +6,7 @@ use App\Livewire\ArticleList;
 use App\Livewire\Cart;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
+use App\Livewire\IndexPage;
 use App\Livewire\Payment\Cancel;
 use App\Livewire\Payment\Checkout as PaymentCheckout;
 use App\Livewire\Payment\Failure;
@@ -25,6 +26,8 @@ Route::get('/', function () use ($service) {
 
     return redirect($lang);
 });
+
+Route::get('index.html', IndexPage::class);
 
 // 获取支持的语言代码，如果表不存在则使用默认值（迁移时的情况）
 $supportedLocales = $service->getLanguages()->pluck('code')->toArray();
