@@ -279,32 +279,46 @@
                 <span class="inline-block animate-pulse">🎮</span> {{ __('index.section_demo') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-blue-600 to-transparent rounded-full"></div>
             </h2>
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center shadow-sm flex items-center justify-center">
-                <div class="flex gap-3 justify-center flex-wrap mb-5">
-                    <a href="https://demo.chatterup.fun:2003" target="_blank" rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 px-8 py-3 bg-teal-600 text-white no-underline rounded-md font-semibold text-base transition-all duration-300 shadow-md hover:bg-teal-700 hover:-translate-y-0.5 hover:shadow-lg border-none">
-                        🚀 {{ __('index.demo_visit_frontend') }}
-                    </a>
-                    <a href="https://demo.chatterup.fun:2003/manager" target="_blank" rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 px-8 py-3 bg-white text-teal-600 no-underline rounded-md font-semibold text-base transition-all duration-300 shadow-sm hover:bg-gray-50 hover:border-teal-700 border border-teal-600">
-                        ⚙️ {{ __('index.demo_visit_admin') }}
-                    </a>
-                </div>
-                <div
-                    class="p-5 text-left inline-block min-w-[280px] shadow-sm">
-                    <h3 class="text-teal-600 mb-3 text-lg font-semibold">{{ __('index.demo_test_account') }}</h3>
-                    <div class="text-gray-600 leading-relaxed text-sm">
-                        <div class="mb-2"><strong class="text-gray-900 font-semibold">{{ __('index.demo_email') }}:</strong> demo@demo.com</div>
-                        <div class="mb-2"><strong class="text-gray-900 font-semibold">{{ __('index.demo_password') }}:</strong> demo123456</div>
-                        <div class="mt-4 pt-4 border-t border-gray-200 text-gray-500 italic text-xs">{{ __('index.demo_account_note') }}</div>
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 md:p-8 shadow-sm">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-center gap-6">
+                    {{-- 按钮区域 --}}
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center w-full lg:w-auto">
+                        <a href="https://demo.chatterup.fun:2003" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center justify-center gap-2 px-4 sm:px-8 py-3 bg-teal-600 text-white no-underline rounded-md font-semibold text-sm sm:text-base transition-all duration-300 shadow-md hover:bg-teal-700 hover:-translate-y-0.5 hover:shadow-lg border-none w-full sm:w-auto">
+                            🚀 {{ __('index.demo_visit_frontend') }}
+                        </a>
+                        <a href="https://demo.chatterup.fun:2003/manager" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center justify-center gap-2 px-4 sm:px-8 py-3 bg-white text-teal-600 no-underline rounded-md font-semibold text-sm sm:text-base transition-all duration-300 shadow-sm hover:bg-gray-50 hover:border-teal-700 border border-teal-600 w-full sm:w-auto">
+                            ⚙️ {{ __('index.demo_visit_admin') }}
+                        </a>
+                    </div>
+                    
+                    {{-- 测试账号信息 --}}
+                    <div class="w-full lg:w-auto lg:min-w-[280px]">
+                        <div class="bg-white rounded-lg p-4 sm:p-5 text-left shadow-sm">
+                            <h3 class="text-teal-600 mb-3 text-base sm:text-lg font-semibold">{{ __('index.demo_test_account') }}</h3>
+                            <div class="text-gray-600 leading-relaxed text-xs sm:text-sm">
+                                <div class="mb-2 break-words">
+                                    <strong class="text-gray-900 font-semibold">{{ __('index.demo_email') }}:</strong> 
+                                    <span class="break-all">demo@demo.com</span>
+                                </div>
+                                <div class="mb-2 break-words">
+                                    <strong class="text-gray-900 font-semibold">{{ __('index.demo_password') }}:</strong> 
+                                    <span class="break-all">demo123456</span>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-200 text-gray-500 italic text-xs">{{ __('index.demo_account_note') }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-5 text-gray-900 text-sm leading-relaxed px-6 md:px-10">
-                    <p class="mb-1.5">⚠️ <strong>{{ __('index.demo_warning_title') }}:</strong> {{ __('index.demo_warning_1') }}</p>
+                
+                {{-- 警告信息 --}}
+                <div class="mt-5 text-gray-900 text-xs sm:text-sm leading-relaxed px-2 sm:px-6 md:px-10">
+                    <p class="mb-1.5 break-words">⚠️ <strong>{{ __('index.demo_warning_title') }}:</strong> {{ __('index.demo_warning_1') }}</p>
                     <p class="mb-1.5">💻 {{ __('index.demo_warning_2') }}</p>
                     <p class="mb-1.5">🌐 {{ __('index.demo_warning_3') }}</p>
-                    <p class="mb-1.5">📧 {{ __('index.demo_warning_4') }}<a href="mailto:hello@teanary.com"
-                            class="text-teal-600 no-underline font-medium transition-colors hover:text-teal-700 hover:underline">hello@teanary.com</a>
+                    <p class="mb-1.5 break-words">📧 {{ __('index.demo_warning_4') }}<a href="mailto:hello@teanary.com"
+                            class="text-teal-600 no-underline font-medium transition-colors hover:text-teal-700 hover:underline break-all">hello@teanary.com</a>
                     </p>
                 </div>
             </div>

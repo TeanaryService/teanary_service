@@ -1,11 +1,11 @@
 <footer class="tea-footer text-white">
     <livewire:contact-form />
     <div class="bg-teal-700">
-        <div class="max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-16">
+        <div class="max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-16 hidden md:block ">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 justify-between text-sm">
 
                 <!-- 品牌 LOGO -->
-                <div class="hidden md:block w-full flex flex-col self-center">
+                <div class="w-full flex flex-col self-center">
                     <a href="{{ locaRoute('home') }}" class="flex items-center gap-3 mb-4">
                         <img src="{{ asset('logo.svg') }}" class="h-10 w-auto object-contain" alt="Logo">
                         <span class="font-bold text-lg">{{ config('app.name') }}</span>
@@ -16,7 +16,7 @@
                 </div>
 
                 <!-- 快速链接 -->
-                <div class="hidden md:block w-full">
+                <div class="w-full">
                     <h3 class="font-semibold mb-4">{{ __('app.quick_links') }}</h3>
                     <div class="grid grid-cols-2 gap-x-4">
                         <ul class="space-y-2.5">
@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="hidden md:block w-full">
+                <div class="w-full">
                     <h3 class="font-semibold mb-4">{{ __('app.quick_links') }}</h3>
                     <div class="grid grid-cols-2 gap-x-4">
                         <ul class="space-y-2.5">
@@ -51,7 +51,7 @@
                 </div>
 
                 <!-- 联系方式 -->
-                <div class="hidden md:block w-full">
+                <div class="w-full">
                     <h3 class="font-semibold mb-4">{{ __('app.contact_us') }}</h3>
                     <ul class="space-y-3">
                         <li class="flex gap-2 items-center">
