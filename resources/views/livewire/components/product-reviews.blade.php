@@ -44,12 +44,12 @@
                 </button>
             </form>
         @else
-            <div class="mb-4 bg-gray-50 rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
+            <div class="mb-4 bg-teal-500 text-white rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
                 <a href="{{ locaRoute('auth.login') }}"
-                    class="text-teal-600 font-semibold">{{ __('app.login') }}</a>
+                    class="font-semibold">{{ __('app.login') }}</a>
                 <a href="{{ locaRoute('auth.register') }}"
-                    class="text-teal-600 font-semibold">{{ __('app.register') }}</a>
-                <span class="text-gray-500">{{ __('home.login_to_review') }}</span>
+                    class="font-semibold">{{ __('app.register') }}</a>
+                <span class="text-gray-50">{{ __('home.login_to_review') }}</span>
             </div>
         @endauth
     </div>
