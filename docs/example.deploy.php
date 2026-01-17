@@ -55,7 +55,6 @@ task('cleanup:unnecessary', function () {
         'README.md',
         'RELEASE.md',
         'SYNC.md',
-        'OPTIMIZATION.md',
         'LICENSE',
         'phpstan.neon',
         'phpunit.xml',

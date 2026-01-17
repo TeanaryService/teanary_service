@@ -92,7 +92,7 @@ git push gitee --tags
    - [TAR.GZ 压缩包](https://github.com/TeanaryService/teanary_srvice/archive/refs/tags/v1.0.0.tar.gz)
    
    ### 📚 文档
-   - [安装指南](README.md#快速开始)
+   - [安装指南](../README.md#快速开始)
    - [多节点同步文档](SYNC.md)
    ```
 
@@ -286,9 +286,9 @@ php artisan migrate
 
 ### 📚 文档
 
-- [快速开始](README.md#快速开始)
+- [快速开始](../README.md#快速开始)
 - [多节点同步文档](SYNC.md)
-- [部署指南](README.md#部署指南)
+- [部署指南](../README.md#部署指南)
 
 ### 🔗 下载
 
@@ -319,7 +319,7 @@ php artisan migrate
    - Release Notes 可以略有不同（适应不同平台）
 
 4. **更新文档**
-   - 更新 `README.md` 中的版本说明（如果需要）
+   - 更新主 `README.md` 中的版本说明（如果需要）
 
 ## 🔗 相关链接
 
