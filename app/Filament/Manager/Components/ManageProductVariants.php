@@ -833,7 +833,7 @@ class ManageProductVariants extends Component
 
     public function render()
     {
-        return view('livewire.manage-product-variants', [
+        return view('livewire.filament.manager.components.manage-product-variants', [
             'specifications' => $this->specifications,
             'selectedSpecificationsForTable' => $this->selectedSpecificationsForTable,
             'currencySymbol' => $this->currency->symbol ?? '',
