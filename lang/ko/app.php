@@ -139,4 +139,6 @@ return array (
     'confirm_delete' => '이 주소를 삭제하시겠습니까?',
     'add_first_address' => '첫 번째 배송 주소 추가',
   ),
+  'not_available' => '사용 불가',
+  'no_reason_provided' => '사유가 제공되지 않았습니다',
 );

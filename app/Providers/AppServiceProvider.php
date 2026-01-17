@@ -20,16 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Filament::registerRenderHook(
-            'panels::topbar.end',
-            fn () => \Livewire\Livewire::mount(\App\Filament\Manager\Widgets\LanguageCurrencySwitcher::class)
-        );
-
-        Filament::registerRenderHook(
-            'panels::topbar.start',
-            fn () => '<a class="text-md font-bold" target="_blank" href="'.locaRoute('home').'">'.__('app.home').'</a>'
-        );
-
         // 注册 Media Observer 用于同步
         if (config('sync.enabled')) {
             \App\Models\Media::observe(\App\Observers\MediaObserver::class);

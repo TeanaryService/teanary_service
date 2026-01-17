@@ -14,7 +14,9 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -37,6 +39,7 @@ class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMed
     use HasFactory;
     use HasSnowflakeId;
     use InteractsWithMedia;
+    use Notifiable;
     use Syncable;
 
     public static $snakeAttributes = false;
@@ -58,6 +61,22 @@ class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMed
         'remember_token',
         'token',
     ];
+
+    /**
+     * 获取实体的通知.
+     */
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'notifiable')->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * 获取未读通知.
+     */
+    public function unreadNotifications(): MorphMany
+    {
+        return $this->notifications()->whereNull('read_at');
+    }
 
     public function getFilamentAvatarUrl(): ?string
     {

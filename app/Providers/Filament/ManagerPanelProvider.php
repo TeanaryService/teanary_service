@@ -69,6 +69,14 @@ class ManagerPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->maxContentWidth('full');
+            ->maxContentWidth('full')
+            ->renderHook(
+                'panels::topbar.start',
+                fn () => '<a class="text-md font-bold" target="_blank" href="'.locaRoute('home').'">'.__('app.home').'</a>'
+            )
+            ->renderHook(
+                'panels::topbar.end',
+                fn () => view('filament.render-hooks.topbar-end', ['panelId' => 'manager'])
+            );
     }
 }

@@ -139,4 +139,6 @@ return array (
     'confirm_delete' => 'この住所を削除してもよろしいですか？',
     'add_first_address' => '最初の配送先住所を追加',
   ),
+  'not_available' => '利用不可',
+  'no_reason_provided' => '理由が提供されていません',
 );

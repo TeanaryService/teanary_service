@@ -139,4 +139,6 @@ return array (
     'confirm_delete' => 'Êtes-vous sûr de vouloir supprimer cette adresse ?',
     'add_first_address' => 'Ajoutez votre première adresse de livraison',
   ),
+  'not_available' => 'Non Disponible',
+  'no_reason_provided' => 'Aucune raison fournie',
 );

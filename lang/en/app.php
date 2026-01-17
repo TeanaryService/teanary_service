@@ -150,4 +150,6 @@ return [
         'confirm_delete' => 'Are you sure you want to delete this address?',
         'add_first_address' => 'Add your first shipping address',
     ],
+    'not_available' => 'Not Available',
+    'no_reason_provided' => 'No reason provided',
 ];

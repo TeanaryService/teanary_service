@@ -139,4 +139,6 @@ return array (
     'confirm_delete' => 'Sind Sie sicher, dass Sie diese Adresse löschen möchten?',
     'add_first_address' => 'Fügen Sie Ihre erste Lieferadresse hinzu',
   ),
+  'not_available' => 'Nicht verfügbar',
+  'no_reason_provided' => 'Kein Grund angegeben',
 );

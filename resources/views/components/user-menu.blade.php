@@ -16,6 +16,15 @@
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
                 {{ __('orders.my_orders') }}
             </a>
+            <a target="_blank" href="{{ locaRoute('user.notifications') }}"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 relative">
+                {{ __('notifications.my_notifications') }}
+                @if(auth()->user()->unreadNotifications->count() > 0)
+                    <span class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                        {{ auth()->user()->unreadNotifications->count() }}
+                    </span>
+                @endif
+            </a>
             <a target="_blank" href="{{ locaRoute('user.profile') }}"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
                 {{ __('app.profile') }}

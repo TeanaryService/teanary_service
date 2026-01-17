@@ -139,4 +139,6 @@ return array (
     'confirm_delete' => 'Вы уверены, что хотите удалить этот адрес?',
     'add_first_address' => 'Добавьте ваш первый адрес доставки',
   ),
+  'not_available' => 'Недоступно',
+  'no_reason_provided' => 'Причина не указана',
 );

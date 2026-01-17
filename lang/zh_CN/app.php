@@ -139,4 +139,6 @@ return array (
     'confirm_delete' => '确定要删除这个地址吗？',
     'add_first_address' => '添加您的第一个收货地址',
   ),
+  'not_available' => '暂无',
+  'no_reason_provided' => '未提供原因',
 );

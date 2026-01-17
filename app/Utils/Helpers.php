@@ -47,6 +47,7 @@ if (! function_exists('locaRoute')) {
             'user.orders.show' => '/user/orders/detail',
             'user.addresses' => '/user/addresses',
             'user.addresses.form' => '/user/addresses',
+            'user.notifications' => '/user/notifications',
             'auth.login' => '/user/login',
             'auth.register' => '/user/register',
             'auth.forgot-password' => '/user/forgot-password',
