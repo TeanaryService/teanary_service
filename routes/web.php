@@ -34,7 +34,7 @@ if (empty($supportedLocales)) {
 }
 
 // 路由组
-Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
+Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Middleware\TrackTraffic::class])->group(function () {
     Route::get('index.html', IndexPage::class)->name('teanary.open');
     // Auth routes moved to Filament user panel (/user)
 

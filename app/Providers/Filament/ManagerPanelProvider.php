@@ -42,6 +42,7 @@ class ManagerPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Manager/Pages'), for: 'App\\Filament\\Manager\\Pages')
             ->pages([
                 \App\Filament\Manager\Pages\Dashboard::class,
+                \App\Filament\Manager\Pages\TrafficStatistics::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Manager/Widgets'), for: 'App\\Filament\\Manager\\Widgets')
             ->widgets([
