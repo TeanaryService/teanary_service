@@ -7,7 +7,7 @@
 [![Livewire](https://img.shields.io/badge/Livewire-3.x-4E56A6.svg)](https://livewire.laravel.com)
 [![Filament](https://img.shields.io/badge/Filament-3.x-6366F1.svg)](https://filamentphp.com)
 
-> 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统。专为解决跨国电商运营难题而设计。
+> 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统，支持多语言，多货币币种自动换算，结算。专为解决跨国电商运营难题而设计。
 
 > 代码已通过单元测试和静态分析,普通bug反馈请通过Issues提交；安全相关bug请通过Email(hello@teanary.com)提交
 
