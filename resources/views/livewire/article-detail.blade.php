@@ -4,14 +4,14 @@
     $cover = $article->getFirstMediaUrl('image');
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 min-h-[70vh] mb-10">
+<div class="max-w-7xl mx-auto px-6 md:px-8 min-h-[70vh] mb-10">
     <x-breadcrumbs :items="$breadcrumbs" />
     <div class="flex gap gap-6">
         <div class="hidden lg:block w-1/4">
             <livewire:components.random-products :limit="2" class="grid-cols-1" />
             <livewire:components.random-articles :limit="4" class="grid-cols-1" />
         </div>
-        <article class="space-y-8 bg-gray-50 rounded-xl p-6 w-full lg:w-3/4">
+        <article class="space-y-8 bg-gray-50 rounded-xl p-6 md:p-0 w-full lg:w-3/4">
             {{-- 封面图 --}}
             @if ($cover)
                 <div class="overflow-hidden rounded-lg shadow-sm">

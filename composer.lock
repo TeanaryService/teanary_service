@@ -856,10 +856,10 @@
         },
         {
             "name": "filament/actions",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/actions/v3.3.46/filament-actions-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/actions/v3.3.47/filament-actions-v3.3.47.zip",
                 "reference": "f8ea2b015b12c00522f1d6a7bcb9453b5f08beb1",
                 "shasum": ""
             },
@@ -903,10 +903,10 @@
         },
         {
             "name": "filament/filament",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/filament/v3.3.46/filament-filament-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/filament/v3.3.47/filament-filament-v3.3.47.zip",
                 "reference": "790e3c163e93f5746beea88b93d38673424984b6",
                 "shasum": ""
             },
@@ -962,10 +962,10 @@
         },
         {
             "name": "filament/forms",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/forms/v3.3.46/filament-forms-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/forms/v3.3.47/filament-forms-v3.3.47.zip",
                 "reference": "f708ce490cff3770071d18e9ea678eb4b7c65c58",
                 "shasum": ""
             },
@@ -1012,10 +1012,10 @@
         },
         {
             "name": "filament/infolists",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/infolists/v3.3.46/filament-infolists-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/infolists/v3.3.47/filament-infolists-v3.3.47.zip",
                 "reference": "ac7fc1c8acc651c6c793696f0772747791c91155",
                 "shasum": ""
             },
@@ -1057,10 +1057,10 @@
         },
         {
             "name": "filament/notifications",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/notifications/v3.3.46/filament-notifications-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/notifications/v3.3.47/filament-notifications-v3.3.47.zip",
                 "reference": "3a6ef54b6a8cefc79858e7033e4d6b65fb2d859b",
                 "shasum": ""
             },
@@ -1103,10 +1103,10 @@
         },
         {
             "name": "filament/spatie-laravel-media-library-plugin",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/spatie-laravel-media-library-plugin/v3.3.46/filament-spatie-laravel-media-library-plugin-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/spatie-laravel-media-library-plugin/v3.3.47/filament-spatie-laravel-media-library-plugin-v3.3.47.zip",
                 "reference": "bd7c12baf30cc66b2f088bd0257b12071e15addf",
                 "shasum": ""
             },
@@ -1135,11 +1135,11 @@
         },
         {
             "name": "filament/support",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/support/v3.3.46/filament-support-v3.3.46.zip",
-                "reference": "bba1dadf574e96181ebd4fb686de4cdac7e5df39",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/support/v3.3.47/filament-support-v3.3.47.zip",
+                "reference": "c37f4b9045a7c514974e12562b5a41813860b505",
                 "shasum": ""
             },
             "require": {
@@ -1184,14 +1184,14 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2026-01-01T16:29:31+00:00"
+            "time": "2026-01-09T09:01:14+00:00"
         },
         {
             "name": "filament/tables",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/tables/v3.3.46/filament-tables-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/tables/v3.3.47/filament-tables-v3.3.47.zip",
                 "reference": "c88d17248827b3fbca09db53d563498d29c6b180",
                 "shasum": ""
             },
@@ -1234,10 +1234,10 @@
         },
         {
             "name": "filament/widgets",
-            "version": "v3.3.46",
+            "version": "v3.3.47",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/widgets/v3.3.46/filament-widgets-v3.3.46.zip",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/filament/widgets/v3.3.47/filament-widgets-v3.3.47.zip",
                 "reference": "2bf59fd94007b69c22c161f7a4749ea19560e03e",
                 "shasum": ""
             },
@@ -1865,11 +1865,11 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.44.0",
+            "version": "v12.47.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/framework/v12.44.0/laravel-framework-v12.44.0.zip",
-                "reference": "592bbf1c036042958332eb98e3e8131b29102f33",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/framework/v12.47.0/laravel-framework-v12.47.0.zip",
+                "reference": "ab8114c2e78f32e64eb238fc4b495bea3f8b80ec",
                 "shasum": ""
             },
             "require": {
@@ -2077,15 +2077,15 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-12-23T15:29:43+00:00"
+            "time": "2026-01-13T15:29:06+00:00"
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.8",
+            "version": "v0.3.10",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/prompts/v0.3.8/laravel-prompts-v0.3.8.zip",
-                "reference": "096748cdfb81988f60090bbb839ce3205ace0d35",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/prompts/v0.3.10/laravel-prompts-v0.3.10.zip",
+                "reference": "360ba095ef9f51017473505191fbd4ab73e1cab3",
                 "shasum": ""
             },
             "require": {
@@ -2128,9 +2128,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.8"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.10"
             },
-            "time": "2025-11-21T20:52:52+00:00"
+            "time": "2026-01-13T20:29:29+00:00"
         },
         {
             "name": "laravel/scout",
@@ -2208,11 +2208,11 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v2.0.7",
+            "version": "v2.0.8",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/serializable-closure/v2.0.7/laravel-serializable-closure-v2.0.7.zip",
-                "reference": "cb291e4c998ac50637c7eeb58189c14f5de5b9dd",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/serializable-closure/v2.0.8/laravel-serializable-closure-v2.0.8.zip",
+                "reference": "7581a4407012f5f53365e11bafc520fd7f36bc9b",
                 "shasum": ""
             },
             "require": {
@@ -2259,15 +2259,15 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2025-11-21T20:52:36+00:00"
+            "time": "2026-01-08T16:22:46+00:00"
         },
         {
             "name": "laravel/tinker",
-            "version": "v2.10.2",
+            "version": "v2.11.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/tinker/v2.10.2/laravel-tinker-v2.10.2.zip",
-                "reference": "3bcb5f62d6f837e0f093a601e26badafb127bd4c",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/tinker/v2.11.0/laravel-tinker-v2.11.0.zip",
+                "reference": "3d34b97c9a1747a81a3fde90482c092bd8b66468",
                 "shasum": ""
             },
             "require": {
@@ -2276,7 +2276,7 @@
                 "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
                 "php": "^7.2.5|^8.0",
                 "psy/psysh": "^0.11.1|^0.12.0",
-                "symfony/var-dumper": "^4.3.4|^5.0|^6.0|^7.0"
+                "symfony/var-dumper": "^4.3.4|^5.0|^6.0|^7.0|^8.0"
             },
             "require-dev": {
                 "mockery/mockery": "~1.3.3|^1.4.2",
@@ -2317,9 +2317,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/tinker/issues",
-                "source": "https://github.com/laravel/tinker/tree/v2.10.2"
+                "source": "https://github.com/laravel/tinker/tree/v2.11.0"
             },
-            "time": "2025-11-20T16:29:12+00:00"
+            "time": "2025-12-19T19:16:45+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2707,15 +2707,15 @@
         },
         {
             "name": "league/uri",
-            "version": "7.7.0",
+            "version": "7.8.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/league/uri/7.7.0/league-uri-7.7.0.zip",
-                "reference": "8d587cddee53490f9b82bf203d3a9aa7ea4f9807",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/league/uri/7.8.0/league-uri-7.8.0.zip",
+                "reference": "4436c6ec8d458e4244448b069cc572d088230b76",
                 "shasum": ""
             },
             "require": {
-                "league/uri-interfaces": "^7.7",
+                "league/uri-interfaces": "^7.8",
                 "php": "^8.1",
                 "psr/http-factory": "^1"
             },
@@ -2729,11 +2729,11 @@
                 "ext-gmp": "to improve IPV4 host parsing",
                 "ext-intl": "to handle IDN host with the best performance",
                 "ext-uri": "to use the PHP native URI class",
-                "jeremykendall/php-domain-parser": "to resolve Public Suffix and Top Level Domain",
-                "league/uri-components": "Needed to easily manipulate URI objects components",
-                "league/uri-polyfill": "Needed to backport the PHP URI extension for older versions of PHP",
+                "jeremykendall/php-domain-parser": "to further parse the URI host and resolve its Public Suffix and Top Level Domain",
+                "league/uri-components": "to provide additional tools to manipulate URI objects components",
+                "league/uri-polyfill": "to backport the PHP URI extension for older versions of PHP",
                 "php-64bit": "to improve IPV4 host parsing",
-                "rowbot/url": "to handle WHATWG URL",
+                "rowbot/url": "to handle URLs using the WHATWG URL Living Standard specification",
                 "symfony/polyfill-intl-idn": "to handle IDN host via the Symfony polyfill if ext-intl is not present"
             },
             "type": "library",
@@ -2787,17 +2787,17 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri/tree/7.7.0"
+                "source": "https://github.com/thephpleague/uri/tree/7.8.0"
             },
-            "time": "2025-12-07T16:02:06+00:00"
+            "time": "2026-01-14T17:24:56+00:00"
         },
         {
             "name": "league/uri-interfaces",
-            "version": "7.7.0",
+            "version": "7.8.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/league/uri-interfaces/7.7.0/league-uri-interfaces-7.7.0.zip",
-                "reference": "62ccc1a0435e1c54e10ee6022df28d6c04c2946c",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/league/uri-interfaces/7.8.0/league-uri-interfaces-7.8.0.zip",
+                "reference": "c5c5cd056110fc8afaba29fa6b72a43ced42acd4",
                 "shasum": ""
             },
             "require": {
@@ -2810,7 +2810,7 @@
                 "ext-gmp": "to improve IPV4 host parsing",
                 "ext-intl": "to handle IDN host with the best performance",
                 "php-64bit": "to improve IPV4 host parsing",
-                "rowbot/url": "to handle WHATWG URL",
+                "rowbot/url": "to handle URLs using the WHATWG URL Living Standard specification",
                 "symfony/polyfill-intl-idn": "to handle IDN host via the Symfony polyfill if ext-intl is not present"
             },
             "type": "library",
@@ -2859,17 +2859,17 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.7.0"
+                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.8.0"
             },
-            "time": "2025-12-07T16:03:21+00:00"
+            "time": "2026-01-15T06:54:53+00:00"
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.7.3",
+            "version": "v3.7.4",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/livewire/livewire/v3.7.3/livewire-livewire-v3.7.3.zip",
-                "reference": "a5384df9fbd3eaf02e053bc49aabc8ace293fc1c",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/livewire/livewire/v3.7.4/livewire-livewire-v3.7.4.zip",
+                "reference": "5a8dffd4c0ab357ff7ed5b39e7c2453d962a68e0",
                 "shasum": ""
             },
             "require": {
@@ -2923,9 +2923,9 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.7.3"
+                "source": "https://github.com/livewire/livewire/tree/v3.7.4"
             },
-            "time": "2025-12-19T02:00:29+00:00"
+            "time": "2026-01-13T09:37:21+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -4628,11 +4628,11 @@
         },
         {
             "name": "spatie/image",
-            "version": "3.8.7",
+            "version": "3.9.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/spatie/image/3.8.7/spatie-image-3.8.7.zip",
-                "reference": "4d35db207c4b317bc221d02ab7ba94aa78b44c24",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/spatie/image/3.9.1/spatie-image-3.9.1.zip",
+                "reference": "9a8e02839897b236f37708d24bcb12381ba050ff",
                 "shasum": ""
             },
             "require": {
@@ -4679,9 +4679,9 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/image/tree/3.8.7"
+                "source": "https://github.com/spatie/image/tree/3.9.1"
             },
-            "time": "2025-11-24T15:10:50+00:00"
+            "time": "2026-01-12T07:34:13+00:00"
         },
         {
             "name": "spatie/image-optimizer",
@@ -4924,11 +4924,11 @@
         },
         {
             "name": "spatie/temporary-directory",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/spatie/temporary-directory/2.3.0/spatie-temporary-directory-2.3.0.zip",
-                "reference": "580eddfe9a0a41a902cac6eeb8f066b42e65a32b",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/spatie/temporary-directory/2.3.1/spatie-temporary-directory-2.3.1.zip",
+                "reference": "662e481d6ec07ef29fd05010433428851a42cd07",
                 "shasum": ""
             },
             "require": {
@@ -4963,9 +4963,9 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/temporary-directory/issues",
-                "source": "https://github.com/spatie/temporary-directory/tree/2.3.0"
+                "source": "https://github.com/spatie/temporary-directory/tree/2.3.1"
             },
-            "time": "2025-01-13T13:04:43+00:00"
+            "time": "2026-01-12T07:42:22+00:00"
         },
         {
             "name": "symfony/clock",
@@ -7091,8 +7091,8 @@
                 "webprofiler"
             ],
             "support": {
-                "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.16.3"
+                "issues": "https://github.com/fruitcake/laravel-debugbar/issues",
+                "source": "https://github.com/fruitcake/laravel-debugbar/tree/v3.16.3"
             },
             "time": "2025-12-23T17:37:00+00:00"
         },
@@ -7487,11 +7487,11 @@
         },
         {
             "name": "laravel/pint",
-            "version": "v1.26.0",
+            "version": "v1.27.0",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/pint/v1.26.0/laravel-pint-v1.26.0.zip",
-                "reference": "69dcca060ecb15e4b564af63d1f642c81a241d6f",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/laravel/pint/v1.27.0/laravel-pint-v1.27.0.zip",
+                "reference": "c67b4195b75491e4dfc6b00b1c78b68d86f54c90",
                 "shasum": ""
             },
             "require": {
@@ -7502,9 +7502,9 @@
                 "php": "^8.2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.90.0",
-                "illuminate/view": "^12.40.1",
-                "larastan/larastan": "^3.8.0",
+                "friendsofphp/php-cs-fixer": "^3.92.4",
+                "illuminate/view": "^12.44.0",
+                "larastan/larastan": "^3.8.1",
                 "laravel-zero/framework": "^12.0.4",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/termwind": "^2.3.3",
@@ -7544,7 +7544,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2025-11-25T21:15:52+00:00"
+            "time": "2026-01-05T16:49:17+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -8225,11 +8225,11 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.46",
+            "version": "11.5.48",
             "dist": {
                 "type": "zip",
-                "url": "https://mirrors.cloud.tencent.com/repository/composer/phpunit/phpunit/11.5.46/phpunit-phpunit-11.5.46.zip",
-                "reference": "75dfe79a2aa30085b7132bb84377c24062193f33",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/phpunit/phpunit/11.5.48/phpunit-phpunit-11.5.48.zip",
+                "reference": "fe3665c15e37140f55aaf658c81a2eb9030b6d89",
                 "shasum": ""
             },
             "require": {
@@ -8243,7 +8243,7 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.2",
-                "phpunit/php-code-coverage": "^11.0.11",
+                "phpunit/php-code-coverage": "^11.0.12",
                 "phpunit/php-file-iterator": "^5.1.0",
                 "phpunit/php-invoker": "^5.0.1",
                 "phpunit/php-text-template": "^4.0.1",
@@ -8300,9 +8300,9 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.46"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.48"
             },
-            "time": "2025-12-06T08:01:15+00:00"
+            "time": "2026-01-16T16:26:27+00:00"
         },
         {
             "name": "sebastian/cli-parser",
