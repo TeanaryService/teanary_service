@@ -38,7 +38,7 @@ class UserPanelProvider extends PanelProvider
                 'Inter',
                 provider: LocalFontProvider::class,
             )
-            ->brandLogo(fn () => view('components.layouts.logo', ['imgClass' => 'w-11 h-11']))
+            ->brandLogo(fn () => view('components.layouts.logo', ['imgClass' => 'w-16 h-16 mb-4', 'showText' => false]))
             ->favicon(asset('favicon-32x32.png'))
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
             ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
