@@ -15,60 +15,98 @@
 
 ```mermaid
 graph TB
-    subgraph "前端层 Frontend Layer"
-        A[用户浏览器] --> B[Livewire 组件]
-        B --> C[Blade 模板]
-        C --> D[Tailwind CSS]
+    subgraph Frontend["🌐 前端层 Frontend Layer"]
+        A[用户浏览器]
+        B[Livewire 组件]
+        C[Blade 模板]
+        D[Tailwind CSS]
+        A --> B
+        B --> C
+        C --> D
     end
 
-    subgraph "应用层 Application Layer"
-        B --> E[Livewire 组件]
-        E --> F[Service 层]
-        F --> G[Model 层]
-        G --> H[Observer 层]
+    subgraph Application["⚙️ 应用层 Application Layer"]
+        E[Livewire 组件]
+        F[Service 层]
+        G[Model 层]
+        H[Observer 层]
+        E --> F
+        F --> G
+        G --> H
     end
 
-    subgraph "业务服务层 Service Layer"
-        F --> F1[ProductService<br/>商品服务]
-        F --> F2[PromotionService<br/>促销服务]
-        F --> F3[PaymentService<br/>支付服务]
-        F --> F4[ShippingService<br/>物流服务]
-        F --> F5[SyncService<br/>同步服务]
-        F --> F6[MediaService<br/>媒体服务]
-        F --> F7[CategoryService<br/>分类服务]
-        F --> F8[CartService<br/>购物车服务]
-        F --> F9[LocaleCurrencyService<br/>本地化服务]
+    subgraph Services["🔧 业务服务层 Service Layer"]
+        direction TB
+        F1[ProductService<br/>商品服务]
+        F2[PromotionService<br/>促销服务]
+        F3[PaymentService<br/>支付服务]
+        F4[ShippingService<br/>物流服务]
+        F5[SyncService<br/>同步服务]
+        F6[MediaService<br/>媒体服务]
+        F7[CategoryService<br/>分类服务]
+        F8[CartService<br/>购物车服务]
+        F9[LocaleCurrencyService<br/>本地化服务]
     end
 
-    subgraph "数据层 Data Layer"
-        G --> I[(MySQL 数据库)]
-        G --> J[(Redis 缓存)]
-        G --> K[文件存储]
+    subgraph Data["💾 数据层 Data Layer"]
+        I[(MySQL 数据库)]
+        J[(Redis 缓存)]
+        K[文件存储]
     end
 
-    subgraph "后台管理 Admin Panel"
-        L[Filament Manager<br/>管理员面板] --> F
-        M[Filament User<br/>用户面板] --> F
+    subgraph Admin["👤 后台管理 Admin Panel"]
+        L[Filament Manager<br/>管理员面板]
+        M[Filament User<br/>用户面板]
     end
 
-    subgraph "外部服务 External Services"
-        F3 --> N[PayPal 支付网关]
-        F5 --> O[远程节点 API]
-        F9 --> P[Ollama AI<br/>翻译服务]
+    subgraph External["🌍 外部服务 External Services"]
+        N[PayPal 支付网关]
+        O[远程节点 API]
+        P[Ollama AI<br/>翻译服务]
     end
 
-    subgraph "队列系统 Queue System"
-        H --> Q[队列任务]
-        Q --> R[SyncBatchDataJob<br/>批量同步任务]
-        Q --> S[ResizeUploadedImage<br/>图片处理任务]
-        Q --> T[BatchWriteTrafficStatsJob<br/>流量统计任务]
+    subgraph Queue["📬 队列系统 Queue System"]
+        Q[队列任务]
+        R[SyncBatchDataJob<br/>批量同步任务]
+        S[ResizeUploadedImage<br/>图片处理任务]
+        T[BatchWriteTrafficStatsJob<br/>流量统计任务]
+        Q --> R
+        Q --> S
+        Q --> T
     end
+
+    B --> E
+    F --> F1
+    F --> F2
+    F --> F3
+    F --> F4
+    F --> F5
+    F --> F6
+    F --> F7
+    F --> F8
+    F --> F9
+    G --> I
+    G --> J
+    G --> K
+    L --> F
+    M --> F
+    F3 --> N
+    F5 --> O
+    F9 --> P
+    H --> Q
 
     style F fill:#e1f5ff
     style G fill:#fff4e1
     style I fill:#ffe1e1
     style J fill:#ffe1e1
     style Q fill:#e1ffe1
+    style Frontend fill:#f0f9ff
+    style Application fill:#fef3c7
+    style Services fill:#dbeafe
+    style Data fill:#fee2e2
+    style Admin fill:#e0e7ff
+    style External fill:#f3e8ff
+    style Queue fill:#d1fae5
 ```
 
 ---
@@ -227,33 +265,42 @@ flowchart TD
 ### 支付处理流程
 
 ```mermaid
-stateDiagram-v2
-    [*] --> 订单创建: 用户提交订单
-    订单创建 --> 订单待支付: 订单状态: Pending
+flowchart TD
+    Start([用户提交订单]) --> CreateOrder[创建订单]
+    CreateOrder --> OrderPending[订单状态: Pending]
     
-    订单待支付 --> 创建支付: 跳转到支付页面
-    创建支付 --> 选择支付网关: PaymentService.createPayment
+    OrderPending --> GoToPayment[跳转到支付页面]
+    GoToPayment --> CreatePayment[PaymentService.createPayment]
+    CreatePayment --> SelectGateway{选择支付网关}
     
-    选择支付网关 --> PayPal网关: 支付方式: PayPal
-    选择支付网关 --> 其他网关: 支付方式: 其他
+    SelectGateway -->|PayPal| PayPalGateway[PayPal 网关]
+    SelectGateway -->|其他| OtherGateway[其他支付网关]
     
-    PayPal网关 --> 跳转PayPal: 生成支付URL
-    跳转PayPal --> 用户支付: 用户在PayPal完成支付
+    PayPalGateway --> GenerateURL[生成支付 URL]
+    GenerateURL --> RedirectPayPal[跳转到 PayPal]
+    RedirectPayPal --> UserPay[用户在 PayPal 完成支付]
     
-    用户支付 --> 支付成功回调: PayPal Webhook
-    用户支付 --> 支付取消: 用户取消支付
-    用户支付 --> 支付失败: 支付失败
+    UserPay --> PaymentResult{支付结果}
+    PaymentResult -->|成功| WebhookSuccess[PayPal Webhook 回调]
+    PaymentResult -->|取消| PaymentCancel[用户取消支付]
+    PaymentResult -->|失败| PaymentFail[支付失败]
     
-    支付成功回调 --> 验证支付: 验证支付签名
-    验证支付 --> 更新订单状态: 订单状态: Paid
-    更新订单状态 --> 发送通知: 通知用户和管理员
-    发送通知 --> [*]
+    WebhookSuccess --> VerifyPayment[验证支付签名]
+    VerifyPayment --> UpdateOrder[更新订单状态: Paid]
+    UpdateOrder --> SendNotification[发送通知<br/>用户和管理员]
+    SendNotification --> EndSuccess([支付成功])
     
-    支付取消 --> 订单取消: 订单状态: Cancelled
-    订单取消 --> [*]
+    PaymentCancel --> OrderCancelled[订单状态: Cancelled]
+    OrderCancelled --> EndCancel([订单取消])
     
-    支付失败 --> 订单失败: 订单状态: Failed
-    订单失败 --> [*]
+    PaymentFail --> OrderFailed[订单状态: Failed]
+    OrderFailed --> EndFail([支付失败])
+    
+    style CreateOrder fill:#e1f5ff
+    style UpdateOrder fill:#e1ffe1
+    style OrderCancelled fill:#ffe1e1
+    style OrderFailed fill:#ffe1e1
+    style EndSuccess fill:#e1ffe1
 ```
 
 ### 促销计算流程
