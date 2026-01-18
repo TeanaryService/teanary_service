@@ -42,6 +42,10 @@ return [
     'promotion_starts_at' => 'Start Date',
     'promotion_ends_at' => 'End Date',
     'promotion_text' => 'When :condition :condition_value, get :discount :discount_value',
+    'promotion_rule_order_total_min' => 'Order Total',
+    'promotion_rule_order_qty_min' => 'Order Quantity',
+    'promotion_discount_fixed' => 'Fixed Discount',
+    'promotion_discount_percentage' => 'Percentage Discount',
 
     // Tea culture theme related
     'featured_products_subtitle' => 'Carefully selected premium teas, inheriting millennia of tea culture',

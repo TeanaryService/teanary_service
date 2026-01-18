@@ -46,7 +46,7 @@
         </div>
     </section>
 
-    <x-promotion-list class="px-6" parentClass="bg-tea-100 py-8 tea-bg-texture" />
+    <x-promotion-list class="px-6 md:px-8" parentClass="bg-tea-100 py-8 tea-bg-texture" />
 
     {{-- Featured Products --}}
     <section class="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-24">
