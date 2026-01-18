@@ -85,6 +85,7 @@
 完整的项目文档位于 `docs` 目录：
 
 - **[文档目录](docs/README.md)** - 所有文档的索引
+- **[系统架构与数据流程图](docs/ARCHITECTURE.md)** - 系统架构与数据流程图
 - **[部署指南](docs/DEPLOYMENT.md)** - 快速开始、开发环境安装和生产环境部署完整指南
 - **[多节点数据同步](docs/SYNC.md)** - 详细的多节点同步配置和使用指南
 - **[流量统计功能](docs/traffic-statistics.md)** - 流量统计功能完整文档
