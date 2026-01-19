@@ -1,30 +1,17 @@
 <?php
 
-namespace App\Filament\User\Pages;
+namespace App\Livewire\Users;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use App\Services\LocaleCurrencyService;
-use Filament\Actions\Action;
-use Filament\Notifications\Notification;
-use Filament\Pages\Page;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use Livewire\WithPagination;
 
-class Orders extends Page
+class Orders extends Component
 {
     use WithPagination;
-
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
-
-    protected static ?int $navigationSort = 2;
-
-    protected static string $view = 'filament.user.pages.orders';
-
-    protected static ?string $navigationLabel = null;
-
-    protected static ?string $title = null;
 
     protected LocaleCurrencyService $localeService;
 
@@ -33,7 +20,7 @@ class Orders extends Page
         $this->localeService = app(LocaleCurrencyService::class);
     }
 
-    public function getOrdersProperty(): LengthAwarePaginator
+    public function getOrdersProperty()
     {
         return Order::query()
             ->where('user_id', Auth::id())
@@ -56,43 +43,28 @@ class Orders extends Page
 
         if ($order->status->canBeCancelled()) {
             $order->update(['status' => OrderStatusEnum::Cancelled]);
-            Notification::make()
-                ->title(__('orders.operation_success'))
-                ->success()
-                ->send();
-            
+            session()->flash('message', __('orders.operation_success'));
             $this->resetPage();
         } else {
-            Notification::make()
-                ->title(__('orders.cannot_cancel'))
-                ->danger()
-                ->send();
+            session()->flash('error', __('orders.cannot_cancel'));
         }
     }
 
-    public function payOrder(int $orderId): void
+    public function payOrder(int $orderId)
     {
         $order = Order::query()
             ->where('user_id', Auth::id())
             ->findOrFail($orderId);
 
         if ($order->status->canBePaid()) {
-            $this->redirect(route('payment.checkout', ['orderId' => $order->id]));
+            return $this->redirect(route('payment.checkout', ['orderId' => $order->id]));
         }
     }
 
-    public static function getNavigationLabel(): string
+    public function render()
     {
-        return __('orders.my_orders');
-    }
-
-    public function getTitle(): string
-    {
-        return __('orders.my_orders');
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [];
+        return view('livewire.users.orders', [
+            'orders' => $this->orders,
+        ])->layout('components.layouts.app');
     }
 }

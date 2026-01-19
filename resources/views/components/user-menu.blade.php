@@ -12,11 +12,11 @@
     <div x-show="open" @click.away="open = false" x-transition
         class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-teal-300">
         <div class="py-1">
-            <a target="_blank" href="{{ locaRoute('user.orders') }}"
+            <a href="{{ locaRoute('auth.orders') }}"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
                 {{ __('orders.my_orders') }}
             </a>
-            <a target="_blank" href="{{ locaRoute('user.notifications') }}"
+            <a href="{{ locaRoute('auth.notifications') }}"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 relative">
                 {{ __('notifications.my_notifications') }}
                 @if(auth()->user()->unreadNotifications->count() > 0)
@@ -25,7 +25,11 @@
                     </span>
                 @endif
             </a>
-            <a target="_blank" href="{{ locaRoute('user.profile') }}"
+            <a href="{{ locaRoute('auth.addresses') }}"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
+                {{ __('app.addresses.my_addresses') }}
+            </a>
+            <a href="{{ locaRoute('auth.profile') }}"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
                 {{ __('app.profile') }}
             </a>

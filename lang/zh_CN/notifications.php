@@ -21,6 +21,7 @@ return [
         'title' => '订单已取消',
         'message' => '您的订单 :order_no 已取消，原因：:reason',
     ],
+    'title' => '通知中心',
     'my_notifications' => '我的通知',
     'no_notifications' => '暂无通知',
     'no_notifications_desc' => '您还没有收到任何通知',

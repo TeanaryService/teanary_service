@@ -5,7 +5,7 @@
     :icon="['heroicon-o-x-circle', 'text-red-500']"
     :button="[
         'label' => __('payment.view_order'),
-        'url' => locaRoute('user.orders'),
+        'url' => locaRoute('auth.orders'),
         'class' => 'bg-red-600 hover:bg-red-700'
     ]"
 />

@@ -40,28 +40,37 @@ if (! function_exists('locaRoute')) {
      */
     function locaRoute(string $name, array $parameters = [], bool $absolute = true): string
     {
-        // Filament 用户面板路由（不需要 locale 前缀）
-        $filamentUserRoutes = [
-            'user.profile' => '/user/profile',
-            'user.orders' => '/user/orders',
-            'user.orders.show' => '/user/orders/detail',
-            'user.addresses' => '/user/addresses',
-            'user.addresses.form' => '/user/addresses',
-            'user.notifications' => '/user/notifications',
-            'auth.login' => '/user/login',
-            'auth.register' => '/user/register',
-            'auth.forgot-password' => '/user/forgot-password',
-            'auth.password.reset' => '/user/reset-password',
-            'auth.logout' => '/user/logout',
+        // Livewire 认证路由（需要 locale 前缀，但在这里处理）
+        $authRoutes = [
+            'auth.login' => '/{locale}/login',
+            'auth.register' => '/{locale}/register',
+            'auth.forgot-password' => '/{locale}/forgot-password',
+            'auth.profile' => '/{locale}/profile',
+            'auth.orders' => '/{locale}/orders',
+            'auth.order-detail' => '/{locale}/orders/{order}',
+            'auth.addresses' => '/{locale}/addresses',
+            'auth.notifications' => '/{locale}/notifications',
+            'auth.logout' => '/{locale}/logout',
+            'verification.notice' => '/{locale}/email/verify',
+            'verification.send' => '/{locale}/email/verification-notification',
+            // 兼容旧的路由名称
+            'user.orders' => '/{locale}/orders',
+            'user.orders.show' => '/{locale}/orders/{order}',
+            'user.addresses' => '/{locale}/addresses',
+            'user.notifications' => '/{locale}/notifications',
         ];
-
-        if (isset($filamentUserRoutes[$name])) {
-            $url = $filamentUserRoutes[$name];
-            if ($name === 'user.orders.show' && isset($parameters['order'])) {
+        
+        if (isset($authRoutes[$name])) {
+            $locale = app()->getLocale();
+            $url = str_replace('{locale}', $locale, $authRoutes[$name]);
+            
+            // 处理订单详情路由的参数
+            if (($name === 'user.orders.show' || $name === 'auth.order-detail') && isset($parameters['order'])) {
                 $order = $parameters['order'];
                 $orderId = is_object($order) ? $order->id : $order;
-                $url .= '?record=' . $orderId;
+                $url = str_replace('{order}', $orderId, $url);
             }
+            
             return $absolute ? url($url) : $url;
         }
 
@@ -491,5 +500,38 @@ if (! function_exists('buildArticleDetailBreadcrumbs')) {
                 'url' => '',
             ],
         ];
+    }
+}
+
+if (! function_exists('buildUserCenterBreadcrumbs')) {
+    /**
+     * 构建用户中心页面面包屑
+     */
+    function buildUserCenterBreadcrumbs(string $page, ?string $pageLabel = null, ?string $parentLabel = null, ?string $parentUrl = null): array
+    {
+        $breadcrumbs = [
+            [
+                'label' => __('app.user_center'),
+                'url' => locaRoute('auth.profile'),
+            ],
+        ];
+
+        // 如果有父级页面（如订单详情页面的订单列表）
+        if ($parentLabel && $parentUrl) {
+            $breadcrumbs[] = [
+                'label' => $parentLabel,
+                'url' => $parentUrl,
+            ];
+        }
+
+        // 当前页面
+        if ($pageLabel) {
+            $breadcrumbs[] = [
+                'label' => $pageLabel,
+                'url' => '',
+            ];
+        }
+
+        return $breadcrumbs;
     }
 }
