@@ -10,6 +10,7 @@ use App\Livewire\IndexPage;
 use App\Livewire\Payment\Cancel;
 use App\Livewire\Payment\Checkout as PaymentCheckout;
 use App\Livewire\Payment\Failure;
+use App\Livewire\OrderQuery;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
@@ -82,6 +83,8 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
     // Email verification routes moved to Filament user panel (/user)
 
     Route::get('/search', \App\Livewire\Search::class)->name('search');
+
+    Route::get('order-query', OrderQuery::class)->name('order.query');
 
     Route::fallback(function () {
         return abort(404);

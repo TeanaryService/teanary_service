@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto px-6 md:px-8 min-h-[70vh] flex items-center justify-center">
+<div class="max-w-4xl mx-auto px-6 md:px-8 min-h-[40vh] flex items-center justify-center">
     <div class="text-center">
         @if($isProcessing)
             {{-- 处理中状态：显示加载指示器 --}}

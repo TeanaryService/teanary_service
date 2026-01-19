@@ -3,7 +3,7 @@
     $currencyCode = session('currency');
 @endphp
 
-<div class="max-w-7xl mx-auto px-4 py-10 min-h-[70vh] bg-white">
+<div class="max-w-7xl mx-auto px-4 py-10 min-h-[40vh] bg-white">
     {{-- 添加错误提示 --}}
     @if (session('error'))
         <div class="mb-4 p-4 bg-red-50 border-l-4 border-red-400 text-red-700">

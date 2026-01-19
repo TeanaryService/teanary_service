@@ -59,7 +59,6 @@ body {
 
 /* 改进的容器间距 */
 .main {
-    min-height: calc(100vh - 5rem);
     padding-bottom: 2rem;
 }
 

@@ -30,8 +30,8 @@
                             </li>
                             <li><a href="{{ locaRoute('article.index') }}"
                                     class="hover:text-tea-600 transition-colors duration-200">{{ __('home.article.base_name') }}</a></li>
-                            <li><a href="{{ locaRoute('teanary.open') }}"
-                                    class="hover:text-tea-600 transition-colors duration-200">{{ __('app.teanary_open_source') }}</a></li>
+                            <li><a href="{{ locaRoute('order.query') }}"
+                                    class="hover:text-tea-600 transition-colors duration-200">{{ __('orders.query_title') }}</a></li>
                         </ul>
                     </div>
                 </div>
