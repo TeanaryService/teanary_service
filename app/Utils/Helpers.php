@@ -58,6 +58,22 @@ if (! function_exists('locaRoute')) {
             'user.orders.show' => '/{locale}/orders/{order}',
             'user.addresses' => '/{locale}/addresses',
             'user.notifications' => '/{locale}/notifications',
+            // Manager 路由
+            'manager.login' => '/{locale}/manager/login',
+            'manager.dashboard' => '/{locale}/manager',
+            'manager.traffic-statistics' => '/{locale}/manager/traffic-statistics',
+            'manager.notifications' => '/{locale}/manager/notifications',
+            'manager.orders' => '/{locale}/manager/orders',
+            'manager.orders.show' => '/{locale}/manager/orders/{order}',
+            'manager.users' => '/{locale}/manager/users',
+            'manager.users.show' => '/{locale}/manager/users/{user}',
+            'manager.categories' => '/{locale}/manager/categories',
+            'manager.categories.create' => '/{locale}/manager/categories/create',
+            'manager.categories.show' => '/{locale}/manager/categories/{category}',
+            'manager.products' => '/{locale}/manager/products',
+            'manager.products.create' => '/{locale}/manager/products/create',
+            'manager.products.show' => '/{locale}/manager/products/{product}',
+            'manager.logout' => '/{locale}/manager/logout',
         ];
         
         if (isset($authRoutes[$name])) {
@@ -65,10 +81,31 @@ if (! function_exists('locaRoute')) {
             $url = str_replace('{locale}', $locale, $authRoutes[$name]);
             
             // 处理订单详情路由的参数
-            if (($name === 'user.orders.show' || $name === 'auth.order-detail') && isset($parameters['order'])) {
+            if (($name === 'user.orders.show' || $name === 'auth.order-detail' || $name === 'manager.orders.show') && isset($parameters['order'])) {
                 $order = $parameters['order'];
                 $orderId = is_object($order) ? $order->id : $order;
                 $url = str_replace('{order}', $orderId, $url);
+            }
+            
+            // 处理用户详情路由的参数
+            if ($name === 'manager.users.show' && isset($parameters['user'])) {
+                $user = $parameters['user'];
+                $userId = is_object($user) ? $user->id : $user;
+                $url = str_replace('{user}', $userId, $url);
+            }
+            
+            // 处理分类详情路由的参数
+            if ($name === 'manager.categories.show' && isset($parameters['category'])) {
+                $category = $parameters['category'];
+                $categoryId = is_object($category) ? $category->id : $category;
+                $url = str_replace('{category}', $categoryId, $url);
+            }
+            
+            // 处理商品详情路由的参数
+            if ($name === 'manager.products.show' && isset($parameters['product'])) {
+                $product = $parameters['product'];
+                $productId = is_object($product) ? $product->id : $product;
+                $url = str_replace('{product}', $productId, $url);
             }
             
             return $absolute ? url($url) : $url;

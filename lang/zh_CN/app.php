@@ -131,6 +131,8 @@ return array (
     'wechat_label' => '联系我们 Wechat',
   ),
   'user_center' => '用户中心',
+  'manager_panel' => '管理后台',
+  'manager_login' => '管理员登录',
   'addresses' => 
   array (
     'title' => '收货地址',
@@ -154,4 +156,14 @@ return array (
   ),
   'not_available' => '暂无',
   'no_reason_provided' => '未提供原因',
+  'all' => '全部',
+  'reset' => '重置',
+  'view' => '查看',
+  'no_data' => '暂无数据',
+  'save_success' => '保存成功',
+  'actions' => '操作',
+  'edit' => '编辑',
+  'back' => '返回',
+  'add_new' => '添加',
+  'default' => '默认',
 );
