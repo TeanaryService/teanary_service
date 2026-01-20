@@ -59,7 +59,7 @@ body {
 
 /* 改进的容器间距 */
 .main {
-    padding-bottom: 2rem;
+    /* padding-bottom: 2rem; */
 }
 
 /* 改进的标题样式 */
