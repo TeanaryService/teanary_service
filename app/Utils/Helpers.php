@@ -58,6 +58,11 @@ if (! function_exists('locaRoute')) {
             'user.orders.show' => '/{locale}/orders/{order}',
             'user.addresses' => '/{locale}/addresses',
             'user.notifications' => '/{locale}/notifications',
+
+            //manager
+            'manager.login' => '/{locale}/manager/login',
+            'manager.home' => '/{locale}/manager',
+            'manager.logout' => '/{locale}/manager/logout',
         ];
         
         if (isset($authRoutes[$name])) {

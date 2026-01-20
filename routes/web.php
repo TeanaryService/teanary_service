@@ -39,6 +39,9 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
     // 引入用户相关路由
     require __DIR__.'/users.php';
 
+    // 引入用户相关路由
+    require __DIR__.'/manager.php';
+
     Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
 
