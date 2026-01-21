@@ -1,12 +1,22 @@
+@php
+    $breadcrumbs = buildManagerCenterBreadcrumbs('home', __('filament.dashboard.heading'));
+@endphp
+
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
+        <x-breadcrumbs :items="$breadcrumbs" />
+        
         @php
             $localeService = app(\App\Services\LocaleCurrencyService::class);
         @endphp
-
-        <h1 class="text-3xl font-bold text-gray-900 mb-8">
-            {{ __('filament.dashboard.heading') }}
-        </h1>
+        
+        <div class="flex flex-col md:flex-row gap-6">
+            <x-manager.sidebar active="home" />
+            
+            <div class="flex-1">
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.dashboard.heading') }}</h1>
+                </div>
 
         <!-- Stats Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -72,12 +82,16 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        @forelse($topProducts as $order)
+                        @forelse($recentOrders as $order)
+                            @php
+                                $orderCurrencyCode = $order->currency?->code ?? $localeService->getDefaultCurrencyCode();
+                                $targetCurrencyCode = session('currency') ?? $localeService->getDefaultCurrencyCode();
+                            @endphp
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{{ $order->id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $localeService->convertWithSymbol($order->total, session('currency')) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $localeService->convertWithSymbol($order->total, $targetCurrencyCode, $orderCurrencyCode) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                    <span class="px-2 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold">{{ $order->status }}</span>
+                                    <span class="px-2 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold">{{ $order->status->label() }}</span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $order->created_at->format('Y-m-d H:i') }}</td>
                             </tr>
@@ -88,6 +102,8 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+        </div>
             </div>
         </div>
     </div>

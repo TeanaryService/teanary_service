@@ -150,6 +150,8 @@ return [
         'confirm_delete' => 'Are you sure you want to delete this address?',
         'add_first_address' => 'Add your first shipping address',
     ],
+    'user_center' => 'User Center',
+    'manager_center' => 'Manager Center',
     'not_available' => 'Not Available',
     'no_reason_provided' => 'No reason provided',
 ];

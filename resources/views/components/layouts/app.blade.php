@@ -65,7 +65,7 @@
                 @livewire('components.cart-dropdown')
 
                 @auth
-                    <x-user-menu />
+                    <x-users.menu />
                 @endauth
                 @guest
                     <a href="{{ locaRoute('auth.login') }}"

@@ -540,3 +540,36 @@ if (! function_exists('buildUserCenterBreadcrumbs')) {
         return $breadcrumbs;
     }
 }
+
+if (! function_exists('buildManagerCenterBreadcrumbs')) {
+    /**
+     * 构建管理中心页面面包屑
+     */
+    function buildManagerCenterBreadcrumbs(string $page, ?string $pageLabel = null, ?string $parentLabel = null, ?string $parentUrl = null): array
+    {
+        $breadcrumbs = [
+            [
+                'label' => __('app.manager_center'),
+                'url' => locaRoute('manager.home'),
+            ],
+        ];
+
+        // 如果有父级页面（如订单详情页面的订单列表）
+        if ($parentLabel && $parentUrl) {
+            $breadcrumbs[] = [
+                'label' => $parentLabel,
+                'url' => $parentUrl,
+            ];
+        }
+
+        // 当前页面
+        if ($pageLabel) {
+            $breadcrumbs[] = [
+                'label' => $pageLabel,
+                'url' => '',
+            ];
+        }
+
+        return $breadcrumbs;
+    }
+}

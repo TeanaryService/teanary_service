@@ -131,6 +131,7 @@ return array (
     'wechat_label' => '联系我们 Wechat',
   ),
   'user_center' => '用户中心',
+  'manager_center' => '管理中心',
   'addresses' => 
   array (
     'title' => '收货地址',

@@ -8,16 +8,16 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    public $email = '';
-    public $password = '';
-    public $remember = false;
+    public string $email = '';
+    public string $password = '';
+    public bool $remember = false;
 
-    protected $rules = [
+    protected array $rules = [
         'email' => 'required|email',
         'password' => 'required',
     ];
 
-    protected $messages = [
+    protected array $messages = [
         'email.required' => '请输入邮箱地址',
         'email.email' => '请输入有效的邮箱地址',
         'password.required' => '请输入密码',
@@ -27,7 +27,10 @@ class Login extends Component
     {
         $this->validate();
 
-        if (! Auth::guard('manager')->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        if (! Auth::guard('manager')->attempt(
+            ['email' => $this->email, 'password' => $this->password],
+            $this->remember
+        )) {
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);

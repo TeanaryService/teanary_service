@@ -63,7 +63,7 @@
             <!-- 右侧操作区 -->
             <div class="flex items-center gap-3 md:gap-4">
                 @auth('manager')
-                    <x-manager-menu />
+                    <x-manager.menu />
                 @endauth
                 @guest('manager')
                     <a href="{{ locaRoute('manager.login') }}"
