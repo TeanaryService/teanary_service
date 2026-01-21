@@ -66,3 +66,8 @@
         </div>
     </section>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('app.contact.title') }}" description="{{ __('app.contact.description') }}"
+        keywords="{{ __('app.contact.title') }}" />
+@endPushOnce

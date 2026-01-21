@@ -48,3 +48,8 @@
         </form>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('app.login') }}" description="{{ __('app.login') }}"
+        keywords="{{ __('app.login') }}" />
+@endPushOnce

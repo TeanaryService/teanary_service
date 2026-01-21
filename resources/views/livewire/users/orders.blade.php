@@ -211,3 +211,8 @@
         </div>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('orders.my_orders') }}" description="{{ __('orders.my_orders') }}"
+        keywords="{{ __('orders.my_orders') }}" />
+@endPushOnce

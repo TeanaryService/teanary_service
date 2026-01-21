@@ -44,3 +44,8 @@
         </form>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('auth.forgot_password') }}" description="{{ __('auth.forgot_password') }}"
+        keywords="{{ __('auth.forgot_password') }}" />
+@endPushOnce

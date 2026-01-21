@@ -222,3 +222,8 @@
         </div>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.articles.label') }}" description="{{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.articles.label') }}"
+        keywords="{{ __('manager.articles.label') }}" />
+@endPushOnce

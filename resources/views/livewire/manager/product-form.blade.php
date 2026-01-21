@@ -240,3 +240,7 @@
     </div>
 </div>
 
+@pushOnce('seo')
+    <x-layouts.seo title="{{ $productId ? __('app.edit') : __('app.create') }} {{ __('manager.products.label') }}" description="{{ $productId ? __('app.edit') : __('app.create') }} {{ __('manager.products.label') }}"
+        keywords="{{ __('manager.products.label') }}" />
+@endPushOnce

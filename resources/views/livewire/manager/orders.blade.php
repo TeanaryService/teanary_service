@@ -199,3 +199,8 @@
         </div>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('manager.orders.label') }}" description="{{ __('manager.orders.label') }}"
+        keywords="{{ __('manager.orders.label') }}" />
+@endPushOnce

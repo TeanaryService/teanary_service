@@ -61,3 +61,8 @@
         </form>
     </div>
 </div>
+
+@pushOnce('seo')
+    <x-layouts.seo title="{{ __('app.register') }}" description="{{ __('app.register') }}"
+        keywords="{{ __('app.register') }}" />
+@endPushOnce
