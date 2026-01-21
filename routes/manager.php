@@ -14,6 +14,10 @@ use App\Livewire\Manager\Categories;
 use App\Livewire\Manager\CategoryForm;
 use App\Livewire\Manager\Contacts;
 use App\Livewire\Manager\Countries;
+use App\Livewire\Manager\ManagerForm;
+use App\Livewire\Manager\Managers;
+use App\Livewire\Manager\UserForm;
+use App\Livewire\Manager\Users;
 use App\Livewire\Manager\CountryForm;
 use App\Livewire\Manager\Currencies;
 use App\Livewire\Manager\CurrencyForm;
@@ -90,6 +94,16 @@ Route::prefix('manager')->group(function () {
         
         // 联系人管理
         Route::get('contacts', Contacts::class)->name('manager.contacts');
+        
+        // 管理员管理
+        Route::get('managers', Managers::class)->name('manager.managers');
+        Route::get('managers/create', ManagerForm::class)->name('manager.managers.create');
+        Route::get('managers/{id}/edit', ManagerForm::class)->name('manager.managers.edit');
+        
+        // 用户管理
+        Route::get('users', Users::class)->name('manager.users');
+        Route::get('users/create', UserForm::class)->name('manager.users.create');
+        Route::get('users/{id}/edit', UserForm::class)->name('manager.users.edit');
 
         Route::post('logout', function () {
             Auth::guard('manager')->logout();

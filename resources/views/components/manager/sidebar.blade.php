@@ -24,6 +24,12 @@
 
     $systemItems = [
         [
+            'name' => __('filament.ManagerResource.label'),
+            'route' => 'manager.managers',
+            'icon' => 'heroicon-o-lifebuoy',
+            'key' => 'managers',
+        ],
+        [
             'name' => __('filament.LanguageResource.label'),
             'route' => 'manager.languages',
             'icon' => 'heroicon-o-language',
@@ -92,6 +98,12 @@
     ];
 
     $userItems = [
+        [
+            'name' => __('filament.UserResource.label'),
+            'route' => 'manager.users',
+            'icon' => 'heroicon-o-user',
+            'key' => 'users',
+        ],
         [
             'name' => __('filament.AddressResource.label'),
             'route' => 'manager.addresses',
