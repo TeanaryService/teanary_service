@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CustomRedirectIfAuthenticated;
 use App\Livewire\Manager\Home;
 use App\Livewire\Manager\Login;
 use Illuminate\Support\Facades\Auth;
@@ -7,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('manager')->group(function () {
     // 认证路由（访客）
-    Route::middleware('guest:manager')->group(function () {
+    Route::middleware([CustomRedirectIfAuthenticated::class . ':manager'])->group(function () {
         Route::get('login', Login::class)->name('manager.login');
     });
 

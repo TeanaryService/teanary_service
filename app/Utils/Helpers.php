@@ -34,60 +34,65 @@ if (! function_exists('generateRandomImage')) {
     }
 }
 
+if (! function_exists('getCurrentLocale')) {
+    /**
+     * 获取当前 locale，优先从请求中获取
+     */
+    function getCurrentLocale(): string
+    {
+        // 优先从请求中获取 locale（更可靠），然后从 session，最后从 app locale
+        $locale = request()->segment(1) 
+            ?? session('lang') 
+            ?? app()->getLocale();
+        
+        // 如果 locale 不在支持的语言列表中，使用默认语言
+        if ($locale) {
+            $service = app(\App\Services\LocaleCurrencyService::class);
+            $supportedLocales = $service->getLanguages()->pluck('code')->toArray();
+            if (!empty($supportedLocales) && !in_array($locale, $supportedLocales)) {
+                $locale = $service->getDefaultLanguageCode();
+            }
+        }
+        
+        // 如果还是没有 locale，使用默认值
+        if (!$locale) {
+            $service = app(\App\Services\LocaleCurrencyService::class);
+            $locale = $service->getDefaultLanguageCode();
+        }
+        
+        return $locale;
+    }
+}
+
 if (! function_exists('locaRoute')) {
     /**
      * Generate a route URL with current locale prefix.
+     * 
+     * This function automatically detects routes that require locale prefix
+     * and uses Laravel's route() function to generate URLs.
      */
     function locaRoute(string $name, array $parameters = [], bool $absolute = true): string
     {
-        // Livewire 认证路由（需要 locale 前缀，但在这里处理）
-        $authRoutes = [
-            'auth.login' => '/{locale}/login',
-            'auth.register' => '/{locale}/register',
-            'auth.forgot-password' => '/{locale}/forgot-password',
-            'auth.profile' => '/{locale}/profile',
-            'auth.orders' => '/{locale}/orders',
-            'auth.order-detail' => '/{locale}/orders/{order}',
-            'auth.addresses' => '/{locale}/addresses',
-            'auth.notifications' => '/{locale}/notifications',
-            'auth.logout' => '/{locale}/logout',
-            'verification.notice' => '/{locale}/email/verify',
-            'verification.send' => '/{locale}/email/verification-notification',
-            // 兼容旧的路由名称
-            'user.orders' => '/{locale}/orders',
-            'user.orders.show' => '/{locale}/orders/{order}',
-            'user.addresses' => '/{locale}/addresses',
-            'user.notifications' => '/{locale}/notifications',
-
-            //manager
-            'manager.login' => '/{locale}/manager/login',
-            'manager.home' => '/{locale}/manager',
-            'manager.logout' => '/{locale}/manager/logout',
-        ];
-        
-        if (isset($authRoutes[$name])) {
-            $locale = app()->getLocale();
-            $url = str_replace('{locale}', $locale, $authRoutes[$name]);
-            
-            // 处理订单详情路由的参数
-            if (($name === 'user.orders.show' || $name === 'auth.order-detail') && isset($parameters['order'])) {
-                $order = $parameters['order'];
-                $orderId = is_object($order) ? $order->id : $order;
-                $url = str_replace('{order}', $orderId, $url);
-            }
-            
-            return $absolute ? url($url) : $url;
-        }
-
         // 获取当前语言
-        $locale = app()->getLocale();
+        $locale = getCurrentLocale();
 
         // 如果已有 locale 参数（优先）就使用它，否则加上当前 locale
         if (! isset($parameters['locale'])) {
             $parameters = ['locale' => $locale] + $parameters;
         }
 
+        // 处理对象参数（如 Order 模型对象）
+        foreach ($parameters as $key => $value) {
+            if (is_object($value) && method_exists($value, 'getRouteKey')) {
+                $parameters[$key] = $value->getRouteKey();
+            } elseif (is_object($value) && isset($value->id)) {
+                $parameters[$key] = $value->id;
+            }
+        }
+
         // 调用 Laravel 原生 route() 函数
+        // Laravel 会自动处理所有路由，包括那些在 {locale} 前缀下的路由
+        // 所有路由都在 Route::prefix('{locale}') 下定义，所以会自动包含 locale 参数
         return route($name, $parameters, $absolute);
     }
 }

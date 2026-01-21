@@ -23,6 +23,14 @@ class Login extends Component
         'password.required' => '请输入密码',
     ];
 
+    public function mount(): void
+    {
+        // 如果已登录，重定向到首页
+        if (Auth::guard('manager')->check()) {
+            redirect()->to(locaRoute('manager.home'));
+        }
+    }
+
     public function login()
     {
         $this->validate();

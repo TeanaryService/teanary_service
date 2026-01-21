@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CustomRedirectIfAuthenticated;
 use App\Livewire\Users\Login;
 use App\Livewire\Users\Register;
 use App\Livewire\Users\ForgotPassword;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // 认证路由（访客）
-Route::middleware('guest')->group(function () {
+Route::middleware([CustomRedirectIfAuthenticated::class])->group(function () {
     Route::get('login', Login::class)->name('auth.login');
     Route::get('register', Register::class)->name('auth.register');
     Route::get('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
