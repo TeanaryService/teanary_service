@@ -1,8 +1,13 @@
 <?php
 
 return [
+    // List / Navigation
     'label' => 'Specification Values',
-    'name' => 'Specification Value Name',
+
+    // Fields
     'specification' => 'Specification',
     'translation_status' => 'Translation Status',
+    'translations' => 'Multi-language Translations',
+    'name' => 'Specification Value Name',
+    'unnamed' => 'Unnamed Specification Value',
 ];

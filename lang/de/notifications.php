@@ -21,6 +21,7 @@ return [
         'title' => 'Bestellung storniert',
         'message' => 'Ihre Bestellung :order_no wurde storniert. Grund: :reason',
     ],
+    'title' => 'Benachrichtigungszentrum',
     'my_notifications' => 'Meine Benachrichtigungen',
     'no_notifications' => 'Keine Benachrichtigungen',
     'no_notifications_desc' => 'Sie haben noch keine Benachrichtigungen erhalten',

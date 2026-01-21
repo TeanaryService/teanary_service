@@ -1,0 +1,23 @@
+<?php
+
+return [
+    'label' => 'Товары',
+    'name' => 'Название товара',
+    'slug' => 'URL-адрес',
+    'source_url' => 'Исходный URL',
+    'status' => 'Статус',
+    'translation_status' => 'Статус перевода',
+    'categories' => 'Категории',
+    'low_stock' => 'Низкий запас',
+    'out_of_stock' => 'Нет в наличии',
+    'price_range' => 'Диапазон цен',
+    'total_stock' => 'Общий запас',
+    'variants_count' => 'Количество вариантов',
+    'attribute_values' => 'Значения атрибутов',
+    'attribute' => 'Атрибут',
+    'attribute_value' => 'Значение атрибута',
+    'images' => 'Изображения',
+    'translations' => 'Переводы',
+    'short_description' => 'Краткое описание',
+    'description' => 'Описание',
+];

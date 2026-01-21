@@ -62,7 +62,7 @@ return array (
   'query_verification_subject' => 'Bestellabfrage Bestätigungscode',
   'query_verification_line1' => 'Sie fragen Bestellinformationen ab, bitte verwenden Sie den folgenden Bestätigungscode zur Verifizierung:',
   'query_verification_line2' => 'Bestellnummer: :order_no',
-  'query_verification_code' => 'Bestätigungscode: :code',
+  'query_verification_code_line' => 'Bestätigungscode: :code',
   'query_verification_line3' => 'Der Bestätigungscode ist 10 Minuten gültig, bitte geben Sie ihn nicht an andere weiter.',
   'query_verification_line4' => 'Wenn dies nicht Ihre Aktion war, ignorieren Sie bitte diese E-Mail.',
 );

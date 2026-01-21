@@ -62,7 +62,7 @@ return array (
   'query_verification_subject' => '주문 조회 인증 코드',
   'query_verification_line1' => '주문 정보를 조회하고 있습니다. 다음 인증 코드를 사용하여 확인을 완료하세요:',
   'query_verification_line2' => '주문 번호: :order_no',
-  'query_verification_code' => '인증 코드: :code',
+  'query_verification_code_line' => '인증 코드: :code',
   'query_verification_line3' => '인증 코드는 10분간 유효합니다. 다른 사람에게 공유하지 마세요.',
   'query_verification_line4' => '본인이 수행한 작업이 아닌 경우 이 이메일을 무시하세요.',
 );

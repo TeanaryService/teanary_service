@@ -41,6 +41,7 @@ return array (
   'promotion_rule_order_qty_min' => 'Количество Заказа',
   'promotion_discount_fixed' => 'Фиксированная Скидка',
   'promotion_discount_percentage' => 'Процентная Скидка',
+  'storage' => 'Запас: :storage',
   'featured_products_subtitle' => 'Тщательно отобранные премиальные чаи, наследуя тысячелетия чайной культуры',
   'browse_categories_subtitle' => 'Исследуйте различные сорта чая, наслаждайтесь сущностью чайной жизни',
   'tea_culture_articles' => 'Статьи о чайной культуре',

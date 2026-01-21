@@ -62,7 +62,7 @@ return array (
   'query_verification_subject' => 'Code de Vérification de Consultation de Commande',
   'query_verification_line1' => 'Vous consultez les informations de la commande, veuillez utiliser le code de vérification suivant pour compléter la vérification:',
   'query_verification_line2' => 'Numéro de Commande: :order_no',
-  'query_verification_code' => 'Code de Vérification: :code',
+  'query_verification_code_line' => 'Code de Vérification: :code',
   'query_verification_line3' => 'Le code de vérification est valide pendant 10 minutes, veuillez ne pas le divulguer à d\'autres.',
   'query_verification_line4' => 'Si ce n\'est pas votre opération, veuillez ignorer cet e-mail.',
 );

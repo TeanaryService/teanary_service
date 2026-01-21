@@ -62,7 +62,7 @@ return array (
   'query_verification_subject' => '注文照会確認コード',
   'query_verification_line1' => '注文情報を照会しています。以下の確認コードを使用して確認を完了してください：',
   'query_verification_line2' => '注文番号：:order_no',
-  'query_verification_code' => '確認コード：:code',
+  'query_verification_code_line' => '確認コード：:code',
   'query_verification_line3' => '確認コードは10分間有効です。他人に共有しないでください。',
   'query_verification_line4' => 'この操作があなたのものでない場合は、このメールを無視してください。',
 );

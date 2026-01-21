@@ -41,6 +41,7 @@ return array (
   'promotion_rule_order_qty_min' => 'Quantité de la Commande',
   'promotion_discount_fixed' => 'Remise Fixe',
   'promotion_discount_percentage' => 'Remise en Pourcentage',
+  'storage' => 'Stock : :storage',
   'featured_products_subtitle' => 'Thés premium soigneusement sélectionnés, héritant de millénaires de culture du thé',
   'browse_categories_subtitle' => 'Explorez différentes variétés de thé, savourez l\'essence de la vie du thé',
   'tea_culture_articles' => 'Articles sur la Culture du Thé',

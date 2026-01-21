@@ -39,7 +39,7 @@
 
 </head>
 
-<body class="body bg-teal-100 font-chinese antialiased">
+<body class="body bg-gray-50 font-chinese antialiased">
     <!-- 导航栏 -->
     <header class="fixed w-full top-0 bg-white/98 backdrop-blur-md z-50 border-b border-gray-200/60 shadow-sm">
         <div class="w-full max-w-7xl mx-auto flex justify-between items-center h-20 px-4 md:px-8">

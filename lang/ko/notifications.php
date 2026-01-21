@@ -21,6 +21,7 @@ return [
         'title' => '주문이 취소되었습니다',
         'message' => '주문 :order_no 이(가) 취소되었습니다. 사유: :reason',
     ],
+    'title' => '알림 센터',
     'my_notifications' => '내 알림',
     'no_notifications' => '알림 없음',
     'no_notifications_desc' => '아직 알림을 받지 않았습니다',

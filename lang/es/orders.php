@@ -62,7 +62,7 @@ return array (
   'query_verification_subject' => 'Código de Verificación de Consulta de Pedido',
   'query_verification_line1' => 'Está consultando información del pedido, por favor use el siguiente código de verificación para completar la verificación:',
   'query_verification_line2' => 'Número de Pedido: :order_no',
-  'query_verification_code' => 'Código de Verificación: :code',
+  'query_verification_code_line' => 'Código de Verificación: :code',
   'query_verification_line3' => 'El código de verificación es válido por 10 minutos, por favor no lo comparta con otros.',
   'query_verification_line4' => 'Si esta no fue su operación, por favor ignore este correo electrónico.',
 );

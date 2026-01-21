@@ -62,7 +62,7 @@ return array (
   'query_verification_subject' => 'Код Подтверждения Запроса Заказа',
   'query_verification_line1' => 'Вы запрашиваете информацию о заказе, пожалуйста, используйте следующий код подтверждения для завершения проверки:',
   'query_verification_line2' => 'Номер Заказа: :order_no',
-  'query_verification_code' => 'Код Подтверждения: :code',
+  'query_verification_code_line' => 'Код Подтверждения: :code',
   'query_verification_line3' => 'Код подтверждения действителен в течение 10 минут, пожалуйста, не сообщайте его другим.',
   'query_verification_line4' => 'Если это не ваша операция, пожалуйста, проигнорируйте это письмо.',
 );

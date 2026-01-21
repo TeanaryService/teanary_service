@@ -21,6 +21,7 @@ return [
         'title' => 'Order Cancelled',
         'message' => 'Your order :order_no has been cancelled. Reason: :reason',
     ],
+    'title' => 'Notification Center',
     'my_notifications' => 'My Notifications',
     'no_notifications' => 'No Notifications',
     'no_notifications_desc' => 'You have not received any notifications yet',

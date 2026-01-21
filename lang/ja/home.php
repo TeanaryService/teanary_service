@@ -41,6 +41,7 @@ return array (
   'promotion_rule_order_qty_min' => '注文数量',
   'promotion_discount_fixed' => '固定割引',
   'promotion_discount_percentage' => 'パーセンテージ割引',
+  'storage' => '在庫：:storage',
   'featured_products_subtitle' => '厳選されたプレミアム茶葉、千年の茶文化を継承',
   'browse_categories_subtitle' => '様々な茶の種類を探索し、茶の人生の本質を味わう',
   'tea_culture_articles' => '茶文化記事',

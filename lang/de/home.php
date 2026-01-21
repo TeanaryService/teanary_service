@@ -41,6 +41,7 @@ return array (
   'promotion_rule_order_qty_min' => 'Bestellmenge',
   'promotion_discount_fixed' => 'Fester Rabatt',
   'promotion_discount_percentage' => 'Prozentualer Rabatt',
+  'storage' => 'Lagerbestand: :storage',
   'featured_products_subtitle' => 'Sorgfältig ausgewählte Premium-Tees, die Jahrtausende der Teekultur erben',
   'browse_categories_subtitle' => 'Entdecken Sie verschiedene Teesorten und genießen Sie das Wesen des Teelebens',
   'tea_culture_articles' => 'Teekultur-Artikel',

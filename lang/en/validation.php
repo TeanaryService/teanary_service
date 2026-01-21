@@ -154,8 +154,18 @@ return [
     'uuid' => 'The :attribute must be a valid UUID.',
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'name' => [
+            'required' => 'Please enter your name.',
+        ],
+        'email' => [
+            'required' => 'Please enter your email address.',
+            'email' => 'Please enter a valid email address.',
+            'unique' => 'This email address has already been registered.',
+        ],
+        'password' => [
+            'required' => 'Please enter a password.',
+            'min' => 'The password must be at least 8 characters.',
+            'confirmed' => 'The two password entries do not match.',
         ],
     ],
 
