@@ -5,6 +5,11 @@ use App\Livewire\Manager\AddressForm;
 use App\Livewire\Manager\Addresses;
 use App\Livewire\Manager\ArticleForm;
 use App\Livewire\Manager\Articles;
+use App\Livewire\Manager\AttributeForm;
+use App\Livewire\Manager\AttributeValueForm;
+use App\Livewire\Manager\AttributeValues;
+use App\Livewire\Manager\Attributes;
+use App\Livewire\Manager\Carts;
 use App\Livewire\Manager\Countries;
 use App\Livewire\Manager\CountryForm;
 use App\Livewire\Manager\Currencies;
@@ -61,6 +66,19 @@ Route::prefix('manager')->group(function () {
         Route::get('addresses', Addresses::class)->name('manager.addresses');
         Route::get('addresses/create', AddressForm::class)->name('manager.addresses.create');
         Route::get('addresses/{id}/edit', AddressForm::class)->name('manager.addresses.edit');
+        
+        // 属性管理
+        Route::get('attributes', Attributes::class)->name('manager.attributes');
+        Route::get('attributes/create', AttributeForm::class)->name('manager.attributes.create');
+        Route::get('attributes/{id}/edit', AttributeForm::class)->name('manager.attributes.edit');
+        
+        // 属性值管理
+        Route::get('attribute-values', AttributeValues::class)->name('manager.attribute-values');
+        Route::get('attribute-values/create', AttributeValueForm::class)->name('manager.attribute-values.create');
+        Route::get('attribute-values/{id}/edit', AttributeValueForm::class)->name('manager.attribute-values.edit');
+        
+        // 购物车管理
+        Route::get('carts', Carts::class)->name('manager.carts');
 
         Route::post('logout', function () {
             Auth::guard('manager')->logout();
