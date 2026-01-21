@@ -10,9 +10,6 @@ use App\Traits\CascadesMediaDeletes;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasAvatar;
-use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,7 +30,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
+class Manager extends Authenticatable implements HasMedia
 {
     use CascadesMediaDeletes;
     use HasFactory;
@@ -78,14 +75,9 @@ class Manager extends Authenticatable implements FilamentUser, HasAvatar, HasMed
         return $this->notifications()->whereNull('read_at');
     }
 
-    public function getFilamentAvatarUrl(): ?string
+    public function getAvatarUrl(): ?string
     {
         return $this->getFirstMediaUrl(collectionName: 'avatars');
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
     }
 
     public function registerMediaConversions(?Media $media = null): void

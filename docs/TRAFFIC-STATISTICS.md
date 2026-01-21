@@ -103,8 +103,8 @@
    - 功能：定义数据结构和查询方法
 
 5. **管理界面**
-   - 统计看板：`app/Filament/Manager/Pages/TrafficStatistics.php`
-   - 详细列表：`app/Filament/Manager/Resources/TrafficStatisticResource.php`
+   - 统计看板：`app/Livewire/Manager/TrafficStatistics.php`
+   - 详细列表：`resources/views/livewire/manager/traffic-statistics.blade.php`
 
 ### 缓存机制
 
@@ -322,8 +322,8 @@ Redis::keys('traffic:*');
 - 批量写入任务：`app/Jobs/BatchWriteTrafficStatsJob.php`
 - 清理命令：`app/Console/Commands/CleanOldTrafficStats.php`
 - 数据模型：`app/Models/TrafficStatistic.php`
-- 统计看板：`app/Filament/Manager/Pages/TrafficStatistics.php`
-- 详细列表：`app/Filament/Manager/Resources/TrafficStatisticResource.php`
+- 统计看板：`app/Livewire/Manager/TrafficStatistics.php`
+- 详细列表：`resources/views/livewire/manager/traffic-statistics.blade.php`
 - 数据库迁移：`database/migrations/2026_01_17_204550_create_traffic_statistics_table.php`
 
 ## 更新日志

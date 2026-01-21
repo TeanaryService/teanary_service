@@ -7,15 +7,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "filament/filament": "^3.3",
-        "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "blade-ui-kit/blade-heroicons": "^2.6",
         "intervention/image": "^3.11",
         "laravel/framework": "^12.0",
         "laravel/scout": "^10.14",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6",
         "meilisearch/meilisearch-php": "^1.13",
-        "paypal/paypal-checkout-sdk": "^1.0"
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "spatie/laravel-medialibrary": "^11.17"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -47,7 +47,6 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade",
             "@php artisan vendor:publish --tag=livewire:assets --ansi --force"
         ],
         "post-update-cmd": [

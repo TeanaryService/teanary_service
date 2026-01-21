@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('home', __('filament.dashboard.heading'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('home', __('manager.dashboard.heading'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -15,7 +15,7 @@
             
             <div class="flex-1">
                 <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.dashboard.heading') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.dashboard.heading') }}</h1>
                 </div>
 
         <!-- Stats Cards Grid -->

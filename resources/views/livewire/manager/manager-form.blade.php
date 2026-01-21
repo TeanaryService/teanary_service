@@ -1,6 +1,6 @@
 @php
     $isEdit = $managerId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('managers', $isEdit ? __('app.edit') : __('app.create'), __('filament.ManagerResource.label'), locaRoute('manager.managers'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('managers', $isEdit ? __('app.edit') : __('app.create'), __('manager.managers.label'), locaRoute('manager.managers'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.ManagerResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.managers.label') }}
                     </h1>
                 </div>
 
@@ -33,12 +33,12 @@
                     <div class="space-y-6">
                         {{-- 基本信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.user.basic_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.user.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 头像上传 --}}
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.manager.avatar') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.manager.avatar') }} <span class="text-red-500">*</span>
                                     </label>
                                     @if($avatarUrl)
                                         <div class="mb-4">
@@ -62,7 +62,7 @@
                                 {{-- 名称 --}}
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.manager.name') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.manager.name') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -78,7 +78,7 @@
                                 {{-- 邮箱 --}}
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.manager.email') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.manager.email') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="email" 
@@ -94,7 +94,7 @@
                                 {{-- 密码 --}}
                                 <div>
                                     <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.manager.password') }}
+                                        {{ __('manager.manager.password') }}
                                         @if(!$isEdit)
                                             <span class="text-red-500">*</span>
                                         @else
@@ -115,7 +115,7 @@
                                 {{-- 确认密码 --}}
                                 <div>
                                     <label for="passwordConfirmation" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.manager.password_confirmation') }}
+                                        {{ __('manager.manager.password_confirmation') }}
                                         @if(!$isEdit)
                                             <span class="text-red-500">*</span>
                                         @endif
@@ -134,7 +134,7 @@
                                 {{-- 邮箱验证时间 --}}
                                 <div>
                                     <label for="emailVerifiedAt" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.manager.email_verified_at') }}
+                                        {{ __('manager.manager.email_verified_at') }}
                                     </label>
                                     <input 
                                         type="datetime-local" 

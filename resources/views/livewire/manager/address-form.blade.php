@@ -1,6 +1,6 @@
 @php
     $isEdit = $addressId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('addresses', $isEdit ? __('app.edit') : __('app.create'), __('filament.AddressResource.label'), locaRoute('manager.addresses'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('addresses', $isEdit ? __('app.edit') : __('app.create'), __('manager.addresses.label'), locaRoute('manager.addresses'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.AddressResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.addresses.label') }}
                     </h1>
                 </div>
 
@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 用户信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.address.user_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.address.user_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 用户 --}}
                                 <div>
                                     <label for="userId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.user_id') }}
+                                        {{ __('manager.address.user_id') }}
                                     </label>
                                     <select 
                                         id="userId"
@@ -47,13 +47,13 @@
                                     @error('userId')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.address.user_id_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.address.user_id_helper') }}</p>
                                 </div>
 
                                 {{-- 名字 --}}
                                 <div>
                                     <label for="firstname" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.firstname') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.address.firstname') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -69,7 +69,7 @@
                                 {{-- 姓氏 --}}
                                 <div>
                                     <label for="lastname" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.lastname') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.address.lastname') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -85,7 +85,7 @@
                                 {{-- 邮箱 --}}
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.email') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.address.email') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="email" 
@@ -101,7 +101,7 @@
                                 {{-- 电话 --}}
                                 <div>
                                     <label for="telephone" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.telephone') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.address.telephone') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="tel" 
@@ -117,7 +117,7 @@
                                 {{-- 公司 --}}
                                 <div>
                                     <label for="company" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.company') }}
+                                        {{ __('manager.address.company') }}
                                     </label>
                                     <input 
                                         type="text" 
@@ -134,12 +134,12 @@
 
                         {{-- 地址信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.address.address_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.address.address_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 国家 --}}
                                 <div>
                                     <label for="countryId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.country_id') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.address.country_id') }} <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         id="countryId"
@@ -165,7 +165,7 @@
                                 {{-- 地区 --}}
                                 <div>
                                     <label for="zoneId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.zone_id') }}
+                                        {{ __('manager.address.zone_id') }}
                                     </label>
                                     <select 
                                         id="zoneId"
@@ -186,7 +186,7 @@
                                 {{-- 详细地址1 --}}
                                 <div class="md:col-span-2">
                                     <label for="address1" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.address_1') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.address.address_1') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -202,7 +202,7 @@
                                 {{-- 详细地址2 --}}
                                 <div class="md:col-span-2">
                                     <label for="address2" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.address_2') }}
+                                        {{ __('manager.address.address_2') }}
                                     </label>
                                     <input 
                                         type="text" 
@@ -218,7 +218,7 @@
                                 {{-- 城市 --}}
                                 <div>
                                     <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.city') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.address.city') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -234,7 +234,7 @@
                                 {{-- 邮编 --}}
                                 <div>
                                     <label for="postcode" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.address.postcode') }}
+                                        {{ __('manager.address.postcode') }}
                                     </label>
                                     <input 
                                         type="text" 

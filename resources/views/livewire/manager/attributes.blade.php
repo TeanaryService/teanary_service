@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('attributes', __('filament.AttributeResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('attributes', __('manager.attributes.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
             
             <div class="flex-1">
                 <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.AttributeResource.label') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.attributes.label') }}</h1>
                     <a href="{{ locaRoute('manager.attributes.create') }}" 
                        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,20 +43,20 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.attribute.is_filterable') }}
+                                {{ __('manager.attribute.is_filterable') }}
                             </label>
                             <select 
                                 wire:model.live="filterIsFilterable" 
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             >
                                 <option value="">{{ __('app.all') }}</option>
-                                <option value="1">{{ __('filament.attribute.filterable') }}</option>
-                                <option value="0">{{ __('filament.attribute.not_filterable') }}</option>
+                                <option value="1">{{ __('manager.attribute.filterable') }}</option>
+                                <option value="0">{{ __('manager.attribute.not_filterable') }}</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.attribute.translation_status') }}
+                                {{ __('manager.attribute.translation_status') }}
                             </label>
                             <select 
                                 wire:model.live="filterTranslationStatus" 
@@ -86,16 +86,16 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.attribute.name') }}
+                                        {{ __('manager.attribute.name') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.attribute.values_count') }}
+                                        {{ __('manager.attribute.values_count') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.attribute.is_filterable') }}
+                                        {{ __('manager.attribute.is_filterable') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.attribute.translation_status') }}
+                                        {{ __('manager.attribute.translation_status') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.actions') }}
@@ -118,14 +118,14 @@
                                                         <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                                                         <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                                                     </svg>
-                                                    {{ __('filament.attribute.filterable') }}
+                                                    {{ __('manager.attribute.filterable') }}
                                                 </span>
                                             @else
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                         <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"/>
                                                     </svg>
-                                                    {{ __('filament.attribute.not_filterable') }}
+                                                    {{ __('manager.attribute.not_filterable') }}
                                                 </span>
                                             @endif
                                         </td>
@@ -147,7 +147,7 @@
                                                 <button 
                                                     wire:click="toggleFilterable({{ $attribute->id }})"
                                                     class="text-blue-600 hover:text-blue-700"
-                                                    title="{{ $attribute->is_filterable ? __('filament.attribute.not_filterable') : __('filament.attribute.filterable') }}"
+                                                    title="{{ $attribute->is_filterable ? __('manager.attribute.not_filterable') : __('manager.attribute.filterable') }}"
                                                 >
                                                     @if($attribute->is_filterable)
                                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -223,7 +223,7 @@ Deployer 会自动执行以下步骤：
 
 3. **发布阶段**
    - 清理缓存
-   - 优化 Filament
+   - 优化应用
    - 清理无关文件
    - 切换当前版本
 
@@ -289,10 +289,6 @@ php artisan route:cache
 
 # 缓存视图
 php artisan view:cache
-
-# 优化 Filament
-php artisan filament:optimize
-php artisan filament:cache-components
 ```
 
 ### 6. 设置权限

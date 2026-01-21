@@ -68,7 +68,7 @@ class Specifications extends Component
             return $translation->name;
         }
         $first = $specification->specificationTranslations->first();
-        return $first ? $first->name : __('filament.specification.unnamed');
+        return $first ? $first->name : __('manager.specification.unnamed');
     }
 
     public function render()

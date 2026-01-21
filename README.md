@@ -5,7 +5,6 @@
 [![PHP](https://img.shields.io/badge/PHP-8.1+-blue.svg)](https://php.net)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-38B2AC.svg)](https://tailwindcss.com)
 [![Livewire](https://img.shields.io/badge/Livewire-3.x-4E56A6.svg)](https://livewire.laravel.com)
-[![Filament](https://img.shields.io/badge/Filament-3.x-6366F1.svg)](https://filamentphp.com)
 
 > 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统，支持多语言，多货币币种自动换算，结算。专为解决跨国电商运营难题而设计。
 
@@ -60,7 +59,11 @@
 
 ### 🎨 现代化管理后台
 
-基于 Filament 3.x 的现代化管理面板，提供实时数据统计、多语言管理、媒体管理等功能。
+基于 Livewire 3.x + 自定义 Blade 组件重构的 Manager 后台，提供：
+
+- 实时数据统计和流量看板（完全用 Livewire 实现）
+- 商品 / 规格 / SKU / 促销 / 订单等业务页面统一在同一布局下管理
+- 多语言内容管理、媒体管理、批量操作与同步深度集成 SyncService
 
 ## 🚀 技术栈
 
@@ -78,7 +81,7 @@
 - **Vite** - 现代前端构建工具
 
 ### 管理后台
-- **Filament 3.x** - Laravel 管理面板
+- **Livewire Manager** - 基于 Livewire 的自定义管理面板
 
 ## 📚 文档
 

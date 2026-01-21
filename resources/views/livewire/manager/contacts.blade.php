@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('contacts', __('filament.ContactResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('contacts', __('manager.contacts.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
             
             <div class="flex-1">
                 <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.ContactResource.label') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.contacts.label') }}</h1>
                 </div>
 
                 @if (session()->has('message'))
@@ -36,7 +36,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.contact.created_from') }}
+                                {{ __('manager.contact.created_from') }}
                             </label>
                             <input 
                                 type="date" 
@@ -46,7 +46,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.contact.created_until') }}
+                                {{ __('manager.contact.created_until') }}
                             </label>
                             <input 
                                 type="date" 
@@ -72,13 +72,13 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.contact.name') }}
+                                        {{ __('manager.contact.name') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.contact.email') }}
+                                        {{ __('manager.contact.email') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.contact.message') }}
+                                        {{ __('manager.contact.message') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.created_at') }}

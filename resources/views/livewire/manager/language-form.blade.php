@@ -1,6 +1,6 @@
 @php
     $isEdit = $languageId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('languages', $isEdit ? __('app.edit') : __('app.create'), __('filament.LanguageResource.label'), locaRoute('manager.languages'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('languages', $isEdit ? __('app.edit') : __('app.create'), __('manager.languages.label'), locaRoute('manager.languages'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.LanguageResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.languages.label') }}
                     </h1>
                 </div>
 
@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 基本信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.language.basic_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.language.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 语言代码 --}}
                                 <div>
                                     <label for="code" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.language.code') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.language.code') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -44,13 +44,13 @@
                                     @error('code')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.language.code_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.language.code_helper') }}</p>
                                 </div>
 
                                 {{-- 语言名称 --}}
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.language.name') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.language.name') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -73,10 +73,10 @@
                                             class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
                                         />
                                         <span class="text-sm font-medium text-gray-700">
-                                            {{ __('filament.language.is_default') }}
+                                            {{ __('manager.language.is_default') }}
                                         </span>
                                     </label>
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.language.is_default_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.language.is_default_helper') }}</p>
                                 </div>
                             </div>
                         </div>

@@ -58,7 +58,7 @@ class Articles extends Component
         $article = Article::findOrFail($id);
         $article->is_published = !$article->is_published;
         $article->save();
-        session()->flash('message', $article->is_published ? __('filament.article.published') : __('filament.article.unpublished'));
+        session()->flash('message', $article->is_published ? __('manager.article.published') : __('manager.article.unpublished'));
     }
 
     public function getArticlesProperty()

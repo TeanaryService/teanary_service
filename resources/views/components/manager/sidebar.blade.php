@@ -3,7 +3,7 @@
 @php
     $navItems = [
         [
-            'name' => __('filament.dashboard.heading'),
+            'name' => __('manager.dashboard.heading'),
             'route' => 'manager.home',
             'icon' => 'heroicon-o-home',
             'key' => 'home',
@@ -15,7 +15,7 @@
             'key' => 'notifications',
         ],
         [
-            'name' => __('filament.TrafficStatistics.navigation_label'),
+            'name' => __('manager.traffic_statistics.navigation_label'),
             'route' => 'manager.traffic-statistics',
             'icon' => 'heroicon-o-chart-bar',
             'key' => 'traffic-statistics',
@@ -24,31 +24,31 @@
 
     $systemItems = [
         [
-            'name' => __('filament.ManagerResource.label'),
+            'name' => __('manager.managers.label'),
             'route' => 'manager.managers',
             'icon' => 'heroicon-o-lifebuoy',
             'key' => 'managers',
         ],
         [
-            'name' => __('filament.LanguageResource.label'),
+            'name' => __('manager.languages.label'),
             'route' => 'manager.languages',
             'icon' => 'heroicon-o-language',
             'key' => 'languages',
         ],
         [
-            'name' => __('filament.CurrencyResource.label'),
+            'name' => __('manager.currencies.label'),
             'route' => 'manager.currencies',
             'icon' => 'heroicon-o-currency-dollar',
             'key' => 'currencies',
         ],
         [
-            'name' => __('filament.CountryResource.label'),
+            'name' => __('manager.countries.label'),
             'route' => 'manager.countries',
             'icon' => 'heroicon-o-globe-alt',
             'key' => 'countries',
         ],
         [
-            'name' => __('filament.ZoneResource.label'),
+            'name' => __('manager.zones.label'),
             'route' => 'manager.zones',
             'icon' => 'heroicon-o-globe-americas',
             'key' => 'zones',
@@ -57,31 +57,31 @@
 
     $businessItems = [
         [
-            'name' => __('filament.OrderResource.label'),
+            'name' => __('manager.orders.label'),
             'route' => 'manager.orders',
             'icon' => 'heroicon-o-receipt-percent',
             'key' => 'orders',
         ],
         [
-            'name' => __('filament.PromotionResource.label'),
+            'name' => __('manager.promotions.label'),
             'route' => 'manager.promotions',
             'icon' => 'heroicon-o-gift-top',
             'key' => 'promotions',
         ],
         [
-            'name' => __('filament.ArticleResource.label'),
+            'name' => __('manager.articles.label'),
             'route' => 'manager.articles',
             'icon' => 'heroicon-o-pencil-square',
             'key' => 'articles',
         ],
         [
-            'name' => __('filament.CartResource.label'),
+            'name' => __('manager.carts.label'),
             'route' => 'manager.carts',
             'icon' => 'heroicon-o-shopping-cart',
             'key' => 'carts',
         ],
         [
-            'name' => __('filament.ContactResource.label'),
+            'name' => __('manager.contacts.label'),
             'route' => 'manager.contacts',
             'icon' => 'heroicon-o-envelope-open',
             'key' => 'contacts',
@@ -90,37 +90,37 @@
 
     $productItems = [
         [
-            'name' => __('filament.ProductResource.label'),
+            'name' => __('manager.products.label'),
             'route' => 'manager.products',
             'icon' => 'heroicon-o-cube',
             'key' => 'products',
         ],
         [
-            'name' => __('filament.CategoryResource.label'),
+            'name' => __('manager.categories.label'),
             'route' => 'manager.categories',
             'icon' => 'heroicon-o-squares-2x2',
             'key' => 'categories',
         ],
         [
-            'name' => __('filament.AttributeResource.label'),
+            'name' => __('manager.attributes.label'),
             'route' => 'manager.attributes',
             'icon' => 'heroicon-o-adjustments-horizontal',
             'key' => 'attributes',
         ],
         [
-            'name' => __('filament.AttributeValueResource.label'),
+            'name' => __('manager.attribute_values.label'),
             'route' => 'manager.attribute-values',
             'icon' => 'heroicon-o-tag',
             'key' => 'attribute-values',
         ],
         [
-            'name' => __('filament.SpecificationResource.label'),
+            'name' => __('manager.specifications.label'),
             'route' => 'manager.specifications',
             'icon' => 'heroicon-o-table-cells',
             'key' => 'specifications',
         ],
         [
-            'name' => __('filament.SpecificationValueResource.label'),
+            'name' => __('manager.specification_values.label'),
             'route' => 'manager.specification-values',
             'icon' => 'heroicon-o-rectangle-group',
             'key' => 'specification-values',
@@ -129,13 +129,13 @@
 
     $userItems = [
         [
-            'name' => __('filament.UserResource.label'),
+            'name' => __('manager.users.label'),
             'route' => 'manager.users',
             'icon' => 'heroicon-o-user',
             'key' => 'users',
         ],
         [
-            'name' => __('filament.AddressResource.label'),
+            'name' => __('manager.addresses.label'),
             'route' => 'manager.addresses',
             'icon' => 'heroicon-o-map-pin',
             'key' => 'addresses',
@@ -172,7 +172,7 @@
             @if(count($systemItems) > 0)
                 <div class="mt-4 pt-4 border-t border-gray-200">
                     <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                        {{ __('filament.LanguageResource.group') }}
+                        {{ __('manager.languages.group') }}
                     </h3>
                     <ul class="space-y-1">
                         @foreach($systemItems as $item)
@@ -199,7 +199,7 @@
             @if(count($businessItems) > 0)
                 <div class="mt-4 pt-4 border-t border-gray-200">
                     <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                        {{ __('filament.ArticleResource.group') }}
+                        {{ __('manager.articles.group') }}
                     </h3>
                     <ul class="space-y-1">
                         @foreach($businessItems as $item)
@@ -226,7 +226,7 @@
             @if(count($productItems) > 0)
                 <div class="mt-4 pt-4 border-t border-gray-200">
                     <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                        {{ __('filament.AttributeResource.group') }}
+                        {{ __('manager.attributes.group') }}
                     </h3>
                     <ul class="space-y-1">
                         @foreach($productItems as $item)
@@ -253,7 +253,7 @@
             @if(count($userItems) > 0)
                 <div class="mt-4 pt-4 border-t border-gray-200">
                     <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                        {{ __('filament.AddressResource.group') }}
+                        {{ __('manager.addresses.group') }}
                     </h3>
                     <ul class="space-y-1">
                         @foreach($userItems as $item)

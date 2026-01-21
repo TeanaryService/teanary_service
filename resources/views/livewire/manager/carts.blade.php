@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('carts', __('filament.CartResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('carts', __('manager.carts.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
             
             <div class="flex-1">
                 <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.CartResource.label') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.carts.label') }}</h1>
                 </div>
 
                 @if (session()->has('message'))
@@ -36,7 +36,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.cart.user_id') }}
+                                {{ __('manager.cart.user_id') }}
                             </label>
                             <select 
                                 wire:model.live="filterUserId" 
@@ -50,15 +50,15 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.cart.has_items') }}
+                                {{ __('manager.cart.has_items') }}
                             </label>
                             <select 
                                 wire:model.live="filterHasItems" 
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             >
                                 <option value="">{{ __('app.all') }}</option>
-                                <option value="1">{{ __('filament.cart.has_items') }}</option>
-                                <option value="0">{{ __('filament.cart.empty') }}</option>
+                                <option value="1">{{ __('manager.cart.has_items') }}</option>
+                                <option value="0">{{ __('manager.cart.empty') }}</option>
                             </select>
                         </div>
                     </div>
@@ -81,15 +81,15 @@
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-4">
                                         <div>
-                                            <span class="text-sm font-medium text-gray-500">{{ __('filament.cart.id') }}:</span>
+                                            <span class="text-sm font-medium text-gray-500">{{ __('manager.cart.id') }}:</span>
                                             <span class="text-sm font-semibold text-gray-900 ml-2">#{{ $cart->id }}</span>
                                         </div>
                                         <div>
-                                            <span class="text-sm font-medium text-gray-500">{{ __('filament.cart.user_id') }}:</span>
+                                            <span class="text-sm font-medium text-gray-500">{{ __('manager.cart.user_id') }}:</span>
                                             <span class="text-sm text-gray-900 ml-2">{{ $cart->user?->name ?? '-' }}</span>
                                         </div>
                                         <div>
-                                            <span class="text-sm font-medium text-gray-500">{{ __('filament.cart.items_count') }}:</span>
+                                            <span class="text-sm font-medium text-gray-500">{{ __('manager.cart.items_count') }}:</span>
                                             <span class="text-sm font-semibold text-gray-900 ml-2">{{ $cart->cart_items_count }}</span>
                                         </div>
                                     </div>
@@ -115,19 +115,19 @@
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    {{ __('filament.cart_item.product') }}
+                                                    {{ __('manager.cart_item.product') }}
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    {{ __('filament.cart_item.variant') }}
+                                                    {{ __('manager.cart_item.variant') }}
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    {{ __('filament.cart_item.price') }}
+                                                    {{ __('manager.cart_item.price') }}
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    {{ __('filament.cart_item.qty') }}
+                                                    {{ __('manager.cart_item.qty') }}
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                    {{ __('filament.cart_item.subtotal') }}
+                                                    {{ __('manager.cart_item.subtotal') }}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -182,7 +182,7 @@
                                     <svg class="w-10 h-10 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                                     </svg>
-                                    <span>{{ __('filament.cart.empty') }}</span>
+                                    <span>{{ __('manager.cart.empty') }}</span>
                                 </div>
                             @endif
                         </div>

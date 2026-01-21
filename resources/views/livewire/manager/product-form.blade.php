@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('products', $productId ? __('app.edit') . ' ' . __('filament.ProductResource.label') : __('app.create') . ' ' . __('filament.ProductResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('products', $productId ? __('app.edit') . ' ' . __('manager.products.label') : __('app.create') . ' ' . __('manager.products.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
                         {{ $productId ? __('app.edit') : __('app.create') }}
-                        {{ __('filament.ProductResource.label') }}
+                        {{ __('manager.products.label') }}
                     </h1>
                 </div>
 
@@ -29,7 +29,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('filament.product.slug') }}
+                                    {{ __('manager.products.slug') }}
                                 </label>
                                 <input type="text" wire:model="slug"
                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
@@ -37,7 +37,7 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('filament.product.source_url') }}
+                                    {{ __('manager.products.source_url') }}
                                 </label>
                                 <input type="text" wire:model="sourceUrl"
                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
@@ -48,7 +48,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('filament.product.status') }}
+                                    {{ __('manager.products.status') }}
                                 </label>
                                 <select wire:model="status" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                     @foreach($statusOptions as $value => $label)
@@ -59,7 +59,7 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('filament.product.translation_status') }}
+                                    {{ __('manager.products.translation_status') }}
                                 </label>
                                 <select wire:model="translationStatus" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                     @foreach($translationStatusOptions as $value => $label)
@@ -81,7 +81,7 @@
                     {{-- 分类 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <h2 class="text-lg font-semibold text-gray-900">
-                            {{ __('filament.product.categories') }}
+                            {{ __('manager.products.categories') }}
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                             @foreach($categories as $cat)
@@ -98,7 +98,7 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <div class="flex items-center justify-between">
                             <h2 class="text-lg font-semibold text-gray-900">
-                                {{ __('filament.product.attribute_values') }}
+                                {{ __('manager.products.attribute_values') }}
                             </h2>
                             <button type="button"
                                     wire:click="addAttributeValueRow"
@@ -115,7 +115,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('filament.product.attribute') }}
+                                            {{ __('manager.products.attribute') }}
                                         </label>
                                         <select wire:model="attributeValues.{{ $index }}.attribute_id"
                                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
@@ -127,7 +127,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('filament.product.attribute_value') }}
+                                            {{ __('manager.products.attribute_value') }}
                                         </label>
                                         @php
                                             $attrId = $row['attribute_id'] ?? null;
@@ -156,7 +156,7 @@
                     {{-- 图片（多图） --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <h2 class="text-lg font-semibold text-gray-900">
-                            {{ __('filament.product.images') }}
+                            {{ __('manager.products.images') }}
                         </h2>
 
                         @if(!empty($existingImages))
@@ -182,7 +182,7 @@
                     {{-- 多语言 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <h2 class="text-lg font-semibold text-gray-900">
-                            {{ __('filament.product.translations') }}
+                            {{ __('manager.products.translations') }}
                         </h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -190,7 +190,7 @@
                                 <div class="space-y-3">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('filament.product.name') }} ({{ $language->name }})
+                                            {{ __('manager.products.name') }} ({{ $language->name }})
                                         </label>
                                         <input type="text"
                                                wire:model="translations.{{ $language->id }}.name"
@@ -201,7 +201,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('filament.product.short_description') }} ({{ $language->name }})
+                                            {{ __('manager.products.short_description') }} ({{ $language->name }})
                                         </label>
                                         <textarea
                                             wire:model="translations.{{ $language->id }}.short_description"
@@ -211,7 +211,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('filament.product.description') }} ({{ $language->name }})
+                                            {{ __('manager.products.description') }} ({{ $language->name }})
                                         </label>
                                         <textarea
                                             wire:model="translations.{{ $language->id }}.description"

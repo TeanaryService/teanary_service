@@ -56,10 +56,8 @@ Route::middleware(['auth', 'throttle:6,1'])->group(function () {
 
 // 管理员登录为其他用户（仅限管理员访问）
 Route::get('login-as/{id}', function (string $locale, int $id) {
-    // 检查管理员是否已登录（通过 Filament 管理面板）
-    $panel = \Filament\Facades\Filament::getPanel('manager');
-    
-    if (! $panel || ! $panel->auth()->check()) {
+    // 检查管理员是否已登录（通过 manager guard）
+    if (! Auth::guard('manager')->check()) {
         abort(403, 'Unauthorized: Please login to the manager panel first.');
     }
 

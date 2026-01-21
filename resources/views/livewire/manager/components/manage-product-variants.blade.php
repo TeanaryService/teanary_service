@@ -2,10 +2,10 @@
     {{-- 规格选择 --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
         <h2 class="text-lg font-semibold text-gray-900">
-            {{ __('filament.product_variant.specification_values') }}
+            {{ __('manager.product_variants.specification_values') }}
         </h2>
         <p class="text-xs text-gray-500 mb-2">
-            {{ __('filament.product_variant_manage.save_product_first') }}
+            {{ __('manager.product_variants.manage.save_product_first') }}
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -39,18 +39,18 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
         <div class="flex items-center justify-between mb-2">
             <h2 class="text-lg font-semibold text-gray-900">
-                {{ __('filament.ProductVariantResource.pluralLabel') }}
+                {{ __('manager.product_variants.plural_label') }}
             </h2>
             <div class="flex items-center gap-3">
                 <button type="button"
                         wire:click="generateSkus"
                         class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                    {{ __('filament.product_variant_manage.regenerate') ?? '重新生成 SKU' }}
+                    {{ __('manager.product_variants.manage.regenerate') ?? '重新生成 SKU' }}
                 </button>
                 <button type="button"
                         wire:click="saveAll"
                         class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-teal-600 border border-teal-600 rounded-lg hover:bg-teal-700">
-                    {{ __('filament.product_variant_manage.save') ?? '保存全部 SKU' }}
+                    {{ __('manager.product_variants.manage.save') ?? '保存全部 SKU' }}
                 </button>
             </div>
         </div>
@@ -68,7 +68,7 @@
 
         @if(empty($skus))
             <p class="text-sm text-gray-500">
-                {{ __('filament.product_variant_manage.select_specs_first') ?? '请先在上方选择规格和值，将自动生成 SKU 组合。' }}
+                {{ __('manager.product_variants.manage.select_specs_first') ?? '请先在上方选择规格和值，将自动生成 SKU 组合。' }}
             </p>
         @else
             <div class="overflow-x-auto">
@@ -76,22 +76,22 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-3 py-2 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                                {{ __('filament.product_variant.specification_values') }}
+                                {{ __('manager.product_variants.specification_values') }}
                             </th>
                             <th class="px-3 py-2 text-left text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                                {{ __('filament.product_variant.sku') }}
+                                {{ __('manager.product_variants.sku') }}
                             </th>
                             <th class="px-3 py-2 text-right text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                                {{ __('filament.product_variant.price') }}
+                                {{ __('manager.product_variants.price') }}
                             </th>
                             <th class="px-3 py-2 text-right text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                                {{ __('filament.product_variant.cost') }}
+                                {{ __('manager.product_variants.cost') }}
                             </th>
                             <th class="px-3 py-2 text-right text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                                {{ __('filament.product_variant.stock') }}
+                                {{ __('manager.product_variants.stock') }}
                             </th>
                             <th class="px-3 py-2 text-center text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                                {{ __('filament.product_variant.image') }}
+                                {{ __('manager.product_variants.image') }}
                             </th>
                         </tr>
                     </thead>

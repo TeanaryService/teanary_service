@@ -79,7 +79,7 @@ class SpecificationValues extends Component
             return $translation->name;
         }
         $first = $value->specificationValueTranslations->first();
-        return $first ? $first->name : __('filament.specification_value.unnamed');
+        return $first ? $first->name : __('manager.specification_value.unnamed');
     }
 
     public function getSpecificationName($specification, $lang)

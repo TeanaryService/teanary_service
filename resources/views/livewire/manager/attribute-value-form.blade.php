@@ -1,6 +1,6 @@
 @php
     $isEdit = $attributeValueId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('attribute-values', $isEdit ? __('app.edit') : __('app.create'), __('filament.AttributeValueResource.label'), locaRoute('manager.attribute-values'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('attribute-values', $isEdit ? __('app.edit') : __('app.create'), __('manager.attribute_values.label'), locaRoute('manager.attribute-values'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.AttributeValueResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.attribute_values.label') }}
                     </h1>
                 </div>
 
@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 基本信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.attribute_value.basic_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.attribute_value.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 属性 --}}
                                 <div>
                                     <label for="attributeId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.attribute_value.attribute') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.attribute_value.attribute') }} <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         id="attributeId"
@@ -53,13 +53,13 @@
                                     @error('attributeId')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.attribute_value.attribute_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.attribute_value.attribute_helper') }}</p>
                                 </div>
 
                                 {{-- 翻译状态 --}}
                                 <div>
                                     <label for="translationStatus" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.attribute_value.translation_status') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.attribute_value.translation_status') }} <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         id="translationStatus"
@@ -79,12 +79,12 @@
 
                         {{-- 翻译 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.attribute_value.translations') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.attribute_value.translations') }}</h2>
                             <div class="space-y-4">
                                 @foreach($languages as $language)
                                     <div>
                                         <label for="name_{{ $language->id }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                            {{ __('filament.attribute_value.name') }} ({{ $language->name }})
+                                            {{ __('manager.attribute_value.name') }} ({{ $language->name }})
                                             @if($language->default)
                                                 <span class="text-red-500">*</span>
                                             @endif
@@ -100,7 +100,7 @@
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                         @if($language->default)
-                                            <p class="mt-1 text-xs text-gray-500">{{ __('filament.attribute_value.name_helper') }}</p>
+                                            <p class="mt-1 text-xs text-gray-500">{{ __('manager.attribute_value.name_helper') }}</p>
                                         @endif
                                     </div>
                                 @endforeach

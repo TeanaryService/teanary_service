@@ -8,7 +8,11 @@
     <ol class="flex flex-wrap items-center space-x-2 text-sm text-gray-500">
         <li>
             <a href="{{ $homeUrl }}" class="hover:text-teal-700 font-medium flex items-center">
-                <x-heroicon-o-home class="w-4 h-4 mr-1" />{{ $homeLabel }}
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M3 12l9-9 9 9M5 10v10h4v-6h6v6h4V10"/>
+                </svg>
+                {{ $homeLabel }}
             </a>
         </li>
         @foreach($items as $item)

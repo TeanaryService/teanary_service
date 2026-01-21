@@ -54,7 +54,7 @@ class Attributes extends Component
         $attribute->is_filterable = !$attribute->is_filterable;
         $attribute->save();
         Cache::forget('attributes.with.translations');
-        session()->flash('message', $attribute->is_filterable ? __('filament.attribute.filterable') : __('filament.attribute.not_filterable'));
+        session()->flash('message', $attribute->is_filterable ? __('manager.attribute.filterable') : __('manager.attribute.not_filterable'));
     }
 
     // 使用自定义名称避免与 Livewire 内部 $attributes 属性冲突
@@ -94,7 +94,7 @@ class Attributes extends Component
             return $translation->name;
         }
         $first = $attribute->attributeTranslations->first();
-        return $first ? $first->name : __('filament.attribute.unnamed');
+        return $first ? $first->name : __('manager.attribute.unnamed');
     }
 
     public function render()

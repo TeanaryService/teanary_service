@@ -1,6 +1,6 @@
 @php
     $isEdit = $countryId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('countries', $isEdit ? __('app.edit') : __('app.create'), __('filament.CountryResource.label'), locaRoute('manager.countries'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('countries', $isEdit ? __('app.edit') : __('app.create'), __('manager.countries.label'), locaRoute('manager.countries'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.CountryResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.countries.label') }}
                     </h1>
                 </div>
 
@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 基本信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.country.basic_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.country.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- ISO代码2 --}}
                                 <div>
                                     <label for="isoCode2" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.country.iso_code_2') }}
+                                        {{ __('manager.country.iso_code_2') }}
                                     </label>
                                     <input 
                                         type="text" 
@@ -45,13 +45,13 @@
                                     @error('isoCode2')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.country.iso_code_2_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.country.iso_code_2_helper') }}</p>
                                 </div>
 
                                 {{-- ISO代码3 --}}
                                 <div>
                                     <label for="isoCode3" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.country.iso_code_3') }}
+                                        {{ __('manager.country.iso_code_3') }}
                                     </label>
                                     <input 
                                         type="text" 
@@ -64,7 +64,7 @@
                                     @error('isoCode3')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.country.iso_code_3_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.country.iso_code_3_helper') }}</p>
                                 </div>
 
                                 {{-- 邮编必填 --}}
@@ -76,7 +76,7 @@
                                             class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
                                         />
                                         <span class="text-sm font-medium text-gray-700">
-                                            {{ __('filament.country.postcode_required') }}
+                                            {{ __('manager.country.postcode_required') }}
                                         </span>
                                     </label>
                                 </div>
@@ -90,7 +90,7 @@
                                             class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
                                         />
                                         <span class="text-sm font-medium text-gray-700">
-                                            {{ __('filament.country.active') }}
+                                            {{ __('manager.country.active') }}
                                         </span>
                                     </label>
                                 </div>
@@ -98,7 +98,7 @@
                                 {{-- 翻译状态 --}}
                                 <div>
                                     <label for="translationStatus" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.country.translation_status') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.country.translation_status') }} <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         id="translationStatus"
@@ -118,12 +118,12 @@
 
                         {{-- 翻译 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.country.translations') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.country.translations') }}</h2>
                             <div class="space-y-4">
                                 @foreach($languages as $language)
                                     <div>
                                         <label for="translation_{{ $language->id }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                            {{ __('filament.country.name') }} ({{ $language->name }})
+                                            {{ __('manager.country.name') }} ({{ $language->name }})
                                             @if($language->default)
                                                 <span class="text-red-500">*</span>
                                             @endif
@@ -139,7 +139,7 @@
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                         @if($language->default)
-                                            <p class="mt-1 text-xs text-gray-500">{{ __('filament.country.name_helper') }}</p>
+                                            <p class="mt-1 text-xs text-gray-500">{{ __('manager.country.name_helper') }}</p>
                                         @endif
                                     </div>
                                 @endforeach

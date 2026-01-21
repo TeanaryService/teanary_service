@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('filament.ProductReviewResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('manager.product_reviews.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -12,7 +12,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ __('filament.ProductReviewResource.label') }} - 
+                        {{ __('manager.product_reviews.label') }} - 
                         {{ $product->productTranslations->first()->name ?? $product->slug }}
                     </h1>
                 </div>
@@ -32,13 +32,13 @@
                             <input 
                                 type="text" 
                                 wire:model.live.debounce.300ms="search"
-                                placeholder="{{ __('filament.product_review.content') }}"
+                                placeholder="{{ __('manager.product_reviews.content') }}"
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.product_review.rating') }}
+                                {{ __('manager.product_reviews.rating') }}
                             </label>
                             <select 
                                 wire:model.live="filterRating" 
@@ -54,15 +54,15 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.product_review.is_approved') }}
+                                {{ __('manager.product_reviews.is_approved') }}
                             </label>
                             <select 
                                 wire:model.live="filterApproved" 
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             >
                                 <option value="">{{ __('app.all') }}</option>
-                                <option value="1">{{ __('filament.product_review.approved') }}</option>
-                                <option value="0">{{ __('filament.product_review.pending') }}</option>
+                                <option value="1">{{ __('manager.product_reviews.approved') }}</option>
+                                <option value="0">{{ __('manager.product_reviews.pending') }}</option>
                             </select>
                         </div>
                     </div>
@@ -82,16 +82,16 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_review.user') }}
+                                        {{ __('manager.product_reviews.user') }}
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_review.rating') }}
+                                        {{ __('manager.product_reviews.rating') }}
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_review.content') }}
+                                        {{ __('manager.product_reviews.content') }}
                                     </th>
                                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_review.is_approved') }}
+                                        {{ __('manager.product_reviews.is_approved') }}
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.created_at') }}
@@ -119,7 +119,7 @@
                                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                                     {{ $review->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}"
                                             >
-                                                {{ $review->is_approved ? __('filament.product_review.approved') : __('filament.product_review.pending') }}
+                                                {{ $review->is_approved ? __('manager.product_reviews.approved') : __('manager.product_reviews.pending') }}
                                             </button>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

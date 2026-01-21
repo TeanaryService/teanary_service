@@ -301,14 +301,14 @@ class ManageProductVariants extends Component
     {
         foreach ($this->skus as $sku) {
             if (empty($sku['sku'])) {
-                session()->flash('error', __('filament.product_variant_manage.sku_code_required'));
+                session()->flash('error', __('manager.product_variants.manage.sku_code_required'));
                 return;
             }
         }
 
         $skuCodes = array_column($this->skus, 'sku');
         if (count($skuCodes) !== count(array_unique($skuCodes))) {
-            session()->flash('error', __('filament.product_variant_manage.sku_code_unique'));
+            session()->flash('error', __('manager.product_variants.manage.sku_code_unique'));
             return;
         }
 
@@ -317,7 +317,7 @@ class ManageProductVariants extends Component
             ->pluck('sku')
             ->toArray();
         if (! empty($existingSkus)) {
-            session()->flash('error', __('filament.product_variant_manage.sku_code_exists') . implode(', ', $existingSkus));
+            session()->flash('error', __('manager.product_variants.manage.sku_code_exists') . implode(', ', $existingSkus));
             return;
         }
 
@@ -377,7 +377,7 @@ class ManageProductVariants extends Component
         $this->product->load(['productVariants.specificationValues', 'productVariants.media']);
         $this->loadExistingVariants();
 
-        session()->flash('success', __('filament.product_variant_manage.save_success'));
+        session()->flash('success', __('manager.product_variants.manage.save_success'));
     }
 
     public function getSpecificationsProperty()

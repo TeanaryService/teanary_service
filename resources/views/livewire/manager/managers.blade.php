@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('managers', __('filament.ManagerResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('managers', __('manager.managers.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
             
             <div class="flex-1">
                 <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.ManagerResource.label') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.managers.label') }}</h1>
                     <a href="{{ locaRoute('manager.managers.create') }}" 
                        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,16 +59,16 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.manager.avatar') }}
+                                        {{ __('manager.manager.avatar') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.manager.name') }}
+                                        {{ __('manager.manager.name') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.manager.email') }}
+                                        {{ __('manager.manager.email') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.manager.email_verified_at') }}
+                                        {{ __('manager.manager.email_verified_at') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         API Token

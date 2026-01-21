@@ -162,7 +162,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取 [id => 当前语言name] 的语言选项数组，适用于 Filament options.
+     * 获取 [id => 当前语言name] 的语言选项数组
      */
     public function getLanguageOptions(): array
     {
@@ -172,7 +172,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取 [id => 当前语言name] 的货币选项数组，适用于 Filament options.
+     * 获取 [id => 当前语言name] 的货币选项数组
      */
     public function getCurrencyOptions(): array
     {

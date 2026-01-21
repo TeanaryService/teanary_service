@@ -96,7 +96,7 @@ class Promotions extends Component
             return $translation->name;
         }
         $first = $promotion->promotionTranslations->first();
-        return $first ? $first->name : __('filament.promotion.unnamed');
+        return $first ? $first->name : __('manager.promotion.unnamed');
     }
 
     public function render()

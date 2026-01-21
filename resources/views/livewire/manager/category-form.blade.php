@@ -1,6 +1,6 @@
 @php
     $isEdit = $categoryId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('categories', $isEdit ? __('app.edit') : __('app.create'), __('filament.CategoryResource.label'), locaRoute('manager.categories'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('categories', $isEdit ? __('app.edit') : __('app.create'), __('manager.categories.label'), locaRoute('manager.categories'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.CategoryResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.categories.label') }}
                     </h1>
                 </div>
 
@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 基本信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.category.basic_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.category.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {{-- 图片上传 --}}
                                 <div class="md:col-span-3">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.category.image') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.category.image') }} <span class="text-red-500">*</span>
                                     </label>
                                     @if($imageUrl)
                                         <div class="mb-4">
@@ -51,20 +51,20 @@
                                     @if($image)
                                         <p class="mt-1 text-xs text-gray-500">已选择: {{ $image->getClientOriginalName() }}</p>
                                     @endif
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.category.image_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.category.image_helper') }}</p>
                                 </div>
 
                                 {{-- 父分类 --}}
                                 <div>
                                     <label for="parentId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.category.parent') }}
+                                        {{ __('manager.category.parent') }}
                                     </label>
                                     <select 
                                         id="parentId"
                                         wire:model="parentId"
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('parentId') border-red-300 @enderror"
                                     >
-                                        <option value="">{{ __('filament.category.root') }}</option>
+                                        <option value="">{{ __('manager.category.root') }}</option>
                                         @foreach($parentCategories as $parent)
                                             <option value="{{ $parent->id }}">
                                                 @php
@@ -78,13 +78,13 @@
                                     @error('parentId')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.category.parent_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.category.parent_helper') }}</p>
                                 </div>
 
                                 {{-- URL别名 --}}
                                 <div>
                                     <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.category.slug') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.category.slug') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -96,13 +96,13 @@
                                     @error('slug')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.category.slug_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.category.slug_helper') }}</p>
                                 </div>
 
                                 {{-- 翻译状态 --}}
                                 <div>
                                     <label for="translationStatus" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.category.translation_status') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.category.translation_status') }} <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         id="translationStatus"
@@ -122,12 +122,12 @@
 
                         {{-- 翻译 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.category.translations') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.category.translations') }}</h2>
                             <div class="space-y-4">
                                 @foreach($languages as $language)
                                     <div>
                                         <label for="name_{{ $language->id }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                            {{ __('filament.category.name') }} ({{ $language->name }})
+                                            {{ __('manager.category.name') }} ({{ $language->name }})
                                             @if($language->default)
                                                 <span class="text-red-500">*</span>
                                             @endif
@@ -143,7 +143,7 @@
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror
                                         @if($language->default)
-                                            <p class="mt-1 text-xs text-gray-500">{{ __('filament.category.name_helper') }}</p>
+                                            <p class="mt-1 text-xs text-gray-500">{{ __('manager.category.name_helper') }}</p>
                                         @endif
                                     </div>
                                 @endforeach

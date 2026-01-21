@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('orders', __('filament.OrderResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('orders', __('manager.orders.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
             
             <div class="flex-1">
                 <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.OrderResource.label') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.orders.label') }}</h1>
                 </div>
 
                 @if (session()->has('message'))
@@ -36,7 +36,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.order.status') }}
+                                {{ __('manager.order.status') }}
                             </label>
                             <select 
                                 wire:model.live="filterStatus" 
@@ -51,7 +51,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.order.user_id') }}
+                                {{ __('manager.order.user_id') }}
                             </label>
                             <select 
                                 wire:model.live="filterUserId" 
@@ -65,7 +65,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.order.currency_id') }}
+                                {{ __('manager.order.currency_id') }}
                             </label>
                             <select 
                                 wire:model.live="filterCurrencyId" 
@@ -79,7 +79,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.order.created_from') }}
+                                {{ __('manager.order.created_from') }}
                             </label>
                             <input 
                                 type="date" 
@@ -89,7 +89,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.order.created_until') }}
+                                {{ __('manager.order.created_until') }}
                             </label>
                             <input 
                                 type="date" 
@@ -115,19 +115,19 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.order.order_no') }}
+                                        {{ __('manager.order.order_no') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.order.user_id') }}
+                                        {{ __('manager.order.user_id') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.order.status') }}
+                                        {{ __('manager.order.status') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.order.total') }}
+                                        {{ __('manager.order.total') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.order.items_count') }}
+                                        {{ __('manager.order.items_count') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.created_at') }}

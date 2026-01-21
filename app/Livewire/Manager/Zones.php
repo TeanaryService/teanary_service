@@ -95,7 +95,7 @@ class Zones extends Component
             return $translation->name;
         }
         $first = $zone->zoneTranslations->first();
-        return $first ? $first->name : __('filament.zone.unnamed');
+        return $first ? $first->name : __('manager.zone.unnamed');
     }
 
     public function getCountryName($country, $lang)

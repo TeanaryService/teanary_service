@@ -1,7 +1,7 @@
 <div>
     <h1 class="text-2xl font-bold mb-4">
         {{ $specificationId ? __('app.edit') : __('app.create') }}
-        {{ __('filament.SpecificationResource.label') }}
+        {{ __('manager.specifications.label') }}
     </h1>
 
     @if (session()->has('message'))
@@ -14,7 +14,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium mb-1">
-                    {{ __('filament.specification.translation_status') }}
+                    {{ __('manager.specification.translation_status') }}
                 </label>
                 <select wire:model="translationStatus" class="border rounded px-3 py-2 w-full">
                     @foreach($translationStatusOptions as $value => $label)
@@ -27,13 +27,13 @@
 
         <div class="space-y-4">
             <h2 class="text-lg font-semibold">
-                {{ __('filament.specification.translations') }}
+                {{ __('manager.specification.translations') }}
             </h2>
 
             @foreach($languages as $language)
                 <div>
                     <label class="block text-sm font-medium mb-1">
-                        {{ __('filament.specification.name') }} ({{ $language->name }})
+                        {{ __('manager.specification.name') }} ({{ $language->name }})
                     </label>
                     <input type="text"
                            wire:model="translations.{{ $language->id }}.name"

@@ -1,6 +1,6 @@
 @php
     $isEdit = $articleId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('articles', $isEdit ? __('app.edit') : __('app.create'), __('filament.ArticleResource.label'), locaRoute('manager.articles'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('articles', $isEdit ? __('app.edit') : __('app.create'), __('manager.articles.label'), locaRoute('manager.articles'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.ArticleResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.articles.label') }}
                     </h1>
                 </div>
 
@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 基本信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.article.basic_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.article.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {{-- 图片上传 --}}
                                 <div class="md:col-span-3">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.article.image') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.article.image') }} <span class="text-red-500">*</span>
                                     </label>
                                     @if($imageUrl)
                                         <div class="mb-4">
@@ -51,13 +51,13 @@
                                     @if($image)
                                         <p class="mt-1 text-xs text-gray-500">已选择: {{ $image->getClientOriginalName() }}</p>
                                     @endif
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.article.image_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.article.image_helper') }}</p>
                                 </div>
 
                                 {{-- URL别名 --}}
                                 <div class="md:col-span-2">
                                     <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.article.slug') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.article.slug') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -69,13 +69,13 @@
                                     @error('slug')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.article.slug_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.article.slug_helper') }}</p>
                                 </div>
 
                                 {{-- 用户 --}}
                                 <div>
                                     <label for="userId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.article.user_id') }}
+                                        {{ __('manager.article.user_id') }}
                                     </label>
                                     <select 
                                         id="userId"
@@ -90,7 +90,7 @@
                                     @error('userId')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.article.user_id_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.article.user_id_helper') }}</p>
                                 </div>
 
                                 {{-- 发布状态 --}}
@@ -102,7 +102,7 @@
                                             class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
                                         />
                                         <span class="text-sm font-medium text-gray-700">
-                                            {{ __('filament.article.is_published') }}
+                                            {{ __('manager.article.is_published') }}
                                         </span>
                                     </label>
                                 </div>
@@ -110,7 +110,7 @@
                                 {{-- 翻译状态 --}}
                                 <div>
                                     <label for="translationStatus" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.article.translation_status') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.article.translation_status') }} <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         id="translationStatus"
@@ -130,7 +130,7 @@
 
                         {{-- 翻译 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.article.translations') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.article.translations') }}</h2>
                             <div class="space-y-6">
                                 @foreach($languages as $language)
                                     <div class="border border-gray-200 rounded-lg p-6">
@@ -139,7 +139,7 @@
                                             {{-- 标题 --}}
                                             <div>
                                                 <label for="title_{{ $language->id }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                                    {{ __('filament.article.title') }}
+                                                    {{ __('manager.article.title') }}
                                                     @if($language->default)
                                                         <span class="text-red-500">*</span>
                                                     @endif
@@ -159,7 +159,7 @@
                                             {{-- 摘要 --}}
                                             <div>
                                                 <label for="summary_{{ $language->id }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                                    {{ __('filament.article.summary') }}
+                                                    {{ __('manager.article.summary') }}
                                                     @if($language->default)
                                                         <span class="text-red-500">*</span>
                                                     @endif
@@ -176,14 +176,14 @@
                                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                                 @enderror
                                                 @if($language->default)
-                                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.article.summary_helper') }}</p>
+                                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.article.summary_helper') }}</p>
                                                 @endif
                                             </div>
 
                                             {{-- 内容 --}}
                                             <div>
                                                 <label for="content_{{ $language->id }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                                    {{ __('filament.article.content') }}
+                                                    {{ __('manager.article.content') }}
                                                 </label>
                                                 <textarea 
                                                     id="content_{{ $language->id }}"

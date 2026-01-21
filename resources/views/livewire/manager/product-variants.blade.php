@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('filament.ProductVariantResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('manager.product_variants.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -12,11 +12,11 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ __('filament.ProductVariantResource.label') }} - 
+                        {{ __('manager.product_variants.label') }} - 
                         {{ $product->productTranslations->first()->name ?? $product->slug }}
                     </h1>
                     <p class="mt-1 text-sm text-gray-500">
-                        SKU / {{ __('filament.product_variant.specification_values') }}
+                        SKU / {{ __('manager.product_variants.specification_values') }}
                     </p>
                 </div>
 
@@ -35,7 +35,7 @@
                             <input 
                                 type="text" 
                                 wire:model.live.debounce.300ms="search"
-                                placeholder="{{ __('filament.product_variant.sku') }}"
+                                placeholder="{{ __('manager.product_variants.sku') }}"
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
@@ -48,16 +48,16 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_variant.sku') }}
+                                        {{ __('manager.product_variants.sku') }}
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_variant.specification_values') }}
+                                        {{ __('manager.product_variants.specification_values') }}
                                     </th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_variant.price') }}
+                                        {{ __('manager.product_variants.price') }}
                                     </th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product_variant.stock') }}
+                                        {{ __('manager.product_variants.stock') }}
                                     </th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.actions') }}

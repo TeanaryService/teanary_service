@@ -1,6 +1,6 @@
 @php
     $isEdit = $currencyId !== null;
-    $breadcrumbs = buildManagerCenterBreadcrumbs('currencies', $isEdit ? __('app.edit') : __('app.create'), __('filament.CurrencyResource.label'), locaRoute('manager.currencies'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('currencies', $isEdit ? __('app.edit') : __('app.create'), __('manager.currencies.label'), locaRoute('manager.currencies'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -13,7 +13,7 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('filament.CurrencyResource.label') }}
+                        {{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.currencies.label') }}
                     </h1>
                 </div>
 
@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 基本信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.currency.basic_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.currency.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 货币代码 --}}
                                 <div>
                                     <label for="code" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.currency.code') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.currency.code') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -44,13 +44,13 @@
                                     @error('code')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.currency.code_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.currency.code_helper') }}</p>
                                 </div>
 
                                 {{-- 货币名称 --}}
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.currency.name') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.currency.name') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -67,7 +67,7 @@
                                 {{-- 货币符号 --}}
                                 <div>
                                     <label for="symbol" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.currency.symbol') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.currency.symbol') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -79,13 +79,13 @@
                                     @error('symbol')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.currency.symbol_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.currency.symbol_helper') }}</p>
                                 </div>
 
                                 {{-- 汇率 --}}
                                 <div>
                                     <label for="exchangeRate" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('filament.currency.exchange_rate') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.currency.exchange_rate') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="number" 
@@ -98,7 +98,7 @@
                                     @error('exchangeRate')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.currency.exchange_rate_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.currency.exchange_rate_helper') }}</p>
                                 </div>
 
                                 {{-- 是否默认 --}}
@@ -110,10 +110,10 @@
                                             class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
                                         />
                                         <span class="text-sm font-medium text-gray-700">
-                                            {{ __('filament.language.is_default') }}
+                                            {{ __('manager.language.is_default') }}
                                         </span>
                                     </label>
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.language.is_default_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.language.is_default_helper') }}</p>
                                 </div>
                             </div>
                         </div>

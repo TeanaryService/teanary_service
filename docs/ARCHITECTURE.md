@@ -55,8 +55,8 @@ graph TB
     end
 
     subgraph Admin["👤 后台管理 Admin Panel"]
-        L[Filament Manager<br/>管理员面板]
-        M[Filament User<br/>用户面板]
+        L[Livewire Manager<br/>管理员面板]
+        M[Livewire User<br/>用户面板]
     end
 
     subgraph External["🌍 外部服务 External Services"]
@@ -435,7 +435,7 @@ Observers/
 - **Vite**: 前端构建工具
 
 ### 管理后台
-- **Filament 3.x**: Laravel 管理面板
+- **Livewire Manager**: 基于 Livewire 的管理面板
 
 ---
 

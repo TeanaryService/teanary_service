@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('users', __('filament.UserResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('users', __('manager.users.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
             
             <div class="flex-1">
                 <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.UserResource.label') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.users.label') }}</h1>
                     <a href="{{ locaRoute('manager.users.create') }}" 
                        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +43,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.user.user_group') }}
+                                {{ __('manager.user.user_group') }}
                             </label>
                             <select 
                                 wire:model.live="filterUserGroupId" 
@@ -57,15 +57,15 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.user.email_verified') }}
+                                {{ __('manager.user.email_verified') }}
                             </label>
                             <select 
                                 wire:model.live="filterEmailVerified" 
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             >
                                 <option value="">{{ __('app.all') }}</option>
-                                <option value="1">{{ __('filament.user.email_verified') }}</option>
-                                <option value="0">{{ __('filament.user.email_unverified') }}</option>
+                                <option value="1">{{ __('manager.user.email_verified') }}</option>
+                                <option value="0">{{ __('manager.user.email_unverified') }}</option>
                             </select>
                         </div>
                     </div>
@@ -86,22 +86,22 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.user.avatar') }}
+                                        {{ __('manager.user.avatar') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.user.name') }}
+                                        {{ __('manager.user.name') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.user.email') }}
+                                        {{ __('manager.user.email') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.user.user_group') }}
+                                        {{ __('manager.user.user_group') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.user.email_verified') }}
+                                        {{ __('manager.user.email_verified') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.user.orders_count') }}
+                                        {{ __('manager.user.orders_count') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.actions') }}
@@ -141,14 +141,14 @@
                                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                                     </svg>
-                                                    {{ __('filament.user.email_verified') }}
+                                                    {{ __('manager.user.email_verified') }}
                                                 </span>
                                             @else
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                                                     </svg>
-                                                    {{ __('filament.user.email_unverified') }}
+                                                    {{ __('manager.user.email_unverified') }}
                                                 </span>
                                             @endif
                                         </td>
@@ -160,7 +160,7 @@
                                                 <a href="{{ locaRoute('login-as', ['id' => $user->id]) }}" 
                                                    target="_blank"
                                                    class="text-green-600 hover:text-green-700"
-                                                   title="{{ __('filament.user.login') }}"
+                                                   title="{{ __('manager.user.login') }}"
                                                 >
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />

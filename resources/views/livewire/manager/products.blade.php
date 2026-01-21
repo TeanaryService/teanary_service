@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('filament.ProductResource.label'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('manager.products.label'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
             
             <div class="flex-1">
                 <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.ProductResource.label') }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.products.label') }}</h1>
                     <a href="{{ locaRoute('manager.products.create') }}" 
                        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +43,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.product.status') }}
+                                {{ __('manager.products.status') }}
                             </label>
                             <select 
                                 wire:model.live="filterStatus" 
@@ -57,7 +57,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.product.translation_status') }}
+                                {{ __('manager.products.translation_status') }}
                             </label>
                             <select 
                                 wire:model.live="filterTranslationStatus" 
@@ -71,7 +71,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('filament.product.categories') }}
+                                {{ __('manager.products.categories') }}
                             </label>
                             <select 
                                 wire:model.live="filterCategoryId" 
@@ -88,11 +88,11 @@
                         <div class="flex items-center gap-2">
                             <label class="inline-flex items-center text-sm text-gray-700">
                                 <input type="checkbox" wire:model.live="filterLowStock" class="rounded border-gray-300 text-teal-600 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <span class="ml-2">{{ __('filament.product.low_stock') }}</span>
+                                <span class="ml-2">{{ __('manager.products.low_stock') }}</span>
                             </label>
                             <label class="inline-flex items-center text-sm text-gray-700 ml-4">
                                 <input type="checkbox" wire:model.live="filterOutOfStock" class="rounded border-gray-300 text-teal-600 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <span class="ml-2">{{ __('filament.product.out_of_stock') }}</span>
+                                <span class="ml-2">{{ __('manager.products.out_of_stock') }}</span>
                             </label>
                         </div>
                         <button 
@@ -111,25 +111,25 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product.name') }}
+                                        {{ __('manager.products.name') }}
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product.categories') }}
+                                        {{ __('manager.products.categories') }}
                                     </th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product.price_range') }}
+                                        {{ __('manager.products.price_range') }}
                                     </th>
                                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product.total_stock') }}
+                                        {{ __('manager.products.total_stock') }}
                                     </th>
                                     <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product.variants_count') }}
+                                        {{ __('manager.products.variants_count') }}
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product.status') }}
+                                        {{ __('manager.products.status') }}
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('filament.product.translation_status') }}
+                                        {{ __('manager.products.translation_status') }}
                                     </th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.actions') }}
@@ -195,7 +195,7 @@
                                                 </a>
                                                 <a href="{{ locaRoute('manager.products.reviews', ['productId' => $product->id]) }}" 
                                                    class="text-blue-600 hover:text-blue-700">
-                                                    {{ __('filament.ProductReviewResource.label') }}
+                                                    {{ __('manager.product_reviews.label') }}
                                                 </a>
                                                 <button 
                                                     wire:click="deleteProduct({{ $product->id }})"

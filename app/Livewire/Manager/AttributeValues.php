@@ -82,7 +82,7 @@ class AttributeValues extends Component
             return $translation->name;
         }
         $first = $attributeValue->attributeValueTranslations->first();
-        return $first ? $first->name : __('filament.attribute_value.unnamed');
+        return $first ? $first->name : __('manager.attribute_value.unnamed');
     }
 
     public function getAttributeName($attribute, $lang)

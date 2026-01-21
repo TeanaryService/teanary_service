@@ -57,7 +57,7 @@ class ProductReviews extends Component
         $review = ProductReview::where('product_id', $this->productId)->findOrFail($id);
         $review->is_approved = ! $review->is_approved;
         $review->save();
-        session()->flash('message', $review->is_approved ? __('filament.product_review.approved') : __('filament.product_review.pending'));
+        session()->flash('message', $review->is_approved ? __('manager.product_reviews.approved') : __('manager.product_reviews.pending'));
     }
 
     public function getReviewsProperty()

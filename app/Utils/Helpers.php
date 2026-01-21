@@ -1,9 +1,7 @@
 <?php
 
 use App\Services\LocaleCurrencyService;
-use Filament\Forms\Components\RichEditor;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 if (! function_exists('isImage')) {
     function isImage($file)
@@ -113,30 +111,6 @@ if (! function_exists('switch_locale_url')) {
         }
 
         return url(implode('/', $segments));
-    }
-}
-
-if (! function_exists('reusableRichEditor')) {
-    function reusableRichEditor(string $field, string $default, $label, $langId): RichEditor
-    {
-        $path = 'editor-uploads/'.date('Y-m');
-
-        return RichEditor::make($field)
-            ->fileAttachmentsDisk('public')
-            ->label($label)
-            ->default($default)
-            ->fileAttachmentsDirectory($path)
-            ->saveUploadedFileAttachmentsUsing(function (TemporaryUploadedFile $file) use ($path) {
-                $path = $file->storePublicly($path, 'public');
-
-                \App\Models\EditorUpload::create([
-                    'path' => $path,
-                    'used' => false,
-                ]);
-
-                return $path;
-            })
-            ->extraAttributes(['data-lang-id' => $langId]);
     }
 }
 

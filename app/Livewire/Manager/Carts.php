@@ -99,7 +99,7 @@ class Carts extends Component
     public function getVariantSpecifications($variant, $lang)
     {
         if (!$variant) {
-            return __('filament.cart_item.no_variant');
+            return __('manager.cart_item.no_variant');
         }
         $specNames = [];
         foreach ($variant->specificationValues as $specValue) {

@@ -46,9 +46,6 @@ parameters:
         # Livewire 动态属性
         - '#Access to an undefined property Livewire\\Component::.*#'
         
-        # Filament 动态方法
-        - '#Call to an undefined method Filament\\.*::.*#'
-        
         # 闭包中的类型推断
         - '#Parameter .* of anonymous function has no typehint#'
         

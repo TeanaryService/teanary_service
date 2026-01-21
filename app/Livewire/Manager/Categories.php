@@ -88,13 +88,13 @@ class Categories extends Component
             return $translation->name;
         }
         $first = $category->categoryTranslations->first();
-        return $first ? $first->name : __('filament.category.unnamed');
+        return $first ? $first->name : __('manager.category.unnamed');
     }
 
     public function getParentName($parent, $lang)
     {
         if (!$parent) {
-            return __('filament.category.root');
+            return __('manager.category.root');
         }
         $translation = $parent->categoryTranslations->where('language_id', $lang?->id)->first();
         if ($translation && $translation->name) {

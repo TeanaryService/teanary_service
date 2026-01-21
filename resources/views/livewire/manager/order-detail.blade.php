@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('orders', __('app.view'), __('filament.OrderResource.label'), locaRoute('manager.orders'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('orders', __('app.view'), __('manager.orders.label'), locaRoute('manager.orders'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -12,7 +12,7 @@
             <div class="flex-1">
                 <div class="mb-6 flex items-center justify-between">
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.OrderResource.label') }}</h1>
+                        <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.orders.label') }}</h1>
                         <p class="text-sm text-gray-600 mt-1">订单号: {{ $order->order_no }}</p>
                     </div>
                     <a href="{{ locaRoute('manager.orders') }}" 

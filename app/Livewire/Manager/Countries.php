@@ -83,7 +83,7 @@ class Countries extends Component
             return $translation->name;
         }
         $first = $country->countryTranslations->first();
-        return $first ? $first->name : __('filament.country.unnamed');
+        return $first ? $first->name : __('manager.country.unnamed');
     }
 
     public function render()

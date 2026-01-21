@@ -119,7 +119,7 @@ class OrderDetail extends Component
     public function getVariantSpecs($variant, $lang)
     {
         if (!$variant) {
-            return __('filament.order_item.no_variant');
+            return __('manager.order_item.no_variant');
         }
         $specNames = [];
         foreach ($variant->specificationValues as $specValue) {
