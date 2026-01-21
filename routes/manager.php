@@ -10,6 +10,9 @@ use App\Livewire\Manager\AttributeValueForm;
 use App\Livewire\Manager\AttributeValues;
 use App\Livewire\Manager\Attributes;
 use App\Livewire\Manager\Carts;
+use App\Livewire\Manager\Categories;
+use App\Livewire\Manager\CategoryForm;
+use App\Livewire\Manager\Contacts;
 use App\Livewire\Manager\Countries;
 use App\Livewire\Manager\CountryForm;
 use App\Livewire\Manager\Currencies;
@@ -79,6 +82,14 @@ Route::prefix('manager')->group(function () {
         
         // 购物车管理
         Route::get('carts', Carts::class)->name('manager.carts');
+        
+        // 分类管理
+        Route::get('categories', Categories::class)->name('manager.categories');
+        Route::get('categories/create', CategoryForm::class)->name('manager.categories.create');
+        Route::get('categories/{id}/edit', CategoryForm::class)->name('manager.categories.edit');
+        
+        // 联系人管理
+        Route::get('contacts', Contacts::class)->name('manager.contacts');
 
         Route::post('logout', function () {
             Auth::guard('manager')->logout();

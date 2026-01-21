@@ -62,9 +62,21 @@
             'icon' => 'heroicon-o-shopping-cart',
             'key' => 'carts',
         ],
+        [
+            'name' => __('filament.ContactResource.label'),
+            'route' => 'manager.contacts',
+            'icon' => 'heroicon-o-envelope-open',
+            'key' => 'contacts',
+        ],
     ];
 
     $productItems = [
+        [
+            'name' => __('filament.CategoryResource.label'),
+            'route' => 'manager.categories',
+            'icon' => 'heroicon-o-squares-2x2',
+            'key' => 'categories',
+        ],
         [
             'name' => __('filament.AttributeResource.label'),
             'route' => 'manager.attributes',
