@@ -161,7 +161,7 @@
                         <h2 class="text-lg font-semibold text-gray-900">{{ __('filament.TrafficStatistics.top_pages') }}</h2>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full divide-y divide-gray-200">
+                        <table class="w-full divide-y divide-gray-200 text-sm">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -208,6 +208,147 @@
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+                </div>
+
+                {{-- 访问记录列表（来自 TrafficStatisticResource，只保留列表） --}}
+                <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex flex-col md:flex-row gap-4 md:items-end">
+                        <div class="flex-1 min-w-[200px]">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                {{ __('app.search') }}
+                            </label>
+                            <input 
+                                type="text" 
+                                wire:model.live.debounce.300ms="search"
+                                placeholder="{{ __('filament.TrafficStatisticResource.path') }} / IP / Referer"
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                            />
+                        </div>
+                        <div class="flex-1 min-w-[200px]">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                {{ __('filament.TrafficStatisticResource.spider_source') }}
+                            </label>
+                            <select 
+                                wire:model.live="filterSpiderSources" 
+                                multiple
+                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                            >
+                                @foreach($spiderSourceOptions as $value => $label)
+                                    <option value="{{ $value }}">{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.stat_date') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.path') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.method') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.ip') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.is_bot') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.spider_source') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.count') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.locale') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.referer') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('filament.TrafficStatisticResource.user_agent') }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @forelse($records as $record)
+                                    <tr class="hover:bg-gray-50 transition-colors align-top">
+                                        <td class="px-4 py-3 whitespace-nowrap text-gray-900">
+                                            {{ $record->stat_date?->format('Y-m-d H:i') }}
+                                        </td>
+                                        <td class="px-4 py-3 text-gray-900 max-w-xs">
+                                            <code class="text-xs bg-gray-100 px-2 py-1 rounded font-mono break-all" title="{{ $record->path }}">
+                                                {{ \Illuminate\Support\Str::limit($record->path, 60) }}
+                                            </code>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                @if($record->method === 'GET') bg-green-100 text-green-800
+                                                @elseif($record->method === 'POST') bg-yellow-100 text-yellow-800
+                                                @else bg-gray-100 text-gray-800
+                                                @endif">
+                                                {{ $record->method }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-gray-900">
+                                            {{ $record->ip }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-center">
+                                            @if($record->is_bot)
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                    {{ __('filament.TrafficStatistics.bot') }}
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+                                                    {{ __('filament.TrafficStatistics.human') }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-gray-900">
+                                            {{ $record->spider_source ? ucfirst($record->spider_source) : '-' }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-right text-gray-900">
+                                            {{ number_format($record->count) }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-gray-900">
+                                            {{ $record->locale }}
+                                        </td>
+                                        <td class="px-4 py-3 text-gray-900 max-w-xs">
+                                            <span class="break-all" title="{{ $record->referer }}">
+                                                {{ \Illuminate\Support\Str::limit($record->referer, 40) ?: '-' }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-gray-900 max-w-xs">
+                                            <span class="break-all" title="{{ $record->user_agent }}">
+                                                {{ \Illuminate\Support\Str::limit($record->user_agent, 40) ?: '-' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="10" class="px-6 py-12 text-center text-sm text-gray-500">
+                                            <div class="flex flex-col items-center">
+                                                <svg class="w-10 h-10 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                                <span>{{ __('filament.TrafficStatistics.no_data') }}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="px-6 py-4 border-t border-gray-200">
+                        {{ $records->links() }}
                     </div>
                 </div>
             </div>

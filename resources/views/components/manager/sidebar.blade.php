@@ -63,6 +63,12 @@
             'key' => 'orders',
         ],
         [
+            'name' => __('filament.PromotionResource.label'),
+            'route' => 'manager.promotions',
+            'icon' => 'heroicon-o-gift-top',
+            'key' => 'promotions',
+        ],
+        [
             'name' => __('filament.ArticleResource.label'),
             'route' => 'manager.articles',
             'icon' => 'heroicon-o-pencil-square',
@@ -84,6 +90,12 @@
 
     $productItems = [
         [
+            'name' => __('filament.ProductResource.label'),
+            'route' => 'manager.products',
+            'icon' => 'heroicon-o-cube',
+            'key' => 'products',
+        ],
+        [
             'name' => __('filament.CategoryResource.label'),
             'route' => 'manager.categories',
             'icon' => 'heroicon-o-squares-2x2',
@@ -100,6 +112,18 @@
             'route' => 'manager.attribute-values',
             'icon' => 'heroicon-o-tag',
             'key' => 'attribute-values',
+        ],
+        [
+            'name' => __('filament.SpecificationResource.label'),
+            'route' => 'manager.specifications',
+            'icon' => 'heroicon-o-table-cells',
+            'key' => 'specifications',
+        ],
+        [
+            'name' => __('filament.SpecificationValueResource.label'),
+            'route' => 'manager.specification-values',
+            'icon' => 'heroicon-o-rectangle-group',
+            'key' => 'specification-values',
         ],
     ];
 

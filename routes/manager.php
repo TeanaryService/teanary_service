@@ -16,6 +16,13 @@ use App\Livewire\Manager\Contacts;
 use App\Livewire\Manager\Countries;
 use App\Livewire\Manager\ManagerForm;
 use App\Livewire\Manager\Managers;
+use App\Livewire\Manager\ProductForm;
+use App\Livewire\Manager\Products;
+use App\Livewire\Manager\ProductReviews;
+use App\Livewire\Manager\SpecificationForm;
+use App\Livewire\Manager\Specifications;
+use App\Livewire\Manager\SpecificationValueForm;
+use App\Livewire\Manager\SpecificationValues;
 use App\Livewire\Manager\UserForm;
 use App\Livewire\Manager\Users;
 use App\Livewire\Manager\CountryForm;
@@ -31,6 +38,8 @@ use App\Livewire\Manager\Orders;
 use App\Livewire\Manager\TrafficStatistics;
 use App\Livewire\Manager\ZoneForm;
 use App\Livewire\Manager\Zones;
+use App\Livewire\Manager\PromotionForm;
+use App\Livewire\Manager\Promotions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -70,11 +79,22 @@ Route::prefix('manager')->group(function () {
         Route::get('articles', Articles::class)->name('manager.articles');
         Route::get('articles/create', ArticleForm::class)->name('manager.articles.create');
         Route::get('articles/{id}/edit', ArticleForm::class)->name('manager.articles.edit');
+
+        // 促销管理
+        Route::get('promotions', Promotions::class)->name('manager.promotions');
+        Route::get('promotions/create', PromotionForm::class)->name('manager.promotions.create');
+        Route::get('promotions/{id}/edit', PromotionForm::class)->name('manager.promotions.edit');
         
         // 地址管理
         Route::get('addresses', Addresses::class)->name('manager.addresses');
         Route::get('addresses/create', AddressForm::class)->name('manager.addresses.create');
         Route::get('addresses/{id}/edit', AddressForm::class)->name('manager.addresses.edit');
+        
+        // 商品管理
+        Route::get('products', Products::class)->name('manager.products');
+        Route::get('products/create', ProductForm::class)->name('manager.products.create');
+        Route::get('products/{id}/edit', ProductForm::class)->name('manager.products.edit');
+        Route::get('products/{productId}/reviews', ProductReviews::class)->name('manager.products.reviews');
         
         // 属性管理
         Route::get('attributes', Attributes::class)->name('manager.attributes');
@@ -85,6 +105,16 @@ Route::prefix('manager')->group(function () {
         Route::get('attribute-values', AttributeValues::class)->name('manager.attribute-values');
         Route::get('attribute-values/create', AttributeValueForm::class)->name('manager.attribute-values.create');
         Route::get('attribute-values/{id}/edit', AttributeValueForm::class)->name('manager.attribute-values.edit');
+
+        // 规格管理
+        Route::get('specifications', Specifications::class)->name('manager.specifications');
+        Route::get('specifications/create', SpecificationForm::class)->name('manager.specifications.create');
+        Route::get('specifications/{id}/edit', SpecificationForm::class)->name('manager.specifications.edit');
+
+        // 规格值管理
+        Route::get('specification-values', SpecificationValues::class)->name('manager.specification-values');
+        Route::get('specification-values/create', SpecificationValueForm::class)->name('manager.specification-values.create');
+        Route::get('specification-values/{id}/edit', SpecificationValueForm::class)->name('manager.specification-values.edit');
         
         // 购物车管理
         Route::get('carts', Carts::class)->name('manager.carts');

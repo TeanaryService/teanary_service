@@ -5,11 +5,36 @@ namespace App\Livewire\Manager;
 use App\Models\TrafficStatistic;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class TrafficStatistics extends Component
 {
+    use WithPagination;
+
     public string $dateRange = '7days';
     public string $visitorType = 'all';
+    public string $search = '';
+    public array $filterSpiderSources = [];
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterSpiderSources(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingDateRange(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingVisitorType(): void
+    {
+        $this->resetPage();
+    }
 
     public function getDateRange(): array
     {
@@ -65,14 +90,36 @@ class TrafficStatistics extends Component
         return TrafficStatistic::getTopPages($startDate, $endDate, 20, $isBot)->toArray();
     }
 
-    public function updatedDateRange(): void
+    public function getRecordsProperty()
     {
-        // 当日期范围改变时，Livewire 会自动重新渲染
-    }
+        [$startDate, $endDate] = $this->getDateRange();
 
-    public function updatedVisitorType(): void
-    {
-        // 当访问者类型改变时，Livewire 会自动重新渲染
+        $query = TrafficStatistic::query()
+            ->whereBetween('stat_date', [$startDate, $endDate]);
+
+        // 访客类型（真人 / 机器人 / 全部）
+        $query = match ($this->visitorType) {
+            'human' => $query->where('is_bot', false),
+            'bot' => $query->where('is_bot', true),
+            default => $query,
+        };
+
+        // 爬虫来源过滤
+        if (! empty($this->filterSpiderSources)) {
+            $query->whereIn('spider_source', $this->filterSpiderSources);
+        }
+
+        // 搜索 path / ip / referer
+        if ($this->search !== '') {
+            $search = $this->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('path', 'like', '%' . $search . '%')
+                    ->orWhere('ip', 'like', '%' . $search . '%')
+                    ->orWhere('referer', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $query->orderByDesc('stat_date')->paginate(20);
     }
 
     public function render()
@@ -80,6 +127,20 @@ class TrafficStatistics extends Component
         return view('livewire.manager.traffic-statistics', [
             'stats' => $this->stats,
             'topPages' => $this->topPages,
+            'records' => $this->records,
+            'spiderSourceOptions' => [
+                'google' => 'Google',
+                'bing' => 'Bing',
+                'baidu' => 'Baidu',
+                'yandex' => 'Yandex',
+                'yahoo' => 'Yahoo',
+                'duckduckgo' => 'DuckDuckGo',
+                'facebook' => 'Facebook',
+                'twitter' => 'Twitter',
+                'linkedin' => 'LinkedIn',
+                'other' => __('filament.TrafficStatisticResource.other'),
+                'unknown' => __('filament.TrafficStatisticResource.unknown'),
+            ],
         ])->layout('components.layouts.manager');
     }
 }

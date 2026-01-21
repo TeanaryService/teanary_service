@@ -57,7 +57,8 @@ class Attributes extends Component
         session()->flash('message', $attribute->is_filterable ? __('filament.attribute.filterable') : __('filament.attribute.not_filterable'));
     }
 
-    public function getAttributesProperty()
+    // 使用自定义名称避免与 Livewire 内部 $attributes 属性冲突
+    public function getAttributeListProperty()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();
@@ -103,7 +104,7 @@ class Attributes extends Component
         $lang = $service->getLanguageByCode($locale);
 
         return view('livewire.manager.attributes', [
-            'attributes' => $this->attributes,
+            'attributes' => $this->attributeList,
             'lang' => $lang,
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');

@@ -1,0 +1,273 @@
+<?php
+
+namespace App\Livewire\Manager;
+
+use App\Enums\ProductStatusEnum;
+use App\Enums\TranslationStatusEnum;
+use App\Models\Attribute;
+use App\Models\AttributeTranslation;
+use App\Models\AttributeValue;
+use App\Models\Product;
+use App\Models\ProductTranslation;
+use App\Services\LocaleCurrencyService;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+
+class ProductForm extends Component
+{
+    use WithFileUploads;
+
+    public ?int $productId = null;
+
+    public string $slug = '';
+    public string $status = '';
+    public string $translationStatus = '';
+    public ?string $sourceUrl = null;
+
+    /** @var array<int, array{attribute_id: int|null, attribute_value_id: int|null}> */
+    public array $attributeValues = [];
+
+    /** @var int[] */
+    public array $categoryIds = [];
+
+    /** @var array<int,array{name:string,short_description:?string,description:?string}> */
+    public array $translations = [];
+
+    /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile[] */
+    public array $newImages = [];
+
+    public array $rules = [
+        'slug' => 'required|string|max:255',
+        'status' => 'required',
+        'translationStatus' => 'required',
+        'sourceUrl' => 'nullable|url|max:255',
+        'attributeValues.*.attribute_id' => 'nullable|integer',
+        'attributeValues.*.attribute_value_id' => 'nullable|integer',
+        'categoryIds' => 'array',
+        'categoryIds.*' => 'integer',
+        'translations.*.name' => 'required|max:255',
+        'translations.*.short_description' => 'nullable|string',
+        'translations.*.description' => 'nullable|string',
+        'newImages.*' => 'image|max:2048',
+    ];
+
+    public array $messages = [
+        'slug.required' => 'Slug 不能为空',
+        'status.required' => '商品状态不能为空',
+        'translationStatus.required' => '翻译状态不能为空',
+        'sourceUrl.url' => '来源链接格式不正确',
+        'translations.*.name.required' => '商品名称不能为空',
+        'translations.*.name.max' => '商品名称不能超过255个字符',
+        'newImages.*.image' => '上传的文件必须是图片',
+        'newImages.*.max' => '图片大小不能超过 2MB',
+    ];
+
+    public function mount(?int $id = null): void
+    {
+        $this->status = ProductStatusEnum::Active->value;
+        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
+
+        $service = app(LocaleCurrencyService::class);
+        $languages = $service->getLanguages();
+
+        if ($id) {
+            $this->productId = $id;
+            $product = Product::with(['productTranslations', 'productCategories', 'attributeValues'])->findOrFail($id);
+
+            $this->slug = $product->slug;
+            $this->status = $product->status->value;
+            $this->translationStatus = $product->translation_status->value;
+            $this->sourceUrl = $product->source_url;
+
+            $this->categoryIds = $product->productCategories->pluck('id')->all();
+
+            foreach ($languages as $language) {
+                $translation = $product->productTranslations->where('language_id', $language->id)->first();
+                $this->translations[$language->id] = [
+                    'name' => $translation?->name ?? '',
+                    'short_description' => $translation?->short_description,
+                    'description' => $translation?->description,
+                ];
+            }
+
+            // 初始化属性值行（简单按照当前关联生成）
+            $this->attributeValues = [];
+            foreach ($product->attributeValues as $av) {
+                $this->attributeValues[] = [
+                    'attribute_id' => $av->pivot->attribute_id ?? $av->attribute_id ?? null,
+                    'attribute_value_id' => $av->id,
+                ];
+            }
+        } else {
+            foreach ($languages as $language) {
+                $this->translations[$language->id] = [
+                    'name' => '',
+                    'short_description' => '',
+                    'description' => '',
+                ];
+            }
+
+            $this->attributeValues = [
+                [
+                    'attribute_id' => null,
+                    'attribute_value_id' => null,
+                ],
+            ];
+        }
+    }
+
+    public function addAttributeValueRow(): void
+    {
+        $this->attributeValues[] = [
+            'attribute_id' => null,
+            'attribute_value_id' => null,
+        ];
+    }
+
+    public function removeAttributeValueRow(int $index): void
+    {
+        unset($this->attributeValues[$index]);
+        $this->attributeValues = array_values($this->attributeValues);
+    }
+
+    public function save()
+    {
+        $service = app(LocaleCurrencyService::class);
+        $languages = $service->getLanguages();
+        $defaultLanguage = $languages->firstWhere('default', true);
+        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
+            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的商品名称不能为空');
+            return;
+        }
+
+        $rules = $this->rules;
+        $rules['slug'] = [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('products', 'slug')->ignore($this->productId),
+        ];
+
+        $this->validate($rules, $this->messages);
+
+        $data = [
+            'slug' => $this->slug,
+            'status' => ProductStatusEnum::from($this->status),
+            'translation_status' => TranslationStatusEnum::from($this->translationStatus),
+            'source_url' => $this->sourceUrl,
+        ];
+
+        if ($this->productId) {
+            $product = Product::findOrFail($this->productId);
+            $product->update($data);
+            session()->flash('message', __('app.updated_successfully'));
+        } else {
+            $product = Product::create($data);
+            $this->productId = $product->id;
+            session()->flash('message', __('app.created_successfully'));
+        }
+
+        // 同步分类
+        $product->syncProductCategories($this->categoryIds);
+
+        // 同步属性值
+        $syncAttributeValues = [];
+        foreach ($this->attributeValues as $row) {
+            if (! empty($row['attribute_id']) && ! empty($row['attribute_value_id'])) {
+                $attributeId = (int) $row['attribute_id'];
+                $attributeValueId = (int) $row['attribute_value_id'];
+                $syncAttributeValues[$attributeValueId] = ['attribute_id' => $attributeId];
+            }
+        }
+        if (! empty($syncAttributeValues)) {
+            $product->syncAttributeValues($syncAttributeValues);
+        }
+
+        // 同步翻译
+        foreach ($this->translations as $languageId => $translation) {
+            if (! empty($translation['name'])) {
+                ProductTranslation::updateOrCreate(
+                    [
+                        'product_id' => $product->id,
+                        'language_id' => $languageId,
+                    ],
+                    [
+                        'name' => $translation['name'],
+                        'short_description' => $translation['short_description'] ?? null,
+                        'description' => $translation['description'] ?? null,
+                    ]
+                );
+            }
+        }
+
+        // 处理图片（追加）
+        if (! empty($this->newImages)) {
+            foreach ($this->newImages as $upload) {
+                $product
+                    ->addMedia($upload->getRealPath())
+                    ->usingFileName($upload->getClientOriginalName())
+                    ->toMediaCollection('images');
+            }
+            $this->newImages = [];
+        }
+
+        return redirect()->to(locaRoute('manager.products'));
+    }
+
+    public function render()
+    {
+        $service = app(LocaleCurrencyService::class);
+        $languages = $service->getLanguages();
+
+        $attributes = Attribute::with('attributeTranslations')->get();
+        $attributeOptions = [];
+        foreach ($attributes as $attr) {
+            $lang = $service->getLanguageByCode(app()->getLocale());
+            $translation = $attr->attributeTranslations->where('language_id', $lang?->id)->first();
+            $attributeOptions[$attr->id] = $translation && $translation->name
+                ? $translation->name
+                : ($attr->attributeTranslations->first()->name ?? $attr->id);
+        }
+
+        $attributeValueOptions = [];
+        $allAttrValues = AttributeValue::with('attributeValueTranslations')->get();
+        foreach ($allAttrValues as $av) {
+            $lang = $service->getLanguageByCode(app()->getLocale());
+            $translation = $av->attributeValueTranslations->where('language_id', $lang?->id)->first();
+            $name = $translation && $translation->name
+                ? $translation->name
+                : ($av->attributeValueTranslations->first()->name ?? $av->id);
+            $attributeValueOptions[$av->attribute_id][$av->id] = $name;
+        }
+
+        $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) use ($service) {
+            $lang = $service->getLanguageByCode(app()->getLocale());
+            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
+            return [
+                'id' => $cat->id,
+                'name' => $translation && $translation->name
+                    ? $translation->name
+                    : ($cat->categoryTranslations->first()->name ?? $cat->id),
+            ];
+        });
+
+        $existingImages = [];
+        if ($this->productId) {
+            $product = Product::with('media')->find($this->productId);
+            $existingImages = $product?->getMedia('images') ?? [];
+        }
+
+        return view('livewire.manager.product-form', [
+            'languages' => $languages,
+            'statusOptions' => ProductStatusEnum::options(),
+            'translationStatusOptions' => TranslationStatusEnum::options(),
+            'attributes' => $attributes,
+            'attributeOptions' => $attributeOptions,
+            'attributeValueOptions' => $attributeValueOptions,
+            'categories' => $categories,
+            'existingImages' => $existingImages,
+        ])->layout('components.layouts.manager');
+    }
+}
+
