@@ -6,7 +6,7 @@
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 md:px-8 min-h-[40vh] bg-tea-50 tea-bg-texture">
-    <x-breadcrumbs :items="$breadcrumbs" />
+    <x-widgets.breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}
         <div class="w-full lg:w-1/2 flex justify-center items-center relative" wire:key="product-images-{{ $selectedVariantId }}">
@@ -404,8 +404,14 @@
                 <div class="mb-4 flex items-center gap-2">
                     <span class="font-semibold text-gray-700">{{ __('home.qty') }}:</span>
                     <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="decrementQty">-</button>
-                    <input type="number" min="1" max="{{ $maxQty }}" wire:model.lazy="qty"
-                        wire:change="updateQty($event.target.value)" class="w-16 text-center border rounded px-2 py-0.5" />
+                    <x-widgets.input 
+                        type="number"
+                        min="1"
+                        :max="$maxQty"
+                        wire="lazy=qty"
+                        wire:change="updateQty($event.target.value)"
+                        class="w-16 text-center !px-2 py-0.5"
+                    />
                     <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="incrementQty">+</button>
                     <span class="text-gray-400 ml-2 text-sm">{{ __('home.storage', ['storage' => $maxQty]) }}</span>
                 </div>
@@ -426,13 +432,13 @@
                 </div>
             @endif
             <div class="py-6">
-                <x-share-buttons title="{{ $name }}" description="{{ $shortDesc }}"
+                <x-widgets.share-buttons title="{{ $name }}" description="{{ $shortDesc }}"
                     image="{{ $images->first()?->getUrl() ?? '' }}" />
             </div>
         </div>
     </div>
 
-    <x-promotion-list class="py-6" />
+    <x-widgets.promotion-list class="py-6" />
 
     {{-- 产品介绍和茶友评价 - 左右布局 --}}
     <div class="my-6">

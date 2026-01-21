@@ -17,7 +17,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-users.sidebar active="orders" />
@@ -27,17 +27,8 @@
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('orders.order_details') }}</h1>
                 </div>
 
-        @if (session()->has('message'))
-            <div class="mb-4 rounded-md bg-teal-50 p-4">
-                <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-            </div>
-        @endif
-
-        @if (session()->has('error'))
-            <div class="mb-4 rounded-md bg-red-50 p-4">
-                <p class="text-sm font-medium text-red-800">{{ session('error') }}</p>
-            </div>
-        @endif
+        <x-widgets.session-message type="message" />
+        <x-widgets.session-message type="error" />
 
         <div class="space-y-6">
             <!-- 订单状态头部 -->
@@ -256,30 +247,38 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                         <div class="space-y-3">
                             @if($order->status->canBePaid())
-                                <button wire:click="payOrder" 
-                                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 transition-colors">
+                                <x-widgets.button 
+                                    wire:click="payOrder" 
+                                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3"
+                                >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                     </svg>
                                     {{ __('orders.pay_now') }}
-                                </button>
+                                </x-widgets.button>
                             @endif
 
                             @if($order->status->canBeCancelled())
-                                <button wire:click="cancelOrder" 
-                                        wire:confirm="{{ __('orders.confirm_cancel') }}"
-                                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors">
+                                <x-widgets.button 
+                                    wire:click="cancelOrder" 
+                                    wire:confirm="{{ __('orders.confirm_cancel') }}"
+                                    variant="danger-outline"
+                                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3"
+                                >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                     {{ __('orders.cancel_order') }}
-                                </button>
+                                </x-widgets.button>
                             @endif
 
-                            <a href="{{ locaRoute('auth.orders') }}" 
-                               class="block w-full text-center px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            <x-widgets.button 
+                                href="{{ locaRoute('auth.orders') }}" 
+                                variant="secondary"
+                                class="w-full px-4 py-3"
+                            >
                                 {{ __('app.back_to_orders') }}
-                            </a>
+                            </x-widgets.button>
                         </div>
                     </div>
                 </div>

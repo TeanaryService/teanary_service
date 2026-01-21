@@ -1,6 +1,6 @@
 <x-layouts.app>
     <div class="min-h-[40vh] bg-gray-50 flex flex-col items-center justify-center -mt-16 relative">
-        <x-grid-bg />
+        <x-widgets.grid-bg />
         <main id="error-main" role="main" aria-labelledby="error-title" class="max-w-xl px-4 text-center relative">
 
             {{-- 大标题 --}}

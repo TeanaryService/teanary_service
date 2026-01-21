@@ -1,0 +1,41 @@
+@props([
+    'name' => null,
+    'id' => null,
+    'value' => null,
+    'placeholder' => null,
+    'rows' => 3,
+    'required' => false,
+    'disabled' => false,
+    'readonly' => false,
+    'wire' => null, // wire:model, wire:model.live, etc.
+    'error' => null,
+    'class' => '',
+])
+
+@php
+    $textareaId = $id ?? $name;
+    $baseClasses = 'w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 placeholder-gray-400 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 hover:border-gray-300 resize-y';
+    $classes = trim($baseClasses . ' ' . $class);
+    if ($error) {
+        $classes .= ' @error(\'' . $error . '\') border-red-300 @enderror';
+    }
+@endphp
+
+<textarea 
+    @if($textareaId) id="{{ $textareaId }}" @endif
+    @if($name) name="{{ $name }}" @endif
+    rows="{{ $rows }}"
+    @if($placeholder) placeholder="{{ $placeholder }}" @endif
+    @if($required) required @endif
+    @if($disabled) disabled @endif
+    @if($readonly) readonly @endif
+    @if($wire) wire:model="{{ $wire }}" @endif
+    class="{{ $classes }}"
+    {{ $attributes->except(['name', 'id', 'value', 'placeholder', 'rows', 'required', 'disabled', 'readonly', 'wire', 'error', 'class']) }}
+>{{ $value }}</textarea>
+
+@if($error)
+    @error($error)
+        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+@endif

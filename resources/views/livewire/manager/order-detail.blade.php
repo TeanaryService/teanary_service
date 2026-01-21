@@ -4,7 +4,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="orders" />
@@ -15,13 +15,16 @@
                         <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.orders.label') }}</h1>
                         <p class="text-sm text-gray-600 mt-1">订单号: {{ $order->order_no }}</p>
                     </div>
-                    <a href="{{ locaRoute('manager.orders') }}" 
-                       class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    <x-widgets.button 
+                        href="{{ locaRoute('manager.orders') }}" 
+                        variant="secondary"
+                        class="inline-flex items-center gap-2"
+                    >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                         {{ __('app.back') }}
-                    </a>
+                    </x-widgets.button>
                 </div>
 
                 @if (session()->has('message'))
@@ -186,15 +189,15 @@
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-gray-900">发货记录</h2>
                         @if($order->status === \App\Enums\OrderStatusEnum::Paid || $order->status === \App\Enums\OrderStatusEnum::Shipped)
-                            <button 
+                            <x-widgets.button 
                                 wire:click="toggleShipmentForm"
-                                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors"
+                                class="inline-flex items-center gap-2"
                             >
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                 </svg>
                                 {{ __('app.create') }} 发货记录
-                            </button>
+                            </x-widgets.button>
                         @endif
                     </div>
 
@@ -203,68 +206,43 @@
                         <div class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
                             <h3 class="text-sm font-medium text-gray-900 mb-4">新增发货记录</h3>
                             <form wire:submit="createShipment" class="space-y-4">
-                                <div>
-                                    <label for="shippingMethod" class="block text-sm font-medium text-gray-700 mb-2">
-                                        配送方式 <span class="text-red-500">*</span>
-                                    </label>
-                                    <select 
+                                <x-widgets.form-field label="配送方式" labelFor="shippingMethod" required error="shippingMethod">
+                                    <x-widgets.select 
                                         id="shippingMethod"
-                                        wire:model="shippingMethod"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('shippingMethod') border-red-300 @enderror"
-                                    >
-                                        <option value="">{{ __('app.select') }}</option>
-                                        @foreach($shippingMethodOptions as $value => $label)
-                                            <option value="{{ $value }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('shippingMethod')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div>
-                                    <label for="trackingNumber" class="block text-sm font-medium text-gray-700 mb-2">
-                                        运单号
-                                    </label>
-                                    <input 
+                                        wire="shippingMethod"
+                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($shippingMethodOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
+                                        error="shippingMethod"
+                                    />
+                                </x-widgets.form-field>
+                                <x-widgets.form-field label="运单号" labelFor="trackingNumber" error="trackingNumber">
+                                    <x-widgets.input 
                                         type="text" 
                                         id="trackingNumber"
-                                        wire:model="trackingNumber"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('trackingNumber') border-red-300 @enderror"
+                                        wire="trackingNumber"
                                         placeholder="请输入运单号"
+                                        error="trackingNumber"
                                     />
-                                    @error('trackingNumber')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div>
-                                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
-                                        备注
-                                    </label>
-                                    <textarea 
+                                </x-widgets.form-field>
+                                <x-widgets.form-field label="备注" labelFor="notes" error="notes">
+                                    <x-widgets.textarea 
                                         id="notes"
-                                        wire:model="notes"
+                                        wire="notes"
                                         rows="3"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('notes') border-red-300 @enderror"
                                         placeholder="发货备注信息"
-                                    ></textarea>
-                                    @error('notes')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                        error="notes"
+                                    />
+                                </x-widgets.form-field>
                                 <div class="flex items-center justify-end gap-2">
-                                    <button 
+                                    <x-widgets.button 
                                         type="button"
                                         wire:click="toggleShipmentForm"
-                                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        variant="secondary"
                                     >
                                         {{ __('app.cancel') }}
-                                    </button>
-                                    <button 
-                                        type="submit"
-                                        class="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors"
-                                    >
+                                    </x-widgets.button>
+                                    <x-widgets.button type="submit">
                                         {{ __('app.save') }}
-                                    </button>
+                                    </x-widgets.button>
                                 </div>
                             </form>
                         </div>

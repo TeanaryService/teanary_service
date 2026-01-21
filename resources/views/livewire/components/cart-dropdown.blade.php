@@ -64,9 +64,13 @@
                                 class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded hover:bg-gray-200">
                                 -
                             </button>
-                            <input type="number" wire:change="updateQty({{ $item->id }}, $event.target.value)"
-                                value="{{ $item->qty }}" min="1"
-                                class="w-14 text-center border rounded text-md">
+                            <x-widgets.input 
+                                type="number"
+                                wire:change="updateQty({{ $item->id }}, $event.target.value)"
+                                :value="$item->qty"
+                                min="1"
+                                class="w-14 text-center !px-2"
+                            />
                             <button wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})"
                                 class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded hover:bg-gray-200">
                                 +
@@ -80,7 +84,11 @@
                     </div>
                 </div>
             @empty
-                <div class="p-6 text-center text-gray-500">{{ __('app.empty_cart') }}</div>
+                <x-widgets.empty-state 
+                    icon="heroicon-o-shopping-cart"
+                    :title="__('app.empty_cart')"
+                    class="py-8"
+                />
             @endforelse
         </div>
 
@@ -90,12 +98,14 @@
                 <span>{{ __('app.total') }}</span>
                 <span>{{ $currencyService->convertWithSymbol($cartTotal, $currencyCode) }}</span>
             </div>
-            <a href="{{ locaRoute('cart') }}"
-                class="w-full block text-center bg-teal-600 text-white py-2.5 rounded-lg font-semibold hover:bg-teal-700 transition">
+            <x-widgets.button 
+                href="{{ locaRoute('cart') }}"
+                class="w-full py-2.5 font-semibold"
+            >
                 {{ __('app.checkout') }}
-            </a>
+            </x-widgets.button>
         </div>
     </div>
 
-    <x-flash-messages />
+    <x-widgets.flash-messages />
 </div>

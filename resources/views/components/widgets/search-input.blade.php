@@ -12,9 +12,13 @@
             class="absolute left-0 mt-2 w-screen max-w-xs z-50 bg-white border border-gray-200 shadow-lg rounded-lg p-3">
             <form method="GET" action="{{ locaRoute('search') }}">
                 <div class="relative">
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="{{ __('search.placeholder') }}"
-                        class="w-full px-4 py-3 pl-10 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+                    <x-widgets.input 
+                        type="text"
+                        name="search"
+                        :value="request('search')"
+                        :placeholder="__('search.placeholder')"
+                        class="!pl-10 !bg-gray-50 !border-gray-300 !text-sm"
+                    />
                     <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
                         <x-heroicon-o-magnifying-glass class="w-5 h-5" />
                     </button>
@@ -26,9 +30,13 @@
     <!-- 桌面端：正常搜索框 -->
     <form method="GET" action="{{ locaRoute('search') }}" class="hidden md:block w-full">
         <div class="relative">
-            <input type="text" name="search" value="{{ request('search') }}"
-                placeholder="{{ __('search.placeholder') }}"
-                class="w-full px-4 py-2.5 pl-11 text-sm text-gray-900 bg-white rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-tea-500 focus:border-tea-500 transition-all duration-200 placeholder:text-gray-400">
+            <x-widgets.input 
+                type="text"
+                name="search"
+                :value="request('search')"
+                :placeholder="__('search.placeholder')"
+                class="!pl-11 !py-2.5 !text-sm"
+            />
             <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-tea-600 transition-colors">
                 <x-heroicon-o-magnifying-glass class="w-5 h-5" />
             </button>

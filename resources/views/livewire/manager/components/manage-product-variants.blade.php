@@ -18,16 +18,15 @@
                                 $selectedValues = $selectedSpecifications[$spec['id']] ?? [];
                                 $isSelected = is_array($selectedValues) && in_array($value['id'], $selectedValues, true);
                             @endphp
-                            <label class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border cursor-pointer
+                            <div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border cursor-pointer
                                 {{ $isSelected ? 'bg-teal-50 text-teal-700 border-teal-200' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50' }}">
-                                <input 
-                                    type="checkbox" 
-                                    class="rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                                <x-widgets.checkbox 
                                     wire:click="toggleSpecificationValue({{ $spec['id'] }}, {{ $value['id'] }})"
-                                    @if($isSelected) checked @endif
-                                >
-                                <span class="ml-1">{{ $value['name'] }}</span>
-                            </label>
+                                    :checked="$isSelected"
+                                    :label="$value['name']"
+                                    class="!gap-1"
+                                />
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -42,16 +41,21 @@
                 {{ __('manager.product_variants.plural_label') }}
             </h2>
             <div class="flex items-center gap-3">
-                <button type="button"
-                        wire:click="generateSkus"
-                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                <x-widgets.button 
+                    type="button"
+                    wire:click="generateSkus"
+                    variant="secondary"
+                    class="px-3 py-1.5 text-xs"
+                >
                     {{ __('manager.product_variants.manage.regenerate') ?? '重新生成 SKU' }}
-                </button>
-                <button type="button"
-                        wire:click="saveAll"
-                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-teal-600 border border-teal-600 rounded-lg hover:bg-teal-700">
+                </x-widgets.button>
+                <x-widgets.button 
+                    type="button"
+                    wire:click="saveAll"
+                    class="px-3 py-1.5 text-xs"
+                >
                     {{ __('manager.product_variants.manage.save') ?? '保存全部 SKU' }}
-                </button>
+                </x-widgets.button>
             </div>
         </div>
 
@@ -125,30 +129,41 @@
                                     </div>
                                 </td>
                                 <td class="px-3 py-2 align-top">
-                                    <input type="text"
-                                           wire:model="skus.{{ $index }}.sku"
-                                           class="w-full rounded border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-xs">
+                                    <x-widgets.input 
+                                        type="text"
+                                        wire="skus.{{ $index }}.sku"
+                                        class="text-xs rounded"
+                                    />
                                 </td>
                                 <td class="px-3 py-2 align-top text-right">
                                     <div class="flex items-center justify-end gap-1">
                                         <span class="text-gray-500">{{ $currencySymbol }}</span>
-                                        <input type="number" step="0.01"
-                                               wire:model="skus.{{ $index }}.price"
-                                               class="w-20 rounded border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-xs text-right">
+                                        <x-widgets.input 
+                                            type="number" 
+                                            step="0.01"
+                                            wire="skus.{{ $index }}.price"
+                                            class="w-20 text-xs text-right rounded"
+                                        />
                                     </div>
                                 </td>
                                 <td class="px-3 py-2 align-top text-right">
                                     <div class="flex items-center justify-end gap-1">
                                         <span class="text-gray-500">{{ $currencySymbol }}</span>
-                                        <input type="number" step="0.01"
-                                               wire:model="skus.{{ $index }}.cost"
-                                               class="w-20 rounded border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-xs text-right">
+                                        <x-widgets.input 
+                                            type="number" 
+                                            step="0.01"
+                                            wire="skus.{{ $index }}.cost"
+                                            class="w-20 text-xs text-right rounded"
+                                        />
                                     </div>
                                 </td>
                                 <td class="px-3 py-2 align-top text-right">
-                                    <input type="number" step="1"
-                                           wire:model="skus.{{ $index }}.stock"
-                                           class="w-16 rounded border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-xs text-right">
+                                    <x-widgets.input 
+                                        type="number" 
+                                        step="1"
+                                        wire="skus.{{ $index }}.stock"
+                                        class="w-16 text-xs text-right rounded"
+                                    />
                                 </td>
                                 <td class="px-3 py-2 align-top text-center">
                                     <div class="flex flex-col items-center gap-1">

@@ -5,7 +5,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="countries" />
@@ -30,70 +30,50 @@
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.country.basic_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- ISO代码2 --}}
-                                <div>
-                                    <label for="isoCode2" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.country.iso_code_2') }}
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.country.iso_code_2')"
+                                    labelFor="isoCode2"
+                                    error="isoCode2"
+                                    :help="__('manager.country.iso_code_2_helper')"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="isoCode2"
-                                        wire:model="isoCode2"
+                                        wire="isoCode2"
                                         maxlength="2"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('isoCode2') border-red-300 @enderror"
                                         placeholder="例如: CN"
+                                        error="isoCode2"
                                     />
-                                    @error('isoCode2')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.country.iso_code_2_helper') }}</p>
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- ISO代码3 --}}
-                                <div>
-                                    <label for="isoCode3" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.country.iso_code_3') }}
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.country.iso_code_3')"
+                                    labelFor="isoCode3"
+                                    error="isoCode3"
+                                    :help="__('manager.country.iso_code_3_helper')"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="isoCode3"
-                                        wire:model="isoCode3"
+                                        wire="isoCode3"
                                         maxlength="3"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('isoCode3') border-red-300 @enderror"
                                         placeholder="例如: CHN"
+                                        error="isoCode3"
                                     />
-                                    @error('isoCode3')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.country.iso_code_3_helper') }}</p>
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 邮编必填 --}}
-                                <div>
-                                    <label class="flex items-center gap-3">
-                                        <input 
-                                            type="checkbox" 
-                                            wire:model="postcodeRequired"
-                                            class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                                        />
-                                        <span class="text-sm font-medium text-gray-700">
-                                            {{ __('manager.country.postcode_required') }}
-                                        </span>
-                                    </label>
-                                </div>
+                                <x-widgets.checkbox 
+                                    wire="postcodeRequired"
+                                    :label="__('manager.country.postcode_required')"
+                                />
 
                                 {{-- 激活状态 --}}
-                                <div>
-                                    <label class="flex items-center gap-3">
-                                        <input 
-                                            type="checkbox" 
-                                            wire:model="active"
-                                            class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
-                                        />
-                                        <span class="text-sm font-medium text-gray-700">
-                                            {{ __('manager.country.active') }}
-                                        </span>
-                                    </label>
-                                </div>
+                                <x-widgets.checkbox 
+                                    wire="active"
+                                    :label="__('manager.country.active')"
+                                />
 
                                 {{-- 翻译状态 --}}
                                 <div>
@@ -121,43 +101,36 @@
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.country.translations') }}</h2>
                             <div class="space-y-4">
                                 @foreach($languages as $language)
-                                    <div>
-                                        <label for="translation_{{ $language->id }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                            {{ __('manager.country.name') }} ({{ $language->name }})
-                                            @if($language->default)
-                                                <span class="text-red-500">*</span>
-                                            @endif
-                                        </label>
-                                        <input 
+                                    <x-widgets.form-field 
+                                        :label="__('manager.country.name') . ' (' . $language->name . ')'"
+                                        :labelFor="'translation_' . $language->id"
+                                        :required="$language->default"
+                                        :error="'translations.' . $language->id . '.name'"
+                                        :help="$language->default ? __('manager.country.name_helper') : null"
+                                    >
+                                        <x-widgets.input 
                                             type="text" 
                                             id="translation_{{ $language->id }}"
-                                            wire:model="translations.{{ $language->id }}.name"
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('translations.' . $language->id . '.name') border-red-300 @enderror"
+                                            wire="translations.{{ $language->id }}.name"
                                             placeholder="请输入国家名称"
+                                            :error="'translations.' . $language->id . '.name'"
                                         />
-                                        @error('translations.' . $language->id . '.name')
-                                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                        @enderror
-                                        @if($language->default)
-                                            <p class="mt-1 text-xs text-gray-500">{{ __('manager.country.name_helper') }}</p>
-                                        @endif
-                                    </div>
+                                    </x-widgets.form-field>
                                 @endforeach
                             </div>
                         </div>
 
                         {{-- 操作按钮 --}}
                         <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
-                            <a href="{{ locaRoute('manager.countries') }}" 
-                               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                                {{ __('app.cancel') }}
-                            </a>
-                            <button 
-                                type="submit"
-                                class="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors"
+                            <x-widgets.button 
+                                href="{{ locaRoute('manager.countries') }}" 
+                                variant="secondary"
                             >
+                                {{ __('app.cancel') }}
+                            </x-widgets.button>
+                            <x-widgets.button type="submit">
                                 {{ __('app.save') }}
-                            </button>
+                            </x-widgets.button>
                         </div>
                     </div>
                 </form>

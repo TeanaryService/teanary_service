@@ -1,6 +1,10 @@
-@props(['promotions' => [], 'parentClass' => '', 'class' => ''])
+@props(['promotions' => null, 'parentClass' => '', 'class' => ''])
 
 @php
+    // 如果没有传递 promotions，则从服务中获取
+    if ($promotions === null) {
+        $promotions = app(\App\Services\PromotionService::class)->getAvailablePromotions(auth()->user());
+    }
     $currencyService = app(\App\Services\LocaleCurrencyService::class);
     $currencyCode = session('currency');
 @endphp

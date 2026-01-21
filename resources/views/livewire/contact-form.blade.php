@@ -1,49 +1,50 @@
 <div class="inset-0 flex items-center justify-center text-gray-400">
     <section class="w-full bg-gray-50 py-10">
         <div class="max-w-7xl mx-auto px-6 md:px-8">
-            <h2 class="text-4xl font-bold text-gray-900 leading-tight mb-6">{{ __('app.contact.title') }}</h2>
-            <p class="text-xl text-gray-600 mb-8">
-                {{ __('app.contact.description') }}
-            </p>
+            <x-widgets.page-title 
+                :title="__('app.contact.title')"
+                :subtitle="__('app.contact.description')"
+                size="xl"
+                class="mb-8"
+            />
             <div class="flex flex-col md:flex-row items-start justify-between gap-12">
                 <div class="w-full">
-                    @if (session()->has('message'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                            {{ session('message') }}
-                        </div>
-                    @endif
+                    <x-widgets.session-message type="success" />
 
                     <form wire:submit.prevent="save" class="space-y-4">
-                        <div>
-                            <input wire:model="name" type="text"
+                        <x-widgets.form-field error="name">
+                            <x-widgets.input 
+                                wire="name" 
+                                type="text"
                                 placeholder="{{ __('app.contact.form.name_placeholder') }}"
-                                class="w-full px-4 py-3 rounded-lg border focus:ring-teal-600">
-                            @error('name')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                                error="name"
+                                class="px-4 py-3"
+                            />
+                        </x-widgets.form-field>
 
-                        <div>
-                            <input wire:model="email" type="email"
+                        <x-widgets.form-field error="email">
+                            <x-widgets.input 
+                                wire="email" 
+                                type="email"
                                 placeholder="{{ __('app.contact.form.email_placeholder') }}"
-                                class="w-full px-4 py-3 rounded-lg border focus:ring-teal-600">
-                            @error('email')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                                error="email"
+                                class="px-4 py-3"
+                            />
+                        </x-widgets.form-field>
 
-                        <div>
-                            <textarea wire:model="message" placeholder="{{ __('app.contact.form.message_placeholder') }}"
-                                class="w-full px-4 py-3 rounded-lg border focus:ring-teal-600" rows="4"></textarea>
-                            @error('message')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        <x-widgets.form-field error="message">
+                            <x-widgets.textarea 
+                                wire="message" 
+                                placeholder="{{ __('app.contact.form.message_placeholder') }}"
+                                error="message"
+                                class="px-4 py-3"
+                                rows="4"
+                            />
+                        </x-widgets.form-field>
 
-                        <button type="submit"
-                            class="w-full md:w-auto bg-teal-600 text-white font-medium px-8 py-4 rounded-lg hover:bg-teal-700 transition-colors">
+                        <x-widgets.button type="submit" class="w-full md:w-auto px-8 py-4">
                             {{ __('app.contact.form.submit') }}
-                        </button>
+                        </x-widgets.button>
                     </form>
                 </div>
 

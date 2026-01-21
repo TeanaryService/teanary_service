@@ -4,7 +4,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="orders" />
@@ -24,87 +24,58 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('app.search') }}
-                            </label>
-                            <input 
+                            <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
+                            <x-widgets.input 
                                 type="text" 
-                                wire:model.live.debounce.300ms="search"
+                                wire="live.debounce.300ms=search"
                                 placeholder="订单号、用户名称、邮箱"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.order.status') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterStatus" 
+                            <x-widgets.label>{{ __('manager.order.status') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterStatus" 
+                                :options="$statusOptions"
                                 multiple
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                                 size="3"
-                            >
-                                @foreach($statusOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.order.user') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterUserId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="">{{ __('app.all') }}</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.order.currency_id') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterCurrencyId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="">{{ __('app.all') }}</option>
-                                @foreach($currencies as $currency)
-                                    <option value="{{ $currency->id }}">{{ $currency->name }} ({{ $currency->symbol }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.order.created_from') }}
-                            </label>
-                            <input 
-                                type="date" 
-                                wire:model.live="createdFrom"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.order.created_until') }}
-                            </label>
-                            <input 
+                            <x-widgets.label>{{ __('manager.order.user') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterUserId" 
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($users)->map(fn($user) => ['value' => $user->id, 'label' => $user->name . ' (' . $user->email . ')'])->toArray()]"
+                            />
+                        </div>
+                        <div>
+                            <x-widgets.label>{{ __('manager.order.currency_id') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterCurrencyId" 
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($currencies)->map(fn($currency) => ['value' => $currency->id, 'label' => $currency->name . ' (' . $currency->symbol . ')'])->toArray()]"
+                            />
+                        </div>
+                        <div>
+                            <x-widgets.label>{{ __('manager.order.created_from') }}</x-widgets.label>
+                            <x-widgets.input 
                                 type="date" 
-                                wire:model.live="createdUntil"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                                wire="live=createdFrom"
+                            />
+                        </div>
+                        <div>
+                            <x-widgets.label>{{ __('manager.order.created_until') }}</x-widgets.label>
+                            <x-widgets.input 
+                                type="date" 
+                                wire="live=createdUntil"
                             />
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button 
+                        <x-widgets.button 
                             wire:click="resetFilters"
-                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                            variant="secondary"
                         >
                             {{ __('app.reset') }}
-                        </button>
+                        </x-widgets.button>
                     </div>
                 </div>
 

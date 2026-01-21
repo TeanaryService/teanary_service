@@ -5,7 +5,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="addresses" />
@@ -30,105 +30,93 @@
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.addresses.user_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 用户 --}}
-                                <div>
-                                    <label for="userId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.user_id') }}
-                                    </label>
-                                    <select 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.user_id')"
+                                    labelFor="userId"
+                                    error="userId"
+                                    :help="__('manager.addresses.user_id_helper')"
+                                >
+                                    <x-widgets.select 
                                         id="userId"
-                                        wire:model="userId"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('userId') border-red-300 @enderror"
-                                    >
-                                        <option value="">{{ __('app.select') }}</option>
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('userId')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.addresses.user_id_helper') }}</p>
-                                </div>
+                                        wire="userId"
+                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($users)->map(fn($user) => ['value' => $user->id, 'label' => $user->name])->toArray()]"
+                                        error="userId"
+                                    />
+                                </x-widgets.form-field>
 
                                 {{-- 名字 --}}
-                                <div>
-                                    <label for="firstname" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.firstname') }} <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.firstname')"
+                                    labelFor="firstname"
+                                    required
+                                    error="firstname"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="firstname"
-                                        wire:model="firstname"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('firstname') border-red-300 @enderror"
+                                        wire="firstname"
+                                        error="firstname"
                                     />
-                                    @error('firstname')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 姓氏 --}}
-                                <div>
-                                    <label for="lastname" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.lastname') }} <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.lastname')"
+                                    labelFor="lastname"
+                                    required
+                                    error="lastname"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="lastname"
-                                        wire:model="lastname"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('lastname') border-red-300 @enderror"
+                                        wire="lastname"
+                                        error="lastname"
                                     />
-                                    @error('lastname')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 邮箱 --}}
-                                <div>
-                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.email') }} <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.email')"
+                                    labelFor="email"
+                                    required
+                                    error="email"
+                                >
+                                    <x-widgets.input 
                                         type="email" 
                                         id="email"
-                                        wire:model="email"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('email') border-red-300 @enderror"
+                                        wire="email"
+                                        error="email"
                                     />
-                                    @error('email')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 电话 --}}
-                                <div>
-                                    <label for="telephone" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.telephone') }} <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.telephone')"
+                                    labelFor="telephone"
+                                    required
+                                    error="telephone"
+                                >
+                                    <x-widgets.input 
                                         type="tel" 
                                         id="telephone"
-                                        wire:model="telephone"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('telephone') border-red-300 @enderror"
+                                        wire="telephone"
+                                        error="telephone"
                                     />
-                                    @error('telephone')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 公司 --}}
-                                <div>
-                                    <label for="company" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.company') }}
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.company')"
+                                    labelFor="company"
+                                    error="company"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="company"
-                                        wire:model="company"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('company') border-red-300 @enderror"
+                                        wire="company"
+                                        error="company"
                                     />
-                                    @error('company')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
                             </div>
                         </div>
 
@@ -137,130 +125,112 @@
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.addresses.address_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 国家 --}}
-                                <div>
-                                    <label for="countryId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.country_id') }} <span class="text-red-500">*</span>
-                                    </label>
-                                    <select 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.country_id')"
+                                    labelFor="countryId"
+                                    required
+                                    error="countryId"
+                                >
+                                    <x-widgets.select 
                                         id="countryId"
-                                        wire:model.live="countryId"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('countryId') border-red-300 @enderror"
-                                    >
-                                        <option value="">{{ __('app.select') }}</option>
-                                        @foreach($countries as $country)
-                                            <option value="{{ $country->id }}">
-                                                @php
-                                                    $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
-                                                    $countryName = $translation ? $translation->name : ($country->countryTranslations->first() ? $country->countryTranslations->first()->name : $country->iso_code_2);
-                                                @endphp
-                                                {{ $countryName }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('countryId')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                        wire="live=countryId"
+                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($countries)->map(function($country) use ($lang) {
+                                            $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
+                                            $countryName = $translation ? $translation->name : ($country->countryTranslations->first() ? $country->countryTranslations->first()->name : $country->iso_code_2);
+                                            return ['value' => $country->id, 'label' => $countryName];
+                                        })->toArray()]"
+                                        error="countryId"
+                                    />
+                                </x-widgets.form-field>
 
                                 {{-- 地区 --}}
-                                <div>
-                                    <label for="zoneId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.zone_id') }}
-                                    </label>
-                                    <select 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.zone_id')"
+                                    labelFor="zoneId"
+                                    error="zoneId"
+                                >
+                                    <x-widgets.select 
                                         id="zoneId"
-                                        wire:model="zoneId"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('zoneId') border-red-300 @enderror"
-                                        @if(empty($zones)) disabled @endif
-                                    >
-                                        <option value="">{{ __('app.select') }}</option>
-                                        @foreach($zones as $zoneId => $zoneName)
-                                            <option value="{{ $zoneId }}">{{ $zoneName }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('zoneId')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                        wire="zoneId"
+                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($zones)->map(fn($zoneName, $zoneId) => ['value' => $zoneId, 'label' => $zoneName])->toArray()]"
+                                        error="zoneId"
+                                        :disabled="empty($zones)"
+                                    />
+                                </x-widgets.form-field>
 
                                 {{-- 详细地址1 --}}
-                                <div class="md:col-span-2">
-                                    <label for="address1" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.address_1') }} <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.address_1')"
+                                    labelFor="address1"
+                                    required
+                                    error="address1"
+                                    class="md:col-span-2"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="address1"
-                                        wire:model="address1"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('address1') border-red-300 @enderror"
+                                        wire="address1"
+                                        error="address1"
                                     />
-                                    @error('address1')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 详细地址2 --}}
-                                <div class="md:col-span-2">
-                                    <label for="address2" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.address_2') }}
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.address_2')"
+                                    labelFor="address2"
+                                    error="address2"
+                                    class="md:col-span-2"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="address2"
-                                        wire:model="address2"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('address2') border-red-300 @enderror"
+                                        wire="address2"
+                                        error="address2"
                                     />
-                                    @error('address2')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 城市 --}}
-                                <div>
-                                    <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.city') }} <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.city')"
+                                    labelFor="city"
+                                    required
+                                    error="city"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="city"
-                                        wire:model="city"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('city') border-red-300 @enderror"
+                                        wire="city"
+                                        error="city"
                                     />
-                                    @error('city')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
 
                                 {{-- 邮编 --}}
-                                <div>
-                                    <label for="postcode" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.addresses.postcode') }}
-                                    </label>
-                                    <input 
+                                <x-widgets.form-field 
+                                    :label="__('manager.addresses.postcode')"
+                                    labelFor="postcode"
+                                    error="postcode"
+                                >
+                                    <x-widgets.input 
                                         type="text" 
                                         id="postcode"
-                                        wire:model="postcode"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 @error('postcode') border-red-300 @enderror"
+                                        wire="postcode"
+                                        error="postcode"
                                     />
-                                    @error('postcode')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                </x-widgets.form-field>
                             </div>
                         </div>
 
                         {{-- 操作按钮 --}}
                         <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
-                            <a href="{{ locaRoute('manager.addresses') }}" 
-                               class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                                {{ __('app.cancel') }}
-                            </a>
-                            <button 
-                                type="submit"
-                                class="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors"
+                            <x-widgets.button 
+                                href="{{ locaRoute('manager.addresses') }}" 
+                                variant="secondary"
                             >
+                                {{ __('app.cancel') }}
+                            </x-widgets.button>
+                            <x-widgets.button type="submit">
                                 {{ __('app.save') }}
-                            </button>
+                            </x-widgets.button>
                         </div>
                     </div>
                 </form>

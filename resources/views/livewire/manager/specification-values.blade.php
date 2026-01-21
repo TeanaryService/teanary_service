@@ -4,22 +4,24 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="specification-values" />
             
             <div class="flex-1">
-                <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.specification_values.label') }}</h1>
-                    <a href="{{ locaRoute('manager.specification-values.create') }}" 
-                       class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                        {{ __('app.create') }}
-                    </a>
-                </div>
+                <x-widgets.page-header 
+                    :title="__('manager.specification_values.label')"
+                >
+                    <x-slot:actions>
+                        <x-widgets.button href="{{ locaRoute('manager.specification-values.create') }}" class="inline-flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            {{ __('app.create') }}
+                        </x-widgets.button>
+                    </x-slot:actions>
+                </x-widgets.page-header>
 
                 @if (session()->has('message'))
                     <div class="mb-4 rounded-md bg-teal-50 p-4">
@@ -31,54 +33,36 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('app.search') }}
-                            </label>
-                            <input 
+                            <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
+                            <x-widgets.input 
                                 type="text" 
-                                wire:model.live.debounce.300ms="search"
+                                wire="live.debounce.300ms=search"
                                 placeholder="{{ __('manager.specification_value.name') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.specification_value.specification') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterSpecificationId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="">{{ __('app.all') }}</option>
-                                @foreach($specifications as $spec)
-                                    <option value="{{ $spec->id }}">
-                                        {{ $this->getSpecificationName($spec, $lang) }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <x-widgets.label>{{ __('manager.specification_value.specification') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterSpecificationId" 
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($specifications)->map(fn($spec) => ['value' => $spec->id, 'label' => $this->getSpecificationName($spec, $lang)])->toArray()]"
+                            />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.specification_value.translation_status') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterTranslationStatus" 
+                            <x-widgets.label>{{ __('manager.specification_value.translation_status') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterTranslationStatus" 
+                                :options="$translationStatusOptions"
                                 multiple
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                @foreach($translationStatusOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            />
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button 
+                        <x-widgets.button 
                             wire:click="resetFilters"
-                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                            variant="secondary"
                         >
                             {{ __('app.reset') }}
-                        </button>
+                        </x-widgets.button>
                     </div>
                 </div>
 

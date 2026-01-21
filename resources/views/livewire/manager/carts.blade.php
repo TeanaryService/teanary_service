@@ -4,7 +4,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="carts" />
@@ -24,51 +24,39 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('app.search') }}
-                            </label>
-                            <input 
+                            <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
+                            <x-widgets.input 
                                 type="text" 
-                                wire:model.live.debounce.300ms="search"
+                                wire="live.debounce.300ms=search"
                                 placeholder="{{ __('app.search_placeholder') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.cart.user') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterUserId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="">{{ __('app.all') }}</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
+                            <x-widgets.label>{{ __('manager.cart.user') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterUserId" 
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($users)->map(fn($user) => ['value' => $user->id, 'label' => $user->name])->toArray()]"
+                            />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.cart.has_items') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterHasItems" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="">{{ __('app.all') }}</option>
-                                <option value="1">{{ __('manager.cart.has_items') }}</option>
-                                <option value="0">{{ __('manager.cart.empty') }}</option>
-                            </select>
+                            <x-widgets.label>{{ __('manager.cart.has_items') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterHasItems" 
+                                :options="[
+                                    ['value' => '', 'label' => __('app.all')],
+                                    ['value' => '1', 'label' => __('manager.cart.has_items')],
+                                    ['value' => '0', 'label' => __('manager.cart.empty')]
+                                ]"
+                            />
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button 
+                        <x-widgets.button 
                             wire:click="resetFilters"
-                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                            variant="secondary"
                         >
                             {{ __('app.reset') }}
-                        </button>
+                        </x-widgets.button>
                     </div>
                 </div>
 

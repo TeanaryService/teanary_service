@@ -57,7 +57,7 @@
 
             <!-- 搜索框 -->
             <div class="flex-1 max-w-2xl mx-4 md:mx-8">
-                <x-search-input />
+                <x-widgets.search-input />
             </div>
 
             <!-- 右侧操作区 -->
@@ -74,8 +74,8 @@
                 @endguest
 
                 <div class="flex items-center gap-2 md:gap-3 border-l border-gray-200 pl-3 md:pl-4">
-                    <x-language-switch />
-                    <x-currency-switch />
+                    <x-widgets.language-switch />
+                    <x-widgets.currency-switch />
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
     
     <!-- Flash Messages -->
     <div class="h-20 w-full">
-        <x-flash-messages />
+        <x-widgets.flash-messages />
     </div>
 
     <div class="main">

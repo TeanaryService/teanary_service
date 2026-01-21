@@ -22,12 +22,12 @@
                     <p class="text-red-600 mb-4">{{ $errorMessage }}</p>
                 </div>
                 <div class="space-y-3">
-                    <button 
+                    <x-widgets.button 
                         wire:click="processPayment" 
-                        class="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+                        class="w-full py-3 px-6"
                     >
                         {{ __('payment.retry') }}
-                    </button>
+                    </x-widgets.button>
                     <a 
                         href="{{ route('orders.show', $orderId) }}" 
                         class="block w-full text-center bg-gray-300 hover:bg-gray-400 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors duration-200"

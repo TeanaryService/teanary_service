@@ -69,7 +69,7 @@
                     </ul>
                     <!-- 社交媒体 -->
                     <div class="mt-6">
-                        <x-social-links class="justify-start" />
+                        <x-widgets.social-links class="justify-start" />
                     </div>
                 </div>
             </div>

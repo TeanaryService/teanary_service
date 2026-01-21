@@ -5,7 +5,7 @@
 @endphp
 
 <div class="max-w-7xl mx-auto px-6 md:px-8 min-h-[40vh] mb-10">
-    <x-breadcrumbs :items="$breadcrumbs" />
+    <x-widgets.breadcrumbs :items="$breadcrumbs" />
     <div class="flex gap gap-6">
         <div class="hidden lg:block w-1/4">
             <livewire:components.random-products :limit="2" class="grid-cols-1" />
@@ -27,12 +27,12 @@
                     {{ $article->created_at->format('F j, Y') }}
                 </p>
                 <div class="py-6">
-                    <x-share-buttons title="{{ $translation?->title }}" description="{{ $translation?->summary }}"
+                    <x-widgets.share-buttons title="{{ $translation?->title }}" description="{{ $translation?->summary }}"
                         image="{{ $cover }}" />
                 </div>
                 
                 <a href="{{ locaRoute('product') }}">
-                    <x-promotion-list class="pb-6" />
+                    <x-widgets.promotion-list class="pb-6" />
                 </a>
 
                 @if ($translation?->summary)

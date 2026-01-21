@@ -11,7 +11,10 @@
         </div>
     @endif
 
-    <h1 class="text-3xl font-bold text-teal-700 mb-8">{{ __('app.checkout') }}</h1>
+    <x-widgets.page-title 
+        :title="__('app.checkout')"
+        class="mb-8 text-teal-700"
+    />
 
     @if (!empty($items))
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -30,108 +33,50 @@
 
                     @if ($showAddressForm)
                         <form wire:submit.prevent="saveAddress" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.email') }}</label>
-                                <input type="email" wire:model="address.email"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.email')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.telephone') }}</label>
-                                <input type="text" wire:model="address.telephone"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.telephone')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.firstname') }}</label>
-                                <input type="text" wire:model="address.firstname"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.firstname')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.lastname') }}</label>
-                                <input type="text" wire:model="address.lastname"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.lastname')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.company') }}</label>
-                                <input type="text" wire:model="address.company"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.company')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.address_1') }}</label>
-                                <input type="text" wire:model="address.address_1"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.address_1')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.address_2') }}</label>
-                                <input type="text" wire:model="address.address_2"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.address_2')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.country') }}</label>
-                                <select wire:model.live="address.country_id"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                    <option value="">{{ __('app.select_country') }}</option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country['id'] }}">{{ $country['name'] }}</option>
-                                    @endforeach
-                                </select>
-                                @error('address.country_id')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.zone') }}</label>
-                                <select wire:model="address.zone_id"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500"
-                                    @if (!$address['country_id']) disabled @endif>
-                                    <option value="">{{ __('app.select_zone') }}</option>
-                                    @if ($zones)
-                                        @foreach ($zones as $zone)
-                                            <option value="{{ $zone['id'] }}">{{ $zone['name'] }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('address.zone_id')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.city') }}</label>
-                                <input type="text" wire:model="address.city"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.city')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">{{ __('app.postcode') }}</label>
-                                <input type="text" wire:model="address.postcode"
-                                    class="mt-1 p-3 w-full rounded-lg border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500">
-                                @error('address.postcode')
-                                    <span class="text-red-500 text-xs">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            <x-widgets.form-field :label="__('app.email')" error="address.email">
+                                <x-widgets.input type="email" wire="address.email" error="address.email" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.telephone')" error="address.telephone">
+                                <x-widgets.input type="text" wire="address.telephone" error="address.telephone" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.firstname')" error="address.firstname">
+                                <x-widgets.input type="text" wire="address.firstname" error="address.firstname" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.lastname')" error="address.lastname">
+                                <x-widgets.input type="text" wire="address.lastname" error="address.lastname" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.company')" error="address.company">
+                                <x-widgets.input type="text" wire="address.company" error="address.company" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.address_1')" error="address.address_1">
+                                <x-widgets.input type="text" wire="address.address_1" error="address.address_1" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.address_2')" error="address.address_2">
+                                <x-widgets.input type="text" wire="address.address_2" error="address.address_2" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.country')" error="address.country_id">
+                                <x-widgets.select 
+                                    wire="live=address.country_id" 
+                                    :options="[['value' => '', 'label' => __('app.select_country')], ...collect($countries)->map(fn($c) => ['value' => $c['id'], 'label' => $c['name']])->toArray()]"
+                                    error="address.country_id"
+                                    class="p-3"
+                                />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.zone')" error="address.zone_id">
+                                <x-widgets.select 
+                                    wire="address.zone_id" 
+                                    :options="[['value' => '', 'label' => __('app.select_zone')], ...($zones ? collect($zones)->map(fn($z) => ['value' => $z['id'], 'label' => $z['name']])->toArray() : [])]"
+                                    error="address.zone_id"
+                                    class="p-3"
+                                    :disabled="!$address['country_id']"
+                                />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.city')" error="address.city">
+                                <x-widgets.input type="text" wire="address.city" error="address.city" class="p-3" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('app.postcode')" error="address.postcode">
+                                <x-widgets.input type="text" wire="address.postcode" error="address.postcode" class="p-3" />
+                            </x-widgets.form-field>
 
                             <div class="md:col-span-2">
                                 <button type="submit"
@@ -151,9 +96,12 @@
                                 @foreach ($addresses as $address)
                                     <label
                                         class="{{ $shippingAddress == $address->id ? 'ring-2 ring-teal-500' : '' }} flex items-start p-4 border rounded-lg hover:border-teal-500 transition cursor-pointer">
-                                        <input type="radio" wire:model.live="shippingAddress"
-                                            value="{{ $address->id }}"
-                                            class="mt-1 text-teal-500 focus:ring-teal-500 border-teal-300">
+                                        <x-widgets.radio 
+                                            wire="live=shippingAddress"
+                                            :value="$address->id"
+                                            :checked="$shippingAddress == $address->id"
+                                            class="!gap-0 mt-1"
+                                        />
                                         <div class="ml-4 space-y-1">
                                             <div class="font-medium text-gray-900">{{ $address->firstname }}
                                                 {{ $address->lastname }}</div>
@@ -174,9 +122,13 @@
                 </div>
 
                 {{-- 商品列表 --}}
-                <div class="bg-white shadow rounded-xl p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ __('Order Items') }}</h2>
-                    <table class="w-full border-separate border-spacing-y-2 text-sm">
+                <x-widgets.card>
+                    <x-widgets.section-title 
+                        :title="__('Order Items')"
+                        class="mb-4"
+                    />
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-separate border-spacing-y-2 text-sm">
                         <thead class="text-gray-600">
                             <tr>
                                 <th class="px-2 py-1">{{ __('app.product') }}</th>
@@ -215,8 +167,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                <div class="text-gray-300">{{ __('app.checkout_support_message') }}</div>
+                    </div>
+                    <div class="text-gray-300 mt-4">{{ __('app.checkout_support_message') }}</div>
+                </x-widgets.card>
             </div>
 
             <!-- 右侧订单汇总 -->
@@ -259,51 +212,53 @@
 
                     {{-- 支付方式选择 --}}
                     <div class="mt-4">
-                        <label class="block mb-2 font-semibold text-gray-700">{{ __('app.payment_method') }}</label>
+                        <x-widgets.label class="mb-2 font-semibold">{{ __('app.payment_method') }}</x-widgets.label>
                         <div wire:init="initCheckoutMethods">
                             @if ($loadingPaymentMethods)
                                 <div class="animate-pulse flex space-x-4">
                                     <div class="h-12 bg-slate-200 rounded w-full"></div>
                                 </div>
                             @else
-                                <select wire:model="paymentMethod" class="w-full p-3 rounded-lg border-gray-300">
-                                    <option value="">{{ __('app.select_payment_method') }}</option>
-                                    @foreach ($paymentMethods as $method)
-                                        <option value="{{ $method->value }}">{{ $method->label() }}</option>
-                                    @endforeach
-                                </select>
+                                <x-widgets.select 
+                                    wire="paymentMethod" 
+                                    :options="[['value' => '', 'label' => __('app.select_payment_method')], ...collect($paymentMethods)->map(fn($method) => ['value' => $method->value, 'label' => $method->label()])->toArray()]"
+                                    class="p-3 rounded-lg"
+                                />
                             @endif
                         </div>
                     </div>
 
                     {{-- 配送方式选择 --}}
                     <div class="mt-4">
-                        <label class="block mb-2 font-semibold text-gray-700">{{ __('app.shipping_method') }}</label>
+                        <x-widgets.label class="mb-2 font-semibold">{{ __('app.shipping_method') }}</x-widgets.label>
                         @if ($loadingShippingMethods)
                             <div class="animate-pulse flex space-x-4">
                                 <div class="h-12 bg-slate-200 rounded w-full"></div>
                             </div>
                         @else
-                            <select wire:model="shippingMethod"
+                            <x-widgets.select 
+                                wire="shippingMethod"
                                 wire:change="changeShippingMethod($event.target.value)"
-                                class="w-full p-3 rounded-lg border-gray-300">
-                                <option value="">{{ __('app.select_shipping_method') }}</option>
-                                @foreach ($shippingMethods as $method)
-                                    <option value="{{ $method['value'] }}" @if($shippingMethod == $method['value']) selected @endif>
-                                        {{ $method['label'] }}（{{ $method['description'] }}，+{{ $currencyService->convertWithSymbol($method['fee'], $currencyCode) }}）
-                                    </option>
-                                @endforeach
-                            </select>
+                                :options="[['value' => '', 'label' => __('app.select_shipping_method')], ...collect($shippingMethods)->map(function($method) use ($currencyService, $currencyCode) {
+                                    return [
+                                        'value' => $method['value'],
+                                        'label' => $method['label'] . '（' . $method['description'] . '，+' . $currencyService->convertWithSymbol($method['fee'], $currencyCode) . '）'
+                                    ];
+                                })->toArray()]"
+                                class="p-3 rounded-lg"
+                            />
                             @if ($shippingDescription)
                                 <div class="text-xs text-gray-500 mt-1">{{ $shippingDescription }}</div>
                             @endif
                         @endif
                     </div>
 
-                    <button wire:click="createOrder"
-                        class="w-full py-3 bg-teal-600 text-white font-bold text-lg rounded-lg hover:bg-teal-700 transition shadow">
+                    <x-widgets.button 
+                        wire:click="createOrder"
+                        class="w-full py-3 text-lg font-bold shadow"
+                    >
                         {{ __('app.place_order') }}
-                    </button>
+                    </x-widgets.button>
                 </div>
             </div>
         </div>

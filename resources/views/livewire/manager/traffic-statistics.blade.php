@@ -4,7 +4,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="traffic-statistics" />
@@ -18,32 +18,28 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="flex flex-wrap gap-4 items-end">
                         <div class="flex-1 min-w-[200px]">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.traffic_statistics.date_range') }}
-                            </label>
-                            <select 
-                                wire:model.live="dateRange" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="today">{{ __('manager.traffic_statistics.today') }}</option>
-                                <option value="yesterday">{{ __('manager.traffic_statistics.yesterday') }}</option>
-                                <option value="7days">{{ __('manager.traffic_statistics.7days') }}</option>
-                                <option value="30days">{{ __('manager.traffic_statistics.30days') }}</option>
-                                <option value="90days">{{ __('manager.traffic_statistics.90days') }}</option>
-                            </select>
+                            <x-widgets.label>{{ __('manager.traffic_statistics.date_range') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=dateRange" 
+                                :options="[
+                                    ['value' => 'today', 'label' => __('manager.traffic_statistics.today')],
+                                    ['value' => 'yesterday', 'label' => __('manager.traffic_statistics.yesterday')],
+                                    ['value' => '7days', 'label' => __('manager.traffic_statistics.7days')],
+                                    ['value' => '30days', 'label' => __('manager.traffic_statistics.30days')],
+                                    ['value' => '90days', 'label' => __('manager.traffic_statistics.90days')]
+                                ]"
+                            />
                         </div>
                         <div class="flex-1 min-w-[200px]">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.traffic_statistics.visitor_type') }}
-                            </label>
-                            <select 
-                                wire:model.live="visitorType" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="all">{{ __('manager.traffic_statistics.all') }}</option>
-                                <option value="human">{{ __('manager.traffic_statistics.human') }}</option>
-                                <option value="bot">{{ __('manager.traffic_statistics.bot') }}</option>
-                            </select>
+                            <x-widgets.label>{{ __('manager.traffic_statistics.visitor_type') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=visitorType" 
+                                :options="[
+                                    ['value' => 'all', 'label' => __('manager.traffic_statistics.all')],
+                                    ['value' => 'human', 'label' => __('manager.traffic_statistics.human')],
+                                    ['value' => 'bot', 'label' => __('manager.traffic_statistics.bot')]
+                                ]"
+                            />
                         </div>
                     </div>
                 </div>
@@ -215,29 +211,20 @@
                 <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 flex flex-col md:flex-row gap-4 md:items-end">
                         <div class="flex-1 min-w-[200px]">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('app.search') }}
-                            </label>
-                            <input 
+                            <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
+                            <x-widgets.input 
                                 type="text" 
-                                wire:model.live.debounce.300ms="search"
+                                wire="live.debounce.300ms=search"
                                 placeholder="{{ __('manager.traffic_statistics.path') }} / {{ __('manager.traffic_statistics.ip') }} / {{ __('manager.traffic_statistics.referer') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div class="flex-1 min-w-[200px]">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.traffic_statistics.spider_source') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterSpiderSources" 
+                            <x-widgets.label>{{ __('manager.traffic_statistics.spider_source') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterSpiderSources" 
+                                :options="$spiderSourceOptions"
                                 multiple
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                @foreach($spiderSourceOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            />
                         </div>
                     </div>
 

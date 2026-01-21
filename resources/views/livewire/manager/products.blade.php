@@ -4,22 +4,24 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="products" />
             
             <div class="flex-1">
-                <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.products.label') }}</h1>
-                    <a href="{{ locaRoute('manager.products.create') }}" 
-                       class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                        {{ __('app.create') }}
-                    </a>
-                </div>
+                <x-widgets.page-header 
+                    :title="__('manager.products.label')"
+                >
+                    <x-slot:actions>
+                        <x-widgets.button href="{{ locaRoute('manager.products.create') }}" class="inline-flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            {{ __('app.create') }}
+                        </x-widgets.button>
+                    </x-slot:actions>
+                </x-widgets.page-header>
 
                 @if (session()->has('message'))
                     <div class="mb-4 rounded-md bg-teal-50 p-4">
@@ -31,78 +33,59 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('app.search') }}
-                            </label>
-                            <input 
+                            <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
+                            <x-widgets.input 
                                 type="text" 
-                                wire:model.live.debounce.300ms="search"
+                                wire="live.debounce.300ms=search"
                                 placeholder="{{ __('app.search_placeholder') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.products.status') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterStatus" 
+                            <x-widgets.label>{{ __('manager.products.status') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterStatus" 
+                                :options="$statusOptions"
                                 multiple
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                @foreach($statusOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.products.translation_status') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterTranslationStatus" 
+                            <x-widgets.label>{{ __('manager.products.translation_status') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterTranslationStatus" 
+                                :options="$translationStatusOptions"
                                 multiple
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                @foreach($translationStatusOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.products.categories') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterCategoryId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="">{{ __('app.all') }}</option>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat['id'] }}">{{ $cat['name'] }}</option>
-                                @endforeach
-                            </select>
+                            <x-widgets.label>{{ __('manager.products.categories') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterCategoryId" 
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($categories)->map(fn($cat) => ['value' => $cat['id'], 'label' => $cat['name']])->toArray()]"
+                            />
                         </div>
                     </div>
                     <div class="mt-4 flex flex-wrap gap-4 items-center">
                         <div class="flex items-center gap-2">
-                            <label class="inline-flex items-center text-sm text-gray-700">
-                                <input type="checkbox" wire:model.live="filterLowStock" class="rounded border-gray-300 text-teal-600 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <span class="ml-2">{{ __('manager.products.low_stock') }}</span>
-                            </label>
-                            <label class="inline-flex items-center text-sm text-gray-700 ml-4">
-                                <input type="checkbox" wire:model.live="filterOutOfStock" class="rounded border-gray-300 text-teal-600 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <span class="ml-2">{{ __('manager.products.out_of_stock') }}</span>
-                            </label>
+                            <x-widgets.checkbox 
+                                wire="filterLowStock"
+                                :label="__('manager.products.low_stock')"
+                                class="!gap-2"
+                            />
+                            <x-widgets.checkbox 
+                                wire="filterOutOfStock"
+                                :label="__('manager.products.out_of_stock')"
+                                class="!gap-2 ml-4"
+                            />
                         </div>
-                        <button 
+                        <x-widgets.button 
                             wire:click="resetFilters"
-                            class="ml-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                            variant="secondary"
+                            class="ml-auto"
                         >
                             {{ __('app.reset') }}
-                        </button>
+                        </x-widgets.button>
                     </div>
-                </div>
+                </x-widgets.card>
 
                 {{-- 商品列表 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -209,13 +192,11 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="px-6 py-12 text-center text-sm text-gray-500">
-                                            <div class="flex flex-col items-center">
-                                                <svg class="w-10 h-10 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                                <span>{{ __('app.no_data') }}</span>
-                                            </div>
+                                        <td colspan="8" class="px-6 py-12">
+                                            <x-widgets.empty-state 
+                                                icon="heroicon-o-inbox"
+                                                :title="__('app.no_data')"
+                                            />
                                         </td>
                                     </tr>
                                 @endforelse

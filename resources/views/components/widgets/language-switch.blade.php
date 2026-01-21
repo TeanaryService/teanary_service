@@ -1,9 +1,18 @@
+@php
+    if (!isset($languages) || !isset($selectedLanguage)) {
+        $service = app(\App\Services\LocaleCurrencyService::class);
+        $languages = $service->getLanguages();
+        $languageCode = app()->getLocale();
+        $selectedLanguage = $service->getLanguageByCode($languageCode);
+    }
+@endphp
+
 {{-- 切换语言 --}}
 <div x-data="{ open: false }" class="relative">
     <button @click="open = ! open"
         class="flex items-center gap-2 px-2 md:px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 h-10">
         <x-heroicon-o-globe-alt class="w-6 h-6" />
-        <div class="hidden lg:block">{{ $selectedLanguage->name }}</div>
+        <div class="hidden lg:block">{{ $selectedLanguage->name ?? '' }}</div>
         <x-heroicon-o-chevron-down class="w-4 h-4 hidden md:block" />
     </button>
     <div x-show="open" @click.away="open = false"

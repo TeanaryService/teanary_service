@@ -4,7 +4,7 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="promotions" />
@@ -26,55 +26,27 @@
                 <form wire:submit.prevent="save" class="space-y-6">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('manager.promotion.type') }}
-                                </label>
-                                <select wire:model="type" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                    <option value="">{{ __('app.please_select') }}</option>
-                                    @foreach($typeOptions as $value => $label)
-                                        <option value="{{ $value }}">{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                                @error('type') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('manager.promotion.translation_status') }}
-                                </label>
-                                <select wire:model="translationStatus" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                    @foreach($translationStatusOptions as $value => $label)
-                                        <option value="{{ $value }}">{{ $label }}</option>
-                                    @endforeach
-                                </select>
-                                @error('translationStatus') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                            </div>
+                            <x-widgets.form-field :label="__('manager.promotion.type')" error="type">
+                                <x-widgets.select 
+                                    wire="type" 
+                                    :options="[['value' => '', 'label' => __('app.please_select')], ...collect($typeOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
+                                    error="type"
+                                />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('manager.promotion.translation_status')" error="translationStatus">
+                                <x-widgets.select wire="translationStatus" :options="$translationStatusOptions" error="translationStatus" />
+                            </x-widgets.form-field>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('manager.promotion.starts_at') }}
-                                </label>
-                                <input type="datetime-local" wire:model="startsAt"
-                                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                @error('startsAt') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    {{ __('manager.promotion.ends_at') }}
-                                </label>
-                                <input type="datetime-local" wire:model="endsAt"
-                                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                @error('endsAt') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                            </div>
+                            <x-widgets.form-field :label="__('manager.promotion.starts_at')" error="startsAt">
+                                <x-widgets.input type="datetime-local" wire="startsAt" error="startsAt" />
+                            </x-widgets.form-field>
+                            <x-widgets.form-field :label="__('manager.promotion.ends_at')" error="endsAt">
+                                <x-widgets.input type="datetime-local" wire="endsAt" error="endsAt" />
+                            </x-widgets.form-field>
                             <div class="flex items-center mt-6">
-                                <label class="inline-flex items-center">
-                                    <input type="checkbox" wire:model="active" class="rounded border-gray-300 text-teal-600 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                    <span class="ml-2 text-sm text-gray-700">
-                                        {{ __('manager.promotion.active') }}
-                                    </span>
-                                </label>
+                                <x-widgets.checkbox wire="active" :label="__('manager.promotion.active')" />
                             </div>
                         </div>
                     </div>
@@ -87,44 +59,35 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @foreach($languages as $language)
                                 <div class="space-y-3">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('manager.promotion.name') }} ({{ $language->name }})
-                                        </label>
-                                        <input type="text"
-                                               wire:model="translations.{{ $language->id }}.name"
-                                               class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                        @error('translations.' . $language->id . '.name')
-                                            <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('manager.promotion.description') }} ({{ $language->name }})
-                                        </label>
-                                        <textarea
-                                            wire:model="translations.{{ $language->id }}.description"
+                                    <x-widgets.form-field :label="__('manager.promotion.name') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.name'">
+                                        <x-widgets.input 
+                                            type="text"
+                                            wire="translations.{{ $language->id }}.name"
+                                            :error="'translations.' . $language->id . '.name'"
+                                        />
+                                    </x-widgets.form-field>
+                                    <x-widgets.form-field :label="__('manager.promotion.description') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.description'">
+                                        <x-widgets.textarea
+                                            wire="translations.{{ $language->id }}.description"
                                             rows="3"
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                                        ></textarea>
-                                        @error('translations.' . $language->id . '.description')
-                                            <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                            :error="'translations.' . $language->id . '.description'"
+                                        />
+                                    </x-widgets.form-field>
                                 </div>
                             @endforeach
                         </div>
                     </div>
 
                     <div class="flex gap-3">
-                        <button type="submit"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
+                        <x-widgets.button type="submit">
                             {{ __('app.save') }}
-                        </button>
-                        <a href="{{ locaRoute('manager.promotions') }}"
-                           class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        </x-widgets.button>
+                        <x-widgets.button 
+                            href="{{ locaRoute('manager.promotions') }}"
+                            variant="secondary"
+                        >
                             {{ __('app.cancel') }}
-                        </a>
+                        </x-widgets.button>
                     </div>
                 </form>
             </div>

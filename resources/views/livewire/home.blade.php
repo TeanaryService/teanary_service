@@ -2,21 +2,21 @@
     {{-- Hero Banner --}}
     <section class="w-full bg-teal-200 bg-gradient-to-br from-teal-200 via-gray-50 to-tea-50/30 py-20 md:py-28 relative overflow-hidden">
         <!-- 茶文化装饰背景 -->
-        <x-tea-background type="tea-garden" intensity="light" />
+        <x-widgets.tea-background type="tea-garden" intensity="light" />
         
         <!-- 茶文化装饰元素 -->
         <div class="absolute inset-0 pointer-events-none">
             <div class="absolute top-20 left-20">
-                <x-tea-decoration type="leaf" size="lg" />
+                <x-widgets.tea-decoration type="leaf" size="lg" />
             </div>
             <div class="absolute bottom-20 right-20">
-                <x-tea-decoration type="bamboo" size="md" />
+                <x-widgets.tea-decoration type="bamboo" size="md" />
             </div>
             <div class="absolute top-1/3 right-1/4">
-                <x-tea-decoration type="ceramic" size="sm" />
+                <x-widgets.tea-decoration type="ceramic" size="sm" />
             </div>
             <div class="absolute bottom-1/3 left-1/3">
-                <x-tea-decoration type="wave" size="md" />
+                <x-widgets.tea-decoration type="wave" size="md" />
             </div>
         </div>
         
@@ -46,7 +46,7 @@
         </div>
     </section>
 
-    <x-promotion-list class="px-6 md:px-8" parentClass="bg-tea-100 py-8 tea-bg-texture" />
+    <x-widgets.promotion-list class="px-6 md:px-8" parentClass="bg-tea-100 py-8 tea-bg-texture" />
 
     {{-- Featured Products --}}
     <section class="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-24">

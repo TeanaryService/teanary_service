@@ -4,22 +4,24 @@
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-manager.sidebar active="countries" />
             
             <div class="flex-1">
-                <div class="mb-6 flex items-center justify-between">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.countries.label') }}</h1>
-                    <a href="{{ locaRoute('manager.countries.create') }}" 
-                       class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                        {{ __('app.create') }}
-                    </a>
-                </div>
+                <x-widgets.page-header 
+                    :title="__('manager.countries.label')"
+                >
+                    <x-slot:actions>
+                        <x-widgets.button href="{{ locaRoute('manager.countries.create') }}" class="inline-flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            {{ __('app.create') }}
+                        </x-widgets.button>
+                    </x-slot:actions>
+                </x-widgets.page-header>
 
                 @if (session()->has('message'))
                     <div class="mb-4 rounded-md bg-teal-50 p-4">
@@ -31,51 +33,40 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('app.search') }}
-                            </label>
-                            <input 
+                            <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
+                            <x-widgets.input 
                                 type="text" 
-                                wire:model.live.debounce.300ms="search"
+                                wire="live.debounce.300ms=search"
                                 placeholder="{{ __('app.search_placeholder') }}"
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.country.active') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterActive" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                <option value="">{{ __('app.all') }}</option>
-                                <option value="1">{{ __('manager.country.active') }}</option>
-                                <option value="0">{{ __('manager.country.inactive') }}</option>
-                            </select>
+                            <x-widgets.label>{{ __('manager.country.active') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterActive" 
+                                :options="[
+                                    ['value' => '', 'label' => __('app.all')],
+                                    ['value' => '1', 'label' => __('manager.country.active')],
+                                    ['value' => '0', 'label' => __('manager.country.inactive')]
+                                ]"
+                            />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.country.translation_status') }}
-                            </label>
-                            <select 
-                                wire:model.live="filterTranslationStatus" 
+                            <x-widgets.label>{{ __('manager.country.translation_status') }}</x-widgets.label>
+                            <x-widgets.select 
+                                wire="live=filterTranslationStatus" 
+                                :options="$translationStatusOptions"
                                 multiple
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                            >
-                                @foreach($translationStatusOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            />
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button 
+                        <x-widgets.button 
                             wire:click="resetFilters"
-                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                            variant="secondary"
                         >
                             {{ __('app.reset') }}
-                        </button>
+                        </x-widgets.button>
                     </div>
                 </div>
 
