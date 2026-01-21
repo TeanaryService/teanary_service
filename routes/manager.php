@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\CustomRedirectIfAuthenticated;
+use App\Livewire\Manager\Countries;
+use App\Livewire\Manager\CountryForm;
 use App\Livewire\Manager\Currencies;
 use App\Livewire\Manager\CurrencyForm;
 use App\Livewire\Manager\Home;
@@ -9,6 +11,8 @@ use App\Livewire\Manager\Languages;
 use App\Livewire\Manager\Login;
 use App\Livewire\Manager\Notifications;
 use App\Livewire\Manager\TrafficStatistics;
+use App\Livewire\Manager\ZoneForm;
+use App\Livewire\Manager\Zones;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +37,16 @@ Route::prefix('manager')->group(function () {
         Route::get('currencies', Currencies::class)->name('manager.currencies');
         Route::get('currencies/create', CurrencyForm::class)->name('manager.currencies.create');
         Route::get('currencies/{id}/edit', CurrencyForm::class)->name('manager.currencies.edit');
+        
+        // 国家管理
+        Route::get('countries', Countries::class)->name('manager.countries');
+        Route::get('countries/create', CountryForm::class)->name('manager.countries.create');
+        Route::get('countries/{id}/edit', CountryForm::class)->name('manager.countries.edit');
+        
+        // 地区管理
+        Route::get('zones', Zones::class)->name('manager.zones');
+        Route::get('zones/create', ZoneForm::class)->name('manager.zones.create');
+        Route::get('zones/{id}/edit', ZoneForm::class)->name('manager.zones.edit');
 
         Route::post('logout', function () {
             Auth::guard('manager')->logout();

@@ -35,6 +35,18 @@
             'icon' => 'heroicon-o-currency-dollar',
             'key' => 'currencies',
         ],
+        [
+            'name' => __('filament.CountryResource.label'),
+            'route' => 'manager.countries',
+            'icon' => 'heroicon-o-globe-alt',
+            'key' => 'countries',
+        ],
+        [
+            'name' => __('filament.ZoneResource.label'),
+            'route' => 'manager.zones',
+            'icon' => 'heroicon-o-globe-americas',
+            'key' => 'zones',
+        ],
     ];
 @endphp
 

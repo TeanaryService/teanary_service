@@ -167,4 +167,5 @@ return array (
   'actions' => '操作',
   'no_data' => '暂无数据',
   'created_at' => '创建时间',
+  'select' => '请选择',
 );
