@@ -1,5 +1,5 @@
 @php
-    $breadcrumbs = buildManagerCenterBreadcrumbs('home', __('manager.dashboard.heading'));
+    $breadcrumbs = buildManagerCenterBreadcrumbs('dashboard', __('manager.dashboard.heading'));
 @endphp
 
 <div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
@@ -11,7 +11,7 @@
         @endphp
         
         <div class="flex flex-col md:flex-row gap-6">
-            <x-manager.sidebar active="home" />
+            <x-manager.sidebar active="dashboard" />
             
             <div class="flex-1">
                 <div class="mb-6">

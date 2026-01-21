@@ -38,7 +38,7 @@ class OrderQueryVerificationCode extends Notification
             ->subject(__('orders.query_verification_subject'))
             ->line(__('orders.query_verification_line1'))
             ->line(__('orders.query_verification_line2', ['order_no' => $this->orderNo]))
-            ->line(__('orders.query_verification_code', ['code' => $this->verificationCode]))
+            ->line(__('orders.query_verification_code_line', ['code' => $this->verificationCode]))
             ->line(__('orders.query_verification_line3'))
             ->line(__('orders.query_verification_line4'));
     }

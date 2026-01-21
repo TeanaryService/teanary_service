@@ -45,14 +45,14 @@
         <div class="w-full max-w-7xl mx-auto flex justify-between items-center h-20 px-4 md:px-8">
             <!-- Logo -->
             <div class="hidden md:flex items-center">
-                <a href="{{ locaRoute('manager.home') }}" class="flex items-center gap-3 group">
+                <a href="{{ locaRoute('manager.dashboard') }}" class="flex items-center gap-3 group">
                     <x-layouts.logo imgClass="max-w-12 max-h-12 md:max-w-14 md:max-h-14 transition-transform group-hover:scale-105" />
                 </a>
             </div>
 
             <!-- 移动端 Logo -->
             <div class="block md:hidden">
-                <a href="{{ locaRoute('manager.home') }}"><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
+                <a href="{{ locaRoute('manager.dashboard') }}"><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
             </div>
 
             <!-- 搜索框 -->

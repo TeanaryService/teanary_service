@@ -40,7 +40,7 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">用户信息</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.user_info') }}</h3>
                             @if($order->user)
                                 <p class="text-sm text-gray-900">{{ $order->user->name }}</p>
                                 <p class="text-sm text-gray-600">{{ $order->user->email }}</p>
@@ -49,7 +49,7 @@
                             @endif
                         </div>
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">订单金额</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.amount') }}</h3>
                             <p class="text-lg font-semibold text-gray-900">
                                 {{ $order->currency ? $order->currency->symbol : '' }}{{ number_format($order->total, 2) }}
                             </p>
@@ -58,15 +58,15 @@
                             </p>
                         </div>
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">支付方式</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.payment_method') }}</h3>
                             <p class="text-sm text-gray-900">{{ $order->payment_method ? $order->payment_method->label() : '-' }}</p>
                         </div>
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">配送方式</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.shipping_method') }}</h3>
                             <p class="text-sm text-gray-900">{{ $order->shipping_method ? $order->shipping_method->label() : '-' }}</p>
                         </div>
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">收货地址</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.shipping_address') }}</h3>
                             @if($order->shippingAddress)
                                 <p class="text-sm text-gray-900">
                                     {{ $order->shippingAddress->firstname }} {{ $order->shippingAddress->lastname }}
@@ -82,7 +82,7 @@
                             @endif
                         </div>
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">账单地址</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.billing_address') }}</h3>
                             @if($order->billingAddress)
                                 <p class="text-sm text-gray-900">
                                     {{ $order->billingAddress->firstname }} {{ $order->billingAddress->lastname }}
@@ -97,18 +97,18 @@
                             @endif
                         </div>
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">创建时间</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.created_at') }}</h3>
                             <p class="text-sm text-gray-900">{{ $order->created_at->format('Y-m-d H:i:s') }}</p>
                         </div>
                         <div>
-                            <h3 class="text-sm font-medium text-gray-700 mb-2">更新时间</h3>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.updated_at') }}</h3>
                             <p class="text-sm text-gray-900">{{ $order->updated_at->format('Y-m-d H:i:s') }}</p>
                         </div>
                     </div>
 
                     {{-- 订单状态操作 --}}
                     <div class="mt-6 pt-6 border-t border-gray-200">
-                        <h3 class="text-sm font-medium text-gray-700 mb-3">订单状态</h3>
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">{{ __('manager.order.status_section') }}</h3>
                         <div class="flex flex-wrap gap-2">
                             @foreach($statusOptions as $value => $label)
                                 <button 
@@ -124,7 +124,7 @@
 
                 {{-- 订单商品列表 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">订单商品</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.order.items_section') }}</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">

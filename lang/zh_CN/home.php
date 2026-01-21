@@ -37,6 +37,7 @@ return array (
   'promotion_starts_at' => '开始时间',
   'promotion_ends_at' => '结束时间',
   'promotion_text' => ':condition :condition_value，:discount :discount_value',
+  'storage' => '库存：:storage',
   'promotion_rule_order_total_min' => '订单金额',
   'promotion_rule_order_qty_min' => '订单数量',
   'promotion_discount_fixed' => '固定折扣',

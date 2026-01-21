@@ -5,7 +5,7 @@
                 {{ __('app.register') }}
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600">
-                已有账号？
+                {{ __('auth.already_have_account') }}
                 <a href="{{ locaRoute('auth.login') }}" class="font-medium text-teal-600 hover:text-teal-500">
                     {{ __('app.login') }}
                 </a>

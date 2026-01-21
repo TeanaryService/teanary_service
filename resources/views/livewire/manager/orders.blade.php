@@ -51,7 +51,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.order.user_id') }}
+                                {{ __('manager.order.user') }}
                             </label>
                             <select 
                                 wire:model.live="filterUserId" 
@@ -118,7 +118,7 @@
                                         {{ __('manager.order.order_no') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.order.user_id') }}
+                                        {{ __('manager.order.user') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('manager.order.status') }}

@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
-class Home extends Component
+class Dashboard extends Component
 {
     public int $totalUsers = 0;
     public int $totalOrders = 0;
@@ -64,6 +64,6 @@ class Home extends Component
 
     public function render()
     {
-        return view('livewire.manager.home')->layout('components.layouts.manager');
+        return view('livewire.manager.dashboard')->layout('components.layouts.manager');
     }
 }

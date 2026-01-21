@@ -17,11 +17,14 @@ class Login extends Component
         'password' => 'required',
     ];
 
-    protected $messages = [
-        'email.required' => '请输入邮箱地址',
-        'email.email' => '请输入有效的邮箱地址',
-        'password.required' => '请输入密码',
-    ];
+    protected function messages(): array
+    {
+        return [
+            'email.required' => __('validation.custom.email.required'),
+            'email.email' => __('validation.custom.email.email'),
+            'password.required' => __('validation.custom.password.required'),
+        ];
+    }
 
     public function login()
     {

@@ -529,7 +529,7 @@ if (! function_exists('buildManagerCenterBreadcrumbs')) {
         $breadcrumbs = [
             [
                 'label' => __('app.manager_center'),
-                'url' => locaRoute('manager.home'),
+                'url' => locaRoute('manager.dashboard'),
             ],
         ];
 

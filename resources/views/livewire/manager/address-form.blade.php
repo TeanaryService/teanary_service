@@ -27,12 +27,12 @@
                     <div class="space-y-6">
                         {{-- 用户信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.address.user_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.addresses.user_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 用户 --}}
                                 <div>
                                     <label for="userId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.user_id') }}
+                                        {{ __('manager.addresses.user_id') }}
                                     </label>
                                     <select 
                                         id="userId"
@@ -47,13 +47,13 @@
                                     @error('userId')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.address.user_id_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.addresses.user_id_helper') }}</p>
                                 </div>
 
                                 {{-- 名字 --}}
                                 <div>
                                     <label for="firstname" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.firstname') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.addresses.firstname') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -69,7 +69,7 @@
                                 {{-- 姓氏 --}}
                                 <div>
                                     <label for="lastname" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.lastname') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.addresses.lastname') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -85,7 +85,7 @@
                                 {{-- 邮箱 --}}
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.email') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.addresses.email') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="email" 
@@ -101,7 +101,7 @@
                                 {{-- 电话 --}}
                                 <div>
                                     <label for="telephone" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.telephone') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.addresses.telephone') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="tel" 
@@ -117,7 +117,7 @@
                                 {{-- 公司 --}}
                                 <div>
                                     <label for="company" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.company') }}
+                                        {{ __('manager.addresses.company') }}
                                     </label>
                                     <input 
                                         type="text" 
@@ -134,12 +134,12 @@
 
                         {{-- 地址信息 --}}
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.address.address_info') }}</h2>
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.addresses.address_info') }}</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 国家 --}}
                                 <div>
                                     <label for="countryId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.country_id') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.addresses.country_id') }} <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         id="countryId"
@@ -165,7 +165,7 @@
                                 {{-- 地区 --}}
                                 <div>
                                     <label for="zoneId" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.zone_id') }}
+                                        {{ __('manager.addresses.zone_id') }}
                                     </label>
                                     <select 
                                         id="zoneId"
@@ -186,7 +186,7 @@
                                 {{-- 详细地址1 --}}
                                 <div class="md:col-span-2">
                                     <label for="address1" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.address_1') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.addresses.address_1') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -202,7 +202,7 @@
                                 {{-- 详细地址2 --}}
                                 <div class="md:col-span-2">
                                     <label for="address2" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.address_2') }}
+                                        {{ __('manager.addresses.address_2') }}
                                     </label>
                                     <input 
                                         type="text" 
@@ -218,7 +218,7 @@
                                 {{-- 城市 --}}
                                 <div>
                                     <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.city') }} <span class="text-red-500">*</span>
+                                        {{ __('manager.addresses.city') }} <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
@@ -234,7 +234,7 @@
                                 {{-- 邮编 --}}
                                 <div>
                                     <label for="postcode" class="block text-sm font-medium text-gray-700 mb-2">
-                                        {{ __('manager.address.postcode') }}
+                                        {{ __('manager.addresses.postcode') }}
                                     </label>
                                     <input 
                                         type="text" 

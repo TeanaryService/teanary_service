@@ -43,7 +43,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.address.user_id') }}
+                                {{ __('manager.addresses.user_id') }}
                             </label>
                             <select 
                                 wire:model.live="filterUserId" 
@@ -57,7 +57,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.address.country_id') }}
+                                {{ __('manager.addresses.country_id') }}
                             </label>
                             <select 
                                 wire:model.live="filterCountryId" 
@@ -87,19 +87,19 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.address.user_id') }}
+                                        {{ __('manager.addresses.user_id') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.address.fullname') }}
+                                        {{ __('manager.addresses.fullname') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.address.full_address') }}
+                                        {{ __('manager.addresses.full_address') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.address.telephone') }}
+                                        {{ __('manager.addresses.telephone') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.address.orders_count') }}
+                                        {{ __('manager.addresses.orders_count') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('app.actions') }}

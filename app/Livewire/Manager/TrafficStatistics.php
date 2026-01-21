@@ -138,8 +138,8 @@ class TrafficStatistics extends Component
                 'facebook' => 'Facebook',
                 'twitter' => 'Twitter',
                 'linkedin' => 'LinkedIn',
-                'other' => __('manager.TrafficStatisticResource.other'),
-                'unknown' => __('manager.TrafficStatisticResource.unknown'),
+                'other' => __('manager.traffic_statistics.other'),
+                'unknown' => __('manager.traffic_statistics.unknown'),
             ],
         ])->layout('components.layouts.manager');
     }

@@ -221,13 +221,13 @@
                             <input 
                                 type="text" 
                                 wire:model.live.debounce.300ms="search"
-                                placeholder="{{ __('manager.TrafficStatisticResource.path') }} / IP / Referer"
+                                placeholder="{{ __('manager.traffic_statistics.path') }} / {{ __('manager.traffic_statistics.ip') }} / {{ __('manager.traffic_statistics.referer') }}"
                                 class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                             />
                         </div>
                         <div class="flex-1 min-w-[200px]">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.TrafficStatisticResource.spider_source') }}
+                                {{ __('manager.traffic_statistics.spider_source') }}
                             </label>
                             <select 
                                 wire:model.live="filterSpiderSources" 
@@ -246,34 +246,34 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.stat_date') }}
+                                        {{ __('manager.traffic_statistics.created_at') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.path') }}
+                                        {{ __('manager.traffic_statistics.path') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.method') }}
+                                        {{ __('manager.traffic_statistics.method') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.ip') }}
+                                        {{ __('manager.traffic_statistics.ip') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.is_bot') }}
+                                        {{ __('manager.traffic_statistics.is_bot') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.spider_source') }}
+                                        {{ __('manager.traffic_statistics.spider_source') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.count') }}
+                                        {{ __('manager.traffic_statistics.count') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.locale') }}
+                                        {{ __('manager.traffic_statistics.locale') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.referer') }}
+                                        {{ __('manager.traffic_statistics.referer') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('manager.TrafficStatisticResource.user_agent') }}
+                                        {{ __('manager.traffic_statistics.user_agent') }}
                                     </th>
                                 </tr>
                             </thead>

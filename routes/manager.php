@@ -28,7 +28,7 @@ use App\Livewire\Manager\Users;
 use App\Livewire\Manager\CountryForm;
 use App\Livewire\Manager\Currencies;
 use App\Livewire\Manager\CurrencyForm;
-use App\Livewire\Manager\Home;
+use App\Livewire\Manager\Dashboard;
 use App\Livewire\Manager\LanguageForm;
 use App\Livewire\Manager\Languages;
 use App\Livewire\Manager\Login;
@@ -51,7 +51,7 @@ Route::prefix('manager')->group(function () {
 
     // 需要认证的路由
     Route::middleware('auth:manager')->group(function () {
-        Route::get('/', Home::class)->name('manager.home');
+        Route::get('/', Dashboard::class)->name('manager.dashboard');
         Route::get('notifications', Notifications::class)->name('manager.notifications');
         Route::get('traffic-statistics', TrafficStatistics::class)->name('manager.traffic-statistics');
         

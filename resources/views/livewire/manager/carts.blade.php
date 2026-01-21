@@ -36,7 +36,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                {{ __('manager.cart.user_id') }}
+                                {{ __('manager.cart.user') }}
                             </label>
                             <select 
                                 wire:model.live="filterUserId" 
@@ -85,7 +85,7 @@
                                             <span class="text-sm font-semibold text-gray-900 ml-2">#{{ $cart->id }}</span>
                                         </div>
                                         <div>
-                                            <span class="text-sm font-medium text-gray-500">{{ __('manager.cart.user_id') }}:</span>
+                                            <span class="text-sm font-medium text-gray-500">{{ __('manager.cart.user') }}:</span>
                                             <span class="text-sm text-gray-900 ml-2">{{ $cart->user?->name ?? '-' }}</span>
                                         </div>
                                         <div>

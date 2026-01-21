@@ -5,7 +5,7 @@
                 {{ __('app.login') }}
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600">
-                或
+                {{ __('auth.or') }}
                 <a href="{{ locaRoute('auth.register') }}" class="font-medium text-teal-600 hover:text-teal-500">
                     {{ __('app.register') }}
                 </a>

@@ -62,7 +62,7 @@ return array (
   'query_verification_subject' => '订单查询验证码',
   'query_verification_line1' => '您正在查询订单信息，请使用以下验证码完成验证：',
   'query_verification_line2' => '订单号：:order_no',
-  'query_verification_code' => '验证码：:code',
+  'query_verification_code_line' => '验证码：:code',
   'query_verification_line3' => '验证码有效期为10分钟，请勿泄露给他人。',
   'query_verification_line4' => '如非本人操作，请忽略此邮件。',
 );

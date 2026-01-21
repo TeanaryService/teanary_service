@@ -23,7 +23,7 @@ class CustomRedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 // 根据 guard 类型重定向到不同的首页
                 if ($guard === 'manager') {
-                    return redirect()->to(locaRoute('manager.home'));
+                    return redirect()->to(locaRoute('manager.dashboard'));
                 }
                 
                 // 默认重定向到用户首页（使用 locaRoute 确保包含 locale）
