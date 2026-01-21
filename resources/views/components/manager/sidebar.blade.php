@@ -57,6 +57,12 @@
 
     $businessItems = [
         [
+            'name' => __('filament.OrderResource.label'),
+            'route' => 'manager.orders',
+            'icon' => 'heroicon-o-receipt-percent',
+            'key' => 'orders',
+        ],
+        [
             'name' => __('filament.ArticleResource.label'),
             'route' => 'manager.articles',
             'icon' => 'heroicon-o-pencil-square',

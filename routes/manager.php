@@ -26,6 +26,8 @@ use App\Livewire\Manager\LanguageForm;
 use App\Livewire\Manager\Languages;
 use App\Livewire\Manager\Login;
 use App\Livewire\Manager\Notifications;
+use App\Livewire\Manager\OrderDetail;
+use App\Livewire\Manager\Orders;
 use App\Livewire\Manager\TrafficStatistics;
 use App\Livewire\Manager\ZoneForm;
 use App\Livewire\Manager\Zones;
@@ -94,6 +96,10 @@ Route::prefix('manager')->group(function () {
         
         // 联系人管理
         Route::get('contacts', Contacts::class)->name('manager.contacts');
+        
+        // 订单管理
+        Route::get('orders', Orders::class)->name('manager.orders');
+        Route::get('orders/{id}', OrderDetail::class)->name('manager.orders.detail');
         
         // 管理员管理
         Route::get('managers', Managers::class)->name('manager.managers');
