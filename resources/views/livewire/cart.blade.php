@@ -106,7 +106,4 @@
     </form>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('app.cart') }}" description="{{ __('app.cart') }}"
-        keywords="{{ __('app.cart') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('app.cart') }}" />

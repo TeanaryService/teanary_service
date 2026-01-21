@@ -264,7 +264,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('app.addresses.title') }}" description="{{ __('app.addresses.title') }}"
-        keywords="{{ __('app.addresses.title') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('app.addresses.title') }}" />

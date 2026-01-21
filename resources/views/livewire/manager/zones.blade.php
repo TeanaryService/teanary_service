@@ -208,7 +208,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('manager.zones.label') }}" description="{{ __('manager.zones.label') }}"
-        keywords="{{ __('manager.zones.label') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('manager.zones.label') }}" />

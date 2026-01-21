@@ -132,7 +132,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ $promotionId ? __('app.edit') : __('app.create') }} {{ __('manager.promotions.label') }}" description="{{ $promotionId ? __('app.edit') : __('app.create') }} {{ __('manager.promotions.label') }}"
-        keywords="{{ __('manager.promotions.label') }}" />
-@endPushOnce
+<x-seo-meta title="{{ $promotionId ? __('app.edit') : __('app.create') }} {{ __('manager.promotions.label') }}" keywords="{{ __('manager.promotions.label') }}" />

@@ -122,7 +122,4 @@
     </section>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('app.site_title') }}" description="{{ __('app.site_description') }}"
-        keywords="{{ __('app.site_keywords') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('app.site_title') }}" description="{{ __('app.site_description') }}" keywords="{{ __('app.site_keywords') }}" />

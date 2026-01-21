@@ -46,7 +46,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('auth.reset_password') }}" description="{{ __('auth.reset_password') }}"
-        keywords="{{ __('auth.reset_password') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('auth.reset_password') }}" />

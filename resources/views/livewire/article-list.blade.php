@@ -23,7 +23,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('home.article.title') }}" description="{{ __('home.article.description') }}"
-        keywords="{{ __('home.article.keywords') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('home.article.title') }}" description="{{ __('home.article.description') }}" keywords="{{ __('home.article.keywords') }}" />

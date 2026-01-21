@@ -290,7 +290,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('orders.order_details') }}" description="{{ __('orders.order_details') }}"
-        keywords="{{ __('orders.order_details') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('orders.order_details') }}" />

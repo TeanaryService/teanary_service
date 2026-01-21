@@ -463,8 +463,7 @@
 </div>
 
 @pushOnce('seo')
-    <x-layouts.seo title="{{ $name }}" description="{{ $shortDesc }}"
-        image="{{ $images->first()?->getUrl() ?? '' }}" />
+    <x-seo-meta title="{{ $name }}" description="{{ $shortDesc }}" image="{{ $images->first()?->getUrl() ?? '' }}" />
     <script type="application/ld+json">
         {!! json_encode($structuredData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
     </script>

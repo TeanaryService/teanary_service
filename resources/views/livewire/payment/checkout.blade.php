@@ -41,7 +41,7 @@
 </div>
 
 @pushOnce('seo')
-    <x-layouts.seo :title="__('payment.processing')" />
+    <x-seo-meta :title="__('payment.processing')" />
 
     {{-- JavaScript 处理支付跳转 --}}
     <script>

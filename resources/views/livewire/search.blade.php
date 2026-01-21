@@ -52,6 +52,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('search.title') }}" description="{{ __('search.description') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('search.title') }}" description="{{ __('search.description') }}" />

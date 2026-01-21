@@ -73,7 +73,4 @@
     </form>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ $specificationValueId ? __('app.edit') : __('app.create') }} {{ __('manager.specification_values.label') }}" description="{{ $specificationValueId ? __('app.edit') : __('app.create') }} {{ __('manager.specification_values.label') }}"
-        keywords="{{ __('manager.specification_values.label') }}" />
-@endPushOnce
+<x-seo-meta title="{{ $specificationValueId ? __('app.edit') : __('app.create') }} {{ __('manager.specification_values.label') }}" keywords="{{ __('manager.specification_values.label') }}" />

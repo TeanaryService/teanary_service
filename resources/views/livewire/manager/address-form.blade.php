@@ -269,7 +269,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.addresses.label') }}" description="{{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.addresses.label') }}"
-        keywords="{{ __('manager.addresses.label') }}" />
-@endPushOnce
+<x-seo-meta title="{{ $isEdit ? __('app.edit') : __('app.create') }} {{ __('manager.addresses.label') }}" keywords="{{ __('manager.addresses.label') }}" />

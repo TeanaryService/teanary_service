@@ -317,7 +317,4 @@
     @endif
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('app.checkout') }}" description="{{ __('app.checkout') }}"
-        keywords="{{ __('app.checkout') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('app.checkout') }}" />

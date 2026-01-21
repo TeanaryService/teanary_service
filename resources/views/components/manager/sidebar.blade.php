@@ -9,16 +9,16 @@
             'key' => 'dashboard',
         ],
         [
-            'name' => __('notifications.my_notifications'),
-            'route' => 'manager.notifications',
-            'icon' => 'heroicon-o-bell',
-            'key' => 'notifications',
-        ],
-        [
             'name' => __('manager.traffic_statistics.navigation_label'),
             'route' => 'manager.traffic-statistics',
             'icon' => 'heroicon-o-chart-bar',
             'key' => 'traffic-statistics',
+        ],
+        [
+            'name' => __('notifications.my_notifications'),
+            'route' => 'manager.notifications',
+            'icon' => 'heroicon-o-bell',
+            'key' => 'notifications',
         ],
     ];
 

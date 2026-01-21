@@ -10,6 +10,4 @@
     ]"
 />
 
-@pushOnce('seo')
-    <x-layouts.seo :title="__('payment.cancel_title')" />
-@endPushOnce
+<x-seo-meta :title="__('payment.cancel_title')" />

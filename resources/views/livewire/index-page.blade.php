@@ -593,6 +593,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('index.seo_title') }}" description="{{ __('index.seo_description') }}"/>
-@endPushOnce
+<x-seo-meta title="{{ __('index.seo_title') }}" description="{{ __('index.seo_description') }}" />

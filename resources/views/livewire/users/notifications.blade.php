@@ -105,7 +105,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('notifications.title') }}" description="{{ __('notifications.title') }}"
-        keywords="{{ __('notifications.title') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('notifications.title') }}" />

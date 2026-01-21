@@ -154,7 +154,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('manager.languages.label') }}" description="{{ __('manager.languages.label') }}"
-        keywords="{{ __('manager.languages.label') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('manager.languages.label') }}" />

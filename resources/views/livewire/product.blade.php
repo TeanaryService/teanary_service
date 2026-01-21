@@ -79,7 +79,4 @@
 </div>
 
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ $seoTitle }}" description="{{ $seoDesc }}" image="{{ $seoImage }}"
-        keywords="{{ $seoKeywords }}" />
-@endPushOnce
+<x-seo-meta title="{{ $seoTitle }}" description="{{ $seoDesc }}" keywords="{{ $seoKeywords }}" image="{{ $seoImage }}" />

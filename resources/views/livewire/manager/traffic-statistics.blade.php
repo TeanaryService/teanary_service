@@ -356,7 +356,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('manager.traffic_statistics.navigation_label') }}" description="{{ __('manager.traffic_statistics.navigation_label') }}"
-        keywords="{{ __('manager.traffic_statistics.navigation_label') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('manager.traffic_statistics.navigation_label') }}" />
