@@ -48,6 +48,24 @@
             'key' => 'zones',
         ],
     ];
+
+    $businessItems = [
+        [
+            'name' => __('filament.ArticleResource.label'),
+            'route' => 'manager.articles',
+            'icon' => 'heroicon-o-pencil-square',
+            'key' => 'articles',
+        ],
+    ];
+
+    $userItems = [
+        [
+            'name' => __('filament.AddressResource.label'),
+            'route' => 'manager.addresses',
+            'icon' => 'heroicon-o-map-pin',
+            'key' => 'addresses',
+        ],
+    ];
 @endphp
 
 <aside class="w-full md:w-64 flex-shrink-0">
@@ -83,6 +101,60 @@
                     </h3>
                     <ul class="space-y-1">
                         @foreach($systemItems as $item)
+                            @php
+                                $isActive = $active === $item['key'] || request()->routeIs($item['route'] . '*');
+                            @endphp
+                            <li>
+                                <a href="{{ locaRoute($item['route']) }}" 
+                                   class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 {{ $isActive ? 'bg-teal-50 text-teal-700 border-l-4 border-teal-600' : 'text-gray-700 hover:bg-gray-50 hover:text-teal-600' }}">
+                                    <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
+                                    <span>{{ $item['name'] }}</span>
+                                    @if($isActive)
+                                        <svg class="w-4 h-4 ml-auto text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                        </svg>
+                                    @endif
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(count($businessItems) > 0)
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                        {{ __('filament.ArticleResource.group') }}
+                    </h3>
+                    <ul class="space-y-1">
+                        @foreach($businessItems as $item)
+                            @php
+                                $isActive = $active === $item['key'] || request()->routeIs($item['route'] . '*');
+                            @endphp
+                            <li>
+                                <a href="{{ locaRoute($item['route']) }}" 
+                                   class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 {{ $isActive ? 'bg-teal-50 text-teal-700 border-l-4 border-teal-600' : 'text-gray-700 hover:bg-gray-50 hover:text-teal-600' }}">
+                                    <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
+                                    <span>{{ $item['name'] }}</span>
+                                    @if($isActive)
+                                        <svg class="w-4 h-4 ml-auto text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                        </svg>
+                                    @endif
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(count($userItems) > 0)
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                        {{ __('filament.AddressResource.group') }}
+                    </h3>
+                    <ul class="space-y-1">
+                        @foreach($userItems as $item)
                             @php
                                 $isActive = $active === $item['key'] || request()->routeIs($item['route'] . '*');
                             @endphp

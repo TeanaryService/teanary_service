@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Middleware\CustomRedirectIfAuthenticated;
+use App\Livewire\Manager\AddressForm;
+use App\Livewire\Manager\Addresses;
+use App\Livewire\Manager\ArticleForm;
+use App\Livewire\Manager\Articles;
 use App\Livewire\Manager\Countries;
 use App\Livewire\Manager\CountryForm;
 use App\Livewire\Manager\Currencies;
@@ -47,6 +51,16 @@ Route::prefix('manager')->group(function () {
         Route::get('zones', Zones::class)->name('manager.zones');
         Route::get('zones/create', ZoneForm::class)->name('manager.zones.create');
         Route::get('zones/{id}/edit', ZoneForm::class)->name('manager.zones.edit');
+        
+        // 文章管理
+        Route::get('articles', Articles::class)->name('manager.articles');
+        Route::get('articles/create', ArticleForm::class)->name('manager.articles.create');
+        Route::get('articles/{id}/edit', ArticleForm::class)->name('manager.articles.edit');
+        
+        // 地址管理
+        Route::get('addresses', Addresses::class)->name('manager.addresses');
+        Route::get('addresses/create', AddressForm::class)->name('manager.addresses.create');
+        Route::get('addresses/{id}/edit', AddressForm::class)->name('manager.addresses.edit');
 
         Route::post('logout', function () {
             Auth::guard('manager')->logout();
