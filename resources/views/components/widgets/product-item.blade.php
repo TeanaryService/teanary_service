@@ -8,7 +8,7 @@
 @endphp
 
 <div class="group tea-product-card">
-    <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" wire:navigate class="block">
+    <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" wire:navigate.hover class="block">
         <div class="relative w-full aspect-square bg-gray-100 overflow-hidden rounded-t-lg">
             <!-- 第一张图片 -->
             <img src="{{ $firstImage }}" 

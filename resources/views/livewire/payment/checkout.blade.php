@@ -44,17 +44,30 @@
     <x-seo-meta :title="__('payment.processing')" />
 
     {{-- JavaScript 处理支付跳转 --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <script data-navigate-once>
+        // 使用 livewire:navigated 替代 DOMContentLoaded，确保在 wire:navigate 时也能执行
+        (function() {
+            function initPayment() {
             // 页面加载完成后立即开始支付流程
             setTimeout(() => {
                 @this.processPayment();
             }, 100);
 
-            // 监听支付跳转事件，立即跳转
-            Livewire.on('redirect-to-payment', (event) => {
-                window.location.href = event.url;
-            });
-        });
+                // 监听支付跳转事件，立即跳转
+                Livewire.on('redirect-to-payment', (event) => {
+                    window.location.href = event.url;
+                });
+            }
+            
+            // 首次加载时执行
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initPayment);
+            } else {
+                initPayment();
+            }
+            
+            // wire:navigate 导航后执行（但 data-navigate-once 确保只执行一次）
+            document.addEventListener('livewire:navigated', initPayment, { once: true });
+        })();
     </script>
 @endPushOnce
