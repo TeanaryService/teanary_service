@@ -1,4 +1,4 @@
-<div class="min-h-[40vh] bg-gray-50 font-chinese antialiased pt-0">
+<div class="min-h-[60vh] bg-gray-50 font-chinese antialiased pt-0">
     <style>
         @keyframes spin-slow {
             from { transform: rotate(0deg); }

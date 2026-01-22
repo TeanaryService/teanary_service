@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('products', $productId ? __('app.edit') . ' ' . __('manager.products.label') : __('app.create') . ' ' . __('manager.products.label'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -137,7 +137,7 @@
                         <x-widgets.file-upload 
                             wire="newImages"
                             accept="image/*"
-                            multiple
+                            :multiple="false"
                             :label="__('app.upload_images') ?? '上传图片'"
                             error="newImages.*"
                             :help="__('app.image_upload_hint') ?? '支持多图上传，单张不超过 2MB。'"

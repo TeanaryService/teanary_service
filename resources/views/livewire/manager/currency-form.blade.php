@@ -3,7 +3,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('currencies', $isEdit ? __('app.edit') : __('app.create'), __('manager.currencies.label'), locaRoute('manager.currencies'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         

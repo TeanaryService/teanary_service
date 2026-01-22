@@ -1,4 +1,4 @@
-<div class="min-h-[40vh] bg-gradient-to-br from-teal-50 via-blue-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-[60vh] bg-gradient-to-br from-teal-50 via-blue-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         <!-- 页面标题 -->
         <div class="text-center mb-8">
@@ -21,7 +21,7 @@
                             wire="orderNoOrEmail"
                             placeholder="{{ __('orders.query_order_no_or_email_placeholder') }}"
                             error="orderNoOrEmail"
-                            class="px-4 py-3"
+                            class="px-4 py-3 mb-6"
                             autofocus
                         />
                     </x-widgets.form-field>

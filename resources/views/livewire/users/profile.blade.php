@@ -2,7 +2,7 @@
     $breadcrumbs = buildUserCenterBreadcrumbs('profile', __('app.profile'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -16,7 +16,8 @@
 
                 <x-widgets.session-message type="message" />
 
-                <form wire:submit="save" class="space-y-6">
+                <form wire:submit="save">
+                    <x-widgets.form-container>
                     {{-- 基本信息卡片 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                         <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
@@ -129,6 +130,7 @@
                             {{ __('app.save') }}
                         </x-widgets.button>
                     </div>
+                    </x-widgets.form-container>
                 </form>
             </div>
         </div>

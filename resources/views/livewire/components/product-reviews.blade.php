@@ -8,7 +8,8 @@
 
         @auth
             <form wire:submit.prevent="submit" class="mb-6 bg-gray-50 rounded-lg p-6 shadow">
-                <div class="flex items-center gap-2 mb-4">
+                <x-widgets.form-container>
+                    <div class="flex items-center gap-2 mb-4">
                     <label class="font-semibold mr-2">{{ __('home.rating') }}</label>
                     <div class="flex items-center gap-1" x-data="{ rating: @entangle('rating') }">
                         @for ($i = 1; $i <= 5; $i++)
@@ -44,12 +45,13 @@
                         placeholder="{{ __('home.review_placeholder') }}"
                     />
                 </x-widgets.form-field>
-                <x-widgets.button 
-                    type="submit"
-                    class="w-full px-6 py-2 font-bold"
-                >
-                    {{ __('home.submit_review') }}
-                </x-widgets.button>
+                    <x-widgets.button 
+                        type="submit"
+                        class="w-full px-6 py-2 font-bold"
+                    >
+                        {{ __('home.submit_review') }}
+                    </x-widgets.button>
+                </x-widgets.form-container>
             </form>
         @else
             <div class="mb-4 bg-teal-500 text-white rounded-lg p-6 shadow flex flex-col items-center gap gap-2">

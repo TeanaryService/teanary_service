@@ -4,7 +4,7 @@
     $lang = $localeService->getLanguageByCode(session('lang'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -44,8 +44,8 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <form wire:submit="saveAddress" class="space-y-4">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <form wire:submit="saveAddress">
+                            <x-widgets.form-container class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <x-widgets.form-field :label="__('app.email')" labelFor="email" error="email">
                                     <x-widgets.input type="email" id="email" wire="email" error="email" class="sm:text-sm rounded-md" />
                                 </x-widgets.form-field>
@@ -106,6 +106,7 @@
                                     {{ __('app.addresses.save') }}
                                 </x-widgets.button>
                             </div>
+                            </x-widgets.form-container>
                         </form>
                     </div>
                 </div>

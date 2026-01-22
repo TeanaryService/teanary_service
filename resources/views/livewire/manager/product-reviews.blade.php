@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('manager.product_reviews.label'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -44,7 +44,7 @@
                                     ['value' => '2', 'label' => '2 ⭐'],
                                     ['value' => '1', 'label' => '1 ⭐']
                                 ]"
-                                multiple
+                                :multiple="false"
                             />
                         </div>
                         <div>

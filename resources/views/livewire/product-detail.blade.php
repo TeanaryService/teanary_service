@@ -5,7 +5,7 @@
     $breadcrumbs = buildProductDetailBreadcrumbs($name);
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 md:px-8 min-h-[40vh] bg-tea-50 tea-bg-texture">
+<div class="max-w-7xl mx-auto px-6 md:px-8 min-h-[60vh] bg-tea-50 tea-bg-texture">
     <x-widgets.breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}

@@ -3,7 +3,7 @@
     $currencyCode = session('currency');
 @endphp
 
-<div class="max-w-7xl mx-auto px-4 py-10 min-h-[40vh] bg-white">
+<div class="max-w-7xl mx-auto px-4 py-10 min-h-[60vh] bg-gray-50">
     {{-- 添加错误提示 --}}
     @if (session('error'))
         <div class="mb-4 p-4 bg-red-50 border-l-4 border-red-400 text-red-700">
@@ -22,7 +22,7 @@
             <div class="md:col-span-2 space-y-8">
 
                 {{-- 收货地址 --}}
-                <div class="bg-white shadow rounded-xl p-6 space-y-6">
+                <x-widgets.card class="space-y-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-semibold text-gray-800">{{ __('app.shipping_address') }}</h2>
                         <button wire:click="toggleAddressForm" type="button"
@@ -32,7 +32,8 @@
                     </div>
 
                     @if ($showAddressForm)
-                        <form wire:submit.prevent="saveAddress" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <form wire:submit.prevent="saveAddress">
+                            <x-widgets.form-container class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <x-widgets.form-field :label="__('app.email')" error="address.email">
                                 <x-widgets.input type="email" wire="address.email" error="address.email" class="p-3" />
                             </x-widgets.form-field>
@@ -78,17 +79,21 @@
                                 <x-widgets.input type="text" wire="address.postcode" error="address.postcode" class="p-3" />
                             </x-widgets.form-field>
 
-                            <div class="md:col-span-2">
-                                <button type="submit"
-                                    class="w-full py-3 text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition font-semibold">
-                                    {{ __('app.save_address') }}
-                                </button>
-                            </div>
-                            @if (session('error'))
-                                <div class="md:col-span-2 text-red-600 text-sm mt-2">
-                                    {{ session('error') }}
+                                <div class="md:col-span-2">
+                                    <x-widgets.button 
+                                        type="submit"
+                                        size="lg"
+                                        class="w-full"
+                                    >
+                                        {{ __('app.save_address') }}
+                                    </x-widgets.button>
                                 </div>
-                            @endif
+                                @if (session('error'))
+                                    <div class="md:col-span-2 text-red-600 text-sm mt-2">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+                            </x-widgets.form-container>
                         </form>
                     @else
                         <div class="space-y-4">
@@ -119,7 +124,7 @@
                             @endif
                         </div>
                     @endif
-                </div>
+                </x-widgets.card>
 
                 {{-- 商品列表 --}}
                 <x-widgets.card>
@@ -174,7 +179,7 @@
 
             <!-- 右侧订单汇总 -->
             <div>
-                <div class="bg-white shadow rounded-xl p-6 space-y-6">
+                <x-widgets.card class="space-y-6">
                     <h2 class="text-xl font-semibold text-gray-800">{{ __('app.order_summary') }}</h2>
                     <div class="flex justify-between text-base font-semibold border-t pt-4">
                         <span>{{ __('app.subtotal') }}</span>
@@ -211,29 +216,26 @@
                     @endif
 
                     {{-- 支付方式选择 --}}
-                    <div class="mt-4">
-                        <x-widgets.label class="mb-2 font-semibold">{{ __('app.payment_method') }}</x-widgets.label>
+                    <x-widgets.form-field :label="__('app.payment_method')">
                         <div wire:init="initCheckoutMethods">
                             @if ($loadingPaymentMethods)
                                 <div class="animate-pulse flex space-x-4">
-                                    <div class="h-12 bg-slate-200 rounded w-full"></div>
+                                    <div class="h-12 bg-slate-200 rounded-xl w-full"></div>
                                 </div>
                             @else
                                 <x-widgets.select 
                                     wire="paymentMethod" 
                                     :options="[['value' => '', 'label' => __('app.select_payment_method')], ...collect($paymentMethods)->map(fn($method) => ['value' => $method->value, 'label' => $method->label()])->toArray()]"
-                                    class="p-3 rounded-lg"
                                 />
                             @endif
                         </div>
-                    </div>
+                    </x-widgets.form-field>
 
                     {{-- 配送方式选择 --}}
-                    <div class="mt-4">
-                        <x-widgets.label class="mb-2 font-semibold">{{ __('app.shipping_method') }}</x-widgets.label>
+                    <x-widgets.form-field :label="__('app.shipping_method')">
                         @if ($loadingShippingMethods)
                             <div class="animate-pulse flex space-x-4">
-                                <div class="h-12 bg-slate-200 rounded w-full"></div>
+                                <div class="h-12 bg-slate-200 rounded-xl w-full"></div>
                             </div>
                         @else
                             <x-widgets.select 
@@ -245,21 +247,21 @@
                                         'label' => $method['label'] . '（' . $method['description'] . '，+' . $currencyService->convertWithSymbol($method['fee'], $currencyCode) . '）'
                                     ];
                                 })->toArray()]"
-                                class="p-3 rounded-lg"
                             />
                             @if ($shippingDescription)
-                                <div class="text-xs text-gray-500 mt-1">{{ $shippingDescription }}</div>
+                                <p class="mt-2 text-xs text-gray-500">{{ $shippingDescription }}</p>
                             @endif
                         @endif
-                    </div>
+                    </x-widgets.form-field>
 
                     <x-widgets.button 
                         wire:click="createOrder"
-                        class="w-full py-3 text-lg font-bold shadow"
+                        size="lg"
+                        class="w-full"
                     >
                         {{ __('app.place_order') }}
                     </x-widgets.button>
-                </div>
+                </x-widgets.card>
             </div>
         </div>
     @else

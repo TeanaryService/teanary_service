@@ -17,7 +17,7 @@
     $textColor = $statusClasses['textColor'];
 @endphp
 
-<div class="min-h-[40vh] flex flex-col items-center justify-center {{ $bgColor }} text-center p-6">
+<div class="min-h-[60vh] flex flex-col items-center justify-center {{ $bgColor }} text-center p-6">
     <main role="main" aria-labelledby="payment-status-title" class="bg-white p-8 rounded-xl shadow-md max-w-md w-full relative">
         
         {{-- 动画图标 --}}

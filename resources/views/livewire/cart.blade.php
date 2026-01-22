@@ -1,8 +1,8 @@
 
-<div class="max-w-7xl mx-auto px-4 py-10 min-h-[40vh] bg-white">
+<div class="max-w-7xl mx-auto px-6 md:px-8 py-10 min-h-[60vh] bg-gray-50">
     <h1 class="text-3xl font-extrabold text-teal-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
     <form wire:submit.prevent="checkout">
-        <div class="bg-white rounded-xl shadow-lg p-8">
+        <x-widgets.card class="p-8">
             <table class="w-full text-left mb-6 border-separate border-spacing-y-2">
                 <thead>
                     <tr class="border-b text-gray-700 text-sm">
@@ -122,11 +122,11 @@
                 </div>
             </div>
             <div class="mt-8 flex justify-end">
-                <x-widgets.button type="submit" class="px-8 py-3 text-lg font-bold shadow">
+                <x-widgets.button type="submit" size="lg" class="px-8">
                     {{ __('app.checkout') }}
                 </x-widgets.button>
             </div>
-        </div>
+        </x-widgets.card>
     </form>
 </div>
 

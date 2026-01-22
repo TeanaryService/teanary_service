@@ -7,9 +7,9 @@
     'class' => '',
 ])
 
-<div class="space-y-2 {{ $class }}">
+<div class="space-y-2.5 {{ $class }}">
     @if($label)
-        <x-widgets.label :for="$labelFor" :required="$required" class="text-base font-semibold text-gray-800">
+        <x-widgets.label :for="$labelFor" :required="$required" class="text-sm font-semibold text-gray-800">
             {{ $label }}
         </x-widgets.label>
     @endif

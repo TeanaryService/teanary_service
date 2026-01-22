@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('zones', __('manager.zones.label'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -63,7 +63,7 @@
                             <x-widgets.select 
                                 wire="live=filterTranslationStatus" 
                                 :options="$translationStatusOptions"
-                                multiple
+                                :multiple="false"
                             />
                         </div>
                     </div>

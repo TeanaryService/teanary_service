@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('manager.products.label'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
     <div class="max-w-7xl mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -30,7 +30,7 @@
                 @endif
 
                 {{-- 筛选器 --}}
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <x-widgets.card class="mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
                             <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
@@ -45,7 +45,7 @@
                             <x-widgets.select 
                                 wire="live=filterStatus" 
                                 :options="$statusOptions"
-                                multiple
+                                :multiple="false"
                             />
                         </div>
                         <div>
@@ -53,7 +53,7 @@
                             <x-widgets.select 
                                 wire="live=filterTranslationStatus" 
                                 :options="$translationStatusOptions"
-                                multiple
+                                :multiple="false"
                             />
                         </div>
                         <div>
@@ -88,7 +88,7 @@
                 </x-widgets.card>
 
                 {{-- 商品列表 --}}
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <x-widgets.card class="overflow-hidden p-0">
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -207,7 +207,7 @@
                     <div class="px-6 py-4 border-t border-gray-200">
                         {{ $products->links() }}
                     </div>
-                </div>
+                </x-widgets.card>
             </div>
         </div>
     </div>

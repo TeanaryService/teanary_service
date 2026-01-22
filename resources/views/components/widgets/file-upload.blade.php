@@ -16,7 +16,7 @@
 
 @php
     $inputId = $id ?? $name ?? 'file-upload-' . uniqid();
-    $baseClasses = 'w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 transition-colors';
+    $baseClasses = 'w-full rounded-lg border-2 border-teal-100 shadow-sm focus:border-teal-500 focus:ring-teal-500 transition-colors';
     
     // 根据 variant 设置不同的样式
     if ($variant === 'button') {
@@ -43,13 +43,13 @@
     <div class="flex flex-col sm:flex-row gap-4 items-start">
         @if($showPreview && $preview)
             <div class="flex-shrink-0">
-                <div class="{{ $previewSize }} overflow-hidden border-2 border-gray-200 shadow-md bg-gradient-to-br from-gray-50 to-gray-100 {{ str_contains($previewSize, 'rounded') ? '' : 'rounded-xl' }}">
+                <div class="{{ $previewSize }} overflow-hidden border-2 border-teal-100 shadow-md bg-gradient-to-br from-gray-50 to-gray-100 {{ str_contains($previewSize, 'rounded') ? '' : 'rounded-xl' }}">
                     <img src="{{ $preview }}" alt="Preview" class="w-full h-full object-cover">
                 </div>
             </div>
         @elseif($showPreview && !$preview && $variant === 'button')
             <div class="flex-shrink-0">
-                <div class="{{ $previewSize }} rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center border-2 border-gray-200 shadow-sm">
+                <div class="{{ $previewSize }} rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center border-2 border-teal-100 shadow-sm">
                     <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
@@ -65,7 +65,7 @@
             @endif
             
             @if($variant === 'button')
-                <label for="{{ $inputId }}" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-xl hover:bg-gray-50 hover:border-teal-400 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md">
+                <label for="{{ $inputId }}" class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-gray-700 bg-white border-2 border-teal-100 rounded-xl hover:bg-gray-50 hover:border-teal-300 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md">
                     <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>

@@ -14,7 +14,8 @@
 
 @php
     $selectId = $id ?? $name;
-    $baseClasses = 'w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 hover:border-gray-300 cursor-pointer';
+    // 统一输入框样式
+    $baseClasses = 'w-full px-4 py-3 rounded-xl border-2 border-teal-100 bg-white text-gray-900 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-teal-200 hover:shadow-md cursor-pointer';
     $classes = trim($baseClasses . ' ' . $class);
     if ($error) {
         $classes .= ' @error(\'' . $error . '\') border-red-300 @enderror';

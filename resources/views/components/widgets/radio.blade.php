@@ -10,7 +10,7 @@
 
 @php
     $radioId = $id ?? $name ?? uniqid('radio_');
-    $baseClasses = 'w-4 h-4 text-teal-500 border-gray-300 focus:ring-teal-500';
+    $baseClasses = 'w-4 h-4 text-teal-500 border-teal-100 focus:ring-teal-500';
     $classes = trim($baseClasses . ' ' . $class);
     
     // 处理 wire 属性，支持 wire:model, wire:model.live 等
