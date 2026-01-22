@@ -30,7 +30,7 @@
                 <p class="text-lg md:text-xl text-gray-600 mb-10 font-normal leading-relaxed max-w-xl">
                     {{ __('home.hero_subtitle') }}
                 </p>
-                <a href="{{ locaRoute('product') }}"
+                <a href="{{ locaRoute('product') }}" wire:navigate
                     class="inline-block tea-btn-primary font-semibold px-8 py-4 rounded-lg text-base shadow-lg hover:shadow-xl">
                     {{ __('home.shop_now') }}
                 </a>
@@ -70,7 +70,7 @@
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
                 @foreach ($categories as $category)
-                    <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" class="group">
+                    <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" wire:navigate class="group">
                         <div class="tea-card rounded-xl p-6 text-center">
                             <div class="relative mb-4">
                                 <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
@@ -107,7 +107,7 @@
                 <p class="text-base md:text-lg text-gray-600 leading-relaxed mb-10 font-normal">
                     {{ __('home.about_content') }}
                 </p>
-                <a href="{{ locaRoute('article.index') }}"
+                <a href="{{ locaRoute('article.index') }}" wire:navigate
                     class="inline-block tea-btn-primary font-semibold px-8 py-4 rounded-lg text-base shadow-lg hover:shadow-xl">
                     {{ __('home.learn_more') }}
                 </a>

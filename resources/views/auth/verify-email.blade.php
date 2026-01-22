@@ -26,7 +26,7 @@
                 </form>
                 
                 <div class="text-center">
-                    <a href="{{ locaRoute('home') }}" class="text-sm text-teal-600 hover:text-teal-500">
+                    <a href="{{ locaRoute('home') }}" wire:navigate class="text-sm text-teal-600 hover:text-teal-500">
                         {{ __('app.back') }}
                     </a>
                 </div>

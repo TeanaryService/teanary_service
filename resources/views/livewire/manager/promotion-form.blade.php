@@ -83,7 +83,7 @@
                             {{ __('app.save') }}
                         </x-widgets.button>
                         <x-widgets.button 
-                            href="{{ locaRoute('manager.promotions') }}"
+                            href="{{ locaRoute('manager.promotions') }}" wire:navigate
                             variant="secondary"
                         >
                             {{ __('app.cancel') }}

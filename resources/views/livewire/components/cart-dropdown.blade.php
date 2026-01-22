@@ -99,7 +99,7 @@
                 <span>{{ $currencyService->convertWithSymbol($cartTotal, $currencyCode) }}</span>
             </div>
             <x-widgets.button 
-                href="{{ locaRoute('cart') }}"
+                href="{{ locaRoute('cart') }}" wire:navigate
                 class="w-full py-2.5 font-semibold"
             >
                 {{ __('app.checkout') }}

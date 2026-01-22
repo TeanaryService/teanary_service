@@ -21,7 +21,7 @@
             @endif
 
             {{-- 标题与摘要 --}}
-            <header class="space-y-2">
+            <header class="space-y-2 px-6 md:px-8">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900">{{ $translation?->title }}</h1>
                 <p class="text-base text-gray-500">
                     {{ $article->created_at->format('F j, Y') }}
@@ -31,7 +31,7 @@
                         image="{{ $cover }}" />
                 </div>
                 
-                <a href="{{ locaRoute('product') }}">
+                <a href="{{ locaRoute('product') }}" wire:navigate>
                     <x-widgets.promotion-list class="pb-6" />
                 </a>
 
@@ -43,7 +43,7 @@
             </header>
 
             {{-- 正文内容 --}}
-            <div class="prose max-w-none prose-gray">
+            <div class="prose max-w-none prose-gray px-6 md:px-8">
                 {!! $translation?->content !!}
             </div>
         </article>

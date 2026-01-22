@@ -22,14 +22,6 @@
                     mouseY: 0,
                     init() {
                         this.startAutoplay();
-                        // Livewire更新后重新初始化懒加载
-                        this.$watch('$wire.selectedVariantId', () => {
-                            this.$nextTick(() => {
-                                if (window.updateLazyLoad) {
-                                    window.updateLazyLoad();
-                                }
-                            });
-                        });
                     },
                     startAutoplay() {
                         this.autoplay = setInterval(() => {
@@ -83,10 +75,9 @@
                                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
                                 wire:key="product-image-{{ $selectedVariantId }}-{{ $i }}">
 
-                                <img src="/loading.svg"
-                                    data-src="{{ $img->getUrl() }}" 
+                                <img src="{{ $img->getUrl() }}" 
                                     alt="{{ $name }}"
-                                    class="lazy w-full h-full object-cover transition-transform duration-300"
+                                    class="w-full h-full object-cover transition-transform duration-300"
                                     :class="{
                                         'scale-100': !isZoomed
                                     }"
@@ -143,10 +134,9 @@
                                     }"
                                     @click="goTo({{ $i }})"
                                     wire:key="product-thumb-{{ $selectedVariantId }}-{{ $i }}">
-                                    <img src="/loading.svg"
-                                        data-src="{{ $img->getUrl() }}" 
+                                    <img src="{{ $img->getUrl() }}" 
                                         alt="{{ $name }}"
-                                        class="lazy w-full h-full object-cover">
+                                        class="w-full h-full object-cover">
                                     <div class="absolute inset-0 bg-black/20 transition-opacity duration-200"
                                         :class="{
                                             'opacity-0': active === {{ $i }},
@@ -190,10 +180,10 @@
             </div>
 
             {{-- 商品属性 --}}
-            @if ($attributes->count())
+            @if ($productAttributes->count())
                 <div class="mb-2 text-gray-700 flex flex-col gap gap-2">
                     {{-- <span class="mr-2">{{ __('home.attributes') }}:</span> --}}
-                    @foreach ($attributes as $attrValue)
+                    @foreach ($productAttributes as $attrValue)
                         @php
                             $attrNames = $this->getAttributeDisplayNames($attrValue, $lang);
                             $attrName = $attrNames['attrName'];
@@ -501,18 +491,4 @@
         }
     </style>
 
-    <script>
-        // 监听Livewire更新事件，重新初始化懒加载
-        document.addEventListener('livewire:init', () => {
-            Livewire.hook('morph.updated', ({ el, component }) => {
-                // 当组件更新后，重新初始化懒加载
-                if (window.updateLazyLoad) {
-                    // 使用setTimeout确保DOM已完全更新
-                    setTimeout(() => {
-                        window.updateLazyLoad();
-                    }, 100);
-                }
-            });
-        });
-    </script>
 @endPushOnce

@@ -25,7 +25,7 @@
                             :title="__('search.products')"
                         >
                             <x-slot:actions>
-                                <a href="{{ locaRoute('product', ['search' => $query]) }}"
+                                <a href="{{ locaRoute('product', ['search' => $query]) }}" wire:navigate
                                     class="text-sm text-teal-600 hover:text-teal-700 font-medium">
                                     {{ __('search.view_all') }}
                                 </a>
@@ -45,7 +45,7 @@
                             :title="__('search.articles')"
                         >
                             <x-slot:actions>
-                                <a href="{{ locaRoute('article.index', ['search' => $query]) }}"
+                                <a href="{{ locaRoute('article.index', ['search' => $query]) }}" wire:navigate
                                     class="text-sm text-teal-600 hover:text-teal-700 font-medium">
                                     {{ __('search.view_all') }}
                                 </a>

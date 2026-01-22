@@ -42,7 +42,7 @@
                 {{ __('app.save') }}
             </x-widgets.button>
             <x-widgets.button 
-                href="{{ locaRoute('manager.specifications') }}"
+                href="{{ locaRoute('manager.specifications') }}" wire:navigate
                 variant="secondary"
             >
                 {{ __('app.cancel') }}

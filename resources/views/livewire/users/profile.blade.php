@@ -124,6 +124,7 @@
                     <div class="flex justify-end gap-3">
                         <x-widgets.button 
                             href="{{ locaRoute('home') }}"
+                            wire:navigate
                             variant="secondary"
                             class="px-6 py-2"
                         >

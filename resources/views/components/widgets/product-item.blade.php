@@ -8,20 +8,18 @@
 @endphp
 
 <div class="group tea-product-card">
-    <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" class="block">
+    <a href="{{ locaRoute('product.show', ['slug' => $product->slug]) }}" wire:navigate class="block">
         <div class="relative w-full aspect-square bg-gray-100 overflow-hidden rounded-t-lg">
             <!-- 第一张图片 -->
-            <img data-src="{{ $firstImage }}" 
-                 src="/loading.svg"
+            <img src="{{ $firstImage }}" 
                  alt="{{ $name }}"
-                 class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-110 {{ $secondImage ? 'group-hover:opacity-0' : '' }}">
+                 class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-110 {{ $secondImage ? 'group-hover:opacity-0' : '' }}">
             
             <!-- 第二张图片（如果存在） -->
             @if ($secondImage)
-                <img data-src="{{ $secondImage }}" 
-                     src="/loading.svg"
+                <img src="{{ $secondImage }}" 
                      alt="{{ $name }}"
-                     class="lazy absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 opacity-0 scale-110 group-hover:opacity-100 group-hover:scale-115">
+                     class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500 opacity-0 scale-110 group-hover:opacity-100 group-hover:scale-115">
             @endif
             
             <!-- 图片指示器（如果有多张图片） -->

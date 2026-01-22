@@ -14,7 +14,7 @@
                     :title="__('manager.products.label')"
                 >
                     <x-slot:actions>
-                        <x-widgets.button href="{{ locaRoute('manager.products.create') }}" class="inline-flex items-center gap-2">
+                        <x-widgets.button href="{{ locaRoute('manager.products.create') }}" wire:navigate class="inline-flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
@@ -191,10 +191,12 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex flex-col items-end gap-1.5">
                                                 <a href="{{ locaRoute('manager.products.edit', ['id' => $product->id]) }}" 
+                                                   wire:navigate
                                                    class="text-teal-600 hover:text-teal-700 whitespace-nowrap">
                                                     {{ __('app.edit') }}
                                                 </a>
                                                 <a href="{{ locaRoute('manager.products.reviews', ['productId' => $product->id]) }}" 
+                                                   wire:navigate
                                                    class="text-blue-600 hover:text-blue-700 whitespace-nowrap">
                                                     {{ __('manager.product_reviews.label') }}
                                                 </a>

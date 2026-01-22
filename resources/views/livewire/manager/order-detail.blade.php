@@ -16,7 +16,7 @@
                         <p class="text-sm text-gray-600 mt-1">订单号: {{ $order->order_no }}</p>
                     </div>
                     <x-widgets.button 
-                        href="{{ locaRoute('manager.orders') }}" 
+                        href="{{ locaRoute('manager.orders') }}" wire:navigate 
                         variant="secondary"
                         class="inline-flex items-center gap-2"
                     >
@@ -149,7 +149,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-gray-900">{{ __('manager.order.items_section') }}</h2>
                         <x-widgets.button 
-                            href="{{ locaRoute('manager.orders.edit', ['id' => $order->id]) }}"
+                            href="{{ locaRoute('manager.orders.edit', ['id' => $order->id]) }}" wire:navigate
                             variant="secondary"
                             class="inline-flex items-center gap-2"
                         >

@@ -13,7 +13,7 @@
                 <ul class="space-y-2">
                     @foreach ($categories as $category)
                         <li>
-                            <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}"
+                            <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" wire:navigate
                                 class="flex gap gap-2 items-center px-4 py-2 rounded hover:bg-tea-100 transition-colors {{ $categoryId == $category['id'] ? 'bg-tea-200 font-bold text-tea-800' : 'text-tea-700' }}">
                                 <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
                                     class="h-6 w-6 object-cover rounded-lg">
@@ -23,7 +23,7 @@
                                 <ul class="pl-4 mt-1 space-y-1">
                                     @foreach ($category['children'] as $child)
                                         <li>
-                                            <a href="{{ locaRoute('product', ['slug' => $child['slug']]) }}"
+                                            <a href="{{ locaRoute('product', ['slug' => $child['slug']]) }}" wire:navigate
                                                 class="flex gap gap-2 items-center px-3 py-1 rounded hover:bg-tea-50 transition-colors {{ $categoryId == $child['id'] ? 'bg-tea-200 font-bold text-tea-800' : 'text-tea-600' }}">
                                                 <img src="{{ $child['image_url'] }}" alt="{{ $child['name'] }}"
                                                     class="h-6 w-6 object-cover rounded-lg">
@@ -40,6 +40,7 @@
                 {{-- 属性筛选 --}}
                 <form method="GET" action="{{ locaRoute('product') }}" class="mt-8">
                     @foreach ($attributes as $attr)
+                        @if(is_array($attr) && isset($attr['name']) && isset($attr['values']))
                         <div class="mb-4">
                             <div class="font-semibold text-tea-700 mb-2">{{ $attr['name'] }}</div>
                             @foreach ($attr['values'] as $val)
@@ -52,6 +53,7 @@
                                 />
                             @endforeach
                         </div>
+                        @endif
                     @endforeach
                     <x-widgets.button 
                         type="submit"

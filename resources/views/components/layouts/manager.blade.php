@@ -45,14 +45,14 @@
         <div class="w-full max-w-7xl mx-auto flex justify-between items-center h-20 px-4 md:px-8">
             <!-- Logo -->
             <div class="hidden md:flex items-center">
-                <a href="{{ locaRoute('manager.dashboard') }}" class="flex items-center gap-3 group">
+                <a href="{{ locaRoute('manager.dashboard') }}" wire:navigate class="flex items-center gap-3 group">
                     <x-layouts.logo imgClass="max-w-12 max-h-12 md:max-w-14 md:max-h-14 transition-transform group-hover:scale-105" />
                 </a>
             </div>
 
             <!-- 移动端 Logo -->
             <div class="block md:hidden">
-                <a href="{{ locaRoute('manager.dashboard') }}"><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
+                <a href="{{ locaRoute('manager.dashboard') }}" wire:navigate><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
             </div>
 
             <!-- 搜索框 -->
@@ -66,7 +66,7 @@
                     <x-manager.menu />
                 @endauth
                 @guest('manager')
-                    <a href="{{ locaRoute('manager.login') }}"
+                    <a href="{{ locaRoute('manager.login') }}" wire:navigate
                         class="hidden sm:flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-tea-600 font-medium transition-colors duration-200 tea-nav-item">
                         <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5" />
                         <span class="hidden md:block">{{ __('app.login') }}</span>

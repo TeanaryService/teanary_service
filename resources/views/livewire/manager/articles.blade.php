@@ -14,7 +14,7 @@
                     :title="__('manager.articles.label')"
                 >
                     <x-slot:actions>
-                        <x-widgets.button href="{{ locaRoute('manager.articles.create') }}" class="inline-flex items-center gap-2">
+                        <x-widgets.button href="{{ locaRoute('manager.articles.create') }}" wire:navigate class="inline-flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
@@ -173,7 +173,7 @@
                                                         </svg>
                                                     @endif
                                                 </button>
-                                                <a href="{{ locaRoute('manager.articles.edit', ['id' => $article->id]) }}" 
+                                                <a href="{{ locaRoute('manager.articles.edit', ['id' => $article->id]) }}" wire:navigate 
                                                    class="text-teal-600 hover:text-teal-700">
                                                     {{ __('app.edit') }}
                                                 </a>

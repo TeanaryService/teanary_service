@@ -39,7 +39,7 @@
                         <h3 class="mt-6 text-xl font-semibold text-gray-900">{{ __('orders.no_orders') }}</h3>
                         <p class="mt-2 text-sm text-gray-500">{{ __('orders.start_shopping') }}</p>
                         <div class="mt-6">
-                            <x-widgets.button href="{{ locaRoute('product') }}" class="px-6 py-3">
+                            <x-widgets.button href="{{ locaRoute('product') }}" wire:navigate class="px-6 py-3">
                                 {{ __('app.go_shopping') }}
                             </x-widgets.button>
                         </div>
@@ -159,6 +159,7 @@
                                 <div class="flex flex-wrap items-center gap-2">
                                     <x-widgets.button 
                                         href="{{ locaRoute('auth.order-detail', ['order' => $order->id]) }}" 
+                                        wire:navigate
                                         variant="secondary"
                                         class="inline-flex items-center gap-2"
                                     >

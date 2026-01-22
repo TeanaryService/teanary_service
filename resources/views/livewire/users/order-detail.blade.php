@@ -274,6 +274,7 @@
 
                             <x-widgets.button 
                                 href="{{ locaRoute('auth.orders') }}" 
+                                wire:navigate
                                 variant="secondary"
                                 class="w-full px-4 py-3"
                             >

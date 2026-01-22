@@ -19,7 +19,7 @@
                         @endif
                     </div>
                     <x-widgets.button 
-                        href="{{ locaRoute('manager.orders') }}" 
+                        href="{{ locaRoute('manager.orders') }}" wire:navigate 
                         variant="secondary"
                         class="inline-flex items-center gap-2"
                     >
@@ -99,7 +99,7 @@
 
                         <div class="mt-6 flex items-center justify-end gap-3">
                             <x-widgets.button 
-                                href="{{ locaRoute('manager.orders') }}"
+                                href="{{ locaRoute('manager.orders') }}" wire:navigate
                                 variant="secondary"
                                 class="px-6 py-2"
                             >

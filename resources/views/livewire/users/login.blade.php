@@ -6,7 +6,7 @@
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600">
                 {{ __('auth.or') }}
-                <a href="{{ locaRoute('auth.register') }}" class="font-medium text-teal-600 hover:text-teal-500">
+                <a href="{{ locaRoute('auth.register') }}" wire:navigate class="font-medium text-teal-600 hover:text-teal-500">
                     {{ __('app.register') }}
                 </a>
             </p>
@@ -49,7 +49,7 @@
                 />
 
                 <div class="text-sm">
-                    <a href="{{ locaRoute('auth.forgot-password') }}" class="font-medium text-teal-600 hover:text-teal-500">
+                    <a href="{{ locaRoute('auth.forgot-password') }}" wire:navigate class="font-medium text-teal-600 hover:text-teal-500">
                         {{ __('auth.forgot_password') }}
                     </a>
                 </div>

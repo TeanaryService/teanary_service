@@ -47,7 +47,7 @@
                         }
                     @endphp
                     <li>
-                        <a href="{{ locaRoute($item['route']) }}" 
+                        <a href="{{ locaRoute($item['route']) }}" wire:navigate
                            class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 {{ $isActive ? 'bg-teal-50 text-teal-700 border-l-4 border-teal-600' : 'text-gray-700 hover:bg-gray-50 hover:text-teal-600' }}">
                             <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
                             <span>{{ $item['name'] }}</span>

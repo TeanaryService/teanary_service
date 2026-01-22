@@ -14,7 +14,7 @@
                     :title="__('manager.categories.label')"
                 >
                     <x-slot:actions>
-                        <x-widgets.button href="{{ locaRoute('manager.categories.create') }}" class="inline-flex items-center gap-2">
+                        <x-widgets.button href="{{ locaRoute('manager.categories.create') }}" wire:navigate class="inline-flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
@@ -138,7 +138,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex items-center justify-end gap-2">
-                                                <a href="{{ locaRoute('manager.categories.edit', ['id' => $category->id]) }}" 
+                                                <a href="{{ locaRoute('manager.categories.edit', ['id' => $category->id]) }}" wire:navigate 
                                                    class="text-teal-600 hover:text-teal-700">
                                                     {{ __('app.edit') }}
                                                 </a>

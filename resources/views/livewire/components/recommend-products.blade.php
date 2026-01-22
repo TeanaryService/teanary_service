@@ -1,7 +1,4 @@
-<div x-data x-init="$wire.loadRecommendedProducts().then(() => { 
-    // 在数据加载完成后，等待DOM更新完成再初始化懒加载
-    setTimeout(() => window.updateLazyLoad(), 100);
-})">
+<div x-data x-init="$wire.loadRecommendedProducts()">
     @if (!$loaded)
         <div>加载推荐中...</div>
     @else

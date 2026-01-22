@@ -382,11 +382,11 @@ class ProductDetail extends Component
             : ($variant?->price
                 ? $localeCurrencyService->convertWithSymbol($variant->price, $currencyCode)
                 : '');
-        $attributes = $this->product->attributeValues ?? collect();
+        $productAttributes = $this->product->attributeValues ?? collect();
         $maxQty = $variant?->stock ?? 1;
 
         // 准备结构化数据
-        $structuredData = $this->buildStructuredData($name, $shortDesc, $images, $variant, $currencyCode, $price, $attributes, $lang);
+        $structuredData = $this->buildStructuredData($name, $shortDesc, $images, $variant, $currencyCode, $price, $productAttributes, $lang);
 
         return view('livewire.product-detail', [
             'product' => $this->product,
@@ -401,7 +401,7 @@ class ProductDetail extends Component
             'shortDesc' => $shortDesc,
             'images' => $images,
             'price' => $price,
-            'attributes' => $attributes,
+            'productAttributes' => $productAttributes,
             'maxQty' => $maxQty,
             'structuredData' => $structuredData,
             'lang' => $lang,

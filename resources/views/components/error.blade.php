@@ -26,7 +26,7 @@
                     <x-heroicon-o-arrow-left class="w-6 h-6" />
                     {{ __('error.back') }}
                 </a>
-                <a href="{{ locaRoute('home') }}"
+                <a href="{{ locaRoute('home') }}" wire:navigate
                     class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition duration-200 flex items-center gap-2">
                     <x-heroicon-o-home class="w-6 h-6" />
                     {{ __('error.home') }}

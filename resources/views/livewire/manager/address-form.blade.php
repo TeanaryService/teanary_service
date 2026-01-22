@@ -223,7 +223,7 @@
                         {{-- 操作按钮 --}}
                         <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
                             <x-widgets.button 
-                                href="{{ locaRoute('manager.addresses') }}" 
+                                href="{{ locaRoute('manager.addresses') }}" wire:navigate 
                                 variant="secondary"
                             >
                                 {{ __('app.cancel') }}

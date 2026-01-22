@@ -13,7 +13,7 @@
                 <div class="mb-6 flex items-center justify-between">
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.orders.label') }}</h1>
                     <x-widgets.button 
-                        href="{{ locaRoute('manager.orders.create') }}"
+                        href="{{ locaRoute('manager.orders.create') }}" wire:navigate
                         class="inline-flex items-center gap-2"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,6 +219,7 @@
                                     <div class="flex flex-wrap items-center gap-2">
                                         <x-widgets.button 
                                             href="{{ locaRoute('manager.orders.edit', ['id' => $order->id]) }}" 
+                                            wire:navigate
                                             class="inline-flex items-center gap-2"
                                         >
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,6 +229,7 @@
                                         </x-widgets.button>
                                         <x-widgets.button 
                                             href="{{ locaRoute('manager.orders.detail', ['id' => $order->id]) }}" 
+                                            wire:navigate
                                             variant="secondary"
                                             class="inline-flex items-center gap-2"
                                         >

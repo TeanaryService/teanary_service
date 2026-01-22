@@ -22,11 +22,11 @@
     <div x-show="open" @click.away="open = false" x-transition
         class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-teal-300">
         <div class="py-1">
-            <a href="{{ locaRoute('auth.orders') }}"
+            <a href="{{ locaRoute('auth.orders') }}" wire:navigate
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
                 {{ __('orders.my_orders') }}
             </a>
-            <a href="{{ locaRoute('auth.notifications') }}"
+            <a href="{{ locaRoute('auth.notifications') }}" wire:navigate
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 relative">
                 {{ __('notifications.my_notifications') }}
                 @if(auth()->user()->unreadNotifications->count() > 0)
@@ -35,11 +35,11 @@
                     </span>
                 @endif
             </a>
-            <a href="{{ locaRoute('auth.addresses') }}"
+            <a href="{{ locaRoute('auth.addresses') }}" wire:navigate
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
                 {{ __('app.addresses.my_addresses') }}
             </a>
-            <a href="{{ locaRoute('auth.profile') }}"
+            <a href="{{ locaRoute('auth.profile') }}" wire:navigate
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
                 {{ __('app.profile') }}
             </a>

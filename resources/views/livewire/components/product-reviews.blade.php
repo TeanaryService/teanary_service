@@ -55,9 +55,9 @@
             </form>
         @else
             <div class="mb-4 bg-teal-500 text-white rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
-                <a href="{{ locaRoute('auth.login') }}"
+                <a href="{{ locaRoute('auth.login') }}" wire:navigate
                     class="font-semibold">{{ __('app.login') }}</a>
-                <a href="{{ locaRoute('auth.register') }}"
+                <a href="{{ locaRoute('auth.register') }}" wire:navigate
                     class="font-semibold">{{ __('app.register') }}</a>
                 <span class="text-gray-50">{{ __('home.login_to_review') }}</span>
             </div>

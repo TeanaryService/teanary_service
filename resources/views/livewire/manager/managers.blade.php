@@ -14,7 +14,7 @@
                     :title="__('manager.managers.label')"
                 >
                     <x-slot:actions>
-                        <x-widgets.button href="{{ locaRoute('manager.managers.create') }}" class="inline-flex items-center gap-2">
+                        <x-widgets.button href="{{ locaRoute('manager.managers.create') }}" wire:navigate class="inline-flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
@@ -123,7 +123,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                                                     </svg>
                                                 </button>
-                                                <a href="{{ locaRoute('manager.managers.edit', ['id' => $manager->id]) }}" 
+                                                <a href="{{ locaRoute('manager.managers.edit', ['id' => $manager->id]) }}" wire:navigate 
                                                    class="text-teal-600 hover:text-teal-700">
                                                     {{ __('app.edit') }}
                                                 </a>

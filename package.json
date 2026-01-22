@@ -16,7 +16,6 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
-        "@tailwindcss/line-clamp": "^0.4.4",
-        "vanilla-lazyload": "^17.8.5"
+        "@tailwindcss/line-clamp": "^0.4.4"
     }
 }

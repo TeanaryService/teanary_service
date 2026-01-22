@@ -136,9 +136,19 @@ class Product extends Component
     {
         $seoData = $this->buildSeoData();
         
+        // 确保 attributes 是数组格式
+        $attributesArray = [];
+        if ($this->allAttributes) {
+            foreach ($this->allAttributes as $attr) {
+                if (is_array($attr) || (is_object($attr) && method_exists($attr, 'toArray'))) {
+                    $attributesArray[] = is_array($attr) ? $attr : $attr->toArray();
+                }
+            }
+        }
+        
         return view('livewire.product', [
             'categories' => $this->categories,
-            'attributes' => $this->allAttributes,
+            'attributes' => $attributesArray,
             'products' => $this->products,
             'categoryId' => $this->categoryId,
             'attributeFilters' => $this->attributeFilters,
