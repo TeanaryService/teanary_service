@@ -24,4 +24,5 @@ return [
     'items_section' => '注文商品',
     'items_count' => '商品数',
     'no_variant' => '特定のバリアントなし',
+    'currency' => '通貨',
 ];

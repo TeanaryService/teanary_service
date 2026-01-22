@@ -24,5 +24,6 @@ return [
     'items_section' => 'Bestellartikel',
     'items_count' => 'Anzahl der Artikel',
     'no_variant' => 'Keine spezifische Variante',
+    'currency' => 'Währung',
 ];
 

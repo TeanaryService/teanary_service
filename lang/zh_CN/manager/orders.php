@@ -24,4 +24,5 @@ return [
     'items_section' => '订单商品',
     'items_count' => '商品数量',
     'no_variant' => '无具体规格',
+    'currency' => '货币',
 ];

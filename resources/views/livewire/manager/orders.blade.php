@@ -37,7 +37,6 @@
                                 wire="live=filterStatus" 
                                 :options="$statusOptions"
                                 :multiple="false"
-                                size="3"
                             />
                         </div>
                         <div>
@@ -48,7 +47,7 @@
                             />
                         </div>
                         <div>
-                            <x-widgets.label>{{ __('manager.order.currency_id') }}</x-widgets.label>
+                            <x-widgets.label>{{ __('manager.order.currency') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterCurrencyId" 
                                 :options="[['value' => '', 'label' => __('app.all')], ...collect($currencies)->map(fn($currency) => ['value' => $currency->id, 'label' => $currency->name . ' (' . $currency->symbol . ')'])->toArray()]"

@@ -24,4 +24,5 @@ return [
     'items_section' => 'Articles de la commande',
     'items_count' => 'Nombre d\'articles',
     'no_variant' => 'Aucune variante spécifique',
+    'currency' => 'Devise',
 ];

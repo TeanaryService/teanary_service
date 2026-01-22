@@ -24,4 +24,5 @@ return [
     'items_section' => '주문 상품',
     'items_count' => '상품 수',
     'no_variant' => '특정 변형 없음',
+    'currency' => '통화',
 ];

@@ -24,4 +24,5 @@ return [
     'items_section' => 'Order Items',
     'items_count' => 'Items Count',
     'no_variant' => 'No Specific Specification',
+    'currency' => 'Currency',
 ];
