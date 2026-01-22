@@ -46,102 +46,102 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('manager')->group(function () {
     // 认证路由（访客）
     Route::middleware([CustomRedirectIfAuthenticated::class . ':manager'])->group(function () {
-        Route::get('login', Login::class)->name('manager.login');
+        Route::livewire('login', Login::class)->name('manager.login');
     });
 
     // 需要认证的路由
     Route::middleware('auth:manager')->group(function () {
-        Route::get('/', Dashboard::class)->name('manager.dashboard');
-        Route::get('notifications', Notifications::class)->name('manager.notifications');
-        Route::get('traffic-statistics', TrafficStatistics::class)->name('manager.traffic-statistics');
+        Route::livewire('/', Dashboard::class)->name('manager.dashboard');
+        Route::livewire('notifications', Notifications::class)->name('manager.notifications');
+        Route::livewire('traffic-statistics', TrafficStatistics::class)->name('manager.traffic-statistics');
         
         // 语言管理
-        Route::get('languages', Languages::class)->name('manager.languages');
-        Route::get('languages/create', LanguageForm::class)->name('manager.languages.create');
-        Route::get('languages/{id}/edit', LanguageForm::class)->name('manager.languages.edit');
+        Route::livewire('languages', Languages::class)->name('manager.languages');
+        Route::livewire('languages/create', LanguageForm::class)->name('manager.languages.create');
+        Route::livewire('languages/{id}/edit', LanguageForm::class)->name('manager.languages.edit');
         
         // 货币管理
-        Route::get('currencies', Currencies::class)->name('manager.currencies');
-        Route::get('currencies/create', CurrencyForm::class)->name('manager.currencies.create');
-        Route::get('currencies/{id}/edit', CurrencyForm::class)->name('manager.currencies.edit');
+        Route::livewire('currencies', Currencies::class)->name('manager.currencies');
+        Route::livewire('currencies/create', CurrencyForm::class)->name('manager.currencies.create');
+        Route::livewire('currencies/{id}/edit', CurrencyForm::class)->name('manager.currencies.edit');
         
         // 国家管理
-        Route::get('countries', Countries::class)->name('manager.countries');
-        Route::get('countries/create', CountryForm::class)->name('manager.countries.create');
-        Route::get('countries/{id}/edit', CountryForm::class)->name('manager.countries.edit');
+        Route::livewire('countries', Countries::class)->name('manager.countries');
+        Route::livewire('countries/create', CountryForm::class)->name('manager.countries.create');
+        Route::livewire('countries/{id}/edit', CountryForm::class)->name('manager.countries.edit');
         
         // 地区管理
-        Route::get('zones', Zones::class)->name('manager.zones');
-        Route::get('zones/create', ZoneForm::class)->name('manager.zones.create');
-        Route::get('zones/{id}/edit', ZoneForm::class)->name('manager.zones.edit');
+        Route::livewire('zones', Zones::class)->name('manager.zones');
+        Route::livewire('zones/create', ZoneForm::class)->name('manager.zones.create');
+        Route::livewire('zones/{id}/edit', ZoneForm::class)->name('manager.zones.edit');
         
         // 文章管理
-        Route::get('articles', Articles::class)->name('manager.articles');
-        Route::get('articles/create', ArticleForm::class)->name('manager.articles.create');
-        Route::get('articles/{id}/edit', ArticleForm::class)->name('manager.articles.edit');
+        Route::livewire('articles', Articles::class)->name('manager.articles');
+        Route::livewire('articles/create', ArticleForm::class)->name('manager.articles.create');
+        Route::livewire('articles/{id}/edit', ArticleForm::class)->name('manager.articles.edit');
 
         // 促销管理
-        Route::get('promotions', Promotions::class)->name('manager.promotions');
-        Route::get('promotions/create', PromotionForm::class)->name('manager.promotions.create');
-        Route::get('promotions/{id}/edit', PromotionForm::class)->name('manager.promotions.edit');
+        Route::livewire('promotions', Promotions::class)->name('manager.promotions');
+        Route::livewire('promotions/create', PromotionForm::class)->name('manager.promotions.create');
+        Route::livewire('promotions/{id}/edit', PromotionForm::class)->name('manager.promotions.edit');
         
         // 地址管理
-        Route::get('addresses', Addresses::class)->name('manager.addresses');
-        Route::get('addresses/create', AddressForm::class)->name('manager.addresses.create');
-        Route::get('addresses/{id}/edit', AddressForm::class)->name('manager.addresses.edit');
+        Route::livewire('addresses', Addresses::class)->name('manager.addresses');
+        Route::livewire('addresses/create', AddressForm::class)->name('manager.addresses.create');
+        Route::livewire('addresses/{id}/edit', AddressForm::class)->name('manager.addresses.edit');
         
         // 商品管理
-        Route::get('products', Products::class)->name('manager.products');
-        Route::get('products/create', ProductForm::class)->name('manager.products.create');
-        Route::get('products/{id}/edit', ProductForm::class)->name('manager.products.edit');
-        Route::get('products/{productId}/reviews', ProductReviews::class)->name('manager.products.reviews');
+        Route::livewire('products', Products::class)->name('manager.products');
+        Route::livewire('products/create', ProductForm::class)->name('manager.products.create');
+        Route::livewire('products/{id}/edit', ProductForm::class)->name('manager.products.edit');
+        Route::livewire('products/{productId}/reviews', ProductReviews::class)->name('manager.products.reviews');
         
         // 属性管理
-        Route::get('attributes', Attributes::class)->name('manager.attributes');
-        Route::get('attributes/create', AttributeForm::class)->name('manager.attributes.create');
-        Route::get('attributes/{id}/edit', AttributeForm::class)->name('manager.attributes.edit');
+        Route::livewire('attributes', Attributes::class)->name('manager.attributes');
+        Route::livewire('attributes/create', AttributeForm::class)->name('manager.attributes.create');
+        Route::livewire('attributes/{id}/edit', AttributeForm::class)->name('manager.attributes.edit');
         
         // 属性值管理
-        Route::get('attribute-values', AttributeValues::class)->name('manager.attribute-values');
-        Route::get('attribute-values/create', AttributeValueForm::class)->name('manager.attribute-values.create');
-        Route::get('attribute-values/{id}/edit', AttributeValueForm::class)->name('manager.attribute-values.edit');
+        Route::livewire('attribute-values', AttributeValues::class)->name('manager.attribute-values');
+        Route::livewire('attribute-values/create', AttributeValueForm::class)->name('manager.attribute-values.create');
+        Route::livewire('attribute-values/{id}/edit', AttributeValueForm::class)->name('manager.attribute-values.edit');
 
         // 规格管理
-        Route::get('specifications', Specifications::class)->name('manager.specifications');
-        Route::get('specifications/create', SpecificationForm::class)->name('manager.specifications.create');
-        Route::get('specifications/{id}/edit', SpecificationForm::class)->name('manager.specifications.edit');
+        Route::livewire('specifications', Specifications::class)->name('manager.specifications');
+        Route::livewire('specifications/create', SpecificationForm::class)->name('manager.specifications.create');
+        Route::livewire('specifications/{id}/edit', SpecificationForm::class)->name('manager.specifications.edit');
 
         // 规格值管理
-        Route::get('specification-values', SpecificationValues::class)->name('manager.specification-values');
-        Route::get('specification-values/create', SpecificationValueForm::class)->name('manager.specification-values.create');
-        Route::get('specification-values/{id}/edit', SpecificationValueForm::class)->name('manager.specification-values.edit');
+        Route::livewire('specification-values', SpecificationValues::class)->name('manager.specification-values');
+        Route::livewire('specification-values/create', SpecificationValueForm::class)->name('manager.specification-values.create');
+        Route::livewire('specification-values/{id}/edit', SpecificationValueForm::class)->name('manager.specification-values.edit');
         
         // 购物车管理
-        Route::get('carts', Carts::class)->name('manager.carts');
+        Route::livewire('carts', Carts::class)->name('manager.carts');
         
         // 分类管理
-        Route::get('categories', Categories::class)->name('manager.categories');
-        Route::get('categories/create', CategoryForm::class)->name('manager.categories.create');
-        Route::get('categories/{id}/edit', CategoryForm::class)->name('manager.categories.edit');
+        Route::livewire('categories', Categories::class)->name('manager.categories');
+        Route::livewire('categories/create', CategoryForm::class)->name('manager.categories.create');
+        Route::livewire('categories/{id}/edit', CategoryForm::class)->name('manager.categories.edit');
         
         // 联系人管理
-        Route::get('contacts', Contacts::class)->name('manager.contacts');
+        Route::livewire('contacts', Contacts::class)->name('manager.contacts');
         
         // 订单管理
-        Route::get('orders', Orders::class)->name('manager.orders');
-        Route::get('orders/create', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.create');
-        Route::get('orders/{id}/edit', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.edit');
-        Route::get('orders/{id}', OrderDetail::class)->name('manager.orders.detail');
+        Route::livewire('orders', Orders::class)->name('manager.orders');
+        Route::livewire('orders/create', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.create');
+        Route::livewire('orders/{id}/edit', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.edit');
+        Route::livewire('orders/{id}', OrderDetail::class)->name('manager.orders.detail');
         
         // 管理员管理
-        Route::get('managers', Managers::class)->name('manager.managers');
-        Route::get('managers/create', ManagerForm::class)->name('manager.managers.create');
-        Route::get('managers/{id}/edit', ManagerForm::class)->name('manager.managers.edit');
+        Route::livewire('managers', Managers::class)->name('manager.managers');
+        Route::livewire('managers/create', ManagerForm::class)->name('manager.managers.create');
+        Route::livewire('managers/{id}/edit', ManagerForm::class)->name('manager.managers.edit');
         
         // 用户管理
-        Route::get('users', Users::class)->name('manager.users');
-        Route::get('users/create', UserForm::class)->name('manager.users.create');
-        Route::get('users/{id}/edit', UserForm::class)->name('manager.users.edit');
+        Route::livewire('users', Users::class)->name('manager.users');
+        Route::livewire('users/create', UserForm::class)->name('manager.users.create');
+        Route::livewire('users/{id}/edit', UserForm::class)->name('manager.users.edit');
 
         Route::post('logout', function () {
             Auth::guard('manager')->logout();

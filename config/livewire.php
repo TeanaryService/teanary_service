@@ -30,19 +30,19 @@ return [
 
     /*
     |---------------------------------------------------------------------------
-    | Layout
+    | Component Layout
     |---------------------------------------------------------------------------
     | The view that will be used as the layout when rendering a single component
-    | as an entire page via `Route::get('/post/create', CreatePost::class);`.
+    | as an entire page via `Route::livewire('/post/create', CreatePost::class);`.
     | In this case, the view returned by CreatePost will render into $slot.
     |
     */
 
-    'layout' => 'components.layouts.app',
+    'component_layout' => 'components.layouts.app',
 
     /*
     |---------------------------------------------------------------------------
-    | Lazy Loading Placeholder
+    | Component Placeholder
     |---------------------------------------------------------------------------
     | Livewire allows you to lazy load components that would otherwise slow down
     | the initial page load. Every component can have a custom placeholder or
@@ -50,7 +50,7 @@ return [
     |
     */
 
-    'lazy_placeholder' => null,
+    'component_placeholder' => null,
 
     /*
     |---------------------------------------------------------------------------
@@ -157,4 +157,63 @@ return [
     */
 
     'pagination_theme' => 'tailwind',
+
+    /*
+    |---------------------------------------------------------------------------
+    | Component Locations
+    |---------------------------------------------------------------------------
+    | Defines where Livewire looks for single-file and multi-file (view-based) components.
+    |
+    */
+
+    'component_locations' => [
+        resource_path('views/components'),
+        resource_path('views/livewire'),
+    ],
+
+    /*
+    |---------------------------------------------------------------------------
+    | Component Namespaces
+    |---------------------------------------------------------------------------
+    | Creates custom namespaces for organizing view-based components.
+    |
+    */
+
+    'component_namespaces' => [
+        'layouts' => resource_path('views/layouts'),
+        'pages' => resource_path('views/pages'),
+    ],
+
+    /*
+    |---------------------------------------------------------------------------
+    | Make Command Defaults
+    |---------------------------------------------------------------------------
+    | Configure default component format and emoji usage.
+    |
+    */
+
+    'make_command' => [
+        'type' => 'class', // Options: 'sfc', 'mfc', or 'class'
+        'emoji' => false, // Whether to use ⚡ emoji prefix
+    ],
+
+    /*
+    |---------------------------------------------------------------------------
+    | Smart Wire Keys
+    |---------------------------------------------------------------------------
+    | Helps prevent wire:key issues on deeply nested components.
+    |
+    */
+
+    'smart_wire_keys' => true,
+
+    /*
+    |---------------------------------------------------------------------------
+    | CSP Safe Mode
+    |---------------------------------------------------------------------------
+    | Enable Content Security Policy mode to avoid unsafe-eval violations.
+    |
+    */
+
+    'csp_safe' => false,
 ];

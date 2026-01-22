@@ -16,19 +16,19 @@ use Illuminate\Support\Facades\Route;
 
 // 认证路由（访客）
 Route::middleware([CustomRedirectIfAuthenticated::class])->group(function () {
-    Route::get('login', Login::class)->name('auth.login');
-    Route::get('register', Register::class)->name('auth.register');
-    Route::get('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
-    Route::get('reset-password/{token}', ResetPassword::class)->name('password.reset');
+    Route::livewire('login', Login::class)->name('auth.login');
+    Route::livewire('register', Register::class)->name('auth.register');
+    Route::livewire('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
+    Route::livewire('reset-password/{token}', ResetPassword::class)->name('password.reset');
 });
 
 // 需要认证的路由
 Route::middleware('auth')->group(function () {
-    Route::get('profile', Profile::class)->name('auth.profile');
-    Route::get('orders', Orders::class)->name('auth.orders');
-    Route::get('orders/{order}', OrderDetail::class)->name('auth.order-detail');
-    Route::get('addresses', Addresses::class)->name('auth.addresses');
-    Route::get('notifications', Notifications::class)->name('auth.notifications');
+    Route::livewire('profile', Profile::class)->name('auth.profile');
+    Route::livewire('orders', Orders::class)->name('auth.orders');
+    Route::livewire('orders/{order}', OrderDetail::class)->name('auth.order-detail');
+    Route::livewire('addresses', Addresses::class)->name('auth.addresses');
+    Route::livewire('notifications', Notifications::class)->name('auth.notifications');
     Route::post('logout', function () {
         Auth::logout();
         request()->session()->invalidate();

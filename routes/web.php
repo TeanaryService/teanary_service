@@ -34,7 +34,7 @@ if (empty($supportedLocales)) {
 
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Middleware\TrackTraffic::class])->group(function () {
-    Route::get('index.html', IndexPage::class)->name('teanary.open');
+    Route::livewire('index.html', IndexPage::class)->name('teanary.open');
     
     // 引入用户相关路由
     require __DIR__.'/users.php';
@@ -45,23 +45,23 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
     Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
 
-    Route::get('/', Home::class)->name('home');
-    Route::get('product', Product::class)->name('product');
-    Route::get('product/{slug}', ProductDetail::class)->name('product.show');
-    Route::get('cart', Cart::class)->name('cart');
-    Route::get('checkout', Checkout::class)->name('checkout');
+    Route::livewire('/', Home::class)->name('home');
+    Route::livewire('product', Product::class)->name('product');
+    Route::livewire('product/{slug}', ProductDetail::class)->name('product.show');
+    Route::livewire('cart', Cart::class)->name('cart');
+    Route::livewire('checkout', Checkout::class)->name('checkout');
 
-    Route::get('payment/success', Success::class)->name('payment.success');
-    Route::get('payment/cancel', Cancel::class)->name('payment.cancel');
-    Route::get('payment/failure', Failure::class)->name('payment.failure');
-    Route::get('payment/checkout/{orderId}', PaymentCheckout::class)->name('payment.checkout');
+    Route::livewire('payment/success', Success::class)->name('payment.success');
+    Route::livewire('payment/cancel', Cancel::class)->name('payment.cancel');
+    Route::livewire('payment/failure', Failure::class)->name('payment.failure');
+    Route::livewire('payment/checkout/{orderId}', PaymentCheckout::class)->name('payment.checkout');
 
-    Route::get('articles', ArticleList::class)->name('article.index');
-    Route::get('articles/{slug}', ArticleDetail::class)->name('article.show');
+    Route::livewire('articles', ArticleList::class)->name('article.index');
+    Route::livewire('articles/{slug}', ArticleDetail::class)->name('article.show');
 
-    Route::get('/search', \App\Livewire\Search::class)->name('search');
+    Route::livewire('/search', \App\Livewire\Search::class)->name('search');
 
-    Route::get('order-query', OrderQuery::class)->name('order.query');
+    Route::livewire('order-query', OrderQuery::class)->name('order.query');
 
     Route::fallback(function () {
         return abort(404);
