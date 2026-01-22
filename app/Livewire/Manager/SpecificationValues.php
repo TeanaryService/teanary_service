@@ -6,6 +6,7 @@ use App\Enums\TranslationStatusEnum;
 use App\Models\SpecificationValue;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class SpecificationValues extends Component
@@ -46,7 +47,8 @@ class SpecificationValues extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getSpecificationValuesProperty()
+    #[Computed]
+    public function specificationValues()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

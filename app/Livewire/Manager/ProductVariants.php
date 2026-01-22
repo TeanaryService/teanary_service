@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class ProductVariants extends Component
@@ -32,7 +33,8 @@ class ProductVariants extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getVariantsProperty()
+    #[Computed]
+    public function variants()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

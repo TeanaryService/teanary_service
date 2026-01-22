@@ -120,7 +120,7 @@ class ManagerForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.managers'));
+        return redirect()->to(locaRoute('manager.managers'), navigate: true);
     }
 
     public function render()

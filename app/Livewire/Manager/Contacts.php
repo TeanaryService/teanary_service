@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Models\Contact;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Contacts extends Component
@@ -44,7 +45,8 @@ class Contacts extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getContactsProperty()
+    #[Computed]
+    public function contacts()
     {
         $query = Contact::query();
 

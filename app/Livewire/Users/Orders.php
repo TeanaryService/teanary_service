@@ -6,6 +6,7 @@ use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,7 +21,8 @@ class Orders extends Component
         $this->localeService = app(LocaleCurrencyService::class);
     }
 
-    public function getOrdersProperty()
+    #[Computed]
+    public function orders()
     {
         return Order::query()
             ->where('user_id', Auth::id())

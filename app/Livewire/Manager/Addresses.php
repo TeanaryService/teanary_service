@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Models\Address;
 use App\Services\LocaleCurrencyService;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -48,7 +49,8 @@ class Addresses extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getAddressesProperty()
+    #[Computed]
+    public function addresses()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

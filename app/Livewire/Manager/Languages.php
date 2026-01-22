@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Models\Language;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Languages extends Component
@@ -30,7 +31,8 @@ class Languages extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getLanguagesProperty()
+    #[Computed]
+    public function languages()
     {
         $query = Language::query();
 

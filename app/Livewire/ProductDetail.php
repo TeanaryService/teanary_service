@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Services\LocaleCurrencyService;
 use App\Services\ProductVariantService;
 use App\Services\PromotionService;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ProductDetail extends Component
@@ -35,7 +36,8 @@ class ProductDetail extends Component
     /**
      * 获取所有已选择的规格和规格值（用于生成笛卡尔积）
      */
-    public function getSpecificationsForSelectionProperty()
+    #[Computed]
+    public function specificationsForSelection()
     {
         $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
         
@@ -119,7 +121,8 @@ class ProductDetail extends Component
     /**
      * 获取所有 SKU 组合（笛卡尔积）
      */
-    public function getSkuCombinationsProperty()
+    #[Computed]
+    public function skuCombinations()
     {
         $specs = $this->specificationsForSelection;
         

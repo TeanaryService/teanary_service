@@ -197,7 +197,7 @@ class ArticleForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.articles'));
+        return redirect()->to(locaRoute('manager.articles'), navigate: true);
     }
 
     public function render()

@@ -212,7 +212,7 @@ class ProductForm extends Component
             $this->newImages = [];
         }
 
-        return redirect()->to(locaRoute('manager.products'));
+        return redirect()->to(locaRoute('manager.products'), navigate: true);
     }
 
     public function render()

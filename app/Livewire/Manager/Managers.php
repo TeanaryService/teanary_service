@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Models\Manager;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Managers extends Component
@@ -38,7 +39,8 @@ class Managers extends Component
         session()->flash('message', 'Token已生成: ' . $token);
     }
 
-    public function getManagersProperty()
+    #[Computed]
+    public function managers()
     {
         $query = Manager::query();
 

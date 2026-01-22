@@ -10,6 +10,7 @@ use App\Models\SpecificationValue;
 use App\Services\LocaleCurrencyService;
 use App\Services\ProductVariantService;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithFileUploads;
 
 class ManageProductVariants extends Component
@@ -380,7 +381,8 @@ class ManageProductVariants extends Component
         session()->flash('success', __('manager.product_variants.manage.save_success'));
     }
 
-    public function getSpecificationsProperty()
+    #[Computed]
+    public function specifications()
     {
         $lang = $this->getCurrentLanguage();
         $specs = Specification::with(['specificationTranslations', 'specificationValues.specificationValueTranslations'])

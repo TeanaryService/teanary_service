@@ -8,6 +8,7 @@ use App\Models\Zone;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Addresses extends Component
@@ -86,7 +87,8 @@ class Addresses extends Component
         }
     }
 
-    public function getAddressesProperty()
+    #[Computed]
+    public function addresses()
     {
         return Address::query()
             ->where('user_id', Auth::id())
@@ -96,7 +98,8 @@ class Addresses extends Component
             ->paginate(10);
     }
 
-    public function getCountriesProperty()
+    #[Computed]
+    public function countries()
     {
         $localeService = $this->getLocaleService();
         $lang = $localeService->getLanguageByCode(session('lang'));

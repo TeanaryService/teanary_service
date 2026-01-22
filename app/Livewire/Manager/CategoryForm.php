@@ -162,7 +162,7 @@ class CategoryForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.categories'));
+        return redirect()->to(locaRoute('manager.categories'), navigate: true);
     }
 
     public function render()

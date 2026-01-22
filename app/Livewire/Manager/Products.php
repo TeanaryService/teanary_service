@@ -7,6 +7,7 @@ use App\Enums\TranslationStatusEnum;
 use App\Models\Product;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -69,7 +70,8 @@ class Products extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getProductsProperty()
+    #[Computed]
+    public function products()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

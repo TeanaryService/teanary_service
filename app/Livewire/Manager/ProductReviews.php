@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductReview;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class ProductReviews extends Component
@@ -60,7 +61,8 @@ class ProductReviews extends Component
         session()->flash('message', $review->is_approved ? __('manager.product_reviews.approved') : __('manager.product_reviews.pending'));
     }
 
-    public function getReviewsProperty()
+    #[Computed]
+    public function reviews()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

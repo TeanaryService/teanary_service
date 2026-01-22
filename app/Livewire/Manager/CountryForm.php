@@ -124,7 +124,7 @@ class CountryForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.countries'));
+        return redirect()->to(locaRoute('manager.countries'), navigate: true);
     }
 
     public function render()

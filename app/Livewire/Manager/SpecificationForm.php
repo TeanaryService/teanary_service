@@ -102,7 +102,7 @@ class SpecificationForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.specifications'));
+        return redirect()->to(locaRoute('manager.specifications'), navigate: true);
     }
 
     public function render()

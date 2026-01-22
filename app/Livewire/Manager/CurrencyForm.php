@@ -85,7 +85,7 @@ class CurrencyForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.currencies'));
+        return redirect()->to(locaRoute('manager.currencies'), navigate: true);
     }
 
     public function render()

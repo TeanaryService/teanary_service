@@ -121,7 +121,7 @@ class ZoneForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.zones'));
+        return redirect()->to(locaRoute('manager.zones'), navigate: true);
     }
 
     public function render()

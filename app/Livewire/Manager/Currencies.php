@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Models\Currency;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Currencies extends Component
@@ -41,7 +42,8 @@ class Currencies extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getCurrenciesProperty()
+    #[Computed]
+    public function currencies()
     {
         $query = Currency::query();
 

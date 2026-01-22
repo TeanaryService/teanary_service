@@ -132,7 +132,7 @@ class AddressForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.addresses'));
+        return redirect()->to(locaRoute('manager.addresses'), navigate: true);
     }
 
     public function render()

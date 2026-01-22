@@ -108,7 +108,7 @@ class SpecificationValueForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.specification-values'));
+        return redirect()->to(locaRoute('manager.specification-values'), navigate: true);
     }
 
     public function render()

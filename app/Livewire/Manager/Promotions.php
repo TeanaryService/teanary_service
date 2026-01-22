@@ -7,6 +7,7 @@ use App\Enums\TranslationStatusEnum;
 use App\Models\Promotion;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Promotions extends Component
@@ -54,7 +55,8 @@ class Promotions extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getPromotionsProperty()
+    #[Computed]
+    public function promotions()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

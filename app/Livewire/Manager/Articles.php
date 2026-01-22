@@ -5,6 +5,7 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Models\Article;
 use App\Services\LocaleCurrencyService;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -54,7 +55,8 @@ class Articles extends Component
         session()->flash('message', $article->is_published ? __('manager.article.published') : __('manager.article.unpublished'));
     }
 
-    public function getArticlesProperty()
+    #[Computed]
+    public function articles()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

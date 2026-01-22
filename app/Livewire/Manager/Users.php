@@ -5,6 +5,7 @@ namespace App\Livewire\Manager;
 use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Users extends Component
@@ -45,7 +46,8 @@ class Users extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getUsersProperty()
+    #[Computed]
+    public function users()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

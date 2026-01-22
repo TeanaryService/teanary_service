@@ -115,7 +115,7 @@ class AttributeForm extends Component
             session()->flash('message', __('app.created_successfully'));
         }
 
-        return redirect()->to(locaRoute('manager.attributes'));
+        return redirect()->to(locaRoute('manager.attributes'), navigate: true);
     }
 
     public function render()

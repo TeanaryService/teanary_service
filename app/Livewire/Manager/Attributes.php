@@ -7,6 +7,7 @@ use App\Models\Attribute;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Attributes extends Component
@@ -58,7 +59,8 @@ class Attributes extends Component
     }
 
     // 使用自定义名称避免与 Livewire 内部 $attributes 属性冲突
-    public function getAttributeListProperty()
+    #[Computed]
+    public function attributeList()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

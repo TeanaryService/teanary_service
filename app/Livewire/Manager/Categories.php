@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Categories extends Component
@@ -48,7 +49,8 @@ class Categories extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getCategoriesProperty()
+    #[Computed]
+    public function categories()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

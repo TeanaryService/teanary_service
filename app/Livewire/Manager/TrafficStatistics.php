@@ -5,6 +5,7 @@ namespace App\Livewire\Manager;
 use App\Models\TrafficStatistic;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class TrafficStatistics extends Component
@@ -48,7 +49,8 @@ class TrafficStatistics extends Component
         };
     }
 
-    public function getStatsProperty(): array
+    #[Computed]
+    public function stats(): array
     {
         [$startDate, $endDate] = $this->getDateRange();
 
@@ -77,7 +79,8 @@ class TrafficStatistics extends Component
         ];
     }
 
-    public function getTopPagesProperty(): array
+    #[Computed]
+    public function topPages(): array
     {
         [$startDate, $endDate] = $this->getDateRange();
 
@@ -90,7 +93,8 @@ class TrafficStatistics extends Component
         return TrafficStatistic::getTopPages($startDate, $endDate, 20, $isBot)->toArray();
     }
 
-    public function getRecordsProperty()
+    #[Computed]
+    public function records()
     {
         [$startDate, $endDate] = $this->getDateRange();
 

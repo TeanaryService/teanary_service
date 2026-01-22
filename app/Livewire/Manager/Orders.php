@@ -5,9 +5,10 @@ namespace App\Livewire\Manager;
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use App\Services\LocaleCurrencyService;
+use Illuminate\Support\Carbon;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Carbon;
 
 class Orders extends Component
 {
@@ -54,7 +55,8 @@ class Orders extends Component
         $this->resetPage();
     }
 
-    public function getOrdersProperty()
+    #[Computed]
+    public function orders()
     {
         $service = app(LocaleCurrencyService::class);
         $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();

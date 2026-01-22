@@ -4,6 +4,7 @@ namespace App\Livewire\Users;
 
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Notifications extends Component
@@ -16,7 +17,8 @@ class Notifications extends Component
         Auth::user()->unreadNotifications->markAsRead();
     }
 
-    public function getNotificationsProperty()
+    #[Computed]
+    public function notifications()
     {
         return Auth::user()
             ->notifications()

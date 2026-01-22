@@ -6,6 +6,7 @@ use App\Enums\TranslationStatusEnum;
 use App\Models\Zone;
 use App\Services\LocaleCurrencyService;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 class Zones extends Component
@@ -53,7 +54,8 @@ class Zones extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getZonesProperty()
+    #[Computed]
+    public function zones()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

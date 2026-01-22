@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Models\Cart;
 use App\Services\LocaleCurrencyService;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -38,7 +39,8 @@ class Carts extends Component
         session()->flash('message', __('app.deleted_successfully'));
     }
 
-    public function getCartsProperty()
+    #[Computed]
+    public function carts()
     {
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();

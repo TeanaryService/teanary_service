@@ -12,6 +12,7 @@ use App\Services\LocaleCurrencyService;
 use App\Services\SnowflakeService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 
 class OrderForm extends Component
 {
@@ -220,7 +221,8 @@ class OrderForm extends Component
         $this->billingAddressId = null;
     }
 
-    public function getCalculatedTotalProperty(): float
+    #[Computed]
+    public function calculatedTotal(): float
     {
         if (!$this->order) {
             return 0;
