@@ -26,4 +26,5 @@ return [
     'country_id' => '国',
     'zone' => '地域',
     'zone_id' => '地域',
+    'cannot_delete_has_orders' => '注文に関連付けられている住所は削除できません。',
 ];

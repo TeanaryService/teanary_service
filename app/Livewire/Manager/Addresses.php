@@ -12,15 +12,9 @@ class Addresses extends Component
     use WithPagination;
 
     public string $search = '';
-    public ?int $filterUserId = null;
     public ?int $filterCountryId = null;
 
     public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
-
-    public function updatingFilterUserId(): void
     {
         $this->resetPage();
     }
@@ -33,7 +27,6 @@ class Addresses extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->filterUserId = null;
         $this->filterCountryId = null;
         $this->resetPage();
     }
@@ -41,6 +34,16 @@ class Addresses extends Component
     public function deleteAddress(int $id): void
     {
         $address = Address::findOrFail($id);
+        
+        // 检查是否有关联订单（作为收货地址或账单地址）
+        $hasShippingOrders = \App\Models\Order::where('shipping_address_id', $address->id)->exists();
+        $hasBillingOrders = \App\Models\Order::where('billing_address_id', $address->id)->exists();
+        
+        if ($hasShippingOrders || $hasBillingOrders) {
+            session()->flash('error', __('manager.addresses.cannot_delete_has_orders'));
+            return;
+        }
+        
         $address->delete();
         session()->flash('message', __('app.deleted_successfully'));
     }
@@ -54,24 +57,23 @@ class Addresses extends Component
         $query = Address::query()
             ->with(['user', 'country.countryTranslations', 'zone.zoneTranslations', 'orders']);
 
-        // 搜索
+        // 搜索：用户名、用户ID、address1、address2
         if ($this->search) {
             $search = $this->search;
             $query->where(function ($q) use ($search) {
-                $q->where('firstname', 'like', '%' . $search . '%')
-                  ->orWhere('lastname', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%')
-                  ->orWhere('telephone', 'like', '%' . $search . '%')
-                  ->orWhere('address_1', 'like', '%' . $search . '%')
-                  ->orWhere('address_2', 'like', '%' . $search . '%')
-                  ->orWhere('city', 'like', '%' . $search . '%')
-                  ->orWhere('postcode', 'like', '%' . $search . '%');
+                // 搜索用户ID（如果是数字）
+                if (is_numeric($search)) {
+                    $q->where('user_id', $search);
+                }
+                // 搜索用户名或邮箱
+                $q->orWhereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('name', 'like', '%' . $search . '%')
+                              ->orWhere('email', 'like', '%' . $search . '%');
+                });
+                // 搜索地址字段
+                $q->orWhere('address_1', 'like', '%' . $search . '%')
+                  ->orWhere('address_2', 'like', '%' . $search . '%');
             });
-        }
-
-        // 筛选：用户
-        if ($this->filterUserId) {
-            $query->where('user_id', $this->filterUserId);
         }
 
         // 筛选：国家
@@ -137,13 +139,11 @@ class Addresses extends Component
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();
         $lang = $service->getLanguageByCode($locale);
-        $users = \App\Models\User::orderBy('name')->get();
         $countries = \App\Models\Country::with('countryTranslations')->get();
 
         return view('livewire.manager.addresses', [
             'addresses' => $this->addresses,
             'lang' => $lang,
-            'users' => $users,
             'countries' => $countries,
         ])->layout('components.layouts.manager');
     }

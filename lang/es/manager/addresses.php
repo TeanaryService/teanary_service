@@ -26,4 +26,5 @@ return [
     'country_id' => 'País',
     'zone' => 'Región',
     'zone_id' => 'Región',
+    'cannot_delete_has_orders' => 'No se puede eliminar una dirección asociada a pedidos.',
 ];

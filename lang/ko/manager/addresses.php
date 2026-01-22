@@ -26,4 +26,5 @@ return [
     'country_id' => '국가',
     'zone' => '지역',
     'zone_id' => '지역',
+    'cannot_delete_has_orders' => '주문과 연결된 주소는 삭제할 수 없습니다.',
 ];

@@ -29,22 +29,21 @@
                     </div>
                 @endif
 
+                @if (session()->has('error'))
+                    <div class="mb-4 rounded-md bg-red-50 p-4">
+                        <p class="text-sm font-medium text-red-800">{{ session('error') }}</p>
+                    </div>
+                @endif
+
                 {{-- 筛选器 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
                             <x-widgets.input 
                                 type="text" 
                                 wire="live.debounce.300ms=search"
-                                placeholder="{{ __('app.search_placeholder') }}"
-                            />
-                        </div>
-                        <div>
-                            <x-widgets.label>{{ __('manager.addresses.user_id') }}</x-widgets.label>
-                            <x-widgets.select 
-                                wire="live=filterUserId" 
-                                :options="[['value' => '', 'label' => __('app.all')], ...collect($users)->map(fn($user) => ['value' => $user->id, 'label' => $user->name])->toArray()]"
+                                placeholder="用户ID、用户名、地址1、地址2"
                             />
                         </div>
                         <div>

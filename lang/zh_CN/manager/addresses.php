@@ -26,4 +26,5 @@ return [
     'country_id' => '国家',
     'zone' => '区域',
     'zone_id' => '区域',
+    'cannot_delete_has_orders' => '该地址有关联订单，无法删除。',
 ];

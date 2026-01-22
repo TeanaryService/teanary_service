@@ -26,5 +26,6 @@ return [
     'country_id' => 'Land',
     'zone' => 'Region',
     'zone_id' => 'Region',
+    'cannot_delete_has_orders' => 'Eine Adresse, die Bestellungen zugeordnet ist, kann nicht gelöscht werden.',
 ];
 

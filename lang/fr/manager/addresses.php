@@ -26,4 +26,5 @@ return [
     'country_id' => 'Pays',
     'zone' => 'Région',
     'zone_id' => 'Région',
+    'cannot_delete_has_orders' => 'Impossible de supprimer une adresse associée à des commandes.',
 ];

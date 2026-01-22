@@ -189,19 +189,19 @@
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex items-center justify-end gap-3">
+                                            <div class="flex flex-col items-end gap-1.5">
                                                 <a href="{{ locaRoute('manager.products.edit', ['id' => $product->id]) }}" 
-                                                   class="text-teal-600 hover:text-teal-700">
+                                                   class="text-teal-600 hover:text-teal-700 whitespace-nowrap">
                                                     {{ __('app.edit') }}
                                                 </a>
                                                 <a href="{{ locaRoute('manager.products.reviews', ['productId' => $product->id]) }}" 
-                                                   class="text-blue-600 hover:text-blue-700">
+                                                   class="text-blue-600 hover:text-blue-700 whitespace-nowrap">
                                                     {{ __('manager.product_reviews.label') }}
                                                 </a>
                                                 <button 
                                                     wire:click="deleteProduct({{ $product->id }})"
                                                     wire:confirm="{{ __('app.confirm_delete') }}"
-                                                    class="text-red-600 hover:text-red-700"
+                                                    class="text-red-600 hover:text-red-700 whitespace-nowrap"
                                                 >
                                                     {{ __('app.delete') }}
                                                 </button>

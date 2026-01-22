@@ -26,4 +26,5 @@ return [
     'country_id' => 'Country',
     'zone' => 'Zone',
     'zone_id' => 'Zone',
+    'cannot_delete_has_orders' => 'Cannot delete address that has associated orders.',
 ];
