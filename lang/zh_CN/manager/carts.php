@@ -8,6 +8,7 @@ return [
     'id' => '购物车 ID',
     'user' => '用户',
     'items_count' => '商品数量',
+    'image' => '图片',
     'product' => '商品',
     'variant' => 'SKU / 规格',
     'price' => '单价',

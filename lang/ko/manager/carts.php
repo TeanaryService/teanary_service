@@ -8,6 +8,7 @@ return [
     'id' => '장바구니 ID',
     'user' => '사용자',
     'items_count' => '상품 수',
+    'image' => '이미지',
     'product' => '제품',
     'variant' => 'SKU / 변형',
     'price' => '단가',

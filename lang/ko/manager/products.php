@@ -2,6 +2,7 @@
 
 return [
     'label' => '제품',
+    'image' => '이미지',
     'name' => '제품 이름',
     'slug' => '슬러그',
     'source_url' => '소스 URL',

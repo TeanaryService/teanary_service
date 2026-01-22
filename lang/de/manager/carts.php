@@ -8,6 +8,7 @@ return [
     'id' => 'Warenkorb-ID',
     'user' => 'Benutzer',
     'items_count' => 'Anzahl der Artikel',
+    'image' => 'Bild',
     'product' => 'Produkt',
     'variant' => 'SKU / Variante',
     'price' => 'Einzelpreis',

@@ -12,15 +12,9 @@ class Carts extends Component
     use WithPagination;
 
     public string $search = '';
-    public ?int $filterUserId = null;
     public string $filterHasItems = '';
 
     public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
-
-    public function updatingFilterUserId(): void
     {
         $this->resetPage();
     }
@@ -33,7 +27,6 @@ class Carts extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->filterUserId = null;
         $this->filterHasItems = '';
         $this->resetPage();
     }
@@ -56,21 +49,31 @@ class Carts extends Component
             ->with([
                 'user',
                 'cartItems.product.productTranslations',
+                'cartItems.product.media',
                 'cartItems.product.productVariants',
                 'cartItems.productVariant.specificationValues.specificationValueTranslations',
+                'cartItems.productVariant.media',
             ])
             ->withCount('cartItems');
 
-        // 搜索：通过用户名称搜索
+        // 搜索：通过用户ID、用户名、商品名搜索
         if ($this->search) {
-            $query->whereHas('user', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%');
+            $search = $this->search;
+            $query->where(function ($q) use ($search) {
+                // 搜索用户ID（如果是数字）
+                if (is_numeric($search)) {
+                    $q->where('user_id', $search);
+                }
+                // 搜索用户名或邮箱
+                $q->orWhereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('name', 'like', '%' . $search . '%')
+                              ->orWhere('email', 'like', '%' . $search . '%');
+                });
+                // 搜索商品名
+                $q->orWhereHas('cartItems.product.productTranslations', function ($productQuery) use ($search) {
+                    $productQuery->where('name', 'like', '%' . $search . '%');
+                });
             });
-        }
-
-        // 筛选：用户
-        if ($this->filterUserId) {
-            $query->where('user_id', $this->filterUserId);
         }
 
         // 筛选：是否有商品
@@ -150,12 +153,10 @@ class Carts extends Component
         $locale = app()->getLocale();
         $lang = $service->getLanguageByCode($locale);
         $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
-        $users = \App\Models\User::orderBy('name')->get();
 
         return view('livewire.manager.carts', [
             'carts' => $this->carts,
             'lang' => $lang,
-            'users' => $users,
             'service' => $service,
             'currentCurrencyCode' => $currentCurrencyCode,
         ])->layout('components.layouts.manager');

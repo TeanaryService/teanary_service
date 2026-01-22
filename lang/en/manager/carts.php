@@ -8,6 +8,7 @@ return [
     'id' => 'Cart ID',
     'user' => 'User',
     'items_count' => 'Items Count',
+    'image' => 'Image',
     'product' => 'Product',
     'variant' => 'SKU / Specification',
     'price' => 'Unit Price',

@@ -2,6 +2,7 @@
 
 return [
     'label' => 'Products',
+    'image' => 'Image',
     'name' => 'Product Name',
     'slug' => 'Slug',
     'source_url' => 'Source URL',

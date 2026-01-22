@@ -15,7 +15,6 @@ class Orders extends Component
 
     public string $search = '';
     public array $filterStatus = [];
-    public ?int $filterUserId = null;
     public ?int $filterCurrencyId = null;
     public ?string $createdFrom = null;
     public ?string $createdUntil = null;
@@ -26,11 +25,6 @@ class Orders extends Component
     }
 
     public function updatingFilterStatus(): void
-    {
-        $this->resetPage();
-    }
-
-    public function updatingFilterUserId(): void
     {
         $this->resetPage();
     }
@@ -54,7 +48,6 @@ class Orders extends Component
     {
         $this->search = '';
         $this->filterStatus = [];
-        $this->filterUserId = null;
         $this->filterCurrencyId = null;
         $this->createdFrom = null;
         $this->createdUntil = null;
@@ -67,7 +60,15 @@ class Orders extends Component
         $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
 
         $query = Order::query()
-            ->with(['user', 'currency', 'shippingAddress', 'billingAddress'])
+            ->with([
+                'user', 
+                'currency', 
+                'shippingAddress', 
+                'billingAddress',
+                'orderItems.product.productTranslations',
+                'orderItems.product.media',
+                'orderItems.productVariant.specificationValues.specificationValueTranslations',
+            ])
             ->withCount('orderItems');
 
         // 搜索：通过订单号、用户名称、用户邮箱搜索
@@ -85,11 +86,6 @@ class Orders extends Component
         // 筛选：订单状态
         if (!empty($this->filterStatus)) {
             $query->whereIn('status', $this->filterStatus);
-        }
-
-        // 筛选：用户
-        if ($this->filterUserId) {
-            $query->where('user_id', $this->filterUserId);
         }
 
         // 筛选：货币
@@ -125,12 +121,10 @@ class Orders extends Component
     public function render()
     {
         $service = app(LocaleCurrencyService::class);
-        $users = \App\Models\User::orderBy('name')->get();
         $currencies = \App\Models\Currency::orderBy('name')->get();
 
         return view('livewire.manager.orders', [
             'orders' => $this->orders,
-            'users' => $users,
             'currencies' => $currencies,
             'statusOptions' => OrderStatusEnum::options(),
         ])->layout('components.layouts.manager');

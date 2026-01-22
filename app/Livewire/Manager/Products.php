@@ -81,6 +81,7 @@ class Products extends Component
                 'productCategories.categoryTranslations',
                 'productVariants',
                 'productTranslations',
+                'media',
             ]);
 
         // 搜索：按商品翻译名称

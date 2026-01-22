@@ -92,7 +92,7 @@
                                     />
                                 </x-widgets.form-field>
                             </div>
-                        </div>
+                        </x-widgets.section>
 
                         {{-- 翻译 --}}
                         <div>
@@ -170,7 +170,7 @@
                                 {{ __('app.save') }}
                             </x-widgets.button>
                         </div>
-                    </div>
+                    </x-widgets.card>
                 </form>
             </div>
         </div>

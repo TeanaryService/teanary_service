@@ -71,15 +71,23 @@
                         <div>
                             <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.shipping_address') }}</h3>
                             @if($order->shippingAddress)
-                                <p class="text-sm text-gray-900">
-                                    {{ $order->shippingAddress->firstname }} {{ $order->shippingAddress->lastname }}
-                                </p>
-                                <p class="text-sm text-gray-600">
-                                    {{ $order->shippingAddress->address_1 }}<br>
-                                    {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->zone }}, {{ $order->shippingAddress->country }}
-                                </p>
-                                <p class="text-sm text-gray-600">{{ $order->shippingAddress->postcode }}</p>
-                                <p class="text-sm text-gray-600">{{ $order->shippingAddress->telephone }}</p>
+                                <div class="text-sm text-gray-900">
+                                    <p class="font-semibold">{{ $order->shippingAddress->firstname }} {{ $order->shippingAddress->lastname }}</p>
+                                    <p class="text-gray-600">{{ $order->shippingAddress->address_1 }}</p>
+                                    @if($order->shippingAddress->address_2)
+                                        <p class="text-gray-600">{{ $order->shippingAddress->address_2 }}</p>
+                                    @endif
+                                    <p class="text-gray-600">
+                                        {{ $order->shippingAddress->city }}, 
+                                        {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
+                                        {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
+                                    </p>
+                                    <p class="text-gray-600">{{ $order->shippingAddress->postcode }}</p>
+                                    <p class="text-gray-600">{{ $order->shippingAddress->telephone }}</p>
+                                    @if($order->shippingAddress->email)
+                                        <p class="text-gray-600">{{ $order->shippingAddress->email }}</p>
+                                    @endif
+                                </div>
                             @else
                                 <p class="text-sm text-gray-400">-</p>
                             @endif
@@ -87,14 +95,25 @@
                         <div>
                             <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.billing_address') }}</h3>
                             @if($order->billingAddress)
-                                <p class="text-sm text-gray-900">
-                                    {{ $order->billingAddress->firstname }} {{ $order->billingAddress->lastname }}
-                                </p>
-                                <p class="text-sm text-gray-600">
-                                    {{ $order->billingAddress->address_1 }}<br>
-                                    {{ $order->billingAddress->city }}, {{ $order->billingAddress->zone }}, {{ $order->billingAddress->country }}
-                                </p>
-                                <p class="text-sm text-gray-600">{{ $order->billingAddress->postcode }}</p>
+                                <div class="text-sm text-gray-900">
+                                    <p class="font-semibold">{{ $order->billingAddress->firstname }} {{ $order->billingAddress->lastname }}</p>
+                                    <p class="text-gray-600">{{ $order->billingAddress->address_1 }}</p>
+                                    @if($order->billingAddress->address_2)
+                                        <p class="text-gray-600">{{ $order->billingAddress->address_2 }}</p>
+                                    @endif
+                                    <p class="text-gray-600">
+                                        {{ $order->billingAddress->city }}, 
+                                        {{ $order->billingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->billingAddress->zone?->name ?? '' }}, 
+                                        {{ $order->billingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->billingAddress->country->name ?? '' }}
+                                    </p>
+                                    <p class="text-gray-600">{{ $order->billingAddress->postcode }}</p>
+                                    @if($order->billingAddress->telephone)
+                                        <p class="text-gray-600">{{ $order->billingAddress->telephone }}</p>
+                                    @endif
+                                    @if($order->billingAddress->email)
+                                        <p class="text-gray-600">{{ $order->billingAddress->email }}</p>
+                                    @endif
+                                </div>
                             @else
                                 <p class="text-sm text-gray-400">-</p>
                             @endif
@@ -127,7 +146,20 @@
 
                 {{-- 订单商品列表 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.order.items_section') }}</h2>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">{{ __('manager.order.items_section') }}</h2>
+                        <x-widgets.button 
+                            href="{{ locaRoute('manager.orders.edit', ['id' => $order->id]) }}"
+                            variant="secondary"
+                            class="inline-flex items-center gap-2"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            {{ __('app.edit') }}
+                        </x-widgets.button>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -141,6 +173,11 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($order->orderItems as $item)
+                                    @php
+                                        $orderCurrencyCode = $order->currency?->code ?? $service->getDefaultCurrencyCode();
+                                        $subtotal = $item->price * $item->qty;
+                                        $subtotalFormatted = $service->formatWithSymbol($subtotal, $orderCurrencyCode);
+                                    @endphp
                                     <tr>
                                         <td class="px-6 py-4">
                                             <div class="text-sm font-medium text-gray-900">{{ $this->getProductName($item->product, $lang) }}</div>
@@ -149,20 +186,12 @@
                                             {{ $this->getVariantSpecs($item->productVariant, $lang) }}
                                         </td>
                                         <td class="px-6 py-4 text-right text-sm text-gray-900">
-                                            @php
-                                                $orderCurrencyCode = $order->currency?->code ?? $service->getDefaultCurrencyCode();
-                                                $itemPrice = $service->convertWithSymbol($item->price, $currentCurrencyCode, $orderCurrencyCode);
-                                            @endphp
-                                            {{ $itemPrice }}
+                                            {{ $service->formatWithSymbol($item->price, $orderCurrencyCode) }}
                                         </td>
                                         <td class="px-6 py-4 text-center text-sm text-gray-900">
                                             {{ $item->qty }}
                                         </td>
                                         <td class="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                                            @php
-                                                $subtotal = ($item->price ?? 0) * ($item->qty ?? 0);
-                                                $subtotalFormatted = $service->convertWithSymbol($subtotal, $currentCurrencyCode, $orderCurrencyCode);
-                                            @endphp
                                             {{ $subtotalFormatted }}
                                         </td>
                                     </tr>
@@ -174,7 +203,7 @@
                                     <td class="px-6 py-4 text-right text-sm font-bold text-gray-900">
                                         @php
                                             $orderCurrencyCode = $order->currency?->code ?? $service->getDefaultCurrencyCode();
-                                            $totalFormatted = $service->convertWithSymbol($order->total, $currentCurrencyCode, $orderCurrencyCode);
+                                            $totalFormatted = $service->formatWithSymbol($order->total, $orderCurrencyCode);
                                         @endphp
                                         {{ $totalFormatted }}
                                     </td>

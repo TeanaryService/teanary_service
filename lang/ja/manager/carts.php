@@ -8,6 +8,7 @@ return [
     'id' => 'カートID',
     'user' => 'ユーザー',
     'items_count' => '商品数',
+    'image' => '画像',
     'product' => '商品',
     'variant' => 'SKU / バリアント',
     'price' => '単価',

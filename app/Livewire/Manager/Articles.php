@@ -15,7 +15,6 @@ class Articles extends Component
     public string $search = '';
     public string $filterIsPublished = '';
     public array $filterTranslationStatus = [];
-    public ?int $filterUserId = null;
 
     public function updatingSearch(): void
     {
@@ -32,17 +31,11 @@ class Articles extends Component
         $this->resetPage();
     }
 
-    public function updatingFilterUserId(): void
-    {
-        $this->resetPage();
-    }
-
     public function resetFilters(): void
     {
         $this->search = '';
         $this->filterIsPublished = '';
         $this->filterTranslationStatus = [];
-        $this->filterUserId = null;
         $this->resetPage();
     }
 
@@ -89,11 +82,6 @@ class Articles extends Component
             $query->whereIn('translation_status', $this->filterTranslationStatus);
         }
 
-        // 筛选：用户
-        if ($this->filterUserId) {
-            $query->where('user_id', $this->filterUserId);
-        }
-
         return $query->orderBy('created_at', 'desc')->paginate(15);
     }
 
@@ -122,12 +110,10 @@ class Articles extends Component
         $service = app(LocaleCurrencyService::class);
         $locale = app()->getLocale();
         $lang = $service->getLanguageByCode($locale);
-        $users = \App\Models\User::orderBy('name')->get();
 
         return view('livewire.manager.articles', [
             'articles' => $this->articles,
             'lang' => $lang,
-            'users' => $users,
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');
     }

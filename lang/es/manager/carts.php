@@ -8,6 +8,7 @@ return [
     'id' => 'ID del carrito',
     'user' => 'Usuario',
     'items_count' => 'Número de artículos',
+    'image' => 'Imagen',
     'product' => 'Producto',
     'variant' => 'SKU / Variante',
     'price' => 'Precio unitario',

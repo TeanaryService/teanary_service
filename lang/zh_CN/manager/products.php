@@ -2,6 +2,7 @@
 
 return [
     'label' => '商品',
+    'image' => '图片',
     'name' => '商品名称',
     'slug' => 'Slug',
     'source_url' => '来源URL',

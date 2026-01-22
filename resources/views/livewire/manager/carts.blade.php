@@ -22,20 +22,13 @@
 
                 {{-- 筛选器 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
                             <x-widgets.input 
                                 type="text" 
                                 wire="live.debounce.300ms=search"
-                                placeholder="{{ __('app.search_placeholder') }}"
-                            />
-                        </div>
-                        <div>
-                            <x-widgets.label>{{ __('manager.cart.user') }}</x-widgets.label>
-                            <x-widgets.select 
-                                wire="live=filterUserId" 
-                                :options="[['value' => '', 'label' => __('app.all')], ...collect($users)->map(fn($user) => ['value' => $user->id, 'label' => $user->name])->toArray()]"
+                                placeholder="用户ID、用户名、商品名"
                             />
                         </div>
                         <div>
@@ -103,6 +96,9 @@
                                         <thead class="bg-gray-50">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    {{ __('manager.cart_item.image') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                     {{ __('manager.cart_item.product') }}
                                                 </th>
                                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -121,7 +117,19 @@
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             @foreach($cart->cartItems as $item)
+                                                @php
+                                                    $image = $item->productVariant
+                                                        ? $item->productVariant->getFirstMediaUrl('image', 'thumb')
+                                                        : ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
+                                                @endphp
                                                 <tr class="hover:bg-gray-50 transition-colors">
+                                                    <td class="px-6 py-4 whitespace-nowrap">
+                                                        <div class="w-16 h-16 flex-shrink-0">
+                                                            <img src="{{ $image }}" 
+                                                                 alt="{{ $this->getProductName($item->product, $lang) }}"
+                                                                 class="w-full h-full object-cover rounded-lg">
+                                                        </div>
+                                                    </td>
                                                     <td class="px-6 py-4 text-sm text-gray-900">
                                                         <div class="font-medium">{{ $this->getProductName($item->product, $lang) }}</div>
                                                     </td>
@@ -142,7 +150,7 @@
                                         </tbody>
                                         <tfoot class="bg-gray-50">
                                             <tr>
-                                                <td colspan="4" class="px-6 py-4 text-right text-sm font-semibold text-gray-900">
+                                                <td colspan="5" class="px-6 py-4 text-right text-sm font-semibold text-gray-900">
                                                     {{ __('app.total') }}:
                                                 </td>
                                                 <td class="px-6 py-4 text-right text-sm font-bold text-teal-600">

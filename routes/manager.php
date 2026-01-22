@@ -129,6 +129,8 @@ Route::prefix('manager')->group(function () {
         
         // 订单管理
         Route::get('orders', Orders::class)->name('manager.orders');
+        Route::get('orders/create', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.create');
+        Route::get('orders/{id}/edit', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.edit');
         Route::get('orders/{id}', OrderDetail::class)->name('manager.orders.detail');
         
         // 管理员管理

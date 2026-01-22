@@ -31,7 +31,7 @@
 
                 {{-- 筛选器 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <x-widgets.label>{{ __('app.search') }}</x-widgets.label>
                             <x-widgets.input 
@@ -57,13 +57,6 @@
                                 wire="live=filterTranslationStatus" 
                                 :options="$translationStatusOptions"
                                 :multiple="false"
-                            />
-                        </div>
-                        <div>
-                            <x-widgets.label>{{ __('manager.article.user_id') }}</x-widgets.label>
-                            <x-widgets.select 
-                                wire="live=filterUserId" 
-                                :options="[['value' => '', 'label' => __('app.all')], ...collect($users)->map(fn($user) => ['value' => $user->id, 'label' => $user->name])->toArray()]"
                             />
                         </div>
                     </div>
@@ -111,11 +104,13 @@
                                     <tr class="hover:bg-gray-50 transition-colors">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($article->hasMedia('image'))
-                                                <img src="{{ $article->getFirstMediaUrl('image', 'thumb') }}" 
-                                                     alt="{{ $this->getArticleTitle($article, $lang) }}"
-                                                     class="w-16 h-16 object-cover rounded-lg">
+                                                <div class="w-16 h-16 flex-shrink-0">
+                                                    <img src="{{ $article->getFirstMediaUrl('image', 'thumb') }}" 
+                                                         alt="{{ $this->getArticleTitle($article, $lang) }}"
+                                                         class="w-full h-full object-cover rounded-lg">
+                                                </div>
                                             @else
-                                                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                                                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
                                                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>

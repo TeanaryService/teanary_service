@@ -42,8 +42,10 @@ class OrderDetail extends Component
         $this->order = Order::with([
             'user',
             'currency',
-            'shippingAddress',
-            'billingAddress',
+            'shippingAddress.country.countryTranslations',
+            'shippingAddress.zone.zoneTranslations',
+            'billingAddress.country.countryTranslations',
+            'billingAddress.zone.zoneTranslations',
             'orderItems.product.productTranslations',
             'orderItems.productVariant.specificationValues.specificationValueTranslations',
             'orderShipments',
@@ -144,6 +146,7 @@ class OrderDetail extends Component
             default => 'bg-gray-100 text-gray-800',
         };
     }
+
 
     public function render()
     {

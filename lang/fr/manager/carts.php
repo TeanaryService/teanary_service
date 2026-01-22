@@ -8,6 +8,7 @@ return [
     'id' => 'ID du panier',
     'user' => 'Utilisateur',
     'items_count' => 'Nombre d\'articles',
+    'image' => 'Image',
     'product' => 'Produit',
     'variant' => 'SKU / Variante',
     'price' => 'Prix unitaire',
