@@ -38,11 +38,12 @@
             <ul class="space-y-1">
                 @foreach($navItems as $item)
                     @php
-                        $isActive = $active === $item['key'] || 
-                                   (request()->routeIs($item['route']) || 
-                                    request()->routeIs('auth.order-detail'));
-                        if ($item['key'] === 'orders' && request()->routeIs('auth.order-detail')) {
-                            $isActive = true;
+                        // 如果是订单详情页，只有 orders 项应该是 active
+                        if (request()->routeIs('auth.order-detail')) {
+                            $isActive = $item['key'] === 'orders';
+                        } else {
+                            // 其他情况：检查 active prop 或当前路由是否匹配
+                            $isActive = $active === $item['key'] || request()->routeIs($item['route']);
                         }
                     @endphp
                     <li>

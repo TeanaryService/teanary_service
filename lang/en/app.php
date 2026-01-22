@@ -132,6 +132,7 @@ return [
 
     // Addresses related (merged from addresses.php)
     'addresses' => [
+        'title' => 'Shipping Addresses',
         'my_addresses' => 'My Shipping Addresses',
         'add_new' => 'Add New Address',
         'edit_address' => 'Edit Address',

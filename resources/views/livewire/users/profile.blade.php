@@ -58,12 +58,15 @@
                                 </x-widgets.form-field>
 
                                 {{-- 邮箱（只读） --}}
-                                <div>
-                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('app.email') }}</label>
-                                    <input type="email" id="email" value="{{ $email }}" disabled
-                                        class="w-full rounded-md border-gray-300 bg-gray-100 shadow-sm sm:text-sm cursor-not-allowed">
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('app.email_cannot_change') }}</p>
-                                </div>
+                                <x-widgets.form-field :label="__('app.email')" labelFor="email" :help="__('app.email_cannot_change')">
+                                    <x-widgets.input 
+                                        type="email" 
+                                        id="email" 
+                                        :value="$email"
+                                        :disabled="true"
+                                        class="sm:text-sm rounded-md"
+                                    />
+                                </x-widgets.form-field>
                             </div>
                         </div>
                     </div>

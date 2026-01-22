@@ -16,6 +16,12 @@
     $inputId = $id ?? $name;
     // 优化输入框样式：更明显的边框和背景区分
     $baseClasses = 'w-full px-4 py-3 rounded-xl border-2 border-teal-100 bg-white text-gray-900 placeholder-gray-400 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-teal-200 hover:shadow-md';
+    
+    // 如果是 disabled 状态，应用特殊样式
+    if ($disabled) {
+        $baseClasses = 'w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-100 text-gray-600 placeholder-gray-400 shadow-sm cursor-not-allowed';
+    }
+    
     $classes = trim($baseClasses . ' ' . $class);
     
     // Parse wire attribute - support formats like:

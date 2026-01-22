@@ -32,7 +32,7 @@ class Addresses extends Component
     
     public $zones = [];
 
-    protected LocaleCurrencyService $localeService;
+    protected ?LocaleCurrencyService $localeService = null;
 
     protected $rules = [
         'email' => 'required|email|max:255',
@@ -66,11 +66,20 @@ class Addresses extends Component
         $this->localeService = app(LocaleCurrencyService::class);
     }
 
+    protected function getLocaleService(): LocaleCurrencyService
+    {
+        if ($this->localeService === null) {
+            $this->localeService = app(LocaleCurrencyService::class);
+        }
+        return $this->localeService;
+    }
+
     public function updatedCountryId($value)
     {
         $this->zone_id = '';
         if ($value) {
-            $lang = $this->localeService->getLanguageByCode(session('lang'));
+            $localeService = $this->getLocaleService();
+            $lang = $localeService->getLanguageByCode(session('lang'));
             $this->zones = Zone::getZonesByCountryAndLanguage($value, $lang?->id);
         } else {
             $this->zones = [];
@@ -89,7 +98,8 @@ class Addresses extends Component
 
     public function getCountriesProperty()
     {
-        $lang = $this->localeService->getLanguageByCode(session('lang'));
+        $localeService = $this->getLocaleService();
+        $lang = $localeService->getLanguageByCode(session('lang'));
         return Country::getCountriesByLanguage($lang?->id);
     }
 

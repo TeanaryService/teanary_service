@@ -57,7 +57,7 @@ class Orders extends Component
             ->findOrFail($orderId);
 
         if ($order->status->canBePaid()) {
-            return $this->redirect(route('payment.checkout', ['orderId' => $order->id]));
+            return $this->redirect(locaRoute('payment.checkout', ['orderId' => $order->id]));
         }
     }
 
