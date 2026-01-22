@@ -1,4 +1,4 @@
-<div class="min-h-[60vh] bg-gray-50 font-chinese antialiased pt-0">
+<div class="min-h-[60vh] bg-gray-50 font-chinese antialiased py-0">
     <style>
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
@@ -89,7 +89,7 @@
 
     <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-20">
         <!-- 技术栈 -->
-        <div class="my-16" id="tech-stack">
+        <div class="py-16" id="tech-stack">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 text-center tracking-tight relative pb-4 mb-16">
                 <span class="inline-block animate-spin-slow">🚀</span> {{ __('index.section_tech_stack') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-purple-600 to-transparent rounded-full"></div>
@@ -108,7 +108,7 @@
         </div>
 
         <!-- 核心特性 -->
-        <div class="my-16" id="features">
+        <div class="py-16" id="features">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-16 text-center tracking-tight relative pb-4">
                 <span class="inline-block animate-bounce">🌟</span> {{ __('index.section_features') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-teal-600 to-transparent rounded-full"></div>
@@ -274,7 +274,7 @@
         </div>
 
         <!-- 在线演示 -->
-        <div class="my-16" id="demo">
+        <div class="py-16" id="demo">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 text-center tracking-tight relative pb-4 mb-16">
                 <span class="inline-block animate-pulse">🎮</span> {{ __('index.section_demo') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-blue-600 to-transparent rounded-full"></div>
@@ -365,7 +365,7 @@
             </div>
         </div>
         <!-- 商业服务 -->
-        <div class="my-16" id="pricing">
+        <div class="py-16" id="pricing">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 my-8 text-center tracking-tight relative">
                 <span class="inline-block animate-pulse">💼</span> {{ __('index.section_pricing') }}
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-pink-600 to-transparent rounded-full"></div>
@@ -537,7 +537,7 @@
         </div>
 
         <!-- 开源协议 -->
-        <div class="my-16" id="license">
+        <div class="py-16" id="license">
             <h3 class="text-gray-900 mb-4 text-2xl font-semibold">
                 <span class="inline-block animate-bounce">📄</span> {{ __('index.license_title') }}
             </h3>

@@ -129,7 +129,7 @@ return [
 
     'navigate' => [
         'show_progress_bar' => true,
-        'progress_bar_color' => '#2299dd',
+        'progress_bar_color' => '#14b8a6', // teal-500 与主题一致
     ],
 
     /*
