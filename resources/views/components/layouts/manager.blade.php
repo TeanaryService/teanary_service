@@ -82,6 +82,8 @@
     </header>
     <div class="h-20 w-full"></div>
 
+    <x-widgets.flash-messages />
+
     <div class="main">
         {{ $slot }}
     </div>

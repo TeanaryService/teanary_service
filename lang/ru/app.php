@@ -140,6 +140,7 @@ return [
         'delete' => 'Удалить',
         'address_saved' => 'Адрес успешно сохранен',
         'address_deleted' => 'Адрес успешно удален',
+        'order_created_successfully' => 'Заказ успешно создан',
         'confirm_delete' => 'Вы уверены, что хотите удалить этот адрес?',
         'add_first_address' => 'Добавьте ваш первый адрес доставки',
     ],

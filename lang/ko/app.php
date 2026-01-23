@@ -140,6 +140,7 @@ return [
         'delete' => '삭제',
         'address_saved' => '주소가 성공적으로 저장되었습니다',
         'address_deleted' => '주소가 성공적으로 삭제되었습니다',
+        'order_created_successfully' => '주문이 성공적으로 생성되었습니다',
         'confirm_delete' => '이 주소를 삭제하시겠습니까?',
         'add_first_address' => '첫 번째 배송 주소 추가',
     ],

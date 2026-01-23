@@ -168,7 +168,7 @@ class Addresses extends Component
             Address::create($data);
         }
 
-        session()->flash('message', __('app.addresses.address_saved'));
+        $this->dispatch('flash-message', type: 'success', message: __('app.addresses.address_saved'));
         $this->resetForm();
         $this->resetPage();
     }
@@ -182,7 +182,7 @@ class Addresses extends Component
 
         $address->update(['deleted' => true]);
 
-        session()->flash('message', __('app.addresses.address_deleted'));
+        $this->dispatch('flash-message', type: 'success', message: __('app.addresses.address_deleted'));
         $this->resetPage();
     }
 

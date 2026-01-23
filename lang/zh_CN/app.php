@@ -141,6 +141,7 @@ return [
         'delete' => '删除',
         'address_saved' => '地址保存成功',
         'address_deleted' => '地址删除成功',
+        'order_created_successfully' => '订单创建成功',
         'confirm_delete' => '确定要删除这个地址吗？',
         'add_first_address' => '添加您的第一个收货地址',
     ],

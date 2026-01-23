@@ -140,6 +140,7 @@ return [
         'delete' => '削除',
         'address_saved' => '住所が正常に保存されました',
         'address_deleted' => '住所が正常に削除されました',
+        'order_created_successfully' => '注文が正常に作成されました',
         'confirm_delete' => 'この住所を削除してもよろしいですか？',
         'add_first_address' => '最初の配送先住所を追加',
     ],

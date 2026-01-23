@@ -141,6 +141,7 @@ return [
         'delete' => 'Löschen',
         'address_saved' => 'Adresse erfolgreich gespeichert',
         'address_deleted' => 'Adresse erfolgreich gelöscht',
+        'order_created_successfully' => 'Bestellung erfolgreich erstellt',
         'confirm_delete' => 'Sind Sie sicher, dass Sie diese Adresse löschen möchten?',
         'add_first_address' => 'Fügen Sie Ihre erste Lieferadresse hinzu',
     ],

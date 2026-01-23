@@ -344,6 +344,8 @@ class Checkout extends Component
         $this->updatePaymentMethods();
         $this->updateShippingMethods();
         $this->recalculateOrderTotal();
+
+        $this->dispatch('flash-message', type: 'success', message: __('app.addresses.address_saved'));
     }
 
     // 修正更新配送方式的方法
@@ -360,21 +362,21 @@ class Checkout extends Component
     {
         // 验证收货地址
         if (! $this->shippingAddress) {
-            session()->flash('error', __('app.error_no_shipping_address'));
+            $this->dispatch('flash-message', type: 'error', message: __('app.error_no_shipping_address'));
 
             return;
         }
 
         // 验证支付方式
         if (! $this->paymentMethod) {
-            session()->flash('error', __('app.error_no_payment_method'));
+            $this->dispatch('flash-message', type: 'error', message: __('app.error_no_payment_method'));
 
             return;
         }
 
         // 验证配送方式
         if (! $this->shippingMethod) {
-            session()->flash('error', __('app.error_no_shipping_method'));
+            $this->dispatch('flash-message', type: 'error', message: __('app.error_no_shipping_method'));
 
             return;
         }
@@ -422,11 +424,13 @@ class Checkout extends Component
             $order->currency_id = $currency->id;
             $order->save();
 
+            $this->dispatch('flash-message', type: 'success', message: __('app.order_created_successfully'));
+
             // ...
             return $this->redirect(route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
-            session()->flash('error', $errorMessage);
+            $this->dispatch('flash-message', type: 'error', message: $errorMessage);
 
             return;
         }

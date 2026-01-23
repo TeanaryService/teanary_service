@@ -140,6 +140,7 @@ return [
         'delete' => 'Eliminar',
         'address_saved' => 'Dirección guardada exitosamente',
         'address_deleted' => 'Dirección eliminada exitosamente',
+        'order_created_successfully' => 'Pedido creado exitosamente',
         'confirm_delete' => '¿Estás seguro de que deseas eliminar esta dirección?',
         'add_first_address' => 'Agrega tu primera dirección de envío',
     ],
