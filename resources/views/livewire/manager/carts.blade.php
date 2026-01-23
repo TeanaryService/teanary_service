@@ -132,9 +132,12 @@
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             @foreach($cart->cartItems as $item)
                                                 @php
-                                                    $image = $item->productVariant
-                                                        ? $item->productVariant->getFirstMediaUrl('image', 'thumb')
-                                                        : ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
+                                                    $image = asset('logo.svg');
+                                                    if ($item->productVariant) {
+                                                        $image = $item->productVariant->getFirstMediaUrl('image', 'thumb') ?: $image;
+                                                    } elseif ($item->product) {
+                                                        $image = $item->product->getFirstMediaUrl('images', 'thumb') ?: $image;
+                                                    }
                                                 @endphp
                                                 <tr class="hover:bg-gray-50 transition-colors">
                                                     <td class="px-6 py-4 whitespace-nowrap">

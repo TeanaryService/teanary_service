@@ -11,7 +11,7 @@
             {{-- 左侧表单区域 --}}
             <div>
 
-                <x-widgets.card padding="p-5">
+                <x-widgets.card padding="p-5" class="!bg-teal-100">
                     <form wire:submit.prevent="save">
                         <x-widgets.form-container spacing="space-y-4">
                             <x-widgets.form-field error="name">

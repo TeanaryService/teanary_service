@@ -89,21 +89,26 @@
                             @foreach($order->orderItems as $item)
                                 @php
                                     $image = $item->productVariant
-                                        ? $item->productVariant->getFirstMediaUrl('image', 'thumb')
-                                        : ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
-                                    $specs = $item->productVariant
-                                        ? $item->productVariant->specificationValues
+                                        ? ($item->productVariant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'))
+                                        : ($item->product ? ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg')) : asset('logo.svg'));
+                                    $specs = '';
+                                    if ($item->productVariant && $item->productVariant->specificationValues) {
+                                        $specs = $item->productVariant->specificationValues
                                             ->map(function ($sv) use ($lang) {
                                                 $trans = $sv->specificationValueTranslations
                                                     ->where('language_id', $lang?->id)
                                                     ->first();
                                                 return $trans && $trans->name ? $trans->name : $sv->id;
                                             })
-                                            ->implode(' / ')
-                                        : '';
-                                    $productName = $item->product->productTranslations
-                                        ->where('language_id', $lang?->id)
-                                        ->first()?->name ?? $item->product->slug;
+                                            ->implode(' / ');
+                                    }
+                                    $productName = '-';
+                                    if ($item->product) {
+                                        $translation = $item->product->productTranslations
+                                            ->where('language_id', $lang?->id)
+                                            ->first();
+                                        $productName = $translation?->name ?? $item->product->slug ?? '-';
+                                    }
                                 @endphp
 
                                 <div class="p-6 hover:bg-gray-50 transition-colors">
