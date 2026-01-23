@@ -81,9 +81,6 @@
         </div>
     </header>
     <div class="h-20 w-full"></div>
-    
-    <!-- Flash Messages - 右上角显示 -->
-    <x-widgets.flash-messages position="top-right" />
 
     <div class="main">
         {{ $slot }}
