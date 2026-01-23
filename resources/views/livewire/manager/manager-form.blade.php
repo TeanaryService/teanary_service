@@ -17,8 +17,6 @@
                     </h1>
                 </div>
 
-                <x-widgets.session-message type="message" />
-                <x-widgets.session-message type="error" />
 
                 <form wire:submit="save" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                     <div class="space-y-6">

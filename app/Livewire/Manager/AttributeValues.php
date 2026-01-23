@@ -3,6 +3,7 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -13,6 +14,7 @@ use Livewire\Component;
 
 class AttributeValues extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -42,6 +44,21 @@ class AttributeValues extends Component
     public function deleteAttributeValue(int $id): void
     {
         $this->deleteModel(AttributeValue::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->attributeValues->getCollection();
+    }
+
+    public function batchDeleteAttributeValues(): void
+    {
+        $this->batchDelete(AttributeValue::class);
+    }
+
+    public function batchSetAttributeValueTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(AttributeValue::class, $status);
     }
 
     #[Computed]

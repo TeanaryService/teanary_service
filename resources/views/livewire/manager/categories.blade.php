@@ -66,12 +66,29 @@
                     </div>
                 </div>
 
+                {{-- 批量操作栏 --}}
+                @if($this->hasSelectedItems())
+                    <x-manager.batch-actions 
+                        hasTranslationStatus="true"
+                        :translationStatusOptions="$translationStatusOptions"
+                        deleteMethod="batchDeleteCategories"
+                        translationStatusMethod="batchSetCategoryTranslationStatus"
+                    />
+                @endif
+
                 {{-- 分类列表 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                                        <x-widgets.checkbox 
+                                            standalone
+                                            wireClick="toggleSelectAll"
+                                            :checked="$selectAll"
+                                        />
+                                    </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('manager.category.image') }}
                                     </th>
@@ -98,6 +115,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($categories as $category)
                                     <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <x-widgets.checkbox 
+                                                standalone
+                                                wireClick="toggleSelect({{ $category->id }})"
+                                                :checked="in_array($category->id, $selectedItems)"
+                                            />
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($category->hasMedia('image'))
                                                 <img src="{{ $category->getFirstMediaUrl('image', 'thumb') }}" 
@@ -154,7 +178,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-6 py-12 text-center text-sm text-gray-500">
+                                        <td colspan="8" class="px-6 py-12 text-center text-sm text-gray-500">
                                             <div class="flex flex-col items-center">
                                                 <svg class="w-10 h-10 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

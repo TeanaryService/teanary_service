@@ -53,6 +53,13 @@
                     </div>
                 </div>
 
+                {{-- 批量操作栏 --}}
+                @if($this->hasSelectedItems())
+                    <x-manager.batch-actions 
+                        deleteMethod="batchDeleteCarts"
+                    />
+                @endif
+
                 {{-- 购物车列表 --}}
                 <div class="space-y-6">
                     @forelse($carts as $cart)
@@ -61,6 +68,13 @@
                             <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center gap-4">
+                                        <div>
+                                            <x-widgets.checkbox 
+                                                standalone
+                                                wireClick="toggleSelect({{ $cart->id }})"
+                                                :checked="in_array($cart->id, $selectedItems)"
+                                            />
+                                        </div>
                                         <div>
                                             <span class="text-sm font-medium text-gray-500">{{ __('manager.cart.id') }}:</span>
                                             <span class="text-sm font-semibold text-gray-900 ml-2">#{{ $cart->id }}</span>

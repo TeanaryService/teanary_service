@@ -87,12 +87,32 @@
                     </div>
                 </x-widgets.card>
 
+                {{-- 批量操作栏 --}}
+                @if($this->hasSelectedItems())
+                    <x-manager.batch-actions 
+                        hasTranslationStatus="true"
+                        hasProductStatus="true"
+                        :translationStatusOptions="$translationStatusOptions"
+                        :statusOptions="$statusOptions"
+                        deleteMethod="batchDeleteProducts"
+                        translationStatusMethod="batchSetProductTranslationStatus"
+                        productStatusMethod="batchSetProductStatus"
+                    />
+                @endif
+
                 {{-- 商品列表 --}}
                 <x-widgets.card class="overflow-hidden p-0">
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                                        <x-widgets.checkbox 
+                                            standalone
+                                            wireClick="toggleSelectAll"
+                                            :checked="$selectAll"
+                                        />
+                                    </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('manager.products.image') }}
                                     </th>
@@ -125,6 +145,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($products as $product)
                                     <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <x-widgets.checkbox 
+                                                standalone
+                                                wireClick="toggleSelect({{ $product->id }})"
+                                                :checked="in_array($product->id, $selectedItems)"
+                                            />
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($product->hasMedia('images'))
                                                 <div class="w-16 h-16 flex-shrink-0">
@@ -212,7 +239,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="9" class="px-6 py-12">
+                                        <td colspan="10" class="px-6 py-12">
                                             <x-widgets.empty-state 
                                                 icon="heroicon-o-inbox"
                                                 :title="__('app.no_data')"

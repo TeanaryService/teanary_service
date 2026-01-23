@@ -69,12 +69,26 @@
                     </div>
                 </div>
 
+                {{-- 批量操作栏 --}}
+                @if($this->hasSelectedItems())
+                    <x-manager.batch-actions 
+                        deleteMethod="batchDeleteUsers"
+                    />
+                @endif
+
                 {{-- 用户列表 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                                        <x-widgets.checkbox 
+                                            standalone
+                                            wireClick="toggleSelectAll"
+                                            :checked="$selectAll"
+                                        />
+                                    </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('manager.user.avatar') }}
                                     </th>
@@ -101,6 +115,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($users as $user)
                                     <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <x-widgets.checkbox 
+                                                standalone
+                                                wireClick="toggleSelect({{ $user->id }})"
+                                                :checked="in_array($user->id, $selectedItems)"
+                                            />
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($user->hasMedia('avatars'))
                                                 <img src="{{ $user->getFirstMediaUrl('avatars', 'thumb') }}" 
@@ -172,7 +193,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-6 py-12 text-center text-sm text-gray-500">
+                                        <td colspan="8" class="px-6 py-12 text-center text-sm text-gray-500">
                                             <div class="flex flex-col items-center">
                                                 <svg class="w-10 h-10 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -12,6 +13,7 @@ use Livewire\Component;
 
 class Users extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -41,6 +43,16 @@ class Users extends Component
     public function deleteUser(int $id): void
     {
         $this->deleteModel(User::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->users->getCollection();
+    }
+
+    public function batchDeleteUsers(): void
+    {
+        $this->batchDelete(User::class);
     }
 
     #[Computed]

@@ -3,6 +3,7 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -13,6 +14,7 @@ use Livewire\Component;
 
 class Zones extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -49,6 +51,26 @@ class Zones extends Component
     public function deleteZone(int $id): void
     {
         $this->deleteModel(Zone::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->zones->getCollection();
+    }
+
+    public function batchDeleteZones(): void
+    {
+        $this->batchDelete(Zone::class);
+    }
+
+    public function batchSetZoneTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Zone::class, $status);
+    }
+
+    public function batchSetZoneActiveStatus(bool $active): void
+    {
+        $this->batchUpdateActiveStatus(Zone::class, $active);
     }
 
     #[Computed]

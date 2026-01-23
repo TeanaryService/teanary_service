@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Enums\ProductStatusEnum;
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -15,6 +16,7 @@ use Livewire\Component;
 
 class Products extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -65,6 +67,26 @@ class Products extends Component
     public function deleteProduct(int $id): void
     {
         $this->deleteModel(Product::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->products->getCollection();
+    }
+
+    public function batchDeleteProducts(): void
+    {
+        $this->batchDelete(Product::class);
+    }
+
+    public function batchSetProductTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Product::class, $status);
+    }
+
+    public function batchSetProductStatus(string $status): void
+    {
+        $this->batchUpdateProductStatus(Product::class, $status);
     }
 
     #[Computed]

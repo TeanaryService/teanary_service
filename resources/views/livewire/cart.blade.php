@@ -71,24 +71,46 @@
                             </td>
                             <td class="py-2 px-2 align-middle">
                                 <div class="flex items-center gap-1">
-                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})" class="px-2 w-10 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">-</button>
+                                    <x-widgets.button 
+                                        type="button" 
+                                        wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})"
+                                        variant="secondary"
+                                        size="sm"
+                                        class="!w-10 !px-2 !min-w-0"
+                                    >
+                                        -
+                                    </x-widgets.button>
                                     <x-widgets.input 
                                         type="number"
                                         wire:change="updateQty({{ $item->id }}, $event.target.value)"
                                         :value="$item->qty"
                                         min="1"
-                                        class="w-14 py-1 text-center !px-2"
+                                        class="!w-28 py-1 text-center !px-2"
                                     />
-                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})" class="px-2 w-10 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">+</button>
+                                    <x-widgets.button 
+                                        type="button" 
+                                        wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})"
+                                        variant="secondary"
+                                        size="sm"
+                                        class="!w-10 !px-2 !min-w-0"
+                                    >
+                                        +
+                                    </x-widgets.button>
                                 </div>
                             </td>
                             <td class="py-2 px-2 font-bold text-teal-700 align-middle">
                                 {{ $currencyService->convertWithSymbol($item->qty * $finalPrice, $currencyCode) }}
                             </td>
                             <td class="py-2 px-2 align-middle">
-                                <button type="button" wire:click="removeItem({{ $item->id }})" class="text-red-500 hover:text-red-700 transition">
+                                <x-widgets.button 
+                                    type="button" 
+                                    wire:click="removeItem({{ $item->id }})"
+                                    variant="danger-outline"
+                                    size="sm"
+                                    class="!p-2"
+                                >
                                     <x-heroicon-o-trash class="w-5 h-5" />
-                                </button>
+                                </x-widgets.button>
                             </td>
                         </tr>
                     @empty

@@ -2,20 +2,32 @@
 
 namespace App\Livewire\Manager;
 
-use App\Models\Manager;
-use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Models\Manager;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Managers extends Component
 {
-    use HasSearchAndFilters;
+    use HasBatchActions;
     use HasDeleteAction;
+    use HasSearchAndFilters;
 
     public function deleteManager(int $id): void
     {
         $this->deleteModel(Manager::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->managers->getCollection();
+    }
+
+    public function batchDeleteManagers(): void
+    {
+        $this->batchDelete(Manager::class);
     }
 
     public function generateToken(int $id): void

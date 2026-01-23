@@ -271,10 +271,22 @@ if (! function_exists('getPaymentStatusClasses')) {
      */
     function getPaymentStatusClasses(string $type): array
     {
-        return [
-            'bgColor' => $type === 'error' ? 'bg-red-50' : 'bg-teal-100',
-            'textColor' => $type === 'error' ? 'text-red-600' : 'text-teal-600',
+        $classes = [
+            'success' => [
+                'bgColor' => 'bg-teal-100',
+                'textColor' => 'text-teal-600',
+            ],
+            'error' => [
+                'bgColor' => 'bg-red-50',
+                'textColor' => 'text-red-600',
+            ],
+            'warning' => [
+                'bgColor' => 'bg-yellow-50',
+                'textColor' => 'text-yellow-600',
+            ],
         ];
+
+        return $classes[$type] ?? $classes['success'];
     }
 }
 

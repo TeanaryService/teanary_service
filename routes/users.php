@@ -30,9 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::livewire('addresses', Addresses::class)->name('auth.addresses');
     Route::livewire('notifications', Notifications::class)->name('auth.notifications');
     Route::post('logout', function () {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
+        // 只登出 web guard，不清除整个会话（避免影响 manager 登录状态）
+        Auth::guard('web')->logout();
+        // 重新生成会话 ID，但不销毁会话数据（保持 manager 会话）
+        request()->session()->regenerate();
 
         return redirect(locaRoute('home'));
     })->name('auth.logout');

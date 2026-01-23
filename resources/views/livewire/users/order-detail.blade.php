@@ -27,10 +27,7 @@
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('orders.order_details') }}</h1>
                 </div>
 
-        <x-widgets.session-message type="message" />
-
         @if($order && $order->id)
-        <x-widgets.session-message type="error" />
 
         <div class="space-y-6">
             <!-- 订单状态头部 -->

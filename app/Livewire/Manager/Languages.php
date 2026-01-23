@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Manager;
 
-use App\Models\Language;
-use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Models\Language;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Languages extends Component
 {
-    use HasSearchAndFilters;
+    use HasBatchActions;
     use HasDeleteAction;
+    use HasSearchAndFilters;
 
     public string $filterDefault = '';
 
@@ -30,6 +32,16 @@ class Languages extends Component
     public function deleteLanguage(int $id): void
     {
         $this->deleteModel(Language::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->languages->getCollection();
+    }
+
+    public function batchDeleteLanguages(): void
+    {
+        $this->batchDelete(Language::class);
     }
 
     #[Computed]

@@ -14,7 +14,6 @@
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('app.profile') }}</h1>
                 </div>
 
-                <x-widgets.session-message type="message" />
 
                 <form wire:submit="save">
                     <x-widgets.form-container>

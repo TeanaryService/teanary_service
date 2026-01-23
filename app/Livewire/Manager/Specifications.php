@@ -3,6 +3,7 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -13,6 +14,7 @@ use Livewire\Component;
 
 class Specifications extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -35,6 +37,21 @@ class Specifications extends Component
     public function deleteSpecification(int $id): void
     {
         $this->deleteModel(Specification::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->specifications->getCollection();
+    }
+
+    public function batchDeleteSpecifications(): void
+    {
+        $this->batchDelete(Specification::class);
+    }
+
+    public function batchSetSpecificationTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Specification::class, $status);
     }
 
     #[Computed]

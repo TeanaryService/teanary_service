@@ -3,6 +3,7 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\HasSearchAndFilters;
@@ -15,6 +16,7 @@ use Livewire\Component;
 
 class Attributes extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasNavigationRedirect;
     use HasSearchAndFilters;
@@ -54,6 +56,21 @@ class Attributes extends Component
         $attribute->save();
         Cache::forget('attributes.with.translations');
         session()->flash('message', $attribute->is_filterable ? __('manager.attribute.filterable') : __('manager.attribute.not_filterable'));
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->attributeList->getCollection();
+    }
+
+    public function batchDeleteAttributes(): void
+    {
+        $this->batchDelete(Attribute::class, 'attributes.with.translations');
+    }
+
+    public function batchSetAttributeTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Attribute::class, $status, 'attributes.with.translations');
     }
 
     // 使用自定义名称避免与 Livewire 内部 $attributes 属性冲突

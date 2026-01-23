@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -12,6 +13,7 @@ use Livewire\Component;
 
 class Addresses extends Component
 {
+    use HasBatchActions;
     use HasNavigationRedirect;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -47,6 +49,51 @@ class Addresses extends Component
 
         $address->delete();
         $this->flashMessage('deleted_successfully');
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->addresses->getCollection();
+    }
+
+    public function batchDeleteAddresses(): void
+    {
+        // 批量删除时需要检查订单关联
+        if (empty($this->selectedItems)) {
+            session()->flash('error', __('manager.batch.no_items_selected'));
+            return;
+        }
+
+        $count = 0;
+        $skipped = 0;
+        foreach ($this->selectedItems as $id) {
+            try {
+                $address = Address::find($id);
+                if ($address) {
+                    $hasShippingOrders = \App\Models\Order::where('shipping_address_id', $address->id)->exists();
+                    $hasBillingOrders = \App\Models\Order::where('billing_address_id', $address->id)->exists();
+                    
+                    if ($hasShippingOrders || $hasBillingOrders) {
+                        $skipped++;
+                        continue;
+                    }
+                    $address->delete();
+                    $count++;
+                }
+            } catch (\Exception $e) {
+                // 忽略删除失败的项目
+            }
+        }
+
+        $this->selectedItems = [];
+        $this->selectAll = false;
+        $this->resetPage();
+
+        if ($skipped > 0) {
+            session()->flash('message', __('manager.batch.deleted_with_skipped', ['count' => $count, 'skipped' => $skipped]));
+        } else {
+            session()->flash('message', __('manager.batch.deleted_successfully', ['count' => $count]));
+        }
     }
 
     #[Computed]

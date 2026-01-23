@@ -3,17 +3,20 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Category;
+use App\Support\CacheKeys;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Categories extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -42,7 +45,22 @@ class Categories extends Component
 
     public function deleteCategory(int $id): void
     {
-        $this->deleteModel(Category::class, $id, \App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+        $this->deleteModel(Category::class, $id, CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->categories->getCollection();
+    }
+
+    public function batchDeleteCategories(): void
+    {
+        $this->batchDelete(Category::class, CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+    }
+
+    public function batchSetCategoryTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Category::class, $status, CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
     }
 
     #[Computed]

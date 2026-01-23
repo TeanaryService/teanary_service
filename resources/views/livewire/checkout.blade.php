@@ -1,9 +1,21 @@
 @php
     $currencyService = app(\App\Services\LocaleCurrencyService::class);
     $currencyCode = session('currency');
+    $breadcrumbs = [
+        [
+            'label' => __('app.cart'),
+            'url' => locaRoute('cart'),
+        ],
+        [
+            'label' => __('app.checkout'),
+            'url' => '',
+        ],
+    ];
 @endphp
 
-<div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-4 py-10 min-h-[60vh] bg-gray-50">
+<div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 min-h-[60vh] mb-10">
+    <x-widgets.breadcrumbs :items="$breadcrumbs" />
+    
     {{-- 添加错误提示 --}}
     @if (session('error'))
         <div class="mb-4 p-4 bg-red-50 border-l-4 border-red-400 text-red-700">

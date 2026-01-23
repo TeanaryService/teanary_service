@@ -25,8 +25,6 @@
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('orders.my_orders') }}</h1>
                 </div>
 
-        <x-widgets.session-message type="message" />
-        <x-widgets.session-message type="error" />
 
         <div class="space-y-6">
             @if($orders->isEmpty())

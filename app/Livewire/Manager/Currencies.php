@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Manager;
 
-use App\Models\Currency;
-use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Models\Currency;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Currencies extends Component
 {
-    use HasSearchAndFilters;
+    use HasBatchActions;
     use HasDeleteAction;
+    use HasSearchAndFilters;
 
     public string $filterDefault = '';
     public ?float $exchangeRateFrom = null;
@@ -34,6 +36,16 @@ class Currencies extends Component
     public function deleteCurrency(int $id): void
     {
         $this->deleteModel(Currency::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->currencies->getCollection();
+    }
+
+    public function batchDeleteCurrencies(): void
+    {
+        $this->batchDelete(Currency::class);
     }
 
     #[Computed]

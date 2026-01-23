@@ -24,7 +24,6 @@
             @endif
         </div>
 
-        <x-widgets.session-message type="message" />
 
         <div class="space-y-6">
             @if($showForm)
@@ -35,12 +34,17 @@
                             <h3 class="text-lg font-semibold text-gray-900">
                                 {{ $addressId ? __('app.addresses.edit_address') : __('app.addresses.add_new') }}
                             </h3>
-                            <button wire:click="cancelEdit" type="button" 
-                                    class="text-gray-500 hover:text-gray-700 transition-colors">
+                            <x-widgets.button 
+                                wire:click="cancelEdit" 
+                                type="button"
+                                variant="secondary"
+                                size="sm"
+                                class="!p-2 !bg-transparent !border-0 !shadow-none text-gray-500 hover:text-gray-700"
+                            >
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                            </button>
+                            </x-widgets.button>
                         </div>
                     </div>
                     <div class="p-6">

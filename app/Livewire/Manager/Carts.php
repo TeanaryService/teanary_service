@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -12,6 +13,7 @@ use Livewire\Component;
 
 class Carts extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -34,6 +36,16 @@ class Carts extends Component
     public function deleteCart(int $id): void
     {
         $this->deleteModel(Cart::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->carts->getCollection();
+    }
+
+    public function batchDeleteCarts(): void
+    {
+        $this->batchDelete(Cart::class);
     }
 
     #[Computed]

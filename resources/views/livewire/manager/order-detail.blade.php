@@ -335,4 +335,4 @@
     </div>
 </div>
 
-<x-seo-meta title="{{ __('manager.order.detail') }}" />
+<x-seo-meta title="{{ __('manager.order.label') }}" /> 

@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Manager;
 
-use App\Models\Contact;
-use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Models\Contact;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Contacts extends Component
 {
-    use HasSearchAndFilters;
+    use HasBatchActions;
     use HasDeleteAction;
+    use HasSearchAndFilters;
 
     public ?string $createdFrom = null;
     public ?string $createdUntil = null;
@@ -37,6 +39,16 @@ class Contacts extends Component
     public function deleteContact(int $id): void
     {
         $this->deleteModel(Contact::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->contacts->getCollection();
+    }
+
+    public function batchDeleteContacts(): void
+    {
+        $this->batchDelete(Contact::class);
     }
 
     #[Computed]

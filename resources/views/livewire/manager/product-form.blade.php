@@ -17,7 +17,6 @@
                     </h1>
                 </div>
 
-                <x-widgets.session-message type="message" />
 
                 <form wire:submit.prevent="save" class="space-y-6">
                     {{-- 基本信息 --}}
@@ -71,14 +70,17 @@
                             <h2 class="text-lg font-semibold text-gray-900">
                                 {{ __('manager.products.attribute_values') }}
                             </h2>
-                            <button type="button"
-                                    wire:click="addAttributeValueRow"
-                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-teal-700 bg-teal-100 border border-teal-200 rounded-lg hover:bg-teal-100">
-                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <x-widgets.button 
+                                type="button"
+                                wire:click="addAttributeValueRow"
+                                variant="secondary"
+                                size="sm"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                 </svg>
                                 {{ __('app.add') }}
-                            </button>
+                            </x-widgets.button>
                         </div>
 
                         <div class="space-y-3">
@@ -107,11 +109,14 @@
                                         />
                                     </div>
                                     <div class="flex items-center md:justify-end">
-                                        <button type="button"
-                                                wire:click="removeAttributeValueRow({{ $index }})"
-                                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100">
+                                        <x-widgets.button 
+                                            type="button"
+                                            wire:click="removeAttributeValueRow({{ $index }})"
+                                            variant="danger-outline"
+                                            size="sm"
+                                        >
                                             {{ __('app.delete') }}
-                                        </button>
+                                        </x-widgets.button>
                                     </div>
                                 </div>
                             @endforeach

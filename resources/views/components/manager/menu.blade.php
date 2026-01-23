@@ -1,6 +1,11 @@
 <div x-data="{ open: false }" class="relative inline-block text-left">
-    <button @click="open = !open" type="button"
-        class="inline-flex items-center py-2 bg-white hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 gap gap-x-2 h-10">
+    <x-widgets.button 
+        @click="open = !open" 
+        type="button"
+        variant="secondary"
+        size="md"
+        class="!p-2 !bg-transparent !border-0 !shadow-none"
+    >
         @php
             $manager = auth('manager')->user();
             $avatarUrl = $manager?->getAvatarUrl();
@@ -15,17 +20,21 @@
         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
-    </button>
+    </x-widgets.button>
 
     <div x-show="open" @click.away="open = false" x-transition
         class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-teal-300">
         <div class="py-1">
             <form method="POST" action="{{ locaRoute('manager.logout') }}">
                 @csrf
-                <button type="submit"
-                    class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-teal-100 hover:text-teal-700">
+                <x-widgets.button 
+                    type="submit"
+                    variant="secondary"
+                    size="sm"
+                    class="w-full !justify-start !text-left"
+                >
                     {{ __('app.logout') }}
-                </button>
+                </x-widgets.button>
             </form>
         </div>
     </div>

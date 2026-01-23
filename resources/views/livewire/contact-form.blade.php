@@ -10,7 +10,6 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
             {{-- 左侧表单区域 --}}
             <div>
-                <x-widgets.session-message type="success" />
 
                 <x-widgets.card padding="p-5">
                     <form wire:submit.prevent="save">

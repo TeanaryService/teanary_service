@@ -56,12 +56,26 @@
                     </div>
                 </div>
 
+                {{-- 批量操作栏 --}}
+                @if($this->hasSelectedItems())
+                    <x-manager.batch-actions 
+                        deleteMethod="batchDeleteContacts"
+                    />
+                @endif
+
                 {{-- 联系人列表 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                                        <x-widgets.checkbox 
+                                            standalone
+                                            wireClick="toggleSelectAll"
+                                            :checked="$selectAll"
+                                        />
+                                    </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('manager.contact.name') }}
                                     </th>
@@ -82,6 +96,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($contacts as $contact)
                                     <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <x-widgets.checkbox 
+                                                standalone
+                                                wireClick="toggleSelect({{ $contact->id }})"
+                                                :checked="in_array($contact->id, $selectedItems)"
+                                            />
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                             {{ $contact->name }}
                                         </td>
@@ -120,7 +141,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
+                                        <td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500">
                                             <div class="flex flex-col items-center">
                                                 <svg class="w-10 h-10 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />

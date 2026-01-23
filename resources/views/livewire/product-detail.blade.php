@@ -89,17 +89,27 @@
 
                         <!-- 左右切换按钮 -->
                         @if ($images->count() > 1)
-                            <button type="button"
-                                class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100"
-                                :class="{ 'opacity-100': isHovered }" @click="prev()">
+                            <x-widgets.button 
+                                type="button"
+                                x-on:click="prev()"
+                                variant="secondary"
+                                size="sm"
+                                class="absolute left-2 top-1/2 -translate-y-1/2 !w-8 !h-8 !p-0 !min-w-0 !rounded-full !bg-black/30 hover:!bg-black/50 !text-white opacity-0 group-hover:opacity-100 !border-0 !shadow-none"
+                                x-bind:class="{ 'opacity-100': isHovered }"
+                            >
                                 <x-heroicon-o-arrow-small-left class="w-4 h-4" />
-                            </button>
+                            </x-widgets.button>
 
-                            <button type="button"
-                                class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100"
-                                :class="{ 'opacity-100': isHovered }" @click="next()">
+                            <x-widgets.button 
+                                type="button"
+                                x-on:click="next()"
+                                variant="secondary"
+                                size="sm"
+                                class="absolute right-2 top-1/2 -translate-y-1/2 !w-8 !h-8 !p-0 !min-w-0 !rounded-full !bg-black/30 hover:!bg-black/50 !text-white opacity-0 group-hover:opacity-100 !border-0 !shadow-none"
+                                x-bind:class="{ 'opacity-100': isHovered }"
+                            >
                                 <x-heroicon-o-arrow-small-right class="w-4 h-4" />
-                            </button>
+                            </x-widgets.button>
                         @endif
 
                         <!-- 进度条 -->
@@ -126,24 +136,28 @@
                     @if ($images->count() > 1)
                         <div class="flex justify-center gap-4 mt-3 absolute bottom-5 w-full">
                             @foreach ($images as $i => $img)
-                                <button type="button"
-                                    class="relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105"
-                                    :class="{
-                                        'border-teal-600 ring-2 ring-teal-200': active === {{ $i }},
-                                        'border-gray-300 hover:border-teal-400': active !== {{ $i }}
+                                <x-widgets.button 
+                                    type="button"
+                                    x-on:click="goTo({{ $i }})"
+                                    variant="secondary"
+                                    size="sm"
+                                    class="relative !w-24 !h-24 !p-0 !min-w-0 !rounded-lg overflow-hidden !border-2 transition-all duration-200 hover:scale-105 !bg-transparent !shadow-none"
+                                    x-bind:class="{
+                                        '!border-teal-600 ring-2 ring-teal-200': active === {{ $i }},
+                                        '!border-gray-300 hover:!border-teal-400': active !== {{ $i }}
                                     }"
-                                    @click="goTo({{ $i }})"
-                                    wire:key="product-thumb-{{ $selectedVariantId }}-{{ $i }}">
+                                    wire:key="product-thumb-{{ $selectedVariantId }}-{{ $i }}"
+                                >
                                     <img src="{{ $img->getUrl() }}" 
                                         alt="{{ $name }}"
                                         class="w-full h-full object-cover">
                                     <div class="absolute inset-0 bg-black/20 transition-opacity duration-200"
-                                        :class="{
+                                        x-bind:class="{
                                             'opacity-0': active === {{ $i }},
                                             'opacity-100': active !== {{ $i }}
                                         }">
                                     </div>
-                                </button>
+                                </x-widgets.button>
                             @endforeach
                         </div>
 
@@ -313,43 +327,71 @@
                                         $isSelected = $status === 'selected';
                                         $isDisabled = $status === 'disabled';
                                         $imageUrl = $this->getSpecificationValueImage($value['id']);
-                                    @endphp
-                                    <button
-                                        type="button"
-                                        wire:click="toggleSpecificationValue({{ $spec['id'] }}, {{ $value['id'] }})"
-                                        @if($isDisabled) disabled @endif
-                                        class="
-                                            relative px-4 py-2.5 rounded-lg border-2 text-sm font-medium transition-all duration-200
-                                            @if($isSelected)
-                                                bg-orange-50 border-orange-500 text-orange-700 shadow-md ring-2 ring-orange-200
-                                            @elseif($isDisabled)
-                                                bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed opacity-50
-                                            @else
-                                                bg-white border-gray-300 text-gray-700 hover:border-orange-400 hover:bg-orange-50 hover:shadow-sm
-                                            @endif
-                                        "
-                                        @if($isDisabled)
-                                            title="当前选择下无对应 SKU"
-                                        @endif
-                                    >
-                                        @if($imageUrl)
-                                            {{-- 图片规格值 --}}
-                                            <div class="flex items-center gap-2">
-                                                <img src="{{ $imageUrl }}" alt="{{ $value['name'] }}" 
-                                                     class="w-8 h-8 rounded border border-gray-200 object-cover">
-                                                <span>{{ $value['name'] }}</span>
-                                            </div>
-                                        @else
-                                            {{-- 文本规格值 --}}
-                                            {{ $value['name'] }}
-                                        @endif
                                         
-                                        @if($isSelected)
-                                            <svg class="absolute -top-1 -right-1 w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                            </svg>
-                                        @endif
-                                    </button>
+                                        // 根据状态生成 class
+                                        if ($isSelected) {
+                                            $buttonClass = 'relative !px-4 !py-2.5 !rounded-lg !border-2 !text-sm !font-medium transition-all duration-200 !bg-orange-50 !border-orange-500 !text-orange-700 !shadow-md ring-2 ring-orange-200 hover:!bg-orange-50 hover:!border-orange-500';
+                                        } elseif ($isDisabled) {
+                                            $buttonClass = 'relative !px-4 !py-2.5 !rounded-lg !border-2 !text-sm !font-medium transition-all duration-200 !bg-gray-50 !border-gray-200 !text-gray-400 !cursor-not-allowed opacity-50 hover:!bg-gray-50 hover:!border-gray-200';
+                                        } else {
+                                            $buttonClass = 'relative !px-4 !py-2.5 !rounded-lg !border-2 !text-sm !font-medium transition-all duration-200 !bg-white !border-gray-300 !text-gray-700 hover:!border-orange-400 hover:!bg-orange-50 hover:!shadow-sm';
+                                        }
+                                    @endphp
+                                    @if($isDisabled)
+                                        <x-widgets.button
+                                            type="button"
+                                            wire:click="toggleSpecificationValue({{ $spec['id'] }}, {{ $value['id'] }})"
+                                            variant="secondary"
+                                            size="md"
+                                            class="{{ $buttonClass }}"
+                                            disabled
+                                            title="当前选择下无对应 SKU"
+                                        >
+                                            @if($imageUrl)
+                                                {{-- 图片规格值 --}}
+                                                <div class="flex items-center gap-2">
+                                                    <img src="{{ $imageUrl }}" alt="{{ $value['name'] }}" 
+                                                         class="w-8 h-8 rounded border border-gray-200 object-cover">
+                                                    <span>{{ $value['name'] }}</span>
+                                                </div>
+                                            @else
+                                                {{-- 文本规格值 --}}
+                                                {{ $value['name'] }}
+                                            @endif
+                                            
+                                            @if($isSelected)
+                                                <svg class="absolute -top-1 -right-1 w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                                </svg>
+                                            @endif
+                                        </x-widgets.button>
+                                    @else
+                                        <x-widgets.button
+                                            type="button"
+                                            wire:click="toggleSpecificationValue({{ $spec['id'] }}, {{ $value['id'] }})"
+                                            variant="secondary"
+                                            size="md"
+                                            class="{{ $buttonClass }}"
+                                        >
+                                            @if($imageUrl)
+                                                {{-- 图片规格值 --}}
+                                                <div class="flex items-center gap-2">
+                                                    <img src="{{ $imageUrl }}" alt="{{ $value['name'] }}" 
+                                                         class="w-8 h-8 rounded border border-gray-200 object-cover">
+                                                    <span>{{ $value['name'] }}</span>
+                                                </div>
+                                            @else
+                                                {{-- 文本规格值 --}}
+                                                {{ $value['name'] }}
+                                            @endif
+                                            
+                                            @if($isSelected)
+                                                <svg class="absolute -top-1 -right-1 w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                                </svg>
+                                            @endif
+                                        </x-widgets.button>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -393,32 +435,55 @@
             @if($selectedVariantId && $variants->count() > 0)
                 <div class="mb-4 flex items-center gap-2">
                     <span class="font-semibold text-gray-700">{{ __('home.qty') }}:</span>
-                    <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="decrementQty">-</button>
+                    <x-widgets.button 
+                        type="button" 
+                        wire:click="decrementQty"
+                        variant="secondary"
+                        size="sm"
+                        class="!w-10 !px-2 !min-w-0"
+                    >
+                        -
+                    </x-widgets.button>
                     <x-widgets.input 
                         type="number"
                         min="1"
                         :max="$maxQty"
                         wire="lazy=qty"
                         wire:change="updateQty($event.target.value)"
-                        class="w-16 text-center !px-2 py-0.5"
+                        class="!w-36 text-center !px-2 py-0.5"
                     />
-                    <button type="button" class="w-10 py-1 bg-gray-200 rounded" wire:click="incrementQty">+</button>
+                    <x-widgets.button 
+                        type="button" 
+                        wire:click="incrementQty"
+                        variant="secondary"
+                        size="sm"
+                        class="!w-10 !px-2 !min-w-0"
+                    >
+                        +
+                    </x-widgets.button>
                     <span class="text-gray-400 ml-2 text-sm">{{ __('home.storage', ['storage' => $maxQty]) }}</span>
                 </div>
             @endif
             {{-- 购买按钮（只有选中 SKU 时才显示） --}}
             @if($selectedVariantId && $variants->count() > 0)
                 <div class="mt-6 flex items-center gap gap-4">
-                    <button
+                    <x-widgets.button
                         wire:click="$dispatch('cart:add', { productId: {{ $productId }}, variantId: {{ $variantId }}, qty: {{ $qty }} })"
-                        class="w-full px-6 py-3 tea-btn-primary rounded-lg font-bold">
+                        variant="primary"
+                        size="lg"
+                        class="w-full"
+                    >
                         {{ __('home.addCart') }}
-                    </button>
+                    </x-widgets.button>
 
-                    <button wire:click="buyNow"
-                        class="w-full px-6 py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition">
+                    <x-widgets.button 
+                        wire:click="buyNow"
+                        variant="danger"
+                        size="lg"
+                        class="w-full"
+                    >
                         {{ __('home.buy_now') }}
-                    </button>
+                    </x-widgets.button>
                 </div>
             @endif
             <div class="py-6">

@@ -3,6 +3,7 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\HasSearchAndFilters;
@@ -14,6 +15,7 @@ use Livewire\Component;
 
 class Articles extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasNavigationRedirect;
     use HasSearchAndFilters;
@@ -54,6 +56,26 @@ class Articles extends Component
         session()->flash('message', $article->is_published ? __('manager.article.published') : __('manager.article.unpublished'));
     }
 
+    protected function getCurrentPageItems()
+    {
+        return $this->articles->getCollection();
+    }
+
+    public function batchDeleteArticles(): void
+    {
+        $this->batchDelete(Article::class);
+    }
+
+    public function batchSetArticleTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Article::class, $status);
+    }
+
+    public function batchSetPublishedStatus(bool $isPublished): void
+    {
+        $this->batchUpdatePublishedStatus(Article::class, $isPublished);
+    }
+
     #[Computed]
     public function articles()
     {
@@ -92,8 +114,6 @@ class Articles extends Component
     public function getArticleSummary($article, $lang)
     {
         return $this->translatedField($article->articleTranslations, $lang, 'summary', '');
-
-        return $first ? ($first->summary ?? '') : '';
     }
 
     public function render()

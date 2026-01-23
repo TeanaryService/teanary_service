@@ -17,7 +17,6 @@
                     </h1>
                 </div>
 
-                <x-widgets.session-message type="message" />
 
                 <form wire:submit="save">
                     <x-widgets.card>

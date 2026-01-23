@@ -4,7 +4,6 @@
         {{ __('manager.specifications.label') }}
     </h1>
 
-    <x-widgets.session-message type="success" />
 
     <form wire:submit.prevent="save" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

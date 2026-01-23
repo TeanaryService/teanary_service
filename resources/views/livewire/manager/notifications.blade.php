@@ -13,13 +13,16 @@
                 <div class="mb-6 flex items-center justify-between">
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('notifications.my_notifications') }}</h1>
                     @if(auth('manager')->user()->unreadNotifications->count() > 0)
-                        <button wire:click="markAllAsRead" 
-                                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-teal-700 bg-teal-100 border border-teal-300 rounded-lg hover:bg-teal-100 transition-colors">
+                        <x-widgets.button 
+                            wire:click="markAllAsRead"
+                            variant="secondary"
+                            size="md"
+                        >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
                             {{ __('notifications.mark_all_as_read') }}
-                        </button>
+                        </x-widgets.button>
                     @endif
                 </div>
 
@@ -76,16 +79,22 @@
                                                 </div>
                                                 <div class="flex items-center gap-2">
                                                     @if($isUnread)
-                                                        <button wire:click="markAsRead('{{ $notification->id }}')" 
-                                                                class="text-xs text-teal-600 hover:text-teal-700 px-2 py-1 rounded hover:bg-teal-100 transition-colors">
+                                                        <x-widgets.button 
+                                                            wire:click="markAsRead('{{ $notification->id }}')"
+                                                            variant="secondary"
+                                                            size="sm"
+                                                        >
                                                             {{ __('notifications.mark_as_read') }}
-                                                        </button>
+                                                        </x-widgets.button>
                                                     @endif
-                                                    <button wire:click="deleteNotification('{{ $notification->id }}')" 
-                                                            wire:confirm="{{ __('notifications.confirm_delete') }}"
-                                                            class="text-xs text-red-600 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition-colors">
+                                                    <x-widgets.button 
+                                                        wire:click="deleteNotification('{{ $notification->id }}')"
+                                                        wire:confirm="{{ __('notifications.confirm_delete') }}"
+                                                        variant="danger-outline"
+                                                        size="sm"
+                                                    >
                                                         {{ __('app.delete') }}
-                                                    </button>
+                                                    </x-widgets.button>
                                                 </div>
                                             </div>
                                         </div>

@@ -144,9 +144,10 @@ Route::prefix('manager')->group(function () {
         Route::livewire('users/{id}/edit', UserForm::class)->name('manager.users.edit');
 
         Route::post('logout', function () {
+            // 只登出 manager guard
             Auth::guard('manager')->logout();
-            request()->session()->invalidate();
-            request()->session()->regenerateToken();
+            // 重新生成会话 ID，但不销毁会话数据（保持 users 会话）
+            request()->session()->regenerate();
 
             return redirect(locaRoute('manager.login'));
         })->name('manager.logout');

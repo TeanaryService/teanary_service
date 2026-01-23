@@ -62,4 +62,7 @@ return [
     'manager' => require __DIR__.'/manager/managers.php',
     'users' => require __DIR__.'/manager/users.php',
     'user' => require __DIR__.'/manager/users.php',
+
+    // Batch Operations
+    'batch' => require __DIR__.'/manager/batch.php',
 ];

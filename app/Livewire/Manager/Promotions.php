@@ -4,6 +4,7 @@ namespace App\Livewire\Manager;
 
 use App\Enums\PromotionTypeEnum;
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -14,6 +15,7 @@ use Livewire\Component;
 
 class Promotions extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -50,6 +52,26 @@ class Promotions extends Component
     public function deletePromotion(int $id): void
     {
         $this->deleteModel(Promotion::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->promotions->getCollection();
+    }
+
+    public function batchDeletePromotions(): void
+    {
+        $this->batchDelete(Promotion::class);
+    }
+
+    public function batchSetPromotionTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Promotion::class, $status);
+    }
+
+    public function batchSetPromotionActiveStatus(bool $active): void
+    {
+        $this->batchUpdateActiveStatus(Promotion::class, $active);
     }
 
     #[Computed]

@@ -3,6 +3,7 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
 use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
@@ -13,6 +14,7 @@ use Livewire\Component;
 
 class Countries extends Component
 {
+    use HasBatchActions;
     use HasDeleteAction;
     use HasSearchAndFilters;
     use HasTranslatedNames;
@@ -42,6 +44,26 @@ class Countries extends Component
     public function deleteCountry(int $id): void
     {
         $this->deleteModel(Country::class, $id);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->countries->getCollection();
+    }
+
+    public function batchDeleteCountries(): void
+    {
+        $this->batchDelete(Country::class);
+    }
+
+    public function batchSetCountryTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Country::class, $status);
+    }
+
+    public function batchSetCountryActiveStatus(bool $active): void
+    {
+        $this->batchUpdateActiveStatus(Country::class, $active);
     }
 
     #[Computed]

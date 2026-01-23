@@ -70,12 +70,31 @@
                     </div>
                 </div>
 
+                {{-- 批量操作栏 --}}
+                @if($this->hasSelectedItems())
+                    <x-manager.batch-actions 
+                        hasTranslationStatus="true"
+                        hasPublishedStatus="true"
+                        :translationStatusOptions="$translationStatusOptions"
+                        deleteMethod="batchDeleteArticles"
+                        translationStatusMethod="batchSetArticleTranslationStatus"
+                        publishedStatusMethod="batchSetPublishedStatus"
+                    />
+                @endif
+
                 {{-- 文章列表 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                                        <x-widgets.checkbox 
+                                            standalone
+                                            wireClick="toggleSelectAll"
+                                            :checked="$selectAll"
+                                        />
+                                    </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('manager.article.image') }}
                                     </th>
@@ -102,6 +121,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($articles as $article)
                                     <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <x-widgets.checkbox 
+                                                standalone
+                                                wireClick="toggleSelect({{ $article->id }})"
+                                                :checked="in_array($article->id, $selectedItems)"
+                                            />
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($article->hasMedia('image'))
                                                 <div class="w-16 h-16 flex-shrink-0">
@@ -189,7 +215,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-6 py-12 text-center text-sm text-gray-500">
+                                        <td colspan="8" class="px-6 py-12 text-center text-sm text-gray-500">
                                             <div class="flex flex-col items-center">
                                                 <svg class="w-10 h-10 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
