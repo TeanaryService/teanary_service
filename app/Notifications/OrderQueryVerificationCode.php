@@ -16,8 +16,7 @@ class OrderQueryVerificationCode extends Notification
     public function __construct(
         public string $verificationCode,
         public string $orderNo
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.

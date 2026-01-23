@@ -303,7 +303,8 @@ class Checkout extends Component
         }
 
         // 根据国家设置地区验证规则
-        $zones = \App\Models\Zone::getZonesByCountryAndLanguage($this->address['country_id'] ?? null);
+        $countryId = $this->address['country_id'] ?? null;
+        $zones = $countryId ? \App\Models\Zone::getZonesByCountryAndLanguage((int) $countryId) : [];
         if (! empty($zones)) {
             $rules['address.zone_id'] = 'required|exists:zones,id';
         } else {
@@ -315,40 +316,36 @@ class Checkout extends Component
 
     public function saveAddress()
     {
-        try {
-            $this->validate($this->getAddressRules());
+        $this->validate($this->getAddressRules());
 
-            $data = $this->address;
-            $data['session_id'] = session()->getId();
-            if (auth()->check()) {
-                $data['user_id'] = auth()->id();
-            }
-
-            $address = \App\Models\Address::create($data);
-
-            $this->loadAddresses();
-            $this->shippingAddress = $address->id;
-            $this->showAddressForm = false;
-            $this->address = [
-                'firstname' => '',
-                'lastname' => '',
-                'email' => '',
-                'telephone' => '',
-                'company' => '',
-                'address_1' => '',
-                'address_2' => '',
-                'city' => '',
-                'postcode' => '',
-                'country_id' => '',
-                'zone_id' => '',
-            ];
-
-            $this->updatePaymentMethods();
-            $this->updateShippingMethods();
-            $this->recalculateOrderTotal();
-        } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
+        $data = $this->address;
+        $data['session_id'] = session()->getId();
+        if (auth()->check()) {
+            $data['user_id'] = auth()->id();
         }
+
+        $address = \App\Models\Address::create($data);
+
+        $this->loadAddresses();
+        $this->shippingAddress = $address->id;
+        $this->showAddressForm = false;
+        $this->address = [
+            'firstname' => '',
+            'lastname' => '',
+            'email' => '',
+            'telephone' => '',
+            'company' => '',
+            'address_1' => '',
+            'address_2' => '',
+            'city' => '',
+            'postcode' => '',
+            'country_id' => '',
+            'zone_id' => '',
+        ];
+
+        $this->updatePaymentMethods();
+        $this->updateShippingMethods();
+        $this->recalculateOrderTotal();
     }
 
     // 修正更新配送方式的方法

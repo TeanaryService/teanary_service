@@ -31,6 +31,7 @@ class CategoryService
                 ]);
                 $category->id = $categoryId;
                 $category->save();
+
                 return $category;
             });
         }

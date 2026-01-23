@@ -3,8 +3,8 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Currency;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Currencies extends Component
@@ -49,9 +49,9 @@ class Currencies extends Component
 
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('code', 'like', '%' . $this->search . '%')
-                  ->orWhere('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('symbol', 'like', '%' . $this->search . '%');
+                $q->where('code', 'like', '%'.$this->search.'%')
+                    ->orWhere('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('symbol', 'like', '%'.$this->search.'%');
             });
         }
 

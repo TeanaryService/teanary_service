@@ -5,8 +5,8 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Models\Country;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Countries extends Component
@@ -61,7 +61,7 @@ class Countries extends Component
         if ($this->search) {
             $search = $this->search;
             $query->whereHas('countryTranslations', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
+                $q->where('name', 'like', '%'.$search.'%');
             });
         }
 
@@ -71,7 +71,7 @@ class Countries extends Component
         }
 
         // 筛选：翻译状态
-        if (!empty($this->filterTranslationStatus)) {
+        if (! empty($this->filterTranslationStatus)) {
             $query->whereIn('translation_status', $this->filterTranslationStatus);
         }
 
@@ -85,6 +85,7 @@ class Countries extends Component
             return $translation->name;
         }
         $first = $country->countryTranslations->first();
+
         return $first ? $first->name : __('manager.country.unnamed');
     }
 

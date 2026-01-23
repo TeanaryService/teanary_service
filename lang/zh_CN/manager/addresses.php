@@ -4,7 +4,7 @@ return [
     // 列表/导航相关
     'label' => '地址',
     'group' => '用户管理',
-    
+
     // 字段相关
     'user_info' => '用户信息',
     'user_id' => '用户 ID',

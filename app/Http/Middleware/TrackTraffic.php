@@ -29,11 +29,11 @@ class TrackTraffic
         } catch (\Exception $e) {
             // 如果中间件链中出现异常，记录但不影响请求处理
             // 流量统计不应该影响正常的请求处理
-            Log::warning('TrackTraffic middleware error: ' . $e->getMessage(), [
+            Log::warning('TrackTraffic middleware error: '.$e->getMessage(), [
                 'path' => $request->path(),
                 'exception' => $e,
             ]);
-            
+
             // 重新抛出异常，让 Laravel 的异常处理器处理
             throw $e;
         }
@@ -78,7 +78,7 @@ class TrackTraffic
     }
 
     /**
-     * 记录流量数据到缓存
+     * 记录流量数据到缓存.
      */
     protected function recordTraffic(Request $request): void
     {
@@ -90,13 +90,13 @@ class TrackTraffic
             $ip = $request->ip();
             $userAgent = $request->userAgent();
             $referer = $request->header('referer');
-            
+
             // 安全获取 locale，避免在中间件链早期阶段出错
             $locale = $request->segment(1);
-            if (!$locale || !in_array($locale, $this->getSupportedLocales())) {
+            if (! $locale || ! in_array($locale, $this->getSupportedLocales())) {
                 $locale = app()->getLocale() ?: 'en';
             }
-            
+
             $isBot = $this->isBot($userAgent);
             $spiderSource = $isBot ? $this->getSpiderSource($userAgent) : null;
 
@@ -110,7 +110,7 @@ class TrackTraffic
             $this->addToWriteQueue($statDate, $path, $method, $ip, $userAgent, $referer, $locale, $isBot, $spiderSource);
         } catch (\Exception $e) {
             // 记录流量统计错误，但不影响请求处理
-            Log::warning('TrackTraffic recordTraffic error: ' . $e->getMessage(), [
+            Log::warning('TrackTraffic recordTraffic error: '.$e->getMessage(), [
                 'path' => $request->path(),
                 'exception' => $e,
             ]);
@@ -118,12 +118,13 @@ class TrackTraffic
     }
 
     /**
-     * 获取支持的语言列表
+     * 获取支持的语言列表.
      */
     protected function getSupportedLocales(): array
     {
         try {
             $service = app(\App\Services\LocaleCurrencyService::class);
+
             return $service->getLanguages()->pluck('code')->toArray() ?: ['en'];
         } catch (\Exception $e) {
             // 如果服务不可用，返回默认语言
@@ -132,7 +133,7 @@ class TrackTraffic
     }
 
     /**
-     * 判断是否为爬虫
+     * 判断是否为爬虫.
      */
     protected function isBot(?string $userAgent): bool
     {
@@ -147,19 +148,19 @@ class TrackTraffic
             // 搜索引擎爬虫
             'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider', 'yandexbot',
             'sogou', 'exabot', 'facebot', 'ia_archiver', 'msnbot', 'ahrefsbot',
-            
+
             // 社交媒体爬虫
             'facebookexternalhit', 'twitterbot', 'linkedinbot', 'pinterest',
-            
+
             // 其他爬虫
             'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget', 'python-requests',
             'java/', 'go-http-client', 'httpclient', 'apache-httpclient',
             'scrapy', 'mechanize', 'phantomjs', 'headless', 'selenium',
-            
+
             // 监控和工具
             'uptimerobot', 'pingdom', 'monitor', 'check', 'validator',
             'feed', 'rss', 'reader', 'aggregator',
-            
+
             // 恶意爬虫
             'semrush', 'majestic', 'dotbot', 'ahrefs', 'mj12bot',
         ];
@@ -174,7 +175,7 @@ class TrackTraffic
     }
 
     /**
-     * 获取爬虫来源
+     * 获取爬虫来源.
      */
     protected function getSpiderSource(?string $userAgent): ?string
     {
@@ -222,32 +223,33 @@ class TrackTraffic
     }
 
     /**
-     * 生成缓存键
+     * 生成缓存键.
      */
     protected function generateCacheKey($statDate, $path, $method, $ip, bool $isBot, ?string $spiderSource = null): string
     {
         $minute = $statDate->format('Y-m-d H:i');
         $botFlag = $isBot ? 'bot' : 'human';
         $source = $spiderSource ?? 'none';
-        return "traffic:count:{$minute}:{$path}:{$method}:{$botFlag}:{$source}:" . md5($ip);
+
+        return "traffic:count:{$minute}:{$path}:{$method}:{$botFlag}:{$source}:".md5($ip);
     }
 
     /**
-     * 将流量数据添加到待写入队列
+     * 将流量数据添加到待写入队列.
      */
     protected function addToWriteQueue($statDate, $path, $method, $ip, $userAgent, $referer, $locale, bool $isBot, ?string $spiderSource = null): void
     {
-        $queueKey = 'traffic:queue:' . $statDate->format('Y-m-d-H-i');
+        $queueKey = 'traffic:queue:'.$statDate->format('Y-m-d-H-i');
 
         // 生成唯一键（基于时间、路径、方法、IP、是否爬虫、爬虫来源）
-        $uniqueKey = md5("{$statDate->format('Y-m-d H:i')}:{$path}:{$method}:" . md5($ip) . ":{$isBot}:" . ($spiderSource ?? ''));
+        $uniqueKey = md5("{$statDate->format('Y-m-d H:i')}:{$path}:{$method}:".md5($ip).":{$isBot}:".($spiderSource ?? ''));
 
         // 获取或创建队列
         $queue = Cache::get($queueKey, []);
 
         // 如果已存在，更新计数；否则添加新记录
         if (isset($queue[$uniqueKey])) {
-            $queue[$uniqueKey]['count']++;
+            ++$queue[$uniqueKey]['count'];
         } else {
             $queue[$uniqueKey] = [
                 'stat_date' => $statDate->format('Y-m-d H:i:s'),

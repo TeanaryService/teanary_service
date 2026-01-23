@@ -2,7 +2,7 @@
     $breadcrumbs = buildUserCenterBreadcrumbs('orders', __('orders.order_details'), __('orders.my_orders'), locaRoute('auth.orders'));
     $localeService = app(\App\Services\LocaleCurrencyService::class);
     $lang = $localeService->getLanguageByCode(session('lang'));
-    $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
+    $orderCurrency = $order ? $localeService->getCurrencies()->find($order->currency_id) : null;
     $statusConfig = [
         'pending' => ['color' => 'bg-yellow-100 text-yellow-800 border-yellow-200', 'icon' => 'heroicon-o-clock'],
         'paid' => ['color' => 'bg-blue-100 text-blue-800 border-blue-200', 'icon' => 'heroicon-o-check-circle'],
@@ -12,11 +12,11 @@
         'after_sale' => ['color' => 'bg-orange-100 text-orange-800 border-orange-200', 'icon' => 'heroicon-o-exclamation-triangle'],
         'after_sale_done' => ['color' => 'bg-gray-100 text-gray-800 border-gray-200', 'icon' => 'heroicon-o-check'],
     ];
-    $statusInfo = $statusConfig[$order->status->value] ?? $statusConfig['pending'];
+    $statusInfo = $order ? ($statusConfig[$order->status->value] ?? $statusConfig['pending']) : $statusConfig['pending'];
 @endphp
 
 <div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
@@ -28,6 +28,8 @@
                 </div>
 
         <x-widgets.session-message type="message" />
+
+        @if($order && $order->id)
         <x-widgets.session-message type="error" />
 
         <div class="space-y-6">
@@ -67,7 +69,7 @@
                     <div class="text-right">
                         <div class="text-sm text-gray-600 mb-1">{{ __('orders.total') }}</div>
                         <div class="text-3xl font-bold text-teal-600">
-                            {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
+                            {{ $orderCurrency ? $localeService->formatWithSymbol($order->total, $orderCurrency->code) : number_format($order->total, 2) }}
                         </div>
                     </div>
                 </div>
@@ -190,24 +192,24 @@
                         <div class="p-6">
                             <div class="space-y-2 text-sm text-gray-700">
                                 <p class="font-semibold text-gray-900 text-base">
-                                    {{ $order->shippingAddress->lastname }}{{ $order->shippingAddress->firstname }}
+                                    {{ $order->shippingAddress?->lastname ?? '' }}{{ $order->shippingAddress?->firstname ?? '' }}
                                 </p>
                                 <p class="flex items-center gap-1.5">
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                     </svg>
-                                    {{ $order->shippingAddress->telephone }}
+                                    {{ $order->shippingAddress?->telephone ?? '' }}
                                 </p>
-                                <p>{{ $order->shippingAddress->address_1 }}</p>
-                                @if($order->shippingAddress->address_2)
+                                <p>{{ $order->shippingAddress?->address_1 ?? '' }}</p>
+                                @if($order->shippingAddress?->address_2)
                                     <p>{{ $order->shippingAddress->address_2 }}</p>
                                 @endif
                                 <p>
-                                    {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->postcode }}
+                                    {{ $order->shippingAddress?->city ?? '' }}, {{ $order->shippingAddress?->postcode ?? '' }}
                                 </p>
                                 <p>
-                                    {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
-                                    {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
+                                    {{ $order->shippingAddress?->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress?->zone?->name ?? '' }}, 
+                                    {{ $order->shippingAddress?->country?->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress?->country?->name ?? '' }}
                                 </p>
                             </div>
                         </div>
@@ -226,11 +228,11 @@
                         <div class="p-6 space-y-3">
                             <div class="flex justify-between text-sm text-gray-600">
                                 <span>{{ __('orders.subtotal') }}</span>
-                                <span class="font-medium">{{ $localeService->formatWithSymbol($order->total - ($order->shipping_fee ?? 0), $orderCurrency->code) }}</span>
+                                <span class="font-medium">{{ $orderCurrency ? $localeService->formatWithSymbol($order->total - ($order->shipping_fee ?? 0), $orderCurrency->code) : number_format($order->total - ($order->shipping_fee ?? 0), 2) }}</span>
                             </div>
                             <div class="flex justify-between text-sm text-gray-600">
                                 <span>{{ __('orders.shipping_fee') }}</span>
-                                <span class="font-medium">{{ $localeService->formatWithSymbol($order->shipping_fee ?? 0, $orderCurrency->code) }}</span>
+                                <span class="font-medium">{{ $orderCurrency ? $localeService->formatWithSymbol($order->shipping_fee ?? 0, $orderCurrency->code) : number_format($order->shipping_fee ?? 0, 2) }}</span>
                             </div>
                             <div class="border-t border-gray-200 pt-3 mt-3">
                                 <div class="flex justify-between items-center">
@@ -287,6 +289,7 @@
         </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
 

@@ -13,4 +13,3 @@ return [
     'created_from' => 'Erstellt ab',
     'created_until' => 'Erstellt bis',
 ];
-

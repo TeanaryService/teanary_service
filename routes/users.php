@@ -1,15 +1,15 @@
 <?php
 
 use App\Http\Middleware\CustomRedirectIfAuthenticated;
-use App\Livewire\Users\Login;
-use App\Livewire\Users\Register;
-use App\Livewire\Users\ForgotPassword;
-use App\Livewire\Users\ResetPassword;
-use App\Livewire\Users\Profile;
-use App\Livewire\Users\Orders;
-use App\Livewire\Users\OrderDetail;
 use App\Livewire\Users\Addresses;
+use App\Livewire\Users\ForgotPassword;
+use App\Livewire\Users\Login;
 use App\Livewire\Users\Notifications;
+use App\Livewire\Users\OrderDetail;
+use App\Livewire\Users\Orders;
+use App\Livewire\Users\Profile;
+use App\Livewire\Users\Register;
+use App\Livewire\Users\ResetPassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,13 +26,14 @@ Route::middleware([CustomRedirectIfAuthenticated::class])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::livewire('profile', Profile::class)->name('auth.profile');
     Route::livewire('orders', Orders::class)->name('auth.orders');
-    Route::livewire('orders/{order}', OrderDetail::class)->name('auth.order-detail');
+    Route::livewire('orders/{orderId}', OrderDetail::class)->name('auth.order-detail');
     Route::livewire('addresses', Addresses::class)->name('auth.addresses');
     Route::livewire('notifications', Notifications::class)->name('auth.notifications');
     Route::post('logout', function () {
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
+
         return redirect(locaRoute('home'));
     })->name('auth.logout');
 });
@@ -42,14 +43,16 @@ Route::middleware(['auth', 'throttle:6,1'])->group(function () {
     Route::get('email/verify', function () {
         return view('auth.verify-email');
     })->name('verification.notice');
-    
+
     Route::get('email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
         $request->fulfill();
+
         return redirect(locaRoute('home'))->with('message', __('auth.email_verified'));
     })->middleware('signed')->name('verification.verify');
-    
+
     Route::post('email/verification-notification', function (\Illuminate\Http\Request $request) {
         $request->user()->sendEmailVerificationNotification();
+
         return back()->with('message', __('auth.verification_link_sent'));
     })->name('verification.send');
 });

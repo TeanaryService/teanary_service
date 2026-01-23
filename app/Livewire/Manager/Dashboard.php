@@ -40,20 +40,20 @@ class Dashboard extends Component
 
         $service = app(LocaleCurrencyService::class);
         $defaultCurrencyCode = $service->getDefaultCurrencyCode();
-        
+
         $this->totalRevenue = $orders->sum(function ($order) use ($service, $defaultCurrencyCode) {
-            if (!$order->total || $order->total == 0) {
+            if (! $order->total || $order->total == 0) {
                 return 0;
             }
-            
+
             // 如果订单没有货币，使用默认货币
             $orderCurrencyCode = $order->currency?->code ?? $defaultCurrencyCode;
-            
+
             // 将所有订单金额转换为默认货币后求和
             // convert(amount, toCode, fromCode)
             return $service->convert($order->total, $defaultCurrencyCode, $orderCurrencyCode);
         });
-            
+
         // 最近订单：获取最新的5个订单
         $this->recentOrders = Order::query()
             ->with(['orderItems.product', 'user', 'currency'])

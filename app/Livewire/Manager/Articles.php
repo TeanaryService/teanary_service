@@ -50,7 +50,7 @@ class Articles extends Component
     public function togglePublish(int $id): void
     {
         $article = Article::findOrFail($id);
-        $article->is_published = !$article->is_published;
+        $article->is_published = ! $article->is_published;
         $article->save();
         session()->flash('message', $article->is_published ? __('manager.article.published') : __('manager.article.unpublished'));
     }
@@ -69,8 +69,8 @@ class Articles extends Component
         if ($this->search) {
             $search = $this->search;
             $query->whereHas('articleTranslations', function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('summary', 'like', '%' . $search . '%');
+                $q->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('summary', 'like', '%'.$search.'%');
             });
         }
 
@@ -80,7 +80,7 @@ class Articles extends Component
         }
 
         // 筛选：翻译状态
-        if (!empty($this->filterTranslationStatus)) {
+        if (! empty($this->filterTranslationStatus)) {
             $query->whereIn('translation_status', $this->filterTranslationStatus);
         }
 
@@ -94,6 +94,7 @@ class Articles extends Component
             return $translation->title;
         }
         $first = $article->articleTranslations->first();
+
         return $first ? $first->title : $article->slug;
     }
 
@@ -104,6 +105,7 @@ class Articles extends Component
             return $translation->summary;
         }
         $first = $article->articleTranslations->first();
+
         return $first ? ($first->summary ?? '') : '';
     }
 

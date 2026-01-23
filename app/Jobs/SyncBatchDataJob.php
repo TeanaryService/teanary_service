@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\SyncLog;
 use App\Services\SyncService;
 use App\Traits\HandlesSyncBatch;
 use Illuminate\Bus\Queueable;
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class SyncBatchDataJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, HandlesSyncBatch;
+    use Dispatchable, HandlesSyncBatch, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries;
     public int $backoff;

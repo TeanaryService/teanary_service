@@ -63,9 +63,9 @@ class Orders extends Component
 
         $query = Order::query()
             ->with([
-                'user', 
-                'currency', 
-                'shippingAddress', 
+                'user',
+                'currency',
+                'shippingAddress',
                 'billingAddress',
                 'orderItems.product.productTranslations',
                 'orderItems.product.media',
@@ -77,16 +77,16 @@ class Orders extends Component
         if ($this->search) {
             $search = $this->search;
             $query->where(function ($q) use ($search) {
-                $q->where('order_no', 'like', '%' . $search . '%')
-                  ->orWhereHas('user', function ($userQuery) use ($search) {
-                      $userQuery->where('name', 'like', '%' . $search . '%')
-                                ->orWhere('email', 'like', '%' . $search . '%');
-                  });
+                $q->where('order_no', 'like', '%'.$search.'%')
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('name', 'like', '%'.$search.'%')
+                            ->orWhere('email', 'like', '%'.$search.'%');
+                    });
             });
         }
 
         // 筛选：订单状态
-        if (!empty($this->filterStatus)) {
+        if (! empty($this->filterStatus)) {
             $query->whereIn('status', $this->filterStatus);
         }
 

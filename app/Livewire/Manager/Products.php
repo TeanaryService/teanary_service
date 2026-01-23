@@ -90,7 +90,7 @@ class Products extends Component
         if ($this->search !== '') {
             $search = $this->search;
             $query->whereHas('productTranslations', function (Builder $q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
+                $q->where('name', 'like', '%'.$search.'%');
             });
         }
 
@@ -179,6 +179,7 @@ class Products extends Component
         // 分类选项（用于筛选）
         $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) use ($lang) {
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
+
             return [
                 'id' => $cat->id,
                 'name' => $translation && $translation->name
@@ -195,4 +196,3 @@ class Products extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

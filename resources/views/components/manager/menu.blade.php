@@ -1,6 +1,6 @@
 <div x-data="{ open: false }" class="relative inline-block text-left">
     <button @click="open = !open" type="button"
-        class="inline-flex items-center py-2 bg-white hover:bg-teal-50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 gap gap-x-2 h-10">
+        class="inline-flex items-center py-2 bg-white hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 gap gap-x-2 h-10">
         @php
             $manager = auth('manager')->user();
             $avatarUrl = $manager?->getAvatarUrl();
@@ -23,7 +23,7 @@
             <form method="POST" action="{{ locaRoute('manager.logout') }}">
                 @csrf
                 <button type="submit"
-                    class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700">
+                    class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-teal-100 hover:text-teal-700">
                     {{ __('app.logout') }}
                 </button>
             </form>

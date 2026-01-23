@@ -11,4 +11,3 @@ return [
     'translations' => 'Mehrsprachige Übersetzungen',
     'unnamed' => 'Unbenannte Spezifikation',
 ];
-

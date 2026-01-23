@@ -5,8 +5,8 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Models\Specification;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Specifications extends Component
@@ -52,7 +52,7 @@ class Specifications extends Component
 
         if ($this->search) {
             $query->whereHas('specificationTranslations', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%');
+                $q->where('name', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -70,6 +70,7 @@ class Specifications extends Component
             return $translation->name;
         }
         $first = $specification->specificationTranslations->first();
+
         return $first ? $first->name : __('manager.specification.unnamed');
     }
 
@@ -86,4 +87,3 @@ class Specifications extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

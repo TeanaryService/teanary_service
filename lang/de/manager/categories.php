@@ -22,4 +22,3 @@ return [
     'products_count' => 'Anzahl der Produkte',
     'unnamed' => 'Unbenannte Kategorie',
 ];
-

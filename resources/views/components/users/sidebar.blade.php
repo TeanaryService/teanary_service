@@ -40,7 +40,7 @@
                     <li>
                         <a href="{{ locaRoute($item['route']) }}" 
                            wire:navigate.hover
-                           class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 data-[current]:bg-teal-50 data-[current]:text-teal-700 data-[current]:border-l-4 data-[current]:border-teal-600 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                           class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 data-[current]:bg-teal-100 data-[current]:text-teal-700 data-[current]:border-l-4 data-[current]:border-teal-600 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
                             <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
                             <span>{{ $item['name'] }}</span>
                             <svg class="w-4 h-4 ml-auto text-teal-600 data-[current]:block hidden" fill="currentColor" viewBox="0 0 20 20">

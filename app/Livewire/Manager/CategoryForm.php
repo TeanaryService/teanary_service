@@ -52,7 +52,7 @@ class CategoryForm extends Component
             $this->parentId = $category->parent_id;
             $this->slug = $category->slug;
             $this->translationStatus = $category->translation_status->value;
-            
+
             // 获取图片
             if ($category->hasMedia('image')) {
                 $this->imageUrl = $category->getFirstMediaUrl('image', 'thumb');
@@ -69,9 +69,9 @@ class CategoryForm extends Component
             }
 
             // 更新验证规则，忽略当前记录
-            $this->rules['slug'] = 'required|max:255|unique:categories,slug,' . $id;
+            $this->rules['slug'] = 'required|max:255|unique:categories,slug,'.$id;
             // 不能选择自己作为父分类
-            $this->rules['parentId'] = 'nullable|exists:categories,id|not_in:' . $id;
+            $this->rules['parentId'] = 'nullable|exists:categories,id|not_in:'.$id;
         } else {
             // 初始化翻译数组
             $service = app(LocaleCurrencyService::class);
@@ -90,13 +90,15 @@ class CategoryForm extends Component
         $service = app(LocaleCurrencyService::class);
         $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的分类名称不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的分类名称不能为空');
+
             return;
         }
 
         // 验证不能选择自己作为父分类
         if ($this->categoryId && $this->parentId == $this->categoryId) {
             $this->addError('parentId', '不能选择自己作为父分类');
+
             return;
         }
 
@@ -122,7 +124,7 @@ class CategoryForm extends Component
 
             // 更新翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     CategoryTranslation::updateOrCreate(
                         [
                             'category_id' => $category->id,
@@ -149,7 +151,7 @@ class CategoryForm extends Component
 
             // 创建翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     CategoryTranslation::create([
                         'category_id' => $category->id,
                         'language_id' => $languageId,
@@ -171,7 +173,7 @@ class CategoryForm extends Component
         $languages = $service->getLanguages();
         $locale = app()->getLocale();
         $lang = $service->getLanguageByCode($locale);
-        
+
         // 获取所有一级分类（parent_id 为 null，且不是当前分类）
         $parentCategories = Category::with('categoryTranslations')
             ->whereNull('parent_id')

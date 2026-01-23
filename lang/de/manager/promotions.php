@@ -10,4 +10,3 @@ return [
     'translation_status' => 'Übersetzungsstatus',
     'description' => 'Beschreibung',
 ];
-

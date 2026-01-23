@@ -15,4 +15,3 @@ return [
     'default' => 'Standard',
     'not_default' => 'Nicht standard',
 ];
-

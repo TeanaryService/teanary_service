@@ -45,7 +45,7 @@ class ProductController extends Controller
                     $sourceUrl = substr($sourceUrl, 0, $questionMarkPos);
                 }
             }
-            
+
             $productData = [
                 'slug' => $request->slug,
                 'source_url' => $sourceUrl,

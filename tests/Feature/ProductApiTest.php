@@ -6,8 +6,6 @@ use App\Models\Category;
 use App\Models\Language;
 use App\Models\Product;
 use App\Models\ProductVariant;
-use App\Models\Specification;
-use App\Models\SpecificationValue;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;

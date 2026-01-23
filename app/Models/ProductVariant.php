@@ -129,23 +129,23 @@ class ProductVariant extends Model implements HasMedia
             // 计算要删除的规格值ID
             $idsToKeep = array_keys($ids);
             $idsToDelete = array_diff($currentSpecificationValueIds, $idsToKeep);
-            
+
             // 获取要删除的完整记录
-            if (!empty($idsToDelete)) {
+            if (! empty($idsToDelete)) {
                 $pivotsToDelete = \App\Models\ProductVariantSpecificationValue::where('product_variant_id', $this->id)
                     ->whereIn('specification_value_id', $idsToDelete)
                     ->get()
                     ->keyBy('specification_value_id');
             }
         }
-        
+
         $changes = $this->specificationValues()->sync($ids, $detaching);
-        
+
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
             $syncService = app(\App\Services\SyncService::class);
             $currentNode = config('sync.node');
-            
+
             // 处理新增的记录
             foreach ($changes['attached'] ?? [] as $specificationValueId => $pivotData) {
                 $pivot = \App\Models\ProductVariantSpecificationValue::where([
@@ -153,12 +153,12 @@ class ProductVariant extends Model implements HasMedia
                     'specification_value_id' => $specificationValueId,
                     'specification_id' => $pivotData['specification_id'] ?? null,
                 ])->first();
-                
+
                 if ($pivot) {
                     $syncService->recordSync($pivot, 'created', $currentNode);
                 }
             }
-            
+
             // 处理更新的记录
             foreach ($changes['updated'] ?? [] as $specificationValueId => $pivotData) {
                 $pivot = \App\Models\ProductVariantSpecificationValue::where([
@@ -166,12 +166,12 @@ class ProductVariant extends Model implements HasMedia
                     'specification_value_id' => $specificationValueId,
                     'specification_id' => $pivotData['specification_id'] ?? null,
                 ])->first();
-                
+
                 if ($pivot) {
                     $syncService->recordSync($pivot, 'updated', $currentNode);
                 }
             }
-            
+
             // 处理删除的记录（使用之前获取的完整记录）
             foreach ($changes['detached'] ?? [] as $specificationValueId) {
                 $pivot = $pivotsToDelete->get($specificationValueId);
@@ -187,7 +187,7 @@ class ProductVariant extends Model implements HasMedia
                 }
             }
         }
-        
+
         return $changes;
     }
 

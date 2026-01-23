@@ -12,7 +12,7 @@
 <div class="promotions">
     @if (count($promotions))
         <div class="{{ $parentClass }}">
-            <div class="w-full max-w-7xl mx-auto {{ $class }}">
+            <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto {{ $class }}">
                 <div class="bg-teal-50 dark:bg-teal-900/20 border-l-4 border-teal-400 dark:border-teal-500 rounded-2xl shadow-md p-6 transition-colors duration-300">
                     <h2 class="text-2xl font-bold text-teal-800 dark:text-teal-300 mb-4 transition-colors duration-300">{{ __('home.promotions') }}</h2>
 

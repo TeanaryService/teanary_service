@@ -26,4 +26,3 @@ return [
     'no_variant' => 'Keine spezifische Variante',
     'currency' => 'Währung',
 ];
-

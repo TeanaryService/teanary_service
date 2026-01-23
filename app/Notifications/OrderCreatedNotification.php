@@ -15,8 +15,7 @@ class OrderCreatedNotification extends Notification
      */
     public function __construct(
         public Order $order
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.

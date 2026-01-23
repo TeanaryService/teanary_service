@@ -14,7 +14,7 @@ class OrderDetail extends Component
 
     protected LocaleCurrencyService $localeService;
 
-    public function mount($order)
+    public function mount($orderId = null)
     {
         $this->localeService = app(LocaleCurrencyService::class);
 
@@ -23,12 +23,16 @@ class OrderDetail extends Component
             abort(403, 'Unauthorized');
         }
 
-        // 如果 $order 已经是 Order 模型实例，直接使用；否则通过 ID 查找
-        if ($order instanceof Order) {
-            $orderId = $order->id;
+        if (! $orderId) {
+            abort(404, 'Order not found');
+        }
+
+        // 如果 $orderId 已经是 Order 模型实例，直接使用；否则通过 ID 查找
+        if ($orderId instanceof Order) {
+            $id = $orderId->id;
         } else {
             // Snowflake ID 可能是字符串或整数
-            $orderId = $order;
+            $id = $orderId;
         }
 
         $this->order = Order::query()
@@ -44,7 +48,7 @@ class OrderDetail extends Component
                 'billingAddress',
                 'currency',
             ])
-            ->findOrFail($orderId);
+            ->findOrFail($id);
     }
 
     public function cancelOrder(): void

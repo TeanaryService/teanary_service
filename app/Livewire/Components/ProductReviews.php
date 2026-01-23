@@ -37,7 +37,7 @@ class ProductReviews extends Component
 
         ProductReview::create([
             'product_id' => $this->productId,
-            'product_variant_id' => $this->variantId,
+            'product_variants' => $this->variantId,
             'user_id' => auth()->id(),
             'rating' => $this->rating,
             'content' => $this->content,
@@ -49,19 +49,20 @@ class ProductReviews extends Component
     }
 
     /**
-     * 获取产品变体规格字符串
+     * 获取产品变体规格字符串.
      */
     protected function getProductVariantSpecs($productVariant, $lang): string
     {
-        if (!$productVariant) {
+        if (! $productVariant) {
             return '';
         }
-        
+
         return $productVariant->specificationValues
             ->map(function ($sv) use ($lang) {
                 $trans = $sv->specificationValueTranslations
                     ->where('language_id', $lang?->id)
                     ->first();
+
                 return $trans && $trans->name ? $trans->name : $sv->id;
             })
             ->implode(' / ');

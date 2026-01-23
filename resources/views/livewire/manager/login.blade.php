@@ -1,5 +1,6 @@
 <div class="min-h-[60vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full">
+    <x-widgets.grid-bg />
+    <div class="max-w-md w-full relative">
         <x-widgets.card>
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-extrabold text-gray-900">

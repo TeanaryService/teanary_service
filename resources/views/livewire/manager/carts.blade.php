@@ -3,7 +3,7 @@
 @endphp
 
 <div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
@@ -15,7 +15,7 @@
                 </div>
 
                 @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-50 p-4">
+                    <div class="mb-4 rounded-md bg-teal-100 p-4">
                         <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
                     </div>
                 @endif

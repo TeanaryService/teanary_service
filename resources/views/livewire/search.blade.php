@@ -3,7 +3,7 @@
 @endphp
 
 <div class="min-h-[60vh] mb-10">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
 
         @if ($query)

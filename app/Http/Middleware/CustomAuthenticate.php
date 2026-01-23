@@ -14,6 +14,7 @@ class CustomAuthenticate extends Middleware
             if ($request->routeIs('manager.*')) {
                 return locaRoute('manager.login');
             }
+
             return locaRoute('auth.login');
         }
 

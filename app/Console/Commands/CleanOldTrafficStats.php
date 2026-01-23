@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\TrafficStatistic;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CleanOldTrafficStats extends Command

@@ -52,14 +52,14 @@ class ManagerForm extends Component
             $this->email = $manager->email;
             $this->emailVerifiedAt = $manager->email_verified_at ? $manager->email_verified_at->format('Y-m-d\TH:i') : null;
             $this->token = $manager->token;
-            
+
             // 获取头像
             if ($manager->hasMedia('avatars')) {
                 $this->avatarUrl = $manager->getFirstMediaUrl('avatars', 'thumb');
             }
 
             // 更新验证规则，忽略当前记录
-            $this->rules['email'] = 'required|email|max:255|unique:managers,email,' . $id;
+            $this->rules['email'] = 'required|email|max:255|unique:managers,email,'.$id;
             $this->rules['password'] = 'nullable|min:8|confirmed';
             $this->rules['passwordConfirmation'] = 'nullable';
         }
@@ -67,16 +67,17 @@ class ManagerForm extends Component
 
     public function generateToken(): void
     {
-        if (!$this->managerId) {
+        if (! $this->managerId) {
             session()->flash('error', '请先保存管理员信息');
+
             return;
         }
-        
+
         $manager = Manager::findOrFail($this->managerId);
         $token = bin2hex(random_bytes(32));
         $manager->update(['token' => $token]);
         $this->token = $token;
-            session()->flash('message', 'Token已生成: ' . $token);
+        session()->flash('message', 'Token已生成: '.$token);
     }
 
     public function save()
@@ -90,7 +91,7 @@ class ManagerForm extends Component
         ];
 
         // 如果提供了密码，则加密
-        if (!empty($this->password)) {
+        if (! empty($this->password)) {
             $data['password'] = bcrypt($this->password);
         }
 

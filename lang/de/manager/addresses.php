@@ -4,7 +4,7 @@ return [
     // Liste/Navigation
     'label' => 'Adressen',
     'group' => 'Benutzerverwaltung',
-    
+
     // Felder
     'user_info' => 'Benutzerinformationen',
     'user_id' => 'Benutzer-ID',
@@ -28,4 +28,3 @@ return [
     'zone_id' => 'Region',
     'cannot_delete_has_orders' => 'Eine Adresse, die Bestellungen zugeordnet ist, kann nicht gelöscht werden.',
 ];
-

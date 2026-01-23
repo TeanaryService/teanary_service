@@ -18,17 +18,17 @@ class MediaServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new MediaService();
+        $this->service = new MediaService;
         Storage::fake('public');
     }
 
     /**
-     * 测试：解码有效的 base64 图片
+     * 测试：解码有效的 base64 图片.
      */
     public function test_decode_base64_image_with_valid_data()
     {
         $base64Data = base64_encode('fake-image-content');
-        
+
         $reflection = new \ReflectionClass($this->service);
         $method = $reflection->getMethod('decodeBase64Image');
         $method->setAccessible(true);
@@ -39,7 +39,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：解码无效的 base64 数据抛出异常
+     * 测试：解码无效的 base64 数据抛出异常.
      */
     public function test_decode_base64_image_with_invalid_data_throws_exception()
     {
@@ -54,7 +54,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：从URL下载图片
+     * 测试：从URL下载图片.
      */
     public function test_download_image_from_url()
     {
@@ -78,7 +78,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：下载图片失败抛出异常
+     * 测试：下载图片失败抛出异常.
      */
     public function test_download_image_from_url_handles_failure()
     {
@@ -97,7 +97,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：下载空内容抛出异常
+     * 测试：下载空内容抛出异常.
      */
     public function test_download_image_from_url_handles_empty_content()
     {
@@ -116,7 +116,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：从URL获取图片扩展名
+     * 测试：从URL获取图片扩展名.
      */
     public function test_get_image_extension_from_url()
     {
@@ -144,7 +144,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理单个主图（base64）
+     * 测试：处理单个主图（base64）.
      */
     public function test_handle_main_image_with_base64()
     {
@@ -162,7 +162,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理单个主图（URL）
+     * 测试：处理单个主图（URL）.
      */
     public function test_handle_main_image_with_url()
     {
@@ -186,7 +186,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理多个主图
+     * 测试：处理多个主图.
      */
     public function test_handle_main_image_with_multiple_images()
     {
@@ -210,7 +210,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理空主图
+     * 测试：处理空主图.
      */
     public function test_handle_main_image_with_null()
     {
@@ -222,7 +222,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理内容图片
+     * 测试：处理内容图片.
      */
     public function test_handle_content_images()
     {
@@ -249,7 +249,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理空内容图片数组
+     * 测试：处理空内容图片数组.
      */
     public function test_handle_content_images_with_empty_array()
     {
@@ -262,7 +262,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理内容图片跳过缺少 image_id 的项
+     * 测试：处理内容图片跳过缺少 image_id 的项.
      */
     public function test_handle_content_images_skips_missing_image_id()
     {
@@ -287,7 +287,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：替换图片占位符
+     * 测试：替换图片占位符.
      */
     public function test_replace_image_placeholders()
     {
@@ -304,7 +304,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：替换图片占位符处理各种格式
+     * 测试：替换图片占位符处理各种格式.
      */
     public function test_replace_image_placeholders_handles_various_formats()
     {
@@ -322,7 +322,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：替换图片占位符处理空内容
+     * 测试：替换图片占位符处理空内容.
      */
     public function test_replace_image_placeholders_with_null_content()
     {
@@ -332,7 +332,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：替换图片占位符处理空映射
+     * 测试：替换图片占位符处理空映射.
      */
     public function test_replace_image_placeholders_with_empty_map()
     {
@@ -343,7 +343,7 @@ class MediaServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理内容图片返回URL映射
+     * 测试：处理内容图片返回URL映射.
      */
     public function test_handle_content_images_returns_url_map()
     {

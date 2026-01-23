@@ -12,8 +12,8 @@ use Livewire\WithFileUploads;
 
 class ArticleForm extends Component
 {
-    use WithFileUploads;
     use HandlesEditorUploads;
+    use WithFileUploads;
 
     public ?int $articleId = null;
     public string $slug = '';
@@ -59,7 +59,7 @@ class ArticleForm extends Component
             $this->userId = $article->user_id;
             $this->isPublished = $article->is_published;
             $this->translationStatus = $article->translation_status->value;
-            
+
             // 获取图片
             if ($article->hasMedia('image')) {
                 $this->imageUrl = $article->getFirstMediaUrl('image', 'thumb');
@@ -78,7 +78,7 @@ class ArticleForm extends Component
             }
 
             // 更新验证规则，忽略当前记录
-            $this->rules['slug'] = 'required|max:255|unique:articles,slug,' . $id;
+            $this->rules['slug'] = 'required|max:255|unique:articles,slug,'.$id;
         } else {
             // 初始化翻译数组
             $service = app(LocaleCurrencyService::class);
@@ -99,7 +99,8 @@ class ArticleForm extends Component
         $service = app(LocaleCurrencyService::class);
         $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['title'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.title', '默认语言的文章标题不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.title', '默认语言的文章标题不能为空');
+
             return;
         }
 
@@ -127,16 +128,16 @@ class ArticleForm extends Component
             // 更新翻译
             $oldContents = [];
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['title'])) {
+                if (! empty($translation['title'])) {
                     $existing = ArticleTranslation::where('article_id', $article->id)
                         ->where('language_id', $languageId)
                         ->first();
-                    
+
                     $oldContents[$languageId] = $existing ? $existing->content : null;
-                    
+
                     // 清理 HTML 内容
                     $content = $this->cleanEditorHtml($translation['content'] ?? '');
-                    
+
                     ArticleTranslation::updateOrCreate(
                         [
                             'article_id' => $article->id,
@@ -153,7 +154,7 @@ class ArticleForm extends Component
 
             // 处理编辑器上传同步
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['content'])) {
+                if (! empty($translation['content'])) {
                     $oldContent = $oldContents[$languageId] ?? null;
                     $newContent = $translation['content'];
                     $this->syncEditorUploadsFromHtml($oldContent, $newContent);
@@ -173,10 +174,10 @@ class ArticleForm extends Component
 
             // 创建翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['title'])) {
+                if (! empty($translation['title'])) {
                     // 清理 HTML 内容
                     $content = $this->cleanEditorHtml($translation['content'] ?? '');
-                    
+
                     ArticleTranslation::create([
                         'article_id' => $article->id,
                         'language_id' => $languageId,
@@ -189,7 +190,7 @@ class ArticleForm extends Component
 
             // 处理编辑器上传
             foreach ($this->translations as $translation) {
-                if (!empty($translation['content'])) {
+                if (! empty($translation['content'])) {
                     $this->handleEditorUploadsFromHtml($translation['content']);
                 }
             }

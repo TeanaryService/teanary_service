@@ -14,7 +14,7 @@ class OrderShipmentObserver
     public function created(OrderShipment $orderShipment): void
     {
         $order = $orderShipment->order;
-        
+
         // 通知用户订单已发货
         if ($order && $order->user) {
             $order->user->notify(new OrderShippedNotification($order, $orderShipment));

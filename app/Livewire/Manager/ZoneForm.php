@@ -71,7 +71,8 @@ class ZoneForm extends Component
         $service = app(LocaleCurrencyService::class);
         $defaultLanguage = $service->getDefaultLanguage();
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的地区名称不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的地区名称不能为空');
+
             return;
         }
 
@@ -90,7 +91,7 @@ class ZoneForm extends Component
 
             // 更新翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     ZoneTranslation::updateOrCreate(
                         [
                             'zone_id' => $zone->id,
@@ -109,7 +110,7 @@ class ZoneForm extends Component
 
             // 创建翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     ZoneTranslation::create([
                         'zone_id' => $zone->id,
                         'language_id' => $languageId,

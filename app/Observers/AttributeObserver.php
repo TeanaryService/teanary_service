@@ -48,7 +48,9 @@ class AttributeObserver
         });
 
         // 删除中间表关联（产品-属性值）
-        $attribute->products()->detach();
+        // 通过 attributeValues 找到所有关联的产品属性值，然后删除关联
+        $attributeValueIds = $attribute->attributeValues()->pluck('id');
+        \App\Models\ProductAttributeValue::whereIn('attribute_value_id', $attributeValueIds)->delete();
     }
 
     /**

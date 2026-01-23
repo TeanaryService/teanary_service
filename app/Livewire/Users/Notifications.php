@@ -3,8 +3,8 @@
 namespace App\Livewire\Users;
 
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Notifications extends Component
@@ -14,14 +14,21 @@ class Notifications extends Component
     public function mount(): void
     {
         // 标记所有通知为已读
-        Auth::user()->unreadNotifications->markAsRead();
+        $user = Auth::user();
+        if ($user) {
+            $user->unreadNotifications->markAsRead();
+        }
     }
 
     #[Computed]
     public function notifications()
     {
-        return Auth::user()
-            ->notifications()
+        $user = Auth::user();
+        if (! $user) {
+            return new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15, 1);
+        }
+
+        return $user->notifications()
             ->latest()
             ->paginate(15);
     }

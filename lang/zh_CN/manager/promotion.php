@@ -12,4 +12,3 @@ return [
     'name' => '促销名称',
     'description' => '促销描述',
 ];
-

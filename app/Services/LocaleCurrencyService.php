@@ -13,7 +13,7 @@ class LocaleCurrencyService
     public function getLanguages()
     {
         return Cache::rememberForever(CacheKeys::LANGUAGES_ALL, function () {
-            if (! Schema::hasTable((new Language())->getTable())) {
+            if (! Schema::hasTable((new Language)->getTable())) {
                 return collect();
             }
 
@@ -24,7 +24,7 @@ class LocaleCurrencyService
     public function getCurrencies()
     {
         return Cache::rememberForever(CacheKeys::CURRENCIES_ALL, function () {
-            if (! Schema::hasTable((new Currency())->getTable())) {
+            if (! Schema::hasTable((new Currency)->getTable())) {
                 return collect();
             }
 
@@ -162,7 +162,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取 [id => 当前语言name] 的语言选项数组
+     * 获取 [id => 当前语言name] 的语言选项数组.
      */
     public function getLanguageOptions(): array
     {
@@ -172,7 +172,7 @@ class LocaleCurrencyService
     }
 
     /**
-     * 获取 [id => 当前语言name] 的货币选项数组
+     * 获取 [id => 当前语言name] 的货币选项数组.
      */
     public function getCurrencyOptions(): array
     {

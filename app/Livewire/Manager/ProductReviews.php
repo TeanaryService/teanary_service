@@ -5,8 +5,8 @@ namespace App\Livewire\Manager;
 use App\Models\Product;
 use App\Models\ProductReview;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductReviews extends Component
@@ -79,7 +79,7 @@ class ProductReviews extends Component
         if ($this->search !== '') {
             $search = $this->search;
             $query->where(function ($q) use ($search) {
-                $q->where('content', 'like', '%' . $search . '%');
+                $q->where('content', 'like', '%'.$search.'%');
             });
         }
 
@@ -109,4 +109,3 @@ class ProductReviews extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

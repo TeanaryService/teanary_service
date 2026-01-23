@@ -45,9 +45,9 @@ class CurrencyForm extends Component
             $this->symbol = $currency->symbol;
             $this->exchangeRate = $currency->exchange_rate;
             $this->default = $currency->default;
-            
+
             // 更新验证规则，忽略当前记录
-            $this->rules['code'] = 'required|max:10|unique:currencies,code,' . $id;
+            $this->rules['code'] = 'required|max:10|unique:currencies,code,'.$id;
         }
     }
 

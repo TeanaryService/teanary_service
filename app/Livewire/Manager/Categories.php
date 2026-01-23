@@ -6,8 +6,8 @@ use App\Enums\TranslationStatusEnum;
 use App\Models\Category;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Categories extends Component
@@ -62,7 +62,7 @@ class Categories extends Component
         // 搜索：通过翻译名称搜索
         if ($this->search) {
             $query->whereHas('categoryTranslations', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%');
+                $q->where('name', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -76,7 +76,7 @@ class Categories extends Component
         }
 
         // 筛选：翻译状态
-        if (!empty($this->filterTranslationStatus)) {
+        if (! empty($this->filterTranslationStatus)) {
             $query->whereIn('translation_status', $this->filterTranslationStatus);
         }
 
@@ -90,12 +90,13 @@ class Categories extends Component
             return $translation->name;
         }
         $first = $category->categoryTranslations->first();
+
         return $first ? $first->name : __('manager.category.unnamed');
     }
 
     public function getParentName($parent, $lang)
     {
-        if (!$parent) {
+        if (! $parent) {
             return __('manager.category.root');
         }
         $translation = $parent->categoryTranslations->where('language_id', $lang?->id)->first();
@@ -103,6 +104,7 @@ class Categories extends Component
             return $translation->name;
         }
         $first = $parent->categoryTranslations->first();
+
         return $first ? $first->name : $parent->slug;
     }
 

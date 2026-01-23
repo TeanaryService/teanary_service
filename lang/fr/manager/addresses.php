@@ -4,7 +4,7 @@ return [
     // Liste/Navigation
     'label' => 'Adresses',
     'group' => 'Gestion des utilisateurs',
-    
+
     // Champs
     'user_info' => 'Informations utilisateur',
     'user_id' => 'ID utilisateur',

@@ -3,8 +3,8 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Manager;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Managers extends Component
@@ -36,7 +36,7 @@ class Managers extends Component
         $manager = Manager::findOrFail($id);
         $token = bin2hex(random_bytes(32));
         $manager->update(['token' => $token]);
-        session()->flash('message', 'Token已生成: ' . $token);
+        session()->flash('message', 'Token已生成: '.$token);
     }
 
     #[Computed]
@@ -48,8 +48,8 @@ class Managers extends Component
         if ($this->search) {
             $search = $this->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%');
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('email', 'like', '%'.$search.'%');
             });
         }
 

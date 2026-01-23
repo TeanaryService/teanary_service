@@ -22,4 +22,3 @@ return [
     'short_description' => 'Kurzbeschreibung',
     'description' => 'Beschreibung',
 ];
-

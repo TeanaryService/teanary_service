@@ -12,4 +12,3 @@ return [
     'name' => 'Promotion-Name',
     'description' => 'Promotion-Beschreibung',
 ];
-

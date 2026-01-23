@@ -3,7 +3,7 @@
 @endphp
 
 <div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
@@ -28,7 +28,7 @@
                 </div>
 
                 @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-50 p-4">
+                    <div class="mb-4 rounded-md bg-teal-100 p-4">
                         <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
                     </div>
                 @endif
@@ -79,8 +79,8 @@
                                     @endif
                                     <p class="text-gray-600">
                                         {{ $order->shippingAddress->city }}, 
-                                        {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
-                                        {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
+                                        {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
+                                        {{ $order->shippingAddress->country?->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->country?->name ?? '' }}
                                     </p>
                                     <p class="text-gray-600">{{ $order->shippingAddress->postcode }}</p>
                                     <p class="text-gray-600">{{ $order->shippingAddress->telephone }}</p>
@@ -103,8 +103,8 @@
                                     @endif
                                     <p class="text-gray-600">
                                         {{ $order->billingAddress->city }}, 
-                                        {{ $order->billingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->billingAddress->zone?->name ?? '' }}, 
-                                        {{ $order->billingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->billingAddress->country->name ?? '' }}
+                                        {{ $order->billingAddress->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->billingAddress->zone?->name ?? '' }}, 
+                                        {{ $order->billingAddress->country?->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->billingAddress->country?->name ?? '' }}
                                     </p>
                                     <p class="text-gray-600">{{ $order->billingAddress->postcode }}</p>
                                     @if($order->billingAddress->telephone)
@@ -135,7 +135,7 @@
                             @foreach($statusOptions as $value => $label)
                                 <button 
                                     wire:click="updateStatus('{{ $value }}')"
-                                    class="px-3 py-1 text-sm font-medium rounded-lg border transition-colors {{ $order->status->value === $value ? 'bg-teal-50 border-teal-300 text-teal-700' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50' }}"
+                                    class="px-3 py-1 text-sm font-medium rounded-lg border transition-colors {{ $order->status->value === $value ? 'bg-teal-100 border-teal-300 text-teal-700' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50' }}"
                                 >
                                     {{ $label }}
                                 </button>

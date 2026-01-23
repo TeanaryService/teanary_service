@@ -344,8 +344,8 @@
                                             {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->postcode }}
                                         </p>
                                         <p>
-                                            {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
-                                            {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
+                                            {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
+                                            {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
                                         </p>
                                     </div>
                                 </div>

@@ -5,8 +5,8 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Models\AttributeValue;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class AttributeValues extends Component
@@ -60,7 +60,7 @@ class AttributeValues extends Component
         // 搜索：通过翻译名称搜索
         if ($this->search) {
             $query->whereHas('attributeValueTranslations', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%');
+                $q->where('name', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -70,7 +70,7 @@ class AttributeValues extends Component
         }
 
         // 筛选：翻译状态
-        if (!empty($this->filterTranslationStatus)) {
+        if (! empty($this->filterTranslationStatus)) {
             $query->whereIn('translation_status', $this->filterTranslationStatus);
         }
 
@@ -84,12 +84,13 @@ class AttributeValues extends Component
             return $translation->name;
         }
         $first = $attributeValue->attributeValueTranslations->first();
+
         return $first ? $first->name : __('manager.attribute_value.unnamed');
     }
 
     public function getAttributeName($attribute, $lang)
     {
-        if (!$attribute) {
+        if (! $attribute) {
             return null;
         }
         $translation = $attribute->attributeTranslations->where('language_id', $lang?->id)->first();
@@ -97,6 +98,7 @@ class AttributeValues extends Component
             return $translation->name;
         }
         $first = $attribute->attributeTranslations->first();
+
         return $first ? $first->name : $attribute->id;
     }
 

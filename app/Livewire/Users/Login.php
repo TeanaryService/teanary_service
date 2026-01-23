@@ -38,7 +38,7 @@ class Login extends Component
 
         session()->regenerate();
 
-        return redirect()->intended(locaRoute('home'), navigate: true);
+        return redirect()->intended(locaRoute('home'));
     }
 
     public function render()

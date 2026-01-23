@@ -11,14 +11,14 @@ use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use App\Services\SnowflakeService;
 use Illuminate\Support\Facades\DB;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 
 class OrderForm extends Component
 {
     public ?int $id = null;
     public ?Order $order = null;
-    
+
     // 订单基本信息
     public ?int $userId = null;
     public string $orderNo = '';
@@ -37,7 +37,7 @@ class OrderForm extends Component
     public function mount(?int $id = null): void
     {
         $this->id = $id;
-        
+
         if ($this->id) {
             // 编辑模式
             $this->loadOrder();
@@ -60,7 +60,7 @@ class OrderForm extends Component
             'orderItems.product.productTranslations',
             'orderItems.productVariant.specificationValues.specificationValueTranslations',
         ])->findOrFail($this->id);
-        
+
         $this->userId = $this->order->user_id;
         $this->orderNo = $this->order->order_no;
         $this->status = $this->order->status->value;
@@ -129,13 +129,13 @@ class OrderForm extends Component
 
     public function updateItem(int $itemId): void
     {
-        if (!isset($this->editingItems[$itemId])) {
+        if (! isset($this->editingItems[$itemId])) {
             return;
         }
 
         $data = $this->editingItems[$itemId];
         $item = OrderItem::findOrFail($itemId);
-        
+
         $item->update([
             'qty' => $data['qty'],
             'price' => $data['price'],
@@ -157,8 +157,8 @@ class OrderForm extends Component
 
     public function toggleAddItemForm(): void
     {
-        $this->showAddItemForm = !$this->showAddItemForm;
-        if (!$this->showAddItemForm) {
+        $this->showAddItemForm = ! $this->showAddItemForm;
+        if (! $this->showAddItemForm) {
             $this->resetAddItemForm();
         }
     }
@@ -174,8 +174,9 @@ class OrderForm extends Component
 
     public function addItem(): void
     {
-        if (!$this->order) {
+        if (! $this->order) {
             session()->flash('error', '请先保存订单基本信息');
+
             return;
         }
 
@@ -224,10 +225,10 @@ class OrderForm extends Component
     #[Computed]
     public function calculatedTotal(): float
     {
-        if (!$this->order) {
+        if (! $this->order) {
             return 0;
         }
-        
+
         $total = 0;
         foreach ($this->order->orderItems as $item) {
             if (isset($this->editingItems[$item->id])) {
@@ -237,12 +238,13 @@ class OrderForm extends Component
                 $total += $item->price * $item->qty;
             }
         }
+
         return $total;
     }
 
     public function getProductName($product, $lang)
     {
-        if (!$product) {
+        if (! $product) {
             return '-';
         }
         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -250,12 +252,13 @@ class OrderForm extends Component
             return $translation->name;
         }
         $first = $product->productTranslations->first();
+
         return $first ? $first->name : $product->id;
     }
 
     public function getVariantSpecs($variant, $lang)
     {
-        if (!$variant) {
+        if (! $variant) {
             return __('manager.order_item.no_variant');
         }
         $specNames = [];
@@ -265,6 +268,7 @@ class OrderForm extends Component
                 ? $translation->name
                 : ($specValue->specificationValueTranslations->first()->name ?? '');
         }
+
         return implode(' / ', array_filter($specNames)) ?: ($variant->sku ?? $variant->id);
     }
 

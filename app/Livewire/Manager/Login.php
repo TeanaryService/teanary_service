@@ -46,7 +46,7 @@ class Login extends Component
 
         session()->regenerate();
 
-        return redirect()->intended(locaRoute('manager.dashboard'), navigate: true);
+        return redirect()->intended(locaRoute('manager.dashboard'));
     }
 
     public function render()

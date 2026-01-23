@@ -9,4 +9,3 @@ return [
     'approved' => 'Genehmigt',
     'pending' => 'Ausstehend',
 ];
-

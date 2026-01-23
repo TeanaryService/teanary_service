@@ -20,4 +20,3 @@ return [
     'zones_count' => 'Anzahl der Regionen',
     'unnamed' => 'Unbenanntes Land/Region',
 ];
-

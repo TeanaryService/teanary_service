@@ -21,4 +21,3 @@ return [
     'orders_count' => 'Anzahl der Bestellungen',
     'login' => 'Als dieser Benutzer anmelden',
 ];
-

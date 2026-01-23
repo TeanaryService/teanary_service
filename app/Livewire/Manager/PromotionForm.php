@@ -76,7 +76,8 @@ class PromotionForm extends Component
         $service = app(LocaleCurrencyService::class);
         $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的促销名称不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的促销名称不能为空');
+
             return;
         }
 
@@ -142,4 +143,3 @@ class PromotionForm extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

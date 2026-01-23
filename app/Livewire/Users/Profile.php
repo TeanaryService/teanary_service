@@ -22,6 +22,10 @@ class Profile extends Component
     public function mount()
     {
         $user = Auth::user();
+        if (! $user) {
+            abort(403, 'Unauthorized');
+        }
+
         $this->name = $user->name;
         $this->email = $user->email;
         $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
@@ -54,9 +58,10 @@ class Profile extends Component
         $user->name = $this->name;
 
         // 如果提供了新密码，验证当前密码
-        if (!empty($this->password)) {
-            if (!Hash::check($this->current_password, $user->password)) {
+        if (! empty($this->password)) {
+            if (! Hash::check($this->current_password, $user->password)) {
                 $this->addError('current_password', '当前密码不正确');
+
                 return;
             }
             $user->password = Hash::make($this->password);

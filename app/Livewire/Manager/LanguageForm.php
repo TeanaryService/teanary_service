@@ -34,9 +34,9 @@ class LanguageForm extends Component
             $this->code = $language->code;
             $this->name = $language->name;
             $this->default = $language->default;
-            
+
             // 更新验证规则，忽略当前记录
-            $this->rules['code'] = 'required|max:10|unique:languages,code,' . $id;
+            $this->rules['code'] = 'required|max:10|unique:languages,code,'.$id;
         }
     }
 

@@ -7,7 +7,6 @@ use App\Notifications\OrderQueryVerificationCode;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class OrderQuery extends Component
@@ -96,9 +95,16 @@ class OrderQuery extends Component
             // 创建一个临时对象用于发送邮件
             $notifiable = new class
             {
+                use \Illuminate\Notifications\Notifiable;
+
                 public $email;
 
                 public function routeNotificationForMail()
+                {
+                    return $this->email;
+                }
+
+                public function getKey()
                 {
                     return $this->email;
                 }
@@ -174,14 +180,14 @@ class OrderQuery extends Component
     protected function findOrder(): ?Order
     {
         // 先尝试按订单号查找
-        $order = Order::where('order_no', $this->orderNoOrEmail)->first();
+        $order = Order::with('shippingAddress')->where('order_no', $this->orderNoOrEmail)->first();
 
         if ($order) {
             return $order;
         }
 
         // 再尝试按邮箱查找（通过收货地址）
-        $order = Order::whereHas('shippingAddress', function ($query) {
+        $order = Order::with('shippingAddress')->whereHas('shippingAddress', function ($query) {
             $query->where('email', $this->orderNoOrEmail);
         })->orderBy('created_at', 'desc')->first();
 
@@ -248,7 +254,6 @@ class OrderQuery extends Component
 
         return $maskedUsername.'@'.$domain;
     }
-
 
     public function render()
     {

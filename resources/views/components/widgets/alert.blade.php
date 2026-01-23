@@ -9,7 +9,7 @@
 @php
     $typeConfig = match($type) {
         'success' => [
-            'bg' => 'bg-teal-50',
+            'bg' => 'bg-teal-100',
             'text' => 'text-teal-800',
             'border' => 'border-teal-200',
             'icon' => 'heroicon-o-check-circle',

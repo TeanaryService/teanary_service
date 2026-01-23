@@ -55,14 +55,14 @@ class UserForm extends Component
             $this->email = $user->email;
             $this->userGroupId = $user->user_group_id;
             $this->emailVerifiedAt = $user->email_verified_at ? $user->email_verified_at->format('Y-m-d\TH:i') : null;
-            
+
             // 获取头像
             if ($user->hasMedia('avatars')) {
                 $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
             }
 
             // 更新验证规则，忽略当前记录
-            $this->rules['email'] = 'required|email|max:255|unique:users,email,' . $id;
+            $this->rules['email'] = 'required|email|max:255|unique:users,email,'.$id;
             $this->rules['password'] = 'nullable|min:8|confirmed';
             $this->rules['passwordConfirmation'] = 'nullable';
         }
@@ -80,7 +80,7 @@ class UserForm extends Component
         ];
 
         // 如果提供了密码，则加密
-        if (!empty($this->password)) {
+        if (! empty($this->password)) {
             $data['password'] = bcrypt($this->password);
         }
 

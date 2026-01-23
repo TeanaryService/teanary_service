@@ -13,7 +13,7 @@ class OrderDetail extends Component
 {
     public int $orderId;
     public Order $order;
-    
+
     // 发货表单
     public string $shippingMethod = '';
     public ?string $trackingNumber = null;
@@ -61,8 +61,8 @@ class OrderDetail extends Component
 
     public function toggleShipmentForm(): void
     {
-        $this->showShipmentForm = !$this->showShipmentForm;
-        if (!$this->showShipmentForm) {
+        $this->showShipmentForm = ! $this->showShipmentForm;
+        if (! $this->showShipmentForm) {
             $this->resetShipmentForm();
         }
     }
@@ -107,7 +107,7 @@ class OrderDetail extends Component
 
     public function getProductName($product, $lang)
     {
-        if (!$product) {
+        if (! $product) {
             return '-';
         }
         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -115,12 +115,13 @@ class OrderDetail extends Component
             return $translation->name;
         }
         $first = $product->productTranslations->first();
+
         return $first ? $first->name : $product->id;
     }
 
     public function getVariantSpecs($variant, $lang)
     {
-        if (!$variant) {
+        if (! $variant) {
             return __('manager.order_item.no_variant');
         }
         $specNames = [];
@@ -130,6 +131,7 @@ class OrderDetail extends Component
                 ? $translation->name
                 : ($specValue->specificationValueTranslations->first()->name ?? '');
         }
+
         return implode(' / ', array_filter($specNames)) ?: ($variant->sku ?? $variant->id);
     }
 
@@ -146,7 +148,6 @@ class OrderDetail extends Component
             default => 'bg-gray-100 text-gray-800',
         };
     }
-
 
     public function render()
     {

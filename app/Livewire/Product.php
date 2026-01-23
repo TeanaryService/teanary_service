@@ -82,8 +82,8 @@ class Product extends Component
         $seoDesc = '';
         $seoImage = asset('logo.svg');
         $seoKeywords = '';
-        
-        if ($this->categoryId && !empty($this->categories)) {
+
+        if ($this->categoryId && ! empty($this->categories)) {
             $locale = session('lang');
             $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
             $category = collect($this->categories)
@@ -101,17 +101,17 @@ class Product extends Component
             $seoDesc = __('home.product_list_seo_desc');
             $seoImage = asset('logo.svg');
         }
-        
+
         // 筛选条件加到keywords
-        if (!empty($this->attributeFilters) && !empty($this->allAttributes)) {
+        if (! empty($this->attributeFilters) && ! empty($this->allAttributes)) {
             $filterNames = [];
             foreach ($this->attributeFilters as $attrId => $valueIds) {
                 $attr = collect($this->allAttributes)->firstWhere('id', $attrId);
-                if ($attr && !empty($valueIds)) {
+                if ($attr && ! empty($valueIds)) {
                     foreach ((array) $valueIds as $vid) {
                         $val = collect($attr['values'])->firstWhere('id', $vid);
                         if ($val) {
-                            $filterNames[] = $attr['name'] . ':' . $val['name'];
+                            $filterNames[] = $attr['name'].':'.$val['name'];
                         }
                     }
                 }
@@ -119,11 +119,11 @@ class Product extends Component
             if ($filterNames) {
                 $strFilterName = implode(',', $filterNames);
                 $seoKeywords .= $strFilterName;
-                $seoTitle = $strFilterName . $seoTitle;
+                $seoTitle = $strFilterName.$seoTitle;
                 $seoDesc .= $strFilterName;
             }
         }
-        
+
         return [
             'title' => $seoTitle,
             'description' => $seoDesc,
@@ -135,7 +135,7 @@ class Product extends Component
     public function render()
     {
         $seoData = $this->buildSeoData();
-        
+
         // 确保 attributes 是数组格式
         $attributesArray = [];
         if ($this->allAttributes) {
@@ -145,7 +145,7 @@ class Product extends Component
                 }
             }
         }
-        
+
         return view('livewire.product', [
             'categories' => $this->categories,
             'attributes' => $attributesArray,

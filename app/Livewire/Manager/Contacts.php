@@ -3,8 +3,8 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Contact;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Contacts extends Component
@@ -54,9 +54,9 @@ class Contacts extends Component
         if ($this->search) {
             $search = $this->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%')
-                  ->orWhere('message', 'like', '%' . $search . '%');
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('email', 'like', '%'.$search.'%')
+                    ->orWhere('message', 'like', '%'.$search.'%');
             });
         }
 

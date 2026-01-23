@@ -4,8 +4,8 @@ namespace App\Livewire\Manager;
 
 use App\Models\TrafficStatistic;
 use Illuminate\Support\Carbon;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class TrafficStatistics extends Component
@@ -55,7 +55,7 @@ class TrafficStatistics extends Component
         [$startDate, $endDate] = $this->getDateRange();
 
         $baseQuery = TrafficStatistic::whereBetween('stat_date', [$startDate, $endDate]);
-        
+
         $query = match ($this->visitorType) {
             'human' => (clone $baseQuery)->where('is_bot', false),
             'bot' => (clone $baseQuery)->where('is_bot', true),
@@ -117,9 +117,9 @@ class TrafficStatistics extends Component
         if ($this->search !== '') {
             $search = $this->search;
             $query->where(function ($q) use ($search) {
-                $q->where('path', 'like', '%' . $search . '%')
-                    ->orWhere('ip', 'like', '%' . $search . '%')
-                    ->orWhere('referer', 'like', '%' . $search . '%');
+                $q->where('path', 'like', '%'.$search.'%')
+                    ->orWhere('ip', 'like', '%'.$search.'%')
+                    ->orWhere('referer', 'like', '%'.$search.'%');
             });
         }
 

@@ -16,4 +16,3 @@ return [
     'exchange_rate_from' => 'Wechselkursquelle',
     'exchange_rate_until' => 'Wechselkurs aktualisiert am',
 ];
-

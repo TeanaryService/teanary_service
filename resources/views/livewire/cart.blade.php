@@ -1,5 +1,5 @@
 
-<div class="max-w-7xl mx-auto px-6 md:px-8 py-10 min-h-[60vh] bg-gray-50">
+<div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 py-10 min-h-[60vh] bg-gray-50">
     <h1 class="text-3xl font-extrabold text-teal-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
     <form wire:submit.prevent="checkout">
         <x-widgets.card class="p-8">

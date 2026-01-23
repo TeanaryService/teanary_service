@@ -4,7 +4,7 @@ return [
     // Lista/Navegación
     'label' => 'Direcciones',
     'group' => 'Gestión de usuarios',
-    
+
     // Campos
     'user_info' => 'Información del usuario',
     'user_id' => 'ID de usuario',

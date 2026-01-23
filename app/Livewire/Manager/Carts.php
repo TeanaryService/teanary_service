@@ -68,12 +68,12 @@ class Carts extends Component
                 }
                 // 搜索用户名或邮箱
                 $q->orWhereHas('user', function ($userQuery) use ($search) {
-                    $userQuery->where('name', 'like', '%' . $search . '%')
-                              ->orWhere('email', 'like', '%' . $search . '%');
+                    $userQuery->where('name', 'like', '%'.$search.'%')
+                        ->orWhere('email', 'like', '%'.$search.'%');
                 });
                 // 搜索商品名
                 $q->orWhereHas('cartItems.product.productTranslations', function ($productQuery) use ($search) {
-                    $productQuery->where('name', 'like', '%' . $search . '%');
+                    $productQuery->where('name', 'like', '%'.$search.'%');
                 });
             });
         }
@@ -90,7 +90,7 @@ class Carts extends Component
 
     public function getProductName($product, $lang)
     {
-        if (!$product) {
+        if (! $product) {
             return '-';
         }
         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -98,12 +98,13 @@ class Carts extends Component
             return $translation->name;
         }
         $first = $product->productTranslations->first();
+
         return $first ? $first->name : $product->id;
     }
 
     public function getVariantSpecifications($variant, $lang)
     {
-        if (!$variant) {
+        if (! $variant) {
             return __('manager.cart_item.no_variant');
         }
         $specNames = [];
@@ -113,6 +114,7 @@ class Carts extends Component
                 ? $translation->name
                 : ($specValue->specificationValueTranslations->first()->name ?? '');
         }
+
         return implode(' / ', array_filter($specNames)) ?: ($variant->sku ?? $variant->id);
     }
 
@@ -125,10 +127,11 @@ class Carts extends Component
             $variant = $item->product->productVariants->first();
             $price = $variant ? $variant->price : null;
         }
-        
-        if (!$price || $price == 0) {
+
+        if (! $price || $price == 0) {
             return '-';
         }
+
         return $service->convertWithSymbol($price, $currentCurrencyCode);
     }
 
@@ -141,11 +144,12 @@ class Carts extends Component
             $variant = $item->product->productVariants->first();
             $price = $variant ? $variant->price : null;
         }
-        
+
         $subtotal = ($price ?? 0) * ($item->qty ?? 0);
         if ($subtotal == 0) {
             return '-';
         }
+
         return $service->convertWithSymbol($subtotal, $currentCurrencyCode);
     }
 

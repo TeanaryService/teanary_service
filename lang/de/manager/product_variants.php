@@ -20,4 +20,3 @@ return [
         'save_success' => 'SKU erfolgreich gespeichert',
     ],
 ];
-

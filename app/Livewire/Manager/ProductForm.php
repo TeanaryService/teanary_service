@@ -5,7 +5,6 @@ namespace App\Livewire\Manager;
 use App\Enums\ProductStatusEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Models\Attribute;
-use App\Models\AttributeTranslation;
 use App\Models\AttributeValue;
 use App\Models\Product;
 use App\Models\ProductTranslation;
@@ -137,7 +136,8 @@ class ProductForm extends Component
         $languages = $service->getLanguages();
         $defaultLanguage = $languages->firstWhere('default', true);
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的商品名称不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的商品名称不能为空');
+
             return;
         }
 
@@ -244,6 +244,7 @@ class ProductForm extends Component
         $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) use ($service) {
             $lang = $service->getLanguageByCode(app()->getLocale());
             $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
+
             return [
                 'id' => $cat->id,
                 'name' => $translation && $translation->name
@@ -270,4 +271,3 @@ class ProductForm extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

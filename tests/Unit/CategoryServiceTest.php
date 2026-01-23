@@ -19,11 +19,11 @@ class CategoryServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new CategoryService();
+        $this->service = new CategoryService;
     }
 
     /**
-     * 测试：查找已存在的分类
+     * 测试：查找已存在的分类.
      */
     public function test_find_or_create_category_finds_existing()
     {
@@ -40,7 +40,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：创建新分类
+     * 测试：创建新分类.
      */
     public function test_find_or_create_category_creates_new()
     {
@@ -57,7 +57,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：同步分类翻译
+     * 测试：同步分类翻译.
      */
     public function test_sync_category_translations_creates_translations()
     {
@@ -81,7 +81,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：同步多个语言的翻译
+     * 测试：同步多个语言的翻译.
      */
     public function test_sync_category_translations_multiple_languages()
     {
@@ -113,7 +113,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：同步翻译不重复创建已存在的翻译
+     * 测试：同步翻译不重复创建已存在的翻译.
      */
     public function test_sync_category_translations_does_not_duplicate()
     {
@@ -147,7 +147,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：同步空翻译数组
+     * 测试：同步空翻译数组.
      */
     public function test_sync_category_translations_handles_empty_array()
     {
@@ -159,7 +159,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：同步空数组翻译
+     * 测试：同步空数组翻译.
      */
     public function test_sync_category_translations_handles_empty_translations()
     {
@@ -171,7 +171,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：批量查找或创建分类处理空数组
+     * 测试：批量查找或创建分类处理空数组.
      */
     public function test_find_or_create_categories_handles_empty_array()
     {
@@ -182,7 +182,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：同步翻译清除缓存
+     * 测试：同步翻译清除缓存.
      */
     public function test_sync_category_translations_clears_cache()
     {
@@ -210,7 +210,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：查找或创建分类时同步翻译
+     * 测试：查找或创建分类时同步翻译.
      */
     public function test_find_or_create_category_syncs_translations()
     {
@@ -236,7 +236,7 @@ class CategoryServiceTest extends TestCase
     }
 
     /**
-     * 测试：处理缺少描述字段的翻译
+     * 测试：处理缺少描述字段的翻译.
      */
     public function test_sync_category_translations_handles_missing_description()
     {

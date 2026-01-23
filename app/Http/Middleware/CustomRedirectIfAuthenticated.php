@@ -13,7 +13,6 @@ class CustomRedirectIfAuthenticated
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     * @param  string|null  ...$guards
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
@@ -25,7 +24,7 @@ class CustomRedirectIfAuthenticated
                 if ($guard === 'manager') {
                     return redirect()->to(locaRoute('manager.dashboard'));
                 }
-                
+
                 // 默认重定向到用户首页（使用 locaRoute 确保包含 locale）
                 return redirect()->to(locaRoute('home'));
             }

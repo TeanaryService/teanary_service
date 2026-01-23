@@ -46,8 +46,8 @@ class OrderObserver
         // 检查订单状态是否发生变化
         if ($order->wasChanged('status')) {
             $originalStatus = $order->getOriginal('status');
-            $oldStatus = $originalStatus instanceof OrderStatusEnum 
-                ? $originalStatus 
+            $oldStatus = $originalStatus instanceof OrderStatusEnum
+                ? $originalStatus
                 : OrderStatusEnum::from($originalStatus);
             $newStatus = $order->status;
 

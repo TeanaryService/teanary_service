@@ -1,5 +1,6 @@
 <div class="min-h-[60vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-md">
+    <x-widgets.grid-bg />
+    <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-md relative">
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 {{ __('app.login') }}

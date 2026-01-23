@@ -1,4 +1,5 @@
 <?php
+
 namespace Deployer;
 
 require 'recipe/laravel.php';
@@ -65,7 +66,7 @@ task('cleanup:unnecessary', function () {
         '.gitattributes',
         '.gitignore',
     ];
-    
+
     $dirs = [
         'bin',
         'tests',
@@ -76,9 +77,9 @@ task('cleanup:unnecessary', function () {
         'node_modules',
         'tests',
     ];
-    
-    run('cd {{release_path}} && rm -f ' . implode(' ', $files));
-    run('cd {{release_path}} && rm -rf ' . implode(' ', $dirs));
+
+    run('cd {{release_path}} && rm -f '.implode(' ', $files));
+    run('cd {{release_path}} && rm -rf '.implode(' ', $dirs));
 })->desc('清理无关代码和文件');
 
 // 重启 PHP-FPM

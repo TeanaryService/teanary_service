@@ -18,4 +18,3 @@ return [
     'has_items' => 'Hat Artikel',
     'empty' => 'Leerer Warenkorb',
 ];
-

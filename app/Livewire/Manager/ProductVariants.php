@@ -5,8 +5,8 @@ namespace App\Livewire\Manager;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductVariants extends Component
@@ -49,7 +49,7 @@ class ProductVariants extends Component
 
         if ($this->search !== '') {
             $search = $this->search;
-            $query->where('sku', 'like', '%' . $search . '%');
+            $query->where('sku', 'like', '%'.$search.'%');
         }
 
         $paginator = $query->orderByDesc('created_at')->paginate(15);
@@ -72,7 +72,7 @@ class ProductVariants extends Component
                 $valName = $valTrans && $valTrans->name
                     ? $valTrans->name
                     : ($sv->specificationValueTranslations->first()->name ?? '');
-                $items[] = $specName . ':' . $valName;
+                $items[] = $specName.':'.$valName;
             }
 
             $variant->spec_values_text = implode('，', array_filter($items));
@@ -93,4 +93,3 @@ class ProductVariants extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

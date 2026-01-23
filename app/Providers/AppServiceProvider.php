@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Order;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // 将 SnowflakeService 注册为单例，确保所有模型使用同一个实例
+        // 这样可以保证序列号的连续性，避免 ID 冲突
+        $this->app->singleton(\App\Services\SnowflakeService::class, function ($app) {
+            return new \App\Services\SnowflakeService;
+        });
     }
 
     /**

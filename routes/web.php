@@ -7,10 +7,10 @@ use App\Livewire\Cart;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
 use App\Livewire\IndexPage;
+use App\Livewire\OrderQuery;
 use App\Livewire\Payment\Cancel;
 use App\Livewire\Payment\Checkout as PaymentCheckout;
 use App\Livewire\Payment\Failure;
-use App\Livewire\OrderQuery;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
@@ -35,7 +35,7 @@ if (empty($supportedLocales)) {
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Middleware\TrackTraffic::class])->group(function () {
     Route::livewire('index.html', IndexPage::class)->name('teanary.open');
-    
+
     // 引入用户相关路由
     require __DIR__.'/users.php';
 
@@ -64,6 +64,6 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
     Route::livewire('order-query', OrderQuery::class)->name('order.query');
 
     Route::fallback(function () {
-        return abort(404);
+        abort(404);
     });
 })->where(['locale' => $supportedLocales]);

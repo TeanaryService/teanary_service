@@ -73,7 +73,8 @@ class CountryForm extends Component
         $service = app(LocaleCurrencyService::class);
         $defaultLanguage = $service->getDefaultLanguage();
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的国家名称不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的国家名称不能为空');
+
             return;
         }
 
@@ -93,7 +94,7 @@ class CountryForm extends Component
 
             // 更新翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     CountryTranslation::updateOrCreate(
                         [
                             'country_id' => $country->id,
@@ -112,7 +113,7 @@ class CountryForm extends Component
 
             // 创建翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     CountryTranslation::create([
                         'country_id' => $country->id,
                         'language_id' => $languageId,

@@ -9,8 +9,8 @@ use App\Models\Specification;
 use App\Models\SpecificationValue;
 use App\Services\LocaleCurrencyService;
 use App\Services\ProductVariantService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class ManageProductVariants extends Component
@@ -22,7 +22,7 @@ class ManageProductVariants extends Component
 
     /**
      * 已选规格及规格值：
-     * [spec_id => [value_id1, value_id2, ...]]
+     * [spec_id => [value_id1, value_id2, ...]].
      */
     public array $selectedSpecifications = [];
 
@@ -41,7 +41,7 @@ class ManageProductVariants extends Component
      *     'image_url' => string|null,
      *   ],
      *   ...
-     * ]
+     * ].
      */
     public array $skus = [];
 
@@ -76,11 +76,12 @@ class ManageProductVariants extends Component
         }
 
         $locale = app()->getLocale();
+
         return $this->localeCurrencyService->getLanguageByCode($locale);
     }
 
     /**
-     * 加载现有 SKU，同步 selectedSpecifications 与 skus
+     * 加载现有 SKU，同步 selectedSpecifications 与 skus.
      */
     protected function loadExistingVariants(): void
     {
@@ -138,6 +139,7 @@ class ManageProductVariants extends Component
         if (! is_array($value)) {
             $this->selectedSpecifications[$key] = [];
             $this->generateSkus();
+
             return;
         }
 
@@ -151,7 +153,7 @@ class ManageProductVariants extends Component
     }
 
     /**
-     * 切换某个规格值的选中状态（供视图直接调用）
+     * 切换某个规格值的选中状态（供视图直接调用）.
      */
     public function toggleSpecificationValue(int $specId, int $valueId): void
     {
@@ -174,7 +176,7 @@ class ManageProductVariants extends Component
     }
 
     /**
-     * 生成规格笛卡尔积 → SKU 行
+     * 生成规格笛卡尔积 → SKU 行.
      */
     public function generateSkus(): void
     {
@@ -183,6 +185,7 @@ class ManageProductVariants extends Component
 
         if (empty($specIds)) {
             $this->skus = [];
+
             return;
         }
 
@@ -201,6 +204,7 @@ class ManageProductVariants extends Component
 
         if (empty($specValueArrays)) {
             $this->skus = [];
+
             return;
         }
 
@@ -242,7 +246,7 @@ class ManageProductVariants extends Component
     protected function buildSpecValuesKey(array $specValues): string
     {
         $parts = collect($specValues)
-            ->map(fn ($sv) => (int) $sv['specification_id'] . ':' . (int) $sv['specification_value_id'])
+            ->map(fn ($sv) => (int) $sv['specification_id'].':'.(int) $sv['specification_value_id'])
             ->sort()
             ->values()
             ->all();
@@ -303,6 +307,7 @@ class ManageProductVariants extends Component
         foreach ($this->skus as $sku) {
             if (empty($sku['sku'])) {
                 session()->flash('error', __('manager.product_variants.manage.sku_code_required'));
+
                 return;
             }
         }
@@ -310,6 +315,7 @@ class ManageProductVariants extends Component
         $skuCodes = array_column($this->skus, 'sku');
         if (count($skuCodes) !== count(array_unique($skuCodes))) {
             session()->flash('error', __('manager.product_variants.manage.sku_code_unique'));
+
             return;
         }
 
@@ -318,7 +324,8 @@ class ManageProductVariants extends Component
             ->pluck('sku')
             ->toArray();
         if (! empty($existingSkus)) {
-            session()->flash('error', __('manager.product_variants.manage.sku_code_exists') . implode(', ', $existingSkus));
+            session()->flash('error', __('manager.product_variants.manage.sku_code_exists').implode(', ', $existingSkus));
+
             return;
         }
 
@@ -433,4 +440,3 @@ class ManageProductVariants extends Component
         ]);
     }
 }
-

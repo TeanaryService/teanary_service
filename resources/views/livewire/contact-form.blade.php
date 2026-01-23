@@ -1,5 +1,5 @@
 <section class="w-full bg-gray-50 min-h-[calc(100vh-200px)] flex items-center py-8">
-    <div class="max-w-7xl mx-auto px-6 md:px-8 w-full">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 w-full">
         <x-widgets.page-title 
             :title="__('app.contact.title')"
             :subtitle="__('app.contact.description')"

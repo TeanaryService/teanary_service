@@ -9,7 +9,7 @@ trait HandlesSyncBatch
 {
     /**
      * 获取待同步记录，确保同一行的多次修改都被包含.
-     * 
+     *
      * 如果同一行有多次修改，确保所有修改都被包含在查询结果中，
      * 避免只查询部分修改导致后续修改覆盖前面的修改.
      */
@@ -57,7 +57,7 @@ trait HandlesSyncBatch
 
     /**
      * 将同步记录分批，确保同一行的多次修改在同一批次中.
-     * 
+     *
      * 这样可以确保同一行的多次修改按顺序发送，避免被分到不同批次导致顺序错乱.
      */
     protected function chunkLogsByModel(Collection $logs, int $batchSize): Collection
@@ -89,7 +89,7 @@ trait HandlesSyncBatch
             }
 
             $currentChunk->push($log);
-            $currentModelCount++;
+            ++$currentModelCount;
         }
 
         // 添加最后一个批次

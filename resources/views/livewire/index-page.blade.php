@@ -10,7 +10,7 @@
     </style>
     <!-- Header -->
     <header
-        class="bg-gradient-to-br from-teal-600 to-teal-700 py-16 md:py-20 text-center relative overflow-hidden shadow-lg">
+        class="bg-teal-600 bg-gradient-to-br from-teal-600 via-green-300 to-tea-50/30 py-16 md:py-20 text-center relative overflow-hidden shadow-lg">
         <!-- Background decoration -->
         <div class="absolute inset-0 pointer-events-none">
             <div class="absolute top-0 left-0 w-full h-full opacity-10"
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 relative z-10">
             <h1
                 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight relative z-10 drop-shadow-lg flex items-center justify-center gap-3 animate-bounce">
                 <svg class="w-[1.2em] h-[1.2em] inline-block align-middle flex-shrink-0 animate-spin-slow" viewBox="0 0 1024 1024"
@@ -70,24 +70,24 @@
 
     <!-- Sticky Navigation Bar -->
     <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm mb-8">
-        <div class="max-w-7xl mx-auto px-6 md:px-8">
+        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
             <div class="flex items-center justify-between py-4">
                 <div class="flex items-center gap-1 text-sm text-gray-600">
                     <span class="animate-bounce">📍</span>
                     <span>{{ __('index.quick_nav') }}</span>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 flex-wrap">
-                    <a href="#tech-stack" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">🚀 {{ __('index.nav_tech_stack') }}</a>
-                    <a href="#features" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">🌟 {{ __('index.nav_features') }}</a>
-                    <a href="#demo" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">🎮 {{ __('index.nav_demo') }}</a>
-                    <a href="#pricing" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">💼 {{ __('index.nav_pricing') }}</a>
-                    <a href="#license" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">📄 {{ __('index.nav_license') }}</a>
+                    <a href="#tech-stack" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-100 transition-all duration-300 hover:scale-105 transform">🚀 {{ __('index.nav_tech_stack') }}</a>
+                    <a href="#features" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-100 transition-all duration-300 hover:scale-105 transform">🌟 {{ __('index.nav_features') }}</a>
+                    <a href="#demo" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-100 transition-all duration-300 hover:scale-105 transform">🎮 {{ __('index.nav_demo') }}</a>
+                    <a href="#pricing" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-100 transition-all duration-300 hover:scale-105 transform">💼 {{ __('index.nav_pricing') }}</a>
+                    <a href="#license" class="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-100 transition-all duration-300 hover:scale-105 transform">📄 {{ __('index.nav_license') }}</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-20">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 relative z-20">
         <!-- 技术栈 -->
         <div class="py-16" id="tech-stack">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 text-center tracking-tight relative pb-4 mb-16">

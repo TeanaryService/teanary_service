@@ -6,8 +6,8 @@ use App\Enums\TranslationStatusEnum;
 use App\Models\Attribute;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Attributes extends Component
@@ -52,7 +52,7 @@ class Attributes extends Component
     public function toggleFilterable(int $id): void
     {
         $attribute = Attribute::findOrFail($id);
-        $attribute->is_filterable = !$attribute->is_filterable;
+        $attribute->is_filterable = ! $attribute->is_filterable;
         $attribute->save();
         Cache::forget('attributes.with.translations');
         session()->flash('message', $attribute->is_filterable ? __('manager.attribute.filterable') : __('manager.attribute.not_filterable'));
@@ -72,7 +72,7 @@ class Attributes extends Component
         // 搜索：通过翻译名称搜索
         if ($this->search) {
             $query->whereHas('attributeTranslations', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%');
+                $q->where('name', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -82,7 +82,7 @@ class Attributes extends Component
         }
 
         // 筛选：翻译状态
-        if (!empty($this->filterTranslationStatus)) {
+        if (! empty($this->filterTranslationStatus)) {
             $query->whereIn('translation_status', $this->filterTranslationStatus);
         }
 
@@ -96,6 +96,7 @@ class Attributes extends Component
             return $translation->name;
         }
         $first = $attribute->attributeTranslations->first();
+
         return $first ? $first->name : __('manager.attribute.unnamed');
     }
 

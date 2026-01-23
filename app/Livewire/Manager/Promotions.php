@@ -6,8 +6,8 @@ use App\Enums\PromotionTypeEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Models\Promotion;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Promotions extends Component
@@ -69,7 +69,7 @@ class Promotions extends Component
         if ($this->search) {
             $search = $this->search;
             $query->whereHas('promotionTranslations', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
+                $q->where('name', 'like', '%'.$search.'%');
             });
         }
 
@@ -98,6 +98,7 @@ class Promotions extends Component
             return $translation->name;
         }
         $first = $promotion->promotionTranslations->first();
+
         return $first ? $first->name : __('manager.promotion.unnamed');
     }
 
@@ -115,4 +116,3 @@ class Promotions extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

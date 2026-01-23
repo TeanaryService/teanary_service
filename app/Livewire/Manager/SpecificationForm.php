@@ -57,7 +57,8 @@ class SpecificationForm extends Component
         $service = app(LocaleCurrencyService::class);
         $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的规格名称不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的规格名称不能为空');
+
             return;
         }
 
@@ -116,4 +117,3 @@ class SpecificationForm extends Component
         ])->layout('components.layouts.manager');
     }
 }
-

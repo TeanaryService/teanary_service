@@ -19,7 +19,7 @@
                                 $isSelected = is_array($selectedValues) && in_array($value['id'], $selectedValues, true);
                             @endphp
                             <div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border cursor-pointer
-                                {{ $isSelected ? 'bg-teal-50 text-teal-700 border-teal-200' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50' }}">
+                                {{ $isSelected ? 'bg-teal-100 text-teal-700 border-teal-200' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50' }}">
                                 <x-widgets.checkbox 
                                     wire:click="toggleSpecificationValue({{ $spec['id'] }}, {{ $value['id'] }})"
                                     :checked="$isSelected"
@@ -65,7 +65,7 @@
             </div>
         @endif
         @if (session()->has('success'))
-            <div class="mb-3 rounded-md bg-teal-50 p-3 text-xs text-teal-800">
+            <div class="mb-3 rounded-md bg-teal-100 p-3 text-xs text-teal-800">
                 {{ session('success') }}
             </div>
         @endif

@@ -122,13 +122,13 @@ class Cart extends Component
     }
 
     /**
-     * 获取购物车项显示数据
+     * 获取购物车项显示数据.
      */
     protected function getCartItemDisplayData($item, $lang): array
     {
         $currencyService = app(LocaleCurrencyService::class);
         $currencyCode = session('currency');
-        
+
         $product = $item->product;
         $variant = $item->productVariant;
         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -138,12 +138,13 @@ class Cart extends Component
             : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
         $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
             $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+
             return $trans && $trans->name ? $trans->name : $sv->id;
         })->implode(' / ') : '';
         $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
         $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
         $promotion = $item->promotion ?? null;
-        
+
         return [
             'name' => $name,
             'image' => $image,
@@ -155,7 +156,7 @@ class Cart extends Component
     }
 
     /**
-     * 获取促销折扣文本
+     * 获取促销折扣文本.
      */
     protected function getPromotionDiscountText($promotion, $rule): array
     {
@@ -177,13 +178,13 @@ class Cart extends Component
                 $discountType = (string) $discountType;
             }
         }
-        
+
         // 处理 discount_value
         $discountValue = is_array($rule) ? ($rule['discount_value'] ?? null) : (is_object($rule) ? ($rule->discount_value ?? null) : null);
         if (is_object($discountValue)) {
             $discountValue = (string) $discountValue;
         }
-        
+
         return [
             'discountType' => $discountType,
             'discountValue' => $discountValue,
@@ -191,16 +192,16 @@ class Cart extends Component
     }
 
     /**
-     * 规范化促销描述
+     * 规范化促销描述.
      */
     protected function normalizePromotionDescription($description): string
     {
         if (is_array($description)) {
             return json_encode($description, JSON_UNESCAPED_UNICODE);
-        } elseif (!is_string($description)) {
+        } elseif (! is_string($description)) {
             return (string) $description;
         }
-        
+
         return $description;
     }
 

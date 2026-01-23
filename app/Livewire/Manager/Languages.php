@@ -3,8 +3,8 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Language;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Languages extends Component
@@ -24,6 +24,13 @@ class Languages extends Component
         $this->resetPage();
     }
 
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->filterDefault = '';
+        $this->resetPage();
+    }
+
     public function deleteLanguage(int $id): void
     {
         $language = Language::findOrFail($id);
@@ -37,9 +44,10 @@ class Languages extends Component
         $query = Language::query();
 
         if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('code', 'like', '%' . $this->search . '%')
-                  ->orWhere('name', 'like', '%' . $this->search . '%');
+            $search = $this->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('code', 'like', '%'.$search.'%')
+                    ->orWhere('name', 'like', '%'.$search.'%');
             });
         }
 

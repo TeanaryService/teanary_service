@@ -20,7 +20,7 @@
             </div>
         </div>
         
-        <div class="max-w-7xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16 relative z-10">
+        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16 relative z-10">
             <div class="flex-1 max-w-2xl">
                 <div class="tea-decoration mb-8">
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6 tea-title">
@@ -49,7 +49,7 @@
     <x-widgets.promotion-list class="px-6 md:px-8" parentClass="bg-tea-100 py-8 tea-bg-texture" />
 
     {{-- Featured Products --}}
-    <section class="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-24">
+    <section class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 py-20 md:py-24">
         <div class="text-center mb-16">
             <div class="tea-decoration">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tea-title">{{ __('home.featured_products') }}</h2>
@@ -61,7 +61,7 @@
 
     {{-- Categories Quick Access --}}
     <section class="bg-white py-20 md:py-24 relative">
-        <div class="max-w-7xl mx-auto px-6 md:px-8">
+        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
             <div class="text-center mb-16">
                 <div class="tea-decoration">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tea-title">{{ __('home.browse_categories') }}</h2>
@@ -86,7 +86,7 @@
     </section>
 
     <section class="py-20 md:py-24 bg-gray-50 relative">
-        <div class="max-w-7xl mx-auto px-6 md:px-8">
+        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
             <div class="text-center mb-16">
                 <div class="tea-decoration">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tea-title">{{ __('home.tea_culture_articles') }}</h2>
@@ -99,7 +99,7 @@
 
     {{-- About Store --}}
     <section class="py-20 md:py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-12 md:gap-16">
+        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 flex flex-col md:flex-row items-center gap-12 md:gap-16">
             <div class="md:w-1/2">
                 <div class="tea-decoration mb-8">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tea-title">{{ __('home.about_title') }}</h2>

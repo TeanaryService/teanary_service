@@ -18,4 +18,3 @@ return [
     'translations' => 'Mehrsprachige Übersetzungen',
     'unnamed' => 'Unbenannte Region',
 ];
-

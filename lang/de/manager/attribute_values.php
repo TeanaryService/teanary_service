@@ -15,4 +15,3 @@ return [
     'products_count' => 'Anzahl verknüpfter Produkte',
     'unnamed' => 'Unbenannter Attributwert',
 ];
-

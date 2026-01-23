@@ -4,8 +4,8 @@ namespace App\Livewire\Manager;
 
 use App\Models\User;
 use App\Services\LocaleCurrencyService;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Users extends Component
@@ -60,8 +60,8 @@ class Users extends Component
         if ($this->search) {
             $search = $this->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%');
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('email', 'like', '%'.$search.'%');
             });
         }
 
@@ -82,7 +82,7 @@ class Users extends Component
 
     public function getUserGroupName($userGroup, $lang)
     {
-        if (!$userGroup) {
+        if (! $userGroup) {
             return '-';
         }
         $translation = $userGroup->userGroupTranslations->where('language_id', $lang?->id)->first();
@@ -90,6 +90,7 @@ class Users extends Component
             return $translation->name;
         }
         $first = $userGroup->userGroupTranslations->first();
+
         return $first ? $first->name : $userGroup->id;
     }
 

@@ -14,7 +14,7 @@ use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob as BasePerformCon
 
 /**
  * 包装 Spatie 的 PerformConversionsJob，在执行时禁用 Media 同步
- * 防止转换过程中更新 Media 模型时触发同步导致死循环
+ * 防止转换过程中更新 Media 模型时触发同步导致死循环.
  */
 class PerformMediaConversionsJob implements ShouldQueue
 {
@@ -52,7 +52,7 @@ class PerformMediaConversionsJob implements ShouldQueue
     }
 
     /**
-     * 处理任务失败的情况
+     * 处理任务失败的情况.
      */
     public function failed(\Throwable $exception): void
     {

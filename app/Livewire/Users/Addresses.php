@@ -7,8 +7,8 @@ use App\Models\Country;
 use App\Models\Zone;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Addresses extends Component
@@ -17,7 +17,7 @@ class Addresses extends Component
 
     public $showForm = false;
     public $addressId = null;
-    
+
     // 表单字段
     public $email = '';
     public $firstname = '';
@@ -30,7 +30,7 @@ class Addresses extends Component
     public $postcode = '';
     public $country_id = '';
     public $zone_id = '';
-    
+
     public $zones = [];
 
     protected ?LocaleCurrencyService $localeService = null;
@@ -64,6 +64,9 @@ class Addresses extends Component
 
     public function mount(): void
     {
+        if (! Auth::check()) {
+            abort(403, 'Unauthorized');
+        }
         $this->localeService = app(LocaleCurrencyService::class);
     }
 
@@ -72,6 +75,7 @@ class Addresses extends Component
         if ($this->localeService === null) {
             $this->localeService = app(LocaleCurrencyService::class);
         }
+
         return $this->localeService;
     }
 
@@ -103,6 +107,7 @@ class Addresses extends Component
     {
         $localeService = $this->getLocaleService();
         $lang = $localeService->getLanguageByCode(session('lang'));
+
         return Country::getCountriesByLanguage($lang?->id);
     }
 
@@ -131,8 +136,12 @@ class Addresses extends Component
         $this->postcode = $address->postcode;
         $this->country_id = $address->country_id;
         $this->zone_id = $address->zone_id;
-        
-        $this->updatedCountryId($this->country_id);
+
+        // 加载 zones，但不重置 zone_id（因为我们已经设置了它）
+        $localeService = $this->getLocaleService();
+        $lang = $localeService->getLanguageByCode(session('lang'));
+        $this->zones = Zone::getZonesByCountryAndLanguage($this->country_id, $lang?->id);
+
         $this->showForm = true;
     }
 
@@ -145,6 +154,9 @@ class Addresses extends Component
     {
         $this->validate();
 
+        // 保存 addressId，因为 resetForm 会清除它
+        $addressId = $this->addressId;
+
         $data = [
             'user_id' => Auth::id(),
             'email' => $this->email,
@@ -156,14 +168,16 @@ class Addresses extends Component
             'address_2' => $this->address_2,
             'city' => $this->city,
             'postcode' => $this->postcode,
-            'country_id' => $this->country_id,
-            'zone_id' => $this->zone_id,
+            'country_id' => (int) $this->country_id,
+            'zone_id' => (int) $this->zone_id,
         ];
 
-        if ($this->addressId) {
-            Address::where('id', $this->addressId)
+        if ($addressId) {
+            $address = Address::where('id', $addressId)
                 ->where('user_id', Auth::id())
-                ->update($data);
+                ->where('deleted', false)
+                ->firstOrFail();
+            $address->update($data);
         } else {
             Address::create($data);
         }
@@ -191,7 +205,7 @@ class Addresses extends Component
         $this->reset([
             'addressId', 'email', 'firstname', 'lastname', 'telephone', 'company',
             'address_1', 'address_2', 'city', 'postcode', 'country_id', 'zone_id',
-            'showForm', 'zones'
+            'showForm', 'zones',
         ]);
     }
 

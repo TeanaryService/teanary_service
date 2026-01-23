@@ -11,4 +11,3 @@ return [
     'name' => 'Spezifikationswertname',
     'unnamed' => 'Unbenannter Spezifikationswert',
 ];
-

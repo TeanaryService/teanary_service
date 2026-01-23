@@ -121,6 +121,10 @@ class Category extends Model implements HasMedia
      */
     public static function getCategoriesForLanguage($langId)
     {
+        if ($langId === null) {
+            return collect();
+        }
+
         $categories = static::getCachedCategories();
 
         return $categories->map(function ($cat) use ($langId) {

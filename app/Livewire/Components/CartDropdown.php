@@ -44,6 +44,7 @@ class CartDropdown extends Component
             if ($price <= 0 && $item->product && $item->product->productVariants->isNotEmpty()) {
                 $price = $item->product->productVariants->first()->price ?? 0;
             }
+
             return $item->qty * $price;
         });
     }
@@ -97,13 +98,13 @@ class CartDropdown extends Component
     }
 
     /**
-     * 获取购物车项显示数据
+     * 获取购物车项显示数据.
      */
     protected function getCartItemDisplayData($item, $lang): array
     {
         $currencyService = app(LocaleCurrencyService::class);
         $currencyCode = session('currency');
-        
+
         $product = $item->product;
         $variant = $item->productVariant;
         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -117,6 +118,7 @@ class CartDropdown extends Component
             ? $variant->specificationValues
                 ->map(function ($sv) use ($lang) {
                     $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
+
                     return $trans && $trans->name ? $trans->name : $sv->id;
                 })
                 ->implode(' / ')
@@ -126,7 +128,7 @@ class CartDropdown extends Component
             : '';
         $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
         $promotion = $item->promotion ?? null;
-        
+
         return [
             'name' => $name,
             'image' => $image,

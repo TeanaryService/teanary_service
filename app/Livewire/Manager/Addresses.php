@@ -35,16 +35,17 @@ class Addresses extends Component
     public function deleteAddress(int $id): void
     {
         $address = Address::findOrFail($id);
-        
+
         // 检查是否有关联订单（作为收货地址或账单地址）
         $hasShippingOrders = \App\Models\Order::where('shipping_address_id', $address->id)->exists();
         $hasBillingOrders = \App\Models\Order::where('billing_address_id', $address->id)->exists();
-        
+
         if ($hasShippingOrders || $hasBillingOrders) {
             session()->flash('error', __('manager.addresses.cannot_delete_has_orders'));
+
             return;
         }
-        
+
         $address->delete();
         session()->flash('message', __('app.deleted_successfully'));
     }
@@ -69,12 +70,12 @@ class Addresses extends Component
                 }
                 // 搜索用户名或邮箱
                 $q->orWhereHas('user', function ($userQuery) use ($search) {
-                    $userQuery->where('name', 'like', '%' . $search . '%')
-                              ->orWhere('email', 'like', '%' . $search . '%');
+                    $userQuery->where('name', 'like', '%'.$search.'%')
+                        ->orWhere('email', 'like', '%'.$search.'%');
                 });
                 // 搜索地址字段
-                $q->orWhere('address_1', 'like', '%' . $search . '%')
-                  ->orWhere('address_2', 'like', '%' . $search . '%');
+                $q->orWhere('address_1', 'like', '%'.$search.'%')
+                    ->orWhere('address_2', 'like', '%'.$search.'%');
             });
         }
 
@@ -127,10 +128,11 @@ class Addresses extends Component
 
     public function getCountryName($country, $lang)
     {
-        if (!$country) {
+        if (! $country) {
             return '-';
         }
         $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
+
         return $translation && $translation->name
             ? $translation->name
             : ($country->countryTranslations->first()->name ?? $country->name ?? '-');

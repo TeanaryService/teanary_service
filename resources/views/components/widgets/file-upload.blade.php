@@ -80,7 +80,7 @@
                 @if($accept) accept="{{ $accept }}" @endif
                 @if($multiple) multiple @endif
                 @if($wireDirective) {!! $wireDirective !!} @endif
-                class="{{ $classes }} file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 file:transition-colors file:cursor-pointer"
+                class="{{ $classes }} file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-100 file:text-teal-700 hover:file:bg-teal-100 file:transition-colors file:cursor-pointer"
                 {{ $attributes->except(['name', 'id', 'wire', 'accept', 'multiple', 'preview', 'previewSize', 'label', 'help', 'error', 'showPreview', 'variant', 'class']) }}
             />
 

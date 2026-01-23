@@ -3,8 +3,8 @@
 namespace App\Livewire\Manager;
 
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 class Notifications extends Component

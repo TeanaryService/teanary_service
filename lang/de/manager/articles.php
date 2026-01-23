@@ -25,4 +25,3 @@ return [
     'summary_helper' => 'Kurze Zusammenfassung für Listen und SEO-Beschreibungen.',
     'content' => 'Artikelinhalt',
 ];
-

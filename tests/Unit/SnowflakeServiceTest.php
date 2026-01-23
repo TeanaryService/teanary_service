@@ -8,7 +8,7 @@ use Tests\TestCase;
 class SnowflakeServiceTest extends TestCase
 {
     /**
-     * 测试：生成唯一的雪花ID
+     * 测试：生成唯一的雪花ID.
      */
     public function test_generates_unique_ids()
     {
@@ -16,7 +16,7 @@ class SnowflakeServiceTest extends TestCase
         $ids = [];
 
         // 生成1000个ID，确保都是唯一的
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 1000; ++$i) {
             $id = $service->nextId();
             $this->assertNotContains($id, $ids, '生成的ID应该是唯一的');
             $ids[] = $id;
@@ -26,7 +26,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：不同机器ID生成不同的ID
+     * 测试：不同机器ID生成不同的ID.
      */
     public function test_different_machine_ids_generate_different_ids()
     {
@@ -58,7 +58,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：无效的机器ID抛出异常
+     * 测试：无效的机器ID抛出异常.
      */
     public function test_invalid_machine_id_throws_exception()
     {
@@ -69,7 +69,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：负数机器ID抛出异常
+     * 测试：负数机器ID抛出异常.
      */
     public function test_negative_machine_id_throws_exception()
     {
@@ -80,7 +80,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：解析时间戳
+     * 测试：解析时间戳.
      */
     public function test_parse_timestamp()
     {
@@ -95,7 +95,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：解析机器ID
+     * 测试：解析机器ID.
      */
     public function test_parse_machine_id()
     {
@@ -109,7 +109,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：解析序列号
+     * 测试：解析序列号.
      */
     public function test_parse_sequence()
     {
@@ -117,7 +117,7 @@ class SnowflakeServiceTest extends TestCase
         $ids = [];
 
         // 生成多个ID，检查序列号递增
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $id = $service->nextId();
             $sequence = SnowflakeService::parseSequence($id);
             $ids[] = ['id' => $id, 'sequence' => $sequence];
@@ -131,7 +131,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：同一毫秒内序列号递增
+     * 测试：同一毫秒内序列号递增.
      */
     public function test_sequence_increments_within_same_millisecond()
     {
@@ -139,14 +139,14 @@ class SnowflakeServiceTest extends TestCase
         $sequences = [];
 
         // 快速生成多个ID（可能在同一毫秒内）
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             $id = $service->nextId();
             $sequences[] = SnowflakeService::parseSequence($id);
         }
 
         // 验证序列号是递增的（或重置）
         $hasIncrement = false;
-        for ($i = 1; $i < count($sequences); $i++) {
+        for ($i = 1; $i < count($sequences); ++$i) {
             if ($sequences[$i] > $sequences[$i - 1] || $sequences[$i] === 0) {
                 $hasIncrement = true;
                 break;
@@ -157,7 +157,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：ID是64位整数
+     * 测试：ID是64位整数.
      */
     public function test_id_is_64_bit_integer()
     {
@@ -175,14 +175,14 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：使用配置文件获取机器ID
+     * 测试：使用配置文件获取机器ID.
      */
     public function test_uses_config_machine_id()
     {
         // 设置配置（模拟从 .env 读取）
         config(['snowflake.machine_id' => 20]);
 
-        $service = new SnowflakeService();
+        $service = new SnowflakeService;
         $id = $service->nextId();
 
         $parsedMachineId = SnowflakeService::parseMachineId($id);
@@ -193,7 +193,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：大量ID生成性能
+     * 测试：大量ID生成性能.
      */
     public function test_generates_large_number_of_ids()
     {
@@ -201,7 +201,7 @@ class SnowflakeServiceTest extends TestCase
         $startTime = microtime(true);
 
         // 生成10000个ID
-        for ($i = 0; $i < 10000; $i++) {
+        for ($i = 0; $i < 10000; ++$i) {
             $id = $service->nextId();
             $this->assertIsInt($id);
         }
@@ -214,7 +214,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：ID的时间戳部分正确
+     * 测试：ID的时间戳部分正确.
      */
     public function test_id_timestamp_component_is_correct()
     {
@@ -231,7 +231,7 @@ class SnowflakeServiceTest extends TestCase
     }
 
     /**
-     * 测试：序列号溢出处理
+     * 测试：序列号溢出处理.
      */
     public function test_sequence_overflow_handling()
     {
@@ -242,7 +242,7 @@ class SnowflakeServiceTest extends TestCase
         $ids = [];
         $startTime = microtime(true);
 
-        for ($i = 0; $i < 5000; $i++) {
+        for ($i = 0; $i < 5000; ++$i) {
             $id = $service->nextId();
             $ids[] = $id;
         }
@@ -275,7 +275,7 @@ class SnowflakeServiceTest extends TestCase
         $ids3 = [];
 
         // 每个服务生成100个ID
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; ++$i) {
             $ids1[] = $service1->nextId();
             $ids2[] = $service2->nextId();
             $ids3[] = $service3->nextId();

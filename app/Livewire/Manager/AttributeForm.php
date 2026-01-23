@@ -65,7 +65,8 @@ class AttributeForm extends Component
         $service = app(LocaleCurrencyService::class);
         $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
         if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.' . $defaultLanguage->id . '.name', '默认语言的属性名称不能为空');
+            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的属性名称不能为空');
+
             return;
         }
 
@@ -82,7 +83,7 @@ class AttributeForm extends Component
 
             // 更新翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     AttributeTranslation::updateOrCreate(
                         [
                             'attribute_id' => $attribute->id,
@@ -102,7 +103,7 @@ class AttributeForm extends Component
 
             // 创建翻译
             foreach ($this->translations as $languageId => $translation) {
-                if (!empty($translation['name'])) {
+                if (! empty($translation['name'])) {
                     AttributeTranslation::create([
                         'attribute_id' => $attribute->id,
                         'language_id' => $languageId,

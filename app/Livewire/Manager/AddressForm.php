@@ -69,7 +69,7 @@ class AddressForm extends Component
             $this->address2 = $address->address_2;
             $this->city = $address->city ?? '';
             $this->postcode = $address->postcode;
-            
+
             $this->loadZones();
         }
     }
@@ -86,11 +86,11 @@ class AddressForm extends Component
             $service = app(LocaleCurrencyService::class);
             $locale = app()->getLocale();
             $lang = $service->getLanguageByCode($locale);
-            
+
             $zones = \App\Models\Zone::where('country_id', $this->countryId)
                 ->with('zoneTranslations')
                 ->get();
-            
+
             $this->zones = [];
             foreach ($zones as $zone) {
                 $translation = $zone->zoneTranslations->where('language_id', $lang?->id)->first();

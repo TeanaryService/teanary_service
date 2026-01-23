@@ -4,7 +4,7 @@ return [
     // List / Navigation related
     'label' => 'Addresses',
     'group' => 'User Management',
-    
+
     // Fields related
     'user_info' => 'User Information',
     'user_id' => 'User ID',

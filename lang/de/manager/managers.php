@@ -12,4 +12,3 @@ return [
     'password_confirmation' => 'Passwort bestätigen',
     'email_verified_at' => 'E-Mail-Verifizierungszeit',
 ];
-

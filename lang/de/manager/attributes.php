@@ -18,4 +18,3 @@ return [
     'translations' => 'Mehrsprachige Übersetzungen',
     'name_helper' => 'Geben Sie den Attributnamen für verschiedene Sprachen ein.',
 ];
-

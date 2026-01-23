@@ -3,7 +3,7 @@
 @endphp
 
 <div class="min-h-[60vh] mb-10 bg-tea-50 tea-bg-texture">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
@@ -73,7 +73,7 @@
                             </h2>
                             <button type="button"
                                     wire:click="addAttributeValueRow"
-                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-teal-700 bg-teal-50 border border-teal-200 rounded-lg hover:bg-teal-100">
+                                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-teal-700 bg-teal-100 border border-teal-200 rounded-lg hover:bg-teal-100">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                 </svg>
