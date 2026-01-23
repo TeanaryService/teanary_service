@@ -53,7 +53,7 @@ class Articles extends Component
         $article = Article::findOrFail($id);
         $article->is_published = ! $article->is_published;
         $article->save();
-        session()->flash('message', $article->is_published ? __('manager.article.published') : __('manager.article.unpublished'));
+        $this->dispatch('flash-message', type: 'success', message: $article->is_published ? __('manager.article.published') : __('manager.article.unpublished'));
     }
 
     protected function getCurrentPageItems()

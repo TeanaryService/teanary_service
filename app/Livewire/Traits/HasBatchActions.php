@@ -49,7 +49,7 @@ trait HasBatchActions
     protected function batchDelete(string $modelClass, ?string $cacheKey = null): void
     {
         if (empty($this->selectedItems)) {
-            session()->flash('error', __('manager.batch.no_items_selected'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
             return;
         }
 
@@ -82,9 +82,9 @@ trait HasBatchActions
         $this->clearSelection();
 
         if ($skipped > 0) {
-            session()->flash('message', __('manager.batch.deleted_with_skipped', ['count' => $count, 'skipped' => $skipped]));
+            $this->dispatch('flash-message', type: 'info', message: __('manager.batch.deleted_with_skipped', ['count' => $count, 'skipped' => $skipped]));
         } else {
-            session()->flash('message', __('manager.batch.deleted_successfully', ['count' => $count]));
+            $this->dispatch('flash-message', type: 'success', message: __('manager.batch.deleted_successfully', ['count' => $count]));
         }
         
         $this->resetPage();
@@ -96,7 +96,7 @@ trait HasBatchActions
     protected function batchUpdateTranslationStatus(string $modelClass, string $status, ?string $cacheKey = null): void
     {
         if (empty($this->selectedItems)) {
-            session()->flash('error', __('manager.batch.no_items_selected'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
             return;
         }
 
@@ -109,7 +109,7 @@ trait HasBatchActions
 
         $this->clearSelection();
 
-        session()->flash('message', __('manager.batch.translation_status_updated', ['count' => $count]));
+        $this->dispatch('flash-message', type: 'success', message: __('manager.batch.translation_status_updated', ['count' => $count]));
     }
 
     /**
@@ -118,7 +118,7 @@ trait HasBatchActions
     protected function batchUpdatePublishedStatus(string $modelClass, bool $isPublished, ?string $cacheKey = null): void
     {
         if (empty($this->selectedItems)) {
-            session()->flash('error', __('manager.batch.no_items_selected'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
             return;
         }
 
@@ -132,7 +132,7 @@ trait HasBatchActions
         $this->clearSelection();
 
         $statusText = $isPublished ? __('manager.batch.published') : __('manager.batch.unpublished');
-        session()->flash('message', __('manager.batch.published_status_updated', ['count' => $count, 'status' => $statusText]));
+        $this->dispatch('flash-message', type: 'success', message: __('manager.batch.published_status_updated', ['count' => $count, 'status' => $statusText]));
     }
 
     /**
@@ -141,7 +141,7 @@ trait HasBatchActions
     protected function batchUpdateActiveStatus(string $modelClass, bool $active, ?string $cacheKey = null): void
     {
         if (empty($this->selectedItems)) {
-            session()->flash('error', __('manager.batch.no_items_selected'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
             return;
         }
 
@@ -155,7 +155,7 @@ trait HasBatchActions
         $this->clearSelection();
 
         $statusText = $active ? __('manager.batch.activated') : __('manager.batch.deactivated');
-        session()->flash('message', __('manager.batch.active_status_updated', ['count' => $count, 'status' => $statusText]));
+        $this->dispatch('flash-message', type: 'success', message: __('manager.batch.active_status_updated', ['count' => $count, 'status' => $statusText]));
     }
 
     /**
@@ -164,7 +164,7 @@ trait HasBatchActions
     protected function batchUpdateProductStatus(string $modelClass, string $status, ?string $cacheKey = null): void
     {
         if (empty($this->selectedItems)) {
-            session()->flash('error', __('manager.batch.no_items_selected'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
             return;
         }
 
@@ -177,7 +177,7 @@ trait HasBatchActions
 
         $this->clearSelection();
 
-        session()->flash('message', __('manager.batch.status_updated', ['count' => $count]));
+        $this->dispatch('flash-message', type: 'success', message: __('manager.batch.status_updated', ['count' => $count]));
     }
 
     /**

@@ -55,7 +55,7 @@ class Attributes extends Component
         $attribute->is_filterable = ! $attribute->is_filterable;
         $attribute->save();
         Cache::forget('attributes.with.translations');
-        session()->flash('message', $attribute->is_filterable ? __('manager.attribute.filterable') : __('manager.attribute.not_filterable'));
+        $this->dispatch('flash-message', type: 'success', message: $attribute->is_filterable ? __('manager.attribute.filterable') : __('manager.attribute.not_filterable'));
     }
 
     protected function getCurrentPageItems()

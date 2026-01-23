@@ -297,7 +297,7 @@ class ManageProductVariants extends Component
     {
         foreach ($this->skus as $sku) {
             if (empty($sku['sku'])) {
-                session()->flash('error', __('manager.product_variants.manage.sku_code_required'));
+                $this->dispatch('flash-message', type: 'error', message: __('manager.product_variants.manage.sku_code_required'));
 
                 return;
             }
@@ -305,7 +305,7 @@ class ManageProductVariants extends Component
 
         $skuCodes = array_column($this->skus, 'sku');
         if (count($skuCodes) !== count(array_unique($skuCodes))) {
-            session()->flash('error', __('manager.product_variants.manage.sku_code_unique'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.product_variants.manage.sku_code_unique'));
 
             return;
         }
@@ -315,7 +315,7 @@ class ManageProductVariants extends Component
             ->pluck('sku')
             ->toArray();
         if (! empty($existingSkus)) {
-            session()->flash('error', __('manager.product_variants.manage.sku_code_exists').implode(', ', $existingSkus));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.product_variants.manage.sku_code_exists').implode(', ', $existingSkus));
 
             return;
         }
@@ -376,7 +376,7 @@ class ManageProductVariants extends Component
         $this->product->load(['productVariants.specificationValues', 'productVariants.media']);
         $this->loadExistingVariants();
 
-        session()->flash('success', __('manager.product_variants.manage.save_success'));
+        $this->dispatch('flash-message', type: 'success', message: __('manager.product_variants.manage.save_success'));
     }
 
     #[Computed]

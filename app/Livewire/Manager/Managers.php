@@ -35,7 +35,7 @@ class Managers extends Component
         $manager = Manager::findOrFail($id);
         $token = bin2hex(random_bytes(32));
         $manager->update(['token' => $token]);
-        session()->flash('message', 'Token已生成: '.$token);
+        $this->dispatch('flash-message', type: 'success', message: 'Token已生成: '.$token);
     }
 
     #[Computed]

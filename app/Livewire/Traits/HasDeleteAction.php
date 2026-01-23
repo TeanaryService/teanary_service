@@ -28,6 +28,6 @@ trait HasDeleteAction
             Cache::forget($cacheKey);
         }
 
-        session()->flash('message', __("app.{$messageKey}"));
+        $this->dispatch('flash-message', type: 'success', message: __("app.{$messageKey}"));
     }
 }

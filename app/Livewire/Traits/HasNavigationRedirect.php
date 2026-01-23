@@ -18,7 +18,7 @@ trait HasNavigationRedirect
      */
     protected function redirectWithMessage(string $route, string $messageKey = 'created_successfully'): \Illuminate\Http\RedirectResponse
     {
-        session()->flash('message', __("app.{$messageKey}"));
+        $this->dispatch('flash-message', type: 'success', message: __("app.{$messageKey}"));
 
         return redirect()->to(locaRoute($route), navigate: true);
     }
@@ -30,6 +30,6 @@ trait HasNavigationRedirect
      */
     protected function flashMessage(string $messageKey = 'created_successfully'): void
     {
-        session()->flash('message', __("app.{$messageKey}"));
+        $this->dispatch('flash-message', type: 'success', message: __("app.{$messageKey}"));
     }
 }

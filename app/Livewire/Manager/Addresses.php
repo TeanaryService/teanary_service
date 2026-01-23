@@ -42,7 +42,7 @@ class Addresses extends Component
         $hasBillingOrders = \App\Models\Order::where('billing_address_id', $address->id)->exists();
 
         if ($hasShippingOrders || $hasBillingOrders) {
-            session()->flash('error', __('manager.addresses.cannot_delete_has_orders'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.addresses.cannot_delete_has_orders'));
 
             return;
         }
@@ -60,7 +60,7 @@ class Addresses extends Component
     {
         // 批量删除时需要检查订单关联
         if (empty($this->selectedItems)) {
-            session()->flash('error', __('manager.batch.no_items_selected'));
+            $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
             return;
         }
 
@@ -90,9 +90,9 @@ class Addresses extends Component
         $this->resetPage();
 
         if ($skipped > 0) {
-            session()->flash('message', __('manager.batch.deleted_with_skipped', ['count' => $count, 'skipped' => $skipped]));
+            $this->dispatch('flash-message', type: 'info', message: __('manager.batch.deleted_with_skipped', ['count' => $count, 'skipped' => $skipped]));
         } else {
-            session()->flash('message', __('manager.batch.deleted_successfully', ['count' => $count]));
+            $this->dispatch('flash-message', type: 'success', message: __('manager.batch.deleted_successfully', ['count' => $count]));
         }
     }
 

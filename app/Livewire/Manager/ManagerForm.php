@@ -71,7 +71,7 @@ class ManagerForm extends Component
     public function generateToken(): void
     {
         if (! $this->managerId) {
-            session()->flash('error', '请先保存管理员信息');
+            $this->dispatch('flash-message', type: 'error', message: '请先保存管理员信息');
 
             return;
         }
@@ -80,7 +80,7 @@ class ManagerForm extends Component
         $token = bin2hex(random_bytes(32));
         $manager->update(['token' => $token]);
         $this->token = $token;
-        session()->flash('message', 'Token已生成: '.$token);
+        $this->dispatch('flash-message', type: 'success', message: 'Token已生成: '.$token);
     }
 
     public function save()

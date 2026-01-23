@@ -110,7 +110,7 @@ class OrderForm extends Component
                 'total' => 0,
             ]);
             $this->id = $this->order->id;
-            session()->flash('message', '订单创建成功');
+            $this->dispatch('flash-message', type: 'success', message: '订单创建成功');
         }
 
         $this->loadOrder();
@@ -181,7 +181,7 @@ class OrderForm extends Component
     public function addItem(): void
     {
         if (! $this->order) {
-            session()->flash('error', '请先保存订单基本信息');
+            $this->dispatch('flash-message', type: 'error', message: '请先保存订单基本信息');
 
             return;
         }

@@ -101,7 +101,7 @@ class OrderDetail extends Component
         $this->loadOrder();
         $this->resetShipmentForm();
         $this->showShipmentForm = false;
-        session()->flash('message', '发货记录已创建');
+        $this->dispatch('flash-message', type: 'success', message: '发货记录已创建');
     }
 
     public function deleteShipment(int $shipmentId): void
