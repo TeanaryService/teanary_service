@@ -5,7 +5,8 @@ namespace App\Livewire\Users;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\Zone;
-use App\Services\LocaleCurrencyService;
+use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Livewire\Traits\RequiresAuthentication;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -14,6 +15,8 @@ use Livewire\WithPagination;
 class Addresses extends Component
 {
     use WithPagination;
+    use UsesLocaleCurrency;
+    use RequiresAuthentication;
 
     public $showForm = false;
     public $addressId = null;
@@ -32,8 +35,6 @@ class Addresses extends Component
     public $zone_id = '';
 
     public $zones = [];
-
-    protected ?LocaleCurrencyService $localeService = null;
 
     protected $rules = [
         'email' => 'required|email|max:255',
@@ -64,27 +65,14 @@ class Addresses extends Component
 
     public function mount(): void
     {
-        if (! Auth::check()) {
-            abort(403, 'Unauthorized');
-        }
-        $this->localeService = app(LocaleCurrencyService::class);
-    }
-
-    protected function getLocaleService(): LocaleCurrencyService
-    {
-        if ($this->localeService === null) {
-            $this->localeService = app(LocaleCurrencyService::class);
-        }
-
-        return $this->localeService;
+        $this->ensureAuthenticated();
     }
 
     public function updatedCountryId($value)
     {
         $this->zone_id = '';
         if ($value) {
-            $localeService = $this->getLocaleService();
-            $lang = $localeService->getLanguageByCode(session('lang'));
+            $lang = $this->getCurrentLanguage();
             $this->zones = Zone::getZonesByCountryAndLanguage($value, $lang?->id);
         } else {
             $this->zones = [];
@@ -105,8 +93,7 @@ class Addresses extends Component
     #[Computed]
     public function countries()
     {
-        $localeService = $this->getLocaleService();
-        $lang = $localeService->getLanguageByCode(session('lang'));
+        $lang = $this->getCurrentLanguage();
 
         return Country::getCountriesByLanguage($lang?->id);
     }
@@ -138,8 +125,7 @@ class Addresses extends Component
         $this->zone_id = $address->zone_id;
 
         // 加载 zones，但不重置 zone_id（因为我们已经设置了它）
-        $localeService = $this->getLocaleService();
-        $lang = $localeService->getLanguageByCode(session('lang'));
+        $lang = $this->getCurrentLanguage();
         $this->zones = Zone::getZonesByCountryAndLanguage($this->country_id, $lang?->id);
 
         $this->showForm = true;

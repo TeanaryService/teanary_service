@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Components;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class RandomProducts extends Component
 {
+    use UsesLocaleCurrency;
+
     public $limit = 4;
 
     public $class = 'grid-cols-2 md:grid-cols-4';  // 默认网格布局
@@ -17,7 +19,7 @@ class RandomProducts extends Component
     public function mount($limit = 4, $class = null)
     {
         $this->limit = $limit;
-        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $this->getCurrentLanguage()?->id;
 
         if ($class) {
             $this->class = $class;

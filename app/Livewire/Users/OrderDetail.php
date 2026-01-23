@@ -3,20 +3,21 @@
 namespace App\Livewire\Users;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class OrderDetail extends Component
 {
-    public ?Order $order = null;
+    use HasNavigationRedirect;
+    use UsesLocaleCurrency;
 
-    protected LocaleCurrencyService $localeService;
+    public ?Order $order = null;
 
     public function mount($orderId = null)
     {
-        $this->localeService = app(LocaleCurrencyService::class);
 
         $userId = Auth::id();
         if (! $userId) {
@@ -55,7 +56,7 @@ class OrderDetail extends Component
     {
         if ($this->order->status->canBeCancelled()) {
             $this->order->update(['status' => OrderStatusEnum::Cancelled]);
-            session()->flash('message', __('orders.operation_success'));
+            $this->flashMessage('operation_success');
             $this->order->refresh();
         } else {
             session()->flash('error', __('orders.cannot_cancel'));

@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Currency;
 use Livewire\Component;
 
 class CurrencyForm extends Component
 {
+    use HasNavigationRedirect;
     public ?int $currencyId = null;
     public string $code = '';
     public string $name = '';
@@ -79,13 +81,13 @@ class CurrencyForm extends Component
         if ($this->currencyId) {
             $currency = Currency::findOrFail($this->currencyId);
             $currency->update($data);
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             Currency::create($data);
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.currencies'), navigate: true);
+        return $this->redirectWithMessage('manager.currencies', $this->currencyId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()

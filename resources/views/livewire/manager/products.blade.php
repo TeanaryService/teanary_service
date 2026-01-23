@@ -195,11 +195,6 @@
                                                    class="text-teal-600 hover:text-teal-700 whitespace-nowrap">
                                                     {{ __('app.edit') }}
                                                 </a>
-                                                <a href="{{ locaRoute('manager.products.reviews', ['productId' => $product->id]) }}" 
-                                                   wire:navigate
-                                                   class="text-blue-600 hover:text-blue-700 whitespace-nowrap">
-                                                    {{ __('manager.product_reviews.label') }}
-                                                </a>
                                                 <button 
                                                     wire:click="deleteProduct({{ $product->id }})"
                                                     wire:confirm="{{ __('app.confirm_delete') }}"
@@ -207,6 +202,11 @@
                                                 >
                                                     {{ __('app.delete') }}
                                                 </button>
+                                                <a href="{{ locaRoute('manager.products.reviews', ['productId' => $product->id]) }}" 
+                                                   wire:navigate
+                                                   class="text-blue-600 hover:text-blue-700 whitespace-nowrap">
+                                                    {{ __('manager.product_reviews.label') }}
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

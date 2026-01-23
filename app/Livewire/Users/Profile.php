@@ -2,33 +2,36 @@
 
 namespace App\Livewire\Users;
 
+use App\Livewire\Traits\RequiresAuthentication;
+use App\Livewire\Traits\HandlesMediaUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
-    use WithFileUploads;
+    use RequiresAuthentication;
+    use HandlesMediaUploads;
 
     public $name = '';
     public $email = '';
     public $current_password = '';
     public $password = '';
     public $password_confirmation = '';
-    public $avatar;
-    public $avatarUrl = '';
+    // 别名属性，用于兼容视图中的 $avatar 和 $avatarUrl
+    public $avatar = null;
+    public ?string $avatarUrl = null;
 
     public function mount()
     {
+        $this->ensureAuthenticated();
         $user = Auth::user();
-        if (! $user) {
-            abort(403, 'Unauthorized');
-        }
 
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
+        if ($user->hasMedia('avatars')) {
+            $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
+        }
     }
 
     protected $rules = [

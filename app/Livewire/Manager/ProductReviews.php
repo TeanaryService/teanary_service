@@ -2,15 +2,18 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product;
 use App\Models\ProductReview;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductReviews extends Component
 {
+    use HasNavigationRedirect;
+    use UsesLocaleCurrency;
     use WithPagination;
 
     public int $productId;
@@ -50,7 +53,7 @@ class ProductReviews extends Component
     {
         $review = ProductReview::where('product_id', $this->productId)->findOrFail($id);
         $review->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->flashMessage('deleted_successfully');
     }
 
     public function toggleApproved(int $id): void
@@ -64,10 +67,6 @@ class ProductReviews extends Component
     #[Computed]
     public function reviews()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
-
         $query = ProductReview::query()
             ->where('product_id', $this->productId)
             ->with([
@@ -96,16 +95,12 @@ class ProductReviews extends Component
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
-
         $product = Product::with('productTranslations')->findOrFail($this->productId);
 
         return view('livewire.manager.product-reviews', [
             'product' => $product,
             'reviews' => $this->reviews,
-            'lang' => $lang,
+            'lang' => $this->getCurrentLanguage(),
         ])->layout('components.layouts.manager');
     }
 }

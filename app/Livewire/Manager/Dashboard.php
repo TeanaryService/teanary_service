@@ -3,13 +3,14 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
 use App\Models\User;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
+    use UsesLocaleCurrency;
     public int $totalUsers = 0;
     public int $totalOrders = 0;
     public float $totalRevenue = 0.0;
@@ -38,7 +39,7 @@ class Dashboard extends Component
             ])
             ->get();
 
-        $service = app(LocaleCurrencyService::class);
+        $service = $this->getLocaleService();
         $defaultCurrencyCode = $service->getDefaultCurrencyCode();
 
         $this->totalRevenue = $orders->sum(function ($order) use ($service, $defaultCurrencyCode) {

@@ -3,22 +3,18 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Contact;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasDeleteAction;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Contacts extends Component
 {
-    use WithPagination;
+    use HasSearchAndFilters;
+    use HasDeleteAction;
 
-    public string $search = '';
     public ?string $createdFrom = null;
     public ?string $createdUntil = null;
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingCreatedFrom(): void
     {
@@ -40,9 +36,7 @@ class Contacts extends Component
 
     public function deleteContact(int $id): void
     {
-        $contact = Contact::findOrFail($id);
-        $contact->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Contact::class, $id);
     }
 
     #[Computed]

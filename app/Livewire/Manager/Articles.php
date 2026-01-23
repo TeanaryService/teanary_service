@@ -3,24 +3,25 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Article;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Articles extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasNavigationRedirect;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public string $filterIsPublished = '';
     public array $filterTranslationStatus = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterIsPublished(): void
     {
@@ -42,9 +43,7 @@ class Articles extends Component
 
     public function deleteArticle(int $id): void
     {
-        $article = Article::findOrFail($id);
-        $article->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Article::class, $id);
     }
 
     public function togglePublish(int $id): void
@@ -58,9 +57,7 @@ class Articles extends Component
     #[Computed]
     public function articles()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = Article::query()
             ->with(['user', 'articleTranslations']);
@@ -89,31 +86,19 @@ class Articles extends Component
 
     public function getArticleTitle($article, $lang)
     {
-        $translation = $article->articleTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->title) {
-            return $translation->title;
-        }
-        $first = $article->articleTranslations->first();
-
-        return $first ? $first->title : $article->slug;
+        return $this->translatedField($article->articleTranslations, $lang, 'title', $article->slug);
     }
 
     public function getArticleSummary($article, $lang)
     {
-        $translation = $article->articleTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->summary) {
-            return $translation->summary;
-        }
-        $first = $article->articleTranslations->first();
+        return $this->translatedField($article->articleTranslations, $lang, 'summary', '');
 
         return $first ? ($first->summary ?? '') : '';
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         return view('livewire.manager.articles', [
             'articles' => $this->articles,

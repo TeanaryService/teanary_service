@@ -2,23 +2,22 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Cart;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Carts extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public string $filterHasItems = '';
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterHasItems(): void
     {
@@ -34,18 +33,15 @@ class Carts extends Component
 
     public function deleteCart(int $id): void
     {
-        $cart = Cart::findOrFail($id);
-        $cart->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Cart::class, $id);
     }
 
     #[Computed]
     public function carts()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
-        $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
+        $lang = $this->getCurrentLanguage();
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
+        $service = $this->getLocaleService();
 
         $query = Cart::query()
             ->with([
@@ -93,13 +89,8 @@ class Carts extends Component
         if (! $product) {
             return '-';
         }
-        $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $product->productTranslations->first();
 
-        return $first ? $first->name : $product->id;
+        return $this->translatedField($product->productTranslations, $lang, 'name', (string) $product->id);
     }
 
     public function getVariantSpecifications($variant, $lang)
@@ -109,10 +100,7 @@ class Carts extends Component
         }
         $specNames = [];
         foreach ($variant->specificationValues as $specValue) {
-            $translation = $specValue->specificationValueTranslations->where('language_id', $lang?->id)->first();
-            $specNames[] = $translation && $translation->name
-                ? $translation->name
-                : ($specValue->specificationValueTranslations->first()->name ?? '');
+            $specNames[] = $this->translatedField($specValue->specificationValueTranslations, $lang, 'name', '');
         }
 
         return implode(' / ', array_filter($specNames)) ?: ($variant->sku ?? $variant->id);
@@ -155,10 +143,9 @@ class Carts extends Component
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
-        $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
+        $lang = $this->getCurrentLanguage();
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
+        $service = $this->getLocaleService();
 
         return view('livewire.manager.carts', [
             'carts' => $this->carts,

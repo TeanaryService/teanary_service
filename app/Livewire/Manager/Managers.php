@@ -3,32 +3,19 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Manager;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasDeleteAction;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Managers extends Component
 {
-    use WithPagination;
-
-    public string $search = '';
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
-
-    public function resetFilters(): void
-    {
-        $this->search = '';
-        $this->resetPage();
-    }
+    use HasSearchAndFilters;
+    use HasDeleteAction;
 
     public function deleteManager(int $id): void
     {
-        $manager = Manager::findOrFail($id);
-        $manager->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Manager::class, $id);
     }
 
     public function generateToken(int $id): void

@@ -2,15 +2,17 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Article;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class ArticleList extends Component
 {
+    use UsesLocaleCurrency;
+
     public function render()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
+        $lang = $this->getCurrentLanguage();
         $search = request('search');
 
         $query = Article::query()

@@ -3,25 +3,24 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Zone;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Zones extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public ?int $filterCountryId = null;
     public string $filterActive = '';
     public array $filterTranslationStatus = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterCountryId(): void
     {
@@ -49,17 +48,13 @@ class Zones extends Component
 
     public function deleteZone(int $id): void
     {
-        $zone = Zone::findOrFail($id);
-        $zone->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Zone::class, $id);
     }
 
     #[Computed]
     public function zones()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = Zone::query()
             ->with(['zoneTranslations', 'country.countryTranslations']);
@@ -92,13 +87,7 @@ class Zones extends Component
 
     public function getZoneName($zone, $lang)
     {
-        $translation = $zone->zoneTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $zone->zoneTranslations->first();
-
-        return $first ? $first->name : __('manager.zone.unnamed');
+        return $this->translatedField($zone->zoneTranslations, $lang, 'name', __('manager.zone.unnamed'));
     }
 
     public function getCountryName($country, $lang)
@@ -106,20 +95,13 @@ class Zones extends Component
         if (! $country) {
             return null;
         }
-        $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $country->countryTranslations->first();
 
-        return $first ? $first->name : $country->iso_code_2;
+        return $this->translatedField($country->countryTranslations, $lang, 'name', $country->iso_code_2 ?? '');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
         $countries = \App\Models\Country::with('countryTranslations')->get();
 
         return view('livewire.manager.zones', [

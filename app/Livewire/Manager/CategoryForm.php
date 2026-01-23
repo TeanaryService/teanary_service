@@ -5,22 +5,23 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
-use App\Services\LocaleCurrencyService;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HandlesMediaUploads;
+use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Livewire\Traits\HasNavigationRedirect;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class CategoryForm extends Component
 {
-    use WithFileUploads;
+    use HandlesTranslations;
+    use HandlesMediaUploads;
+    use UsesLocaleCurrency;
+    use HasNavigationRedirect;
 
     public ?int $categoryId = null;
     public ?int $parentId = null;
     public string $slug = '';
-    public string $translationStatus = '';
-    public $image;
-    public ?string $imageUrl = null;
-    public array $translations = [];
 
     protected array $rules = [
         'parentId' => 'nullable|exists:categories,id',
@@ -44,7 +45,7 @@ class CategoryForm extends Component
 
     public function mount(?int $id = null): void
     {
-        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
+        $this->initializeTranslationStatus();
 
         if ($id) {
             $this->categoryId = $id;
@@ -54,19 +55,10 @@ class CategoryForm extends Component
             $this->translationStatus = $category->translation_status->value;
 
             // 获取图片
-            if ($category->hasMedia('image')) {
-                $this->imageUrl = $category->getFirstMediaUrl('image', 'thumb');
-            }
+            $this->loadImageUrl($category);
 
             // 加载翻译
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $translation = $category->categoryTranslations->where('language_id', $language->id)->first();
-                $this->translations[$language->id] = [
-                    'name' => $translation ? $translation->name : '',
-                ];
-            }
+            $this->initializeTranslations($category, 'categoryTranslations');
 
             // 更新验证规则，忽略当前记录
             $this->rules['slug'] = 'required|max:255|unique:categories,slug,'.$id;
@@ -74,24 +66,14 @@ class CategoryForm extends Component
             $this->rules['parentId'] = 'nullable|exists:categories,id|not_in:'.$id;
         } else {
             // 初始化翻译数组
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $this->translations[$language->id] = [
-                    'name' => '',
-                ];
-            }
+            $this->initializeTranslations(null, 'categoryTranslations');
         }
     }
 
     public function save()
     {
         // 验证默认语言必须填写
-        $service = app(LocaleCurrencyService::class);
-        $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
-        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的分类名称不能为空');
-
+        if (! $this->validateDefaultLanguage('name', '默认语言的分类名称不能为空')) {
             return;
         }
 
@@ -115,64 +97,33 @@ class CategoryForm extends Component
             $category->update($data);
 
             // 处理图片上传
-            if ($this->image) {
-                $category->clearMediaCollection('image');
-                $category->addMedia($this->image->getRealPath())
-                    ->toMediaCollection('image');
-                $this->image = null;
-            }
+            $this->saveImage($category, 'image', true);
 
             // 更新翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    CategoryTranslation::updateOrCreate(
-                        [
-                            'category_id' => $category->id,
-                            'language_id' => $languageId,
-                        ],
-                        [
-                            'name' => $translation['name'],
-                        ]
-                    );
-                }
-            }
+            $this->saveTranslations($category, CategoryTranslation::class, 'category_id');
 
             Cache::forget(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             $category = Category::create($data);
 
             // 处理图片上传
-            if ($this->image) {
-                $category->addMedia($this->image->getRealPath())
-                    ->toMediaCollection('image');
-                $this->image = null;
-            }
+            $this->saveImage($category);
 
             // 创建翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    CategoryTranslation::create([
-                        'category_id' => $category->id,
-                        'language_id' => $languageId,
-                        'name' => $translation['name'],
-                    ]);
-                }
-            }
+            $this->saveTranslations($category, CategoryTranslation::class, 'category_id');
 
             Cache::forget(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.categories'), navigate: true);
+        return $this->redirectWithMessage('manager.categories', 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $languages = $this->getLanguages();
+        $lang = $this->getCurrentLanguage();
 
         // 获取所有一级分类（parent_id 为 null，且不是当前分类）
         $parentCategories = Category::with('categoryTranslations')

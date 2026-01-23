@@ -2,8 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product;
-use App\Services\LocaleCurrencyService;
 use App\Services\ProductVariantService;
 use App\Services\PromotionService;
 use Livewire\Attributes\Computed;
@@ -11,6 +12,8 @@ use Livewire\Component;
 
 class ProductDetail extends Component
 {
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     public $product;
 
     public $variants;
@@ -39,7 +42,7 @@ class ProductDetail extends Component
     #[Computed]
     public function specificationsForSelection()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
+        $lang = $this->getCurrentLanguage();
 
         // 获取该商品所有 SKU 使用的规格 ID（从 pivot 表中获取）
         $usedSpecificationIds = $this->product->productVariants
@@ -65,12 +68,7 @@ class ProductDetail extends Component
 
                 if (! isset($specGroups[$specId])) {
                     $spec = $sv->specification ?? $sv->specification()->with('specificationTranslations')->first();
-                    $specTrans = $spec?->specificationTranslations
-                        ->where('language_id', $lang?->id)
-                        ->first();
-                    $specName = $specTrans && $specTrans->name
-                        ? $specTrans->name
-                        : ($spec?->specificationTranslations->first()->name ?? $specId);
+                    $specName = $this->translatedField($spec?->specificationTranslations, $lang, 'name', (string) $specId);
 
                     $specGroups[$specId] = [
                         'id' => $specId,
@@ -80,12 +78,7 @@ class ProductDetail extends Component
                 }
 
                 // 获取规格值名称
-                $valueTrans = $sv->specificationValueTranslations
-                    ->where('language_id', $lang?->id)
-                    ->first();
-                $valueName = $valueTrans && $valueTrans->name
-                    ? $valueTrans->name
-                    : ($sv->specificationValueTranslations->first()->name ?? $sv->id);
+                $valueName = $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
 
                 $valueId = $sv->id;
 
@@ -178,8 +171,7 @@ class ProductDetail extends Component
 
     public function mount(string $slug): void
     {
-        $localeCurrencyService = app(LocaleCurrencyService::class);
-        $lang = $localeCurrencyService->getLanguageByCode(session('lang'));
+        $lang = $this->getCurrentLanguage();
 
         $this->product = Product::with([
             'media',
@@ -366,19 +358,16 @@ class ProductDetail extends Component
 
     public function render()
     {
-        $localeCurrencyService = app(LocaleCurrencyService::class);
-        $lang = $localeCurrencyService->getLanguageByCode(session('lang'));
-        $currencyCode = session('currency');
+        $localeCurrencyService = $this->getLocaleService();
+        $lang = $this->getCurrentLanguage();
+        $currencyCode = $this->getCurrentCurrencyCode();
         $variant = $this->getSelectedVariant();
         $finalPrice = $variant?->price ?? 0;
 
         // 准备视图数据
-        $translation = $this->product->productTranslations
-            ->where('language_id', $lang->id)
-            ->first();
-        $name = $translation?->name ?? $this->product->slug;
-        $desc = $translation?->description ?? '';
-        $shortDesc = $translation?->short_description ?? '';
+        $name = $this->translatedField($this->product->productTranslations, $lang, 'name', $this->product->slug);
+        $desc = $this->translatedField($this->product->productTranslations, $lang, 'description', '');
+        $shortDesc = $this->translatedField($this->product->productTranslations, $lang, 'short_description', '');
         $images = $this->product->getMedia('images');
         $price = $finalPrice
             ? $localeCurrencyService->convertWithSymbol($finalPrice, $currencyCode)
@@ -452,9 +441,7 @@ class ProductDetail extends Component
     protected function getCategoryNames($lang): array
     {
         return $this->product->productCategories->map(function ($cat) use ($lang) {
-            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
-
-            return $translation?->name ?? $cat->slug;
+            return $this->translatedField($cat->categoryTranslations, $lang, 'name', $cat->slug);
         })->toArray();
     }
 
@@ -499,20 +486,10 @@ class ProductDetail extends Component
             if (! $spec) {
                 $spec = $sv->specification()->with('specificationTranslations')->first();
             }
-            $specTrans = $spec?->specificationTranslations
-                ->where('language_id', $lang?->id)
-                ->first();
-            $specName = $specTrans && $specTrans->name
-                ? $specTrans->name
-                : ($spec?->specificationTranslations->first()->name ?? $specId);
+            $specName = $this->translatedField($spec?->specificationTranslations, $lang, 'name', (string) $specId);
 
             // 获取规格值名称
-            $valueTrans = $sv->specificationValueTranslations
-                ->where('language_id', $lang?->id)
-                ->first();
-            $valueName = $valueTrans && $valueTrans->name
-                ? $valueTrans->name
-                : ($sv->specificationValueTranslations->first()->name ?? $sv->id);
+            $valueName = $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
 
             // 按规格分组
             if (! isset($specGroups[$specId])) {
@@ -539,15 +516,8 @@ class ProductDetail extends Component
      */
     protected function getAttributeDisplayNames($attrValue, $lang): array
     {
-        $attrTrans = $attrValue->attribute->attributeTranslations
-            ->where('language_id', $lang?->id)
-            ->first();
-        $attrValueTrans = $attrValue->attributeValueTranslations
-            ->where('language_id', $lang?->id)
-            ->first();
-
-        $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->attribute->id;
-        $attrValueName = $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
+        $attrName = $this->translatedField($attrValue->attribute->attributeTranslations, $lang, 'name', (string) $attrValue->attribute->id);
+        $attrValueName = $this->translatedField($attrValue->attributeValueTranslations, $lang, 'name', (string) $attrValue->id);
 
         return [
             'attrName' => $attrName,

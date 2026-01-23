@@ -3,26 +3,27 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HandlesMediaUploads;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
-use App\Services\LocaleCurrencyService;
 use App\Traits\HandlesEditorUploads;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class ArticleForm extends Component
 {
     use HandlesEditorUploads;
-    use WithFileUploads;
+    use HandlesMediaUploads;
+    use HandlesTranslations;
+    use HasNavigationRedirect;
+    use UsesLocaleCurrency;
 
     public ?int $articleId = null;
     public string $slug = '';
     public ?int $userId = null;
     public bool $isPublished = false;
-    public string $translationStatus = '';
-    public $image;
-    public ?string $imageUrl = null;
-    public array $translations = [];
 
     protected array $rules = [
         'slug' => 'required|max:255|unique:articles,slug',
@@ -50,7 +51,7 @@ class ArticleForm extends Component
 
     public function mount(?int $id = null): void
     {
-        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
+        $this->initializeTranslationStatus();
 
         if ($id) {
             $this->articleId = $id;
@@ -61,46 +62,23 @@ class ArticleForm extends Component
             $this->translationStatus = $article->translation_status->value;
 
             // 获取图片
-            if ($article->hasMedia('image')) {
-                $this->imageUrl = $article->getFirstMediaUrl('image', 'thumb');
-            }
+            $this->loadImageUrl($article, 'image', 'thumb');
 
-            // 加载翻译
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $translation = $article->articleTranslations->where('language_id', $language->id)->first();
-                $this->translations[$language->id] = [
-                    'title' => $translation ? $translation->title : '',
-                    'summary' => $translation ? ($translation->summary ?? '') : '',
-                    'content' => $translation ? ($translation->content ?? '') : '',
-                ];
-            }
+            // 加载翻译（需要特殊处理 content 字段）
+            $this->initializeTranslations($article, 'articleTranslations', ['title', 'summary', 'content']);
 
             // 更新验证规则，忽略当前记录
             $this->rules['slug'] = 'required|max:255|unique:articles,slug,'.$id;
         } else {
             // 初始化翻译数组
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $this->translations[$language->id] = [
-                    'title' => '',
-                    'summary' => '',
-                    'content' => '',
-                ];
-            }
+            $this->initializeTranslations(null, 'articleTranslations', ['title', 'summary', 'content']);
         }
     }
 
     public function save()
     {
         // 验证默认语言必须填写
-        $service = app(LocaleCurrencyService::class);
-        $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
-        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['title'])) {
-            $this->addError('translations.'.$defaultLanguage->id.'.title', '默认语言的文章标题不能为空');
-
+        if (! $this->validateDefaultLanguage('title', '默认语言的文章标题不能为空')) {
             return;
         }
 
@@ -118,12 +96,7 @@ class ArticleForm extends Component
             $article->update($data);
 
             // 处理图片上传
-            if ($this->image) {
-                $article->clearMediaCollection('image');
-                $article->addMedia($this->image->getRealPath())
-                    ->toMediaCollection('image');
-                $this->image = null; // 清除临时文件
-            }
+            $this->saveImage($article, 'image', true);
 
             // 更新翻译
             $oldContents = [];
@@ -161,16 +134,12 @@ class ArticleForm extends Component
                 }
             }
 
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             $article = Article::create($data);
 
             // 处理图片上传
-            if ($this->image) {
-                $article->addMedia($this->image->getRealPath())
-                    ->toMediaCollection('image');
-                $this->image = null; // 清除临时文件
-            }
+            $this->saveImage($article, 'image', false);
 
             // 创建翻译
             foreach ($this->translations as $languageId => $translation) {
@@ -195,20 +164,18 @@ class ArticleForm extends Component
                 }
             }
 
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.articles'), navigate: true);
+        return $this->redirectWithMessage('manager.articles', $this->articleId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
         $users = \App\Models\User::orderBy('name')->get();
 
         return view('livewire.manager.article-form', [
-            'languages' => $languages,
+            'languages' => $this->getLanguages(),
             'users' => $users,
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');

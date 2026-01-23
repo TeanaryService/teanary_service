@@ -4,20 +4,22 @@ namespace App\Livewire\Manager;
 
 use App\Enums\PromotionTypeEnum;
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Promotion;
 use App\Models\PromotionTranslation;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class PromotionForm extends Component
 {
+    use HandlesTranslations;
+    use HasNavigationRedirect;
+
     public ?int $promotionId = null;
     public string $type = '';
-    public string $translationStatus = '';
     public ?string $startsAt = null;
     public ?string $endsAt = null;
     public bool $active = true;
-    public array $translations = [];
 
     protected array $rules = [
         'type' => 'required',
@@ -39,11 +41,8 @@ class PromotionForm extends Component
 
     public function mount(?int $id = null): void
     {
-        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
+        $this->initializeTranslationStatus();
         $this->active = true;
-
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
 
         if ($id) {
             $this->promotionId = $id;
@@ -54,30 +53,15 @@ class PromotionForm extends Component
             $this->endsAt = $promotion->ends_at?->format('Y-m-d\TH:i');
             $this->active = $promotion->active;
 
-            foreach ($languages as $language) {
-                $translation = $promotion->promotionTranslations->where('language_id', $language->id)->first();
-                $this->translations[$language->id] = [
-                    'name' => $translation ? $translation->name : '',
-                    'description' => $translation ? $translation->description : '',
-                ];
-            }
+            $this->initializeTranslations($promotion, 'promotionTranslations', ['name', 'description']);
         } else {
-            foreach ($languages as $language) {
-                $this->translations[$language->id] = [
-                    'name' => '',
-                    'description' => '',
-                ];
-            }
+            $this->initializeTranslations(null, 'promotionTranslations', ['name', 'description']);
         }
     }
 
     public function save()
     {
-        $service = app(LocaleCurrencyService::class);
-        $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
-        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的促销名称不能为空');
-
+        if (! $this->validateDefaultLanguage('name', '默认语言的促销名称不能为空')) {
             return;
         }
 
@@ -94,50 +78,21 @@ class PromotionForm extends Component
         if ($this->promotionId) {
             $promotion = Promotion::findOrFail($this->promotionId);
             $promotion->update($data);
-
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    PromotionTranslation::updateOrCreate(
-                        [
-                            'promotion_id' => $promotion->id,
-                            'language_id' => $languageId,
-                        ],
-                        [
-                            'name' => $translation['name'],
-                            'description' => $translation['description'] ?? null,
-                        ]
-                    );
-                }
-            }
-
-            session()->flash('message', __('app.updated_successfully'));
+            $this->saveTranslations($promotion, PromotionTranslation::class, 'promotion_id', ['name', 'description']);
+            $this->flashMessage('updated_successfully');
         } else {
             $promotion = Promotion::create($data);
-
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    PromotionTranslation::create([
-                        'promotion_id' => $promotion->id,
-                        'language_id' => $languageId,
-                        'name' => $translation['name'],
-                        'description' => $translation['description'] ?? null,
-                    ]);
-                }
-            }
-
-            session()->flash('message', __('app.created_successfully'));
+            $this->saveTranslations($promotion, PromotionTranslation::class, 'promotion_id', ['name', 'description']);
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.promotions'), navigate: true);
+        return $this->redirectWithMessage('manager.promotions', $this->promotionId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
-
         return view('livewire.manager.promotion-form', [
-            'languages' => $languages,
+            'languages' => $this->getLanguages(),
             'typeOptions' => PromotionTypeEnum::options(),
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');

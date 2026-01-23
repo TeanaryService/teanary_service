@@ -3,20 +3,22 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Country;
 use App\Models\CountryTranslation;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class CountryForm extends Component
 {
+    use HandlesTranslations;
+    use HasNavigationRedirect;
+
     public ?int $countryId = null;
     public ?string $isoCode2 = null;
     public ?string $isoCode3 = null;
     public bool $postcodeRequired = false;
     public bool $active = true;
-    public string $translationStatus = '';
-    public array $translations = [];
 
     protected array $rules = [
         'isoCode2' => 'nullable|max:2',
@@ -37,7 +39,7 @@ class CountryForm extends Component
 
     public function mount(?int $id = null): void
     {
-        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
+        $this->initializeTranslationStatus();
 
         if ($id) {
             $this->countryId = $id;
@@ -48,33 +50,15 @@ class CountryForm extends Component
             $this->active = $country->active;
             $this->translationStatus = $country->translation_status->value;
 
-            // 加载翻译
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $translation = $country->countryTranslations->where('language_id', $language->id)->first();
-                $this->translations[$language->id] = [
-                    'name' => $translation ? $translation->name : '',
-                ];
-            }
+            $this->initializeTranslations($country, 'countryTranslations', ['name']);
         } else {
-            // 初始化翻译数组
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $this->translations[$language->id] = ['name' => ''];
-            }
+            $this->initializeTranslations(null, 'countryTranslations', ['name']);
         }
     }
 
     public function save()
     {
-        // 验证默认语言必须填写
-        $service = app(LocaleCurrencyService::class);
-        $defaultLanguage = $service->getDefaultLanguage();
-        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的国家名称不能为空');
-
+        if (! $this->validateDefaultLanguage('name', '默认语言的国家名称不能为空')) {
             return;
         }
 
@@ -91,50 +75,21 @@ class CountryForm extends Component
         if ($this->countryId) {
             $country = Country::findOrFail($this->countryId);
             $country->update($data);
-
-            // 更新翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    CountryTranslation::updateOrCreate(
-                        [
-                            'country_id' => $country->id,
-                            'language_id' => $languageId,
-                        ],
-                        [
-                            'name' => $translation['name'],
-                        ]
-                    );
-                }
-            }
-
-            session()->flash('message', __('app.updated_successfully'));
+            $this->saveTranslations($country, CountryTranslation::class, 'country_id', ['name']);
+            $this->flashMessage('updated_successfully');
         } else {
             $country = Country::create($data);
-
-            // 创建翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    CountryTranslation::create([
-                        'country_id' => $country->id,
-                        'language_id' => $languageId,
-                        'name' => $translation['name'],
-                    ]);
-                }
-            }
-
-            session()->flash('message', __('app.created_successfully'));
+            $this->saveTranslations($country, CountryTranslation::class, 'country_id', ['name']);
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.countries'), navigate: true);
+        return $this->redirectWithMessage('manager.countries', $this->countryId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
-
         return view('livewire.manager.country-form', [
-            'languages' => $languages,
+            'languages' => $this->getLanguages(),
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');
     }

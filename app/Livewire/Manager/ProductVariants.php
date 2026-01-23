@@ -2,43 +2,43 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product;
 use App\Models\ProductVariant;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ProductVariants extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasNavigationRedirect;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
     public int $productId;
-    public string $search = '';
 
     public function mount(int $productId): void
     {
         $this->productId = $productId;
     }
 
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
-
     public function deleteVariant(int $id): void
     {
         $variant = ProductVariant::where('product_id', $this->productId)->findOrFail($id);
         $variant->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->flashMessage('deleted_successfully');
     }
 
     #[Computed]
     public function variants()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
+        $service = $this->getLocaleService();
 
         $query = ProductVariant::query()
             ->where('product_id', $this->productId)
@@ -54,24 +54,17 @@ class ProductVariants extends Component
 
         $paginator = $query->orderByDesc('created_at')->paginate(15);
 
-        $paginator->getCollection()->transform(function (ProductVariant $variant) use ($service) {
-            $locale = app()->getLocale();
-            $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
+        $paginator->getCollection()->transform(function (ProductVariant $variant) use ($lang) {
             $items = [];
 
             foreach ($variant->specificationValues as $sv) {
                 $spec = $sv->specification;
                 $specName = '';
                 if ($spec) {
-                    $specTrans = $spec->specificationTranslations->where('language_id', $lang?->id)->first();
-                    $specName = $specTrans && $specTrans->name
-                        ? $specTrans->name
-                        : ($spec->specificationTranslations->first()->name ?? '');
+                    $specName = $this->translatedField($spec->specificationTranslations, $lang, 'name', '');
                 }
-                $valTrans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-                $valName = $valTrans && $valTrans->name
-                    ? $valTrans->name
-                    : ($sv->specificationValueTranslations->first()->name ?? '');
+                $valName = $this->translatedField($sv->specificationValueTranslations, $lang, 'name', '');
                 $items[] = $specName.':'.$valName;
             }
 

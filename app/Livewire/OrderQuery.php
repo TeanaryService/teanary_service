@@ -2,15 +2,18 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
 use App\Notifications\OrderQueryVerificationCode;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class OrderQuery extends Component
 {
+    use HasNavigationRedirect;
+    use UsesLocaleCurrency;
     public $step = 1; // 1: 输入订单号/邮箱, 2: 输入验证码, 3: 显示订单详情
 
     public $orderNoOrEmail = '';
@@ -196,9 +199,6 @@ class OrderQuery extends Component
 
     protected function loadOrder($orderId)
     {
-        $localeService = app(LocaleCurrencyService::class);
-        $lang = $localeService->getLanguageByCode(session('lang'));
-
         $this->order = Order::with([
             'orderItems.product.productTranslations',
             'orderItems.product.media',
@@ -257,12 +257,9 @@ class OrderQuery extends Component
 
     public function render()
     {
-        $localeService = app(LocaleCurrencyService::class);
-        $lang = $localeService->getLanguageByCode(session('lang'));
-
         return view('livewire.order-query', [
-            'lang' => $lang,
-            'localeService' => $localeService,
+            'lang' => $this->getCurrentLanguage(),
+            'localeService' => $this->getLocaleService(),
         ]);
     }
 }

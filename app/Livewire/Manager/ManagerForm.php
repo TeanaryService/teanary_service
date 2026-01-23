@@ -2,23 +2,26 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HandlesMediaUploads;
+use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Manager;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class ManagerForm extends Component
 {
-    use WithFileUploads;
+    use HandlesMediaUploads;
+    use HasNavigationRedirect;
 
     public ?int $managerId = null;
+    // 别名属性，用于兼容视图中的 $avatar 和 $avatarUrl
+    public $avatar = null;
+    public ?string $avatarUrl = null;
     public string $name = '';
     public string $email = '';
     public string $password = '';
     public string $passwordConfirmation = '';
     public ?string $emailVerifiedAt = null;
     public ?string $token = null;
-    public $avatar;
-    public ?string $avatarUrl = null;
 
     protected array $rules = [
         'name' => 'required|max:255',
@@ -107,7 +110,7 @@ class ManagerForm extends Component
                 $this->avatar = null;
             }
 
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             $manager = Manager::create($data);
 
@@ -118,10 +121,10 @@ class ManagerForm extends Component
                 $this->avatar = null;
             }
 
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.managers'), navigate: true);
+        return $this->redirectWithMessage('manager.managers', $this->managerId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()

@@ -4,28 +4,27 @@ namespace App\Livewire\Manager;
 
 use App\Enums\ProductStatusEnum;
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Products extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public array $filterStatus = [];
     public array $filterTranslationStatus = [];
     public ?int $filterCategoryId = null;
     public bool $filterLowStock = false;
     public bool $filterOutOfStock = false;
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterStatus(): void
     {
@@ -65,18 +64,14 @@ class Products extends Component
 
     public function deleteProduct(int $id): void
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Product::class, $id);
     }
 
     #[Computed]
     public function products()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
-        $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
+        $lang = $this->getCurrentLanguage();
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
 
         $query = Product::query()
             ->with([
@@ -133,7 +128,8 @@ class Products extends Component
         $paginator = $query->orderByDesc('created_at')->paginate(15);
 
         // 预计算一些展示字段（价格区间、库存）
-        $paginator->getCollection()->transform(function (Product $product) use ($service, $currentCurrencyCode) {
+        $service = $this->getLocaleService();
+        $paginator->getCollection()->transform(function (Product $product) use ($service, $currentCurrencyCode, $lang) {
             $variants = $product->productVariants;
             if ($variants->isEmpty()) {
                 $product->price_range_text = '-';
@@ -153,14 +149,9 @@ class Products extends Component
             }
 
             // 分类名称
-            $locale = app()->getLocale();
-            $lang = $service->getLanguageByCode($locale);
             $names = [];
             foreach ($product->productCategories as $cat) {
-                $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
-                $names[] = $translation && $translation->name
-                    ? $translation->name
-                    : ($cat->categoryTranslations->first()->name ?? '');
+                $names[] = $this->translatedField($cat->categoryTranslations, $lang, 'name', '');
             }
             $product->category_names_text = implode(', ', array_filter($names)) ?: '-';
 
@@ -172,19 +163,13 @@ class Products extends Component
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         // 分类选项（用于筛选）
         $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) use ($lang) {
-            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
-
             return [
                 'id' => $cat->id,
-                'name' => $translation && $translation->name
-                    ? $translation->name
-                    : ($cat->categoryTranslations->first()->name ?? $cat->id),
+                'name' => $this->translatedField($cat->categoryTranslations, $lang, 'name', (string) $cat->id),
             ];
         });
 

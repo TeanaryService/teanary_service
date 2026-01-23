@@ -3,12 +3,14 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
-use App\Services\LocaleCurrencyService;
 use App\Services\SnowflakeService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
@@ -16,6 +18,10 @@ use Livewire\Component;
 
 class OrderForm extends Component
 {
+    use HasNavigationRedirect;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
+
     public ?int $id = null;
     public ?Order $order = null;
 
@@ -90,7 +96,7 @@ class OrderForm extends Component
                 'shipping_address_id' => $this->shippingAddressId,
                 'billing_address_id' => $this->billingAddressId,
             ]);
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             // 创建订单
             $snowflakeService = app(SnowflakeService::class);
@@ -144,7 +150,7 @@ class OrderForm extends Component
         unset($this->editingItems[$itemId]);
         $this->recalculateOrderTotal();
         $this->loadOrder();
-        session()->flash('message', __('app.updated_successfully'));
+        $this->flashMessage('updated_successfully');
     }
 
     public function deleteItem(int $itemId): void
@@ -152,7 +158,7 @@ class OrderForm extends Component
         OrderItem::findOrFail($itemId)->delete();
         $this->recalculateOrderTotal();
         $this->loadOrder();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->flashMessage('deleted_successfully');
     }
 
     public function toggleAddItemForm(): void
@@ -204,7 +210,7 @@ class OrderForm extends Component
         $this->resetAddItemForm();
         $this->showAddItemForm = false;
         $this->loadOrder();
-        session()->flash('message', __('app.added_successfully'));
+        $this->flashMessage('added_successfully');
     }
 
     protected function recalculateOrderTotal(): void
@@ -247,13 +253,8 @@ class OrderForm extends Component
         if (! $product) {
             return '-';
         }
-        $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $product->productTranslations->first();
 
-        return $first ? $first->name : $product->id;
+        return $this->translatedField($product->productTranslations, $lang, 'name', (string) $product->id);
     }
 
     public function getVariantSpecs($variant, $lang)
@@ -263,10 +264,7 @@ class OrderForm extends Component
         }
         $specNames = [];
         foreach ($variant->specificationValues as $specValue) {
-            $translation = $specValue->specificationValueTranslations->where('language_id', $lang?->id)->first();
-            $specNames[] = $translation && $translation->name
-                ? $translation->name
-                : ($specValue->specificationValueTranslations->first()->name ?? '');
+            $specNames[] = $this->translatedField($specValue->specificationValueTranslations, $lang, 'name', '');
         }
 
         return implode(' / ', array_filter($specNames)) ?: ($variant->sku ?? $variant->id);
@@ -274,10 +272,9 @@ class OrderForm extends Component
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
-        $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
+        $service = $this->getLocaleService();
+        $lang = $this->getCurrentLanguage();
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
 
         // 获取用户列表
         $users = User::orderBy('name')->get();

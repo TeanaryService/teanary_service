@@ -2,24 +2,28 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HandlesMediaUploads;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\User;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class UserForm extends Component
 {
-    use WithFileUploads;
+    use HandlesMediaUploads;
+    use HasNavigationRedirect;
+    use UsesLocaleCurrency;
 
     public ?int $userId = null;
+    // 别名属性，用于兼容视图中的 $avatar 和 $avatarUrl
+    public $avatar = null;
+    public ?string $avatarUrl = null;
     public string $name = '';
     public string $email = '';
     public ?int $userGroupId = null;
     public string $password = '';
     public string $passwordConfirmation = '';
     public ?string $emailVerifiedAt = null;
-    public $avatar;
-    public ?string $avatarUrl = null;
 
     protected array $rules = [
         'name' => 'required|max:255',
@@ -96,7 +100,7 @@ class UserForm extends Component
                 $this->avatar = null;
             }
 
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             $user = User::create($data);
 
@@ -107,22 +111,19 @@ class UserForm extends Component
                 $this->avatar = null;
             }
 
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.users'), navigate: true);
+        return $this->redirectWithMessage('manager.users', $this->userId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
         $userGroups = \App\Models\UserGroup::with('userGroupTranslations')->get();
 
         return view('livewire.manager.user-form', [
             'userGroups' => $userGroups,
-            'lang' => $lang,
+            'lang' => $this->getCurrentLanguage(),
         ])->layout('components.layouts.manager');
     }
 }

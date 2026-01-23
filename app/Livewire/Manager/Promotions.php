@@ -4,25 +4,24 @@ namespace App\Livewire\Manager;
 
 use App\Enums\PromotionTypeEnum;
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Promotion;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Promotions extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public array $filterTypes = [];
     public string $filterActive = '';
     public array $filterTranslationStatus = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterTypes(): void
     {
@@ -50,17 +49,13 @@ class Promotions extends Component
 
     public function deletePromotion(int $id): void
     {
-        $promotion = Promotion::findOrFail($id);
-        $promotion->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Promotion::class, $id);
     }
 
     #[Computed]
     public function promotions()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = Promotion::query()
             ->with(['promotionTranslations']);
@@ -93,20 +88,12 @@ class Promotions extends Component
 
     public function getPromotionName($promotion, $lang)
     {
-        $translation = $promotion->promotionTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $promotion->promotionTranslations->first();
-
-        return $first ? $first->name : __('manager.promotion.unnamed');
+        return $this->translatedField($promotion->promotionTranslations, $lang, 'name', __('manager.promotion.unnamed'));
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         return view('livewire.manager.promotions', [
             'promotions' => $this->promotions,

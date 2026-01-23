@@ -3,25 +3,26 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Attribute;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Attributes extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasNavigationRedirect;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public string $filterIsFilterable = '';
     public array $filterTranslationStatus = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterIsFilterable(): void
     {
@@ -43,10 +44,7 @@ class Attributes extends Component
 
     public function deleteAttribute(int $id): void
     {
-        $attribute = Attribute::findOrFail($id);
-        $attribute->delete();
-        Cache::forget('attributes.with.translations');
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Attribute::class, $id, 'attributes.with.translations');
     }
 
     public function toggleFilterable(int $id): void
@@ -62,9 +60,7 @@ class Attributes extends Component
     #[Computed]
     public function attributeList()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = Attribute::query()
             ->with(['attributeTranslations', 'attributeValues']);
@@ -91,20 +87,12 @@ class Attributes extends Component
 
     public function getAttributeName($attribute, $lang)
     {
-        $translation = $attribute->attributeTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $attribute->attributeTranslations->first();
-
-        return $first ? $first->name : __('manager.attribute.unnamed');
+        return $this->translatedField($attribute->attributeTranslations, $lang, 'name', __('manager.attribute.unnamed'));
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         return view('livewire.manager.attributes', [
             'attributes' => $this->attributeList,

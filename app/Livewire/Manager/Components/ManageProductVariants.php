@@ -3,11 +3,12 @@
 namespace App\Livewire\Manager\Components;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
-use App\Services\LocaleCurrencyService;
 use App\Services\ProductVariantService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -15,6 +16,8 @@ use Livewire\WithFileUploads;
 
 class ManageProductVariants extends Component
 {
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     use WithFileUploads;
 
     public int $productId;
@@ -61,23 +64,11 @@ class ManageProductVariants extends Component
         $this->productId = $productId;
         $this->product = Product::with(['productVariants.specificationValues', 'productVariants.media'])->findOrFail($productId);
 
-        $this->localeCurrencyService = app(LocaleCurrencyService::class);
-        $currency = $this->localeCurrencyService->getCurrencyByCode(session('currency'));
+        $currency = $this->getLocaleService()->getCurrencyByCode(session('currency'));
         $this->currencySymbol = $currency->symbol ?? '';
         $this->variantService = app(ProductVariantService::class);
 
         $this->loadExistingVariants();
-    }
-
-    protected function getCurrentLanguage()
-    {
-        if (! $this->localeCurrencyService) {
-            $this->localeCurrencyService = app(LocaleCurrencyService::class);
-        }
-
-        $locale = app()->getLocale();
-
-        return $this->localeCurrencyService->getLanguageByCode($locale);
     }
 
     /**
@@ -398,17 +389,11 @@ class ManageProductVariants extends Component
 
         $result = [];
         foreach ($specs as $spec) {
-            $translation = $spec->specificationTranslations->where('language_id', $lang?->id)->first();
-            $specName = $translation && $translation->name
-                ? $translation->name
-                : ($spec->specificationTranslations->first()->name ?? $spec->id);
+            $specName = $this->translatedField($spec->specificationTranslations, $lang, 'name', (string) $spec->id);
 
             $values = [];
             foreach ($spec->specificationValues->sortBy('id') as $sv) {
-                $valTrans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-                $valName = $valTrans && $valTrans->name
-                    ? $valTrans->name
-                    : ($sv->specificationValueTranslations->first()->name ?? $sv->id);
+                $valName = $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
 
                 $specIdKey = (string) $spec->id;
                 $selectedValues = $this->selectedSpecifications[$specIdKey] ?? [];

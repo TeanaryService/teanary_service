@@ -4,26 +4,21 @@ namespace App\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
-use App\Services\LocaleCurrencyService;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Orders extends Component
 {
-    use WithPagination;
+    use HasSearchAndFilters;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public array $filterStatus = [];
     public ?int $filterCurrencyId = null;
     public ?string $createdFrom = null;
     public ?string $createdUntil = null;
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterStatus(): void
     {
@@ -58,8 +53,7 @@ class Orders extends Component
     #[Computed]
     public function orders()
     {
-        $service = app(LocaleCurrencyService::class);
-        $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
 
         $query = Order::query()
             ->with([
@@ -122,7 +116,6 @@ class Orders extends Component
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
         $currencies = \App\Models\Currency::orderBy('name')->get();
 
         return view('livewire.manager.orders', [

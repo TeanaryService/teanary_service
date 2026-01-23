@@ -5,16 +5,20 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Models\Attribute;
 use App\Models\AttributeTranslation;
-use App\Services\LocaleCurrencyService;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Livewire\Traits\HasNavigationRedirect;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class AttributeForm extends Component
 {
+    use HandlesTranslations;
+    use UsesLocaleCurrency;
+    use HasNavigationRedirect;
+
     public ?int $attributeId = null;
     public bool $isFilterable = false;
-    public string $translationStatus = '';
-    public array $translations = [];
 
     protected array $rules = [
         'isFilterable' => 'boolean',
@@ -30,7 +34,7 @@ class AttributeForm extends Component
 
     public function mount(?int $id = null): void
     {
-        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
+        $this->initializeTranslationStatus();
 
         if ($id) {
             $this->attributeId = $id;
@@ -39,34 +43,17 @@ class AttributeForm extends Component
             $this->translationStatus = $attribute->translation_status->value;
 
             // 加载翻译
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $translation = $attribute->attributeTranslations->where('language_id', $language->id)->first();
-                $this->translations[$language->id] = [
-                    'name' => $translation ? $translation->name : '',
-                ];
-            }
+            $this->initializeTranslations($attribute, 'attributeTranslations');
         } else {
             // 初始化翻译数组
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $this->translations[$language->id] = [
-                    'name' => '',
-                ];
-            }
+            $this->initializeTranslations(null, 'attributeTranslations');
         }
     }
 
     public function save()
     {
         // 验证默认语言必须填写
-        $service = app(LocaleCurrencyService::class);
-        $defaultLanguage = $service->getLanguages()->firstWhere('default', true);
-        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的属性名称不能为空');
-
+        if (! $this->validateDefaultLanguage('name', '默认语言的属性名称不能为空')) {
             return;
         }
 
@@ -82,47 +69,26 @@ class AttributeForm extends Component
             $attribute->update($data);
 
             // 更新翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    AttributeTranslation::updateOrCreate(
-                        [
-                            'attribute_id' => $attribute->id,
-                            'language_id' => $languageId,
-                        ],
-                        [
-                            'name' => $translation['name'],
-                        ]
-                    );
-                }
-            }
+            $this->saveTranslations($attribute, AttributeTranslation::class, 'attribute_id');
 
             Cache::forget('attributes.with.translations');
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             $attribute = Attribute::create($data);
 
             // 创建翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    AttributeTranslation::create([
-                        'attribute_id' => $attribute->id,
-                        'language_id' => $languageId,
-                        'name' => $translation['name'],
-                    ]);
-                }
-            }
+            $this->saveTranslations($attribute, AttributeTranslation::class, 'attribute_id');
 
             Cache::forget('attributes.with.translations');
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.attributes'), navigate: true);
+        return $this->redirectWithMessage('manager.attributes', 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
+        $languages = $this->getLanguages();
 
         return view('livewire.manager.attribute-form', [
             'languages' => $languages,

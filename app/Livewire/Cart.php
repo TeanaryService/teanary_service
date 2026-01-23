@@ -2,13 +2,16 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\CartItem;
 use App\Services\CartService;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class Cart extends Component
 {
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     public $cartItems;
 
     public $selected = [];
@@ -126,20 +129,17 @@ class Cart extends Component
      */
     protected function getCartItemDisplayData($item, $lang): array
     {
-        $currencyService = app(LocaleCurrencyService::class);
-        $currencyCode = session('currency');
+        $currencyService = $this->getLocaleService();
+        $currencyCode = $this->getCurrentCurrencyCode();
 
         $product = $item->product;
         $variant = $item->productVariant;
-        $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-        $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
+        $name = $this->translatedField($product->productTranslations, $lang, 'name', $product->slug);
         $image = $variant
             ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
             : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
         $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
-            $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-
-            return $trans && $trans->name ? $trans->name : $sv->id;
+            return $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
         })->implode(' / ') : '';
         $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
         $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
@@ -207,17 +207,13 @@ class Cart extends Component
 
     public function render()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
-        $currencyService = app(LocaleCurrencyService::class);
-        $currencyCode = session('currency');
-
         return view('livewire.cart', [
             'cartItems' => $this->cartItems,
             'selected' => $this->selected,
             'total' => $this->total,
-            'lang' => $lang,
-            'currencyService' => $currencyService,
-            'currencyCode' => $currencyCode,
+            'lang' => $this->getCurrentLanguage(),
+            'currencyService' => $this->getLocaleService(),
+            'currencyCode' => $this->getCurrentCurrencyCode(),
         ]);
     }
 }

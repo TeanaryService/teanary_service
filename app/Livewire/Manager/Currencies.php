@@ -3,23 +3,19 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Currency;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasDeleteAction;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Currencies extends Component
 {
-    use WithPagination;
+    use HasSearchAndFilters;
+    use HasDeleteAction;
 
-    public string $search = '';
     public string $filterDefault = '';
     public ?float $exchangeRateFrom = null;
     public ?float $exchangeRateUntil = null;
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterDefault(): void
     {
@@ -37,9 +33,7 @@ class Currencies extends Component
 
     public function deleteCurrency(int $id): void
     {
-        $currency = Currency::findOrFail($id);
-        $currency->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Currency::class, $id);
     }
 
     #[Computed]

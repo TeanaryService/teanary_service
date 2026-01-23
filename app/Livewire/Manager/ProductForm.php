@@ -4,24 +4,30 @@ namespace App\Livewire\Manager;
 
 use App\Enums\ProductStatusEnum;
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Product;
 use App\Models\ProductTranslation;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class ProductForm extends Component
 {
+    use HandlesTranslations;
+    use HasNavigationRedirect;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     use WithFileUploads;
 
     public ?int $productId = null;
 
     public string $slug = '';
     public string $status = '';
-    public string $translationStatus = '';
     public ?string $sourceUrl = null;
 
     /** @var array<int, array{attribute_id: int|null, attribute_value_id: int|null}> */
@@ -29,9 +35,6 @@ class ProductForm extends Component
 
     /** @var int[] */
     public array $categoryIds = [];
-
-    /** @var array<int,array{name:string,short_description:?string,description:?string}> */
-    public array $translations = [];
 
     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile[] */
     public array $newImages = [];
@@ -65,10 +68,7 @@ class ProductForm extends Component
     public function mount(?int $id = null): void
     {
         $this->status = ProductStatusEnum::Active->value;
-        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
-
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
+        $this->initializeTranslationStatus();
 
         if ($id) {
             $this->productId = $id;
@@ -80,15 +80,7 @@ class ProductForm extends Component
             $this->sourceUrl = $product->source_url;
 
             $this->categoryIds = $product->productCategories->pluck('id')->all();
-
-            foreach ($languages as $language) {
-                $translation = $product->productTranslations->where('language_id', $language->id)->first();
-                $this->translations[$language->id] = [
-                    'name' => $translation?->name ?? '',
-                    'short_description' => $translation?->short_description,
-                    'description' => $translation?->description,
-                ];
-            }
+            $this->initializeTranslations($product, 'productTranslations', ['name', 'short_description', 'description']);
 
             // 初始化属性值行（简单按照当前关联生成）
             $this->attributeValues = [];
@@ -99,13 +91,7 @@ class ProductForm extends Component
                 ];
             }
         } else {
-            foreach ($languages as $language) {
-                $this->translations[$language->id] = [
-                    'name' => '',
-                    'short_description' => '',
-                    'description' => '',
-                ];
-            }
+            $this->initializeTranslations(null, 'productTranslations', ['name', 'short_description', 'description']);
 
             $this->attributeValues = [
                 [
@@ -132,12 +118,7 @@ class ProductForm extends Component
 
     public function save()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
-        $defaultLanguage = $languages->firstWhere('default', true);
-        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的商品名称不能为空');
-
+        if (! $this->validateDefaultLanguage('name', '默认语言的商品名称不能为空')) {
             return;
         }
 
@@ -161,11 +142,11 @@ class ProductForm extends Component
         if ($this->productId) {
             $product = Product::findOrFail($this->productId);
             $product->update($data);
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             $product = Product::create($data);
             $this->productId = $product->id;
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
         // 同步分类
@@ -185,21 +166,7 @@ class ProductForm extends Component
         }
 
         // 同步翻译
-        foreach ($this->translations as $languageId => $translation) {
-            if (! empty($translation['name'])) {
-                ProductTranslation::updateOrCreate(
-                    [
-                        'product_id' => $product->id,
-                        'language_id' => $languageId,
-                    ],
-                    [
-                        'name' => $translation['name'],
-                        'short_description' => $translation['short_description'] ?? null,
-                        'description' => $translation['description'] ?? null,
-                    ]
-                );
-            }
-        }
+        $this->saveTranslations($product, ProductTranslation::class, 'product_id', ['name', 'short_description', 'description']);
 
         // 处理图片（追加）
         if (! empty($this->newImages)) {
@@ -212,44 +179,37 @@ class ProductForm extends Component
             $this->newImages = [];
         }
 
-        return redirect()->to(locaRoute('manager.products'), navigate: true);
+        return $this->redirectWithMessage('manager.products', $this->productId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
+        $service = $this->getLocaleService();
+        $lang = $this->getCurrentLanguage();
 
         $attributes = Attribute::with('attributeTranslations')->get();
         $attributeOptions = [];
         foreach ($attributes as $attr) {
-            $lang = $service->getLanguageByCode(app()->getLocale());
-            $translation = $attr->attributeTranslations->where('language_id', $lang?->id)->first();
-            $attributeOptions[$attr->id] = $translation && $translation->name
-                ? $translation->name
-                : ($attr->attributeTranslations->first()->name ?? $attr->id);
+            $attributeOptions[$attr->id] = $this->translatedField(
+                $attr->attributeTranslations,
+                $lang,
+                'name',
+                (string) $attr->id
+            );
         }
 
         $attributeValueOptions = [];
         $allAttrValues = AttributeValue::with('attributeValueTranslations')->get();
         foreach ($allAttrValues as $av) {
-            $lang = $service->getLanguageByCode(app()->getLocale());
-            $translation = $av->attributeValueTranslations->where('language_id', $lang?->id)->first();
-            $name = $translation && $translation->name
-                ? $translation->name
-                : ($av->attributeValueTranslations->first()->name ?? $av->id);
+            $name = $this->translatedField($av->attributeValueTranslations, $lang, 'name', (string) $av->id);
             $attributeValueOptions[$av->attribute_id][$av->id] = $name;
         }
 
         $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) use ($service) {
-            $lang = $service->getLanguageByCode(app()->getLocale());
-            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
-
+            $lang = $this->getCurrentLanguage();
             return [
                 'id' => $cat->id,
-                'name' => $translation && $translation->name
-                    ? $translation->name
-                    : ($cat->categoryTranslations->first()->name ?? $cat->id),
+                'name' => $this->translatedField($cat->categoryTranslations, $lang, 'name', (string) $cat->id),
             ];
         });
 
@@ -260,7 +220,7 @@ class ProductForm extends Component
         }
 
         return view('livewire.manager.product-form', [
-            'languages' => $languages,
+            'languages' => $this->getLanguages(),
             'statusOptions' => ProductStatusEnum::options(),
             'translationStatusOptions' => TranslationStatusEnum::options(),
             'attributes' => $attributes,

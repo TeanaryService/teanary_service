@@ -3,11 +3,17 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Address;
-use App\Services\LocaleCurrencyService;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use Livewire\Component;
 
 class AddressForm extends Component
 {
+    use HasNavigationRedirect;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
+
     public ?int $addressId = null;
     public ?int $userId = null;
     public string $firstname = '';
@@ -83,9 +89,7 @@ class AddressForm extends Component
     public function loadZones(): void
     {
         if ($this->countryId) {
-            $service = app(LocaleCurrencyService::class);
-            $locale = app()->getLocale();
-            $lang = $service->getLanguageByCode($locale);
+            $lang = $this->getCurrentLanguage();
 
             $zones = \App\Models\Zone::where('country_id', $this->countryId)
                 ->with('zoneTranslations')
@@ -93,11 +97,12 @@ class AddressForm extends Component
 
             $this->zones = [];
             foreach ($zones as $zone) {
-                $translation = $zone->zoneTranslations->where('language_id', $lang?->id)->first();
-                $name = $translation && $translation->name
-                    ? $translation->name
-                    : ($zone->zoneTranslations->first()->name ?? $zone->name ?? '');
-                $this->zones[$zone->id] = $name;
+                $this->zones[$zone->id] = $this->translatedField(
+                    $zone->zoneTranslations,
+                    $lang,
+                    'name',
+                    (string) ($zone->name ?? '')
+                );
             }
         } else {
             $this->zones = [];
@@ -126,27 +131,24 @@ class AddressForm extends Component
         if ($this->addressId) {
             $address = Address::findOrFail($this->addressId);
             $address->update($data);
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             Address::create($data);
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.addresses'), navigate: true);
+        return $this->redirectWithMessage('manager.addresses', $this->addressId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
         $users = \App\Models\User::orderBy('name')->get();
         $countries = \App\Models\Country::with('countryTranslations')->get();
 
         return view('livewire.manager.address-form', [
             'users' => $users,
             'countries' => $countries,
-            'lang' => $lang,
+            'lang' => $this->getCurrentLanguage(),
         ])->layout('components.layouts.manager');
     }
 }

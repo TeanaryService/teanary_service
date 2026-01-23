@@ -4,13 +4,19 @@ namespace App\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
 use App\Enums\ShippingMethodEnum;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
 use App\Models\OrderShipment;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class OrderDetail extends Component
 {
+    use HasNavigationRedirect;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
+
     public int $orderId;
     public Order $order;
 
@@ -56,7 +62,7 @@ class OrderDetail extends Component
     {
         $this->order->update(['status' => OrderStatusEnum::from($status)]);
         $this->loadOrder();
-        session()->flash('message', __('app.updated_successfully'));
+        $this->flashMessage('updated_successfully');
     }
 
     public function toggleShipmentForm(): void
@@ -102,7 +108,7 @@ class OrderDetail extends Component
     {
         OrderShipment::findOrFail($shipmentId)->delete();
         $this->loadOrder();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->flashMessage('deleted_successfully');
     }
 
     public function getProductName($product, $lang)
@@ -110,13 +116,8 @@ class OrderDetail extends Component
         if (! $product) {
             return '-';
         }
-        $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $product->productTranslations->first();
 
-        return $first ? $first->name : $product->id;
+        return $this->translatedField($product->productTranslations, $lang, 'name', (string) $product->id);
     }
 
     public function getVariantSpecs($variant, $lang)
@@ -126,10 +127,7 @@ class OrderDetail extends Component
         }
         $specNames = [];
         foreach ($variant->specificationValues as $specValue) {
-            $translation = $specValue->specificationValueTranslations->where('language_id', $lang?->id)->first();
-            $specNames[] = $translation && $translation->name
-                ? $translation->name
-                : ($specValue->specificationValueTranslations->first()->name ?? '');
+            $specNames[] = $this->translatedField($specValue->specificationValueTranslations, $lang, 'name', '');
         }
 
         return implode(' / ', array_filter($specNames)) ?: ($variant->sku ?? $variant->id);
@@ -151,10 +149,9 @@ class OrderDetail extends Component
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
-        $currentCurrencyCode = session('currency') ?? $service->getDefaultCurrencyCode();
+        $service = $this->getLocaleService();
+        $lang = $this->getCurrentLanguage();
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
 
         return view('livewire.manager.order-detail', [
             'order' => $this->order,

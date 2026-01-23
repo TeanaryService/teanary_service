@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Language;
 use Livewire\Component;
 
 class LanguageForm extends Component
 {
+    use HasNavigationRedirect;
     public ?int $languageId = null;
     public string $code = '';
     public string $name = '';
@@ -66,13 +68,13 @@ class LanguageForm extends Component
         if ($this->languageId) {
             $language = Language::findOrFail($this->languageId);
             $language->update($data);
-            session()->flash('message', __('app.updated_successfully'));
+            $this->flashMessage('updated_successfully');
         } else {
             Language::create($data);
-            session()->flash('message', __('app.created_successfully'));
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.languages'), navigate: true);
+        return $this->redirectWithMessage('manager.languages', $this->languageId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()

@@ -2,23 +2,22 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Address;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Addresses extends Component
 {
-    use WithPagination;
+    use HasNavigationRedirect;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public ?int $filterCountryId = null;
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterCountryId(): void
     {
@@ -47,15 +46,13 @@ class Addresses extends Component
         }
 
         $address->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->flashMessage('deleted_successfully');
     }
 
     #[Computed]
     public function addresses()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = Address::query()
             ->with(['user', 'country.countryTranslations', 'zone.zoneTranslations', 'orders']);
@@ -92,19 +89,13 @@ class Addresses extends Component
         // 国家多语言
         $countryName = '';
         if ($address->country) {
-            $translation = $address->country->countryTranslations->where('language_id', $lang?->id)->first();
-            $countryName = $translation && $translation->name
-                ? $translation->name
-                : ($address->country->countryTranslations->first()->name ?? $address->country->name ?? '');
+            $countryName = $this->translatedField($address->country->countryTranslations, $lang, 'name', $address->country->name ?? '');
         }
 
         // 地区多语言
         $zoneName = '';
         if ($address->zone) {
-            $translation = $address->zone->zoneTranslations->where('language_id', $lang?->id)->first();
-            $zoneName = $translation && $translation->name
-                ? $translation->name
-                : ($address->zone->zoneTranslations->first()->name ?? $address->zone->name ?? '');
+            $zoneName = $this->translatedField($address->zone->zoneTranslations, $lang, 'name', $address->zone->name ?? '');
         }
 
         // 拼接完整地址
@@ -131,18 +122,13 @@ class Addresses extends Component
         if (! $country) {
             return '-';
         }
-        $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
 
-        return $translation && $translation->name
-            ? $translation->name
-            : ($country->countryTranslations->first()->name ?? $country->name ?? '-');
+        return $this->translatedField($country->countryTranslations, $lang, 'name', $country->name ?? '-');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
         $countries = \App\Models\Country::with('countryTranslations')->get();
 
         return view('livewire.manager.addresses', [

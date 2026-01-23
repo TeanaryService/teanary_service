@@ -3,25 +3,24 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Category;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Categories extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public ?int $filterParentId = null;
     public array $filterTranslationStatus = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterParentId(): void
     {
@@ -43,18 +42,13 @@ class Categories extends Component
 
     public function deleteCategory(int $id): void
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
-        Cache::forget(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Category::class, $id, \App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
     }
 
     #[Computed]
     public function categories()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = Category::query()
             ->with(['category.categoryTranslations', 'categoryTranslations', 'products']);
@@ -85,13 +79,7 @@ class Categories extends Component
 
     public function getCategoryName($category, $lang)
     {
-        $translation = $category->categoryTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $category->categoryTranslations->first();
-
-        return $first ? $first->name : __('manager.category.unnamed');
+        return $this->translatedField($category->categoryTranslations, $lang, 'name', __('manager.category.unnamed'));
     }
 
     public function getParentName($parent, $lang)
@@ -99,20 +87,13 @@ class Categories extends Component
         if (! $parent) {
             return __('manager.category.root');
         }
-        $translation = $parent->categoryTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $parent->categoryTranslations->first();
 
-        return $first ? $first->name : $parent->slug;
+        return $this->translatedField($parent->categoryTranslations, $lang, 'name', $parent->slug);
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
         $parentCategories = Category::with('categoryTranslations')
             ->whereNull('parent_id')
             ->get();

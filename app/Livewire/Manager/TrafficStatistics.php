@@ -3,24 +3,18 @@
 namespace App\Livewire\Manager;
 
 use App\Models\TrafficStatistic;
+use App\Livewire\Traits\HasSearchAndFilters;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class TrafficStatistics extends Component
 {
-    use WithPagination;
+    use HasSearchAndFilters;
 
     public string $dateRange = '7days';
     public string $visitorType = 'all';
-    public string $search = '';
     public array $filterSpiderSources = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterSpiderSources(): void
     {

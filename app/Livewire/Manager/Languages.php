@@ -3,21 +3,17 @@
 namespace App\Livewire\Manager;
 
 use App\Models\Language;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasDeleteAction;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Languages extends Component
 {
-    use WithPagination;
+    use HasSearchAndFilters;
+    use HasDeleteAction;
 
-    public string $search = '';
     public string $filterDefault = '';
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterDefault(): void
     {
@@ -33,9 +29,7 @@ class Languages extends Component
 
     public function deleteLanguage(int $id): void
     {
-        $language = Language::findOrFail($id);
-        $language->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Language::class, $id);
     }
 
     #[Computed]

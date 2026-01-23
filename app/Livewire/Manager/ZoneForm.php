@@ -3,19 +3,21 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Zone;
 use App\Models\ZoneTranslation;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class ZoneForm extends Component
 {
+    use HandlesTranslations;
+    use HasNavigationRedirect;
+
     public ?int $zoneId = null;
     public ?int $countryId = null;
     public ?string $code = null;
     public bool $active = true;
-    public string $translationStatus = '';
-    public array $translations = [];
 
     protected array $rules = [
         'countryId' => 'required|exists:countries,id',
@@ -36,7 +38,7 @@ class ZoneForm extends Component
 
     public function mount(?int $id = null): void
     {
-        $this->translationStatus = TranslationStatusEnum::NotTranslated->value;
+        $this->initializeTranslationStatus();
 
         if ($id) {
             $this->zoneId = $id;
@@ -46,33 +48,15 @@ class ZoneForm extends Component
             $this->active = $zone->active;
             $this->translationStatus = $zone->translation_status->value;
 
-            // 加载翻译
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $translation = $zone->zoneTranslations->where('language_id', $language->id)->first();
-                $this->translations[$language->id] = [
-                    'name' => $translation ? $translation->name : '',
-                ];
-            }
+            $this->initializeTranslations($zone, 'zoneTranslations', ['name']);
         } else {
-            // 初始化翻译数组
-            $service = app(LocaleCurrencyService::class);
-            $languages = $service->getLanguages();
-            foreach ($languages as $language) {
-                $this->translations[$language->id] = ['name' => ''];
-            }
+            $this->initializeTranslations(null, 'zoneTranslations', ['name']);
         }
     }
 
     public function save()
     {
-        // 验证默认语言必须填写
-        $service = app(LocaleCurrencyService::class);
-        $defaultLanguage = $service->getDefaultLanguage();
-        if ($defaultLanguage && empty($this->translations[$defaultLanguage->id]['name'])) {
-            $this->addError('translations.'.$defaultLanguage->id.'.name', '默认语言的地区名称不能为空');
-
+        if (! $this->validateDefaultLanguage('name', '默认语言的地区名称不能为空')) {
             return;
         }
 
@@ -88,55 +72,25 @@ class ZoneForm extends Component
         if ($this->zoneId) {
             $zone = Zone::findOrFail($this->zoneId);
             $zone->update($data);
-
-            // 更新翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    ZoneTranslation::updateOrCreate(
-                        [
-                            'zone_id' => $zone->id,
-                            'language_id' => $languageId,
-                        ],
-                        [
-                            'name' => $translation['name'],
-                        ]
-                    );
-                }
-            }
-
-            session()->flash('message', __('app.updated_successfully'));
+            $this->saveTranslations($zone, ZoneTranslation::class, 'zone_id', ['name']);
+            $this->flashMessage('updated_successfully');
         } else {
             $zone = Zone::create($data);
-
-            // 创建翻译
-            foreach ($this->translations as $languageId => $translation) {
-                if (! empty($translation['name'])) {
-                    ZoneTranslation::create([
-                        'zone_id' => $zone->id,
-                        'language_id' => $languageId,
-                        'name' => $translation['name'],
-                    ]);
-                }
-            }
-
-            session()->flash('message', __('app.created_successfully'));
+            $this->saveTranslations($zone, ZoneTranslation::class, 'zone_id', ['name']);
+            $this->flashMessage('created_successfully');
         }
 
-        return redirect()->to(locaRoute('manager.zones'), navigate: true);
+        return $this->redirectWithMessage('manager.zones', $this->zoneId ? 'updated_successfully' : 'created_successfully');
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $languages = $service->getLanguages();
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
         $countries = \App\Models\Country::with('countryTranslations')->get();
 
         return view('livewire.manager.zone-form', [
-            'languages' => $languages,
+            'languages' => $this->getLanguages(),
             'countries' => $countries,
-            'lang' => $lang,
+            'lang' => $this->getCurrentLanguage(),
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');
     }

@@ -3,24 +3,23 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Country;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Countries extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public string $filterActive = '';
     public array $filterTranslationStatus = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterActive(): void
     {
@@ -42,17 +41,13 @@ class Countries extends Component
 
     public function deleteCountry(int $id): void
     {
-        $country = Country::findOrFail($id);
-        $country->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(Country::class, $id);
     }
 
     #[Computed]
     public function countries()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = Country::query()
             ->with(['countryTranslations', 'zones']);
@@ -80,20 +75,12 @@ class Countries extends Component
 
     public function getCountryName($country, $lang)
     {
-        $translation = $country->countryTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $country->countryTranslations->first();
-
-        return $first ? $first->name : __('manager.country.unnamed');
+        return $this->translatedField($country->countryTranslations, $lang, 'name', __('manager.country.unnamed'));
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         return view('livewire.manager.countries', [
             'countries' => $this->countries,

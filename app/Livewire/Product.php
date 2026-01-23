@@ -2,13 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product as ProductModel;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
 class Product extends Component
 {
+    use UsesLocaleCurrency;
     private $categoryId;
 
     private $categories;
@@ -25,7 +26,7 @@ class Product extends Component
         $search = $request->input('search');
         $this->attributeFilters = $request->input('attributes', []);
 
-        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $this->getCurrentLanguage()?->id;
         $this->categories = \App\Models\Category::getCategoriesForLanguage($langId);
         $this->allAttributes = \App\Models\Attribute::getAttributesForLanguage($langId);
 
@@ -84,8 +85,7 @@ class Product extends Component
         $seoKeywords = '';
 
         if ($this->categoryId && ! empty($this->categories)) {
-            $locale = session('lang');
-            $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+            $lang = $this->getCurrentLanguage();
             $category = collect($this->categories)
                 ->flatMap(function ($cat) {
                     return array_merge([$cat], $cat['children']->toArray() ?? []);

@@ -3,24 +3,23 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\SpecificationValue;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class SpecificationValues extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public ?int $filterSpecificationId = null;
     public array $filterTranslationStatus = [];
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterSpecificationId(): void
     {
@@ -42,17 +41,13 @@ class SpecificationValues extends Component
 
     public function deleteSpecificationValue(int $id): void
     {
-        $value = SpecificationValue::findOrFail($id);
-        $value->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(SpecificationValue::class, $id);
     }
 
     #[Computed]
     public function specificationValues()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = SpecificationValue::query()
             ->with(['specification.specificationTranslations', 'specificationValueTranslations']);
@@ -76,13 +71,7 @@ class SpecificationValues extends Component
 
     public function getSpecificationValueName($value, $lang)
     {
-        $translation = $value->specificationValueTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $value->specificationValueTranslations->first();
-
-        return $first ? $first->name : __('manager.specification_value.unnamed');
+        return $this->translatedField($value->specificationValueTranslations, $lang, 'name', __('manager.specification_value.unnamed'));
     }
 
     public function getSpecificationName($specification, $lang)
@@ -90,20 +79,13 @@ class SpecificationValues extends Component
         if (! $specification) {
             return null;
         }
-        $translation = $specification->specificationTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $specification->specificationTranslations->first();
 
-        return $first ? $first->name : $specification->id;
+        return $this->translatedField($specification->specificationTranslations, $lang, 'name', (string) $specification->id);
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
         $specifications = \App\Models\Specification::with('specificationTranslations')->get();
 
         return view('livewire.manager.specification-values', [

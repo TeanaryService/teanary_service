@@ -2,24 +2,23 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\User;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Users extends Component
 {
-    use WithPagination;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public string $search = '';
     public ?int $filterUserGroupId = null;
     public string $filterEmailVerified = '';
-
-    public function updatingSearch(): void
-    {
-        $this->resetPage();
-    }
 
     public function updatingFilterUserGroupId(): void
     {
@@ -41,17 +40,13 @@ class Users extends Component
 
     public function deleteUser(int $id): void
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        session()->flash('message', __('app.deleted_successfully'));
+        $this->deleteModel(User::class, $id);
     }
 
     #[Computed]
     public function users()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         $query = User::query()
             ->with(['userGroup.userGroupTranslations', 'orders']);
@@ -85,20 +80,13 @@ class Users extends Component
         if (! $userGroup) {
             return '-';
         }
-        $translation = $userGroup->userGroupTranslations->where('language_id', $lang?->id)->first();
-        if ($translation && $translation->name) {
-            return $translation->name;
-        }
-        $first = $userGroup->userGroupTranslations->first();
 
-        return $first ? $first->name : $userGroup->id;
+        return $this->translatedField($userGroup->userGroupTranslations, $lang, 'name', (string) $userGroup->id);
     }
 
     public function render()
     {
-        $service = app(LocaleCurrencyService::class);
-        $locale = app()->getLocale();
-        $lang = $service->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
         $userGroups = \App\Models\UserGroup::with('userGroupTranslations')->get();
 
         return view('livewire.manager.users', [
