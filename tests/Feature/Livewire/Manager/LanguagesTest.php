@@ -31,16 +31,17 @@ class LanguagesTest extends LivewireTestCase
 
     public function test_can_search_languages_by_code()
     {
-        $language1 = $this->createLanguage(['code' => 'en']);
-        $language2 = $this->createLanguage(['code' => 'fr']);
+        // 使用更独特的语言代码，避免与其他测试数据冲突
+        $language1 = $this->createLanguage(['code' => 'test_en_search']);
+        $language2 = $this->createLanguage(['code' => 'test_fr_search']);
 
         $component = $this->livewire(\App\Livewire\Manager\Languages::class)
-            ->set('search', 'en');
+            ->set('search', 'test_en');
 
         $languages = $component->get('languages');
         $languageIds = $languages->pluck('id')->toArray();
-        $this->assertContains($language1->id, $languageIds);
-        $this->assertNotContains($language2->id, $languageIds);
+        $this->assertContains($language1->id, $languageIds, 'Language 1 should be found when searching for "test_en"');
+        $this->assertNotContains($language2->id, $languageIds, 'Language 2 should not be found when searching for "test_en"');
     }
 
     public function test_can_search_languages_by_name()
