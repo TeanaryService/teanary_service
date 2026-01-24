@@ -30,7 +30,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 🏠 首页展示
 
-![首页展示](/images/screenshot/home.png)
+![首页展示](/public/images/screenshot/home.png)
 
 **功能描述：**
 - 展示系统核心特性和技术栈
@@ -48,7 +48,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 商品列表页面
 
-![商品列表](/images/screenshot/prosuct-list.png)
+![商品列表](/public/images/screenshot/prosuct-list.png)
 
 **功能特性：**
 - 多级分类浏览
@@ -59,7 +59,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 商品详情页面
 
-![商品详情](/images/screenshot/product-detail.png)
+![商品详情](/public/images/screenshot/product-detail.png)
 
 **功能特性：**
 - 多规格选择（颜色、尺寸等）
@@ -79,11 +79,11 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 商品描述页面
 
-![商品描述](/images/screenshot/product-description.png)
+![商品描述](/public/images/screenshot/product-description.png)
 
 ### 🛒 购物车
 
-![购物车](/images/screenshot/cart.png)
+![购物车](/public/images/screenshot/cart.png)
 
 **功能特性：**
 - 购物车商品列表展示
@@ -104,7 +104,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 💳 结账页面
 
-![结账页面](/images/screenshot/checkout.png)
+![结账页面](/public/images/screenshot/checkout.png)
 
 **功能特性：**
 - 收货地址管理
@@ -132,7 +132,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 📊 管理后台首页
 
-![管理后台首页](/images/screenshot/manager-dashboard.png)
+![管理后台首页](/public/images/screenshot/manager-dashboard.png)
 
 **功能特性：**
 - 数据统计看板
@@ -148,7 +148,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 商品列表
 
-![商品列表](/images/screenshot/manager-product-list.png)
+![商品列表](/public/images/screenshot/manager-product-list.png)
 
 **功能特性：**
 - 商品列表展示
@@ -174,7 +174,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 商品编辑和 SKU 管理
 
-![商品编辑和SKU管理](/images/screenshot/manager-product-from-and-sku-manager.png)
+![商品编辑和SKU管理](/public/images/screenshot/manager-product-from-and-sku-manager.png)
 
 **商品基本信息：**
 - 商品名称（多语言）
@@ -206,7 +206,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 📁 分类管理
 
-![分类管理](/images/screenshot/manager-category.png)
+![分类管理](/public/images/screenshot/manager-category.png)
 
 **功能特性：**
 - 分类列表展示
@@ -223,7 +223,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 🏷️ 规格管理
 
-![规格管理](/images/screenshot/manager-specifications.png)
+![规格管理](/public/images/screenshot/manager-specifications.png)
 
 **功能特性：**
 - 规格列表管理
@@ -237,7 +237,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 🔖 属性管理
 
-![属性管理](/images/screenshot/manager-attribute.png)
+![属性管理](/public/images/screenshot/manager-attribute.png)
 
 **功能特性：**
 - 属性列表管理
@@ -253,7 +253,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 促销列表
 
-![促销列表](/images/screenshot/manager-promotios.png)
+![促销列表](/public/images/screenshot/manager-promotios.png)
 
 **功能特性：**
 - 促销列表展示
@@ -277,7 +277,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 促销基本信息编辑
 
-![促销基本信息编辑](/images/screenshot/manager-promotions-from.png)
+![促销基本信息编辑](/public/images/screenshot/manager-promotions-from.png)
 
 **功能特性：**
 - 促销类型选择
@@ -294,7 +294,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 促销规则和设置管理
 
-![促销规则和设置管理](/images/screenshot/manager-promotions-manager-from.png)
+![促销规则和设置管理](/public/images/screenshot/manager-promotions-manager-from.png)
 
 **这是 V1.3.0 新增的核心功能，提供完整的促销规则配置：**
 
@@ -366,7 +366,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 订单列表
 
-![订单列表](/images/screenshot/manager-order-list.png)
+![订单列表](/public/images/screenshot/manager-order-list.png)
 
 **功能特性：**
 - 订单列表展示
@@ -388,7 +388,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 订单详情
 
-![订单详情](/images/screenshot/manager-order-view.png)
+![订单详情](/public/images/screenshot/manager-order-view.png)
 
 **功能特性：**
 - 订单基本信息
@@ -427,7 +427,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 用户列表
 
-![用户列表](/images/screenshot/manager-users-list.png)
+![用户列表](/public/images/screenshot/manager-users-list.png)
 
 **功能特性：**
 - 用户列表展示
@@ -448,7 +448,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 用户详情
 
-![用户详情](/images/screenshot/manager-edit.png)
+![用户详情](/public/images/screenshot/manager-edit.png)
 
 **功能特性：**
 - 用户基本信息编辑
@@ -463,7 +463,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 📍 地址管理
 
-![地址管理](/images/screenshot/manager-address-list.png)
+![地址管理](/public/images/screenshot/manager-address-list.png)
 
 **功能特性：**
 - 用户地址列表
@@ -479,7 +479,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 文章列表
 
-![文章列表](/images/screenshot/manager-article-list.png)
+![文章列表](/public/images/screenshot/manager-article-list.png)
 
 **功能特性：**
 - 文章列表展示
@@ -493,7 +493,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 文章编辑
 
-![文章编辑](/images/screenshot/manager-article-from.png)
+![文章编辑](/public/images/screenshot/manager-article-from.png)
 
 **功能特性：**
 - 文章基本信息
@@ -508,7 +508,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### ⭐ 商品评价管理
 
-![商品评价管理](/images/screenshot/manager-product_review.png)
+![商品评价管理](/public/images/screenshot/manager-product_review.png)
 
 **功能特性：**
 - 商品评价列表
@@ -523,7 +523,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 📈 流量统计
 
-![流量统计](/images/screenshot/manager-traffic-statistics.png)
+![流量统计](/public/images/screenshot/manager-traffic-statistics.png)
 
 **功能特性：**
 - 访问统计
@@ -546,7 +546,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 🔔 通知管理
 
-![通知管理](/images/screenshot/manager-notifications.png)
+![通知管理](/public/images/screenshot/manager-notifications.png)
 
 **功能特性：**
 - 系统通知列表
@@ -556,7 +556,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 👨‍💼 管理员管理
 
-![管理员管理](/images/screenshot/manager-managerlist.png)
+![管理员管理](/public/images/screenshot/manager-managerlist.png)
 
 **功能特性：**
 - 管理员列表
@@ -571,7 +571,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 语言管理
 
-![语言管理](/images/screenshot/manager-language-list.png)
+![语言管理](/public/images/screenshot/manager-language-list.png)
 
 **功能特性：**
 - 语言列表
@@ -585,7 +585,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 #### 货币管理
 
-![货币管理](/images/screenshot/manager-currenties.png)
+![货币管理](/public/images/screenshot/manager-currenties.png)
 
 **功能特性：**
 - 货币列表
@@ -603,11 +603,11 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 **国家管理：**
 
-![国家管理](/images/screenshot/manager-regions.png)
+![国家管理](/public/images/screenshot/manager-regions.png)
 
 **区域管理：**
 
-![区域管理](/images/screenshot/manager-zones.png)
+![区域管理](/public/images/screenshot/manager-zones.png)
 - 国家列表
 - 国家信息（多语言）
 - 国家代码（ISO 代码）
@@ -621,7 +621,7 @@ Teanary 是一个现代化的全球电商平台系统，基于 **Laravel 12.x** 
 
 ### 🛒 购物车管理
 
-![购物车管理](/images/screenshot/manager-cart-list.png)
+![购物车管理](/public/images/screenshot/manager-cart-list.png)
 
 **功能特性：**
 - 购物车列表
