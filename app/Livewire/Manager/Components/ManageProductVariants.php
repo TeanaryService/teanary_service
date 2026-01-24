@@ -379,6 +379,35 @@ class ManageProductVariants extends Component
         $this->dispatch('flash-message', type: 'success', message: __('manager.product_variants.manage.save_success'));
     }
 
+    /**
+     * 删除单个变体
+     */
+    public function deleteVariant(int $index): void
+    {
+        if (! isset($this->skus[$index])) {
+            return;
+        }
+
+        $sku = $this->skus[$index];
+
+        // 如果变体已保存到数据库，则从数据库删除
+        if (! empty($sku['id'])) {
+            $variant = ProductVariant::find($sku['id']);
+            if ($variant) {
+                $variant->delete();
+            }
+        }
+
+        // 从数组中移除
+        unset($this->skus[$index]);
+        $this->skus = array_values($this->skus);
+
+        // 重新生成 SKU 列表，确保规格选择状态正确
+        $this->generateSkus();
+
+        $this->dispatch('flash-message', type: 'success', message: __('app.deleted_successfully'));
+    }
+
     #[Computed]
     public function specifications()
     {

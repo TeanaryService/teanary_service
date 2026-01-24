@@ -54,7 +54,7 @@ return [
     'feature_ecommerce_6' => 'Sistema de gestión de usuarios',
 
     'feature_admin_title' => 'Panel de Administración Moderno',
-    'feature_admin_1' => 'Panel de administración Filament 3.x',
+    'feature_admin_1' => 'Panel de administración Livewire 4.x',
     'feature_admin_2' => 'Estadísticas de datos en tiempo real',
     'feature_admin_3' => 'Gestión de contenido multilingüe',
     'feature_admin_4' => 'Gestión de archivos multimedia',

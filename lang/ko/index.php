@@ -54,7 +54,7 @@ return [
     'feature_ecommerce_6' => '사용자 관리 시스템',
 
     'feature_admin_title' => '모던한 관리자 패널',
-    'feature_admin_1' => 'Filament 3.x 관리자 패널',
+    'feature_admin_1' => 'Livewire 4.x 관리자 패널',
     'feature_admin_2' => '실시간 데이터 통계',
     'feature_admin_3' => '다국어 콘텐츠 관리',
     'feature_admin_4' => '미디어 파일 관리',

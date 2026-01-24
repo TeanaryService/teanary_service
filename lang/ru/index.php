@@ -54,7 +54,7 @@ return [
     'feature_ecommerce_6' => 'Система управления пользователями',
 
     'feature_admin_title' => 'Современная панель администратора',
-    'feature_admin_1' => 'Админ-панель Filament 3.x',
+    'feature_admin_1' => 'Админ-панель Livewire 4.x',
     'feature_admin_2' => 'Статистика в реальном времени',
     'feature_admin_3' => 'Управление многоязычным контентом',
     'feature_admin_4' => 'Управление медиафайлами',

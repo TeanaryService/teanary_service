@@ -10,7 +10,7 @@
         <div class="p-6 space-y-6">
             <div class="mb-6 flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.UserResource.label') }}: {{ $user->name }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.users.label') }}: {{ $user->name }}</h1>
                 </div>
                 <a href="{{ locaRoute('manager.users') }}" 
                    class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
@@ -33,7 +33,7 @@
                             <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                            {{ __('filament.user.basic_info') }}
+                            {{ __('manager.user.basic_info') }}
                         </h3>
                         <form wire:submit="save" class="space-y-4">
                             {{-- 头像 --}}
@@ -59,21 +59,21 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.user.name') }} <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.user.name') }} <span class="text-red-500">*</span></label>
                                     <input type="text" wire:model="name" required
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                     @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.user.email') }} <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.user.email') }} <span class="text-red-500">*</span></label>
                                     <input type="email" wire:model="email" required
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                     @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.user.user_group') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.user.user_group') }}</label>
                                     <select wire:model="userGroupId" 
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                         <option value="">{{ __('app.not_available') }}</option>
@@ -85,7 +85,7 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.user.email_verified_at') }}</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.user.email_verified_at') }}</label>
                                     <input type="datetime-local" wire:model="emailVerifiedAt"
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                     @error('emailVerifiedAt') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -93,10 +93,10 @@
                             </div>
 
                             <div class="pt-4 border-t border-gray-200">
-                                <h4 class="text-sm font-medium text-gray-700 mb-3">{{ __('filament.user.password') }}</h4>
+                                <h4 class="text-sm font-medium text-gray-700 mb-3">{{ __('manager.user.password') }}</h4>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.user.password') }}</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.user.password') }}</label>
                                         <input type="password" wire:model="password"
                                             placeholder="{{ __('app.password_leave_blank') }}"
                                             class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
@@ -104,7 +104,7 @@
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.user.password_confirmation') }}</label>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.user.password_confirmation') }}</label>
                                         <input type="password" wire:model="passwordConfirmation"
                                             class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                         @error('passwordConfirmation') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -126,7 +126,7 @@
                 <div class="space-y-6">
                     {{-- 用户统计 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.user.orders_count') }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.user.orders_count') }}</h3>
                         <div class="text-3xl font-bold text-teal-600">{{ $user->orders->count() }}</div>
                     </div>
 

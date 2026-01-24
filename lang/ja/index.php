@@ -54,7 +54,7 @@ return [
     'feature_ecommerce_6' => 'ユーザー管理システム',
 
     'feature_admin_title' => 'モダンな管理画面',
-    'feature_admin_1' => 'Filament 3.x 管理パネル',
+    'feature_admin_1' => 'Livewire 4.x 管理パネル',
     'feature_admin_2' => 'リアルタイムデータ統計',
     'feature_admin_3' => '多言語コンテンツ管理',
     'feature_admin_4' => 'メディアファイル管理',

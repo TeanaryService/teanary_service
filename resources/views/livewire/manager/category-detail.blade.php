@@ -11,7 +11,7 @@
             <div class="mb-6 flex items-center justify-between">
                 <div>
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ $isEdit ? __('app.edit') . ': ' . ($this->category->categoryTranslations->first()?->name ?? $this->category->slug) : __('app.add_new') . ' ' . __('filament.CategoryResource.label') }}
+                        {{ $isEdit ? __('app.edit') . ': ' . ($this->category->categoryTranslations->first()?->name ?? $this->category->slug) : __('app.add_new') . ' ' . __('manager.categories.label') }}
                     </h1>
                 </div>
                 <a href="{{ locaRoute('manager.categories') }}" 
@@ -29,12 +29,12 @@
             <form wire:submit="save" class="space-y-6">
                 {{-- 基本信息 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.category.basic_info') }}</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.category.basic_info') }}</h3>
                     
                     <div class="space-y-4">
                         {{-- 图片 --}}
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.category.image') }}</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.category.image') }}</label>
                             <div class="flex items-center gap-4">
                                 @if($isEdit && $this->category->getFirstMediaUrl('image', 'thumb'))
                                     <img src="{{ $this->category->getFirstMediaUrl('image', 'thumb') }}" alt="Category Image" 
@@ -49,7 +49,7 @@
                                 <div class="flex-1">
                                     <input type="file" wire:model="image" accept="image/*"
                                         class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">
-                                    <p class="mt-1 text-xs text-gray-500">{{ __('filament.category.image_helper') }}</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ __('manager.category.image_helper') }}</p>
                                     @error('image') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                                 </div>
                             </div>
@@ -57,28 +57,28 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.category.slug') }} <span class="text-red-500">*</span></label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.category.slug') }} <span class="text-red-500">*</span></label>
                                 <input type="text" wire:model="slug" required
                                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                 @error('slug') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                <p class="mt-1 text-xs text-gray-500">{{ __('filament.category.slug_helper') }}</p>
+                                <p class="mt-1 text-xs text-gray-500">{{ __('manager.category.slug_helper') }}</p>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.category.parent') }}</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.category.parent') }}</label>
                                 <select wire:model="parentId" 
                                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                    <option value="">{{ __('filament.category.root') }}</option>
+                                    <option value="">{{ __('manager.category.root') }}</option>
                                     @foreach($parentCategories as $parent)
                                         <option value="{{ $parent->id }}">{{ $parent->display_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('parentId') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                <p class="mt-1 text-xs text-gray-500">{{ __('filament.category.parent_helper') }}</p>
+                                <p class="mt-1 text-xs text-gray-500">{{ __('manager.category.parent_helper') }}</p>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.category.translation_status') }} <span class="text-red-500">*</span></label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('manager.category.translation_status') }} <span class="text-red-500">*</span></label>
                                 <select wire:model="translationStatus" required
                                     class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
                                     @foreach($translationStatusOptions as $value => $label)
@@ -93,7 +93,7 @@
 
                 {{-- 多语言翻译 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.category.translations') }}</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.category.translations') }}</h3>
                     
                     <div class="space-y-4">
                         @foreach($languages as $language)
@@ -107,7 +107,7 @@
                                 <div class="space-y-3">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                                            {{ __('filament.category.name') }}
+                                            {{ __('manager.category.name') }}
                                             @if($language->is_default)
                                                 <span class="text-red-500">*</span>
                                             @endif
@@ -121,7 +121,7 @@
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                                            {{ __('filament.category.description') }}
+                                            {{ __('app.description') }}
                                         </label>
                                         <textarea wire:model="translations.{{ $language->id }}.description" rows="3"
                                             class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"></textarea>
