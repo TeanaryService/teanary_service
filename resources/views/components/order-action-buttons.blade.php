@@ -26,7 +26,7 @@
     @endif
 
     @if ($showDetails)
-        <a href="{{ locaRoute('user.orders.show', ['order' => $order]) }}"
+        <a href="{{ locaRoute('auth.order-detail', ['order' => $order]) }}"
             class="{{ $btnClass }} bg-teal-600 hover:bg-teal-700 focus:ring-teal-500">
             <x-heroicon-o-eye class="w-4 h-4" />
             {{ __('orders.view_details') }}

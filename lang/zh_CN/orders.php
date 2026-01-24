@@ -27,6 +27,9 @@ return array (
   'price_summary' => '价格明细',
   'and_more_items' => '还有 :count 件商品',
   'total_items' => '共',
+  'order_summary' => '订单汇总',
+  'recent_orders' => '最近订单',
+  'created_at' => '创建时间',
   'status' => 
   array (
     'pending' => '待付款',

@@ -14,9 +14,7 @@ use App\Livewire\OrderQuery;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
-use App\Models\User;
 use App\Services\LocaleCurrencyService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 $service = new LocaleCurrencyService;
@@ -37,7 +35,12 @@ if (empty($supportedLocales)) {
 // 路由组
 Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Middleware\TrackTraffic::class])->group(function () {
     Route::get('index.html', IndexPage::class)->name('teanary.open');
-    // Auth routes moved to Filament user panel (/user)
+    
+    // 引入用户相关路由
+    require __DIR__.'/users.php';
+    
+    // 引入管理员相关路由
+    require __DIR__.'/manager.php';
 
     Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
@@ -55,32 +58,6 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
 
     Route::get('articles', ArticleList::class)->name('article.index');
     Route::get('articles/{slug}', ArticleDetail::class)->name('article.show');
-
-    // 管理员登录为其他用户（仅限管理员访问）
-    Route::get('login-as/{id}', function (string $locale, int $id) {
-        // 检查管理员是否已登录（通过 Filament 管理面板）
-        $panel = \Filament\Facades\Filament::getPanel('manager');
-        
-        if (! $panel || ! $panel->auth()->check()) {
-            abort(403, 'Unauthorized: Please login to the manager panel first.');
-        }
-
-        // 查找要登录的用户
-        $user = User::find($id);
-
-        if (! $user) {
-            abort(404, 'User not found');
-        }
-
-        // 登录为用户（这会自动覆盖之前登录的用户，因为 manager 和 user 是不同的 guard）
-        // manager guard 保持登录状态，web guard 登录新用户
-        Auth::guard('web')->loginUsingId($id);
-
-        // 重定向到用户个人中心
-        return redirect('/user/profile');
-    })->middleware(['web'])->name('login-as');
-
-    // Email verification routes moved to Filament user panel (/user)
 
     Route::get('/search', \App\Livewire\Search::class)->name('search');
 

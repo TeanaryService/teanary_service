@@ -6,4 +6,5 @@ return [
     'throttled' => '请稍候再试。',
     'token' => '此密码重置令牌无效。',
     'user' => '无法找到具有该电子邮件地址的用户。',
+    'send_reset_link' => '发送重置链接',
 ];
