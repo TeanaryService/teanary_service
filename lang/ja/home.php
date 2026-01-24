@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // ホームページ関連
     'hero_title' => '厳選された中国の良質なお茶を世界中へお届け',
     'hero_subtitle' => '緑茶、紅茶、烏龍茶、プーアル茶などの高品質なお茶を探求し、ゆったりとした生活を。',
     'shop_now' => '今すぐお茶を購入',
@@ -12,8 +11,6 @@ return [
     'about_content' => 'Teanaryは雲南高山茶の純粋さと静けさを世界に届け、ひと口ごとに東洋文化の温もりを感じていただけます。',
     'learn_more' => 'もっと詳しく',
     'search' => '検索',
-
-    // 商品関連
     'product_view_detail' => '詳細を見る',
     'no_products' => 'お茶がありません',
     'categories' => 'お茶の種類',
@@ -32,30 +29,23 @@ return [
     'submit_review' => '評価を送信',
     'login_to_review' => 'ログインして評価する',
     'no_reviews' => 'まだ評価がありません',
-    'review_submitted' => '評価を送信しました。審査後に表示されます。',
     'anonymous' => '匿名の茶友',
     'rating' => '評価',
     'addCart' => '茶箱に追加',
     'qty' => '数量',
-    'storage' => '在庫：:storage',
-
-    // プロモーション関連
     'promotions' => 'プロモーション',
-    'promotion_rule_order_total_min' => '合計金額が',
-    'promotion_discount_fixed' => '割引額',
-    'promotion_rule_order_qty_min' => '最低購入数',
-    'promotion_discount_percentage' => '％オフ',
     'promotion_starts_at' => '開始日',
     'promotion_ends_at' => '終了日',
     'promotion_text' => ':condition が :condition_value 以上で :discount が :discount_value 適用されます',
-
-    // Tea culture theme related
+    'promotion_rule_order_total_min' => '注文合計',
+    'promotion_rule_order_qty_min' => '注文数量',
+    'promotion_discount_fixed' => '固定割引',
+    'promotion_discount_percentage' => 'パーセンテージ割引',
+    'storage' => '在庫：:storage',
     'featured_products_subtitle' => '厳選されたプレミアム茶葉、千年の茶文化を継承',
     'browse_categories_subtitle' => '様々な茶の種類を探索し、茶の人生の本質を味わう',
     'tea_culture_articles' => '茶文化記事',
     'tea_culture_articles_subtitle' => '茶の歴史、文化、鑑賞知識を学ぶ',
-
-    // Article related (merged from article.php)
     'article' => [
         'base_name' => '茶の記事',
         'title' => '茶の記事',

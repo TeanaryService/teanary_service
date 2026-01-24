@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Components;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Article;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class RandomArticles extends Component
 {
+    use UsesLocaleCurrency;
+
     public $limit;
 
     public $class = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';  // 默认网格布局
@@ -23,7 +25,7 @@ class RandomArticles extends Component
 
     public function render()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
+        $lang = $this->getCurrentLanguage();
 
         $articles = Article::query()
             ->with(['media', 'articleTranslations' => fn ($q) => $q->where('language_id', $lang?->id)])

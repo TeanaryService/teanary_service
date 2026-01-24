@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
 use App\Models\Address;
+use App\Models\Manager;
 use App\Models\Order;
+use App\Notifications\OrderPaidNotification;
 use App\Services\Payments\PaymentManager;
 use Illuminate\Support\Facades\Log;
 
@@ -47,8 +49,17 @@ class PaymentService
                 'status' => OrderStatusEnum::Paid,
             ]);
 
-            // 可以在这里触发订单支付成功的事件
-            // event(new OrderPaidEvent($order));
+            // 通知用户订单支付成功
+            if ($order->user) {
+                $order->user->notify(new OrderPaidNotification($order));
+            }
+
+            // 通知所有管理员订单支付成功
+            Manager::chunk(100, function ($managers) use ($order) {
+                foreach ($managers as $manager) {
+                    $manager->notify(new OrderPaidNotification($order));
+                }
+            });
         }
     }
 }

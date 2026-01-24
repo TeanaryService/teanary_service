@@ -2,11 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Contact;
 use Livewire\Component;
 
 class ContactForm extends Component
 {
+    use HasNavigationRedirect;
+
     public $name = '';
 
     public $email = '';

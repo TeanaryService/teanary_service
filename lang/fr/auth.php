@@ -1,30 +1,33 @@
 <?php
 
 return [
+    // Messages d'erreur d'authentification par défaut de Laravel
     'failed' => 'Ces identifiants ne correspondent pas à nos enregistrements.',
     'password' => 'Le mot de passe fourni est incorrect.',
     'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',
-    'verify_email_success' => 'Vérification de l\'email réussie',
 
-    'reset_password' => 'Réinitialiser le mot de passe',
-    'email' => 'Email',
-    'send_reset_link' => 'Envoyer le lien de réinitialisation',
-
-    'remember_me' => 'Se souvenir de moi',
-    'forgot_password' => 'Mot de passe oublié',
-
-    'password_reset_success' => 'Mot de passe réinitialisé avec succès, redirection en cours...',
+    // Champs du formulaire
+    'email' => 'E-mail',
     'new_password' => 'Nouveau mot de passe',
-    'confirm_new_password' => 'Confirmer le nouveau mot de passe',
+    'current_password' => 'Mot de passe actuel',
 
-    'email_verified_title' => 'Email vérifié avec succès !',
-    'email_verified_message' => 'Votre email a été vérifié, redirection vers la page d\'accueil en cours...',
+    // Boutons et liens d'action
+    'remember_me' => 'Se souvenir de moi',
+    'forgot_password' => 'Mot de passe oublié ?',
+    'reset_password' => 'Réinitialiser le mot de passe',
+    'change_password' => 'Changer le mot de passe',
 
-    // Email verification related (merged from email_verification.php)
-    'email_verification' => [
-        'title' => 'Vérifiez votre email',
-        'description' => 'Nous avons envoyé un lien de vérification à votre email. Si vous ne l\'avez pas reçu, cliquez sur le bouton ci-dessous pour le renvoyer.',
-        'resent' => 'Un nouveau lien de vérification a été envoyé à votre email.',
-        'resend_button' => 'Renvoyer l\'email de vérification',
-    ],
+    // Vérification de l'e-mail
+    'verify_email' => 'Vérifiez votre adresse e-mail',
+    'verify_email_message' => 'Avant de continuer, veuillez vérifier votre e-mail pour obtenir un lien de vérification. Si vous n\'avez pas reçu l\'e-mail, nous pouvons le renvoyer.',
+    'email_verified' => 'Adresse e-mail vérifiée avec succès !',
+    'verification_link_sent' => 'Un lien de vérification a été envoyé à votre adresse e-mail.',
+    'resend_verification_email' => 'Renvoyer l\'e-mail de vérification',
+
+    // Inscription
+    'registration_success' => 'Inscription réussie ! Veuillez vérifier votre adresse e-mail.',
+
+    // Textes de la page
+    'or' => 'ou',
+    'already_have_account' => 'Vous avez déjà un compte ?',
 ];

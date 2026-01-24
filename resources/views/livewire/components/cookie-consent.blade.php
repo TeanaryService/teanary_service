@@ -7,10 +7,12 @@
                     {{ __('app.cookie_message') }}
                 </div>
                 <div>
-                    <button wire:click="accept"
-                        class="px-6 py-2 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 transition">
+                    <x-widgets.button 
+                        wire:click="accept"
+                        class="px-6 py-2 font-bold"
+                    >
                         {{ __('app.cookie_accept') }}
-                    </button>
+                    </x-widgets.button>
                 </div>
             </div>
         </div>

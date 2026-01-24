@@ -2,14 +2,18 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product;
-use App\Services\LocaleCurrencyService;
 use App\Services\ProductVariantService;
 use App\Services\PromotionService;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ProductDetail extends Component
 {
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     public $product;
 
     public $variants;
@@ -33,62 +37,53 @@ class ProductDetail extends Component
     }
 
     /**
-     * 获取所有已选择的规格和规格值（用于生成笛卡尔积）
+     * 获取所有已选择的规格和规格值（用于生成笛卡尔积）.
      */
-    public function getSpecificationsForSelectionProperty()
+    #[Computed]
+    public function specificationsForSelection()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
-        
+        $lang = $this->getCurrentLanguage();
+
         // 获取该商品所有 SKU 使用的规格 ID（从 pivot 表中获取）
         $usedSpecificationIds = $this->product->productVariants
             ->flatMap(function ($variant) {
                 return $variant->specificationValues->map(function ($sv) {
-                    return (int)($sv->pivot->specification_id ?? $sv->specification_id);
+                    return (int) ($sv->pivot->specification_id ?? $sv->specification_id);
                 });
             })
             ->unique()
             ->values()
             ->toArray();
-        
+
         // 获取所有已使用的规格值，按规格分组
         $specGroups = [];
         foreach ($this->product->productVariants as $variant) {
             foreach ($variant->specificationValues as $sv) {
-                $specId = (int)($sv->pivot->specification_id ?? $sv->specification_id);
-                
+                $specId = (int) ($sv->pivot->specification_id ?? $sv->specification_id);
+
                 // 只处理在后台 SKU 管理中已选择的规格
-                if (!in_array($specId, $usedSpecificationIds)) {
+                if (! in_array($specId, $usedSpecificationIds)) {
                     continue;
                 }
-                
-                if (!isset($specGroups[$specId])) {
+
+                if (! isset($specGroups[$specId])) {
                     $spec = $sv->specification ?? $sv->specification()->with('specificationTranslations')->first();
-                    $specTrans = $spec?->specificationTranslations
-                        ->where('language_id', $lang?->id)
-                        ->first();
-                    $specName = $specTrans && $specTrans->name 
-                        ? $specTrans->name 
-                        : ($spec?->specificationTranslations->first()->name ?? $specId);
-                    
+                    $specName = $this->translatedField($spec?->specificationTranslations, $lang, 'name', (string) $specId);
+
                     $specGroups[$specId] = [
                         'id' => $specId,
                         'name' => $specName,
                         'values' => [],
                     ];
                 }
-                
+
                 // 获取规格值名称
-                $valueTrans = $sv->specificationValueTranslations
-                    ->where('language_id', $lang?->id)
-                    ->first();
-                $valueName = $valueTrans && $valueTrans->name 
-                    ? $valueTrans->name 
-                    : ($sv->specificationValueTranslations->first()->name ?? $sv->id);
-                
+                $valueName = $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
+
                 $valueId = $sv->id;
-                
+
                 // 避免重复添加相同的规格值
-                if (!isset($specGroups[$specId]['values'][$valueId])) {
+                if (! isset($specGroups[$specId]['values'][$valueId])) {
                     $specGroups[$specId]['values'][$valueId] = [
                         'id' => $valueId,
                         'name' => $valueName,
@@ -96,7 +91,7 @@ class ProductDetail extends Component
                 }
             }
         }
-        
+
         // 按规格 ID 排序
         ksort($specGroups);
         // 对每个规格的规格值也排序
@@ -104,12 +99,12 @@ class ProductDetail extends Component
             ksort($group['values']);
             $group['values'] = array_values($group['values']);
         }
-        
+
         return array_values($specGroups);
     }
 
     /**
-     * 根据规格值组合找到对应的 SKU
+     * 根据规格值组合找到对应的 SKU.
      */
     protected function findVariantBySpecificationValues(array $specValueIds): ?int
     {
@@ -117,16 +112,17 @@ class ProductDetail extends Component
     }
 
     /**
-     * 获取所有 SKU 组合（笛卡尔积）
+     * 获取所有 SKU 组合（笛卡尔积）.
      */
-    public function getSkuCombinationsProperty()
+    #[Computed]
+    public function skuCombinations()
     {
         $specs = $this->specificationsForSelection;
-        
+
         if (empty($specs)) {
             return [];
         }
-        
+
         // 构建规格值数组
         $specValueArrays = [];
         foreach ($specs as $spec) {
@@ -141,16 +137,16 @@ class ProductDetail extends Component
             }
             $specValueArrays[] = $values;
         }
-        
+
         // 生成笛卡尔积
         $combinations = $this->variantService->cartesianProduct($specValueArrays);
-        
+
         // 为每个组合找到对应的 SKU ID
         $result = [];
         foreach ($combinations as $combination) {
             $specValueIds = collect($combination)->pluck('specification_value_id')->toArray();
             $variantId = $this->findVariantBySpecificationValues($specValueIds);
-            
+
             // 格式化显示文本
             $displayParts = [];
             foreach ($specs as $spec) {
@@ -158,25 +154,24 @@ class ProductDetail extends Component
                     ->where('specification_id', $spec['id'])
                     ->pluck('specification_value_name')
                     ->toArray();
-                if (!empty($specValues)) {
-                    $displayParts[] = $spec['name'] . ': ' . implode(', ', $specValues);
+                if (! empty($specValues)) {
+                    $displayParts[] = $spec['name'].': '.implode(', ', $specValues);
                 }
             }
-            
+
             $result[] = [
                 'variant_id' => $variantId,
                 'specification_values' => $combination,
                 'display' => implode('; ', $displayParts),
             ];
         }
-        
+
         return $result;
     }
 
     public function mount(string $slug): void
     {
-        $localeCurrencyService = app(LocaleCurrencyService::class);
-        $lang = $localeCurrencyService->getLanguageByCode(session('lang'));
+        $lang = $this->getCurrentLanguage();
 
         $this->product = Product::with([
             'media',
@@ -201,7 +196,7 @@ class ProductDetail extends Component
             $this->selectedVariantId = $firstVariant->id;
             // 根据第一个 SKU 初始化已选择的规格值
             foreach ($firstVariant->specificationValues as $sv) {
-                $specId = (int)($sv->pivot->specification_id ?? $sv->specification_id);
+                $specId = (int) ($sv->pivot->specification_id ?? $sv->specification_id);
                 $this->selectedOptions[$specId] = $sv->id;
             }
         }
@@ -225,13 +220,13 @@ class ProductDetail extends Component
             // 选择新的规格值（同一规格只能选一个）
             $this->selectedOptions[$specId] = $valueId;
         }
-        
+
         // 根据已选择的规格值匹配 SKU
         $this->matchVariantFromSelectedOptions();
     }
 
     /**
-     * 根据已选择的规格值匹配对应的 SKU
+     * 根据已选择的规格值匹配对应的 SKU.
      */
     protected function matchVariantFromSelectedOptions(): void
     {
@@ -240,7 +235,7 @@ class ProductDetail extends Component
         if (count($this->selectedOptions) === count($specs) && count($specs) > 0) {
             $selectedValueIds = array_values($this->selectedOptions);
             $variantId = $this->findVariantBySpecificationValues($selectedValueIds);
-            
+
             if ($variantId) {
                 $this->selectedVariantId = $variantId;
                 $this->updateAvailablePromotions();
@@ -255,7 +250,7 @@ class ProductDetail extends Component
     }
 
     /**
-     * 检查规格值是否可选（在当前已选组合下是否有对应的 SKU）
+     * 检查规格值是否可选（在当前已选组合下是否有对应的 SKU）.
      */
     public function isSpecificationValueAvailable(int $specId, int $valueId): bool
     {
@@ -263,19 +258,19 @@ class ProductDetail extends Component
         if (isset($this->selectedOptions[$specId]) && $this->selectedOptions[$specId] != $valueId) {
             return false;
         }
-        
+
         // 构建测试组合（当前已选 + 要测试的规格值）
         $testOptions = $this->selectedOptions;
         $testOptions[$specId] = $valueId;
-        
+
         // 检查是否有 SKU 匹配这个组合（部分匹配即可，不需要全部规格都选择）
         $selectedValueIds = array_values($testOptions);
-        
+
         return $this->variantService->hasMatchingVariant($this->variants, $selectedValueIds);
     }
 
     /**
-     * 检查规格值是否已选
+     * 检查规格值是否已选.
      */
     public function isSpecificationValueSelected(int $specId, int $valueId): bool
     {
@@ -283,23 +278,23 @@ class ProductDetail extends Component
     }
 
     /**
-     * 获取规格值的状态：'available', 'selected', 'disabled'
+     * 获取规格值的状态：'available', 'selected', 'disabled'.
      */
     public function getSpecificationValueStatus(int $specId, int $valueId): string
     {
         if ($this->isSpecificationValueSelected($specId, $valueId)) {
             return 'selected';
         }
-        
+
         if ($this->isSpecificationValueAvailable($specId, $valueId)) {
             return 'available';
         }
-        
+
         return 'disabled';
     }
 
     /**
-     * 获取规格值的图片 URL（如果有）
+     * 获取规格值的图片 URL（如果有）.
      */
     public function getSpecificationValueImage(int $valueId): ?string
     {
@@ -314,13 +309,13 @@ class ProductDetail extends Component
         $this->selectedVariantId = $variantId;
         $this->updateAvailablePromotions();
         $this->qty = 1;
-        
+
         // 根据选中的 SKU 更新已选择的规格值
         $variant = $this->variants->firstWhere('id', $variantId);
         if ($variant) {
             $this->selectedOptions = [];
             foreach ($variant->specificationValues as $sv) {
-                $specId = (int)($sv->pivot->specification_id ?? $sv->specification_id);
+                $specId = (int) ($sv->pivot->specification_id ?? $sv->specification_id);
                 $this->selectedOptions[$specId] = $sv->id;
             }
         }
@@ -363,30 +358,27 @@ class ProductDetail extends Component
 
     public function render()
     {
-        $localeCurrencyService = app(LocaleCurrencyService::class);
-        $lang = $localeCurrencyService->getLanguageByCode(session('lang'));
-        $currencyCode = session('currency');
+        $localeCurrencyService = $this->getLocaleService();
+        $lang = $this->getCurrentLanguage();
+        $currencyCode = $this->getCurrentCurrencyCode();
         $variant = $this->getSelectedVariant();
         $finalPrice = $variant?->price ?? 0;
 
         // 准备视图数据
-        $translation = $this->product->productTranslations
-            ->where('language_id', $lang->id)
-            ->first();
-        $name = $translation?->name ?? $this->product->slug;
-        $desc = $translation?->description ?? '';
-        $shortDesc = $translation?->short_description ?? '';
+        $name = $this->translatedField($this->product->productTranslations, $lang, 'name', $this->product->slug);
+        $desc = $this->translatedField($this->product->productTranslations, $lang, 'description', '');
+        $shortDesc = $this->translatedField($this->product->productTranslations, $lang, 'short_description', '');
         $images = $this->product->getMedia('images');
         $price = $finalPrice
             ? $localeCurrencyService->convertWithSymbol($finalPrice, $currencyCode)
             : ($variant?->price
                 ? $localeCurrencyService->convertWithSymbol($variant->price, $currencyCode)
                 : '');
-        $attributes = $this->product->attributeValues ?? collect();
+        $productAttributes = $this->product->attributeValues ?? collect();
         $maxQty = $variant?->stock ?? 1;
 
         // 准备结构化数据
-        $structuredData = $this->buildStructuredData($name, $shortDesc, $images, $variant, $currencyCode, $price, $attributes, $lang);
+        $structuredData = $this->buildStructuredData($name, $shortDesc, $images, $variant, $currencyCode ?? 'USD', $price, $productAttributes, $lang);
 
         return view('livewire.product-detail', [
             'product' => $this->product,
@@ -401,7 +393,7 @@ class ProductDetail extends Component
             'shortDesc' => $shortDesc,
             'images' => $images,
             'price' => $price,
-            'attributes' => $attributes,
+            'productAttributes' => $productAttributes,
             'maxQty' => $maxQty,
             'structuredData' => $structuredData,
             'lang' => $lang,
@@ -449,21 +441,19 @@ class ProductDetail extends Component
     protected function getCategoryNames($lang): array
     {
         return $this->product->productCategories->map(function ($cat) use ($lang) {
-            $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
-
-            return $translation?->name ?? $cat->slug;
+            return $this->translatedField($cat->categoryTranslations, $lang, 'name', $cat->slug);
         })->toArray();
     }
 
     /**
-     * 获取产品变体规格字符串（只显示后台 SKU 管理中已选择的规格）
+     * 获取产品变体规格字符串（只显示后台 SKU 管理中已选择的规格）.
      */
     protected function getProductVariantSpecs($productVariant, $lang): string
     {
-        if (!$productVariant) {
+        if (! $productVariant) {
             return '';
         }
-        
+
         // 获取该商品所有 SKU 使用的规格 ID（从 pivot 表中获取）
         // 缓存结果，避免重复计算
         static $usedSpecificationIdsCache = null;
@@ -472,47 +462,37 @@ class ProductDetail extends Component
                 ->flatMap(function ($variant) {
                     return $variant->specificationValues->map(function ($sv) {
                         // 从 pivot 中获取 specification_id
-                        return (int)($sv->pivot->specification_id ?? $sv->specification_id);
+                        return (int) ($sv->pivot->specification_id ?? $sv->specification_id);
                     });
                 })
                 ->unique()
                 ->values()
                 ->toArray();
         }
-        
+
         // 只显示已使用的规格的规格值，并按规格分组
         $specGroups = [];
         foreach ($productVariant->specificationValues as $sv) {
             // 从 pivot 中获取 specification_id
-            $specId = (int)($sv->pivot->specification_id ?? $sv->specification_id);
-            
+            $specId = (int) ($sv->pivot->specification_id ?? $sv->specification_id);
+
             // 只处理在后台 SKU 管理中已选择的规格
-            if (!in_array($specId, $usedSpecificationIdsCache)) {
+            if (! in_array($specId, $usedSpecificationIdsCache)) {
                 continue;
             }
-            
+
             // 获取规格名称（如果已加载关系）
             $spec = $sv->specification;
-            if (!$spec) {
+            if (! $spec) {
                 $spec = $sv->specification()->with('specificationTranslations')->first();
             }
-            $specTrans = $spec?->specificationTranslations
-                ->where('language_id', $lang?->id)
-                ->first();
-            $specName = $specTrans && $specTrans->name 
-                ? $specTrans->name 
-                : ($spec?->specificationTranslations->first()->name ?? $specId);
-            
+            $specName = $this->translatedField($spec?->specificationTranslations, $lang, 'name', (string) $specId);
+
             // 获取规格值名称
-            $valueTrans = $sv->specificationValueTranslations
-                ->where('language_id', $lang?->id)
-                ->first();
-            $valueName = $valueTrans && $valueTrans->name 
-                ? $valueTrans->name 
-                : ($sv->specificationValueTranslations->first()->name ?? $sv->id);
-            
+            $valueName = $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
+
             // 按规格分组
-            if (!isset($specGroups[$specId])) {
+            if (! isset($specGroups[$specId])) {
                 $specGroups[$specId] = [
                     'name' => $specName,
                     'values' => [],
@@ -520,31 +500,24 @@ class ProductDetail extends Component
             }
             $specGroups[$specId]['values'][] = $valueName;
         }
-        
+
         // 按规格 ID 排序，然后格式化为字符串（像后台表格一样：规格名: 值1, 值2）
         ksort($specGroups);
         $parts = [];
         foreach ($specGroups as $specGroup) {
-            $parts[] = $specGroup['name'] . ': ' . implode(', ', $specGroup['values']);
+            $parts[] = $specGroup['name'].': '.implode(', ', $specGroup['values']);
         }
-        
+
         return implode('; ', $parts);
     }
 
     /**
-     * 获取属性显示名称
+     * 获取属性显示名称.
      */
     protected function getAttributeDisplayNames($attrValue, $lang): array
     {
-        $attrTrans = $attrValue->attribute->attributeTranslations
-            ->where('language_id', $lang?->id)
-            ->first();
-        $attrValueTrans = $attrValue->attributeValueTranslations
-            ->where('language_id', $lang?->id)
-            ->first();
-
-        $attrName = $attrTrans && $attrTrans->name ? $attrTrans->name : $attrValue->attribute->id;
-        $attrValueName = $attrValueTrans && $attrValueTrans->name ? $attrValueTrans->name : $attrValue->id;
+        $attrName = $this->translatedField($attrValue->attribute->attributeTranslations, $lang, 'name', (string) $attrValue->attribute->id);
+        $attrValueName = $this->translatedField($attrValue->attributeValueTranslations, $lang, 'name', (string) $attrValue->id);
 
         return [
             'attrName' => $attrName,
@@ -560,11 +533,12 @@ class ProductDetail extends Component
         string $shortDesc,
         $images,
         $variant,
-        string $currencyCode,
+        ?string $currencyCode,
         string $price,
         $attributes,
         $lang
     ): array {
+        $currencyCode = $currencyCode ?? 'USD';
         $structuredData = [
             '@context' => 'https://schema.org',
             '@type' => 'Product',

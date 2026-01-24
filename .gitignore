@@ -23,6 +23,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+deploy.php
 
 # 忽略 IDE Helper 生成的文件（如果有）
 _ide_helper.php

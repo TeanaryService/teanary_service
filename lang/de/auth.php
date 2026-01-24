@@ -1,30 +1,33 @@
 <?php
 
 return [
+    // Laravel Standard-Authentifizierungsfehlermeldungen
     'failed' => 'Diese Anmeldeinformationen stimmen nicht mit unseren Aufzeichnungen überein.',
     'password' => 'Das angegebene Passwort ist falsch.',
     'throttle' => 'Zu viele Login-Versuche. Bitte versuchen Sie es in :seconds Sekunden erneut.',
-    'verify_email_success' => 'E-Mail-Verifizierung erfolgreich',
 
-    'reset_password' => 'Passwort zurücksetzen',
+    // Formularfelder
     'email' => 'E-Mail',
-    'send_reset_link' => 'Link zum Zurücksetzen senden',
-
-    'remember_me' => 'Angemeldet bleiben',
-    'forgot_password' => 'Passwort vergessen',
-
-    'password_reset_success' => 'Passwort wurde erfolgreich zurückgesetzt, Weiterleitung...',
     'new_password' => 'Neues Passwort',
-    'confirm_new_password' => 'Neues Passwort bestätigen',
+    'current_password' => 'Aktuelles Passwort',
 
-    'email_verified_title' => 'E-Mail erfolgreich verifiziert!',
-    'email_verified_message' => 'Wir haben Ihre E-Mail-Adresse bestätigt und leiten Sie nun zur Startseite weiter...',
+    // Aktionsschaltflächen und Links
+    'remember_me' => 'Angemeldet bleiben',
+    'forgot_password' => 'Passwort vergessen?',
+    'reset_password' => 'Passwort zurücksetzen',
+    'change_password' => 'Passwort ändern',
 
-    // Email verification related (merged from email_verification.php)
-    'email_verification' => [
-        'title' => 'Bestätigen Sie Ihre E-Mail',
-        'description' => 'Wir haben einen Bestätigungslink an Ihre E-Mail gesendet. Wenn Sie ihn nicht erhalten haben, klicken Sie auf die Schaltfläche unten, um ihn erneut zu senden.',
-        'resent' => 'Ein neuer Bestätigungslink wurde an Ihre E-Mail gesendet.',
-        'resend_button' => 'Bestätigungs-E-Mail erneut senden',
-    ],
+    // E-Mail-Verifizierung
+    'verify_email' => 'Bestätigen Sie Ihre E-Mail-Adresse',
+    'verify_email_message' => 'Bevor Sie fortfahren, überprüfen Sie bitte Ihre E-Mail auf einen Bestätigungslink. Wenn Sie keine E-Mail erhalten haben, können wir sie erneut senden.',
+    'email_verified' => 'E-Mail-Adresse erfolgreich bestätigt!',
+    'verification_link_sent' => 'Ein Bestätigungslink wurde an Ihre E-Mail-Adresse gesendet.',
+    'resend_verification_email' => 'Bestätigungs-E-Mail erneut senden',
+
+    // Registrierung
+    'registration_success' => 'Registrierung erfolgreich! Bitte bestätigen Sie Ihre E-Mail-Adresse.',
+
+    // Seitentexte
+    'or' => 'oder',
+    'already_have_account' => 'Sie haben bereits ein Konto?',
 ];

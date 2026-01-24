@@ -75,10 +75,4 @@ class UserTest extends TestCase
         $this->assertInstanceOf(HasMany::class, $relation);
         $this->assertEquals('user_id', $relation->getForeignKeyName());
     }
-
-    public function test_can_access_panel()
-    {
-        $user = User::factory()->create();
-        $this->assertFalse($user->canAccessPanel(\Filament\Facades\Filament::getPanel('admin')));
-    }
 }

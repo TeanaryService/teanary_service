@@ -3,9 +3,10 @@
 namespace App\Livewire;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
 use App\Models\ProductVariant;
-use App\Services\LocaleCurrencyService;
 use App\Services\PromotionService;
 use App\Services\ShippingService;
 use Illuminate\Support\Str;
@@ -13,6 +14,8 @@ use Livewire\Component;
 
 class Checkout extends Component
 {
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     public $checkoutItems = [];
 
     public $processedItems = [];
@@ -104,8 +107,7 @@ class Checkout extends Component
         $this->loadAddresses();
 
         // 使用缓存获取国家列表
-        $locale = app()->getLocale();
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
         $this->countries = \App\Models\Country::getCountriesByLanguage($lang?->id);
 
         // 如果已有地址的国家ID，加载对应的地区数据
@@ -151,7 +153,7 @@ class Checkout extends Component
     protected function processCheckoutItems()
     {
         $this->processedItems = [];
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
+        $lang = $this->getCurrentLanguage();
         $promoService = app(PromotionService::class);
         $user = auth()->user();
 
@@ -174,13 +176,10 @@ class Checkout extends Component
 
             if ($variant) {
                 $product = $variant->product;
-                $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-                $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
+                $name = $this->translatedField($product->productTranslations, $lang, 'name', $product->slug);
 
                 $specs = $variant->specificationValues->map(function ($sv) use ($lang) {
-                    $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-
-                    return $trans && $trans->name ? $trans->name : $sv->id;
+                    return $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
                 })->implode(' / ');
 
                 $promo = $promoService->calculateVariantPrice($variant, $item['qty'], $user);
@@ -215,8 +214,7 @@ class Checkout extends Component
             return;
         }
 
-        $locale = app()->getLocale();
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
         $this->zones = \App\Models\Zone::getZonesByCountryAndLanguage($value, $lang?->id);
 
         // 重置地区选择
@@ -303,7 +301,8 @@ class Checkout extends Component
         }
 
         // 根据国家设置地区验证规则
-        $zones = \App\Models\Zone::getZonesByCountryAndLanguage($this->address['country_id'] ?? null);
+        $countryId = $this->address['country_id'] ?? null;
+        $zones = $countryId ? \App\Models\Zone::getZonesByCountryAndLanguage((int) $countryId) : [];
         if (! empty($zones)) {
             $rules['address.zone_id'] = 'required|exists:zones,id';
         } else {
@@ -315,40 +314,38 @@ class Checkout extends Component
 
     public function saveAddress()
     {
-        try {
-            $this->validate($this->getAddressRules());
+        $this->validate($this->getAddressRules());
 
-            $data = $this->address;
-            $data['session_id'] = session()->getId();
-            if (auth()->check()) {
-                $data['user_id'] = auth()->id();
-            }
-
-            $address = \App\Models\Address::create($data);
-
-            $this->loadAddresses();
-            $this->shippingAddress = $address->id;
-            $this->showAddressForm = false;
-            $this->address = [
-                'firstname' => '',
-                'lastname' => '',
-                'email' => '',
-                'telephone' => '',
-                'company' => '',
-                'address_1' => '',
-                'address_2' => '',
-                'city' => '',
-                'postcode' => '',
-                'country_id' => '',
-                'zone_id' => '',
-            ];
-
-            $this->updatePaymentMethods();
-            $this->updateShippingMethods();
-            $this->recalculateOrderTotal();
-        } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
+        $data = $this->address;
+        $data['session_id'] = session()->getId();
+        if (auth()->check()) {
+            $data['user_id'] = auth()->id();
         }
+
+        $address = \App\Models\Address::create($data);
+
+        $this->loadAddresses();
+        $this->shippingAddress = $address->id;
+        $this->showAddressForm = false;
+        $this->address = [
+            'firstname' => '',
+            'lastname' => '',
+            'email' => '',
+            'telephone' => '',
+            'company' => '',
+            'address_1' => '',
+            'address_2' => '',
+            'city' => '',
+            'postcode' => '',
+            'country_id' => '',
+            'zone_id' => '',
+        ];
+
+        $this->updatePaymentMethods();
+        $this->updateShippingMethods();
+        $this->recalculateOrderTotal();
+
+        $this->dispatch('flash-message', type: 'success', message: __('app.addresses.address_saved'));
     }
 
     // 修正更新配送方式的方法
@@ -365,21 +362,21 @@ class Checkout extends Component
     {
         // 验证收货地址
         if (! $this->shippingAddress) {
-            session()->flash('error', __('app.error_no_shipping_address'));
+            $this->dispatch('flash-message', type: 'error', message: __('app.error_no_shipping_address'));
 
             return;
         }
 
         // 验证支付方式
         if (! $this->paymentMethod) {
-            session()->flash('error', __('app.error_no_payment_method'));
+            $this->dispatch('flash-message', type: 'error', message: __('app.error_no_payment_method'));
 
             return;
         }
 
         // 验证配送方式
         if (! $this->shippingMethod) {
-            session()->flash('error', __('app.error_no_shipping_method'));
+            $this->dispatch('flash-message', type: 'error', message: __('app.error_no_shipping_method'));
 
             return;
         }
@@ -412,7 +409,7 @@ class Checkout extends Component
             $serverTotal = $serverSubtotal + floatval($serverShippingFee);
             // --- 安全修复结束 ---
 
-            $currency = app(LocaleCurrencyService::class)->getCurrencyByCode(session('currency'));
+            $currency = $this->getLocaleService()->getCurrencyByCode(session('currency'));
 
             $order = new Order;
             $order->user_id = auth()->id();
@@ -427,11 +424,13 @@ class Checkout extends Component
             $order->currency_id = $currency->id;
             $order->save();
 
+            $this->dispatch('flash-message', type: 'success', message: __('app.order_created_successfully'));
+
             // ...
             return $this->redirect(route('payment.checkout', ['locale' => app()->getLocale(), 'orderId' => $order->id]));
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
-            session()->flash('error', $errorMessage);
+            $this->dispatch('flash-message', type: 'error', message: $errorMessage);
 
             return;
         }
@@ -439,25 +438,18 @@ class Checkout extends Component
 
     protected function getAddressLabel($address)
     {
-        $locale = app()->getLocale();
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $lang = $this->getCurrentLanguage();
 
         // 获取国家多语言名称
         $countryName = '';
         if ($address->country) {
-            $translation = $address->country->countryTranslations->where('language_id', $lang?->id)->first();
-            $countryName = $translation && $translation->name
-                ? $translation->name
-                : ($address->country->countryTranslations->first()->name ?? $address->country->name);
+            $countryName = $this->translatedField($address->country->countryTranslations, $lang, 'name', $address->country->name ?? '');
         }
 
         // 获取地区多语言名称
         $zoneName = '';
         if ($address->zone) {
-            $translation = $address->zone->zoneTranslations->where('language_id', $lang?->id)->first();
-            $zoneName = $translation && $translation->name
-                ? $translation->name
-                : ($address->zone->zoneTranslations->first()->name ?? $address->zone->name);
+            $zoneName = $this->translatedField($address->zone->zoneTranslations, $lang, 'name', $address->zone->name ?? '');
         }
 
         return [
@@ -479,7 +471,7 @@ class Checkout extends Component
         return view('livewire.checkout', [
             'items' => $this->processedItems,
             'total' => $this->total,
-            'lang' => app(LocaleCurrencyService::class)->getLanguageByCode(session('lang')),
+            'lang' => $this->getCurrentLanguage(),
             'addresses' => $addresses,
             'countries' => $this->countries,
             'zones' => $this->zones,

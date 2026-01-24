@@ -92,16 +92,17 @@ class Attribute extends Model
 
                 return [
                     'id' => $attr->id,
-                    'name' => $trans ? $trans->name : $attr->id,
+                    'name' => $trans ? $trans->name : (string) $attr->id,
                     'values' => $attr->attributeValues->map(function ($val) use ($langId) {
                         $valTrans = $val->attributeValueTranslations->where('language_id', $langId)->first();
 
                         return [
                             'id' => $val->id,
-                            'name' => $valTrans ? $valTrans->name : $val->id,
+                            'name' => $valTrans ? $valTrans->name : (string) $val->id,
                         ];
-                    })->values(),
+                    })->values()->toArray(),
                 ];
-            });
+            })
+            ->values();
     }
 }

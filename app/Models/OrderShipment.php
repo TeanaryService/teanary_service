@@ -7,9 +7,11 @@
 namespace App\Models;
 
 use App\Enums\ShippingMethodEnum;
+use App\Observers\OrderShipmentObserver;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon|null $updated_at
  * @property Order $order
  */
+#[ObservedBy([OrderShipmentObserver::class])]
 class OrderShipment extends Model
 {
     use HasFactory;

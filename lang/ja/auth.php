@@ -1,30 +1,33 @@
 <?php
 
 return [
+    // Laravel デフォルト認証エラーメッセージ
     'failed' => 'これらの認証情報は記録と一致しません。',
     'password' => '入力されたパスワードが正しくありません。',
     'throttle' => 'ログイン試行回数が多すぎます。:seconds 秒後に再試行してください。',
-    'verify_email_success' => 'メールアドレスの認証に成功しました',
 
-    'reset_password' => 'パスワードのリセット',
+    // フォームフィールド
     'email' => 'メールアドレス',
-    'send_reset_link' => 'リセットリンクを送信',
-
-    'remember_me' => 'ログイン状態を保持する',
-    'forgot_password' => 'パスワードをお忘れですか？',
-
-    'password_reset_success' => 'パスワードがリセットされました。リダイレクトしています…',
     'new_password' => '新しいパスワード',
-    'confirm_new_password' => '新しいパスワードの確認',
+    'current_password' => '現在のパスワード',
 
-    'email_verified_title' => 'メールアドレス認証成功！',
-    'email_verified_message' => 'メールアドレスを認証しました。ホームページへリダイレクトしています…',
+    // アクションボタンとリンク
+    'remember_me' => 'ログイン状態を保持',
+    'forgot_password' => 'パスワードをお忘れですか？',
+    'reset_password' => 'パスワードをリセット',
+    'change_password' => 'パスワードを変更',
 
-    // Email verification related (merged from email_verification.php)
-    'email_verification' => [
-        'title' => 'メールアドレスを確認してください',
-        'description' => '確認リンクをメールアドレスに送信しました。受信していない場合は、下のボタンをクリックして再送信してください。',
-        'resent' => '新しい確認リンクがメールアドレスに送信されました。',
-        'resend_button' => '確認メールを再送信',
-    ],
+    // メール確認
+    'verify_email' => 'メールアドレスを確認してください',
+    'verify_email_message' => '続行する前に、メールを確認して確認リンクを取得してください。メールが届いていない場合は、再送信できます。',
+    'email_verified' => 'メールアドレスが正常に確認されました！',
+    'verification_link_sent' => '確認リンクがメールアドレスに送信されました。',
+    'resend_verification_email' => '確認メールを再送信',
+
+    // 登録
+    'registration_success' => '登録が成功しました！メールアドレスを確認してください。',
+
+    // ページテキスト
+    'or' => 'または',
+    'already_have_account' => 'すでにアカウントをお持ちですか？',
 ];

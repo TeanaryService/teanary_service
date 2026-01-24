@@ -11,14 +11,12 @@ use App\Traits\CascadesMediaDeletes;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasAvatar;
-use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\MediaLibrary\HasMedia;
@@ -44,7 +42,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property Collection|Cart[] $carts
  * @property Collection|Order[] $orders
  */
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia, MustVerifyEmail
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use CascadesMediaDeletes;
     use HasFactory, Notifiable;
@@ -108,15 +106,25 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia,
         return $this->hasMany(ProductReview::class);
     }
 
-    public function getFilamentAvatarUrl(): ?string
+    /**
+     * 获取实体的通知.
+     */
+    public function notifications(): MorphMany
     {
-        return $this->getFirstMediaUrl(collectionName: 'avatars', conversionName: 'thumb');
+        return $this->morphMany(Notification::class, 'notifiable')->orderBy('created_at', 'desc');
     }
 
-    public function canAccessPanel(Panel $panel): bool
+    /**
+     * 获取未读通知.
+     */
+    public function unreadNotifications(): MorphMany
     {
-        // User 可以访问用户面板，但不能访问管理面板
-        return $panel->getId() === 'user';
+        return $this->notifications()->whereNull('read_at');
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        return $this->getFirstMediaUrl(collectionName: 'avatars', conversionName: 'thumb');
     }
 
     public function registerMediaConversions(?Media $media = null): void

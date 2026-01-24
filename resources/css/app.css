@@ -59,8 +59,7 @@ body {
 
 /* 改进的容器间距 */
 .main {
-    min-height: calc(100vh - 5rem);
-    padding-bottom: 2rem;
+    /* padding-bottom: 2rem; */
 }
 
 /* 改进的标题样式 */
@@ -290,4 +289,17 @@ input:focus, textarea:focus, select:focus {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* Livewire wire:navigate 进度条样式 - 与主题一致 */
+[wire\:navigate] {
+    --livewire-progress-bar-color: #14b8a6;
+}
+
+/* 自定义进度条样式 */
+#livewire-progress-bar {
+    height: 3px !important;
+    background: linear-gradient(90deg, #14b8a6, #0d9488, #14b8a6) !important;
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.5) !important;
+    z-index: 9999 !important;
 }

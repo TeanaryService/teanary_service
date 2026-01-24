@@ -1,6 +1,6 @@
 <x-layouts.app>
-    <div class="min-h-[70vh] bg-gray-50 flex flex-col items-center justify-center -mt-16 relative">
-        <x-grid-bg />
+    <div class="min-h-[70vh] bg-teal-100 flex flex-col items-center justify-center -mt-16 relative">
+        <x-widgets.grid-bg />
         <main id="error-main" role="main" aria-labelledby="error-title" class="max-w-xl px-4 text-center relative">
 
             {{-- 大标题 --}}
@@ -26,7 +26,7 @@
                     <x-heroicon-o-arrow-left class="w-6 h-6" />
                     {{ __('error.back') }}
                 </a>
-                <a href="{{ locaRoute('home') }}"
+                <a href="{{ locaRoute('home') }}" wire:navigate
                     class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition duration-200 flex items-center gap-2">
                     <x-heroicon-o-home class="w-6 h-6" />
                     {{ __('error.home') }}

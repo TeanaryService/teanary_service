@@ -99,27 +99,27 @@ class Product extends Model implements HasMedia
             // 计算要删除的属性值ID
             $idsToKeep = array_keys($ids);
             $idsToDelete = array_diff($currentAttributeValueIds, $idsToKeep);
-            
+
             // 获取要删除的完整记录
-            if (!empty($idsToDelete)) {
+            if (! empty($idsToDelete)) {
                 $pivotsToDelete = \App\Models\ProductAttributeValue::where('product_id', $this->id)
                     ->whereIn('attribute_value_id', $idsToDelete)
                     ->get()
                     ->keyBy('attribute_value_id');
             }
         }
-        
+
         // 禁用 ProductAttributeValue 的自动同步（因为我们会在下面手动触发同步）
         $wasSyncDisabled = \App\Models\ProductAttributeValue::$syncDisabled;
         \App\Models\ProductAttributeValue::$syncDisabled = true;
-        
+
         try {
             $changes = $this->attributeValues()->sync($ids, $detaching);
         } finally {
             // 恢复同步状态
             \App\Models\ProductAttributeValue::$syncDisabled = $wasSyncDisabled;
         }
-        
+
         // 手动触发 Pivot 模型的同步
         // 使用 afterCommit 确保在事务提交后再执行同步
         if (config('sync.enabled')) {
@@ -127,10 +127,10 @@ class Product extends Model implements HasMedia
                 $this->processAttributeValueSync($changes, $ids, $pivotsToDelete);
             });
         }
-        
+
         return $changes;
     }
-    
+
     /**
      * 处理属性值同步（在事务提交后执行）.
      */
@@ -138,17 +138,17 @@ class Product extends Model implements HasMedia
     {
         $syncService = app(\App\Services\SyncService::class);
         $currentNode = config('sync.node');
-        
+
         // 处理新增的记录
         foreach ($changes['attached'] ?? [] as $index => $pivotData) {
             $this->processAttachedAttributeValue($syncService, $currentNode, $index, $pivotData, $ids);
         }
-        
+
         // 处理更新的记录
         foreach ($changes['updated'] ?? [] as $index => $pivotData) {
             $this->processUpdatedAttributeValue($syncService, $currentNode, $index, $pivotData, $ids);
         }
-        
+
         // 处理删除的记录
         foreach ($changes['detached'] ?? [] as $attributeValueId) {
             $this->processDetachedAttributeValue($syncService, $currentNode, $attributeValueId, $pivotsToDelete);
@@ -161,13 +161,13 @@ class Product extends Model implements HasMedia
     protected function processAttachedAttributeValue($syncService, string $currentNode, $index, $pivotData, array $ids): void
     {
         [$attributeValueId, $attributeId] = $this->resolveAttributeIds($index, $pivotData, $ids, '创建');
-        
+
         if (! $attributeValueId) {
             return;
         }
-        
+
         $pivot = $this->findOrCreatePivot($attributeValueId, $attributeId);
-        
+
         if ($pivot) {
             $syncService->recordSync($pivot, 'created', $currentNode);
         }
@@ -179,13 +179,13 @@ class Product extends Model implements HasMedia
     protected function processUpdatedAttributeValue($syncService, string $currentNode, $index, $pivotData, array $ids): void
     {
         [$attributeValueId, $attributeId] = $this->resolveAttributeIds($index, $pivotData, $ids, '更新');
-        
+
         if (! $attributeValueId) {
             return;
         }
-        
+
         $pivot = $this->findOrCreatePivot($attributeValueId, $attributeId);
-        
+
         if ($pivot) {
             $syncService->recordSync($pivot, 'updated', $currentNode);
         }
@@ -197,22 +197,24 @@ class Product extends Model implements HasMedia
     protected function processDetachedAttributeValue($syncService, string $currentNode, int $attributeValueId, $pivotsToDelete): void
     {
         $pivot = $pivotsToDelete->get($attributeValueId);
-        
+
         if ($pivot) {
             $syncService->recordSync($pivot, 'deleted', $currentNode);
+
             return;
         }
-        
+
         // 尝试从数据库查询
         $pivot = \App\Models\ProductAttributeValue::where('product_id', $this->id)
             ->where('attribute_value_id', $attributeValueId)
             ->first();
-        
+
         if ($pivot) {
             $syncService->recordSync($pivot, 'deleted', $currentNode);
+
             return;
         }
-        
+
         // 尝试通过 attribute_value 查找 attribute_id
         $attributeValue = \App\Models\AttributeValue::find($attributeValueId);
         if ($attributeValue?->attribute_id) {
@@ -222,15 +224,16 @@ class Product extends Model implements HasMedia
                 'attribute_id' => $attributeValue->attribute_id,
             ]);
             $syncService->recordSync($pivot, 'deleted', $currentNode);
+
             return;
         }
-        
+
         // 最后的后备方案
         \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 删除同步：无法获取完整记录', [
             'product_id' => $this->id,
             'attribute_value_id' => $attributeValueId,
         ]);
-        
+
         $pivot = new \App\Models\ProductAttributeValue([
             'product_id' => $this->id,
             'attribute_value_id' => $attributeValueId,
@@ -245,17 +248,17 @@ class Product extends Model implements HasMedia
     {
         $attributeValueId = null;
         $attributeId = $this->extractAttributeIdFromPivotData($pivotData);
-        
+
         // 从 $ids 数组中找到对应的 attribute_value_id
         if ($attributeId !== null) {
             $attributeValueId = $this->findAttributeValueIdByAttributeId($ids, $attributeId);
         }
-        
+
         // 如果还是无法确定，尝试使用索引从 $ids 中获取
         if ($attributeValueId === null && is_numeric($index)) {
             [$attributeValueId, $attributeId] = $this->findAttributeIdsByIndex($ids, $index, $attributeId);
         }
-        
+
         // 验证数据完整性
         if (empty($attributeValueId) || $attributeValueId === 0) {
             \Illuminate\Support\Facades\Log::warning("ProductAttributeValue {$action}同步：无法确定 attribute_value_id", [
@@ -265,15 +268,15 @@ class Product extends Model implements HasMedia
                 'ids_keys' => array_keys($ids),
                 'ids' => $ids,
             ]);
-            
+
             return [null, null];
         }
-        
+
         // 如果还没有 attributeId，尝试从 $ids 或数据库获取
         if ($attributeId === null) {
             $attributeId = $this->resolveAttributeId($attributeValueId, $ids);
         }
-        
+
         return [$attributeValueId, $attributeId];
     }
 
@@ -285,11 +288,11 @@ class Product extends Model implements HasMedia
         if (is_array($pivotData)) {
             return $pivotData['attribute_id'] ?? null;
         }
-        
+
         if (is_numeric($pivotData) && $pivotData > 0) {
             return (int) $pivotData;
         }
-        
+
         return null;
     }
 
@@ -300,12 +303,12 @@ class Product extends Model implements HasMedia
     {
         foreach ($ids as $key => $value) {
             $valueAttributeId = is_array($value) ? ($value['attribute_id'] ?? null) : null;
-            
+
             if ($valueAttributeId === $attributeId) {
                 return is_numeric($key) ? (int) $key : $key;
             }
         }
-        
+
         return null;
     }
 
@@ -316,18 +319,18 @@ class Product extends Model implements HasMedia
     {
         $idsKeys = array_keys($ids);
         $idsValues = array_values($ids);
-        
+
         if (! isset($idsKeys[$index])) {
             return [null, $existingAttributeId];
         }
-        
+
         $attributeValueId = $idsKeys[$index];
         $attributeId = $existingAttributeId;
-        
+
         if (isset($idsValues[$index]) && is_array($idsValues[$index])) {
             $attributeId = $idsValues[$index]['attribute_id'] ?? $attributeId;
         }
-        
+
         return [$attributeValueId, $attributeId];
     }
 
@@ -340,10 +343,10 @@ class Product extends Model implements HasMedia
         if (isset($ids[$attributeValueId]) && is_array($ids[$attributeValueId])) {
             return $ids[$attributeValueId]['attribute_id'] ?? null;
         }
-        
+
         // 从数据库查询
         $attributeValue = \App\Models\AttributeValue::find($attributeValueId);
-        
+
         return $attributeValue?->attribute_id;
     }
 
@@ -355,7 +358,7 @@ class Product extends Model implements HasMedia
         if (! $attributeValueId) {
             return null;
         }
-        
+
         // 先尝试精确查询
         if ($attributeId !== null) {
             $pivot = \App\Models\ProductAttributeValue::where([
@@ -363,22 +366,22 @@ class Product extends Model implements HasMedia
                 'attribute_value_id' => $attributeValueId,
                 'attribute_id' => $attributeId,
             ])->first();
-            
+
             if ($pivot) {
                 return $pivot;
             }
         }
-        
+
         // 尝试不限制 attribute_id 查询
         $pivot = \App\Models\ProductAttributeValue::where([
             'product_id' => $this->id,
             'attribute_value_id' => $attributeValueId,
         ])->first();
-        
+
         if ($pivot) {
             return $pivot;
         }
-        
+
         // 如果查询不到且数据完整，创建临时对象用于同步
         if ($attributeId !== null) {
             return new \App\Models\ProductAttributeValue([
@@ -387,14 +390,14 @@ class Product extends Model implements HasMedia
                 'attribute_id' => $attributeId,
             ]);
         }
-        
+
         // 最后的后备方案：记录警告日志
         \Illuminate\Support\Facades\Log::warning('ProductAttributeValue 同步：无法获取完整数据', [
             'product_id' => $this->id,
             'attribute_value_id' => $attributeValueId,
             'attribute_id' => $attributeId,
         ]);
-        
+
         return null;
     }
 
@@ -410,24 +413,24 @@ class Product extends Model implements HasMedia
     public function syncProductCategories(array $ids, bool $detaching = true): array
     {
         $changes = $this->productCategories()->sync($ids, $detaching);
-        
+
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
             $syncService = app(\App\Services\SyncService::class);
             $currentNode = config('sync.node');
-            
+
             // 处理新增的记录
             foreach ($changes['attached'] ?? [] as $categoryId) {
                 $pivot = \App\Models\ProductCategory::where([
                     'product_id' => $this->id,
                     'category_id' => $categoryId,
                 ])->first();
-                
+
                 if ($pivot) {
                     $syncService->recordSync($pivot, 'created', $currentNode);
                 }
             }
-            
+
             // 处理删除的记录
             foreach ($changes['detached'] ?? [] as $categoryId) {
                 $pivot = new \App\Models\ProductCategory([
@@ -437,7 +440,7 @@ class Product extends Model implements HasMedia
                 $syncService->recordSync($pivot, 'deleted', $currentNode);
             }
         }
-        
+
         return $changes;
     }
 

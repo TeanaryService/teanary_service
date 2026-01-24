@@ -157,6 +157,19 @@ return [
         'attribute-name' => [
             'rule-name' => '맞춤 메시지',
         ],
+        'name' => [
+            'required' => '이름을 입력하세요',
+        ],
+        'email' => [
+            'required' => '이메일 주소를 입력하세요',
+            'email' => '유효한 이메일 주소를 입력하세요',
+            'unique' => '이 이메일 주소는 이미 등록되어 있습니다',
+        ],
+        'password' => [
+            'required' => '비밀번호를 입력하세요',
+            'min' => '비밀번호는 최소 8자 이상이어야 합니다',
+            'confirmed' => '입력한 비밀번호가 일치하지 않습니다',
+        ],
     ],
 
     'attributes' => [],

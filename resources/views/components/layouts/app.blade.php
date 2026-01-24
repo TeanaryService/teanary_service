@@ -39,25 +39,25 @@
 
 </head>
 
-<body class="body bg-gray-50 font-chinese antialiased">
+<body class="body bg-teal-100 font-chinese antialiased">
     <!-- 导航栏 -->
     <header class="fixed w-full top-0 bg-white/98 backdrop-blur-md z-50 border-b border-gray-200/60 shadow-sm">
-        <div class="w-full max-w-7xl mx-auto flex justify-between items-center h-20 px-4 md:px-8">
+        <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto flex justify-between items-center h-20 px-4 md:px-8">
             <!-- Logo -->
             <div class="hidden md:flex items-center">
-                <a href="{{ locaRoute('home') }}" class="flex items-center gap-3 group">
+                <a href="{{ locaRoute('home') }}" wire:navigate class="flex items-center gap-3 group">
                     <x-layouts.logo imgClass="max-w-12 max-h-12 md:max-w-14 md:max-h-14 transition-transform group-hover:scale-105" />
                 </a>
             </div>
 
             <!-- 移动端 Logo -->
             <div class="block md:hidden">
-                <a href="{{ locaRoute('home') }}"><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
+                <a href="{{ locaRoute('home') }}" wire:navigate><x-layouts.logo imgClass="max-w-16 max-h-16" /></a>
             </div>
 
             <!-- 搜索框 -->
             <div class="flex-1 max-w-2xl mx-4 md:mx-8">
-                <x-search-input />
+                <x-widgets.search-input />
             </div>
 
             <!-- 右侧操作区 -->
@@ -65,15 +65,15 @@
                 @livewire('components.cart-dropdown')
 
                 @auth
-                    <x-user-menu />
+                    <x-users.menu />
                 @endauth
                 @guest
-                    <a href="{{ locaRoute('auth.login') }}"
+                    <a href="{{ locaRoute('auth.login') }}" wire:navigate
                         class="hidden sm:flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-tea-600 font-medium transition-colors duration-200 tea-nav-item">
                         <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5" />
                         <span class="hidden md:block">{{ __('app.login') }}</span>
                     </a>
-                    <a href="{{ locaRoute('auth.register') }}"
+                    <a href="{{ locaRoute('auth.register') }}" wire:navigate
                         class="inline-flex items-center justify-center px-4 md:px-6 py-2 text-sm font-semibold rounded-lg text-white tea-btn-primary h-10 gap-2 shadow-md hover:shadow-lg transition-all duration-200">
                         <x-heroicon-o-plus-circle class="w-5 h-5" />
                         <span class="hidden md:block">{{ __('app.register') }}</span>
@@ -81,17 +81,15 @@
                 @endguest
 
                 <div class="flex items-center gap-2 md:gap-3 border-l border-gray-200 pl-3 md:pl-4">
-                    <x-language-switch />
-                    <x-currency-switch />
+                    <x-widgets.language-switch />
+                    <x-widgets.currency-switch />
                 </div>
             </div>
         </div>
     </header>
-    
-    <!-- Flash Messages -->
-    <div class="h-20 w-full">
-        <x-flash-messages />
-    </div>
+    <div class="h-20 w-full"></div>
+
+    <x-widgets.flash-messages />
 
     <div class="main">
         {{ $slot }}
@@ -99,25 +97,6 @@
 
     <x-footer />
     @livewire('components.cookie-consent')
-
-    <!-- Google Analytics -->
-    @if (app()->environment('production'))
-        @php
-            $googleAnalyticsId = getGoogleAnalyticsId();
-        @endphp
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalyticsId }}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-
-            gtag('config', '{{ $googleAnalyticsId }}');
-        </script>
-    @endif
-    <!-- End Google Analytics -->
 
 </body>
 

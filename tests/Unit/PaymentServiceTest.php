@@ -8,6 +8,7 @@ use App\Models\Address;
 use App\Models\Order;
 use App\Services\PaymentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PaymentServiceTest extends TestCase
@@ -43,6 +44,8 @@ class PaymentServiceTest extends TestCase
 
     public function test_handle_payment_success_updates_order_status()
     {
+        Notification::fake();
+
         $order = Order::factory()->create([
             'status' => OrderStatusEnum::Pending,
         ]);

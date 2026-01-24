@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // 首页相关
     'hero_title' => '臻选中国好茶，直达世界每一处',
     'hero_subtitle' => '探索绿茶、红茶、乌龙、普洱等优质茶品，让生活慢下来。',
     'shop_now' => '立即选购好茶',
@@ -12,8 +11,6 @@ return [
     'about_content' => 'Teanary 致力于将云南高山茶的纯粹与宁静送达全球，让您在每一口茶香中感受东方文化的温度。',
     'learn_more' => '了解更多',
     'search' => '搜索',
-
-    // 商品相关
     'product_view_detail' => '查看详情',
     'no_products' => '暂无茶品',
     'categories' => '茶类',
@@ -32,30 +29,23 @@ return [
     'submit_review' => '提交评价',
     'login_to_review' => '登录后可评价',
     'no_reviews' => '暂时没有评价',
-    'review_submitted' => '您的评价已提交，审核后将显示。',
     'anonymous' => '匿名茶友',
     'rating' => '评分',
     'addCart' => '加入茶盒',
     'qty' => '数量',
-    'storage' => '库存：:storage',
-
-    // 促销相关
     'promotions' => '茶礼优惠',
-    'promotion_rule_order_total_min' => '满',
-    'promotion_discount_fixed' => '立减',
-    'promotion_rule_order_qty_min' => '买满',
-    'promotion_discount_percentage' => '折',
     'promotion_starts_at' => '开始时间',
     'promotion_ends_at' => '结束时间',
     'promotion_text' => ':condition :condition_value，:discount :discount_value',
-
-    // 茶文化主题相关
+    'storage' => '库存：:storage',
+    'promotion_rule_order_total_min' => '订单金额',
+    'promotion_rule_order_qty_min' => '订单数量',
+    'promotion_discount_fixed' => '固定折扣',
+    'promotion_discount_percentage' => '百分比折扣',
     'featured_products_subtitle' => '精选优质茶叶，传承千年茶文化',
     'browse_categories_subtitle' => '探索不同茶类，品味茶香人生',
     'tea_culture_articles' => '茶文化文章',
     'tea_culture_articles_subtitle' => '了解茶的历史、文化和品鉴知识',
-
-    // 文章相关（从 article.php 合并）
     'article' => [
         'base_name' => '茶叶文章',
         'title' => '茶叶文章',

@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // Startseite
     'hero_title' => 'Ausgewählter chinesischer Tee, weltweit direkt zu Ihnen',
     'hero_subtitle' => 'Entdecken Sie hochwertige Grün-, Schwarz-, Oolong- und Pu-Erh-Tees und genießen Sie das Leben in Ruhe.',
     'shop_now' => 'Jetzt hochwertigen Tee kaufen',
@@ -12,8 +11,6 @@ return [
     'about_content' => 'Teanary widmet sich der weltweiten Verbreitung der Reinheit und Ruhe des Hochlandtees aus Yunnan, damit Sie in jedem Schluck die Wärme der östlichen Kultur spüren.',
     'learn_more' => 'Mehr erfahren',
     'search' => 'Suche',
-
-    // Produktbezogen
     'product_view_detail' => 'Details ansehen',
     'no_products' => 'Keine Tees verfügbar',
     'categories' => 'Teesorten',
@@ -32,30 +29,23 @@ return [
     'submit_review' => 'Bewertung abschicken',
     'login_to_review' => 'Zum Bewerten anmelden',
     'no_reviews' => 'Noch keine Bewertungen',
-    'review_submitted' => 'Ihre Bewertung wurde eingereicht und wird nach Prüfung angezeigt.',
     'anonymous' => 'Anonymer Teefreund',
     'rating' => 'Bewertung',
     'addCart' => 'In die Teebox legen',
     'qty' => 'Menge',
-    'storage' => 'Lagerbestand: :storage',
-
-    // Promotion-bezogen
     'promotions' => 'Angebote',
-    'promotion_rule_order_total_min' => 'Mindestausgaben',
-    'promotion_discount_fixed' => 'Sparen Sie',
-    'promotion_rule_order_qty_min' => 'Mindestanzahl kaufen',
-    'promotion_discount_percentage' => '% Rabatt',
     'promotion_starts_at' => 'Startdatum',
     'promotion_ends_at' => 'Enddatum',
     'promotion_text' => ':condition ab :condition_value erhalten Sie :discount :discount_value',
-
-    // Tea culture theme related
+    'promotion_rule_order_total_min' => 'Bestellsumme',
+    'promotion_rule_order_qty_min' => 'Bestellmenge',
+    'promotion_discount_fixed' => 'Fester Rabatt',
+    'promotion_discount_percentage' => 'Prozentualer Rabatt',
+    'storage' => 'Lagerbestand: :storage',
     'featured_products_subtitle' => 'Sorgfältig ausgewählte Premium-Tees, die Jahrtausende der Teekultur erben',
     'browse_categories_subtitle' => 'Entdecken Sie verschiedene Teesorten und genießen Sie das Wesen des Teelebens',
     'tea_culture_articles' => 'Teekultur-Artikel',
     'tea_culture_articles_subtitle' => 'Erfahren Sie mehr über Teegeschichte, Kultur und Degustationswissen',
-
-    // Article related (merged from article.php)
     'article' => [
         'base_name' => 'Tee-Artikel',
         'title' => 'Tee-Artikel',

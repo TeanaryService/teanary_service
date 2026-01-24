@@ -1,30 +1,33 @@
 <?php
 
 return [
+    // Mensajes de error de autenticación predeterminados de Laravel
     'failed' => 'Estas credenciales no coinciden con nuestros registros.',
     'password' => 'La contraseña proporcionada es incorrecta.',
     'throttle' => 'Demasiados intentos de inicio de sesión. Por favor, inténtalo de nuevo en :seconds segundos.',
-    'verify_email_success' => 'Correo electrónico verificado con éxito',
 
-    'reset_password' => 'Restablecer contraseña',
+    // Campos del formulario
     'email' => 'Correo electrónico',
-    'send_reset_link' => 'Enviar enlace de restablecimiento',
-
-    'remember_me' => 'Recuérdame',
-    'forgot_password' => '¿Olvidaste tu contraseña?',
-
-    'password_reset_success' => 'Contraseña restablecida con éxito. Redirigiendo...',
     'new_password' => 'Nueva contraseña',
-    'confirm_new_password' => 'Confirmar nueva contraseña',
+    'current_password' => 'Contraseña actual',
 
-    'email_verified_title' => '¡Correo electrónico verificado con éxito!',
-    'email_verified_message' => 'Hemos verificado tu correo electrónico. Redirigiendo a la página de inicio...',
+    // Botones y enlaces de acción
+    'remember_me' => 'Recordarme',
+    'forgot_password' => '¿Olvidaste tu contraseña?',
+    'reset_password' => 'Restablecer contraseña',
+    'change_password' => 'Cambiar contraseña',
 
-    // Email verification related (merged from email_verification.php)
-    'email_verification' => [
-        'title' => 'Verifica tu Correo Electrónico',
-        'description' => 'Hemos enviado un enlace de verificación a tu correo electrónico. Si no lo recibiste, haz clic en el botón de abajo para reenviarlo.',
-        'resent' => 'Se ha enviado un nuevo enlace de verificación a tu correo electrónico.',
-        'resend_button' => 'Reenviar Correo de Verificación',
-    ],
+    // Verificación de correo electrónico
+    'verify_email' => 'Verifique su dirección de correo electrónico',
+    'verify_email_message' => 'Antes de continuar, por favor revise su correo electrónico para obtener un enlace de verificación. Si no recibió el correo, podemos reenviarlo.',
+    'email_verified' => '¡Dirección de correo electrónico verificada exitosamente!',
+    'verification_link_sent' => 'Se ha enviado un enlace de verificación a su dirección de correo electrónico.',
+    'resend_verification_email' => 'Reenviar correo de verificación',
+
+    // Registro
+    'registration_success' => '¡Registro exitoso! Por favor verifique su dirección de correo electrónico.',
+
+    // Textos de la página
+    'or' => 'o',
+    'already_have_account' => '¿Ya tienes una cuenta?',
 ];

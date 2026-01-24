@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // 首页相关
     'hero_title' => 'Los Mejores Tés de China, Directos a Todo el Mundo',
     'hero_subtitle' => 'Explore tés verdes, negros, oolong, pu-erh y más. Tómese un momento para relajarse.',
     'shop_now' => 'Comprar Ahora',
@@ -12,8 +11,6 @@ return [
     'about_content' => 'Teanary se dedica a llevar la pureza y serenidad del té de alta montaña de Yunnan a todo el mundo.',
     'learn_more' => 'Más Información',
     'search' => 'Buscar',
-
-    // 商品相关
     'product_view_detail' => 'Ver detalles',
     'no_products' => 'No hay tés disponibles',
     'categories' => 'Categorías de té',
@@ -32,30 +29,23 @@ return [
     'submit_review' => 'Enviar reseña',
     'login_to_review' => 'Inicia sesión para dejar una reseña',
     'no_reviews' => 'No hay reseñas por ahora',
-    'review_submitted' => 'Tu reseña ha sido enviada y aparecerá tras ser aprobada.',
     'anonymous' => 'Cliente anónimo',
     'rating' => 'Calificación',
     'addCart' => 'Agregar a la caja de té',
     'qty' => 'Cantidad',
-    'storage' => 'Stock: :storage',
-
-    // 促销相关
     'promotions' => 'Promociones',
-    'promotion_rule_order_total_min' => 'Gasta al menos',
-    'promotion_discount_fixed' => 'Ahorra',
-    'promotion_rule_order_qty_min' => 'Compra al menos',
-    'promotion_discount_percentage' => '% de descuento',
     'promotion_starts_at' => 'Fecha de inicio',
     'promotion_ends_at' => 'Fecha de finalización',
     'promotion_text' => ':condition mínimo :condition_value para obtener :discount de :discount_value',
-
-    // Tea culture theme related
+    'promotion_rule_order_total_min' => 'Total del Pedido',
+    'promotion_rule_order_qty_min' => 'Cantidad del Pedido',
+    'promotion_discount_fixed' => 'Descuento Fijo',
+    'promotion_discount_percentage' => 'Descuento Porcentual',
+    'storage' => 'Stock: :storage',
     'featured_products_subtitle' => 'Tés premium cuidadosamente seleccionados, heredando milenios de cultura del té',
     'browse_categories_subtitle' => 'Explora diferentes variedades de té, saborea la esencia de la vida del té',
     'tea_culture_articles' => 'Artículos de Cultura del Té',
     'tea_culture_articles_subtitle' => 'Aprende sobre la historia, cultura y conocimiento de degustación del té',
-
-    // Article related (merged from article.php)
     'article' => [
         'base_name' => 'Artículos de Té',
         'title' => 'Artículos de Té',

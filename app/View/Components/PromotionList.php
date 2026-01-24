@@ -24,7 +24,7 @@ class PromotionList extends Component
     {
         $promotions = app(PromotionService::class)->getAvailablePromotions(auth()->user());
 
-        return view('components.promotion-list', [
+        return view('components.widgets.promotion-list', [
             'promotions' => $promotions,
         ]);
     }

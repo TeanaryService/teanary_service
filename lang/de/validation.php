@@ -154,8 +154,18 @@ return [
     'uuid' => ':attribute muss eine gültige UUID sein.',
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'Benutzerdefinierte Nachricht',
+        'name' => [
+            'required' => 'Bitte geben Sie Ihren Namen ein.',
+        ],
+        'email' => [
+            'required' => 'Bitte geben Sie Ihre E-Mail-Adresse ein.',
+            'email' => 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+            'unique' => 'Diese E-Mail-Adresse ist bereits registriert.',
+        ],
+        'password' => [
+            'required' => 'Bitte geben Sie ein Passwort ein.',
+            'min' => 'Das Passwort muss mindestens 8 Zeichen lang sein.',
+            'confirmed' => 'Die beiden eingegebenen Passwörter stimmen nicht überein.',
         ],
     ],
 

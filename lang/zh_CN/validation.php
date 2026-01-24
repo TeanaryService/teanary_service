@@ -154,8 +154,18 @@ return [
     'uuid' => ':attribute 必须是有效的 UUID。',
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => '自定义消息',
+        'name' => [
+            'required' => '请输入姓名',
+        ],
+        'email' => [
+            'required' => '请输入邮箱地址',
+            'email' => '请输入有效的邮箱地址',
+            'unique' => '该邮箱已被注册',
+        ],
+        'password' => [
+            'required' => '请输入密码',
+            'min' => '密码至少需要8个字符',
+            'confirmed' => '两次输入的密码不一致',
         ],
     ],
 

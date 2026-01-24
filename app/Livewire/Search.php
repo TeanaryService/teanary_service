@@ -2,14 +2,16 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Article;
 use App\Models\Product;
-use App\Services\LocaleCurrencyService;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Search extends Component
 {
+    use UsesLocaleCurrency;
+
     #[Url]
     public $query = '';
 
@@ -22,7 +24,7 @@ class Search extends Component
     {
         $products = collect([]);
         $articles = collect([]);
-        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $this->getCurrentLanguage()?->id;
 
         if ($this->query) {
             // 搜索商品

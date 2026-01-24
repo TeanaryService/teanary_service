@@ -28,3 +28,14 @@ Schedule::command('app:sync-retry-failed --queue')
     ->everyFiveMinutes()
     ->withoutOverlapping()
     ->runInBackground();
+
+// 流量统计批量写入任务（每5分钟执行一次）
+Schedule::command('app:batch-write-traffic-stats --queue')
+    ->everyFiveMinutes()
+    ->withoutOverlapping()
+    ->runInBackground();
+
+// 流量统计数据清理任务（每天凌晨2点执行，清理90天前的数据）
+Schedule::command('app:clean-old-traffic-stats')
+    ->dailyAt('02:00')
+    ->withoutOverlapping();

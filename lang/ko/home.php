@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // 홈페이지 관련
     'hero_title' => '엄선한 중국 고급 차, 세계 모든 곳으로 직배송',
     'hero_subtitle' => '녹차, 홍차, 우롱차, 보이차 등 우수한 차를 탐험하며, 삶의 속도를 늦춰보세요.',
     'shop_now' => '지금 바로 좋은 차 구매하기',
@@ -12,8 +11,6 @@ return [
     'about_content' => 'Teanary는 윈난 고산 차의 순수함과 평온함을 전 세계에 전달하여, 한 모금 한 모금에서 동양 문화의 온기를 느끼게 합니다.',
     'learn_more' => '더 알아보기',
     'search' => '검색',
-
-    // 상품 관련
     'product_view_detail' => '상세 보기',
     'no_products' => '현재 차 상품이 없습니다',
     'categories' => '차 종류',
@@ -32,30 +29,23 @@ return [
     'submit_review' => '평가 제출',
     'login_to_review' => '로그인 후 평가 가능',
     'no_reviews' => '아직 평가가 없습니다',
-    'review_submitted' => '평가가 제출되었습니다. 검토 후 공개됩니다.',
     'anonymous' => '익명 차 애호가',
     'rating' => '평점',
     'addCart' => '차 상자에 담기',
     'qty' => '수량',
-    'storage' => '재고: :storage',
-
-    // 프로모션 관련
     'promotions' => '프로모션',
-    'promotion_rule_order_total_min' => '최소 구매 금액',
-    'promotion_discount_fixed' => '할인',
-    'promotion_rule_order_qty_min' => '최소 구매 수량',
-    'promotion_discount_percentage' => '% 할인',
     'promotion_starts_at' => '시작일',
     'promotion_ends_at' => '종료일',
     'promotion_text' => ':condition :condition_value 이상 구매 시 :discount :discount_value 적용',
-
-    // Tea culture theme related
+    'promotion_rule_order_total_min' => '주문 금액',
+    'promotion_rule_order_qty_min' => '주문 수량',
+    'promotion_discount_fixed' => '고정 할인',
+    'promotion_discount_percentage' => '비율 할인',
+    'storage' => '재고: :storage',
     'featured_products_subtitle' => '엄선된 프리미엄 차잎, 천년의 차 문화를 계승',
     'browse_categories_subtitle' => '다양한 차 종류를 탐험하고, 차 인생의 본질을 맛보기',
     'tea_culture_articles' => '차 문화 기사',
     'tea_culture_articles_subtitle' => '차의 역사, 문화, 감상 지식을 배우기',
-
-    // Article related (merged from article.php)
     'article' => [
         'base_name' => '차 기사',
         'title' => '차 기사',

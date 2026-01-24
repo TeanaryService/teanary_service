@@ -5,8 +5,6 @@ namespace Tests\Unit;
 use App\Enums\PromotionConditionTypeEnum;
 use App\Enums\PromotionDiscountTypeEnum;
 use App\Enums\PromotionTypeEnum;
-use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Promotion;

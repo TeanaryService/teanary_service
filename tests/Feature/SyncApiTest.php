@@ -39,7 +39,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：node2 成功发送同步数据到 node1（创建产品）
+     * 测试：node2 成功发送同步数据到 node1（创建产品）.
      */
     public function test_node2_sends_sync_data_to_node1_creates_product()
     {
@@ -47,12 +47,12 @@ class SyncApiTest extends TestCase
         $product = Product::factory()->make();
         $productData = $product->toArray();
         $productData['id'] = $productId;
-        
+
         // 确保包含所有必需的字段
         if (! isset($productData['status'])) {
             $productData['status'] = 'active';
         }
-        
+
         // 移除可能干扰的字段
         unset($productData['product_variants'], $productData['product_translations']);
 
@@ -93,13 +93,13 @@ class SyncApiTest extends TestCase
 
         // 检查响应数据
         $responseData = $response->json();
-        
+
         // 如果同步失败，输出详细信息
         if ($responseData['data']['failed'] > 0) {
-            $this->fail('同步失败: ' . json_encode($responseData['data']['results']));
+            $this->fail('同步失败: '.json_encode($responseData['data']['results']));
         }
-        
-        $this->assertEquals(1, $responseData['data']['success'], '同步应该成功: ' . json_encode($responseData['data']));
+
+        $this->assertEquals(1, $responseData['data']['success'], '同步应该成功: '.json_encode($responseData['data']));
         $this->assertEquals(0, $responseData['data']['failed']);
 
         // 验证产品已创建（可能ID不同，但应该有一条记录）
@@ -110,13 +110,13 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：node2 成功发送同步数据到 node1（更新产品）
+     * 测试：node2 成功发送同步数据到 node1（更新产品）.
      */
     public function test_node2_sends_sync_data_to_node1_updates_product()
     {
         // 先创建一个产品
         $product = Product::factory()->create();
-        
+
         $updatedData = $product->toArray();
         $updatedData['status'] = ProductStatusEnum::Inactive->value;
 
@@ -151,7 +151,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：node2 成功发送同步数据到 node1（删除产品）
+     * 测试：node2 成功发送同步数据到 node1（删除产品）.
      */
     public function test_node2_sends_sync_data_to_node1_deletes_product()
     {
@@ -188,7 +188,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：无效的 API Key 被拒绝
+     * 测试：无效的 API Key 被拒绝.
      */
     public function test_invalid_api_key_is_rejected()
     {
@@ -220,7 +220,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：无效的来源节点被拒绝
+     * 测试：无效的来源节点被拒绝.
      */
     public function test_invalid_source_node_is_rejected()
     {
@@ -252,7 +252,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：缺少来源节点 header 被拒绝
+     * 测试：缺少来源节点 header 被拒绝.
      */
     public function test_missing_source_node_header_is_rejected()
     {
@@ -283,7 +283,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：无效的请求数据被拒绝
+     * 测试：无效的请求数据被拒绝.
      */
     public function test_invalid_request_data_is_rejected()
     {
@@ -318,7 +318,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：同步后缓存被清除
+     * 测试：同步后缓存被清除.
      */
     public function test_cache_is_cleared_after_sync()
     {
@@ -327,7 +327,7 @@ class SyncApiTest extends TestCase
 
         $productId = app(SnowflakeService::class)->nextId();
         $product = Product::factory()->make();
-        
+
         // 构建 payload，确保包含所有必需的字段
         $productData = [
             'id' => $productId,
@@ -366,7 +366,7 @@ class SyncApiTest extends TestCase
     }
 
     /**
-     * 测试：即使本地数据更新，也要执行同步
+     * 测试：即使本地数据更新，也要执行同步.
      */
     public function test_sync_is_skipped_when_local_data_is_newer()
     {
@@ -377,7 +377,7 @@ class SyncApiTest extends TestCase
         $oldTimestamp = now()->subHour()->toIso8601String();
         $updatedData = $product->toArray();
         $updatedData['status'] = 'inactive';
-        
+
         $batchData = [
             [
                 'model_type' => Product::class,
@@ -409,7 +409,7 @@ class SyncApiTest extends TestCase
         $responseData = $response->json();
         // 验证没有 skipped 字段（或者 skipped 为 false）
         $this->assertFalse(isset($responseData['data']['results'][0]['skipped']) ? $responseData['data']['results'][0]['skipped'] : false);
-        
+
         // 验证数据已更新
         $product->refresh();
         $this->assertEquals(ProductStatusEnum::Inactive, $product->status);

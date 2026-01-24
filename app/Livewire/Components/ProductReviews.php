@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Components;
 
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\ProductReview;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductReviews extends Component
 {
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     use WithPagination;
 
     public $productId;
@@ -37,7 +40,7 @@ class ProductReviews extends Component
 
         ProductReview::create([
             'product_id' => $this->productId,
-            'product_variant_id' => $this->variantId,
+            'product_variants' => $this->variantId,
             'user_id' => auth()->id(),
             'rating' => $this->rating,
             'content' => $this->content,
@@ -49,27 +52,24 @@ class ProductReviews extends Component
     }
 
     /**
-     * 获取产品变体规格字符串
+     * 获取产品变体规格字符串.
      */
     protected function getProductVariantSpecs($productVariant, $lang): string
     {
-        if (!$productVariant) {
+        if (! $productVariant) {
             return '';
         }
-        
+
         return $productVariant->specificationValues
             ->map(function ($sv) use ($lang) {
-                $trans = $sv->specificationValueTranslations
-                    ->where('language_id', $lang?->id)
-                    ->first();
-                return $trans && $trans->name ? $trans->name : $sv->id;
+                return $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
             })
             ->implode(' / ');
     }
 
     public function render()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
+        $lang = $this->getCurrentLanguage();
         $reviews = ProductReview::with(['user', 'productVariant.specificationValues.specificationValueTranslations'])
             ->where('product_id', $this->productId)
             ->where('is_approved', true)

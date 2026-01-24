@@ -26,7 +26,7 @@ class StoreProductRequest extends FormRequest
             if ($questionMarkPos !== false) {
                 $url = substr($url, 0, $questionMarkPos);
             }
-            
+
             $this->merge([
                 'source_url' => $url,
             ]);
@@ -40,7 +40,7 @@ class StoreProductRequest extends FormRequest
     {
         // 直接记录原始请求数据和验证错误
         $errors = $validator->errors()->toArray();
-        
+
         Log::warning('商品上传验证失败', [
             'ip' => $this->ip(),
             'user_agent' => $this->userAgent(),

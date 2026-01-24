@@ -8,13 +8,18 @@
 
         @auth
             <form wire:submit.prevent="submit" class="mb-6 bg-gray-50 rounded-lg p-6 shadow">
-                <div class="flex items-center gap-2 mb-4">
+                <x-widgets.form-container>
+                    <div class="flex items-center gap-2 mb-4">
                     <label class="font-semibold mr-2">{{ __('home.rating') }}</label>
                     <div class="flex items-center gap-1" x-data="{ rating: @entangle('rating') }">
                         @for ($i = 1; $i <= 5; $i++)
                             <label class="cursor-pointer">
-                                <input type="radio" wire:model="rating" value="{{ $i }}" class="hidden"
-                                    x-model="rating" />
+                                <x-widgets.radio 
+                                    wire="rating"
+                                    :value="$i"
+                                    class="hidden"
+                                    x-model="rating"
+                                />
                                 <svg @click="rating = {{ $i }}"
                                     class="w-6 h-6 {{ $rating >= $i ? 'text-yellow-400' : 'text-gray-300' }}"
                                     :class="{
@@ -33,23 +38,28 @@
                     </div>
 
                 </div>
-                <div class="mb-4">
-                    <textarea wire:model="content" rows="3"
-                        class="w-full border rounded px-3 py-2 focus:ring-teal-500 focus:border-teal-500"
-                        placeholder="{{ __('home.review_placeholder') }}"></textarea>
-                </div>
-                <button type="submit"
-                    class="bg-teal-600 text-white px-6 py-2 rounded font-bold hover:bg-teal-700 w-full">
-                    {{ __('home.submit_review') }}
-                </button>
+                <x-widgets.form-field>
+                    <x-widgets.textarea 
+                        wire="content"
+                        rows="3"
+                        placeholder="{{ __('home.review_placeholder') }}"
+                    />
+                </x-widgets.form-field>
+                    <x-widgets.button 
+                        type="submit"
+                        class="w-full px-6 py-2 font-bold"
+                    >
+                        {{ __('home.submit_review') }}
+                    </x-widgets.button>
+                </x-widgets.form-container>
             </form>
         @else
-            <div class="mb-4 bg-gray-50 rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
-                <a href="{{ locaRoute('auth.login') }}"
-                    class="text-teal-600 font-semibold">{{ __('app.login') }}</a>
-                <a href="{{ locaRoute('auth.register') }}"
-                    class="text-teal-600 font-semibold">{{ __('app.register') }}</a>
-                <span class="text-gray-500">{{ __('home.login_to_review') }}</span>
+            <div class="mb-4 bg-teal-500 text-white rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
+                <a href="{{ locaRoute('auth.login') }}" wire:navigate
+                    class="font-semibold">{{ __('app.login') }}</a>
+                <a href="{{ locaRoute('auth.register') }}" wire:navigate
+                    class="font-semibold">{{ __('app.register') }}</a>
+                <span class="text-gray-50">{{ __('home.login_to_review') }}</span>
             </div>
         @endauth
     </div>
@@ -79,7 +89,11 @@
                 <div class="text-gray-400 text-xs">{{ $review->created_at->format('Y-m-d H:i') }}</div>
             </div>
         @empty
-            <div class="text-gray-500 py-8 text-center">{{ __('home.no_reviews') }}</div>
+            <x-widgets.empty-state 
+                icon="heroicon-o-chat-bubble-left-right"
+                :title="__('home.no_reviews')"
+                class="py-8"
+            />
         @endforelse
 
         <div class="mt-4">

@@ -7,7 +7,6 @@ return [
     ],
 
     'description' => [
-        'placeholder' => 'Estimated delivery time to be calculated',
         'sf' => 'Estimated delivery in :days days',
         'ems' => 'Estimated delivery in :days days',
     ],

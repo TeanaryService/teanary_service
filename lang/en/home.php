@@ -32,22 +32,21 @@ return [
     'submit_review' => 'Submit Review',
     'login_to_review' => 'Please login to review',
     'no_reviews' => 'No reviews yet',
-    'review_submitted' => 'Your review has been submitted and will be displayed after approval.',
     'anonymous' => 'Anonymous Tea Friend',
     'rating' => 'Rating',
     'addCart' => 'Add to Cart',
     'qty' => 'Quantity',
-    'storage' => 'Stock: :storage',
 
     // Promotion related
     'promotions' => 'Promotions',
-    'promotion_rule_order_total_min' => 'Spend at least',
-    'promotion_discount_fixed' => 'Save',
-    'promotion_rule_order_qty_min' => 'Buy at least',
-    'promotion_discount_percentage' => '% Off',
     'promotion_starts_at' => 'Start Date',
     'promotion_ends_at' => 'End Date',
     'promotion_text' => 'When :condition :condition_value, get :discount :discount_value',
+    'promotion_rule_order_total_min' => 'Order Total',
+    'promotion_rule_order_qty_min' => 'Order Quantity',
+    'promotion_discount_fixed' => 'Fixed Discount',
+    'promotion_discount_percentage' => 'Percentage Discount',
+    'storage' => 'Stock: :storage',
 
     // Tea culture theme related
     'featured_products_subtitle' => 'Carefully selected premium teas, inheriting millennia of tea culture',

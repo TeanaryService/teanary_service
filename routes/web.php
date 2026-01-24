@@ -6,15 +6,15 @@ use App\Livewire\ArticleList;
 use App\Livewire\Cart;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
+use App\Livewire\IndexPage;
+use App\Livewire\OrderQuery;
 use App\Livewire\Payment\Cancel;
 use App\Livewire\Payment\Checkout as PaymentCheckout;
 use App\Livewire\Payment\Failure;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
-use App\Models\User;
 use App\Services\LocaleCurrencyService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 $service = new LocaleCurrencyService;
@@ -33,55 +33,40 @@ if (empty($supportedLocales)) {
 }
 
 // 路由组
-Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class])->group(function () {
-    // Auth routes moved to Filament user panel (/user)
+Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Middleware\TrackTraffic::class])->group(function () {
+    Route::livewire('index.html', IndexPage::class)->name('teanary.open');
+
+    // 引入用户相关路由
+    require __DIR__.'/users.php';
+    
+    // 引入管理员相关路由
+    require __DIR__.'/manager.php';
+
+    // 引入用户相关路由
+    require __DIR__.'/manager.php';
 
     Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
 
-    Route::get('/', Home::class)->name('home');
-    Route::get('product', Product::class)->name('product');
-    Route::get('product/{slug}', ProductDetail::class)->name('product.show');
-    Route::get('cart', Cart::class)->name('cart');
-    Route::get('checkout', Checkout::class)->name('checkout');
+    Route::livewire('/', Home::class)->name('home');
+    Route::livewire('product', Product::class)->name('product');
+    Route::livewire('product/{slug}', ProductDetail::class)->name('product.show');
+    Route::livewire('cart', Cart::class)->name('cart');
+    Route::livewire('checkout', Checkout::class)->name('checkout');
 
-    Route::get('payment/success', Success::class)->name('payment.success');
-    Route::get('payment/cancel', Cancel::class)->name('payment.cancel');
-    Route::get('payment/failure', Failure::class)->name('payment.failure');
-    Route::get('payment/checkout/{orderId}', PaymentCheckout::class)->name('payment.checkout');
+    Route::livewire('payment/success', Success::class)->name('payment.success');
+    Route::livewire('payment/cancel', Cancel::class)->name('payment.cancel');
+    Route::livewire('payment/failure', Failure::class)->name('payment.failure');
+    Route::livewire('payment/checkout/{orderId}', PaymentCheckout::class)->name('payment.checkout');
 
-    Route::get('articles', ArticleList::class)->name('article.index');
-    Route::get('articles/{slug}', ArticleDetail::class)->name('article.show');
+    Route::livewire('articles', ArticleList::class)->name('article.index');
+    Route::livewire('articles/{slug}', ArticleDetail::class)->name('article.show');
 
-    // 管理员登录为其他用户（仅限管理员访问）
-    Route::get('login-as/{id}', function (string $locale, int $id) {
-        // 检查管理员是否已登录（通过 Filament 管理面板）
-        $panel = \Filament\Facades\Filament::getPanel('manager');
-        
-        if (! $panel || ! $panel->auth()->check()) {
-            abort(403, 'Unauthorized: Please login to the manager panel first.');
-        }
+    Route::livewire('/search', \App\Livewire\Search::class)->name('search');
 
-        // 查找要登录的用户
-        $user = User::find($id);
-
-        if (! $user) {
-            abort(404, 'User not found');
-        }
-
-        // 登录为用户（这会自动覆盖之前登录的用户，因为 manager 和 user 是不同的 guard）
-        // manager guard 保持登录状态，web guard 登录新用户
-        Auth::guard('web')->loginUsingId($id);
-
-        // 重定向到用户个人中心
-        return redirect('/user/profile');
-    })->middleware(['web'])->name('login-as');
-
-    // Email verification routes moved to Filament user panel (/user)
-
-    Route::get('/search', \App\Livewire\Search::class)->name('search');
+    Route::livewire('order-query', OrderQuery::class)->name('order.query');
 
     Route::fallback(function () {
-        return abort(404);
+        abort(404);
     });
 })->where(['locale' => $supportedLocales]);

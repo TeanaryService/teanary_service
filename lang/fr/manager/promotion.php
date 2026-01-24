@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'unnamed' => 'Promotion sans nom',
+    'type' => 'Type de promotion',
+    'translation_status' => 'Statut de traduction',
+    'starts_at' => 'Heure de début',
+    'ends_at' => 'Heure de fin',
+    'active' => 'Actif',
+    'inactive' => 'Inactif',
+    'translations' => 'Traductions multilingues',
+    'name' => 'Nom de la promotion',
+    'description' => 'Description de la promotion',
+    'rules' => 'Règles de promotion',
+    'no_rules' => 'Aucune règle de promotion, veuillez ajouter',
+    'condition_type' => 'Type de condition',
+    'condition_value' => 'Valeur de condition',
+    'discount_type' => 'Type de remise',
+    'discount_value' => 'Valeur de remise',
+    'user_groups' => 'Groupes d\'utilisateurs',
+    'user_groups_helper' => 'Sélectionnez les groupes d\'utilisateurs qui peuvent utiliser cette promotion. Si aucun n\'est sélectionné, tous les utilisateurs peuvent l\'utiliser',
+    'selected_user_groups' => 'Groupes d\'utilisateurs sélectionnés',
+    'product_variants' => 'Variantes de produit',
+    'product_variants_helper' => 'Sélectionnez les variantes de produit (SKUs) qui participent à cette promotion',
+    'search_products_placeholder' => 'Rechercher le nom du produit ou SKU',
+];

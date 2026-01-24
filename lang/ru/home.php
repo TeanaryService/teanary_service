@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // Главная страница
     'hero_title' => 'Отборный китайский чай, доставляемый в каждый уголок мира',
     'hero_subtitle' => 'Исследуйте высококачественные зелёный, красный, улун и пуэр — пусть жизнь замедлится.',
     'shop_now' => 'Купить чай сейчас',
@@ -12,8 +11,6 @@ return [
     'about_content' => 'Teanary стремится доставить чистоту и спокойствие высокогорного чая Юньнани по всему миру, чтобы вы почувствовали тепло восточной культуры в каждом глотке.',
     'learn_more' => 'Узнать больше',
     'search' => 'Поиск',
-
-    // Связанные с продуктами
     'product_view_detail' => 'Посмотреть детали',
     'no_products' => 'Чаёв нет',
     'categories' => 'Категории чая',
@@ -32,30 +29,23 @@ return [
     'submit_review' => 'Отправить отзыв',
     'login_to_review' => 'Войдите, чтобы оставить отзыв',
     'no_reviews' => 'Пока нет отзывов',
-    'review_submitted' => 'Ваш отзыв отправлен и будет опубликован после проверки.',
     'anonymous' => 'Анонимный покупатель',
     'rating' => 'Оценка',
     'addCart' => 'Добавить в корзину',
     'qty' => 'Количество',
-    'storage' => 'В наличии: :storage',
-
-    // Акции и скидки
     'promotions' => 'Акции',
-    'promotion_rule_order_total_min' => 'Минимальная сумма заказа',
-    'promotion_discount_fixed' => 'Скидка',
-    'promotion_rule_order_qty_min' => 'Минимальное количество',
-    'promotion_discount_percentage' => '% скидка',
     'promotion_starts_at' => 'Дата начала',
     'promotion_ends_at' => 'Дата окончания',
     'promotion_text' => ':condition от :condition_value получает :discount :discount_value',
-
-    // Tea culture theme related
+    'promotion_rule_order_total_min' => 'Сумма Заказа',
+    'promotion_rule_order_qty_min' => 'Количество Заказа',
+    'promotion_discount_fixed' => 'Фиксированная Скидка',
+    'promotion_discount_percentage' => 'Процентная Скидка',
+    'storage' => 'Запас: :storage',
     'featured_products_subtitle' => 'Тщательно отобранные премиальные чаи, наследуя тысячелетия чайной культуры',
     'browse_categories_subtitle' => 'Исследуйте различные сорта чая, наслаждайтесь сущностью чайной жизни',
     'tea_culture_articles' => 'Статьи о чайной культуре',
     'tea_culture_articles_subtitle' => 'Узнайте об истории чая, культуре и знаниях дегустации',
-
-    // Article related (merged from article.php)
     'article' => [
         'base_name' => 'Статьи о чае',
         'title' => 'Статьи о чае',

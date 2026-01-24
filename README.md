@@ -1,20 +1,19 @@
 # Teanary - 全球多节点电商平台系统
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
-[![PHP](https://img.shields.io/badge/PHP-8.1+-blue.svg)](https://php.net)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-38B2AC.svg)](https://tailwindcss.com)
-[![Livewire](https://img.shields.io/badge/Livewire-3.x-4E56A6.svg)](https://livewire.laravel.com)
-[![Filament](https://img.shields.io/badge/Filament-3.x-6366F1.svg)](https://filamentphp.com)
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)](https://php.net)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.x-38B2AC.svg)](https://tailwindcss.com)
+[![Livewire](https://img.shields.io/badge/Livewire-4.x-4E56A6.svg)](https://livewire.laravel.com)
 
-> 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统。专为解决跨国电商运营难题而设计。
+> 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统，支持多语言、多货币自动换算和结算。专为解决跨国电商运营难题而设计。
 
-> 代码已通过单元测试和静态分析,普通bug反馈请通过Issues提交；安全相关bug请通过Email(hello@teanary.com)提交
+> 代码已通过单元测试和静态分析。普通 bug 反馈请通过 Issues 提交；安全相关 bug 请通过 Email (hello@teanary.com) 提交。
 
 ## 🎮 在线演示
 
 **前端地址**: [https://demo.chatterup.fun:2003](https://demo.chatterup.fun:2003)  
-**后台管理**: [https://demo.chatterup.fun:2003/m](https://demo.chatterup.fun:2003/m)
+**后台管理**: [https://demo.chatterup.fun:2003/zh_CN/manager](https://demo.chatterup.fun:2003/zh_CN/manager)
 
 **测试账号**（前后端通用）:
 - 邮箱: `demo@demo.com`
@@ -26,464 +25,237 @@
 - 🌐 如果您愿意赞助服务器资源部署 Demo，我们可以部署多节点同步演示环境，展示完整的多节点同步功能
 - 📧 如有赞助意向或想了解更多信息，请联系：hello@teanary.com
 
-### 📸 系统截图
-
-<div align="center">
-
-#### 🖥️ 前端界面（8张）
-
-![前端首页](public/images/screenshot/home-page.png)
-*前端首页展示*
-
-![分类页面](public/images/screenshot/category-page.png)
-*分类页面*
-
-![商品详情](public/images/screenshot/product-detailk-page.png)
-*商品详情页面*
-
-![购物车](public/images/screenshot/cart-page.png)
-*购物车页面*
-
-![结算页面](public/images/screenshot/checkout-page.png)
-*结算页面*
-
-![订单页面](public/images/screenshot/order-page.png)
-*订单页面*
-
-![文章推荐](public/images/screenshot/articles-recommand.png)
-*文章推荐页面*
-
-![联系我们](public/images/screenshot/contact-us-plug.png)
-*联系我们页面*
-
-#### ⚙️ 后台管理（20张）
-
-![后台首页](public/images/screenshot/admin-dashboard-page.png)
-*后台管理首页*
-
-![商品管理](public/images/screenshot/admin-product-manager-page.png)
-*商品管理界面*
-
-![商品编辑](public/images/screenshot/admin-product-edit-page.png)
-*商品编辑页面*
-
-![商品属性值管理](public/images/screenshot/admin-product-attribute-value-manager-page.png)
-*商品属性值管理*
-
-![商品规格管理](public/images/screenshot/admin-product-specification-manager-page.png)
-*商品规格管理*
-
-![商品规格值管理](public/images/screenshot/admin-product-specification-value-managet-page.png)
-*商品规格值管理*
-
-![商品评价](public/images/screenshot/admin-product-review-page.png)
-*商品评价管理*
-
-![分类管理](public/images/screenshot/admin-category-page.png)
-*分类管理*
-
-![属性管理](public/images/screenshot/admin-attribute-manager-page.png)
-*属性管理*
-
-![订单管理](public/images/screenshot/admin-order-manager-page.png)
-*订单管理*
-
-![用户管理](public/images/screenshot/admin-user-manager-page.png)
-*用户管理*
-
-![管理用户](public/images/screenshot/admin-manager-user-page.png)
-*管理用户页面*
-
-![用户组管理](public/images/screenshot/admin-user-group-page.png)
-*用户组管理*
-
-![促销管理](public/images/screenshot/admin-promotions-page.png)
-*促销管理*
-
-![收货地址管理](public/images/screenshot/admin-shopping-address-page.png)
-*收货地址管理*
-
-![文章管理](public/images/screenshot/admin-aricles-page.png)
-*文章管理*
-
-![货币管理](public/images/screenshot/admin-currency-manager-page.png)
-*货币管理*
-
-![语言管理](public/images/screenshot/admin-langage-page.png)
-*语言管理*
-
-![国家管理](public/images/screenshot/admin-country-manager-page.png)
-*国家管理*
-
-![区域管理](public/images/screenshot/admin-zone-manager-page.png)
-*区域管理*
-
-#### 🔧 其他功能（1张）
-
-![Chrome采集插件](public/images/screenshot/chrome-spider-product-extension.png)
-*Chrome采集插件*
-
-</div>
-
 ## 🌟 核心特性
 
 ### 🌍 多节点数据同步系统
 
-**解决的核心问题：**
-- ✅ **跨国服务器管理难题**：服务器在国外，管理网站不方便？在中国部署管理节点，数据自动同步到全球各节点
-- ✅ **本地化运营**：不同国家/地区运行独立节点，提供本地化服务，提升用户体验
-- ✅ **数据一致性**：多节点数据自动双向同步，以最新数据为准，确保全球数据一致
-- ✅ **故障容灾**：单个节点故障不影响其他节点，系统自动重试同步
+**重要概念：多节点部署不是简单的服务器集群，而是完全独立的系统部署。**
 
-**技术特点：**
-- 🔄 **双向同步**：支持任意数量节点间的数据双向同步
-- 📦 **批量同步**：多条记录打包同步，大幅提升效率
-- 🔐 **安全可靠**：API Key 验证，支持 HTTPS 加密传输
-- 📁 **文件同步**：自动同步媒体文件（图片、资源等）
-- 🔁 **自动重试**：同步失败自动重试，确保数据不丢失
-- 📊 **同步监控**：完整的同步日志和状态跟踪
+#### 核心特点
 
-**适用场景：**
-- 中国管理节点 + 美国/欧洲/亚洲等多个销售节点
-- 不同国家/地区独立运营，数据统一管理
-- 需要本地化服务但统一数据源的场景
+**每个节点都是完全独立的系统：**
+- 🏢 **完全独立的系统**：每个节点都是一个独立的电商系统，有自己独立的数据库、文件存储和服务器
+- 🎨 **功能完全独立**：每个节点可以有不同的功能配置，可以启用或禁用不同的功能模块
+- 🎭 **模板完全独立**：每个节点可以使用不同的前端模板、UI 设计和品牌风格，针对不同市场进行界面定制
+- 💳 **支付方式完全独立**：每个节点可以配置不同的支付方式（如：中国节点用支付宝/微信，美国节点用 PayPal，欧洲节点用 SEPA），互不影响
+- 🌐 **部署位置独立**：每个节点可以部署在不同的地理位置（如：中国、美国、欧洲），就近服务用户
 
-### 🤖 AI 自动翻译系统
+**数据自动同步：**
+- 🔄 **双向同步**：支持任意数量节点间的数据双向同步，以最新数据为准
+- 📦 **批量同步**：多条记录打包成一个请求，大幅提升同步效率
+- 🔐 **安全传输**：API Key 验证，HTTPS 加密传输
+- 📁 **媒体文件同步**：自动同步商品图片、资源文件等
+- 🔁 **自动重试**：网络故障时自动重试，确保数据不丢失
+- 📊 **完整日志**：完整的同步日志和状态跟踪
+- 🎯 **智能去重**：基于哈希值的智能去重，避免重复同步
+- 🔗 **级联同步**：级联删除支持，自动同步关联数据
 
-**功能特点：**
-- 🌐 **多语言支持**：支持 8 种语言自动翻译（中文、英文、西班牙语、法语、日语、韩语、德语、俄语）
-- 📝 **内容翻译**：自动翻译商品信息、文章内容、分类描述等
-- 🎯 **智能识别**：自动识别 HTML 内容，保留标签结构
-- ⚡ **批量处理**：支持批量翻译，提升效率
-- 🔄 **状态跟踪**：翻译状态实时跟踪（待翻译、翻译中、已完成、失败）
+**同步的数据：**
+- ✅ 商品信息、商品变体、商品翻译
+- ✅ 分类信息、分类翻译
+- ✅ 规格信息、规格值、属性信息、属性值
+- ✅ 促销信息、促销规则
+- ✅ 文章信息、媒体文件
 
-**技术实现：**
-- 集成 Ollama 本地 AI 模型，无需第三方 API
-- 支持自定义翻译提示词，优化翻译质量
-- 异步队列处理，不阻塞主流程
+**不同步的数据（每个节点独立）：**
+- ❌ 订单数据（每个节点独立处理订单）
+- ❌ 用户数据（可选择是否同步）
+- ❌ 购物车数据
+- ❌ 支付配置、系统配置
+- ❌ 模板文件、自定义代码
 
-### 🛒 Chrome 插件商品采集
+**典型应用场景：**
+- 🌏 **跨国电商运营**：中国节点面向中国市场（中文界面、支付宝支付），美国节点面向美国市场（英文界面、PayPal 支付），欧洲节点面向欧洲市场（多语言界面、SEPA 支付）
+- 🏪 **多品牌运营**：不同品牌使用不同的节点，共享商品数据但展示方式完全不同
+- 🧪 **测试环境**：测试节点可以同步生产节点的商品数据，但订单、用户数据独立
 
-**功能特点：**
-- 🛍️ **1688 商品采集**：一键采集 1688 商品信息
-- 📸 **图片自动下载**：自动下载商品图片并上传到服务器
-- 🌐 **多语言处理**：自动提取中文信息，准备翻译
-- 📋 **批量导入**：支持批量商品导入
-- 🔄 **数据同步**：采集的商品自动同步到所有节点
-
-**使用场景：**
-- 从 1688 等平台快速采集商品
-- 批量导入商品到电商平台
-- 自动化商品管理流程
-
-### 🛍️ 完整电商功能
-
-- **产品管理**：多规格、多图片、多语言产品信息
-- **分类系统**：灵活的层级分类和属性筛选
-- **购物车**：实时购物车功能
-- **订单管理**：完整的订单流程和状态跟踪
-- **支付集成**：支持 PayPal 等多种支付方式
-- **促销系统**：灵活的促销规则和优惠券
-- **用户系统**：用户注册、登录、个人中心
-- **内容管理**：多语言文章系统
-- **SEO 优化**：自动生成 SEO 标签
+详细技术文档请参考 [多节点数据同步文档](docs/SYNC.md)。
 
 ### 🎨 现代化管理后台
 
-- **Filament 3.x**：基于 Laravel 的现代化管理面板
-- **实时数据统计**：销售数据、用户统计等
-- **多语言管理**：统一管理所有语言内容
-- **媒体管理**：图片上传、优化、管理
-- **系统设置**：灵活的配置管理
+基于 Livewire 4.x + 自定义 Blade 组件系统重构的管理后台，提供：
+
+**核心功能：**
+- 📊 实时数据统计和流量看板（完全用 Livewire 实现）
+- 🛍️ 商品/规格/SKU/促销/订单等业务页面统一管理
+- 🌐 多语言内容管理、媒体管理
+- ⚡ 批量操作与同步深度集成
+- 🎯 统一的组件系统（按钮、表单、提示等）
+- 🔔 实时消息提示系统（右上角显示）
+- 📱 响应式设计，支持移动端
+
+**组件系统：**
+- `<x-widgets.button>` - 统一的按钮组件
+- `<x-widgets.checkbox>` - 统一的复选框组件
+- `<x-widgets.alert>` - 统一的提示消息组件
+- `<x-widgets.flash-messages>` - 实时消息提示系统
+
+### 🤖 AI 自动翻译系统
+
+支持 8 种语言自动翻译（中文、英文、西班牙语、法语、日语、韩语、德语、俄语），集成 Ollama 本地 AI 模型，无需第三方 API。
+
+### 🛒 Chrome 插件商品采集
+
+一键采集 1688 商品信息，自动下载图片并上传到服务器，支持批量导入。
+
+### 🛍️ 完整电商功能
+
+- **产品管理**：多规格、多图片、多语言支持
+- **分类系统**：多级分类和属性筛选
+- **购物车和订单**：完整的购物流程
+- **支付集成**：PayPal 等支付方式
+- **促销系统**：优惠券、折扣、满减等
+- **用户系统**：用户注册、登录、个人中心
+- **内容管理**：文章、页面管理
+- **SEO 优化**：友好的 URL、Meta 标签等
+
+### 🔧 开发体验优化
+
+- **代码质量**：PHPStan 静态分析、Pint 代码格式化
+- **单元测试**：完整的测试覆盖，包括同步逻辑测试
+- **组件化开发**：统一的组件系统，提高开发效率
+- **批量操作**：支持批量删除、批量更新状态等
+- **级联删除**：Observer 模式实现关联数据自动删除
 
 ## 🚀 技术栈
 
 ### 后端技术
 - **Laravel 12.x** - PHP Web 框架
-- **PHP 8.1+** - 服务器端语言
+- **PHP 8.2+** - 服务器端语言
 - **MySQL 8.0+** - 数据库
 - **Redis** - 缓存和会话存储
-- **Laravel Octane** - 高性能应用服务器
+- **Laravel Octane** - 高性能应用服务器（可选）
 
 ### 前端技术
-- **Tailwind CSS 3.x** - 实用优先的 CSS 框架
-- **Livewire 3.x** - 全栈框架
+- **Tailwind CSS 4.x** - 实用优先的 CSS 框架
+- **Livewire 4.x** - 全栈框架，无需编写 JavaScript
 - **Alpine.js** - 轻量级 JavaScript 框架
 - **Vite** - 现代前端构建工具
 
-### 管理后台
-- **Filament 3.x** - Laravel 管理面板
-- **自定义组件** - 针对业务定制的管理组件
+### 核心服务
+- **SyncService** - 多节点数据同步服务
+- **SnowflakeService** - 分布式 ID 生成服务
+- **MediaLibrary** - 媒体文件管理（Spatie）
+- **Scout** - 全文搜索（Meilisearch）
 
-### 其他工具
-- **Laravel Media Library** - 媒体文件管理
-- **Laravel Scout** - 全文搜索
-- **Laravel Queue** - 队列处理
-- **Laravel Notifications** - 通知系统
-- **Ollama** - 本地 AI 模型（用于翻译）
+## 📚 文档
 
-## 📦 快速开始
+完整的项目文档位于 `docs` 目录：
 
-### 环境要求
-- PHP >= 8.1
-- Composer
-- Node.js >= 16.x
-- MySQL >= 8.0
-- Redis
-- Ollama (可选，用于 AI 翻译)
+- **[文档目录](docs/README.md)** - 所有文档的索引
+- **[功能说明文档](docs/FEATURES.md)** - V1.3.0 版本详细功能说明，包含所有功能模块的详细介绍和使用指南
+- **[系统架构](docs/ARCHITECTURE.md)** - 系统架构与数据流程图
+- **[部署指南](docs/DEPLOYMENT.md)** - 快速开始、开发环境安装和生产环境部署完整指南
+- **[多节点数据同步](docs/SYNC.md)** - 详细的多节点同步配置和使用指南
+- **[流量统计功能](docs/TRAFFIC-STATISTICS.md)** - 流量统计功能完整文档
+- **[发布指南](docs/RELEASE.md)** - 版本发布流程
 
-### 安装步骤
+## 🛠️ 快速开始
 
-1. **克隆项目**
+### 开发环境
+
+**环境要求**：PHP >= 8.2, Composer, Node.js >= 16.x, MySQL >= 8.0, Redis
+
+**三步启动**：
+
 ```bash
-git clone https://gitee.com/teanary/teanary_service.git
-cd teanary_service
-```
-```bash
+# 1. 克隆项目
 git clone https://github.com/TeanaryService/teanary_srvice.git
 cd teanary_service
-```
 
-2. **安装依赖**
-```bash
+# 或使用 Gitee
+git clone https://gitee.com/teanary/teanary_service.git
+cd teanary_service
+
+# 2. 安装依赖
 composer install
 npm install
-```
 
-3. **环境配置**
-```bash
+# 3. 配置环境并启动
 cp .env.example .env
 php artisan key:generate
+# 编辑 .env 文件，配置数据库连接信息
+php artisan migrate  # 创建数据表
+php artisan db:seed  # 填充初始数据（语言、货币、国家等）
+
+# 4. 启动开发服务器（一键启动所有服务）
+composer dev
 ```
 
-4. **配置数据库**
-编辑 `.env` 文件：
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=teanary
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
+访问 `http://localhost:8013` 查看网站。
 
-5. **配置多节点同步（可选）**
-```env
-SYNC_ENABLED=true
-SYNC_NODE=node1
+> 💡 `composer dev` 会自动启动：Web 服务器、队列服务、定时任务、日志监控和前端构建工具。
 
-# 配置其他节点
-SYNC_NODE2_URL=https://node2.example.com
-SYNC_NODE2_API_KEY=your-secret-api-key
-SYNC_NODE2_TIMEOUT=600
-```
+### 生产环境部署
 
-6. **运行数据库迁移**
+**推荐使用 Deployer 自动部署**（最简单）：
+
 ```bash
-php artisan migrate
-php artisan db:seed
+# 1. 复制部署配置文件
+cp docs/example.deploy.php deploy.php
+
+# 2. 编辑 deploy.php，修改服务器配置
+# - 修改仓库地址
+# - 修改服务器 IP、用户名、部署路径等
+
+# 3. 一键部署
+./bin/dep deploy production
+
+# 4. 首次部署后，SSH 登录服务器运行迁移和填充数据
+ssh deployer@your-server
+cd /home/wwwroot/teanary/current
+php artisan migrate --force  # 创建数据表
+php artisan db:seed --force  # 填充初始数据
 ```
 
-7. **构建前端资源**
+详细说明请参考 [部署指南](docs/DEPLOYMENT.md)。
+
+## 🧪 测试
+
 ```bash
-npm run build
+# 运行所有测试
+composer test
+
+# 运行单元测试
+composer test:unit
+
+# 运行功能测试
+composer test:feature
+
+# 生成测试覆盖率报告
+composer test:coverage
 ```
 
-8. **启动开发服务器**
+## 🔍 代码质量
+
 ```bash
-php artisan serve
+# 代码格式化
+composer format
+
+# 静态分析
+composer analyse
+
+# 代码质量检查（格式化 + 静态分析 + 测试）
+composer check
 ```
-
-访问 `http://localhost:8000` 查看网站。
-
-## 🌐 多节点部署指南
-
-### 为什么选择程序层同步而不是 MySQL 主从同步？
-
-在跨国多节点部署场景下，我们选择了**程序层数据同步**而非传统的 MySQL 主从同步，主要原因如下：
-
-**1. 高网络延迟环境下的可靠性**
-- 🌍 **跨国网络延迟**：中国到美国/欧洲的数据库连接延迟通常在 200-400ms，MySQL 主从同步在高延迟环境下容易出现超时和连接中断
-- 🔄 **程序层同步**：通过 HTTP/HTTPS API 进行数据同步，可以更好地处理网络波动，支持重试机制和断点续传
-
-**2. 灵活的数据同步策略**
-- 📦 **批量同步**：程序层可以智能地将多条记录打包同步，大幅提升效率
-- 🎯 **选择性同步**：可以只同步需要的数据，避免同步不必要的系统表、日志表等
-- 🔀 **双向同步**：支持任意节点间的双向同步，而 MySQL 主从通常是单向的
-
-**3. 更好的容错和恢复能力**
-- 🔁 **自动重试**：同步失败可以自动重试，不会因为网络波动导致数据丢失
-- 📊 **同步监控**：完整的同步日志和状态跟踪，可以清楚地知道每条数据的同步状态
-- 🛡️ **冲突处理**：可以基于业务逻辑处理数据冲突（如以最新数据为准）
-
-**4. 跨数据库兼容性**
-- 🗄️ **数据库无关**：不依赖特定的数据库类型，可以支持 MySQL、PostgreSQL 等不同数据库
-- 🔧 **易于扩展**：未来如果需要支持其他数据库类型，只需修改同步逻辑，无需改变数据库架构
-
-**5. 业务逻辑集成**
-- 🎨 **数据转换**：可以在同步过程中进行数据转换、验证和业务逻辑处理
-- 📁 **文件同步**：可以同时同步媒体文件、图片等，而 MySQL 主从同步无法处理文件
-
-**6. 安全性考虑**
-- 🔐 **API 认证**：使用 API Key 进行认证，比直接暴露数据库连接更安全
-- 🔒 **HTTPS 加密**：所有数据传输通过 HTTPS 加密，保护数据安全
-
-**总结**：在跨国高延迟网络环境下，程序层同步提供了更好的可靠性、灵活性和可维护性，更适合复杂的多节点电商场景。
-
-### 场景示例
-
-**场景 1：中国管理 + 全球销售节点**
-```
-中国节点（管理节点）
-├── 美国节点（销售节点）
-├── 欧洲节点（销售节点）
-└── 亚洲节点（销售节点）
-```
-
-**场景 2：多地区独立运营**
-```
-北京节点
-├── 上海节点
-├── 广州节点
-└── 深圳节点
-```
-
-### 配置步骤
-
-1. **在每个节点配置环境变量**
-```env
-# 节点 1 配置
-SYNC_ENABLED=true
-SYNC_NODE=beijing
-SYNC_BEIJING_URL=https://beijing.example.com
-SYNC_BEIJING_API_KEY=key-for-beijing
-SYNC_SHANGHAI_URL=https://shanghai.example.com
-SYNC_SHANGHAI_API_KEY=key-for-shanghai
-
-# 节点 2 配置
-SYNC_ENABLED=true
-SYNC_NODE=shanghai
-SYNC_BEIJING_URL=https://beijing.example.com
-SYNC_BEIJING_API_KEY=key-for-beijing
-SYNC_SHANGHAI_URL=https://shanghai.example.com
-SYNC_SHANGHAI_API_KEY=key-for-shanghai
-```
-
-2. **配置雪花 ID 机器 ID**
-每个节点必须配置不同的机器 ID：
-```env
-SNOWFLAKE_MACHINE_ID=1  # 节点 1
-SNOWFLAKE_MACHINE_ID=2  # 节点 2
-```
-
-3. **启动队列处理**
-```bash
-php artisan queue:work
-```
-
-详细配置请参考 [SYNC.md](SYNC.md)
-
-## 📡 API 文档
-
-### 商品上传接口
-
-**接口地址**: `POST /api/products/add`
-
-**功能**: 上传商品，支持多语言、多规格、分类自动创建、图片上传
-
-**请求示例**:
-```bash
-curl -X POST https://your-domain.com/api/products/add \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer your-api-token" \
-  -d '{
-    "slug": "product-slug",
-    "translations": [
-      {
-        "language_id": 1,
-        "name": "商品名称",
-        "description": "商品描述"
-      }
-    ],
-    "variants": [
-      {
-        "sku": "SKU-001",
-        "price": 99.99,
-        "stock": 100
-      }
-    ]
-  }'
-```
-
-### 文章上传接口
-
-**接口地址**: `POST /api/articles/add`
-
-**功能**: 上传文章，支持多语言、图片上传
-
-详细 API 文档请参考代码中的接口定义。
 
 ## 💼 商业服务
 
 我们提供专业的商业服务支持：
 
-### 🚀 部署服务
-- **价格**：¥500/次
-- **服务内容**：
-  - 服务器环境配置
-  - 代码部署和优化
-  - 数据库配置
-  - 多节点同步配置
-  - SSL 证书配置
-  - 性能优化
-
-### 🔧 维护服务
-- **价格**：¥1500/年
-- **服务内容**：
-  - 系统更新和维护
-  - 安全补丁更新
-  - 性能监控和优化
-  - 技术支持（邮件/电话）
-  - 故障排查和修复
-  - 数据备份和恢复
-
-### 🎨 界面二次开发
-- **服务内容**：
-  - 自定义主题开发
-  - 界面定制和优化
-  - 新功能开发
-  - 第三方系统集成
-
-### 🛒 Chrome 采集插件
-- **价格**：¥1500（含3年免费更新支持）
-- **服务内容**：
-  - Chrome 浏览器插件
-  - 1688 商品一键采集
-  - 图片自动下载上传
-  - 批量商品导入
-  - 3年免费更新和技术支持
-  - 使用教程和文档
-
-### 🤖 AI 翻译端程序
-- **价格**：¥1500（含3年更新支持）
-- **服务内容**：
-  - 独立的翻译服务程序
-  - 集成 Ollama AI 模型
-  - 支持 8 种语言自动翻译
-  - 商品和文章批量翻译
-  - 3年免费更新和技术支持
-  - 部署指导和技术文档
+- **部署服务**：¥500/次（服务器配置、代码部署、性能优化）
+- **维护服务**：¥1500/年（系统更新、安全补丁、技术支持）
+- **界面二次开发**：自定义主题、界面定制、新功能开发
+- **Chrome 采集插件**：¥1500（含3年免费更新支持）
+- **AI 翻译端程序**：¥1500（含3年更新支持）
 
 **联系方式**：
 - 📧 邮箱：hello@teanary.com
 - 📱 电话：+86 18184839903
-- 💬 微信：请通过邮箱联系获取
 
 ## 📄 开源协议
 
 本项目采用 **AGPL-3.0** (GNU Affero General Public License v3.0) 开源协议。
-
-### 协议要点
 
 **您可以：**
 - ✅ 自由使用、研究、修改代码
@@ -494,15 +266,6 @@ curl -X POST https://your-domain.com/api/products/add \
 - ⚠️ 如果修改代码并部署为网络服务，必须公开修改后的源代码
 - ⚠️ 保留原始版权声明和协议声明
 - ⚠️ 使用相同的协议发布衍生作品
-
-**您不能：**
-- ❌ 修改代码后作为闭源商业产品售卖
-- ❌ 移除版权声明
-
-**为什么选择 AGPL？**
-- 保护开源项目的完整性
-- 防止将开源项目包装成闭源商业产品
-- 鼓励贡献回社区
 
 完整协议内容请查看 [LICENSE](LICENSE) 文件。
 
@@ -517,81 +280,12 @@ curl -X POST https://your-domain.com/api/products/add \
 5. 创建 Pull Request
 
 ### 代码规范
+
 - 遵循 PSR-12 编码标准
 - 使用有意义的变量和函数名
 - 添加适当的注释
 - 编写单元测试
 - 运行代码质量检查：`composer check`
-
-## 📊 项目结构
-
-```
-teanary_service/
-├── app/
-│   ├── Console/          # 控制台命令
-│   ├── Enums/           # 枚举类
-│   ├── Filament/        # Filament管理面板
-│   ├── Http/            # HTTP控制器
-│   ├── Jobs/            # 队列任务
-│   ├── Livewire/        # Livewire组件
-│   ├── Models/          # 数据模型
-│   ├── Services/        # 业务服务
-│   │   └── SyncService.php  # 多节点同步服务
-│   └── Traits/          # 特征类
-│       └── Syncable.php     # 同步功能 Trait
-├── config/
-│   └── sync.php         # 同步配置
-├── database/
-│   ├── migrations/      # 数据库迁移
-│   └── seeders/         # 数据填充
-├── lang/                # 多语言文件（8种语言）
-├── routes/              # 路由定义
-└── tests/               # 测试文件
-```
-
-## 🧪 测试
-
-```bash
-# 运行所有测试
-composer test
-
-# 运行单元测试
-php bin/phpunit tests/Unit/
-
-# 运行功能测试
-php bin/phpunit tests/Feature/
-```
-
-## 📚 相关文档
-
-- [多节点同步文档](SYNC.md) - 详细的多节点同步配置和使用指南
-- [代码优化文档](OPTIMIZATION.md) - 代码架构和优化说明
-- [部署指南](#部署指南) - 生产环境部署说明
-
-## 🌐 部署指南
-
-### 高性能部署（推荐）
-
-本项目已配置 Laravel Octane 高性能部署。
-
-**首次部署**：
-```bash
-vendor/bin/dep deploy:first teanary
-```
-
-**常规部署**：
-```bash
-vendor/bin/dep deploy teanary
-```
-
-详细部署说明请参考 README 中的部署章节。
-
-## 📞 联系我们
-
-- **项目主页**: [Gitee Repository](https://gitee.com/teanary/teanary_service)|[Github Repository](https://github.com/TeanaryService/teanary_srvice)
-- **问题反馈**: [Gitee Issues](https://gitee.com/teanary/teanary_service/issues)|[Github Issues](https://github.com/TeanaryService/teanary_srvice/issues)
-- **邮箱**: hello@teanary.com
-- **电话**: +86 18184839903
 
 ## 🙏 致谢
 

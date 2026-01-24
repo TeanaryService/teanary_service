@@ -5,11 +5,9 @@
     :icon="['heroicon-o-exclamation-circle', 'text-yellow-500']"
     :button="[
         'label' => __('payment.view_order'),
-        'url' => locaRoute('user.orders'),
+        'url' => locaRoute('auth.orders'),
         'class' => 'bg-gray-700 hover:bg-gray-800'
     ]"
 />
 
-@pushOnce('seo')
-    <x-layouts.seo :title="__('payment.cancel_title')" />
-@endPushOnce
+<x-seo-meta :title="__('payment.cancel_title')" />
