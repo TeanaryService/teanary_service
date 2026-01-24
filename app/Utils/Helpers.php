@@ -364,16 +364,6 @@ if (! function_exists('getOrderActionButtonClass')) {
     }
 }
 
-if (! function_exists('getGoogleAnalyticsId')) {
-    /**
-     * 获取 Google Analytics ID（用于 layouts/app 组件）.
-     */
-    function getGoogleAnalyticsId(): string
-    {
-        return 'G-YQ5990WVX5';
-    }
-}
-
 if (! function_exists('buildProductBreadcrumbs')) {
     /**
      * 构建产品页面面包屑（用于 product 组件）.
