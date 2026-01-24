@@ -73,6 +73,25 @@ class Attributes extends Component
         $this->batchUpdateTranslationStatus(Attribute::class, $status, 'attributes.with.translations');
     }
 
+    public function batchSetFilterable(bool $isFilterable): void
+    {
+        if (empty($this->selectedItems)) {
+            return;
+        }
+
+        Attribute::whereIn('id', $this->selectedItems)
+            ->update(['is_filterable' => $isFilterable]);
+
+        Cache::forget('attributes.with.translations');
+
+        $message = $isFilterable 
+            ? __('manager.attribute.batch_set_filterable', ['count' => count($this->selectedItems)])
+            : __('manager.attribute.batch_set_not_filterable', ['count' => count($this->selectedItems)]);
+
+        $this->dispatch('flash-message', type: 'success', message: $message);
+        $this->clearSelection();
+    }
+
     // 使用自定义名称避免与 Livewire 内部 $attributes 属性冲突
     #[Computed]
     public function attributeList()

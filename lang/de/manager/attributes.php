@@ -17,4 +17,6 @@ return [
     'is_filterable_helper' => 'Nach Aktivierung kann es im Frontend zur Filterung verwendet werden (z.B. nach Herkunft, Teesorte usw.).',
     'translations' => 'Mehrsprachige Übersetzungen',
     'name_helper' => 'Geben Sie den Attributnamen für verschiedene Sprachen ein.',
+    'batch_set_filterable' => ':count Attribute als filterbar gesetzt',
+    'batch_set_not_filterable' => ':count Attribute als nicht filterbar gesetzt',
 ];

@@ -17,4 +17,6 @@ return [
     'is_filterable_helper' => '활성화하면 프론트엔드에서 필터링에 사용할 수 있습니다(예: 원산지, 차 종류 등으로 필터링).',
     'translations' => '다국어 번역',
     'name_helper' => '다른 언어에 대해 각각 속성 이름을 입력하세요.',
+    'batch_set_filterable' => ':count 개의 속성을 필터링 가능으로 설정했습니다',
+    'batch_set_not_filterable' => ':count 개의 속성을 필터링 불가로 설정했습니다',
 ];

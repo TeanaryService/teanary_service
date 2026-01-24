@@ -17,4 +17,6 @@ return [
     'is_filterable_helper' => '勾选后可在前台用于筛选（如按产地、茶类等筛选）。',
     'translations' => '多语言翻译',
     'name_helper' => '为不同语言分别填写属性名称。',
+    'batch_set_filterable' => '已设置 :count 个属性为可用于筛选',
+    'batch_set_not_filterable' => '已设置 :count 个属性为不用于筛选',
 ];
