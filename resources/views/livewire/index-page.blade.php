@@ -42,7 +42,7 @@
             <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
         </div>
 
-        <div class="relative z-10 w-full max-w-screen 2xl:max-w-[80vw]  mx-auto px-6 md:px-8 py-20 text-center">
+        <div class="relative z-10 w-full max-w-screen 2xl:max-w-[75vw]  mx-auto px-6 md:px-8 py-20 text-center">
             <!-- Logo 和标题 -->
             <div class="mb-8 animate-float">
                 <svg class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 animate-spin-slow drop-shadow-2xl" viewBox="0 0 1024 1024"
@@ -116,7 +116,7 @@
 
     <!-- Sticky Navigation Bar -->
     <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200/60 shadow-lg h-20">
-        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
+        <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
             <div class="flex items-center justify-between py-4">
                 <div class="flex items-center gap-2 text-sm text-gray-600">
                     <span class="animate-bounce">📍</span>
@@ -133,7 +133,7 @@
         </div>
     </nav>
 
-    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 py-16">
+    <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 py-16">
         <!-- 技术栈 - 更现代的设计 -->
         <section class="py-20" id="tech-stack">
             <div class="text-center mb-16">
@@ -362,7 +362,7 @@
                             </span>
                             <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         </a>
-                        <a href="https://demo.chatterup.fun:2003/manager" target="_blank" rel="noopener noreferrer"
+                        <a href="{{ locaRoute('manager.login') }}" target="_blank" rel="noopener noreferrer"
                             class="group px-8 py-4 bg-white text-teal-600 border-2 border-teal-600 rounded-full font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 transform hover:bg-teal-50">
                             <span class="flex items-center justify-center gap-2">
                                 ⚙️ {{ __('index.demo_visit_admin') }}

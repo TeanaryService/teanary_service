@@ -123,69 +123,63 @@
 
 ## 🛠️ 快速开始
 
-### 环境要求
+### 开发环境
 
-- PHP >= 8.2
-- Composer
-- Node.js >= 16.x
-- MySQL >= 8.0
-- Redis
+**环境要求**：PHP >= 8.2, Composer, Node.js >= 16.x, MySQL >= 8.0, Redis
 
-### 安装步骤
+**三步启动**：
 
-1. **克隆项目**
 ```bash
+# 1. 克隆项目
 git clone https://github.com/TeanaryService/teanary_srvice.git
 cd teanary_service
-```
 
-或
-
-```bash
+# 或使用 Gitee
 git clone https://gitee.com/teanary/teanary_service.git
 cd teanary_service
-```
 
-2. **安装依赖**
-```bash
+# 2. 安装依赖
 composer install
 npm install
-```
 
-3. **环境配置**
-```bash
+# 3. 配置环境并启动
 cp .env.example .env
 php artisan key:generate
-```
+# 编辑 .env 文件，配置数据库连接信息
+php artisan migrate  # 创建数据表
+php artisan db:seed  # 填充初始数据（语言、货币、国家等）
 
-4. **配置数据库**
-编辑 `.env` 文件，配置数据库连接信息。
-
-5. **运行数据库迁移**
-```bash
-php artisan migrate
-php artisan db:seed
-```
-
-6. **构建前端资源**
-```bash
-npm run build
-```
-
-7. **启动开发服务器**
-```bash
-# 使用 Composer 脚本（推荐）
+# 4. 启动开发服务器（一键启动所有服务）
 composer dev
-
-# 或分别启动
-php artisan serve
-php artisan queue:work
-npm run dev
 ```
 
-访问 `http://localhost:8000` 查看网站。
+访问 `http://localhost:8013` 查看网站。
 
-详细部署说明请参考 [部署指南](docs/DEPLOYMENT.md)。
+> 💡 `composer dev` 会自动启动：Web 服务器、队列服务、定时任务、日志监控和前端构建工具。
+
+### 生产环境部署
+
+**推荐使用 Deployer 自动部署**（最简单）：
+
+```bash
+# 1. 复制部署配置文件
+cp docs/example.deploy.php deploy.php
+
+# 2. 编辑 deploy.php，修改服务器配置
+# - 修改仓库地址
+# - 修改服务器 IP、用户名、部署路径等
+
+# 3. 一键部署
+./bin/dep deploy production
+
+# 4. 首次部署后，SSH 登录服务器运行迁移和填充数据
+ssh deployer@your-server
+cd /home/wwwroot/teanary/current
+php artisan migrate --force  # 创建数据表
+php artisan db:seed --force  # 填充初始数据
+```
+
+详细说明请参考 [部署指南](docs/DEPLOYMENT.md)。
 
 ## 🧪 测试
 

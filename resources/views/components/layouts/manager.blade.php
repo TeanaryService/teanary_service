@@ -42,7 +42,7 @@
 <body class="body bg-teal-100 font-chinese antialiased">
     <!-- 导航栏 -->
     <header class="fixed w-full top-0 bg-white/98 backdrop-blur-md z-50 border-b border-gray-200/60 shadow-sm">
-        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto flex justify-between items-center h-20 px-4 md:px-8">
+        <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto flex justify-between items-center h-20 px-4 md:px-8">
             <!-- Logo -->
             <div class="hidden md:flex items-center">
                 <a href="{{ locaRoute('manager.dashboard') }}" wire:navigate class="flex items-center gap-3 group">

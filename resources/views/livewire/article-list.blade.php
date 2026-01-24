@@ -2,7 +2,7 @@
     $breadcrumbs = buildArticleListBreadcrumbs();
 @endphp
 
-<div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 min-h-[70vh]">
+<div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 min-h-[70vh]">
     <x-widgets.breadcrumbs :items="$breadcrumbs" />
     <div class="flex gap gap-6">
         <div class="hidden lg:block w-1/4">

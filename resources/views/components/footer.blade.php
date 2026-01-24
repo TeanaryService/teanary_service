@@ -1,7 +1,7 @@
 <footer class="tea-footer text-white">
     <livewire:contact-form />
     <div class="bg-teal-700">
-        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 py-12 md:py-16 hidden md:block ">
+        <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 py-12 md:py-16 hidden md:block ">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 justify-between text-sm">
 
                 <!-- 品牌 LOGO -->
@@ -76,7 +76,7 @@
         </div>
         <!-- 底部版权和法律链接 -->
         <div class="mt-6 py-8 border-t border-gray-200">
-            <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
+            <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
                     <div class="text-center md:text-left">
                         &copy; {{ now()->year }} {{ config('app.name') }}. {{ __('app.rights_reserved') }}

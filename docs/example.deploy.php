@@ -1,11 +1,26 @@
 <?php
 
+/**
+ * Teanary 项目 Deployer 部署配置
+ * 
+ * 使用方法：
+ * 1. 复制此文件到项目根目录：cp docs/example.deploy.php deploy.php
+ * 2. 修改下面的配置（仓库地址、服务器信息等）
+ * 3. 运行部署：./bin/dep deploy production
+ */
+
 namespace Deployer;
 
 require 'recipe/laravel.php';
 
-// Config
+// ============================================
+// 基础配置
+// ============================================
+
+// Git 仓库地址（修改为你的仓库地址）
 set('repository', 'git@gitee.com:teanary/teanary_service.git');
+
+// 保留的发布版本数量（用于回滚）
 set('keep_releases', 3);
 
 // Shared files and directories
@@ -24,17 +39,29 @@ add('writable_dirs', [
     'public',
 ]);
 
-// Hosts
-host('demo')
-    ->set('hostname', '192.168.1.1')
-    ->set('port', 22)
-    ->set('remote_user', 'deployer')
-    ->setIdentityFile('~/.ssh/deployer.key')
-    ->set('deploy_path', '/home/wwwroot/demo')
-    ->set('branch', 'dev')
-    ->set('http_user', 'www')
-    ->set('php_fpm_service', 'php-fpm.service')
-    ->set('supervisor_service', 'supervisor.service');
+// ============================================
+// 服务器配置
+// ============================================
+// 修改以下配置为你的服务器信息
+
+host('production')  // 服务器名称（可以改为 production、staging 等）
+    ->set('hostname', '192.168.1.1')  // 服务器 IP 地址
+    ->set('port', 22)  // SSH 端口（默认 22）
+    ->set('remote_user', 'deployer')  // SSH 用户名
+    ->setIdentityFile('~/.ssh/id_rsa')  // SSH 密钥路径（推荐使用 ~/.ssh/id_rsa）
+    ->set('deploy_path', '/home/wwwroot/teanary')  // 部署路径
+    ->set('branch', 'main')  // 部署分支（main 或 master）
+    ->set('http_user', 'www')  // Web 服务器用户（通常是 www 或 www-data）
+    ->set('php_fpm_service', 'php-fpm.service')  // PHP-FPM 服务名
+    ->set('supervisor_service', 'supervisor.service');  // Supervisor 服务名
+
+// 可以添加多个服务器
+// host('staging')
+//     ->set('hostname', '192.168.1.2')
+//     ->set('remote_user', 'deployer')
+//     ->setIdentityFile('~/.ssh/id_rsa')
+//     ->set('deploy_path', '/home/wwwroot/teanary-staging')
+//     ->set('branch', 'dev');
 
 // Tasks
 
@@ -112,10 +139,16 @@ task('deploy:post-publish', [
     'cleanup:unnecessary',
 ])->desc('发布后清理和优化');
 
+// ============================================
 // Hooks
+// ============================================
 
 // 在安装 Composer 依赖后执行 NPM 构建
 after('deploy:vendors', 'npm:build:full');
+
+// 注意：Laravel recipe 会自动运行数据库迁移（deploy:migrate）
+// 首次部署后，需要手动运行填充数据：
+// php artisan db:seed --force
 
 // 在发布前清理缓存
 before('deploy:publish', function () {
