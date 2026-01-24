@@ -1,12 +1,12 @@
 <footer class="tea-footer text-white">
     <livewire:contact-form />
     <div class="bg-teal-700">
-        <div class="max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-16 hidden md:block ">
+        <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 py-12 md:py-16 hidden md:block ">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 justify-between text-sm">
 
                 <!-- 品牌 LOGO -->
                 <div class="w-full flex flex-col self-center">
-                    <a href="{{ locaRoute('home') }}" class="flex items-center gap-3 mb-4">
+                    <a href="{{ locaRoute('home') }}" wire:navigate class="flex items-center gap-3 mb-4">
                         <img src="{{ asset('logo.svg') }}" class="h-10 w-auto object-contain" alt="Logo">
                         <span class="font-bold text-lg">{{ config('app.name') }}</span>
                     </a>
@@ -20,17 +20,17 @@
                     <h3 class="font-semibold mb-4">{{ __('app.quick_links') }}</h3>
                     <div class="grid grid-cols-2 gap-x-4">
                         <ul class="space-y-2.5">
-                            <li><a href="{{ locaRoute('home') }}" class="hover:text-tea-600 transition-colors duration-200">{{ __('app.home') }}</a>
+                            <li><a href="{{ locaRoute('home') }}" wire:navigate class="hover:text-tea-600 transition-colors duration-200">{{ __('app.home') }}</a>
                             </li>
-                            <li><a href="{{ locaRoute('auth.login') }}"
+                            <li><a href="{{ locaRoute('auth.login') }}" wire:navigate
                                     class="hover:text-tea-600 transition-colors duration-200">{{ __('app.login') }}</a>
                             </li>
-                            <li><a href="{{ locaRoute('product') }}"
+                            <li><a href="{{ locaRoute('product') }}" wire:navigate
                                     class="hover:text-tea-600 transition-colors duration-200">{{ __('app.categories') }}</a>
                             </li>
-                            <li><a href="{{ locaRoute('article.index') }}"
+                            <li><a href="{{ locaRoute('article.index') }}" wire:navigate
                                     class="hover:text-tea-600 transition-colors duration-200">{{ __('home.article.base_name') }}</a></li>
-                            <li><a href="{{ locaRoute('order.query') }}"
+                            <li><a href="{{ locaRoute('order.query') }}" wire:navigate
                                     class="hover:text-tea-600 transition-colors duration-200">{{ __('orders.query_title') }}</a></li>
                         </ul>
                     </div>
@@ -42,7 +42,7 @@
                         <ul class="space-y-2.5">
                             @foreach (is_array($categories) ? array_slice($categories, 0, 5) : $categories->take(5) as $category)
                                 <li>
-                                    <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}"
+                                    <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" wire:navigate
                                         class="hover:text-teal-600 transition-colors duration-200">{{ $category['name'] }}</a>
                                 </li>
                             @endforeach
@@ -69,20 +69,20 @@
                     </ul>
                     <!-- 社交媒体 -->
                     <div class="mt-6">
-                        <x-social-links class="justify-start" />
+                        <x-widgets.social-links class="justify-start" />
                     </div>
                 </div>
             </div>
         </div>
         <!-- 底部版权和法律链接 -->
         <div class="mt-6 py-8 border-t border-gray-200">
-            <div class="max-w-7xl mx-auto px-6 md:px-8">
+            <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
                     <div class="text-center md:text-left">
                         &copy; {{ now()->year }} {{ config('app.name') }}. {{ __('app.rights_reserved') }}
                     </div>
                     <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-                        <a href="{{ locaRoute('teanary.open') }}" class="hover:text-tea-600 transition-colors duration-200">
+                        <a href="{{ locaRoute('teanary.open') }}" wire:navigate class="hover:text-tea-600 transition-colors duration-200">
                             {{ __('app.teanary_open_source') }}
                         </a>
                         <span class="hidden md:inline">|</span>

@@ -3,139 +3,163 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
-use App\Enums\PaymentMethodEnum;
 use App\Enums\ShippingMethodEnum;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
-use App\Models\User;
-use App\Models\Currency;
-use App\Models\Address;
-use App\Services\LocaleCurrencyService;
+use App\Models\OrderShipment;
 use Livewire\Component;
 
 class OrderDetail extends Component
 {
+    use HasNavigationRedirect;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
+
+    public int $orderId;
     public Order $order;
-    public $status;
-    public $paymentMethod;
-    public $shippingMethod;
-    public $userId;
-    public $shippingAddressId;
-    public $billingAddressId;
-    public $currencyId;
-    public $total;
 
-    protected LocaleCurrencyService $localeService;
+    // 发货表单
+    public string $shippingMethod = '';
+    public ?string $trackingNumber = null;
+    public ?string $notes = null;
+    public bool $showShipmentForm = false;
 
-    protected $rules = [
-        'status' => 'required',
-        'paymentMethod' => 'nullable',
-        'shippingMethod' => 'nullable',
-        'userId' => 'nullable|exists:users,id',
-        'shippingAddressId' => 'nullable|exists:addresses,id',
-        'billingAddressId' => 'nullable|exists:addresses,id',
-        'currencyId' => 'nullable|exists:currencies,id',
-        'total' => 'required|numeric|min:0',
+    protected array $rules = [
+        'shippingMethod' => 'required',
+        'trackingNumber' => 'nullable|max:255',
+        'notes' => 'nullable|string',
     ];
 
-    public function mount($order): void
+    protected array $messages = [
+        'shippingMethod.required' => '请选择配送方式',
+        'trackingNumber.max' => '运单号不能超过255个字符',
+    ];
+
+    public function mount(int $id): void
+    {
+        $this->orderId = $id;
+        $this->loadOrder();
+    }
+
+    public function loadOrder(): void
     {
         $this->order = Order::with([
             'user',
             'currency',
-            'shippingAddress',
-            'billingAddress',
+            'shippingAddress.country.countryTranslations',
+            'shippingAddress.zone.zoneTranslations',
+            'billingAddress.country.countryTranslations',
+            'billingAddress.zone.zoneTranslations',
             'orderItems.product.productTranslations',
-            'orderItems.productVariant',
+            'orderItems.productVariant.specificationValues.specificationValueTranslations',
             'orderShipments',
-        ])->findOrFail($order);
-
-        $this->status = $this->order->status->value;
-        $this->paymentMethod = $this->order->payment_method?->value;
-        $this->shippingMethod = $this->order->shipping_method?->value;
-        $this->userId = $this->order->user_id;
-        $this->shippingAddressId = $this->order->shipping_address_id;
-        $this->billingAddressId = $this->order->billing_address_id;
-        $this->currencyId = $this->order->currency_id;
-        $this->total = $this->order->total;
-
-        $this->localeService = app(LocaleCurrencyService::class);
+        ])->findOrFail($this->orderId);
     }
 
-    public function updatedUserId(): void
+    public function updateStatus(string $status): void
     {
-        $this->shippingAddressId = null;
-        $this->billingAddressId = null;
+        $this->order->update(['status' => OrderStatusEnum::from($status)]);
+        $this->loadOrder();
+        $this->flashMessage('updated_successfully');
     }
 
-    public function save(): void
+    public function toggleShipmentForm(): void
+    {
+        $this->showShipmentForm = ! $this->showShipmentForm;
+        if (! $this->showShipmentForm) {
+            $this->resetShipmentForm();
+        }
+    }
+
+    public function resetShipmentForm(): void
+    {
+        $this->shippingMethod = '';
+        $this->trackingNumber = null;
+        $this->notes = null;
+        $this->resetErrorBag();
+    }
+
+    public function createShipment(): void
     {
         $this->validate();
 
-        $this->order->update([
-            'status' => OrderStatusEnum::from($this->status),
-            'payment_method' => $this->paymentMethod ? PaymentMethodEnum::from($this->paymentMethod) : null,
-            'shipping_method' => $this->shippingMethod ? ShippingMethodEnum::from($this->shippingMethod) : null,
-            'user_id' => $this->userId,
-            'shipping_address_id' => $this->shippingAddressId,
-            'billing_address_id' => $this->billingAddressId,
-            'currency_id' => $this->currencyId,
-            'total' => $this->total,
+        OrderShipment::create([
+            'order_id' => $this->order->id,
+            'shipping_method' => ShippingMethodEnum::from($this->shippingMethod),
+            'tracking_number' => $this->trackingNumber,
+            'notes' => $this->notes,
         ]);
 
-        session()->flash('message', __('app.save_success'));
-    }
-
-    public function getUsersProperty()
-    {
-        return User::orderBy('name')->get();
-    }
-
-    public function getCurrenciesProperty()
-    {
-        return Currency::orderBy('name')->get();
-    }
-
-    public function getShippingAddressesProperty()
-    {
-        if (!$this->userId) {
-            return collect();
+        // 如果订单状态是已支付，自动更新为已发货
+        if ($this->order->status === OrderStatusEnum::Paid) {
+            $this->order->update(['status' => OrderStatusEnum::Shipped]);
+            $this->loadOrder();
         }
-        return Address::where('user_id', $this->userId)->get();
+
+        $this->loadOrder();
+        $this->resetShipmentForm();
+        $this->showShipmentForm = false;
+        $this->dispatch('flash-message', type: 'success', message: '发货记录已创建');
     }
 
-    public function getBillingAddressesProperty()
+    public function deleteShipment(int $shipmentId): void
     {
-        if (!$this->userId) {
-            return collect();
+        OrderShipment::findOrFail($shipmentId)->delete();
+        $this->loadOrder();
+        $this->flashMessage('deleted_successfully');
+    }
+
+    public function getProductName($product, $lang)
+    {
+        if (! $product) {
+            return '-';
         }
-        return Address::where('user_id', $this->userId)->get();
+
+        return $this->translatedField($product->productTranslations, $lang, 'name', (string) $product->id);
     }
 
-    public function getStatusOptionsProperty(): array
+    public function getVariantSpecs($variant, $lang)
     {
-        return OrderStatusEnum::options();
+        if (! $variant) {
+            return __('manager.order_item.no_variant');
+        }
+        $specNames = [];
+        foreach ($variant->specificationValues as $specValue) {
+            $specNames[] = $this->translatedField($specValue->specificationValueTranslations, $lang, 'name', '');
+        }
+
+        return implode(' / ', array_filter($specNames)) ?: ($variant->sku ?? $variant->id);
     }
 
-    public function getPaymentMethodOptionsProperty(): array
+    public function getStatusBadgeColor($status): string
     {
-        return PaymentMethodEnum::options();
-    }
-
-    public function getShippingMethodOptionsProperty(): array
-    {
-        return ShippingMethodEnum::options();
+        return match ($status) {
+            OrderStatusEnum::Pending => 'bg-gray-100 text-gray-800',
+            OrderStatusEnum::Paid => 'bg-blue-100 text-blue-800',
+            OrderStatusEnum::Shipped => 'bg-yellow-100 text-yellow-800',
+            OrderStatusEnum::Completed => 'bg-green-100 text-green-800',
+            OrderStatusEnum::Cancelled => 'bg-red-100 text-red-800',
+            OrderStatusEnum::AfterSale => 'bg-purple-100 text-purple-800',
+            OrderStatusEnum::AfterSaleCompleted => 'bg-indigo-100 text-indigo-800',
+            default => 'bg-gray-100 text-gray-800',
+        };
     }
 
     public function render()
     {
+        $service = $this->getLocaleService();
+        $lang = $this->getCurrentLanguage();
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
+
         return view('livewire.manager.order-detail', [
-            'users' => $this->users,
-            'currencies' => $this->currencies,
-            'shippingAddresses' => $this->shippingAddresses,
-            'billingAddresses' => $this->billingAddresses,
-            'statusOptions' => $this->statusOptions,
-            'paymentMethodOptions' => $this->paymentMethodOptions,
-            'shippingMethodOptions' => $this->shippingMethodOptions,
+            'order' => $this->order,
+            'lang' => $lang,
+            'currentCurrencyCode' => $currentCurrencyCode,
+            'service' => $service,
+            'statusOptions' => OrderStatusEnum::options(),
+            'shippingMethodOptions' => ShippingMethodEnum::options(),
         ])->layout('components.layouts.manager');
     }
 }

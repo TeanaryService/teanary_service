@@ -2,9 +2,9 @@
     $breadcrumbs = buildUserCenterBreadcrumbs('notifications', __('notifications.title'));
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-users.sidebar active="notifications" />
@@ -12,9 +12,9 @@
             <div class="flex-1">
                 <div class="mb-6 flex items-center justify-between">
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('notifications.my_notifications') }}</h1>
-            @if(auth()->user()->unreadNotifications->count() > 0)
+            @if(auth()->user() && auth()->user()->unreadNotifications->count() > 0)
                 <button wire:click="markAllAsRead" 
-                        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-teal-700 bg-teal-50 border border-teal-300 rounded-lg hover:bg-teal-100 transition-colors">
+                        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-teal-700 bg-teal-100 border border-teal-300 rounded-lg hover:bg-teal-100 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
@@ -24,7 +24,7 @@
         </div>
 
         @if (session()->has('message'))
-            <div class="mb-4 rounded-md bg-teal-50 p-4">
+            <div class="mb-4 rounded-md bg-teal-100 p-4">
                 <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
             </div>
         @endif
@@ -48,12 +48,12 @@
                         $isUnread = $notification->unread();
                     @endphp
 
-                    <div class="bg-white rounded-xl shadow-sm border {{ $isUnread ? 'border-teal-300 bg-teal-50/30' : 'border-gray-200' }} overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="bg-white rounded-xl shadow-sm border {{ $isUnread ? 'border-teal-300 bg-teal-100/30' : 'border-gray-200' }} overflow-hidden hover:shadow-md transition-shadow">
                         <div class="px-6 py-4">
                             <div class="flex items-start gap-4">
                                 <div class="flex-shrink-0">
                                     @if($isUnread)
-                                        <div class="w-3 h-3 bg-teal-500 rounded-full mt-2"></div>
+                                        <div class="w-3 h-3 bg-teal-1000 rounded-full mt-2"></div>
                                     @else
                                         <div class="w-3 h-3 bg-gray-300 rounded-full mt-2"></div>
                                     @endif
@@ -77,7 +77,7 @@
                                         <div class="flex items-center gap-2">
                                             @if($isUnread)
                                                 <button wire:click="markAsRead('{{ $notification->id }}')" 
-                                                        class="text-xs text-teal-600 hover:text-teal-700 px-2 py-1 rounded hover:bg-teal-50 transition-colors">
+                                                        class="text-xs text-teal-600 hover:text-teal-700 px-2 py-1 rounded hover:bg-teal-100 transition-colors">
                                                     {{ __('notifications.mark_as_read') }}
                                                 </button>
                                             @endif
@@ -104,3 +104,5 @@
         </div>
     </div>
 </div>
+
+<x-seo-meta title="{{ __('notifications.title') }}" />

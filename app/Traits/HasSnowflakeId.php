@@ -21,7 +21,8 @@ trait HasSnowflakeId
         static::creating(function ($model) {
             $keyName = $model->getKeyName();
             // 使用更严格的检查：只有当 id 为 null 或未设置时才生成
-            if (! isset($model->{$keyName}) || $model->{$keyName} === null) {
+            $keyValue = $model->getAttribute($keyName);
+            if ($keyValue === null) {
                 $model->{$keyName} = App::make(SnowflakeService::class)->nextId();
             }
         });

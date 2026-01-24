@@ -7,15 +7,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "filament/filament": "^3.3",
-        "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "blade-ui-kit/blade-heroicons": "^2.6",
         "intervention/image": "^3.11",
         "laravel/framework": "^12.0",
         "laravel/scout": "^10.14",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.6",
+        "livewire/livewire": "^4.0",
         "meilisearch/meilisearch-php": "^1.13",
-        "paypal/paypal-checkout-sdk": "^1.0"
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "spatie/laravel-medialibrary": "^11.17"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -47,7 +47,6 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade",
             "@php artisan vendor:publish --tag=livewire:assets --ansi --force"
         ],
         "post-update-cmd": [
@@ -63,7 +62,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve --host=0.0.0.0 --port=8013\" \"php artisan queue:work --queue=high,scout,sync,low --tries=1\" \"php artisan schedule:run  >> /dev/null 2>&1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve --host=0.0.0.0 --port=8013 --no-reload\" \"php artisan queue:work --queue=high,scout,sync,low --tries=1\" \"php artisan schedule:run  >> /dev/null 2>&1\" \"php artisan pail --timeout=0\" \"NODE_OPTIONS=--max-old-space-size=4096 npm run dev\" --names=server,queue,logs,vite"
         ],
         "format": "./bin/pint",
         "format:test": "./bin/pint --test",

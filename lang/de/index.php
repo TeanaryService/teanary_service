@@ -10,16 +10,13 @@ return [
     'nav_tech_stack' => 'Technologie-Stack',
     'nav_features' => 'Kernfunktionen',
     'nav_demo' => 'Live-Demo',
-    'nav_version' => 'Versionen',
     'nav_pricing' => 'Services',
     'nav_license' => 'Lizenz',
 
     'section_tech_stack' => 'Technologie-Stack',
     'section_features' => 'Kernfunktionen',
     'section_demo' => 'Live-Demo',
-    'section_version' => 'Release-Versionen',
     'section_pricing' => 'Kommerzielle Services',
-    'section_license' => 'Open-Source-Lizenz',
 
     'feature_multi_node_title' => 'Multi-Node-Datensynchronisierung',
     'feature_multi_node_1' => 'Löst Herausforderungen bei der Verwaltung grenzüberschreitender Server',
@@ -54,7 +51,7 @@ return [
     'feature_ecommerce_6' => 'Benutzerverwaltungssystem',
 
     'feature_admin_title' => 'Moderne Verwaltungsoberfläche',
-    'feature_admin_1' => 'Filament 3.x Admin-Panel',
+    'feature_admin_1' => 'Livewire Manager Admin-Panel',
     'feature_admin_2' => 'Echtzeit-Datenstatistiken',
     'feature_admin_3' => 'Mehrsprachige Inhaltsverwaltung',
     'feature_admin_4' => 'Medien-Dateiverwaltung',

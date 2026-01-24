@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Jobs\ResizeUploadedImage;
 use App\Models\SyncLog;
 use App\Models\SyncStatus;
 use Carbon\Carbon;
@@ -13,17 +12,17 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * 数据同步服务.
- * 
+ *
  * 基于雪花ID全局唯一性，将创建、更新、删除分开处理，逻辑更清晰.
  */
 class SyncService
 {
     /**
      * 记录需要同步的数据变更.
-     * 
-     * @param Model $model 发生变更的模型实例
-     * @param string $action 操作类型：'created'|'updated'|'deleted'
-     * @param string $sourceNode 源节点名称
+     *
+     * @param  Model  $model  发生变更的模型实例
+     * @param  string  $action  操作类型：'created'|'updated'|'deleted'
+     * @param  string  $sourceNode  源节点名称
      */
     public function recordSync(
         Model $model,
@@ -37,14 +36,14 @@ class SyncService
         $targetNodes = $this->getTargetNodes();
         $modelType = get_class($model);
         $payload = $this->preparePayload($model, $action);
-        
+
         // 翻译模型：如果关键字段为空，跳过同步（避免无效数据）
         if ($this->isTranslationModel($modelType)) {
             if ($action !== 'deleted' && ! $this->hasRequiredTranslationFields($modelType, $payload)) {
                 return;
             }
         }
-        
+
         $syncHash = $this->generateSyncHash($model, $action);
         // Pivot 表没有主键，使用 payload 哈希值作为 model_id
         $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
@@ -62,11 +61,11 @@ class SyncService
 
     /**
      * 为 Pivot 表生成 model_id（使用 payload 的哈希值）.
-     * 
+     *
      * Pivot 表没有主键，使用所有字段的哈希值作为唯一标识.
      * 只使用 fillable 字段，确保生成的 model_id 稳定且唯一.
-     * 
-     * @param array $payload 同步数据
+     *
+     * @param  array  $payload  同步数据
      * @return int 生成的 model_id
      */
     protected function generatePivotModelId(array $payload): int
@@ -74,29 +73,30 @@ class SyncService
         // 只保留 fillable 字段，移除其他字段（如 pivot 相关字段）
         // 注意：这里假设 payload 已经包含了所有必要的字段
         // 如果 payload 来自 preparePayload，它应该已经包含了所有字段
-        
+
         // 对字段进行排序，确保相同数据生成相同哈希
         ksort($payload);
-        
+
         // 移除 null 值，确保相同的数据生成相同的哈希
         $cleanPayload = array_filter($payload, function ($value) {
             return $value !== null;
         });
-        
+
         // 对键进行排序（因为 array_filter 可能改变键的顺序）
         ksort($cleanPayload);
-        
+
         $hash = md5(json_encode($cleanPayload, JSON_UNESCAPED_UNICODE));
+
         return (int) hexdec(substr($hash, 0, 15)); // 取前15位避免超出 bigint 范围
     }
 
     /**
      * 批量记录需要同步的数据变更.
-     * 
+     *
      * 用于批量操作时提高效率，减少数据库写入次数.
-     * 
-     * @param array $models 模型数组，格式: [['model' => Model, 'action' => 'updated'], ...]
-     * @param string $sourceNode 源节点名称
+     *
+     * @param  array  $models  模型数组，格式: [['model' => Model, 'action' => 'updated'], ...]
+     * @param  string  $sourceNode  源节点名称
      */
     public function recordBatchSync(array $models, string $sourceNode): void
     {
@@ -184,11 +184,11 @@ class SyncService
      */
     /**
      * 批量接收来自远程节点的同步数据.
-     * 
+     *
      * 按模型类型分组处理，减少同步监听的开关次数.
      * Media 类型放在最后处理，确保关联的 model 已同步完成.
-     * 
-     * @param array $batchData 批量数据数组
+     *
+     * @param  array  $batchData  批量数据数组
      * @return array ['success' => int, 'failed' => int, 'results' => array]
      */
     public function receiveBatchSync(array $batchData): array
@@ -238,6 +238,7 @@ class SyncService
             if (! $isMediaA && $isMediaB) {
                 return -1;
             }
+
             return 0;
         });
 
@@ -308,8 +309,8 @@ class SyncService
 
     /**
      * 检查模型是否应该同步.
-     * 
-     * @param Model $model 模型实例
+     *
+     * @param  Model  $model  模型实例
      * @return bool 是否应该同步
      */
     protected function shouldSync(Model $model): bool
@@ -325,8 +326,8 @@ class SyncService
 
     /**
      * 检查是否是翻译模型.
-     * 
-     * @param string $modelType 模型类型
+     *
+     * @param  string  $modelType  模型类型
      * @return bool 是否是翻译模型
      */
     protected function isTranslationModel(string $modelType): bool
@@ -350,11 +351,11 @@ class SyncService
 
     /**
      * 检查翻译模型的关键字段是否为空.
-     * 
+     *
      * 如果关键字段为空，说明这是无效的翻译记录，不应该同步.
-     * 
-     * @param string $modelType 模型类型
-     * @param array $payload 同步数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  array  $payload  同步数据
      * @return bool 如果关键字段至少有一个非空，返回 true；否则返回 false
      */
     protected function hasRequiredTranslationFields(string $modelType, array $payload): bool
@@ -390,23 +391,24 @@ class SyncService
 
     /**
      * 准备同步数据.
-     * 
+     *
      * 对于删除操作，Pivot 表返回所有字段（用于复合键查找），普通模型只返回 id.
      * 对于创建/更新操作，返回完整的模型数据，并添加 Media 文件信息.
-     * 
-     * @param Model $model 模型实例
-     * @param string $action 操作类型
+     *
+     * @param  Model  $model  模型实例
+     * @param  string  $action  操作类型
      * @return array 同步数据
      */
     protected function preparePayload(Model $model, string $action): array
     {
         $isPivot = is_subclass_of(get_class($model), \Illuminate\Database\Eloquent\Relations\Pivot::class);
-        
+
         if ($action === 'deleted') {
             // Pivot 表删除时需要所有字段用于复合键查找
             if ($isPivot) {
                 return $model->toArray();
             }
+
             // 普通模型删除时只需要 id
             return [
                 'id' => $model->id,
@@ -416,7 +418,7 @@ class SyncService
 
         // 创建/更新操作：返回完整数据
         $payload = $model->toArray();
-        
+
         // Pivot 表：只保留 fillable 字段，移除其他字段（如 pivot 相关字段）
         if ($isPivot) {
             $fillableFields = $model->getFillable();
@@ -428,7 +430,7 @@ class SyncService
             }
             $payload = $cleanPayload;
         }
-        
+
         $this->normalizeTimestampsInPayload($payload, $model);
         $this->addMediaFileInfo($payload, $model); // Media 模型添加文件下载 URL
 
@@ -437,28 +439,29 @@ class SyncService
 
     /**
      * 生成同步哈希值.
-     * 
+     *
      * 用于判断数据是否发生变化，避免重复同步.
-     * 
-     * @param Model $model 模型实例
-     * @param string $action 操作类型
+     *
+     * @param  Model  $model  模型实例
+     * @param  string  $action  操作类型
      * @return string 哈希值
      */
     protected function generateSyncHash(Model $model, string $action): string
     {
         $data = $this->preparePayload($model, $action);
+
         return md5(json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
     /**
      * 创建模型.
-     * 
+     *
      * 基于雪花ID全局唯一性，直接通过ID创建，无需检查唯一字段.
      * 强制使用源节点的 ID，确保不会重新生成 ID.
-     * 
-     * @param string $modelType 模型类型
-     * @param int $modelId 模型ID（雪花ID）
-     * @param array $payload 同步数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  int  $modelId  模型ID（雪花ID）
+     * @param  array  $payload  同步数据
      * @return Model|null 创建的模型实例，失败返回 null
      */
     protected function createModel(string $modelType, int $modelId, array $payload): ?Model
@@ -487,10 +490,11 @@ class SyncService
             // 使用 withoutEvents 禁用所有模型事件（包括 HasSnowflakeId 的 creating 事件）
             // 确保使用源节点的 id，不会重新生成
             return $modelType::withoutEvents(function () use ($modelType, $modelId, $payload) {
-                $model = new $modelType();
+                $model = new $modelType;
                 $model->fill($payload);
                 $model->id = $modelId; // 强制设置 ID
                 $model->save();
+
                 return $model;
             });
         } catch (\Exception $e) {
@@ -499,19 +503,20 @@ class SyncService
                 'model_id' => $modelId,
                 'error' => $e->getMessage(),
             ]);
+
             return null;
         }
     }
 
     /**
      * 更新模型.
-     * 
+     *
      * 基于雪花ID全局唯一性，直接通过ID查找并更新.
      * 如果模型不存在，则创建新记录（可能是更新操作但记录还未同步）.
-     * 
-     * @param string $modelType 模型类型
-     * @param int $modelId 模型ID（雪花ID）
-     * @param array $payload 同步数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  int  $modelId  模型ID（雪花ID）
+     * @param  array  $payload  同步数据
      * @return Model|null 更新的模型实例，失败返回 null
      */
     protected function updateModel(string $modelType, int $modelId, array $payload): ?Model
@@ -539,14 +544,15 @@ class SyncService
             $model->withoutEvents(function () use ($model) {
                 $model->delete();
             });
+
             return null;
         }
-        
+
         // 更新记录：移除 id 字段，因为 update 不应该更新主键
         $updatePayload = $payload;
         unset($updatePayload['id']);
         $this->parseTimestampsInPayload($updatePayload);
-        
+
         // Media 模型使用 withoutEvents 禁用所有事件（防止死循环）
         if ($modelType === \App\Models\Media::class) {
             $model->withoutEvents(function () use ($model, $updatePayload) {
@@ -555,17 +561,17 @@ class SyncService
         } else {
             $model->update($updatePayload);
         }
-        
+
         return $model;
     }
 
     /**
      * 创建 Pivot 表模型（无主键）.
-     * 
+     *
      * 如果记录已存在，直接返回现有记录（避免重复）.
-     * 
-     * @param string $modelType 模型类型
-     * @param array $payload 同步数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  array  $payload  同步数据
      * @return Model|null 创建的模型实例，失败返回 null
      */
     protected function createPivotModel(string $modelType, array $payload): ?Model
@@ -581,7 +587,7 @@ class SyncService
             if ($existingModel) {
                 return $existingModel; // 记录已存在，直接返回（避免重复）
             }
-            
+
             return $modelType::create($cleanPayload);
         } catch (\Exception $e) {
             Log::warning('创建 Pivot 表记录失败', [
@@ -589,18 +595,19 @@ class SyncService
                 'error' => $e->getMessage(),
                 'payload' => $payload,
             ]);
+
             return null;
         }
     }
 
     /**
      * 更新 Pivot 表模型（无主键）.
-     * 
+     *
      * 先删除旧记录（如果存在），然后创建新记录，确保数据完全同步.
      * Pivot 表没有主键，不能使用模型的 delete() 方法，需要使用查询构建器直接删除.
-     * 
-     * @param string $modelType 模型类型
-     * @param array $payload 同步数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  array  $payload  同步数据
      * @return Model|null 更新的模型实例，失败返回 null
      */
     protected function updatePivotModel(string $modelType, array $payload): ?Model
@@ -617,7 +624,7 @@ class SyncService
                 // Pivot 表没有主键，使用查询构建器直接删除
                 $tableName = $existingModel->getTable();
                 $query = \Illuminate\Support\Facades\DB::table($tableName);
-                
+
                 // 使用所有字段构建查询条件（复合键）
                 foreach ($cleanPayload as $field => $value) {
                     // 严格验证字段名：必须是非空字符串，且长度大于 0
@@ -625,10 +632,10 @@ class SyncService
                         $query->where($field, $value);
                     }
                 }
-                
+
                 $query->delete(); // 先删除旧记录
             }
-            
+
             // 创建新记录（确保数据完全同步）
             return $modelType::create($cleanPayload);
         } catch (\Exception $e) {
@@ -637,30 +644,31 @@ class SyncService
                 'error' => $e->getMessage(),
                 'payload' => $payload,
             ]);
+
             return null;
         }
     }
 
     /**
      * 清理 Pivot 表 payload，移除空键和 null 值，只保留 fillable 字段.
-     * 
-     * @param string $modelType 模型类型
-     * @param array $payload 原始数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  array  $payload  原始数据
      * @return array 清理后的数据
      */
     protected function cleanPivotPayload(string $modelType, array $payload): array
     {
-        $modelInstance = new $modelType();
+        $modelInstance = new $modelType;
         $fillableFields = $modelInstance->getFillable();
-        
+
         // 只保留 fillable 字段，且值不为 null
         $cleanPayload = [];
         foreach ($fillableFields as $field) {
-            if (!empty($field) && is_string($field) && isset($payload[$field]) && $payload[$field] !== null) {
+            if (! empty($field) && is_string($field) && isset($payload[$field]) && $payload[$field] !== null) {
                 $cleanPayload[$field] = $payload[$field];
             }
         }
-        
+
         if (empty($cleanPayload)) {
             Log::warning('Pivot 表 payload 中缺少必要的字段', [
                 'model_type' => $modelType,
@@ -668,15 +676,15 @@ class SyncService
                 'fillable_fields' => $fillableFields,
             ]);
         }
-        
+
         return $cleanPayload;
     }
 
     /**
      * 查找 Pivot 表模型（使用复合键）.
-     * 
-     * @param string $modelType 模型类型
-     * @param array $cleanPayload 清理后的数据（包含所有 fillable 字段）
+     *
+     * @param  string  $modelType  模型类型
+     * @param  array  $cleanPayload  清理后的数据（包含所有 fillable 字段）
      * @return Model|null 找到的模型实例，未找到返回 null
      */
     protected function findPivotModel(string $modelType, array $cleanPayload): ?Model
@@ -685,41 +693,44 @@ class SyncService
             // 使用所有字段构建查询条件（复合键）
             $query = $modelType::query();
             foreach ($cleanPayload as $field => $value) {
-                if (!empty($field) && is_string($field)) {
+                if (! empty($field) && is_string($field)) {
                     $query->where($field, $value);
                 }
             }
+
             return $query->first();
         } catch (\Exception $e) {
             Log::warning('查找 Pivot 表记录失败', [
                 'model_type' => $modelType,
                 'error' => $e->getMessage(),
             ]);
+
             return null;
         }
     }
 
     /**
      * 清理 Media payload，移除非数据库字段.
-     * 
+     *
      * 这些字段是 preparePayload 中添加的计算字段，用于文件下载，不应写入数据库.
-     * 
-     * @param array $payload 原始数据
+     *
+     * @param  array  $payload  原始数据
      * @return array 清理后的数据
      */
     protected function cleanMediaPayload(array $payload): array
     {
         $fieldsToRemove = ['original_url', 'preview_url', 'file_url', 'file_path', 'file_disk'];
+
         return array_diff_key($payload, array_flip($fieldsToRemove));
     }
 
     /**
      * 下载并保存 Media 文件，并生成缩略图.
-     * 
+     *
      * 此方法在同步接收过程中调用，需要禁用 Media 同步以避免死循环.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
-     * @param array $payload 同步数据（包含 original_url）
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  array  $payload  同步数据（包含 original_url）
      */
     protected function downloadAndSaveMediaFile(
         \App\Models\Media $media,
@@ -728,7 +739,7 @@ class SyncService
         // 禁用 Media 同步，防止文件下载和转换过程中触发同步导致死循环
         $wasDisabled = \App\Observers\MediaObserver::$syncDisabled;
         \App\Observers\MediaObserver::$syncDisabled = true;
-        
+
         try {
             $downloadUrl = $payload['original_url'] ?? $payload['file_url'] ?? null;
             if (! $downloadUrl) {
@@ -736,6 +747,7 @@ class SyncService
                     'media_id' => $media->id,
                     'payload_keys' => array_keys($payload),
                 ]);
+
                 return;
             }
 
@@ -746,6 +758,7 @@ class SyncService
                     'file_path' => $this->getMediaFilePath($media),
                 ]);
                 $this->triggerMediaConversions($media);
+
                 return;
             }
 
@@ -766,13 +779,13 @@ class SyncService
 
     /**
      * 删除模型.
-     * 
+     *
      * 基于雪花ID全局唯一性，普通模型直接通过ID删除.
      * Pivot 表使用复合键删除.
-     * 
-     * @param string $modelType 模型类型
-     * @param int $modelId 模型ID（雪花ID）
-     * @param array $payload 同步数据（Pivot 表需要）
+     *
+     * @param  string  $modelType  模型类型
+     * @param  int  $modelId  模型ID（雪花ID）
+     * @param  array  $payload  同步数据（Pivot 表需要）
      */
     protected function deleteModel(string $modelType, int $modelId, array $payload = []): void
     {
@@ -780,6 +793,7 @@ class SyncService
         if ($isPivot) {
             // Pivot 表使用复合键删除
             $this->deletePivotModel($modelType, $payload);
+
             return;
         }
 
@@ -792,11 +806,11 @@ class SyncService
 
     /**
      * 删除 Pivot 表模型（使用复合键）.
-     * 
+     *
      * Pivot 表没有主键，不能使用模型的 delete() 方法，需要使用查询构建器直接删除.
-     * 
-     * @param string $modelType 模型类型
-     * @param array $payload 同步数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  array  $payload  同步数据
      */
     protected function deletePivotModel(string $modelType, array $payload): void
     {
@@ -807,12 +821,12 @@ class SyncService
             }
 
             // 获取表名
-            $modelInstance = new $modelType();
+            $modelInstance = new $modelType;
             $tableName = $modelInstance->getTable();
-            
+
             // 使用查询构建器直接删除（Pivot 表没有主键，不能使用模型的 delete() 方法）
             $query = \Illuminate\Support\Facades\DB::table($tableName);
-            
+
             // 使用所有字段构建查询条件（复合键）
             foreach ($cleanPayload as $field => $value) {
                 // 严格验证字段名：必须是非空字符串，且长度大于 0
@@ -820,10 +834,10 @@ class SyncService
                     $query->where($field, $value);
                 }
             }
-            
+
             // 执行删除
             $deletedCount = $query->delete();
-            
+
             if ($deletedCount > 1) {
                 Log::warning('删除 Pivot 表记录：找到多条匹配记录，已全部删除', [
                     'model_type' => $modelType,
@@ -841,9 +855,9 @@ class SyncService
 
     /**
      * 查找所有匹配的 Pivot 表模型（使用复合键）.
-     * 
-     * @param string $modelType 模型类型
-     * @param array $cleanPayload 清理后的数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  array  $cleanPayload  清理后的数据
      * @return \Illuminate\Database\Eloquent\Collection 匹配的模型集合
      */
     protected function findPivotModels(string $modelType, array $cleanPayload): \Illuminate\Database\Eloquent\Collection
@@ -852,26 +866,28 @@ class SyncService
             // 使用所有字段构建查询条件（复合键）
             $query = $modelType::query();
             foreach ($cleanPayload as $field => $value) {
-                if (!empty($field) && is_string($field)) {
+                if (! empty($field) && is_string($field)) {
                     $query->where($field, $value);
                 }
             }
+
             return $query->get();
         } catch (\Exception $e) {
             Log::warning('查找 Pivot 表记录失败', [
                 'model_type' => $modelType,
                 'error' => $e->getMessage(),
             ]);
+
             return collect();
         }
     }
 
     /**
      * 临时禁用模型的同步监听.
-     * 
+     *
      * 在批量同步时使用，避免同步过程中触发新的同步导致死循环.
-     * 
-     * @param string $modelType 模型类型
+     *
+     * @param  string  $modelType  模型类型
      */
     protected function disableSyncForModel(string $modelType): void
     {
@@ -891,8 +907,8 @@ class SyncService
 
     /**
      * 重新启用模型的同步监听.
-     * 
-     * @param string $modelType 模型类型
+     *
+     * @param  string  $modelType  模型类型
      */
     protected function enableSyncForModel(string $modelType): void
     {
@@ -910,7 +926,7 @@ class SyncService
 
     /**
      * 获取目标节点列表（排除当前节点）.
-     * 
+     *
      * @return array 目标节点名称数组
      */
     protected function getTargetNodes(): array
@@ -924,14 +940,14 @@ class SyncService
 
     /**
      * 判断是否应该创建同步日志.
-     * 
+     *
      * 删除操作总是创建日志，其他操作需要检查是否真的需要同步（避免重复）.
-     * 
-     * @param string $modelType 模型类型
-     * @param int $modelId 模型ID
-     * @param string $action 操作类型
-     * @param string $targetNode 目标节点
-     * @param string $syncHash 同步哈希值
+     *
+     * @param  string  $modelType  模型类型
+     * @param  int  $modelId  模型ID
+     * @param  string  $action  操作类型
+     * @param  string  $targetNode  目标节点
+     * @param  string  $syncHash  同步哈希值
      * @return bool 是否应该创建同步日志
      */
     protected function shouldCreateSyncLog(
@@ -960,13 +976,13 @@ class SyncService
 
     /**
      * 创建同步日志.
-     * 
-     * @param string $modelType 模型类型
-     * @param int $modelId 模型ID
-     * @param string $action 操作类型
-     * @param string $sourceNode 源节点
-     * @param string $targetNode 目标节点
-     * @param array $payload 同步数据
+     *
+     * @param  string  $modelType  模型类型
+     * @param  int  $modelId  模型ID
+     * @param  string  $action  操作类型
+     * @param  string  $sourceNode  源节点
+     * @param  string  $targetNode  目标节点
+     * @param  array  $payload  同步数据
      */
     protected function createSyncLog(
         string $modelType,
@@ -989,10 +1005,10 @@ class SyncService
 
     /**
      * 分组模型用于批量同步.
-     * 
+     *
      * 按模型类型和操作类型分组，提高批量处理效率.
-     * 
-     * @param array $models 模型数组
+     *
+     * @param  array  $models  模型数组
      * @return array 分组后的模型数组
      */
     protected function groupModelsForBatchSync(array $models): array
@@ -1027,12 +1043,12 @@ class SyncService
 
     /**
      * 构建批量同步日志.
-     * 
+     *
      * 为每个模型和每个目标节点创建同步日志.
-     * 
-     * @param array $groupedModels 分组后的模型数组
-     * @param array $targetNodes 目标节点数组
-     * @param string $sourceNode 源节点
+     *
+     * @param  array  $groupedModels  分组后的模型数组
+     * @param  array  $targetNodes  目标节点数组
+     * @param  string  $sourceNode  源节点
      * @return array 同步日志数组
      */
     protected function buildBatchSyncLogs(
@@ -1079,10 +1095,10 @@ class SyncService
 
     /**
      * 批量插入同步日志.
-     * 
+     *
      * 将 payload 序列化为 JSON，然后分批插入数据库.
-     * 
-     * @param array $syncLogs 同步日志数组
+     *
+     * @param  array  $syncLogs  同步日志数组
      */
     protected function insertBatchSyncLogs(array $syncLogs): void
     {
@@ -1107,9 +1123,10 @@ class SyncService
 
     /**
      * 获取远程节点配置.
-     * 
-     * @param string $targetNode 目标节点名称
+     *
+     * @param  string  $targetNode  目标节点名称
      * @return array 远程节点配置
+     *
      * @throws \Exception 配置不存在或未设置 API Key
      */
     protected function getRemoteNodeConfig(string $targetNode): array
@@ -1126,9 +1143,9 @@ class SyncService
 
     /**
      * 发送批量同步请求.
-     * 
-     * @param array $batchData 批量数据
-     * @param array $remoteConfig 远程节点配置
+     *
+     * @param  array  $batchData  批量数据
+     * @param  array  $remoteConfig  远程节点配置
      * @return \Illuminate\Http\Client\Response HTTP 响应
      */
     protected function sendBatchSyncRequest(array $batchData, array $remoteConfig)
@@ -1148,12 +1165,12 @@ class SyncService
 
     /**
      * 处理批量同步结果.
-     * 
+     *
      * 根据返回结果更新同步日志状态，统计成功和失败数量.
-     * 
-     * @param \Illuminate\Support\Collection $syncLogs 同步日志集合
-     * @param array $result 远程节点返回的结果
-     * @param string $targetNode 目标节点
+     *
+     * @param  \Illuminate\Support\Collection  $syncLogs  同步日志集合
+     * @param  array  $result  远程节点返回的结果
+     * @param  string  $targetNode  目标节点
      * @return array ['success' => int, 'failed' => int, 'errors' => array]
      */
     protected function handleBatchSyncResult(
@@ -1204,11 +1221,11 @@ class SyncService
 
     /**
      * 处理成功同步.
-     * 
+     *
      * 标记同步日志为完成，并更新同步状态（用于避免重复同步）.
      * 删除操作和 Pivot 表不需要更新同步状态.
-     * 
-     * @param SyncLog $syncLog 同步日志
+     *
+     * @param  SyncLog  $syncLog  同步日志
      */
     protected function handleSuccessfulSync(SyncLog $syncLog): void
     {
@@ -1240,11 +1257,11 @@ class SyncService
 
     /**
      * 处理同步失败.
-     * 
+     *
      * 记录错误日志并标记同步日志为失败.
-     * 
-     * @param SyncLog $syncLog 同步日志
-     * @param \Exception $e 异常
+     *
+     * @param  SyncLog  $syncLog  同步日志
+     * @param  \Exception  $e  异常
      */
     protected function handleSyncFailure(SyncLog $syncLog, \Exception $e): void
     {
@@ -1258,10 +1275,11 @@ class SyncService
 
     /**
      * 验证同步数据.
-     * 
+     *
      * 检查模型类型是否在同步列表中.
-     * 
-     * @param array $data 同步数据
+     *
+     * @param  array  $data  同步数据
+     *
      * @throws \Exception 模型不在同步列表中
      */
     protected function validateSyncData(array $data): void
@@ -1280,8 +1298,8 @@ class SyncService
      * - 创建操作：如果ID已存在，跳过（避免重复）
      * - 更新操作：如果本地数据更新，跳过（以最新为准）
      * - 删除操作：不跳过，必须执行
-     * 
-     * @param array $data 同步数据
+     *
+     * @param  array  $data  同步数据
      * @return bool 是否应该跳过
      */
     protected function shouldSkipSync(array $data): bool
@@ -1306,11 +1324,13 @@ class SyncService
                     if (empty($cleanPayload)) {
                         return false;
                     }
+
                     return $this->findPivotModel($modelType, $cleanPayload) !== null;
                 } catch (\Exception $e) {
                     return false;
                 }
             }
+
             // 更新操作不跳过
             return false;
         }
@@ -1323,11 +1343,11 @@ class SyncService
 
     /**
      * 处理同步操作.
-     * 
+     *
      * 将创建、更新、删除分开处理，逻辑更清晰.
      * Media 模型在创建/更新后需要下载文件并生成缩略图.
-     * 
-     * @param array $data 同步数据
+     *
+     * @param  array  $data  同步数据
      */
     protected function processSyncAction(array $data): void
     {
@@ -1344,7 +1364,7 @@ class SyncService
                     $this->downloadAndSaveMediaFile($model, $payload);
                 }
                 break;
-                
+
             case 'updated':
                 $model = $this->updateModel($modelType, $modelId, $payload);
                 // Media 模型需要下载文件并生成缩略图
@@ -1352,7 +1372,7 @@ class SyncService
                     $this->downloadAndSaveMediaFile($model, $payload);
                 }
                 break;
-                
+
             case 'deleted':
                 $this->deleteModel($modelType, $modelId, $payload);
                 break;
@@ -1361,11 +1381,11 @@ class SyncService
 
     /**
      * 规范化 payload 中的时间戳.
-     * 
+     *
      * 将时间戳统一转换为 ISO8601 格式字符串.
-     * 
-     * @param array &$payload 同步数据（引用传递）
-     * @param Model $model 模型实例
+     *
+     * @param  array  &$payload  同步数据（引用传递）
+     * @param  Model  $model  模型实例
      */
     protected function normalizeTimestampsInPayload(array &$payload, Model $model): void
     {
@@ -1384,11 +1404,11 @@ class SyncService
 
     /**
      * 添加媒体文件信息到 payload.
-     * 
+     *
      * Media 模型添加 original_url，用于同步时下载文件.
-     * 
-     * @param array &$payload 同步数据（引用传递）
-     * @param Model $model 模型实例
+     *
+     * @param  array  &$payload  同步数据（引用传递）
+     * @param  Model  $model  模型实例
      */
     protected function addMediaFileInfo(array &$payload, Model $model): void
     {
@@ -1399,10 +1419,10 @@ class SyncService
 
     /**
      * 解析 payload 中的时间戳为 Carbon 实例.
-     * 
+     *
      * 用于在创建/更新模型时正确设置时间戳.
-     * 
-     * @param array &$payload 同步数据（引用传递）
+     *
+     * @param  array  &$payload  同步数据（引用传递）
      */
     protected function parseTimestampsInPayload(array &$payload): void
     {
@@ -1414,16 +1434,15 @@ class SyncService
         }
     }
 
-
-
     /**
      * 下载并保存文件（带重试机制）.
-     * 
+     *
      * 使用指数退避策略重试，最多重试 3 次.
      * 对于图片文件，会验证文件有效性.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
-     * @param string $downloadUrl 下载 URL
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  string  $downloadUrl  下载 URL
+     *
      * @throws \Exception 下载失败时抛出异常
      */
     protected function downloadAndSaveFile(
@@ -1434,8 +1453,8 @@ class SyncService
         $maxRetries = 3;
         $retryDelay = 2;
         $lastException = null;
-        
-        for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
+
+        for ($attempt = 1; $attempt <= $maxRetries; ++$attempt) {
             try {
                 Log::info('开始下载 Media 文件', [
                     'media_id' => $media->id,
@@ -1461,7 +1480,7 @@ class SyncService
                 if (empty($fileContent)) {
                     throw new \Exception('文件内容为空');
                 }
-                
+
                 // 验证图片文件有效性
                 if (str_starts_with($media->mime_type ?? '', 'image/')) {
                     if (@getimagesizefromstring($fileContent) === false) {
@@ -1471,15 +1490,14 @@ class SyncService
 
                 // 保存文件
                 $this->saveMediaFile($media, $fileContent);
-                
+
                 Log::info('Media 文件下载成功', [
                     'media_id' => $media->id,
                     'file_size' => strlen($fileContent),
                     'attempt' => $attempt,
                 ]);
-                
+
                 return;
-                
             } catch (\Exception $e) {
                 $lastException = $e;
                 Log::warning('Media 文件下载失败，准备重试', [
@@ -1489,7 +1507,7 @@ class SyncService
                     'max_retries' => $maxRetries,
                     'error' => $e->getMessage(),
                 ]);
-                
+
                 // 指数退避：每次重试延迟时间翻倍
                 if ($attempt < $maxRetries) {
                     sleep($retryDelay);
@@ -1497,7 +1515,7 @@ class SyncService
                 }
             }
         }
-        
+
         // 所有重试都失败
         Log::error('Media 文件下载最终失败', [
             'media_id' => $media->id,
@@ -1505,15 +1523,16 @@ class SyncService
             'max_retries' => $maxRetries,
             'error' => $lastException?->getMessage() ?? '未知错误',
         ]);
-        
+
         throw new \Exception('下载文件失败（已重试 '.$maxRetries.' 次）: '.($lastException?->getMessage() ?? '未知错误'));
     }
 
     /**
      * 保存媒体文件到磁盘.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
-     * @param string $fileContent 文件内容
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  string  $fileContent  文件内容
+     *
      * @throws \Exception 文件保存失败
      */
     protected function saveMediaFile(
@@ -1532,7 +1551,7 @@ class SyncService
 
         // 保存文件
         $diskInstance->put($filePath, $fileContent);
-        
+
         // 验证文件是否成功保存
         if (! $diskInstance->exists($filePath)) {
             throw new \Exception('文件保存失败：文件不存在于磁盘');
@@ -1541,10 +1560,10 @@ class SyncService
 
     /**
      * 获取 Media 文件的相对路径（用于 Storage）.
-     * 
+     *
      * 使用 Spatie Media Library 的 PathGenerator 生成正确的路径.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
      * @return string 文件相对路径
      */
     protected function getMediaFilePath(\App\Models\Media $media): string
@@ -1553,26 +1572,27 @@ class SyncService
         $pathGeneratorFactory = app(\Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory::class);
         $pathGenerator = $pathGeneratorFactory->create($media);
         $directory = rtrim($pathGenerator->getPath($media), '/');
-        
+
         return $directory.'/'.$fileName;
     }
 
     /**
      * 检查 Media 文件是否已存在.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
      * @return bool 文件是否存在
      */
     protected function mediaFileExists(\App\Models\Media $media): bool
     {
         $disk = $media->disk ?? config('media-library.disk_name', 'public');
+
         return \Illuminate\Support\Facades\Storage::disk($disk)->exists($this->getMediaFilePath($media));
     }
 
     /**
      * 获取 Media 文件大小.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
      * @return int|null 文件大小（字节），文件不存在返回 null
      */
     protected function getMediaFileSize(\App\Models\Media $media): ?int
@@ -1580,24 +1600,24 @@ class SyncService
         $disk = $media->disk ?? config('media-library.disk_name', 'public');
         $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
         $filePath = $this->getMediaFilePath($media);
-        
+
         return $diskInstance->exists($filePath) ? $diskInstance->size($filePath) : null;
     }
 
     /**
      * 触发媒体转换生成（使用 Spatie Media Library 标准方法）.
-     * 
+     *
      * 此方法在同步接收过程中调用，Media 同步应该已经被禁用.
      * 使用自定义的 Job 包装器，在执行时禁用 Media 同步，防止死循环.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
      */
     protected function triggerMediaConversions(\App\Models\Media $media): void
     {
         // 确保 Media 同步被禁用（防止转换过程中触发同步导致死循环）
         $wasDisabled = \App\Observers\MediaObserver::$syncDisabled;
         \App\Observers\MediaObserver::$syncDisabled = true;
-        
+
         try {
             $media->refresh();
             $model = $this->getMediaModel($media);
@@ -1615,15 +1635,15 @@ class SyncService
             if ($conversions->isEmpty()) {
                 return;
             }
-            
+
             // 使用自定义的 Job 包装器，在执行时禁用 Media 同步
             $queueConnection = config('media-library.queue_connection_name');
             $queueName = config('media-library.queue_name', 'default');
-            
+
             dispatch(new \App\Jobs\PerformMediaConversionsJob($conversions, $media))
                 ->onConnection($queueConnection ?: config('queue.default'))
                 ->onQueue($queueName);
-            
+
             Log::info('已分发 Media 转换任务', [
                 'media_id' => $media->id,
                 'model_type' => get_class($model),
@@ -1643,25 +1663,25 @@ class SyncService
 
     /**
      * 获取 Media 关联的 model.
-     * 
+     *
      * 用于 Media 转换时获取关联的模型实例.
-     * 
-     * @param \App\Models\Media $media Media 模型实例
+     *
+     * @param  \App\Models\Media  $media  Media 模型实例
      * @return Model|null 关联的模型实例，未找到返回 null
      */
     protected function getMediaModel(\App\Models\Media $media): ?Model
     {
         $modelType = $media->model_type;
         $modelId = $media->model_id;
-        
+
         if (! $modelType || ! $modelId) {
             return null;
         }
-        
+
         if (! class_exists($modelType)) {
             return null;
         }
-        
+
         return $modelType::find($modelId);
     }
 }

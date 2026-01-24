@@ -2,27 +2,32 @@
 
 namespace App\Livewire\Manager;
 
+use App\Livewire\Traits\HasBatchActions;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\User;
-use App\Models\UserGroup;
-use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Users extends Component
 {
-    use WithPagination;
+    use HasBatchActions;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public $search = '';
-    public $userGroupIdFilter = null;
-    public $emailVerifiedFilter = null;
+    public ?int $filterUserGroupId = null;
+    public string $filterEmailVerified = '';
 
-    protected $queryString = [
-        'search' => ['except' => ''],
-        'userGroupIdFilter' => ['except' => null],
-        'emailVerifiedFilter' => ['except' => null],
-    ];
+    public function updatingFilterUserGroupId(): void
+    {
+        $this->resetPage();
+    }
 
-    public function updatingSearch(): void
+    public function updatingFilterEmailVerified(): void
     {
         $this->resetPage();
     }
@@ -30,55 +35,76 @@ class Users extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->userGroupIdFilter = null;
-        $this->emailVerifiedFilter = null;
+        $this->filterUserGroupId = null;
+        $this->filterEmailVerified = '';
         $this->resetPage();
     }
 
-    public function getUsersProperty()
+    public function deleteUser(int $id): void
     {
-        $query = User::query()
-            ->with(['userGroup.userGroupTranslations'])
-            ->withCount('orders')
-            ->when($this->search, function (Builder $query) {
-                $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
-            })
-            ->when($this->userGroupIdFilter, function (Builder $query) {
-                $query->where('user_group_id', $this->userGroupIdFilter);
-            })
-            ->when($this->emailVerifiedFilter !== null, function (Builder $query) {
-                if ($this->emailVerifiedFilter === 'verified') {
-                    $query->whereNotNull('email_verified_at');
-                } elseif ($this->emailVerifiedFilter === 'unverified') {
-                    $query->whereNull('email_verified_at');
-                }
-            })
-            ->orderBy('created_at', 'desc');
-
-        return $query->paginate(15);
+        $this->deleteModel(User::class, $id);
     }
 
-    public function getUserGroupsProperty()
+    protected function getCurrentPageItems()
     {
-        $locale = app()->getLocale();
-        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
-        
-        return UserGroup::with('userGroupTranslations')
-            ->get()
-            ->map(function ($group) use ($lang) {
-                $translation = $group->userGroupTranslations->where('language_id', $lang?->id)->first();
-                $group->display_name = $translation?->name ?? $group->userGroupTranslations->first()?->name ?? $group->id;
-                return $group;
-            })
-            ->sortBy('display_name');
+        return $this->users->getCollection();
+    }
+
+    public function batchDeleteUsers(): void
+    {
+        $this->batchDelete(User::class);
+    }
+
+    #[Computed]
+    public function users()
+    {
+        $lang = $this->getCurrentLanguage();
+
+        $query = User::query()
+            ->with(['userGroup.userGroupTranslations', 'orders']);
+
+        // 搜索：通过名称、邮箱搜索
+        if ($this->search) {
+            $search = $this->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('email', 'like', '%'.$search.'%');
+            });
+        }
+
+        // 筛选：用户组
+        if ($this->filterUserGroupId) {
+            $query->where('user_group_id', $this->filterUserGroupId);
+        }
+
+        // 筛选：邮箱验证状态
+        if ($this->filterEmailVerified === '1') {
+            $query->whereNotNull('email_verified_at');
+        } elseif ($this->filterEmailVerified === '0') {
+            $query->whereNull('email_verified_at');
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(15);
+    }
+
+    public function getUserGroupName($userGroup, $lang)
+    {
+        if (! $userGroup) {
+            return '-';
+        }
+
+        return $this->translatedField($userGroup->userGroupTranslations, $lang, 'name', (string) $userGroup->id);
     }
 
     public function render()
     {
+        $lang = $this->getCurrentLanguage();
+        $userGroups = \App\Models\UserGroup::with('userGroupTranslations')->get();
+
         return view('livewire.manager.users', [
             'users' => $this->users,
-            'userGroups' => $this->userGroups,
+            'lang' => $lang,
+            'userGroups' => $userGroups,
         ])->layout('components.layouts.manager');
     }
 }

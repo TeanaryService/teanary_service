@@ -4,8 +4,8 @@
     $cover = $article->getFirstMediaUrl('image');
 @endphp
 
-<div class="max-w-7xl mx-auto px-6 md:px-8 min-h-[40vh] mb-10">
-    <x-breadcrumbs :items="$breadcrumbs" />
+<div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 min-h-[70vh] mb-10">
+    <x-widgets.breadcrumbs :items="$breadcrumbs" />
     <div class="flex gap gap-6">
         <div class="hidden lg:block w-1/4">
             <livewire:components.random-products :limit="2" class="grid-cols-1" />
@@ -21,18 +21,18 @@
             @endif
 
             {{-- 标题与摘要 --}}
-            <header class="space-y-2">
+            <header class="space-y-2 px-6 md:px-8">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900">{{ $translation?->title }}</h1>
                 <p class="text-base text-gray-500">
                     {{ $article->created_at->format('F j, Y') }}
                 </p>
                 <div class="py-6">
-                    <x-share-buttons title="{{ $translation?->title }}" description="{{ $translation?->summary }}"
+                    <x-widgets.share-buttons title="{{ $translation?->title }}" description="{{ $translation?->summary }}"
                         image="{{ $cover }}" />
                 </div>
                 
-                <a href="{{ locaRoute('product') }}">
-                    <x-promotion-list class="pb-6" />
+                <a href="{{ locaRoute('product') }}" wire:navigate>
+                    <x-widgets.promotion-list class="pb-6" />
                 </a>
 
                 @if ($translation?->summary)
@@ -43,14 +43,11 @@
             </header>
 
             {{-- 正文内容 --}}
-            <div class="prose max-w-none prose-gray">
+            <div class="prose max-w-none prose-gray px-6 md:px-8">
                 {!! $translation?->content !!}
             </div>
         </article>
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{!! $translation?->title !!}" description="{{ $translation?->summary }}"
-        image="{{ $cover }}" />
-@endPushOnce
+<x-seo-meta title="{!! $translation?->title !!}" description="{{ $translation?->summary }}" image="{{ $cover }}" />

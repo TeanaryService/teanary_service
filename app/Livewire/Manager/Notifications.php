@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Manager;
 
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,7 +17,8 @@ class Notifications extends Component
         Auth::guard('manager')->user()->unreadNotifications->markAsRead();
     }
 
-    public function getNotificationsProperty(): LengthAwarePaginator
+    #[Computed]
+    public function notifications()
     {
         return Auth::guard('manager')->user()
             ->notifications()
@@ -30,20 +31,20 @@ class Notifications extends Component
         $notification = Auth::guard('manager')->user()->notifications()->find($notificationId);
         if ($notification && $notification->unread()) {
             $notification->markAsRead();
-            session()->flash('message', __('notifications.marked_as_read'));
+            $this->dispatch('flash-message', type: 'success', message: __('notifications.marked_as_read'));
         }
     }
 
     public function markAllAsRead(): void
     {
         Auth::guard('manager')->user()->unreadNotifications->markAsRead();
-        session()->flash('message', __('notifications.all_marked_as_read'));
+        $this->dispatch('flash-message', type: 'success', message: __('notifications.all_marked_as_read'));
     }
 
     public function deleteNotification(string $notificationId): void
     {
         Auth::guard('manager')->user()->notifications()->find($notificationId)?->delete();
-        session()->flash('message', __('notifications.deleted'));
+        $this->dispatch('flash-message', type: 'success', message: __('notifications.deleted'));
     }
 
     public function render()

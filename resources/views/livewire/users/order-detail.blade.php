@@ -2,7 +2,7 @@
     $breadcrumbs = buildUserCenterBreadcrumbs('orders', __('orders.order_details'), __('orders.my_orders'), locaRoute('auth.orders'));
     $localeService = app(\App\Services\LocaleCurrencyService::class);
     $lang = $localeService->getLanguageByCode(session('lang'));
-    $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
+    $orderCurrency = $order ? $localeService->getCurrencies()->find($order->currency_id) : null;
     $statusConfig = [
         'pending' => ['color' => 'bg-yellow-100 text-yellow-800 border-yellow-200', 'icon' => 'heroicon-o-clock'],
         'paid' => ['color' => 'bg-blue-100 text-blue-800 border-blue-200', 'icon' => 'heroicon-o-check-circle'],
@@ -12,12 +12,12 @@
         'after_sale' => ['color' => 'bg-orange-100 text-orange-800 border-orange-200', 'icon' => 'heroicon-o-exclamation-triangle'],
         'after_sale_done' => ['color' => 'bg-gray-100 text-gray-800 border-gray-200', 'icon' => 'heroicon-o-check'],
     ];
-    $statusInfo = $statusConfig[$order->status->value] ?? $statusConfig['pending'];
+    $statusInfo = $order ? ($statusConfig[$order->status->value] ?? $statusConfig['pending']) : $statusConfig['pending'];
 @endphp
 
-<div class="min-h-[40vh] mb-10 bg-tea-50 tea-bg-texture">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
         <div class="flex flex-col md:flex-row gap-6">
             <x-users.sidebar active="orders" />
@@ -27,17 +27,7 @@
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('orders.order_details') }}</h1>
                 </div>
 
-        @if (session()->has('message'))
-            <div class="mb-4 rounded-md bg-teal-50 p-4">
-                <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-            </div>
-        @endif
-
-        @if (session()->has('error'))
-            <div class="mb-4 rounded-md bg-red-50 p-4">
-                <p class="text-sm font-medium text-red-800">{{ session('error') }}</p>
-            </div>
-        @endif
+        @if($order && $order->id)
 
         <div class="space-y-6">
             <!-- 订单状态头部 -->
@@ -76,7 +66,7 @@
                     <div class="text-right">
                         <div class="text-sm text-gray-600 mb-1">{{ __('orders.total') }}</div>
                         <div class="text-3xl font-bold text-teal-600">
-                            {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
+                            {{ $orderCurrency ? $localeService->formatWithSymbol($order->total, $orderCurrency->code) : number_format($order->total, 2) }}
                         </div>
                     </div>
                 </div>
@@ -99,21 +89,26 @@
                             @foreach($order->orderItems as $item)
                                 @php
                                     $image = $item->productVariant
-                                        ? $item->productVariant->getFirstMediaUrl('image', 'thumb')
-                                        : ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
-                                    $specs = $item->productVariant
-                                        ? $item->productVariant->specificationValues
+                                        ? ($item->productVariant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'))
+                                        : ($item->product ? ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg')) : asset('logo.svg'));
+                                    $specs = '';
+                                    if ($item->productVariant && $item->productVariant->specificationValues) {
+                                        $specs = $item->productVariant->specificationValues
                                             ->map(function ($sv) use ($lang) {
                                                 $trans = $sv->specificationValueTranslations
                                                     ->where('language_id', $lang?->id)
                                                     ->first();
                                                 return $trans && $trans->name ? $trans->name : $sv->id;
                                             })
-                                            ->implode(' / ')
-                                        : '';
-                                    $productName = $item->product->productTranslations
-                                        ->where('language_id', $lang?->id)
-                                        ->first()?->name ?? $item->product->slug;
+                                            ->implode(' / ');
+                                    }
+                                    $productName = '-';
+                                    if ($item->product) {
+                                        $translation = $item->product->productTranslations
+                                            ->where('language_id', $lang?->id)
+                                            ->first();
+                                        $productName = $translation?->name ?? $item->product->slug ?? '-';
+                                    }
                                 @endphp
 
                                 <div class="p-6 hover:bg-gray-50 transition-colors">
@@ -199,24 +194,24 @@
                         <div class="p-6">
                             <div class="space-y-2 text-sm text-gray-700">
                                 <p class="font-semibold text-gray-900 text-base">
-                                    {{ $order->shippingAddress->lastname }}{{ $order->shippingAddress->firstname }}
+                                    {{ $order->shippingAddress?->lastname ?? '' }}{{ $order->shippingAddress?->firstname ?? '' }}
                                 </p>
                                 <p class="flex items-center gap-1.5">
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                     </svg>
-                                    {{ $order->shippingAddress->telephone }}
+                                    {{ $order->shippingAddress?->telephone ?? '' }}
                                 </p>
-                                <p>{{ $order->shippingAddress->address_1 }}</p>
-                                @if($order->shippingAddress->address_2)
+                                <p>{{ $order->shippingAddress?->address_1 ?? '' }}</p>
+                                @if($order->shippingAddress?->address_2)
                                     <p>{{ $order->shippingAddress->address_2 }}</p>
                                 @endif
                                 <p>
-                                    {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->postcode }}
+                                    {{ $order->shippingAddress?->city ?? '' }}, {{ $order->shippingAddress?->postcode ?? '' }}
                                 </p>
                                 <p>
-                                    {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
-                                    {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
+                                    {{ $order->shippingAddress?->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress?->zone?->name ?? '' }}, 
+                                    {{ $order->shippingAddress?->country?->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress?->country?->name ?? '' }}
                                 </p>
                             </div>
                         </div>
@@ -235,11 +230,11 @@
                         <div class="p-6 space-y-3">
                             <div class="flex justify-between text-sm text-gray-600">
                                 <span>{{ __('orders.subtotal') }}</span>
-                                <span class="font-medium">{{ $localeService->formatWithSymbol($order->total - ($order->shipping_fee ?? 0), $orderCurrency->code) }}</span>
+                                <span class="font-medium">{{ $orderCurrency ? $localeService->formatWithSymbol($order->total - ($order->shipping_fee ?? 0), $orderCurrency->code) : number_format($order->total - ($order->shipping_fee ?? 0), 2) }}</span>
                             </div>
                             <div class="flex justify-between text-sm text-gray-600">
                                 <span>{{ __('orders.shipping_fee') }}</span>
-                                <span class="font-medium">{{ $localeService->formatWithSymbol($order->shipping_fee ?? 0, $orderCurrency->code) }}</span>
+                                <span class="font-medium">{{ $orderCurrency ? $localeService->formatWithSymbol($order->shipping_fee ?? 0, $orderCurrency->code) : number_format($order->shipping_fee ?? 0, 2) }}</span>
                             </div>
                             <div class="border-t border-gray-200 pt-3 mt-3">
                                 <div class="flex justify-between items-center">
@@ -256,30 +251,39 @@
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                         <div class="space-y-3">
                             @if($order->status->canBePaid())
-                                <button wire:click="payOrder" 
-                                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 transition-colors">
+                                <x-widgets.button 
+                                    wire:click="payOrder" 
+                                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3"
+                                >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                     </svg>
                                     {{ __('orders.pay_now') }}
-                                </button>
+                                </x-widgets.button>
                             @endif
 
                             @if($order->status->canBeCancelled())
-                                <button wire:click="cancelOrder" 
-                                        wire:confirm="{{ __('orders.confirm_cancel') }}"
-                                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-red-700 bg-white border border-red-300 rounded-lg hover:bg-red-50 transition-colors">
+                                <x-widgets.button 
+                                    wire:click="cancelOrder" 
+                                    wire:confirm="{{ __('orders.confirm_cancel') }}"
+                                    variant="danger-outline"
+                                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-3"
+                                >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                     {{ __('orders.cancel_order') }}
-                                </button>
+                                </x-widgets.button>
                             @endif
 
-                            <a href="{{ locaRoute('auth.orders') }}" 
-                               class="block w-full text-center px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            <x-widgets.button 
+                                href="{{ locaRoute('auth.orders') }}" 
+                                wire:navigate
+                                variant="secondary"
+                                class="w-full px-4 py-3"
+                            >
                                 {{ __('app.back_to_orders') }}
-                            </a>
+                            </x-widgets.button>
                         </div>
                     </div>
                 </div>
@@ -287,5 +291,8 @@
         </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
+
+<x-seo-meta title="{{ __('orders.order_details') }}" />

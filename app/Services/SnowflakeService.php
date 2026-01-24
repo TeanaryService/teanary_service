@@ -8,17 +8,17 @@ use Illuminate\Support\Facades\File;
  * 雪花ID生成器（优化版）.
  *
  * 生成全局唯一的53位整数ID，完全兼容JavaScript安全整数范围（Number.MAX_SAFE_INTEGER = 2^53 - 1）
- * 
+ *
  * ID格式：41位时间戳（毫秒） + 5位机器ID + 6位序列号 + 1位保留 = 53位
  * 实际使用：41位时间戳 + 5位机器ID + 6位序列号 = 52位（确保在JS安全范围内）
- * 
+ *
  * 位分配说明：
  * - 41位时间戳（毫秒）：约69年时间范围（从EPOCH开始，2^41毫秒 ≈ 69.7年）
  * - 5位机器ID：支持0-31共32台机器
  * - 6位序列号：每毫秒可生成64个ID
- * 
+ *
  * 最大ID值：约4.5千万亿（在JavaScript安全整数范围 2^53 - 1 = 9007199254740991 内）
- * 
+ *
  * 特性：
  * - 线程安全：使用文件锁确保多进程环境下的唯一性
  * - JS兼容：生成的ID完全在JavaScript安全整数范围内
@@ -29,87 +29,87 @@ class SnowflakeService
 {
     /**
      * JavaScript安全整数最大值（2^53 - 1）
-     * 确保生成的ID不超过此值，以兼容JavaScript Number类型
+     * 确保生成的ID不超过此值，以兼容JavaScript Number类型.
      */
     private const JS_MAX_SAFE_INTEGER = 9007199254740991;
 
     /**
-     * 时间戳位数（41位，支持约69年）
+     * 时间戳位数（41位，支持约69年）.
      */
     private const TIMESTAMP_BITS = 41;
 
     /**
-     * 机器ID位数（5位，支持32台机器）
+     * 机器ID位数（5位，支持32台机器）.
      */
     private const MACHINE_ID_BITS = 5;
 
     /**
-     * 序列号位数（6位，每毫秒64个ID）
+     * 序列号位数（6位，每毫秒64个ID）.
      */
     private const SEQUENCE_BITS = 6;
 
     /**
-     * 机器ID最大值（2^5 - 1 = 31）
+     * 机器ID最大值（2^5 - 1 = 31）.
      */
     private const MAX_MACHINE_ID = (1 << self::MACHINE_ID_BITS) - 1;
 
     /**
-     * 序列号最大值（2^6 - 1 = 63）
+     * 序列号最大值（2^6 - 1 = 63）.
      */
     private const MAX_SEQUENCE = (1 << self::SEQUENCE_BITS) - 1;
 
     /**
-     * 机器ID左移位数（序列号位数）
+     * 机器ID左移位数（序列号位数）.
      */
     private const MACHINE_ID_SHIFT = self::SEQUENCE_BITS;
 
     /**
-     * 时间戳左移位数（序列号位数 + 机器ID位数）
+     * 时间戳左移位数（序列号位数 + 机器ID位数）.
      */
     private const TIMESTAMP_SHIFT = self::SEQUENCE_BITS + self::MACHINE_ID_BITS;
 
     /**
-     * 时间戳最大值（用于掩码，2^41 - 1）
+     * 时间戳最大值（用于掩码，2^41 - 1）.
      */
     private const MAX_TIMESTAMP = (1 << self::TIMESTAMP_BITS) - 1;
 
     /**
-     * 默认EPOCH（2024-01-01 00:00:00 UTC，毫秒时间戳）
+     * 默认EPOCH（2024-01-01 00:00:00 UTC，毫秒时间戳）.
      */
     private const DEFAULT_EPOCH = 1704067200000;
 
     /**
-     * 文件锁超时时间（秒）
+     * 文件锁超时时间（秒）.
      */
     private const LOCK_TIMEOUT = 5;
 
     /**
-     * 机器ID
+     * 机器ID.
      */
     private int $machineId;
 
     /**
-     * 序列号
+     * 序列号.
      */
     private int $sequence = 0;
 
     /**
-     * 上次生成ID的时间戳（毫秒）
+     * 上次生成ID的时间戳（毫秒）.
      */
     private int $lastTimestamp = -1;
 
     /**
-     * EPOCH时间戳（从配置文件读取或使用默认值）
+     * EPOCH时间戳（从配置文件读取或使用默认值）.
      */
     private int $epoch;
 
     /**
-     * 文件锁句柄
+     * 文件锁句柄.
      */
     private $lockHandle = null;
 
     /**
-     * 锁文件路径
+     * 锁文件路径.
      */
     private string $lockFilePath;
 
@@ -141,6 +141,7 @@ class SnowflakeService
      * 生成雪花ID（线程安全）.
      *
      * @return int 生成的雪花ID（确保在JavaScript安全整数范围内）
+     *
      * @throws \RuntimeException 当时钟回退或时间戳超出范围时抛出异常
      */
     public function nextId(): int
@@ -230,7 +231,7 @@ class SnowflakeService
     /**
      * 等待下一毫秒（自旋等待）.
      *
-     * @param int $lastTimestamp 上次时间戳
+     * @param  int  $lastTimestamp  上次时间戳
      * @return int 新的时间戳
      */
     private function waitNextMillis(int $lastTimestamp): int
@@ -243,7 +244,7 @@ class SnowflakeService
             // 使用usleep微秒级等待，提高精度
             usleep(100); // 等待100微秒
             $timestamp = $this->currentTimestamp();
-            $waitCount++;
+            ++$waitCount;
         }
 
         if ($timestamp <= $lastTimestamp) {
@@ -255,7 +256,7 @@ class SnowflakeService
 
     /**
      * 获取机器ID.
-     * 优先级：配置文件 > IP地址 > 进程ID > 随机数（不推荐）
+     * 优先级：配置文件 > IP地址 > 进程ID > 随机数（不推荐）.
      *
      * @return int 机器ID（0-31）
      */
@@ -276,6 +277,7 @@ class SnowflakeService
             $parts = explode('.', $ip);
             if (count($parts) === 4) {
                 $lastPart = (int) end($parts);
+
                 return $lastPart % (self::MAX_MACHINE_ID + 1);
             }
         }
@@ -298,7 +300,7 @@ class SnowflakeService
     private function getServerIp(): ?string
     {
         $hostname = gethostname();
-        if (!$hostname) {
+        if (! $hostname) {
             return null;
         }
 
@@ -316,11 +318,11 @@ class SnowflakeService
     private function initializeLock(): void
     {
         $lockDir = storage_path('locks');
-        if (!File::exists($lockDir)) {
+        if (! File::exists($lockDir)) {
             File::makeDirectory($lockDir, 0755, true);
         }
 
-        $this->lockFilePath = $lockDir . '/snowflake_' . $this->machineId . '.lock';
+        $this->lockFilePath = $lockDir.'/snowflake_'.$this->machineId.'.lock';
     }
 
     /**
@@ -334,11 +336,11 @@ class SnowflakeService
 
         $this->lockHandle = fopen($this->lockFilePath, 'c+');
         if ($this->lockHandle === false) {
-            throw new \RuntimeException('无法创建锁文件：' . $this->lockFilePath);
+            throw new \RuntimeException('无法创建锁文件：'.$this->lockFilePath);
         }
 
         $startTime = microtime(true);
-        while (!flock($this->lockHandle, LOCK_EX | LOCK_NB)) {
+        while (! flock($this->lockHandle, LOCK_EX | LOCK_NB)) {
             if (microtime(true) - $startTime > self::LOCK_TIMEOUT) {
                 fclose($this->lockHandle);
                 $this->lockHandle = null;
@@ -371,19 +373,20 @@ class SnowflakeService
     /**
      * 从雪花ID解析时间戳.
      *
-     * @param int $id 雪花ID
+     * @param  int  $id  雪花ID
      * @return int 时间戳（毫秒）
      */
     public static function parseTimestamp(int $id): int
     {
         $epoch = (int) (config('snowflake.epoch') ?? self::DEFAULT_EPOCH);
+
         return (($id >> self::TIMESTAMP_SHIFT) & self::MAX_TIMESTAMP) + $epoch;
     }
 
     /**
      * 从雪花ID解析机器ID.
      *
-     * @param int $id 雪花ID
+     * @param  int  $id  雪花ID
      * @return int 机器ID
      */
     public static function parseMachineId(int $id): int
@@ -394,7 +397,7 @@ class SnowflakeService
     /**
      * 从雪花ID解析序列号.
      *
-     * @param int $id 雪花ID
+     * @param  int  $id  雪花ID
      * @return int 序列号
      */
     public static function parseSequence(int $id): int
@@ -405,7 +408,7 @@ class SnowflakeService
     /**
      * 验证ID是否在JavaScript安全整数范围内.
      *
-     * @param int $id 要验证的ID
+     * @param  int  $id  要验证的ID
      * @return bool 是否在安全范围内
      */
     public static function isSafeForJavaScript(int $id): bool

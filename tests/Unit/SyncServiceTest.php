@@ -285,7 +285,7 @@ class SyncServiceTest extends TestCase
         $oldTimestamp = now()->subHour()->toIso8601String();
         $updatedData = $product->toArray();
         $updatedData['status'] = 'inactive';
-        
+
         $batchData = [
             [
                 'model_type' => Product::class,
@@ -305,7 +305,7 @@ class SyncServiceTest extends TestCase
         $this->assertEquals(1, $result['success']);
         // 验证没有 skipped 字段（或者 skipped 为 false）
         $this->assertFalse(isset($result['results'][0]['skipped']) ? $result['results'][0]['skipped'] : false);
-        
+
         // 验证数据已更新
         $product->refresh();
         $this->assertEquals(ProductStatusEnum::Inactive, $product->status);
@@ -430,13 +430,13 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：recordSync 处理 deleted action
+     * 测试：recordSync 处理 deleted action.
      */
     public function test_record_sync_handles_deleted_action()
     {
         $product = Product::factory()->create();
         $productId = $product->id;
-        
+
         // 删除产品
         $product->delete();
 
@@ -453,7 +453,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：recordSync 处理多个目标节点
+     * 测试：recordSync 处理多个目标节点.
      */
     public function test_record_sync_creates_logs_for_multiple_target_nodes()
     {
@@ -491,7 +491,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：recordSync 处理空目标节点列表
+     * 测试：recordSync 处理空目标节点列表.
      */
     public function test_record_sync_handles_empty_target_nodes()
     {
@@ -506,7 +506,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：recordBatchSync 跳过不在同步列表的模型
+     * 测试：recordBatchSync 跳过不在同步列表的模型.
      */
     public function test_record_batch_sync_skips_models_not_in_sync_list()
     {
@@ -537,7 +537,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：syncBatchToRemote 处理空集合
+     * 测试：syncBatchToRemote 处理空集合.
      */
     public function test_sync_batch_to_remote_handles_empty_collection()
     {
@@ -549,7 +549,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：syncBatchToRemote 处理部分成功部分失败
+     * 测试：syncBatchToRemote 处理部分成功部分失败.
      */
     public function test_sync_batch_to_remote_handles_partial_success()
     {
@@ -594,7 +594,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：syncBatchToRemote 处理无效的远程节点配置
+     * 测试：syncBatchToRemote 处理无效的远程节点配置.
      */
     public function test_sync_batch_to_remote_handles_invalid_remote_config()
     {
@@ -617,7 +617,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：syncBatchToRemote 处理响应格式错误（没有 results）
+     * 测试：syncBatchToRemote 处理响应格式错误（没有 results）.
      */
     public function test_sync_batch_to_remote_handles_missing_results_in_response()
     {
@@ -650,7 +650,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：receiveBatchSync 处理空数组输入
+     * 测试：receiveBatchSync 处理空数组输入.
      */
     public function test_receive_batch_sync_handles_empty_array_input()
     {
@@ -660,7 +660,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：receiveBatchSync 处理混合模型类型
+     * 测试：receiveBatchSync 处理混合模型类型.
      */
     public function test_receive_batch_sync_handles_mixed_model_types()
     {
@@ -711,7 +711,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：receiveBatchSync 处理时间戳边界情况（相同时间）
+     * 测试：receiveBatchSync 处理时间戳边界情况（相同时间）.
      */
     public function test_receive_batch_sync_handles_same_timestamp()
     {
@@ -739,7 +739,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：receiveBatchSync 处理时间戳为 null 的情况
+     * 测试：receiveBatchSync 处理时间戳为 null 的情况.
      */
     public function test_receive_batch_sync_handles_null_timestamp()
     {
@@ -770,12 +770,12 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：receiveBatchSync 处理模型创建失败（无效的模型类型）
+     * 测试：receiveBatchSync 处理模型创建失败（无效的模型类型）.
      */
     public function test_receive_batch_sync_handles_model_creation_failure()
     {
         $productId = app(SnowflakeService::class)->nextId();
-        
+
         // 使用无效的模型类型
         $batchData = [
             [
@@ -799,7 +799,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：receiveBatchSync 处理批量数据中部分失败
+     * 测试：receiveBatchSync 处理批量数据中部分失败.
      */
     public function test_receive_batch_sync_handles_partial_failure_in_batch()
     {
@@ -842,7 +842,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：receiveBatchSync 处理 updated_at 为 null 的情况
+     * 测试：receiveBatchSync 处理 updated_at 为 null 的情况.
      */
     public function test_receive_batch_sync_handles_null_updated_at()
     {
@@ -870,12 +870,12 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：preparePayload 处理 deleted action
+     * 测试：preparePayload 处理 deleted action.
      */
     public function test_prepare_payload_for_deleted_action()
     {
         $product = Product::factory()->create();
-        
+
         $reflection = new \ReflectionClass($this->service);
         $preparePayloadMethod = $reflection->getMethod('preparePayload');
         $preparePayloadMethod->setAccessible(true);
@@ -888,12 +888,12 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：preparePayload 处理时间戳规范化
+     * 测试：preparePayload 处理时间戳规范化.
      */
     public function test_prepare_payload_normalizes_timestamps()
     {
         $product = Product::factory()->create();
-        
+
         $reflection = new \ReflectionClass($this->service);
         $preparePayloadMethod = $reflection->getMethod('preparePayload');
         $preparePayloadMethod->setAccessible(true);
@@ -907,7 +907,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：getTargetNodes 排除当前节点
+     * 测试：getTargetNodes 排除当前节点.
      */
     public function test_get_target_nodes_excludes_current_node()
     {
@@ -937,12 +937,12 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：shouldCreateSyncLog 对于 deleted action 总是返回 true
+     * 测试：shouldCreateSyncLog 对于 deleted action 总是返回 true.
      */
     public function test_should_create_sync_log_always_true_for_deleted()
     {
         $product = Product::factory()->create();
-        
+
         $reflection = new \ReflectionClass($this->service);
         $shouldCreateSyncLogMethod = $reflection->getMethod('shouldCreateSyncLog');
         $shouldCreateSyncLogMethod->setAccessible(true);
@@ -961,7 +961,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：updateModel 处理空更新数据
+     * 测试：updateModel 处理空更新数据.
      */
     public function test_update_existing_model_handles_empty_update_data()
     {
@@ -988,7 +988,7 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：parseTimestampsInPayload 处理各种时间戳格式
+     * 测试：parseTimestampsInPayload 处理各种时间戳格式.
      */
     public function test_parse_timestamps_in_payload_handles_various_formats()
     {
@@ -1015,12 +1015,12 @@ class SyncServiceTest extends TestCase
     }
 
     /**
-     * 测试：createModel 处理创建失败的情况
+     * 测试：createModel 处理创建失败的情况.
      */
     public function test_create_new_model_handles_creation_failure()
     {
         $productId = app(SnowflakeService::class)->nextId();
-        
+
         $reflection = new \ReflectionClass($this->service);
         $createModelMethod = $reflection->getMethod('createModel');
         $createModelMethod->setAccessible(true);

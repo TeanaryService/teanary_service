@@ -46,6 +46,7 @@ return [
     'promotion_rule_order_qty_min' => 'Order Quantity',
     'promotion_discount_fixed' => 'Fixed Discount',
     'promotion_discount_percentage' => 'Percentage Discount',
+    'storage' => 'Stock: :storage',
 
     // Tea culture theme related
     'featured_products_subtitle' => 'Carefully selected premium teas, inheriting millennia of tea culture',

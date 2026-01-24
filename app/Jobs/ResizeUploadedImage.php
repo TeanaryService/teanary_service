@@ -66,7 +66,7 @@ class ResizeUploadedImage implements ShouldQueue
         $directory = $pathGenerator->getPath($this->media);
         $fileName = $this->media->file_name ?? $this->media->name ?? 'file';
         $path = rtrim($directory, '/').'/'.$fileName;
-        
+
         $disk = $this->media->disk ?? config('media-library.disk_name', 'public');
         $diskInstance = Storage::disk($disk);
 
@@ -116,12 +116,12 @@ class ResizeUploadedImage implements ShouldQueue
                 $image->save($tempPath);
                 $diskInstance->put($path, file_get_contents($tempPath));
             }
-            
+
             // 清理临时文件（如果存在）
-            if (isset($tempPath) && $tempPath && file_exists($tempPath)) {
+            if (isset($tempPath) && file_exists($tempPath)) {
                 @unlink($tempPath);
             }
-            
+
             Log::info('图片调整完成', ['path' => $path, 'disk' => $disk]);
         } catch (\Exception $e) {
             Log::error('图片调整失败', [

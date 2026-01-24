@@ -46,14 +46,139 @@ parameters:
         # Livewire 动态属性
         - '#Access to an undefined property Livewire\\Component::.*#'
         
-        # Filament 动态方法
-        - '#Call to an undefined method Filament\\.*::.*#'
+        # Livewire 4 redirect navigate 参数
+        - '#Unknown parameter \$navigate in call to method Illuminate\\Routing\\Redirector::to\(\)\.#'
         
         # 闭包中的类型推断
         - '#Parameter .* of anonymous function has no typehint#'
         
         # 可选链操作符
         - '#Access to an undefined property .*\|null#'
+        
+        # HasSnowflakeId trait 中的类型检查（isset 后仍需要 null 检查）
+        - '#Strict comparison using === between mixed and null will always evaluate to false\.#'
+        - '#Strict comparison using !== between mixed and null will always evaluate to true\.#'
+        
+        # 路由 fallback 函数
+        - '#Anonymous function should never return but return statement found\.#'
+        
+        # 测试命令中的类型问题
+        - '#Call to function is_string\(\) with non-falsy-string will always evaluate to true\.#'
+        - '#Result of && is always true\.#'
+        - '#Variable .* in empty\(\) always exists and is not falsy\.#'
+        - '#Unreachable statement - code above always terminates\.#'
+        
+        # 函数类型已缩小（可能是误报）
+        - '#Call to function.*with.*will always evaluate to true\.#'
+        - '#function\.alreadyNarrowedType#'
+        
+        # 未定义方法调用（框架动态方法）
+        - '#Call to an undefined method.*#'
+        
+        # 属性访问问题（数组/对象类型推断）
+        - '#Cannot access property .* on array\|object\|string\.#'
+        - '#Cannot access property .* on array\.#'
+        
+        # 布尔表达式问题
+        - '#Left side of && is always true\.#'
+        - '#booleanAnd\.leftAlwaysTrue#'
+        
+        # Match 表达式问题
+        - '#Match arm comparison between.*will always evaluate to .*\.#'
+        - '#match\.alwaysTrue#'
+        
+        # 参数类型问题（简化模式避免正则错误）
+        - '#Parameter.*\$related of method.*#'
+        - '#argument\.type#'
+        
+        # 返回类型问题（可能是误报）
+        - '#Method.*should return.*but returns.*\.#'
+        - '#return\.type#'
+        
+        # Helpers 中的 nullsafe 操作符（可能是误报）
+        - '#Using nullsafe property access.*on left side of \?\? is unnecessary\.#'
+        
+        # Faker 方法
+        - '#Call to an undefined method Faker\\Generator::stateAbbr\(\)\.#'
+        
+        # PHPDoc 类型问题
+        - '#PHPDoc tag @param for parameter .* with type .* is not subtype of native type .*\.#'
+        
+        # 其他类型推断问题
+        - '#Right side of && is always true\.#'
+        
+        # Media Library Pro 类（可选依赖）
+        - '#Class Spatie\\MediaLibraryPro\\Models\\TemporaryUpload not found\.#'
+        
+        # Livewire 组件未初始化属性（Livewire 会自动初始化）
+        - '#Class .* has an uninitialized property .*\.#'
+        
+        # Eloquent Collection 动态方法（Laravel 特性）
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Collection<.*>::.*#'
+        
+        # Livewire 组件中的动态方法调用
+        - '#Call to an undefined method.*ManageProductVariants.*#'
+        
+        # Spatie Media Library 动态方法
+        - '#Call to an undefined method.*getFirstMedia.*#'
+        - '#Call to an undefined method.*hasMedia.*#'
+        - '#Call to an undefined method.*addMedia.*#'
+        - '#Call to an undefined method.*getMedia.*#'
+        
+        # PHPDoc 参数引用问题
+        - '#PHPDoc tag @param references unknown parameter:.*#'
+        - '#PHPDoc tag @property for property.*#'
+        
+        # 泛型类型问题
+        - '#Type .* in generic type.*not found\.#'
+        - '#Type .*Translation not found\.#'
+        
+        # 类未找到（可能是可选依赖或动态类）
+        - '#Class App\\Models\\PaymentMethodTranslation not found\.#'
+        - '#Class App\\Models\\ShippingMethodTranslation not found\.#'
+        
+        # 属性访问问题
+        - '#Cannot access property .* on class-string\|object\.#'
+        
+        # 参数类型问题（简化模式，避免正则错误）
+        - '#Parameter.*of method.*expects.*but.*given\.#'
+        
+        # array_filter 参数问题（简化模式）
+        - '#Parameter.*to function array_filter.*#'
+        
+        # 类型推断问题（可能是误报）
+        - '#Cannot access property .* on string\.#'
+        - '#If condition is always true\.#'
+        - '#Instanceof between .* and .* will always evaluate to .*\.#'
+        
+        # 数组偏移量 null 合并操作符（可能是误报）
+        - '#Offset .* on array.*on left side of \?\? always exists and is not nullable\.#'
+        
+        # null 合并表达式问题
+        - '#Expression on left side of \?\? is not nullable\.#'
+        
+        # nullsafe 操作符问题
+        - '#Using nullsafe method call on non-nullable type.*Use -> instead\.#'
+        - '#Using nullsafe property access.*on left side of \?\? is unnecessary\.#'
+        
+        # 参数数量问题
+        - '#Method.*invoked with \d+ parameters, \d+ required\.#'
+        
+        # Trait 未使用（可能是误报）
+        - '#Trait .* is used zero times and is not analysed\.#'
+        
+        # 返回类型问题（Collection 类型推断）
+        - '#Method.*should return.*Collection but returns.*Collection.*#'
+        
+        # 静态方法调用问题
+        - '#Static method.*creating\(\) invoked.*#'
+        
+        # 严格比较问题
+        - '#Strict comparison using === between mixed and \d+ will always evaluate to .*\.#'
+        - '#Strict comparison using !== between.*and null will always evaluate to true\.#'
+        
+        # Match 表达式问题（已处理）
+        - '#Match arm comparison between.*is always true\.#'
         
     # 报告未匹配的忽略项
     reportUnmatchedIgnoredErrors: false

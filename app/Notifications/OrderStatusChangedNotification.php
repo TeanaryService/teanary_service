@@ -18,8 +18,7 @@ class OrderStatusChangedNotification extends Notification
         public Order $order,
         public OrderStatusEnum $oldStatus,
         public OrderStatusEnum $newStatus
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.

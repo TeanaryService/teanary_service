@@ -10,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class BatchWriteTrafficStatsJob implements ShouldQueue
@@ -28,6 +27,7 @@ class BatchWriteTrafficStatsJob implements ShouldQueue
 
             if (empty($queues)) {
                 Log::debug('流量统计：没有待写入的数据');
+
                 return;
             }
 
@@ -41,11 +41,11 @@ class BatchWriteTrafficStatsJob implements ShouldQueue
                     $isBot = $data['is_bot'] ?? false;
                     $spiderSource = $data['spider_source'] ?? null;
                     $uniqueKey = md5(
-                        $data['stat_date'] . ':' . 
-                        $data['path'] . ':' . 
-                        $data['method'] . ':' . 
-                        md5($data['ip']) . ':' .
-                        ($isBot ? '1' : '0') . ':' .
+                        $data['stat_date'].':'.
+                        $data['path'].':'.
+                        $data['method'].':'.
+                        md5($data['ip']).':'.
+                        ($isBot ? '1' : '0').':'.
                         ($spiderSource ?? '')
                     );
 
@@ -101,7 +101,7 @@ class BatchWriteTrafficStatsJob implements ShouldQueue
     }
 
     /**
-     * 获取待写入的队列
+     * 获取待写入的队列.
      */
     protected function getPendingQueues(): array
     {
@@ -109,12 +109,12 @@ class BatchWriteTrafficStatsJob implements ShouldQueue
         $now = now();
 
         // 获取过去5分钟的所有队列键
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $date = $now->copy()->subMinutes($i);
-            $queueKey = 'traffic:queue:' . $date->format('Y-m-d-H-i');
+            $queueKey = 'traffic:queue:'.$date->format('Y-m-d-H-i');
             $queue = Cache::get($queueKey);
 
-            if ($queue && is_array($queue) && !empty($queue)) {
+            if (is_array($queue) && ! empty($queue)) {
                 $queues[$queueKey] = $queue;
             }
         }
@@ -123,7 +123,7 @@ class BatchWriteTrafficStatsJob implements ShouldQueue
     }
 
     /**
-     * 批量插入或更新
+     * 批量插入或更新.
      */
     protected function insertOrUpdateBatch(array $chunk): void
     {
@@ -134,13 +134,13 @@ class BatchWriteTrafficStatsJob implements ShouldQueue
                 ->where('method', $data['method'])
                 ->where('ip', $data['ip'])
                 ->where('is_bot', $data['is_bot']);
-            
+
             if ($data['spider_source']) {
                 $query->where('spider_source', $data['spider_source']);
             } else {
                 $query->whereNull('spider_source');
             }
-            
+
             $existing = $query->first();
 
             if ($existing) {

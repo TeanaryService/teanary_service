@@ -157,6 +157,19 @@ return [
         'attribute-name' => [
             'rule-name' => 'Message personnalisé',
         ],
+        'name' => [
+            'required' => 'Veuillez entrer le nom',
+        ],
+        'email' => [
+            'required' => 'Veuillez entrer l\'adresse e-mail',
+            'email' => 'Veuillez entrer une adresse e-mail valide',
+            'unique' => 'Cet e-mail est déjà enregistré',
+        ],
+        'password' => [
+            'required' => 'Veuillez entrer le mot de passe',
+            'min' => 'Le mot de passe doit contenir au moins 8 caractères',
+            'confirmed' => 'Les mots de passe saisis ne correspondent pas',
+        ],
     ],
 
     'attributes' => [],

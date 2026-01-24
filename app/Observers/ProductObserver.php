@@ -54,7 +54,7 @@ class ProductObserver
         if (config('sync.enabled')) {
             $syncService = app(\App\Services\SyncService::class);
             $currentNode = config('sync.node');
-            
+
             // 获取所有产品分类关联
             $productCategories = \App\Models\ProductCategory::where('product_id', $product->id)->get();
             foreach ($productCategories as $pivot) {
@@ -68,7 +68,7 @@ class ProductObserver
         if (config('sync.enabled')) {
             $syncService = app(\App\Services\SyncService::class);
             $currentNode = config('sync.node');
-            
+
             // 获取所有产品属性值关联
             $productAttributeValues = \App\Models\ProductAttributeValue::where('product_id', $product->id)->get();
             foreach ($productAttributeValues as $pivot) {

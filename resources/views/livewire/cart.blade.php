@@ -1,13 +1,17 @@
 
-<div class="max-w-7xl mx-auto px-4 py-10 min-h-[40vh] bg-white">
+<div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8 py-10 min-h-[70vh] bg-gray-50">
     <h1 class="text-3xl font-extrabold text-teal-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
     <form wire:submit.prevent="checkout">
-        <div class="bg-white rounded-xl shadow-lg p-8">
+        <x-widgets.card class="p-8">
             <table class="w-full text-left mb-6 border-separate border-spacing-y-2">
                 <thead>
                     <tr class="border-b text-gray-700 text-sm">
                         <th class="py-2 px-2 w-10">
-                            <input type="checkbox" wire:model="selectAll" wire:click="toggleSelectAll">
+                            <x-widgets.checkbox 
+                                wire="selectAll" 
+                                wire:click="toggleSelectAll"
+                                class="!gap-0"
+                            />
                         </th>
                         <th class="py-2 px-2">{{ __('app.product') }}</th>
                         <th class="py-2 px-2">{{ __('app.specification') }}</th>
@@ -30,7 +34,11 @@
                         @endphp
                         <tr class="bg-gray-50 rounded-lg shadow-sm">
                             <td class="py-2 px-2 align-middle">
-                                <input type="checkbox" wire:model="selected" value="{{ $item->id }}">
+                                <x-widgets.checkbox 
+                                    wire="selected" 
+                                    :value="$item->id"
+                                    class="!gap-0"
+                                />
                             </td>
                             <td class="py-2 px-2 flex items-center gap-3 align-middle">
                                 <img src="{{ $image }}" alt="{{ $name }}" class="w-14 h-14 object-cover rounded-lg border">
@@ -63,18 +71,46 @@
                             </td>
                             <td class="py-2 px-2 align-middle">
                                 <div class="flex items-center gap-1">
-                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})" class="px-2 w-10 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">-</button>
-                                    <input type="number" wire:change="updateQty({{ $item->id }}, $event.target.value)" value="{{ $item->qty }}" min="1" class="w-14 py-1 text-center border rounded font-semibold">
-                                    <button type="button" wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})" class="px-2 w-10 py-1 bg-gray-100 rounded hover:bg-gray-200 font-bold text-lg">+</button>
+                                    <x-widgets.button 
+                                        type="button" 
+                                        wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})"
+                                        variant="secondary"
+                                        size="sm"
+                                        class="!w-10 !px-2 !min-w-0"
+                                    >
+                                        -
+                                    </x-widgets.button>
+                                    <x-widgets.input 
+                                        type="number"
+                                        wire:change="updateQty({{ $item->id }}, $event.target.value)"
+                                        :value="$item->qty"
+                                        min="1"
+                                        class="!w-28 py-1 text-center !px-2"
+                                    />
+                                    <x-widgets.button 
+                                        type="button" 
+                                        wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})"
+                                        variant="secondary"
+                                        size="sm"
+                                        class="!w-10 !px-2 !min-w-0"
+                                    >
+                                        +
+                                    </x-widgets.button>
                                 </div>
                             </td>
                             <td class="py-2 px-2 font-bold text-teal-700 align-middle">
                                 {{ $currencyService->convertWithSymbol($item->qty * $finalPrice, $currencyCode) }}
                             </td>
                             <td class="py-2 px-2 align-middle">
-                                <button type="button" wire:click="removeItem({{ $item->id }})" class="text-red-500 hover:text-red-700 transition">
+                                <x-widgets.button 
+                                    type="button" 
+                                    wire:click="removeItem({{ $item->id }})"
+                                    variant="danger-outline"
+                                    size="sm"
+                                    class="!p-2"
+                                >
                                     <x-heroicon-o-trash class="w-5 h-5" />
-                                </button>
+                                </x-widgets.button>
                             </td>
                         </tr>
                     @empty
@@ -86,27 +122,34 @@
             </table>
             <div class="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
                 <div class="flex gap-2">
-                    <button type="button" wire:click="toggleSelectAll" class="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200 font-medium">
+                    <x-widgets.button 
+                        type="button" 
+                        wire:click="toggleSelectAll"
+                        variant="secondary"
+                        class="rounded font-medium"
+                    >
                         {{ __('app.select_all') }}
-                    </button>
-                    <button type="button" wire:click="toggleInverse" class="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200 font-medium">
+                    </x-widgets.button>
+                    <x-widgets.button 
+                        type="button" 
+                        wire:click="toggleInverse"
+                        variant="secondary"
+                        class="rounded font-medium"
+                    >
                         {{ __('app.inverse_select') }}
-                    </button>
+                    </x-widgets.button>
                 </div>
                 <div class="text-2xl font-extrabold text-teal-700">
                     {{ __('app.total') }}: {{ $currencyService->convertWithSymbol($total, $currencyCode) }}
                 </div>
             </div>
             <div class="mt-8 flex justify-end">
-                <button type="submit" class="px-8 py-3 bg-teal-600 text-white rounded-lg font-bold hover:bg-teal-700 transition text-lg shadow">
+                <x-widgets.button type="submit" size="lg" class="px-8">
                     {{ __('app.checkout') }}
-                </button>
+                </x-widgets.button>
             </div>
-        </div>
+        </x-widgets.card>
     </form>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('app.cart') }}" description="{{ __('app.cart') }}"
-        keywords="{{ __('app.cart') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('app.cart') }}" />

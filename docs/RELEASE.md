@@ -84,7 +84,7 @@ git push gitee --tags
    - AI自动翻译功能（支持8种语言）
    - Chrome插件商品采集工具
    - 完整的电商功能模块
-   - 现代化Filament管理后台
+   - 现代化Livewire管理后台
    - Laravel Octane高性能部署
    
    ### 📦 下载
@@ -124,7 +124,6 @@ gh release create v1.0.0 \
 - AI自动翻译功能（支持8种语言）
 - Chrome插件商品采集工具
 - 完整的电商功能模块
-- 现代化Filament管理后台
 - Laravel Octane高性能部署"
 
 # 或者从文件读取说明
@@ -157,7 +156,7 @@ gh release create v1.0.0 \
    - AI自动翻译功能（支持8种语言）
    - Chrome插件商品采集工具
    - 完整的电商功能模块
-   - 现代化Filament管理后台
+   - 现代化Livewire管理后台
    - Laravel Octane高性能部署
    
    ### 📦 下载
@@ -253,7 +252,7 @@ git push gitee v1.0.0
   - 支付集成（PayPal等）
 
 - 🎨 现代化管理后台
-  - Filament 3.x 管理面板
+  - Livewire Manager 管理面板
   - 实时数据统计
   - 多语言内容管理
 
@@ -270,7 +269,6 @@ git push gitee v1.0.0
 - Redis
 - Tailwind CSS 3.x
 - Livewire 3.x
-- Filament 3.x
 
 ### 📦 安装
 

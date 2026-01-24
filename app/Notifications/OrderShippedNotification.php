@@ -17,8 +17,7 @@ class OrderShippedNotification extends Notification
     public function __construct(
         public Order $order,
         public OrderShipment $shipment
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.

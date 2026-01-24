@@ -1,295 +1,338 @@
 @php
-    $order = $this->order;
-    $users = $this->users;
-    $currencies = $this->currencies;
-    $shippingAddresses = $this->shippingAddresses;
-    $billingAddresses = $this->billingAddresses;
-    $statusOptions = $this->statusOptions;
-    $paymentMethodOptions = $this->paymentMethodOptions;
-    $shippingMethodOptions = $this->shippingMethodOptions;
-    $localeService = app(\App\Services\LocaleCurrencyService::class);
-    $lang = $localeService->getLanguageByCode(app()->getLocale());
+    $breadcrumbs = buildManagerCenterBreadcrumbs('orders', __('app.view'), __('manager.orders.label'), locaRoute('manager.orders'));
 @endphp
 
-<div class="min-h-screen bg-gray-50">
-    <x-manager.layout>
-        <div class="p-6 space-y-6">
-            <div class="mb-6 flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.OrderResource.label') }} #{{ $order->order_no }}</h1>
-                </div>
-                <a href="{{ locaRoute('manager.orders') }}" 
-                   class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                    {{ __('app.back') }}
-                </a>
-            </div>
-
-            @if(session('message'))
-                <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
-                    {{ session('message') }}
-                </div>
-            @endif
-
-            {{-- 订单基本信息编辑表单 --}}
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.order.basic_info') }}</h3>
-                <form wire:submit="save" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.order_no') }}</label>
-                            <input type="text" value="{{ $order->order_no }}" disabled
-                                class="w-full rounded-lg border-gray-300 bg-gray-50">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.status') }} <span class="text-red-500">*</span></label>
-                            <select wire:model="status" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                @foreach($statusOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            @error('status') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.user_id') }}</label>
-                            <select wire:model.live="userId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <option value="">{{ __('app.not_available') }}</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
-                                @endforeach
-                            </select>
-                            @error('userId') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.currency_id') }}</label>
-                            <select wire:model="currencyId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <option value="">{{ __('app.not_available') }}</option>
-                                @foreach($currencies as $currency)
-                                    <option value="{{ $currency->id }}">{{ $currency->name }} ({{ $currency->code }})</option>
-                                @endforeach
-                            </select>
-                            @error('currencyId') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.payment_method') }}</label>
-                            <select wire:model="paymentMethod" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <option value="">{{ __('app.not_available') }}</option>
-                                @foreach($paymentMethodOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            @error('paymentMethod') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.shipping_method') }}</label>
-                            <select wire:model="shippingMethod" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                                <option value="">{{ __('app.not_available') }}</option>
-                                @foreach($shippingMethodOptions as $value => $label)
-                                    <option value="{{ $value }}">{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            @error('shippingMethod') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.shipping_address_id') }}</label>
-                            <select wire:model="shippingAddressId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                                @if(!$userId) disabled @endif>
-                                <option value="">{{ __('app.not_available') }}</option>
-                                @foreach($shippingAddresses as $address)
-                                    <option value="{{ $address->id }}">
-                                        {{ $address->firstname }} {{ $address->lastname }} ({{ $address->address_1 }}, {{ $address->city }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('shippingAddressId') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.billing_address_id') }}</label>
-                            <select wire:model="billingAddressId" 
-                                class="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                                @if(!$userId) disabled @endif>
-                                <option value="">{{ __('app.not_available') }}</option>
-                                @foreach($billingAddresses as $address)
-                                    <option value="{{ $address->id }}">
-                                        {{ $address->firstname }} {{ $address->lastname }} ({{ $address->address_1 }}, {{ $address->city }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('billingAddressId') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('filament.order.total') }} <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
-                                    {{ $order->currency?->symbol ?? '¥' }}
-                                </span>
-                                <input type="number" wire:model="total" step="0.01" min="0" required
-                                    class="w-full pl-8 rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
-                            </div>
-                            @error('total') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-
+<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
+        
+        <div class="flex flex-col md:flex-row gap-6">
+            <x-manager.sidebar active="orders" />
+            
+            <div class="flex-1">
+                <div class="mb-6 flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.orders.label') }}</h1>
+                        <p class="text-sm text-gray-600 mt-1">订单号: {{ $order->order_no }}</p>
                     </div>
+                    <x-widgets.button 
+                        href="{{ locaRoute('manager.orders') }}" wire:navigate 
+                        variant="secondary"
+                        class="inline-flex items-center gap-2"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        {{ __('app.back') }}
+                    </x-widgets.button>
+                </div>
 
-                    <div class="flex justify-end pt-4 border-t border-gray-200">
-                        <button type="submit" 
-                            class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
-                            {{ __('app.save') }}
-                        </button>
+                @if (session()->has('message'))
+                    <div class="mb-4 rounded-md bg-teal-100 p-4">
+                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
                     </div>
-                </form>
-            </div>
+                @endif
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {{-- 订单商品 --}}
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
-                            <h3 class="text-lg font-semibold text-gray-900">{{ __('filament.order.order_items') }}</h3>
+                {{-- 订单基本信息 --}}
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">订单信息</h2>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $this->getStatusBadgeColor($order->status) }}">
+                            {{ $order->status->label() }}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.user_info') }}</h3>
+                            @if($order->user)
+                                <p class="text-sm text-gray-900">{{ $order->user->name }}</p>
+                                <p class="text-sm text-gray-600">{{ $order->user->email }}</p>
+                            @else
+                                <p class="text-sm text-gray-400">-</p>
+                            @endif
                         </div>
-                        <div class="divide-y divide-gray-200">
-                            @forelse($order->orderItems as $item)
-                                @php
-                                    $productTranslation = $item->product?->productTranslations
-                                        ->where('language_id', $lang?->id)
-                                        ->first() 
-                                        ?? $item->product?->productTranslations->first();
-                                    $productName = $productTranslation?->name ?? $item->product?->slug ?? '-';
-                                    
-                                    $variantSpecs = [];
-                                    if ($item->productVariant) {
-                                        foreach ($item->productVariant->specificationValues as $specValue) {
-                                            $specTranslation = $specValue->specificationValueTranslations
-                                                ->where('language_id', $lang?->id)
-                                                ->first()
-                                                ?? $specValue->specificationValueTranslations->first();
-                                            $variantSpecs[] = $specTranslation?->name ?? '';
-                                        }
-                                    }
-                                @endphp
-                                <div class="px-6 py-4">
-                                    <div class="flex items-start gap-4">
-                                        <div class="flex-1">
-                                            <div class="font-medium text-gray-900">{{ $productName }}</div>
-                                            @if(!empty($variantSpecs))
-                                                <div class="text-sm text-gray-500 mt-1">
-                                                    {{ implode(' / ', array_filter($variantSpecs)) }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="text-sm text-gray-600">
-                                                {{ ($order->currency?->symbol ?? '') . number_format($item->price, 2) }} × {{ $item->qty }}
-                                            </div>
-                                            <div class="text-sm font-medium text-gray-900 mt-1">
-                                                {{ ($order->currency?->symbol ?? '') . number_format($item->price * $item->qty, 2) }}
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.amount') }}</h3>
+                            <p class="text-lg font-semibold text-gray-900">
+                                {{ $order->currency ? $order->currency->symbol : '' }}{{ number_format($order->total, 2) }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                {{ $order->currency ? $order->currency->name : '' }}
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.payment_method') }}</h3>
+                            <p class="text-sm text-gray-900">{{ $order->payment_method ? $order->payment_method->label() : '-' }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.shipping_method') }}</h3>
+                            <p class="text-sm text-gray-900">{{ $order->shipping_method ? $order->shipping_method->label() : '-' }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.shipping_address') }}</h3>
+                            @if($order->shippingAddress)
+                                <div class="text-sm text-gray-900">
+                                    <p class="font-semibold">{{ $order->shippingAddress->firstname }} {{ $order->shippingAddress->lastname }}</p>
+                                    <p class="text-gray-600">{{ $order->shippingAddress->address_1 }}</p>
+                                    @if($order->shippingAddress->address_2)
+                                        <p class="text-gray-600">{{ $order->shippingAddress->address_2 }}</p>
+                                    @endif
+                                    <p class="text-gray-600">
+                                        {{ $order->shippingAddress->city }}, 
+                                        {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
+                                        {{ $order->shippingAddress->country?->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->country?->name ?? '' }}
+                                    </p>
+                                    <p class="text-gray-600">{{ $order->shippingAddress->postcode }}</p>
+                                    <p class="text-gray-600">{{ $order->shippingAddress->telephone }}</p>
+                                    @if($order->shippingAddress->email)
+                                        <p class="text-gray-600">{{ $order->shippingAddress->email }}</p>
+                                    @endif
                                 </div>
-                            @empty
-                                <div class="px-6 py-12 text-center text-sm text-gray-500">
-                                    {{ __('app.no_data') }}
+                            @else
+                                <p class="text-sm text-gray-400">-</p>
+                            @endif
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.billing_address') }}</h3>
+                            @if($order->billingAddress)
+                                <div class="text-sm text-gray-900">
+                                    <p class="font-semibold">{{ $order->billingAddress->firstname }} {{ $order->billingAddress->lastname }}</p>
+                                    <p class="text-gray-600">{{ $order->billingAddress->address_1 }}</p>
+                                    @if($order->billingAddress->address_2)
+                                        <p class="text-gray-600">{{ $order->billingAddress->address_2 }}</p>
+                                    @endif
+                                    <p class="text-gray-600">
+                                        {{ $order->billingAddress->city }}, 
+                                        {{ $order->billingAddress->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->billingAddress->zone?->name ?? '' }}, 
+                                        {{ $order->billingAddress->country?->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->billingAddress->country?->name ?? '' }}
+                                    </p>
+                                    <p class="text-gray-600">{{ $order->billingAddress->postcode }}</p>
+                                    @if($order->billingAddress->telephone)
+                                        <p class="text-gray-600">{{ $order->billingAddress->telephone }}</p>
+                                    @endif
+                                    @if($order->billingAddress->email)
+                                        <p class="text-gray-600">{{ $order->billingAddress->email }}</p>
+                                    @endif
                                 </div>
-                            @endforelse
+                            @else
+                                <p class="text-sm text-gray-400">-</p>
+                            @endif
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.created_at') }}</h3>
+                            <p class="text-sm text-gray-900">{{ $order->created_at->format('Y-m-d H:i:s') }}</p>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">{{ __('manager.order.updated_at') }}</h3>
+                            <p class="text-sm text-gray-900">{{ $order->updated_at->format('Y-m-d H:i:s') }}</p>
+                        </div>
+                    </div>
+
+                    {{-- 订单状态操作 --}}
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">{{ __('manager.order.status_section') }}</h3>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($statusOptions as $value => $label)
+                                <button 
+                                    wire:click="updateStatus('{{ $value }}')"
+                                    class="px-3 py-1 text-sm font-medium rounded-lg border transition-colors {{ $order->status->value === $value ? 'bg-teal-100 border-teal-300 text-teal-700' : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50' }}"
+                                >
+                                    {{ $label }}
+                                </button>
+                            @endforeach
                         </div>
                     </div>
                 </div>
 
-                {{-- 订单汇总和地址信息 --}}
-                <div class="space-y-6">
-                    {{-- 订单汇总 --}}
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('orders.order_summary') }}</h3>
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">{{ __('orders.subtotal') }}</span>
-                                <span class="text-gray-900">{{ ($order->currency?->symbol ?? '') . number_format($order->orderItems->sum(fn($item) => $item->price * $item->qty), 2) }}</span>
-                            </div>
-                            <div class="border-t border-gray-200 pt-2 flex justify-between">
-                                <span class="font-semibold text-gray-900">{{ __('orders.total') }}</span>
-                                <span class="font-bold text-teal-600 text-lg">{{ ($order->currency?->symbol ?? '') . number_format($order->total, 2) }}</span>
-                            </div>
-                        </div>
+                {{-- 订单商品列表 --}}
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">{{ __('manager.order.items_section') }}</h2>
+                        <x-widgets.button 
+                            href="{{ locaRoute('manager.orders.edit', ['id' => $order->id]) }}" wire:navigate
+                            variant="secondary"
+                            class="inline-flex items-center gap-2"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            {{ __('app.edit') }}
+                        </x-widgets.button>
                     </div>
 
-                    {{-- 收货地址 --}}
-                    @if($order->shippingAddress)
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.order.shipping_address_id') }}</h3>
-                            <div class="text-sm text-gray-600 space-y-1">
-                                <div>{{ $order->shippingAddress->firstname }} {{ $order->shippingAddress->lastname }}</div>
-                                <div>{{ $order->shippingAddress->address_1 }}</div>
-                                @if($order->shippingAddress->address_2)
-                                    <div>{{ $order->shippingAddress->address_2 }}</div>
-                                @endif
-                                <div>{{ $order->shippingAddress->city }}, {{ $order->shippingAddress->zone?->name ?? '' }} {{ $order->shippingAddress->postcode }}</div>
-                                <div>{{ $order->shippingAddress->country?->name ?? '' }}</div>
-                                @if($order->shippingAddress->telephone)
-                                    <div class="mt-2">{{ __('app.telephone') }}: {{ $order->shippingAddress->telephone }}</div>
-                                @endif
-                            </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">商品</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">规格</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">单价</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">数量</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">小计</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($order->orderItems as $item)
+                                    @php
+                                        $orderCurrencyCode = $order->currency?->code ?? $service->getDefaultCurrencyCode();
+                                        $subtotal = $item->price * $item->qty;
+                                        $subtotalFormatted = $service->formatWithSymbol($subtotal, $orderCurrencyCode);
+                                    @endphp
+                                    <tr>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm font-medium text-gray-900">{{ $this->getProductName($item->product, $lang) }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-600">
+                                            {{ $this->getVariantSpecs($item->productVariant, $lang) }}
+                                        </td>
+                                        <td class="px-6 py-4 text-right text-sm text-gray-900">
+                                            {{ $service->formatWithSymbol($item->price, $orderCurrencyCode) }}
+                                        </td>
+                                        <td class="px-6 py-4 text-center text-sm text-gray-900">
+                                            {{ $item->qty }}
+                                        </td>
+                                        <td class="px-6 py-4 text-right text-sm font-medium text-gray-900">
+                                            {{ $subtotalFormatted }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot class="bg-gray-50">
+                                <tr>
+                                    <td colspan="4" class="px-6 py-4 text-right text-sm font-medium text-gray-900">订单总额</td>
+                                    <td class="px-6 py-4 text-right text-sm font-bold text-gray-900">
+                                        @php
+                                            $orderCurrencyCode = $order->currency?->code ?? $service->getDefaultCurrencyCode();
+                                            $totalFormatted = $service->formatWithSymbol($order->total, $orderCurrencyCode);
+                                        @endphp
+                                        {{ $totalFormatted }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- 发货记录 --}}
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">发货记录</h2>
+                        @if($order->status === \App\Enums\OrderStatusEnum::Paid || $order->status === \App\Enums\OrderStatusEnum::Shipped)
+                            <x-widgets.button 
+                                wire:click="toggleShipmentForm"
+                                class="inline-flex items-center gap-2"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                {{ __('app.create') }} 发货记录
+                            </x-widgets.button>
+                        @endif
+                    </div>
+
+                    {{-- 发货表单 --}}
+                    @if($showShipmentForm)
+                        <div class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <h3 class="text-sm font-medium text-gray-900 mb-4">新增发货记录</h3>
+                            <form wire:submit="createShipment" class="space-y-4">
+                                <x-widgets.form-field label="配送方式" labelFor="shippingMethod" required error="shippingMethod">
+                                    <x-widgets.select 
+                                        id="shippingMethod"
+                                        wire="shippingMethod"
+                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($shippingMethodOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
+                                        error="shippingMethod"
+                                    />
+                                </x-widgets.form-field>
+                                <x-widgets.form-field label="运单号" labelFor="trackingNumber" error="trackingNumber">
+                                    <x-widgets.input 
+                                        type="text" 
+                                        id="trackingNumber"
+                                        wire="trackingNumber"
+                                        placeholder="请输入运单号"
+                                        error="trackingNumber"
+                                    />
+                                </x-widgets.form-field>
+                                <x-widgets.form-field label="备注" labelFor="notes" error="notes">
+                                    <x-widgets.textarea 
+                                        id="notes"
+                                        wire="notes"
+                                        rows="3"
+                                        placeholder="发货备注信息"
+                                        error="notes"
+                                    />
+                                </x-widgets.form-field>
+                                <div class="flex items-center justify-end gap-2">
+                                    <x-widgets.button 
+                                        type="button"
+                                        wire:click="toggleShipmentForm"
+                                        variant="secondary"
+                                    >
+                                        {{ __('app.cancel') }}
+                                    </x-widgets.button>
+                                    <x-widgets.button type="submit">
+                                        {{ __('app.save') }}
+                                    </x-widgets.button>
+                                </div>
+                            </form>
                         </div>
                     @endif
 
-                    {{-- 账单地址 --}}
-                    @if($order->billingAddress)
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.order.billing_address_id') }}</h3>
-                            <div class="text-sm text-gray-600 space-y-1">
-                                <div>{{ $order->billingAddress->firstname }} {{ $order->billingAddress->lastname }}</div>
-                                <div>{{ $order->billingAddress->address_1 }}</div>
-                                @if($order->billingAddress->address_2)
-                                    <div>{{ $order->billingAddress->address_2 }}</div>
-                                @endif
-                                <div>{{ $order->billingAddress->city }}, {{ $order->billingAddress->zone?->name ?? '' }} {{ $order->billingAddress->postcode }}</div>
-                                <div>{{ $order->billingAddress->country?->name ?? '' }}</div>
-                                @if($order->billingAddress->telephone)
-                                    <div class="mt-2">{{ __('app.telephone') }}: {{ $order->billingAddress->telephone }}</div>
-                                @endif
-                            </div>
+                    {{-- 发货记录列表 --}}
+                    @if($order->orderShipments->count() > 0)
+                        <div class="overflow-x-auto">
+                            <table class="w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">配送方式</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">运单号</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">备注</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">创建时间</th>
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($order->orderShipments as $shipment)
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                    {{ $shipment->shipping_method->label() }}
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ $shipment->tracking_number ?: '-' }}
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-gray-600">
+                                                {{ $shipment->notes ?: '-' }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ $shipment->created_at->format('Y-m-d H:i:s') }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <button 
+                                                    wire:click="deleteShipment({{ $shipment->id }})"
+                                                    wire:confirm="确定要删除这条发货记录吗？"
+                                                    class="text-red-600 hover:text-red-700"
+                                                >
+                                                    {{ __('app.delete') }}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                    @endif
-
-                    {{-- 物流信息 --}}
-                    @if($order->orderShipments->isNotEmpty())
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.order.order_shipments') }}</h3>
-                            <div class="space-y-4">
-                                @foreach($order->orderShipments as $shipment)
-                                    <div class="border-l-4 border-teal-500 pl-4">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{ $shipment->shipping_method?->label() ?? '-' }}
-                                        </div>
-                                        @if($shipment->tracking_number)
-                                            <div class="text-sm text-gray-600 mt-1">
-                                                {{ __('filament.order_shipment.tracking_number') }}: {{ $shipment->tracking_number }}
-                                            </div>
-                                        @endif
-                                        @if($shipment->notes)
-                                            <div class="text-sm text-gray-500 mt-1">{{ $shipment->notes }}</div>
-                                        @endif
-                                        <div class="text-xs text-gray-400 mt-1">{{ $shipment->created_at->format('Y-m-d H:i') }}</div>
-                                    </div>
-                                @endforeach
-                            </div>
+                    @else
+                        <div class="text-center py-8 text-sm text-gray-500">
+                            <svg class="w-10 h-10 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                            </svg>
+                            <p>暂无发货记录</p>
                         </div>
                     @endif
                 </div>
             </div>
         </div>
-    </x-manager.layout>
+    </div>
 </div>
+
+<x-seo-meta title="{{ __('manager.order.label') }}" /> 

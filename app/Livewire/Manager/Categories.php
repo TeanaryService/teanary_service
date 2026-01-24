@@ -3,34 +3,34 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HasBatchActions;
+use App\Livewire\Traits\HasDeleteAction;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Category;
-use App\Services\LocaleCurrencyService;
-use Illuminate\Database\Eloquent\Builder;
+use App\Support\CacheKeys;
+use Illuminate\Support\Facades\Cache;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Categories extends Component
 {
-    use WithPagination;
+    use HasBatchActions;
+    use HasDeleteAction;
+    use HasSearchAndFilters;
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
 
-    public $search = '';
-    public $parentIdFilter = null;
-    public $translationStatusFilter = [];
+    public ?int $filterParentId = null;
+    public array $filterTranslationStatus = [];
 
-    protected $queryString = [
-        'search' => ['except' => ''],
-        'parentIdFilter' => ['except' => null],
-        'translationStatusFilter' => ['except' => []],
-    ];
-
-    protected LocaleCurrencyService $localeService;
-
-    public function mount(): void
+    public function updatingFilterParentId(): void
     {
-        $this->localeService = app(LocaleCurrencyService::class);
+        $this->resetPage();
     }
 
-    public function updatingSearch(): void
+    public function updatingFilterTranslationStatus(): void
     {
         $this->resetPage();
     }
@@ -38,62 +38,89 @@ class Categories extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->parentIdFilter = null;
-        $this->translationStatusFilter = [];
+        $this->filterParentId = null;
+        $this->filterTranslationStatus = [];
         $this->resetPage();
     }
 
-    public function getCategoriesProperty()
+    public function deleteCategory(int $id): void
     {
-        $locale = app()->getLocale();
-        $lang = $this->localeService->getLanguageByCode($locale);
+        $this->deleteModel(Category::class, $id, CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+    }
+
+    protected function getCurrentPageItems()
+    {
+        return $this->categories->getCollection();
+    }
+
+    public function batchDeleteCategories(): void
+    {
+        $this->batchDelete(Category::class, CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+    }
+
+    public function batchSetCategoryTranslationStatus(string $status): void
+    {
+        $this->batchUpdateTranslationStatus(Category::class, $status, CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+    }
+
+    #[Computed]
+    public function categories()
+    {
+        $lang = $this->getCurrentLanguage();
 
         $query = Category::query()
-            ->with(['category.categoryTranslations', 'categoryTranslations'])
-            ->withCount('products')
-            ->when($this->search, function (Builder $query) {
-                $query->whereHas('categoryTranslations', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->parentIdFilter, function (Builder $query) {
-                $query->where('parent_id', $this->parentIdFilter);
-            })
-            ->when($this->translationStatusFilter, function (Builder $query) {
-                $query->whereIn('translation_status', $this->translationStatusFilter);
-            })
-            ->orderBy('created_at', 'desc');
+            ->with(['category.categoryTranslations', 'categoryTranslations', 'products']);
 
-        return $query->paginate(15);
+        // 搜索：通过翻译名称搜索
+        if ($this->search) {
+            $query->whereHas('categoryTranslations', function ($q) {
+                $q->where('name', 'like', '%'.$this->search.'%');
+            });
+        }
+
+        // 筛选：父分类
+        if ($this->filterParentId !== null) {
+            if ($this->filterParentId === 0) {
+                $query->whereNull('parent_id');
+            } else {
+                $query->where('parent_id', $this->filterParentId);
+            }
+        }
+
+        // 筛选：翻译状态
+        if (! empty($this->filterTranslationStatus)) {
+            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(15);
     }
 
-    public function getParentCategoriesProperty()
+    public function getCategoryName($category, $lang)
     {
-        $locale = app()->getLocale();
-        $lang = $this->localeService->getLanguageByCode($locale);
-
-        return Category::with('categoryTranslations')
-            ->whereNull('parent_id')
-            ->get()
-            ->map(function ($cat) use ($lang) {
-                $translation = $cat->categoryTranslations->where('language_id', $lang?->id)->first();
-                $cat->display_name = $translation?->name ?? $cat->categoryTranslations->first()?->name ?? $cat->slug;
-                return $cat;
-            })
-            ->sortBy('display_name');
+        return $this->translatedField($category->categoryTranslations, $lang, 'name', __('manager.category.unnamed'));
     }
 
-    public function getTranslationStatusOptionsProperty(): array
+    public function getParentName($parent, $lang)
     {
-        return TranslationStatusEnum::options();
+        if (! $parent) {
+            return __('manager.category.root');
+        }
+
+        return $this->translatedField($parent->categoryTranslations, $lang, 'name', $parent->slug);
     }
 
     public function render()
     {
+        $lang = $this->getCurrentLanguage();
+        $parentCategories = Category::with('categoryTranslations')
+            ->whereNull('parent_id')
+            ->get();
+
         return view('livewire.manager.categories', [
             'categories' => $this->categories,
-            'parentCategories' => $this->parentCategories,
-            'translationStatusOptions' => $this->translationStatusOptions,
+            'lang' => $lang,
+            'parentCategories' => $parentCategories,
+            'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');
     }
 }

@@ -2,17 +2,19 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Category;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class Home extends Component
 {
+    use UsesLocaleCurrency;
+
     public $categories = [];
 
     public function mount()
     {
-        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $this->getCurrentLanguage()?->id;
         $this->categories = Category::getCategoriesForLanguage($langId);
     }
 

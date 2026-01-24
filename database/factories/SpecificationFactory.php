@@ -20,7 +20,17 @@ class SpecificationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'translation_status' => \App\Enums\TranslationStatusEnum::NotTranslated,
         ];
+    }
+
+    /**
+     * Indicate that the specification has complete translations.
+     */
+    public function complete(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'translation_status' => \App\Enums\TranslationStatusEnum::Translated,
+        ]);
     }
 }

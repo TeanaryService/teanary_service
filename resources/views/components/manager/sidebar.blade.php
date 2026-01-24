@@ -1,99 +1,282 @@
+@props(['active' => ''])
+
 @php
-    $currentRoute = request()->route()->getName();
-    $manager = auth('manager')->user();
+    $navItems = [
+        [
+            'name' => __('manager.dashboard.heading'),
+            'route' => 'manager.dashboard',
+            'icon' => 'heroicon-o-home',
+            'key' => 'dashboard',
+        ],
+        [
+            'name' => __('manager.traffic_statistics.navigation_label'),
+            'route' => 'manager.traffic-statistics',
+            'icon' => 'heroicon-o-chart-bar',
+            'key' => 'traffic-statistics',
+        ],
+        [
+            'name' => __('notifications.my_notifications'),
+            'route' => 'manager.notifications',
+            'icon' => 'heroicon-o-bell',
+            'key' => 'notifications',
+        ],
+    ];
+
+    $businessItems = [
+        [
+            'name' => __('manager.orders.label'),
+            'route' => 'manager.orders',
+            'icon' => 'heroicon-o-receipt-percent',
+            'key' => 'orders',
+        ],
+        [
+            'name' => __('manager.promotions.label'),
+            'route' => 'manager.promotions',
+            'icon' => 'heroicon-o-gift-top',
+            'key' => 'promotions',
+        ],
+        [
+            'name' => __('manager.articles.label'),
+            'route' => 'manager.articles',
+            'icon' => 'heroicon-o-pencil-square',
+            'key' => 'articles',
+        ],
+        [
+            'name' => __('manager.carts.label'),
+            'route' => 'manager.carts',
+            'icon' => 'heroicon-o-shopping-cart',
+            'key' => 'carts',
+        ],
+        [
+            'name' => __('manager.contacts.label'),
+            'route' => 'manager.contacts',
+            'icon' => 'heroicon-o-envelope-open',
+            'key' => 'contacts',
+        ],
+    ];
+
+    $productItems = [
+        [
+            'name' => __('manager.products.label'),
+            'route' => 'manager.products',
+            'icon' => 'heroicon-o-cube',
+            'key' => 'products',
+        ],
+        [
+            'name' => __('manager.categories.label'),
+            'route' => 'manager.categories',
+            'icon' => 'heroicon-o-squares-2x2',
+            'key' => 'categories',
+        ],
+        [
+            'name' => __('manager.attributes.label'),
+            'route' => 'manager.attributes',
+            'icon' => 'heroicon-o-adjustments-horizontal',
+            'key' => 'attributes',
+        ],
+        [
+            'name' => __('manager.attribute_values.label'),
+            'route' => 'manager.attribute-values',
+            'icon' => 'heroicon-o-tag',
+            'key' => 'attribute-values',
+        ],
+        [
+            'name' => __('manager.specifications.label'),
+            'route' => 'manager.specifications',
+            'icon' => 'heroicon-o-table-cells',
+            'key' => 'specifications',
+        ],
+        [
+            'name' => __('manager.specification_values.label'),
+            'route' => 'manager.specification-values',
+            'icon' => 'heroicon-o-rectangle-group',
+            'key' => 'specification-values',
+        ],
+    ];
+
+    $userItems = [
+        [
+            'name' => __('manager.users.label'),
+            'route' => 'manager.users',
+            'icon' => 'heroicon-o-user',
+            'key' => 'users',
+        ],
+        [
+            'name' => __('manager.addresses.label'),
+            'route' => 'manager.addresses',
+            'icon' => 'heroicon-o-map-pin',
+            'key' => 'addresses',
+        ],
+    ];
+
+    $systemItems = [
+        [
+            'name' => __('manager.managers.label'),
+            'route' => 'manager.managers',
+            'icon' => 'heroicon-o-lifebuoy',
+            'key' => 'managers',
+        ],
+        [
+            'name' => __('manager.languages.label'),
+            'route' => 'manager.languages',
+            'icon' => 'heroicon-o-language',
+            'key' => 'languages',
+        ],
+        [
+            'name' => __('manager.currencies.label'),
+            'route' => 'manager.currencies',
+            'icon' => 'heroicon-o-currency-dollar',
+            'key' => 'currencies',
+        ],
+        [
+            'name' => __('manager.countries.label'),
+            'route' => 'manager.countries',
+            'icon' => 'heroicon-o-globe-alt',
+            'key' => 'countries',
+        ],
+        [
+            'name' => __('manager.zones.label'),
+            'route' => 'manager.zones',
+            'icon' => 'heroicon-o-globe-americas',
+            'key' => 'zones',
+        ],
+    ];
 @endphp
 
-<aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
-    {{-- Logo --}}
-    <div class="h-16 flex items-center justify-center border-b border-gray-200">
-        <a href="{{ locaRoute('manager.dashboard') }}" class="flex items-center space-x-2">
-            <x-layouts.logo imgClass="max-w-12 max-h-12" />
-            <!-- <span class="text-lg font-bold text-gray-900">{{ __('app.manager_panel') }}</span> -->
-        </a>
-    </div>
-
-    {{-- 导航菜单 --}}
-    <nav class="flex-1 overflow-y-auto py-4">
-        <div class="px-3 space-y-1">
-            <a href="{{ locaRoute('manager.dashboard') }}" 
-               class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ str_starts_with($currentRoute, 'manager.dashboard') ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-                {{ __('filament.dashboard.title') }}
-            </a>
-
-            <a href="{{ locaRoute('manager.orders') }}" 
-               class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ str_starts_with($currentRoute, 'manager.orders') ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                {{ __('filament.OrderResource.pluralLabel') }}
-            </a>
-
-            <a href="{{ locaRoute('manager.users') }}" 
-               class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ str_starts_with($currentRoute, 'manager.users') ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                {{ __('filament.UserResource.pluralLabel') }}
-            </a>
-
-            <a href="{{ locaRoute('manager.products') }}" 
-               class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ str_starts_with($currentRoute, 'manager.products') ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
-                {{ __('filament.ProductResource.pluralLabel') }}
-            </a>
-
-            <a href="{{ locaRoute('manager.categories') }}" 
-               class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ str_starts_with($currentRoute, 'manager.categories') ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                </svg>
-                {{ __('filament.CategoryResource.pluralLabel') }}
-            </a>
-
-            <a href="{{ locaRoute('manager.traffic-statistics') }}" 
-               class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ str_starts_with($currentRoute, 'manager.traffic-statistics') ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                {{ __('filament.TrafficStatistics.navigation_label') }}
-            </a>
-
-            <a href="{{ locaRoute('manager.notifications') }}" 
-               class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ str_starts_with($currentRoute, 'manager.notifications') ? 'bg-teal-50 text-teal-700' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-                {{ __('notifications.my_notifications') }}
-                @if($manager && $manager->unreadNotifications->count() > 0)
-                    <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                        {{ $manager->unreadNotifications->count() > 99 ? '99+' : $manager->unreadNotifications->count() }}
-                    </span>
-                @endif
-            </a>
+<aside class="w-full md:w-64 flex-shrink-0">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="p-4 bg-gradient-to-r from-teal-50 to-teal-100 border-b border-teal-200">
+            <h2 class="text-lg font-semibold text-teal-900">{{ __('app.manager_center') }}</h2>
         </div>
-    </nav>
+        <nav class="p-2">
+            <ul class="space-y-1">
+                @foreach($navItems as $item)
+                    @php
+                        $isActive = $active === $item['key'] || request()->routeIs($item['route']);
+                    @endphp
+                    <li>
+                        <a href="{{ locaRoute($item['route']) }}" 
+                           wire:navigate.hover
+                           @if($isActive) data-current @endif
+                           class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 data-[current]:bg-teal-100 data-[current]:text-teal-700 data-[current]:border-l-4 data-[current]:border-teal-600 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                            <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
+                            <span>{{ $item['name'] }}</span>
+                            <svg class="w-4 h-4 ml-auto text-teal-600 data-[current]:block hidden" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+            
 
-    {{-- 底部用户信息 --}}
-    <div class="border-t border-gray-200 p-4">
-        <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                <span class="text-teal-600 font-semibold">{{ substr($manager->name ?? 'M', 0, 1) }}</span>
-            </div>
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">{{ $manager->name ?? 'Manager' }}</p>
-                <p class="text-xs text-gray-500 truncate">{{ $manager->email ?? '' }}</p>
-            </div>
-        </div>
-        <form method="POST" action="{{ locaRoute('manager.logout') }}" class="mt-3">
-            @csrf
-            <button type="submit" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                {{ __('app.logout') }}
-            </button>
-        </form>
+            @if(count($businessItems) > 0)
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                        {{ __('manager.articles.group') }}
+                    </h3>
+                    <ul class="space-y-1">
+                        @foreach($businessItems as $item)
+                            @php
+                                $isActive = $active === $item['key'] || request()->routeIs($item['route'] . '*');
+                            @endphp
+                            <li>
+                                <a href="{{ locaRoute($item['route']) }}" 
+                                   wire:navigate.hover
+                                   @if($isActive) data-current @endif
+                                   class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 data-[current]:bg-teal-100 data-[current]:text-teal-700 data-[current]:border-l-4 data-[current]:border-teal-600 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                                    <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
+                                    <span>{{ $item['name'] }}</span>
+                                    <svg class="w-4 h-4 ml-auto text-teal-600 data-[current]:block hidden" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(count($productItems) > 0)
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                        {{ __('manager.attributes.group') }}
+                    </h3>
+                    <ul class="space-y-1">
+                        @foreach($productItems as $item)
+                            @php
+                                $isActive = $active === $item['key'] || request()->routeIs($item['route'] . '*');
+                            @endphp
+                            <li>
+                                <a href="{{ locaRoute($item['route']) }}" 
+                                   wire:navigate.hover
+                                   @if($isActive) data-current @endif
+                                   class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 data-[current]:bg-teal-100 data-[current]:text-teal-700 data-[current]:border-l-4 data-[current]:border-teal-600 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                                    <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
+                                    <span>{{ $item['name'] }}</span>
+                                    <svg class="w-4 h-4 ml-auto text-teal-600 data-[current]:block hidden" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(count($userItems) > 0)
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                        {{ __('manager.addresses.group') }}
+                    </h3>
+                    <ul class="space-y-1">
+                        @foreach($userItems as $item)
+                            @php
+                                $isActive = $active === $item['key'] || request()->routeIs($item['route'] . '*');
+                            @endphp
+                            <li>
+                                <a href="{{ locaRoute($item['route']) }}" 
+                                   wire:navigate.hover
+                                   @if($isActive) data-current @endif
+                                   class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 data-[current]:bg-teal-100 data-[current]:text-teal-700 data-[current]:border-l-4 data-[current]:border-teal-600 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                                    <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
+                                    <span>{{ $item['name'] }}</span>
+                                    <svg class="w-4 h-4 ml-auto text-teal-600 data-[current]:block hidden" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(count($systemItems) > 0)
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <h3 class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                        {{ __('manager.languages.group') }}
+                    </h3>
+                    <ul class="space-y-1">
+                        @foreach($systemItems as $item)
+                            @php
+                                $isActive = $active === $item['key'] || request()->routeIs($item['route'] . '*');
+                            @endphp
+                            <li>
+                                <a href="{{ locaRoute($item['route']) }}" 
+                                   wire:navigate.hover
+                                   @if($isActive) data-current @endif
+                                   class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 data-[current]:bg-teal-100 data-[current]:text-teal-700 data-[current]:border-l-4 data-[current]:border-teal-600 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                                    <x-dynamic-component :component="$item['icon']" class="w-5 h-5 flex-shrink-0" />
+                                    <span>{{ $item['name'] }}</span>
+                                    <svg class="w-4 h-4 ml-auto text-teal-600 data-[current]:block hidden" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </nav>
     </div>
 </aside>

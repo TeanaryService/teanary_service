@@ -1,11 +1,12 @@
-import preset from './vendor/filament/support/tailwind.config.preset'
-
 /** @type {import('tailwindcss').Config} */
 export default {
-  presets: [preset],
   content: [
-    "./resources/**/*.blade.php",
-    "./resources/**/*.js",
+    // 只扫描必要的文件，减少内存占用
+    "./resources/views/**/*.blade.php",
+    "./resources/js/**/*.js",
+    // 排除不需要扫描的目录
+    "!./resources/views/**/*.php.bak",
+    "!./resources/views/**/*.blade.php.bak",
   ],
   theme: {
     extend: {

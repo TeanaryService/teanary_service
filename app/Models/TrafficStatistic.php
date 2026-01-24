@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 流量统计模型
+ * 流量统计模型.
  *
  * @property int $id
  * @property string $path 访问路径
@@ -47,16 +47,16 @@ class TrafficStatistic extends Model
     ];
 
     /**
-     * 获取指定时间范围内的统计数据
+     * 获取指定时间范围内的统计数据.
      */
     public static function getStatsByDateRange($startDate, $endDate, ?bool $isBot = null)
     {
         $query = static::whereBetween('stat_date', [$startDate, $endDate]);
-        
+
         if ($isBot !== null) {
             $query->where('is_bot', $isBot);
         }
-        
+
         return $query->selectRaw('
                 DATE(stat_date) as date,
                 HOUR(stat_date) as hour,
@@ -72,16 +72,16 @@ class TrafficStatistic extends Model
     }
 
     /**
-     * 获取热门页面
+     * 获取热门页面.
      */
     public static function getTopPages($startDate, $endDate, $limit = 10, ?bool $isBot = null)
     {
         $query = static::whereBetween('stat_date', [$startDate, $endDate]);
-        
+
         if ($isBot !== null) {
             $query->where('is_bot', $isBot);
         }
-        
+
         return $query->selectRaw('path, SUM(count) as total_visits, COUNT(*) as page_views')
             ->groupBy('path')
             ->orderByDesc('total_visits')

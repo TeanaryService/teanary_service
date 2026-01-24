@@ -73,12 +73,12 @@ class Promotion extends Model
     public function syncProductVariants(array $ids, bool $detaching = true): array
     {
         $changes = $this->productVariants()->sync($ids, $detaching);
-        
+
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
             $syncService = app(\App\Services\SyncService::class);
             $currentNode = config('sync.node');
-            
+
             // 处理新增的记录
             foreach ($changes['attached'] ?? [] as $productVariantId => $pivotData) {
                 $pivot = \App\Models\PromotionProductVariant::where([
@@ -86,12 +86,12 @@ class Promotion extends Model
                     'product_variant_id' => $productVariantId,
                     'product_id' => $pivotData['product_id'] ?? null,
                 ])->first();
-                
+
                 if ($pivot) {
                     $syncService->recordSync($pivot, 'created', $currentNode);
                 }
             }
-            
+
             // 处理更新的记录
             foreach ($changes['updated'] ?? [] as $productVariantId => $pivotData) {
                 $pivot = \App\Models\PromotionProductVariant::where([
@@ -99,12 +99,12 @@ class Promotion extends Model
                     'product_variant_id' => $productVariantId,
                     'product_id' => $pivotData['product_id'] ?? null,
                 ])->first();
-                
+
                 if ($pivot) {
                     $syncService->recordSync($pivot, 'updated', $currentNode);
                 }
             }
-            
+
             // 处理删除的记录
             foreach ($changes['detached'] ?? [] as $productVariantId) {
                 $pivot = new \App\Models\PromotionProductVariant([
@@ -114,7 +114,7 @@ class Promotion extends Model
                 $syncService->recordSync($pivot, 'deleted', $currentNode);
             }
         }
-        
+
         return $changes;
     }
 
@@ -124,18 +124,18 @@ class Promotion extends Model
     public function attachProductVariant(int $productVariantId, array $pivotData = []): void
     {
         $this->productVariants()->attach($productVariantId, $pivotData);
-        
+
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
             $syncService = app(\App\Services\SyncService::class);
             $currentNode = config('sync.node');
-            
+
             $pivot = \App\Models\PromotionProductVariant::where([
                 'promotion_id' => $this->id,
                 'product_variant_id' => $productVariantId,
                 'product_id' => $pivotData['product_id'] ?? null,
             ])->first();
-            
+
             if ($pivot) {
                 $syncService->recordSync($pivot, 'created', $currentNode);
             }
@@ -148,19 +148,19 @@ class Promotion extends Model
     public function detachProductVariant($productVariantIds): void
     {
         $ids = is_array($productVariantIds) ? $productVariantIds : [$productVariantIds];
-        
+
         // 在删除前获取要删除的记录
         $pivotsToDelete = \App\Models\PromotionProductVariant::where('promotion_id', $this->id)
             ->whereIn('product_variant_id', $ids)
             ->get();
-        
+
         $this->productVariants()->detach($ids);
-        
+
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
             $syncService = app(\App\Services\SyncService::class);
             $currentNode = config('sync.node');
-            
+
             foreach ($pivotsToDelete as $pivot) {
                 $syncService->recordSync($pivot, 'deleted', $currentNode);
             }

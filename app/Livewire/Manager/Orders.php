@@ -4,41 +4,38 @@ namespace App\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
 use App\Models\Order;
-use App\Models\User;
-use App\Models\Currency;
-use App\Services\LocaleCurrencyService;
-use Illuminate\Database\Eloquent\Builder;
+use App\Livewire\Traits\HasSearchAndFilters;
+use App\Livewire\Traits\UsesLocaleCurrency;
+use Illuminate\Support\Carbon;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class Orders extends Component
 {
-    use WithPagination;
+    use HasSearchAndFilters;
+    use UsesLocaleCurrency;
 
-    public $search = '';
-    public $statusFilter = [];
-    public $userIdFilter = null;
-    public $currencyIdFilter = null;
-    public $createdFrom = null;
-    public $createdUntil = null;
+    public array $filterStatus = [];
+    public ?int $filterCurrencyId = null;
+    public ?string $createdFrom = null;
+    public ?string $createdUntil = null;
 
-    protected $queryString = [
-        'search' => ['except' => ''],
-        'statusFilter' => ['except' => []],
-        'userIdFilter' => ['except' => null],
-        'currencyIdFilter' => ['except' => null],
-        'createdFrom' => ['except' => null],
-        'createdUntil' => ['except' => null],
-    ];
-
-    protected LocaleCurrencyService $localeService;
-
-    public function mount(): void
+    public function updatingFilterStatus(): void
     {
-        $this->localeService = app(LocaleCurrencyService::class);
+        $this->resetPage();
     }
 
-    public function updatingSearch(): void
+    public function updatingFilterCurrencyId(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingCreatedFrom(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingCreatedUntil(): void
     {
         $this->resetPage();
     }
@@ -46,68 +43,85 @@ class Orders extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->statusFilter = [];
-        $this->userIdFilter = null;
-        $this->currencyIdFilter = null;
+        $this->filterStatus = [];
+        $this->filterCurrencyId = null;
         $this->createdFrom = null;
         $this->createdUntil = null;
         $this->resetPage();
     }
 
-    public function getOrdersProperty()
+    #[Computed]
+    public function orders()
     {
+        $currentCurrencyCode = $this->getCurrentCurrencyCode();
+
         $query = Order::query()
-            ->with(['user', 'currency', 'shippingAddress', 'billingAddress'])
-            ->withCount('orderItems')
-            ->when($this->search, function (Builder $query) {
-                $query->where('order_no', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('user', function (Builder $q) {
-                        $q->where('name', 'like', '%' . $this->search . '%')
-                            ->orWhere('email', 'like', '%' . $this->search . '%');
+            ->with([
+                'user',
+                'currency',
+                'shippingAddress',
+                'billingAddress',
+                'orderItems.product.productTranslations',
+                'orderItems.product.media',
+                'orderItems.productVariant.specificationValues.specificationValueTranslations',
+            ])
+            ->withCount('orderItems');
+
+        // 搜索：通过订单号、用户名称、用户邮箱搜索
+        if ($this->search) {
+            $search = $this->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('order_no', 'like', '%'.$search.'%')
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('name', 'like', '%'.$search.'%')
+                            ->orWhere('email', 'like', '%'.$search.'%');
                     });
-            })
-            ->when($this->statusFilter, function (Builder $query) {
-                $query->whereIn('status', $this->statusFilter);
-            })
-            ->when($this->userIdFilter, function (Builder $query) {
-                $query->where('user_id', $this->userIdFilter);
-            })
-            ->when($this->currencyIdFilter, function (Builder $query) {
-                $query->where('currency_id', $this->currencyIdFilter);
-            })
-            ->when($this->createdFrom, function (Builder $query) {
-                $query->whereDate('created_at', '>=', $this->createdFrom);
-            })
-            ->when($this->createdUntil, function (Builder $query) {
-                $query->whereDate('created_at', '<=', $this->createdUntil);
-            })
-            ->orderBy('created_at', 'desc');
+            });
+        }
 
-        return $query->paginate(15);
+        // 筛选：订单状态
+        if (! empty($this->filterStatus)) {
+            $query->whereIn('status', $this->filterStatus);
+        }
+
+        // 筛选：货币
+        if ($this->filterCurrencyId) {
+            $query->where('currency_id', $this->filterCurrencyId);
+        }
+
+        // 筛选：创建日期范围
+        if ($this->createdFrom) {
+            $query->whereDate('created_at', '>=', Carbon::parse($this->createdFrom));
+        }
+        if ($this->createdUntil) {
+            $query->whereDate('created_at', '<=', Carbon::parse($this->createdUntil));
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(15);
     }
 
-    public function getUsersProperty()
+    public function getStatusBadgeColor($status): string
     {
-        return User::orderBy('name')->get();
-    }
-
-    public function getCurrenciesProperty()
-    {
-        return Currency::orderBy('name')->get();
-    }
-
-    public function getStatusOptionsProperty(): array
-    {
-        return OrderStatusEnum::options();
+        return match ($status) {
+            OrderStatusEnum::Pending => 'bg-gray-100 text-gray-800',
+            OrderStatusEnum::Paid => 'bg-blue-100 text-blue-800',
+            OrderStatusEnum::Shipped => 'bg-yellow-100 text-yellow-800',
+            OrderStatusEnum::Completed => 'bg-green-100 text-green-800',
+            OrderStatusEnum::Cancelled => 'bg-red-100 text-red-800',
+            OrderStatusEnum::AfterSale => 'bg-purple-100 text-purple-800',
+            OrderStatusEnum::AfterSaleCompleted => 'bg-indigo-100 text-indigo-800',
+            default => 'bg-gray-100 text-gray-800',
+        };
     }
 
     public function render()
     {
+        $currencies = \App\Models\Currency::orderBy('name')->get();
+
         return view('livewire.manager.orders', [
             'orders' => $this->orders,
-            'users' => $this->users,
-            'currencies' => $this->currencies,
-            'statusOptions' => $this->statusOptions,
+            'currencies' => $currencies,
+            'statusOptions' => OrderStatusEnum::options(),
         ])->layout('components.layouts.manager');
     }
 }

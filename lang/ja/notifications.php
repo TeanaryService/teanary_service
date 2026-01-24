@@ -21,6 +21,7 @@ return [
         'title' => '注文がキャンセルされました',
         'message' => '注文 :order_no がキャンセルされました。理由: :reason',
     ],
+    'title' => '通知センター',
     'my_notifications' => 'マイ通知',
     'no_notifications' => '通知なし',
     'no_notifications_desc' => 'まだ通知を受信していません',

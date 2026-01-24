@@ -3,24 +3,22 @@
 namespace App\Livewire\Users;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Orders extends Component
 {
+    use HasNavigationRedirect;
+    use UsesLocaleCurrency;
     use WithPagination;
 
-    protected LocaleCurrencyService $localeService;
-
-    public function mount(): void
-    {
-        $this->localeService = app(LocaleCurrencyService::class);
-    }
-
-    public function getOrdersProperty()
+    #[Computed]
+    public function orders()
     {
         return Order::query()
             ->where('user_id', Auth::id())
@@ -43,7 +41,7 @@ class Orders extends Component
 
         if ($order->status->canBeCancelled()) {
             $order->update(['status' => OrderStatusEnum::Cancelled]);
-            session()->flash('message', __('orders.operation_success'));
+            $this->flashMessage('operation_success');
             $this->resetPage();
         } else {
             session()->flash('error', __('orders.cannot_cancel'));
@@ -57,7 +55,7 @@ class Orders extends Component
             ->findOrFail($orderId);
 
         if ($order->status->canBePaid()) {
-            return $this->redirect(route('payment.checkout', ['orderId' => $order->id]));
+            return $this->redirect(locaRoute('payment.checkout', ['orderId' => $order->id]));
         }
     }
 

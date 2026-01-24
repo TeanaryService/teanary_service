@@ -20,15 +20,18 @@ class Register extends Component
         'password' => 'required|string|min:8|confirmed',
     ];
 
-    protected $messages = [
-        'name.required' => '请输入姓名',
-        'email.required' => '请输入邮箱地址',
-        'email.email' => '请输入有效的邮箱地址',
-        'email.unique' => '该邮箱已被注册',
-        'password.required' => '请输入密码',
-        'password.min' => '密码至少需要8个字符',
-        'password.confirmed' => '两次输入的密码不一致',
-    ];
+    protected function messages(): array
+    {
+        return [
+            'name.required' => __('validation.custom.name.required'),
+            'email.required' => __('validation.custom.email.required'),
+            'email.email' => __('validation.custom.email.email'),
+            'email.unique' => __('validation.custom.email.unique'),
+            'password.required' => __('validation.custom.password.required'),
+            'password.min' => __('validation.custom.password.min'),
+            'password.confirmed' => __('validation.custom.password.confirmed'),
+        ];
+    }
 
     public function register()
     {

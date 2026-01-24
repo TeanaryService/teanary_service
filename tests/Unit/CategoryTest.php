@@ -3,12 +3,10 @@
 namespace Tests\Unit;
 
 use App\Models\Category;
-use App\Models\CategoryTranslation;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -61,5 +59,4 @@ class CategoryTest extends TestCase
         $this->assertEquals('category_id', $relation->getForeignPivotKeyName());
         $this->assertEquals('product_id', $relation->getRelatedPivotKeyName());
     }
-
 }

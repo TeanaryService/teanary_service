@@ -3,8 +3,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite --port 8014"
+        "build": "node --max-old-space-size=4096 node_modules/.bin/vite build",
+        "dev": "node --max-old-space-size=4096 node_modules/.bin/vite --port 8014"
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",
@@ -16,7 +16,6 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
-        "@tailwindcss/line-clamp": "^0.4.4",
-        "vanilla-lazyload": "^17.8.5"
+        "@tailwindcss/line-clamp": "^0.4.4"
     }
 }

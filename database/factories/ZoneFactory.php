@@ -18,7 +18,7 @@ class ZoneFactory extends Factory
     {
         return [
             'country_id' => \App\Models\Country::factory(),
-            'code' => fake()->unique()->stateAbbr(),
+            'code' => fake()->unique()->regexify('[A-Z]{2,3}'),
             'active' => true,
         ];
     }

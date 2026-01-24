@@ -66,7 +66,7 @@ return [
     'query_verification_subject' => 'Order Query Verification Code',
     'query_verification_line1' => 'You are querying order information, please use the following verification code to complete verification:',
     'query_verification_line2' => 'Order Number: :order_no',
-    'query_verification_code' => 'Verification Code: :code',
+    'query_verification_code_line' => 'Verification Code: :code',
     'query_verification_line3' => 'The verification code is valid for 10 minutes, please do not disclose it to others.',
     'query_verification_line4' => 'If this is not your operation, please ignore this email.',
 ];

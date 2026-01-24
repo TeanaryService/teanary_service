@@ -21,6 +21,7 @@ return [
         'title' => 'Pedido Cancelado',
         'message' => 'Su pedido :order_no ha sido cancelado. Razón: :reason',
     ],
+    'title' => 'Centro de notificaciones',
     'my_notifications' => 'Mis Notificaciones',
     'no_notifications' => 'Sin Notificaciones',
     'no_notifications_desc' => 'Aún no ha recibido ninguna notificación',

@@ -21,6 +21,7 @@ return [
         'title' => 'Заказ Отменен',
         'message' => 'Ваш заказ :order_no отменен. Причина: :reason',
     ],
+    'title' => 'Центр уведомлений',
     'my_notifications' => 'Мои Уведомления',
     'no_notifications' => 'Нет Уведомлений',
     'no_notifications_desc' => 'Вы еще не получали уведомлений',

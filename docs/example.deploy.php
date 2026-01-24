@@ -1,4 +1,5 @@
 <?php
+
 namespace Deployer;
 
 require 'recipe/laravel.php';
@@ -65,7 +66,7 @@ task('cleanup:unnecessary', function () {
         '.gitattributes',
         '.gitignore',
     ];
-    
+
     $dirs = [
         'bin',
         'tests',
@@ -76,16 +77,10 @@ task('cleanup:unnecessary', function () {
         'node_modules',
         'tests',
     ];
-    
-    run('cd {{release_path}} && rm -f ' . implode(' ', $files));
-    run('cd {{release_path}} && rm -rf ' . implode(' ', $dirs));
-})->desc('清理无关代码和文件');
 
-// Filament 优化任务
-task('artisan:filament:optimize', function () {
-    run('{{bin/php}} {{release_path}}/artisan filament:optimize');
-    run('{{bin/php}} {{release_path}}/artisan filament:cache-components');
-})->desc('优化 Filament');
+    run('cd {{release_path}} && rm -f '.implode(' ', $files));
+    run('cd {{release_path}} && rm -rf '.implode(' ', $dirs));
+})->desc('清理无关代码和文件');
 
 // 重启 PHP-FPM
 task('php-fpm:restart', function () {
@@ -115,7 +110,6 @@ task('npm:build:full', [
 // 组合任务:发布后清理和优化
 task('deploy:post-publish', [
     'cleanup:unnecessary',
-    'artisan:filament:optimize',
 ])->desc('发布后清理和优化');
 
 // Hooks

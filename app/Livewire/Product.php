@@ -2,13 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Product as ProductModel;
-use App\Services\LocaleCurrencyService;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
 class Product extends Component
 {
+    use UsesLocaleCurrency;
     private $categoryId;
 
     private $categories;
@@ -25,7 +26,7 @@ class Product extends Component
         $search = $request->input('search');
         $this->attributeFilters = $request->input('attributes', []);
 
-        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $this->getCurrentLanguage()?->id;
         $this->categories = \App\Models\Category::getCategoriesForLanguage($langId);
         $this->allAttributes = \App\Models\Attribute::getAttributesForLanguage($langId);
 
@@ -82,10 +83,9 @@ class Product extends Component
         $seoDesc = '';
         $seoImage = asset('logo.svg');
         $seoKeywords = '';
-        
-        if ($this->categoryId && !empty($this->categories)) {
-            $locale = session('lang');
-            $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+
+        if ($this->categoryId && ! empty($this->categories)) {
+            $lang = $this->getCurrentLanguage();
             $category = collect($this->categories)
                 ->flatMap(function ($cat) {
                     return array_merge([$cat], $cat['children']->toArray() ?? []);
@@ -101,17 +101,17 @@ class Product extends Component
             $seoDesc = __('home.product_list_seo_desc');
             $seoImage = asset('logo.svg');
         }
-        
+
         // 筛选条件加到keywords
-        if (!empty($this->attributeFilters) && !empty($this->allAttributes)) {
+        if (! empty($this->attributeFilters) && ! empty($this->allAttributes)) {
             $filterNames = [];
             foreach ($this->attributeFilters as $attrId => $valueIds) {
                 $attr = collect($this->allAttributes)->firstWhere('id', $attrId);
-                if ($attr && !empty($valueIds)) {
+                if ($attr && ! empty($valueIds)) {
                     foreach ((array) $valueIds as $vid) {
                         $val = collect($attr['values'])->firstWhere('id', $vid);
                         if ($val) {
-                            $filterNames[] = $attr['name'] . ':' . $val['name'];
+                            $filterNames[] = $attr['name'].':'.$val['name'];
                         }
                     }
                 }
@@ -119,11 +119,11 @@ class Product extends Component
             if ($filterNames) {
                 $strFilterName = implode(',', $filterNames);
                 $seoKeywords .= $strFilterName;
-                $seoTitle = $strFilterName . $seoTitle;
+                $seoTitle = $strFilterName.$seoTitle;
                 $seoDesc .= $strFilterName;
             }
         }
-        
+
         return [
             'title' => $seoTitle,
             'description' => $seoDesc,
@@ -135,10 +135,20 @@ class Product extends Component
     public function render()
     {
         $seoData = $this->buildSeoData();
-        
+
+        // 确保 attributes 是数组格式
+        $attributesArray = [];
+        if ($this->allAttributes) {
+            foreach ($this->allAttributes as $attr) {
+                if (is_array($attr) || (is_object($attr) && method_exists($attr, 'toArray'))) {
+                    $attributesArray[] = is_array($attr) ? $attr : $attr->toArray();
+                }
+            }
+        }
+
         return view('livewire.product', [
             'categories' => $this->categories,
-            'attributes' => $this->allAttributes,
+            'attributes' => $attributesArray,
             'products' => $this->products,
             'categoryId' => $this->categoryId,
             'attributeFilters' => $this->attributeFilters,

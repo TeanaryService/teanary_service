@@ -1,37 +1,40 @@
 <?php
 
-use App\Livewire\Users\Login;
-use App\Livewire\Users\Register;
-use App\Livewire\Users\ForgotPassword;
-use App\Livewire\Users\ResetPassword;
-use App\Livewire\Users\Profile;
-use App\Livewire\Users\Orders;
-use App\Livewire\Users\OrderDetail;
+use App\Http\Middleware\CustomRedirectIfAuthenticated;
 use App\Livewire\Users\Addresses;
+use App\Livewire\Users\ForgotPassword;
+use App\Livewire\Users\Login;
 use App\Livewire\Users\Notifications;
+use App\Livewire\Users\OrderDetail;
+use App\Livewire\Users\Orders;
+use App\Livewire\Users\Profile;
+use App\Livewire\Users\Register;
+use App\Livewire\Users\ResetPassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // 认证路由（访客）
-Route::middleware('guest')->group(function () {
-    Route::get('login', Login::class)->name('auth.login');
-    Route::get('register', Register::class)->name('auth.register');
-    Route::get('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
-    Route::get('reset-password/{token}', ResetPassword::class)->name('password.reset');
+Route::middleware([CustomRedirectIfAuthenticated::class])->group(function () {
+    Route::livewire('login', Login::class)->name('auth.login');
+    Route::livewire('register', Register::class)->name('auth.register');
+    Route::livewire('forgot-password', ForgotPassword::class)->name('auth.forgot-password');
+    Route::livewire('reset-password/{token}', ResetPassword::class)->name('password.reset');
 });
 
 // 需要认证的路由
 Route::middleware('auth')->group(function () {
-    Route::get('profile', Profile::class)->name('auth.profile');
-    Route::get('orders', Orders::class)->name('auth.orders');
-    Route::get('orders/{order}', OrderDetail::class)->name('auth.order-detail');
-    Route::get('addresses', Addresses::class)->name('auth.addresses');
-    Route::get('notifications', Notifications::class)->name('auth.notifications');
+    Route::livewire('profile', Profile::class)->name('auth.profile');
+    Route::livewire('orders', Orders::class)->name('auth.orders');
+    Route::livewire('orders/{orderId}', OrderDetail::class)->name('auth.order-detail');
+    Route::livewire('addresses', Addresses::class)->name('auth.addresses');
+    Route::livewire('notifications', Notifications::class)->name('auth.notifications');
     Route::post('logout', function () {
-        Auth::logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
+        // 只登出 web guard，不清除整个会话（避免影响 manager 登录状态）
+        Auth::guard('web')->logout();
+        // 重新生成会话 ID，但不销毁会话数据（保持 manager 会话）
+        request()->session()->regenerate();
+
         return redirect(locaRoute('home'));
     })->name('auth.logout');
 });
@@ -41,24 +44,24 @@ Route::middleware(['auth', 'throttle:6,1'])->group(function () {
     Route::get('email/verify', function () {
         return view('auth.verify-email');
     })->name('verification.notice');
-    
+
     Route::get('email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
         $request->fulfill();
+
         return redirect(locaRoute('home'))->with('message', __('auth.email_verified'));
     })->middleware('signed')->name('verification.verify');
-    
+
     Route::post('email/verification-notification', function (\Illuminate\Http\Request $request) {
         $request->user()->sendEmailVerificationNotification();
+
         return back()->with('message', __('auth.verification_link_sent'));
     })->name('verification.send');
 });
 
 // 管理员登录为其他用户（仅限管理员访问）
 Route::get('login-as/{id}', function (string $locale, int $id) {
-    // 检查管理员是否已登录（通过 Filament 管理面板）
-    $panel = \Filament\Facades\Filament::getPanel('manager');
-    
-    if (! $panel || ! $panel->auth()->check()) {
+    // 检查管理员是否已登录（通过 manager guard）
+    if (! Auth::guard('manager')->check()) {
         abort(403, 'Unauthorized: Please login to the manager panel first.');
     }
 

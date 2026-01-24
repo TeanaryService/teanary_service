@@ -8,10 +8,8 @@ use App\Models\Product;
 use App\Services\SnowflakeService;
 use App\Services\SyncService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -24,10 +22,10 @@ class SyncServiceMediaTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // 使用 fake storage
         Storage::fake('public');
-        
+
         $this->service = new SyncService;
 
         // 配置同步服务
@@ -47,16 +45,16 @@ class SyncServiceMediaTest extends TestCase
     }
 
     /**
-     * 测试：同步 Media 模型时下载图片文件
+     * 测试：同步 Media 模型时下载图片文件.
      */
     public function test_sync_media_downloads_image_file()
     {
         // 创建一个产品作为 Media 的关联模型
         $product = Product::factory()->create();
-        
+
         // 创建一个最小的有效 PNG 图片（1x1 透明像素）
         $imageContent = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
-        
+
         // 模拟 HTTP 响应，返回图片内容
         Http::fake([
             'node2.example.com/storage/*' => Http::response($imageContent, 200, [
@@ -65,7 +63,7 @@ class SyncServiceMediaTest extends TestCase
         ]);
 
         $mediaId = app(SnowflakeService::class)->nextId();
-        
+
         // 准备同步数据，包含 original_url（不预先创建 Media，让同步来创建）
         $mediaData = [
             'id' => $mediaId,
@@ -113,14 +111,14 @@ class SyncServiceMediaTest extends TestCase
         $getMediaFilePathMethod->setAccessible(true);
         $filePath = $getMediaFilePathMethod->invoke($this->service, $media);
         $this->assertTrue(Storage::disk('public')->exists($filePath));
-        
+
         // 验证文件内容正确
         $savedContent = Storage::disk('public')->get($filePath);
         $this->assertEquals($imageContent, $savedContent);
     }
 
     /**
-     * 测试：缺少 original_url 时跳过下载
+     * 测试：缺少 original_url 时跳过下载.
      */
     public function test_sync_media_skips_download_when_missing_original_url()
     {
@@ -128,7 +126,7 @@ class SyncServiceMediaTest extends TestCase
         $product = Product::factory()->create();
 
         $mediaId = app(SnowflakeService::class)->nextId();
-        
+
         // 准备同步数据，不包含 original_url
         // 注意：不先创建 Media，让同步来创建
         $mediaData = [
@@ -166,11 +164,11 @@ class SyncServiceMediaTest extends TestCase
 
         // 验证同步成功（但文件未下载）
         $this->assertEquals(1, $result['success']);
-        
+
         // 验证 Media 已创建
         $media = Media::find($mediaId);
         $this->assertNotNull($media);
-        
+
         // 验证文件不存在（因为没有 original_url，不会下载）
         $reflection = new \ReflectionClass($this->service);
         $getMediaFilePathMethod = $reflection->getMethod('getMediaFilePath');
@@ -180,7 +178,7 @@ class SyncServiceMediaTest extends TestCase
     }
 
     /**
-     * 测试：ResizeUploadedImage Job 处理文件不存在的情况
+     * 测试：ResizeUploadedImage Job 处理文件不存在的情况.
      */
     public function test_resize_job_handles_missing_file_gracefully()
     {
@@ -188,7 +186,7 @@ class SyncServiceMediaTest extends TestCase
         $product = Product::factory()->create();
 
         $mediaId = app(SnowflakeService::class)->nextId();
-        
+
         // 创建 Media 记录（但不保存文件）
         $media = new Media([
             'id' => $mediaId,

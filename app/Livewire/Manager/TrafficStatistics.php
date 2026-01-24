@@ -3,16 +3,35 @@
 namespace App\Livewire\Manager;
 
 use App\Models\TrafficStatistic;
+use App\Livewire\Traits\HasSearchAndFilters;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Number;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class TrafficStatistics extends Component
 {
+    use HasSearchAndFilters;
+
     public string $dateRange = '7days';
     public string $visitorType = 'all';
+    public array $filterSpiderSources = [];
 
-    public function getDateRangeArray(): array
+    public function updatingFilterSpiderSources(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingDateRange(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingVisitorType(): void
+    {
+        $this->resetPage();
+    }
+
+    public function getDateRange(): array
     {
         return match ($this->dateRange) {
             'today' => [Carbon::today(), Carbon::today()->endOfDay()],
@@ -24,12 +43,13 @@ class TrafficStatistics extends Component
         };
     }
 
-    public function getStatsProperty(): array
+    #[Computed]
+    public function stats(): array
     {
-        [$startDate, $endDate] = $this->getDateRangeArray();
+        [$startDate, $endDate] = $this->getDateRange();
 
         $baseQuery = TrafficStatistic::whereBetween('stat_date', [$startDate, $endDate]);
-        
+
         $query = match ($this->visitorType) {
             'human' => (clone $baseQuery)->where('is_bot', false),
             'bot' => (clone $baseQuery)->where('is_bot', true),
@@ -53,9 +73,10 @@ class TrafficStatistics extends Component
         ];
     }
 
-    public function getTopPagesProperty(): array
+    #[Computed]
+    public function topPages(): array
     {
-        [$startDate, $endDate] = $this->getDateRangeArray();
+        [$startDate, $endDate] = $this->getDateRange();
 
         $isBot = match ($this->visitorType) {
             'human' => false,
@@ -66,12 +87,58 @@ class TrafficStatistics extends Component
         return TrafficStatistic::getTopPages($startDate, $endDate, 20, $isBot)->toArray();
     }
 
+    #[Computed]
+    public function records()
+    {
+        [$startDate, $endDate] = $this->getDateRange();
+
+        $query = TrafficStatistic::query()
+            ->whereBetween('stat_date', [$startDate, $endDate]);
+
+        // 访客类型（真人 / 机器人 / 全部）
+        $query = match ($this->visitorType) {
+            'human' => $query->where('is_bot', false),
+            'bot' => $query->where('is_bot', true),
+            default => $query,
+        };
+
+        // 爬虫来源过滤
+        if (! empty($this->filterSpiderSources)) {
+            $query->whereIn('spider_source', $this->filterSpiderSources);
+        }
+
+        // 搜索 path / ip / referer
+        if ($this->search !== '') {
+            $search = $this->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('path', 'like', '%'.$search.'%')
+                    ->orWhere('ip', 'like', '%'.$search.'%')
+                    ->orWhere('referer', 'like', '%'.$search.'%');
+            });
+        }
+
+        return $query->orderByDesc('stat_date')->paginate(20);
+    }
 
     public function render()
     {
         return view('livewire.manager.traffic-statistics', [
             'stats' => $this->stats,
             'topPages' => $this->topPages,
+            'records' => $this->records,
+            'spiderSourceOptions' => [
+                'google' => 'Google',
+                'bing' => 'Bing',
+                'baidu' => 'Baidu',
+                'yandex' => 'Yandex',
+                'yahoo' => 'Yahoo',
+                'duckduckgo' => 'DuckDuckGo',
+                'facebook' => 'Facebook',
+                'twitter' => 'Twitter',
+                'linkedin' => 'LinkedIn',
+                'other' => __('manager.traffic_statistics.other'),
+                'unknown' => __('manager.traffic_statistics.unknown'),
+            ],
         ])->layout('components.layouts.manager');
     }
 }

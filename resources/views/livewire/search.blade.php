@@ -2,30 +2,38 @@
     $breadcrumbs = buildSearchBreadcrumbs();
 @endphp
 
-<div class="min-h-[40vh] mb-10">
-    <div class="max-w-7xl mx-auto px-6 md:px-8">
-        <x-breadcrumbs :items="$breadcrumbs" />
+<div class="min-h-[70vh] mb-10">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
 
         @if ($query)
-            <h1 class="text-2xl font-bold mb-8">{{ __('search.results_for', ['query' => $query]) }}</h1>
+            <x-widgets.page-title 
+                :title="__('search.results_for', ['query' => $query])"
+                class="mb-8"
+            />
 
             @if ($products->isEmpty() && $articles->isEmpty())
-                <div class="text-center py-12">
-                    <p class="text-gray-500">{{ __('search.no_results') }}</p>
-                </div>
+                <x-widgets.empty-state 
+                    icon="heroicon-o-magnifying-glass"
+                    :title="__('search.no_results')"
+                    :description="__('search.try_different_keywords') ?? '请尝试使用不同的关键词'"
+                />
             @else
                 @if ($products->isNotEmpty())
                     <div class="mb-12">
-                        <h2 class="text-xl font-semibold mb-6 flex justify-between items-center">
-                            {{ __('search.products') }}
-                            <a href="{{ locaRoute('product', ['search' => $query]) }}"
-                                class="text-sm text-teal-600 hover:text-teal-700">
-                                {{ __('search.view_all') }}
-                            </a>
-                        </h2>
+                        <x-widgets.section-title 
+                            :title="__('search.products')"
+                        >
+                            <x-slot:actions>
+                                <a href="{{ locaRoute('product', ['search' => $query]) }}" wire:navigate
+                                    class="text-sm text-teal-600 hover:text-teal-700 font-medium">
+                                    {{ __('search.view_all') }}
+                                </a>
+                            </x-slot:actions>
+                        </x-widgets.section-title>
                         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                             @foreach ($products as $product)
-                                <x-product-item :product="$product" />
+                                <x-widgets.product-item :product="$product" />
                             @endforeach
                         </div>
                     </div>
@@ -33,16 +41,19 @@
 
                 @if ($articles->isNotEmpty())
                     <div>
-                        <h2 class="text-xl font-semibold mb-6 flex justify-between items-center">
-                            {{ __('search.articles') }}
-                            <a href="{{ locaRoute('article.index', ['search' => $query]) }}"
-                                class="text-sm text-teal-600 hover:text-teal-700">
-                                {{ __('search.view_all') }}
-                            </a>
-                        </h2>
+                        <x-widgets.section-title 
+                            :title="__('search.articles')"
+                        >
+                            <x-slot:actions>
+                                <a href="{{ locaRoute('article.index', ['search' => $query]) }}" wire:navigate
+                                    class="text-sm text-teal-600 hover:text-teal-700 font-medium">
+                                    {{ __('search.view_all') }}
+                                </a>
+                            </x-slot:actions>
+                        </x-widgets.section-title>
                         <div class="space-y-6">
                             @foreach ($articles as $article)
-                                <x-article-item :article="$article" />
+                                <x-widgets.article-item :article="$article" />
                             @endforeach
                         </div>
                     </div>
@@ -52,6 +63,4 @@
     </div>
 </div>
 
-@pushOnce('seo')
-    <x-layouts.seo title="{{ __('search.title') }}" description="{{ __('search.description') }}" />
-@endPushOnce
+<x-seo-meta title="{{ __('search.title') }}" description="{{ __('search.description') }}" />

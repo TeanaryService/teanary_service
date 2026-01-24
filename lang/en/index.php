@@ -10,15 +10,12 @@ return [
     'nav_tech_stack' => 'Tech Stack',
     'nav_features' => 'Core Features',
     'nav_demo' => 'Live Demo',
-    'nav_version' => 'Versions',
     'nav_pricing' => 'Services',
     'nav_license' => 'License',
     'section_tech_stack' => 'Technology Stack',
     'section_features' => 'Core Features',
     'section_demo' => 'Live Demo',
-    'section_version' => 'Release Versions',
     'section_pricing' => 'Commercial Services',
-    'section_license' => 'Open Source License',
 
     'feature_multi_node_title' => 'Multi-Node Data Synchronization',
     'feature_multi_node_1' => 'Solves cross-border server management challenges',
@@ -53,7 +50,7 @@ return [
     'feature_ecommerce_6' => 'User management system',
 
     'feature_admin_title' => 'Modern Admin Panel',
-    'feature_admin_1' => 'Filament 3.x admin panel',
+    'feature_admin_1' => 'Livewire Manager admin panel',
     'feature_admin_2' => 'Real-time data analytics',
     'feature_admin_3' => 'Multi-language content management',
     'feature_admin_4' => 'Media file management',
@@ -97,7 +94,7 @@ return [
     'demo_why_sync_summary' => 'Summary: In cross-border, high-latency network environments, application-level synchronization provides superior reliability, flexibility, and maintainability, making it ideal for complex multi-node e-commerce scenarios.',
 
     'pricing_deployment_title' => 'Deployment Service',
-    'pricing_deployment_price' => '/per deployment',
+    'pricing_deployment_price' => '/per time',
     'pricing_deployment_1' => 'Server environment setup',
     'pricing_deployment_2' => 'Code deployment and optimization',
     'pricing_deployment_3' => 'Database configuration',

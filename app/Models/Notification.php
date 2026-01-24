@@ -32,12 +32,12 @@ class Notification extends LaravelDatabaseNotification
      * 在创建时确保使用雪花ID
      * 注意：HasSnowflakeId trait 会在 creating 事件中生成ID
      * 但 Laravel 的 DatabaseNotification 可能会先设置一个字符串ID
-     * 我们需要确保最终使用雪花ID（整数）
+     * 我们需要确保最终使用雪花ID（整数）.
      */
     protected static function boot(): void
     {
         parent::boot();
-        
+
         // 在 creating 事件中确保使用雪花ID
         // 使用优先级确保在 HasSnowflakeId trait 之后执行
         static::creating(function ($notification) {

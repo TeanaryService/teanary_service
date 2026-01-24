@@ -1,206 +1,112 @@
 @php
-    $userStats = $this->userStats;
-    $orderStats = $this->orderStats;
-    $topProducts = $this->topProducts;
-    $localeService = app(\App\Services\LocaleCurrencyService::class);
+    $breadcrumbs = buildManagerCenterBreadcrumbs('dashboard', __('manager.dashboard.heading'));
 @endphp
 
-<div class="min-h-screen bg-gray-50">
-    <x-manager.layout>
-        <div class="p-6 space-y-6">
-            <div class="mb-6">
-                <h1 class="text-3xl font-bold text-gray-900">{{ __('filament.dashboard.heading') }}</h1>
-                <p class="mt-1 text-sm text-gray-600">{{ __('filament.dashboard.title') }}</p>
-            </div>
-
-            {{-- 用户统计卡片 --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.new_users_today') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($userStats['users_today']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">
-                                <span class="{{ $userStats['users_today_diff'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $userStats['users_today_diff'] >= 0 ? '↑' : '↓' }} {{ number_format(abs($userStats['users_today_diff']), 1) }}%
-                                </span>
-                                {{ __('filament.dashboard.stats.new_users_today_desc', ['change' => '']) }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </div>
-                    </div>
+<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+    <div class="w-full max-w-screen 2xl:max-w-[80vw] mx-auto px-6 md:px-8">
+        <x-widgets.breadcrumbs :items="$breadcrumbs" />
+        
+        @php
+            $localeService = app(\App\Services\LocaleCurrencyService::class);
+        @endphp
+        
+        <div class="flex flex-col md:flex-row gap-6">
+            <x-manager.sidebar active="dashboard" />
+            
+            <div class="flex-1">
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-gray-900">{{ __('manager.dashboard.heading') }}</h1>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.total_users') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($userStats['total_users']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">
-                                <span class="{{ $userStats['total_users_diff'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $userStats['total_users_diff'] >= 0 ? '↑' : '↓' }} {{ number_format(abs($userStats['total_users_diff']), 1) }}%
-                                </span>
-                                {{ __('filament.dashboard.stats.total_users_desc', ['change' => '']) }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </div>
+        <!-- Stats Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Total Users -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-1">
+                        <p class="text-gray-500 text-sm font-medium">{{ __('app.total_users') }}</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ number_format($totalUsers) }}</p>
                     </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.active_users') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($userStats['active_users']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">
-                                <span class="{{ $userStats['active_users_diff'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $userStats['active_users_diff'] >= 0 ? '↑' : '↓' }} {{ number_format(abs($userStats['active_users_diff']), 1) }}%
-                                </span>
-                                {{ __('filament.dashboard.stats.active_users_desc', ['change' => '']) }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.avg_order_value') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ $localeService->convertWithSymbol($userStats['avg_order_value'], $userStats['currency_code']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">{{ __('filament.dashboard.stats.avg_order_value_desc') }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
+                    <div class="text-teal-500">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
+                        </svg>
                     </div>
                 </div>
             </div>
 
-            {{-- 订单统计卡片 --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.orders_today') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($orderStats['orders_today']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">
-                                <span class="{{ $orderStats['orders_today_diff'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $orderStats['orders_today_diff'] >= 0 ? '↑' : '↓' }} {{ number_format(abs($orderStats['orders_today_diff']), 1) }}%
-                                </span>
-                                {{ __('filament.dashboard.stats.orders_today_desc', ['change' => '']) }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                        </div>
+            <!-- Total Orders -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-1">
+                        <p class="text-gray-500 text-sm font-medium">{{ __('app.total_orders') }}</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ number_format($totalOrders) }}</p>
                     </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.revenue_today') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ $localeService->convertWithSymbol($orderStats['revenue_today'], $orderStats['currency_code']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">
-                                <span class="{{ $orderStats['revenue_today_diff'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $orderStats['revenue_today_diff'] >= 0 ? '↑' : '↓' }} {{ number_format(abs($orderStats['revenue_today_diff']), 1) }}%
-                                </span>
-                                {{ __('filament.dashboard.stats.revenue_today_desc', ['change' => '']) }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.pending_orders') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($orderStats['pending_orders']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">{{ __('filament.dashboard.stats.pending_orders_desc') }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">{{ __('filament.dashboard.stats.revenue_month') }}</p>
-                            <p class="mt-2 text-3xl font-bold text-gray-900">{{ $localeService->convertWithSymbol($orderStats['revenue_month'], $orderStats['currency_code']) }}</p>
-                            <p class="mt-1 text-xs text-gray-500">
-                                <span class="{{ $orderStats['revenue_month_diff'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                    {{ $orderStats['revenue_month_diff'] >= 0 ? '↑' : '↓' }} {{ number_format(abs($orderStats['revenue_month_diff']), 1) }}%
-                                </span>
-                                {{ __('filament.dashboard.stats.revenue_month_desc', ['change' => '']) }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                        </div>
+                    <div class="text-blue-500">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 6H6.28l-.31-1.243A1 1 0 005 4H3z"></path>
+                        </svg>
                     </div>
                 </div>
             </div>
 
-            {{-- 热门商品 --}}
-            <div class="grid grid-cols-1 gap-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('filament.dashboard.widgets.top_products') }}</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('filament.dashboard.widgets.product_name') }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ __('filament.dashboard.widgets.total_quantity') }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ __('filament.dashboard.widgets.total_revenue') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($topProducts as $index => $product)
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 text-sm font-medium text-gray-900">#{{ $index + 1 }}</td>
-                                        <td class="px-4 py-3 text-sm text-gray-900">{{ $product['name'] }}</td>
-                                        <td class="px-4 py-3 text-sm text-right text-gray-900">{{ number_format($product['total_qty']) }}</td>
-                                        <td class="px-4 py-3 text-sm text-right text-gray-900 font-medium">{{ $localeService->convertWithSymbol($product['total_revenue'], $orderStats['currency_code']) }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4" class="px-4 py-8 text-center text-sm text-gray-500">{{ __('filament.dashboard.widgets.no_products') }}</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+            <!-- Total Revenue -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="flex-1">
+                        <p class="text-gray-500 text-sm font-medium">{{ __('app.total_revenue') }}</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $localeService->convertWithSymbol($totalRevenue, session('currency')) }}</p>
+                    </div>
+                    <div class="text-green-500">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        </svg>
                     </div>
                 </div>
             </div>
         </div>
-    </x-manager.layout>
+
+        <!-- Recent Orders -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900">{{ __('app.recent_orders') }}</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('app.order_id') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('app.total') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('app.status') }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('app.created_at') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @forelse($recentOrders as $order)
+                            @php
+                                $orderCurrencyCode = $order->currency?->code ?? $localeService->getDefaultCurrencyCode();
+                                $targetCurrencyCode = session('currency') ?? $localeService->getDefaultCurrencyCode();
+                            @endphp
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{{ $order->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $localeService->convertWithSymbol($order->total, $targetCurrencyCode, $orderCurrencyCode) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span class="px-2 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-semibold">{{ $order->status->label() }}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $order->created_at->format('Y-m-d H:i') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">{{ __('app.no_data') }}</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<x-seo-meta title="{{ __('manager.dashboard.heading') }}" />

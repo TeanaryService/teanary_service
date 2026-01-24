@@ -1,6 +1,11 @@
 <div x-data="{ open: false }" class="relative" @click.outside="open = false">
     <!-- Cart Icon -->
-    <button x-on:click="open = !open" class="relative flex items-center">
+    <x-widgets.button 
+        x-on:click="open = !open" 
+        variant="secondary"
+        size="sm"
+        class="!p-2 !bg-transparent !border-0 !shadow-none relative"
+    >
         <x-heroicon-o-shopping-cart class="w-7 h-7 text-teal-700" />
         @if ($cartItems->count())
             <span
@@ -8,7 +13,7 @@
                 {{ $cartItems->count() }}
             </span>
         @endif
-    </button>
+    </x-widgets.button>
 
     <!-- Dropdown Cart -->
     <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
@@ -20,9 +25,14 @@
         <!-- Header -->
         <div class="p-4 bg-gray-50 border-b border-teal-100 flex justify-between items-center">
             <h3 class="font-bold text-teal-700">{{ __('app.cart') }}</h3>
-            <button x-on:click="open = false" class="text-gray-400 hover:text-teal-600">
+            <x-widgets.button 
+                x-on:click="open = false"
+                variant="secondary"
+                size="sm"
+                class="!p-2 !bg-transparent !border-0 !shadow-none text-gray-400 hover:text-teal-600"
+            >
                 <x-heroicon-o-x-mark class="w-5 h-5" />
-            </button>
+            </x-widgets.button>
         </div>
 
         <!-- Items -->
@@ -60,27 +70,47 @@
                         </div>
 
                         <div class="flex items-center gap-1 mt-2">
-                            <button wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})"
-                                class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded hover:bg-gray-200">
+                            <x-widgets.button 
+                                wire:click="updateQty({{ $item->id }}, {{ $item->qty - 1 }})"
+                                variant="secondary"
+                                size="sm"
+                                class="!w-7 !h-7 !p-0 !min-w-0"
+                            >
                                 -
-                            </button>
-                            <input type="number" wire:change="updateQty({{ $item->id }}, $event.target.value)"
-                                value="{{ $item->qty }}" min="1"
-                                class="w-14 text-center border rounded text-md">
-                            <button wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})"
-                                class="w-7 h-7 flex items-center justify-center bg-gray-100 rounded hover:bg-gray-200">
+                            </x-widgets.button>
+                            <x-widgets.input 
+                                type="number"
+                                wire:change="updateQty({{ $item->id }}, $event.target.value)"
+                                :value="$item->qty"
+                                min="1"
+                                class="!w-28 text-center !px-2"
+                            />
+                            <x-widgets.button 
+                                wire:click="updateQty({{ $item->id }}, {{ $item->qty + 1 }})"
+                                variant="secondary"
+                                size="sm"
+                                class="!w-7 !h-7 !p-0 !min-w-0"
+                            >
                                 +
-                            </button>
+                            </x-widgets.button>
 
-                            <button wire:click="removeItem({{ $item->id }})"
-                                class="ml-2 text-red-500 hover:text-red-700">
+                            <x-widgets.button 
+                                wire:click="removeItem({{ $item->id }})"
+                                variant="danger-outline"
+                                size="sm"
+                                class="!p-2 ml-2"
+                            >
                                 <x-heroicon-o-trash class="w-5 h-5" />
-                            </button>
+                            </x-widgets.button>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="p-6 text-center text-gray-500">{{ __('app.empty_cart') }}</div>
+                <x-widgets.empty-state 
+                    icon="heroicon-o-shopping-cart"
+                    :title="__('app.empty_cart')"
+                    class="py-8"
+                />
             @endforelse
         </div>
 
@@ -90,12 +120,13 @@
                 <span>{{ __('app.total') }}</span>
                 <span>{{ $currencyService->convertWithSymbol($cartTotal, $currencyCode) }}</span>
             </div>
-            <a href="{{ locaRoute('cart') }}"
-                class="w-full block text-center bg-teal-600 text-white py-2.5 rounded-lg font-semibold hover:bg-teal-700 transition">
+            <x-widgets.button 
+                href="{{ locaRoute('cart') }}" wire:navigate
+                class="w-full py-2.5 font-semibold"
+            >
                 {{ __('app.checkout') }}
-            </a>
+            </x-widgets.button>
         </div>
     </div>
 
-    <x-flash-messages />
 </div>

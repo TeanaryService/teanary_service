@@ -16,8 +16,7 @@ class OrderCancelledNotification extends Notification
     public function __construct(
         public Order $order,
         public ?string $reason = null
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.

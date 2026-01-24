@@ -2,14 +2,13 @@
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Laravel](https://img.shields.io/badge/Laravel-12.x-red.svg)](https://laravel.com)
-[![PHP](https://img.shields.io/badge/PHP-8.1+-blue.svg)](https://php.net)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-38B2AC.svg)](https://tailwindcss.com)
-[![Livewire](https://img.shields.io/badge/Livewire-3.x-4E56A6.svg)](https://livewire.laravel.com)
-[![Filament](https://img.shields.io/badge/Filament-3.x-6366F1.svg)](https://filamentphp.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)](https://php.net)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.x-38B2AC.svg)](https://tailwindcss.com)
+[![Livewire](https://img.shields.io/badge/Livewire-4.x-4E56A6.svg)](https://livewire.laravel.com)
 
-> 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统，支持多语言，多货币币种自动换算，结算。专为解决跨国电商运营难题而设计。
+> 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统，支持多语言、多货币自动换算和结算。专为解决跨国电商运营难题而设计。
 
-> 代码已通过单元测试和静态分析,普通bug反馈请通过Issues提交；安全相关bug请通过Email(hello@teanary.com)提交
+> 代码已通过单元测试和静态分析。普通 bug 反馈请通过 Issues 提交；安全相关 bug 请通过 Email (hello@teanary.com) 提交。
 
 ## 🎮 在线演示
 
@@ -36,9 +35,32 @@
 - 🔄 双向同步，支持任意数量节点
 - 📦 批量同步，大幅提升效率
 - 🔐 API Key 验证，HTTPS 加密传输
-- 📁 自动同步媒体文件
-- 🔁 自动重试，确保数据不丢失
+- 📁 自动同步媒体文件（图片、资源等）
+- 🔁 自动重试机制，确保数据不丢失
 - 📊 完整的同步日志和状态跟踪
+- 🎯 基于哈希值的智能去重，避免重复同步
+- 🔗 级联删除支持，自动同步关联数据
+
+详细文档请参考 [多节点数据同步文档](docs/SYNC.md)。
+
+### 🎨 现代化管理后台
+
+基于 Livewire 4.x + 自定义 Blade 组件系统重构的管理后台，提供：
+
+**核心功能：**
+- 📊 实时数据统计和流量看板（完全用 Livewire 实现）
+- 🛍️ 商品/规格/SKU/促销/订单等业务页面统一管理
+- 🌐 多语言内容管理、媒体管理
+- ⚡ 批量操作与同步深度集成
+- 🎯 统一的组件系统（按钮、表单、提示等）
+- 🔔 实时消息提示系统（右上角显示）
+- 📱 响应式设计，支持移动端
+
+**组件系统：**
+- `<x-widgets.button>` - 统一的按钮组件
+- `<x-widgets.checkbox>` - 统一的复选框组件
+- `<x-widgets.alert>` - 统一的提示消息组件
+- `<x-widgets.flash-messages>` - 实时消息提示系统
 
 ### 🤖 AI 自动翻译系统
 
@@ -50,47 +72,149 @@
 
 ### 🛍️ 完整电商功能
 
-- 产品管理（多规格、多图片、多语言）
-- 分类系统和属性筛选
-- 购物车和订单管理
-- 支付集成（PayPal 等）
-- 促销系统和优惠券
-- 用户系统和内容管理
-- SEO 优化
+- **产品管理**：多规格、多图片、多语言支持
+- **分类系统**：多级分类和属性筛选
+- **购物车和订单**：完整的购物流程
+- **支付集成**：PayPal 等支付方式
+- **促销系统**：优惠券、折扣、满减等
+- **用户系统**：用户注册、登录、个人中心
+- **内容管理**：文章、页面管理
+- **SEO 优化**：友好的 URL、Meta 标签等
 
-### 🎨 现代化管理后台
+### 🔧 开发体验优化
 
-基于 Filament 3.x 的现代化管理面板，提供实时数据统计、多语言管理、媒体管理等功能。
+- **代码质量**：PHPStan 静态分析、Pint 代码格式化
+- **单元测试**：完整的测试覆盖，包括同步逻辑测试
+- **组件化开发**：统一的组件系统，提高开发效率
+- **批量操作**：支持批量删除、批量更新状态等
+- **级联删除**：Observer 模式实现关联数据自动删除
 
 ## 🚀 技术栈
 
 ### 后端技术
 - **Laravel 12.x** - PHP Web 框架
-- **PHP 8.1+** - 服务器端语言
+- **PHP 8.2+** - 服务器端语言
 - **MySQL 8.0+** - 数据库
 - **Redis** - 缓存和会话存储
-- **Laravel Octane** - 高性能应用服务器
+- **Laravel Octane** - 高性能应用服务器（可选）
 
 ### 前端技术
-- **Tailwind CSS 3.x** - 实用优先的 CSS 框架
-- **Livewire 3.x** - 全栈框架
+- **Tailwind CSS 4.x** - 实用优先的 CSS 框架
+- **Livewire 4.x** - 全栈框架，无需编写 JavaScript
 - **Alpine.js** - 轻量级 JavaScript 框架
 - **Vite** - 现代前端构建工具
 
-### 管理后台
-- **Filament 3.x** - Laravel 管理面板
+### 核心服务
+- **SyncService** - 多节点数据同步服务
+- **SnowflakeService** - 分布式 ID 生成服务
+- **MediaLibrary** - 媒体文件管理（Spatie）
+- **Scout** - 全文搜索（Meilisearch）
 
 ## 📚 文档
 
 完整的项目文档位于 `docs` 目录：
 
 - **[文档目录](docs/README.md)** - 所有文档的索引
-- **[系统架构与数据流程图](docs/ARCHITECTURE.md)** - 系统架构与数据流程图
+- **[系统架构](docs/ARCHITECTURE.md)** - 系统架构与数据流程图
 - **[部署指南](docs/DEPLOYMENT.md)** - 快速开始、开发环境安装和生产环境部署完整指南
 - **[多节点数据同步](docs/SYNC.md)** - 详细的多节点同步配置和使用指南
-- **[流量统计功能](docs/traffic-statistics.md)** - 流量统计功能完整文档
-- **[代码优化说明](docs/OPTIMIZATION.md)** - 代码架构和优化说明
-- **[发布新版本指南](docs/RELEASE.md)** - 版本发布流程
+- **[流量统计功能](docs/TRAFFIC-STATISTICS.md)** - 流量统计功能完整文档
+- **[发布指南](docs/RELEASE.md)** - 版本发布流程
+
+## 🛠️ 快速开始
+
+### 环境要求
+
+- PHP >= 8.2
+- Composer
+- Node.js >= 16.x
+- MySQL >= 8.0
+- Redis
+
+### 安装步骤
+
+1. **克隆项目**
+```bash
+git clone https://github.com/TeanaryService/teanary_srvice.git
+cd teanary_service
+```
+
+或
+
+```bash
+git clone https://gitee.com/teanary/teanary_service.git
+cd teanary_service
+```
+
+2. **安装依赖**
+```bash
+composer install
+npm install
+```
+
+3. **环境配置**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **配置数据库**
+编辑 `.env` 文件，配置数据库连接信息。
+
+5. **运行数据库迁移**
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+6. **构建前端资源**
+```bash
+npm run build
+```
+
+7. **启动开发服务器**
+```bash
+# 使用 Composer 脚本（推荐）
+composer dev
+
+# 或分别启动
+php artisan serve
+php artisan queue:work
+npm run dev
+```
+
+访问 `http://localhost:8000` 查看网站。
+
+详细部署说明请参考 [部署指南](docs/DEPLOYMENT.md)。
+
+## 🧪 测试
+
+```bash
+# 运行所有测试
+composer test
+
+# 运行单元测试
+composer test:unit
+
+# 运行功能测试
+composer test:feature
+
+# 生成测试覆盖率报告
+composer test:coverage
+```
+
+## 🔍 代码质量
+
+```bash
+# 代码格式化
+composer format
+
+# 静态分析
+composer analyse
+
+# 代码质量检查（格式化 + 静态分析 + 测试）
+composer check
+```
 
 ## 💼 商业服务
 
@@ -133,6 +257,7 @@
 5. 创建 Pull Request
 
 ### 代码规范
+
 - 遵循 PSR-12 编码标准
 - 使用有意义的变量和函数名
 - 添加适当的注释

@@ -2,13 +2,16 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\HasTranslatedNames;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\CartItem;
 use App\Services\CartService;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class Cart extends Component
 {
+    use HasTranslatedNames;
+    use UsesLocaleCurrency;
     public $cartItems;
 
     public $selected = [];
@@ -122,28 +125,26 @@ class Cart extends Component
     }
 
     /**
-     * 获取购物车项显示数据
+     * 获取购物车项显示数据.
      */
     protected function getCartItemDisplayData($item, $lang): array
     {
-        $currencyService = app(LocaleCurrencyService::class);
-        $currencyCode = session('currency');
-        
+        $currencyService = $this->getLocaleService();
+        $currencyCode = $this->getCurrentCurrencyCode();
+
         $product = $item->product;
         $variant = $item->productVariant;
-        $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
-        $name = $translation && $translation->name ? $translation->name : ($product->productTranslations->first()->name ?? $product->slug);
+        $name = $this->translatedField($product->productTranslations, $lang, 'name', $product->slug);
         $image = $variant
             ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
             : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
         $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
-            $trans = $sv->specificationValueTranslations->where('language_id', $lang?->id)->first();
-            return $trans && $trans->name ? $trans->name : $sv->id;
+            return $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
         })->implode(' / ') : '';
         $price = $variant && $variant->price ? $currencyService->convertWithSymbol($variant->price, $currencyCode) : '';
         $finalPrice = $item->final_price ?? ($variant && $variant->price ? $variant->price : 0);
         $promotion = $item->promotion ?? null;
-        
+
         return [
             'name' => $name,
             'image' => $image,
@@ -155,7 +156,7 @@ class Cart extends Component
     }
 
     /**
-     * 获取促销折扣文本
+     * 获取促销折扣文本.
      */
     protected function getPromotionDiscountText($promotion, $rule): array
     {
@@ -177,13 +178,13 @@ class Cart extends Component
                 $discountType = (string) $discountType;
             }
         }
-        
+
         // 处理 discount_value
         $discountValue = is_array($rule) ? ($rule['discount_value'] ?? null) : (is_object($rule) ? ($rule->discount_value ?? null) : null);
         if (is_object($discountValue)) {
             $discountValue = (string) $discountValue;
         }
-        
+
         return [
             'discountType' => $discountType,
             'discountValue' => $discountValue,
@@ -191,32 +192,28 @@ class Cart extends Component
     }
 
     /**
-     * 规范化促销描述
+     * 规范化促销描述.
      */
     protected function normalizePromotionDescription($description): string
     {
         if (is_array($description)) {
             return json_encode($description, JSON_UNESCAPED_UNICODE);
-        } elseif (!is_string($description)) {
+        } elseif (! is_string($description)) {
             return (string) $description;
         }
-        
+
         return $description;
     }
 
     public function render()
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(session('lang'));
-        $currencyService = app(LocaleCurrencyService::class);
-        $currencyCode = session('currency');
-
         return view('livewire.cart', [
             'cartItems' => $this->cartItems,
             'selected' => $this->selected,
             'total' => $this->total,
-            'lang' => $lang,
-            'currencyService' => $currencyService,
-            'currencyCode' => $currencyCode,
+            'lang' => $this->getCurrentLanguage(),
+            'currencyService' => $this->getLocaleService(),
+            'currencyCode' => $this->getCurrentCurrencyCode(),
         ]);
     }
 }

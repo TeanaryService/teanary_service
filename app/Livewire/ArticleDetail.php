@@ -2,17 +2,19 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Article;
-use App\Services\LocaleCurrencyService;
 use Livewire\Component;
 
 class ArticleDetail extends Component
 {
+    use UsesLocaleCurrency;
+
     public ?Article $article = null;
 
     public function mount($slug)
     {
-        $lang = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
+        $lang = $this->getCurrentLanguage();
 
         $this->article = Article::with(['media', 'articleTranslations' => fn ($q) => $q->where('language_id', $lang?->id)])
             ->where('slug', $slug)

@@ -21,6 +21,7 @@ return [
         'title' => 'Commande Annulée',
         'message' => 'Votre commande :order_no a été annulée. Raison: :reason',
     ],
+    'title' => 'Centre de notifications',
     'my_notifications' => 'Mes Notifications',
     'no_notifications' => 'Aucune Notification',
     'no_notifications_desc' => 'Vous n\'avez pas encore reçu de notifications',

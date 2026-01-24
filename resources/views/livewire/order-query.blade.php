@@ -1,4 +1,4 @@
-<div class="min-h-[40vh] bg-gradient-to-br from-teal-50 via-blue-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-[70vh] bg-gradient-to-br from-teal-50 via-blue-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         <!-- 页面标题 -->
         <div class="text-center mb-8">
@@ -10,22 +10,21 @@
         @if($step === 1)
             <div class="bg-white rounded-xl shadow-lg p-8">
                 <form wire:submit.prevent="sendVerificationCode">
-                    <div class="mb-6">
-                        <label for="orderNoOrEmail" class="block text-sm font-medium text-gray-700 mb-2">
-                            {{ __('orders.query_order_no_or_email') }}
-                        </label>
-                        <input 
+                    <x-widgets.form-field 
+                        :label="__('orders.query_order_no_or_email')"
+                        labelFor="orderNoOrEmail"
+                        error="orderNoOrEmail"
+                    >
+                        <x-widgets.input 
                             type="text" 
                             id="orderNoOrEmail"
-                            wire:model="orderNoOrEmail"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 @error('orderNoOrEmail') border-red-500 @enderror"
+                            wire="orderNoOrEmail"
                             placeholder="{{ __('orders.query_order_no_or_email_placeholder') }}"
+                            error="orderNoOrEmail"
+                            class="px-4 py-3 mb-6"
                             autofocus
-                        >
-                        @error('orderNoOrEmail')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        />
+                    </x-widgets.form-field>
 
                     @if($errorMessage)
                         <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -39,12 +38,9 @@
                         </div>
                     @endif
 
-                    <button 
-                        type="submit"
-                        class="w-full bg-teal-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-teal-700 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-                    >
+                    <x-widgets.button type="submit" class="w-full py-3 px-6">
                         {{ __('orders.query_send_verification_code') }}
-                    </button>
+                    </x-widgets.button>
                 </form>
             </div>
         @endif
@@ -58,26 +54,25 @@
                 </div>
 
                 <form wire:submit.prevent="verifyCode">
-                    <div class="mb-6">
-                        <label for="verificationCode" class="block text-sm font-medium text-gray-700 mb-2">
-                            {{ __('orders.query_verification_code') }}
-                        </label>
-                        <input 
+                    <x-widgets.form-field 
+                        :label="__('orders.query_verification_code')"
+                        labelFor="verificationCode"
+                        error="verificationCode"
+                    >
+                        <x-widgets.input 
                             type="text" 
                             id="verificationCode"
-                            wire:model="verificationCode"
-                            class="w-full px-4 py-3 text-center text-2xl font-mono tracking-widest border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 @error('verificationCode') border-red-500 @enderror"
+                            wire="verificationCode"
                             placeholder="000000"
                             maxlength="6"
                             pattern="[0-9]{6}"
                             inputmode="numeric"
+                            error="verificationCode"
+                            class="px-4 py-3 text-center text-2xl font-mono tracking-widest"
                             autofocus
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                        >
-                        @error('verificationCode')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        />
+                    </x-widgets.form-field>
 
                     @if($errorMessage)
                         <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -86,12 +81,9 @@
                     @endif
 
                     <div class="flex gap-4">
-                        <button 
-                            type="submit"
-                            class="flex-1 bg-teal-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-teal-700 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-                        >
+                        <x-widgets.button type="submit" class="flex-1 py-3 px-6">
                             {{ __('orders.query_verify') }}
-                        </button>
+                        </x-widgets.button>
                         <div x-data="{ countdown: @js($countdown) }" 
                              x-init="
                                 if (countdown > 0) {
@@ -225,21 +217,26 @@
                                 @foreach($order->orderItems as $item)
                                     @php
                                         $image = $item->productVariant
-                                            ? $item->productVariant->getFirstMediaUrl('image', 'thumb')
-                                            : ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
-                                        $specs = $item->productVariant
-                                            ? $item->productVariant->specificationValues
+                                            ? ($item->productVariant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'))
+                                            : ($item->product ? ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg')) : asset('logo.svg'));
+                                        $specs = '';
+                                        if ($item->productVariant && $item->productVariant->specificationValues) {
+                                            $specs = $item->productVariant->specificationValues
                                                 ->map(function ($sv) use ($lang) {
                                                     $trans = $sv->specificationValueTranslations
                                                         ->where('language_id', $lang?->id)
                                                         ->first();
                                                     return $trans && $trans->name ? $trans->name : $sv->id;
                                                 })
-                                                ->implode(' / ')
-                                            : '';
-                                        $productName = $item->product->productTranslations
-                                            ->where('language_id', $lang?->id)
-                                            ->first()?->name ?? $item->product->slug;
+                                                ->implode(' / ');
+                                        }
+                                        $productName = '-';
+                                        if ($item->product) {
+                                            $translation = $item->product->productTranslations
+                                                ->where('language_id', $lang?->id)
+                                                ->first();
+                                            $productName = $translation?->name ?? $item->product->slug ?? '-';
+                                        }
                                     @endphp
 
                                     <div class="p-6 hover:bg-gray-50 transition-colors">
@@ -352,8 +349,8 @@
                                             {{ $order->shippingAddress->city }}, {{ $order->shippingAddress->postcode }}
                                         </p>
                                         <p>
-                                            {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
-                                            {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
+                                            {{ $order->shippingAddress->zone?->zoneTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->zone?->name ?? '' }}, 
+                                            {{ $order->shippingAddress->country->countryTranslations->where('language_id', $lang?->id)->first()?->name ?? $order->shippingAddress->country->name ?? '' }}
                                         </p>
                                     </div>
                                 </div>
@@ -409,3 +406,4 @@
     </div>
 </div>
 
+<x-seo-meta title="{{ __('orders.query_title') }}" description="{{ __('orders.query_description') }}" keywords="{{ __('orders.query_title') }}" />
