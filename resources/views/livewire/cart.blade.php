@@ -1,5 +1,18 @@
+@php
+    $breadcrumbs = [
+        [
+            'label' => __('app.home'),
+            'url' => locaRoute('home'),
+        ],
+        [
+            'label' => __('app.cart'),
+            'url' => '',
+        ],
+    ];
+@endphp
 
-<div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 py-10 min-h-[70vh] bg-gray-50">
+<div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 min-h-[70vh]">
+    <x-widgets.breadcrumbs :items="$breadcrumbs" />
     <h1 class="text-3xl font-extrabold text-teal-700 mb-8 tracking-tight">{{ __('app.cart') }}</h1>
     <form wire:submit.prevent="checkout">
         <x-widgets.card class="p-8">
