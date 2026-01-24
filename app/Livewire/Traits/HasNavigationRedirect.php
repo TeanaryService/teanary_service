@@ -14,13 +14,14 @@ trait HasNavigationRedirect
      *
      * @param  string  $route  路由名称
      * @param  string  $messageKey  消息键（默认 'created_successfully'）
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Livewire\Features\SupportRedirects\Redirector
      */
-    protected function redirectWithMessage(string $route, string $messageKey = 'created_successfully'): \Illuminate\Http\RedirectResponse
+    protected function redirectWithMessage(string $route, string $messageKey = 'created_successfully')
     {
         $this->dispatch('flash-message', type: 'success', message: __("app.{$messageKey}"));
 
-        return redirect()->to(locaRoute($route), navigate: true);
+        // 使用 Livewire 的 redirect 方法，自动支持智能导航
+        return $this->redirect(locaRoute($route), navigate: true);
     }
 
     /**

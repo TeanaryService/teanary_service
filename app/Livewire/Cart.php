@@ -121,7 +121,7 @@ class Cart extends Component
 
         session()->put('checkout_items', $selectedItems);
 
-        return redirect()->route('checkout', ['locale' => $locale]);
+        return $this->redirect(route('checkout', ['locale' => $locale]), navigate: true);
     }
 
     /**

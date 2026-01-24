@@ -38,30 +38,55 @@
                 </ul>
 
                 {{-- 属性筛选 --}}
-                <form method="GET" action="{{ locaRoute('product') }}" class="mt-8">
-                    @foreach ($attributes as $attr)
-                        @if(is_array($attr) && isset($attr['name']) && isset($attr['values']))
-                        <div class="mb-4">
-                            <div class="font-semibold text-tea-700 mb-2">{{ $attr['name'] }}</div>
-                            @foreach ($attr['values'] as $val)
-                                <x-widgets.checkbox 
-                                    name="attributes[{{ $attr['id'] }}][]"
-                                    :value="$val['id']"
-                                    :checked="isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array) $attributeFilters[$attr['id']])"
-                                    :label="$val['name']"
-                                    class="!gap-2 py-2"
-                                />
-                            @endforeach
+                @if(!empty($filterAttributes) && is_array($filterAttributes) && count($filterAttributes) > 0)
+                <div class="mt-8 pt-8 border-t border-teal-500">
+                    <h2 class="text-xl font-bold text-tea-800 mb-4 tea-title">{{ __('home.attributes') }}</h2>
+                    <form method="GET" action="{{ locaRoute('product') }}">
+                        @foreach ($filterAttributes as $index => $attr)
+                            @if(is_array($attr) && isset($attr['id']) && isset($attr['name']) && isset($attr['values']) && is_array($attr['values']) && count($attr['values']) > 0)
+                            <div class="mb-5 {{ $index > 0 ? 'pt-5 border-t border-tea-100' : '' }}">
+                                <div class="font-semibold text-tea-700 mb-3 text-sm uppercase tracking-wide">{{ $attr['name'] }}</div>
+                                <div class="space-y-2">
+                                    @foreach ($attr['values'] as $val)
+                                        @if(is_array($val) && isset($val['id']) && isset($val['name']))
+                                        @php
+                                            $isChecked = isset($attributeFilters[$attr['id']]) && in_array($val['id'], (array) $attributeFilters[$attr['id']]);
+                                        @endphp
+                                        <label class="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 {{ $isChecked ? 'bg-tea-100 text-tea-800 font-medium' : 'hover:bg-tea-50 text-tea-600' }}">
+                                            <input 
+                                                type="checkbox" 
+                                                name="attributes[{{ $attr['id'] }}][]"
+                                                value="{{ $val['id'] }}"
+                                                {{ $isChecked ? 'checked' : '' }}
+                                                class="w-4 h-4 text-tea-600 border-tea-300 rounded focus:ring-tea-500 focus:ring-2 cursor-pointer"
+                                            />
+                                            <span class="text-sm select-none">{{ $val['name'] }}</span>
+                                        </label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif
+                        @endforeach
+                        <div class="mt-6 flex gap-2">
+                            <x-widgets.button 
+                                type="submit"
+                                class="flex-1 bg-tea-600 hover:bg-tea-700 text-white"
+                            >
+                                {{ __('home.search') }}
+                            </x-widgets.button>
+                            @if(!empty($attributeFilters))
+                            <a 
+                                href="{{ locaRoute('product', ['slug' => request('slug')]) }}" 
+                                class="px-4 py-2 rounded-lg border border-tea-300 text-tea-700 hover:bg-tea-50 transition-colors duration-200 text-sm font-medium"
+                            >
+                                {{ __('app.reset') }}
+                            </a>
+                            @endif
                         </div>
-                        @endif
-                    @endforeach
-                    <x-widgets.button 
-                        type="submit"
-                        class="w-full mt-2"
-                    >
-                        {{ __('home.search') }}
-                    </x-widgets.button>
-                </form>
+                    </form>
+                </div>
+                @endif
             </aside>
 
             {{-- 商品列表 --}}

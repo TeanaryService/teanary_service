@@ -18,7 +18,8 @@ class Product extends Component
 
     private $attributeFilters = [];
 
-    private $allAttributes = [];
+    /** @var \Illuminate\Support\Collection */
+    private $allAttributes;
 
     public function mount(Request $request)
     {
@@ -137,18 +138,24 @@ class Product extends Component
         $seoData = $this->buildSeoData();
 
         // 确保 attributes 是数组格式
+        // getAttributesForLanguage 返回的 Collection 中每个元素已经是数组格式
         $attributesArray = [];
-        if ($this->allAttributes) {
-            foreach ($this->allAttributes as $attr) {
-                if (is_array($attr) || (is_object($attr) && method_exists($attr, 'toArray'))) {
-                    $attributesArray[] = is_array($attr) ? $attr : $attr->toArray();
-                }
-            }
+        if ($this->allAttributes instanceof \Illuminate\Support\Collection && $this->allAttributes->isNotEmpty()) {
+            // 直接转换为数组，因为 Collection 中的每个元素已经是数组
+            $attributesArray = $this->allAttributes->toArray();
+            
+            // 过滤掉没有属性值的属性
+            $attributesArray = array_filter($attributesArray, function ($attr) {
+                return is_array($attr) 
+                    && isset($attr['values']) 
+                    && is_array($attr['values']) 
+                    && !empty($attr['values']);
+            });
         }
-
+        
         return view('livewire.product', [
             'categories' => $this->categories,
-            'attributes' => $attributesArray,
+            'filterAttributes' => $attributesArray,
             'products' => $this->products,
             'categoryId' => $this->categoryId,
             'attributeFilters' => $this->attributeFilters,

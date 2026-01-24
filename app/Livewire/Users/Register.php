@@ -50,7 +50,7 @@ class Register extends Component
 
         session()->flash('message', __('auth.registration_success'));
 
-        return redirect()->to(locaRoute('verification.notice'));
+        return $this->redirect(locaRoute('verification.notice'), navigate: true);
     }
 
     public function render()

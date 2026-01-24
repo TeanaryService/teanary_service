@@ -84,7 +84,7 @@ class Checkout extends Component
         $this->checkoutItems = session('checkout_items', []);
 
         if (empty($this->checkoutItems)) {
-            return redirect()->route('cart', ['locale' => app()->getLocale()]);
+            return $this->redirect(route('cart', ['locale' => app()->getLocale()]), navigate: true);
         }
 
         $this->processCheckoutItems();
@@ -382,7 +382,7 @@ class Checkout extends Component
         }
 
         if (empty($this->processedItems)) {
-            return redirect()->route('cart');
+            return $this->redirect(route('cart', ['locale' => app()->getLocale()]), navigate: true);
         }
 
         try {
