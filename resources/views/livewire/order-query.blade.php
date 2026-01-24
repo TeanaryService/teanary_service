@@ -1,4 +1,4 @@
-<div class="min-h-[60vh] bg-gradient-to-br from-teal-50 via-blue-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-[70vh] bg-gradient-to-br from-teal-50 via-blue-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         <!-- 页面标题 -->
         <div class="text-center mb-8">

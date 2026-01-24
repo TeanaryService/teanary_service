@@ -1,4 +1,4 @@
-<div class="min-h-[60vh] bg-teal-100 flex flex-col items-center justify-center -mt-16 relative">
+<div class="min-h-[70vh] bg-teal-100 flex flex-col items-center justify-center -mt-16 relative">
     <x-widgets.grid-bg />
     <main role="main" class="max-w-xl px-4 text-center relative">
         @if($isProcessing)

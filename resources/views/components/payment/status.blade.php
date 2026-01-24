@@ -17,7 +17,7 @@
     $textColor = $statusClasses['textColor'];
 @endphp
 
-<div class="min-h-[60vh] {{ $bgColor }} flex flex-col items-center justify-center -mt-16 relative">
+<div class="min-h-[70vh] {{ $bgColor }} flex flex-col items-center justify-center -mt-16 relative">
     <x-widgets.grid-bg />
     <main role="main" aria-labelledby="payment-status-title" class="max-w-xl px-4 text-center relative">
         

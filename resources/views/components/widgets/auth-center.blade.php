@@ -1,4 +1,4 @@
-<div class="relative flex items-center justify-center min-h-[60vh] bg-teal-100">
+<div class="relative flex items-center justify-center min-h-[70vh] bg-teal-100">
     <!-- 背景图层 -->
     <div class="absolute inset-0 bg-cover bg-no-repeat"
         style="background-image: url('{{ asset('images/auth-bg.jpg') }}'); opacity: 0.1;"></div>
