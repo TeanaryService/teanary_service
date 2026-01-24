@@ -176,6 +176,10 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex items-center justify-end gap-2">
+                                                <a href="{{ locaRoute('manager.promotions.detail', ['id' => $promotion->id]) }}" wire:navigate 
+                                                   class="text-blue-600 hover:text-blue-700 font-medium">
+                                                    {{ __('app.manage') }}
+                                                </a>
                                                 <a href="{{ locaRoute('manager.promotions.edit', ['id' => $promotion->id]) }}" wire:navigate 
                                                    class="text-teal-600 hover:text-teal-700">
                                                     {{ __('app.edit') }}

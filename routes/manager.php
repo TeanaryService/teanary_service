@@ -29,6 +29,7 @@ use App\Livewire\Manager\Orders;
 use App\Livewire\Manager\ProductForm;
 use App\Livewire\Manager\ProductReviews;
 use App\Livewire\Manager\Products;
+use App\Livewire\Manager\PromotionDetail;
 use App\Livewire\Manager\PromotionForm;
 use App\Livewire\Manager\Promotions;
 use App\Livewire\Manager\SpecificationForm;
@@ -84,6 +85,7 @@ Route::prefix('manager')->group(function () {
         Route::livewire('promotions', Promotions::class)->name('manager.promotions');
         Route::livewire('promotions/create', PromotionForm::class)->name('manager.promotions.create');
         Route::livewire('promotions/{id}/edit', PromotionForm::class)->name('manager.promotions.edit');
+        Route::livewire('promotions/{id}/detail', PromotionDetail::class)->name('manager.promotions.detail');
 
         // 地址管理
         Route::livewire('addresses', Addresses::class)->name('manager.addresses');
