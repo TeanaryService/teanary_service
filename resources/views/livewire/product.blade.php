@@ -44,7 +44,7 @@
                     <form method="GET" action="{{ locaRoute('product') }}">
                         @foreach ($filterAttributes as $index => $attr)
                             @if(is_array($attr) && isset($attr['id']) && isset($attr['name']) && isset($attr['values']) && is_array($attr['values']) && count($attr['values']) > 0)
-                            <div class="mb-5 {{ $index > 0 ? 'pt-5 border-t border-tea-100' : '' }}">
+                            <div class="mb-5 {{ $index > 0 ? 'pt-5 border-t border-teal-500' : '' }}">
                                 <div class="font-semibold text-tea-700 mb-3 text-sm uppercase tracking-wide">{{ $attr['name'] }}</div>
                                 <div class="space-y-2">
                                     @foreach ($attr['values'] as $val)
