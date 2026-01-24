@@ -7,6 +7,23 @@
 [![Livewire](https://img.shields.io/badge/Livewire-3.x-4E56A6.svg)](https://livewire.laravel.com)
 [![Filament](https://img.shields.io/badge/Filament-3.x-6366F1.svg)](https://filamentphp.com)
 
+## 📌 版本说明
+
+### V1.2.1 - 最后一个基于 FilamentPHP 的版本
+
+**重要提示**：V1.2.1 是最后一个基于 FilamentPHP 实现的后台管理版本。
+
+**下一个版本**：V1.3.0 将使用 Livewire 4 完全重写后台管理系统（数据结构完全一致，可无缝升级）
+
+**重构原因**：
+- ⚡ **性能优化**：Filament 适合原型快速开发，但在生产环境中性能表现不佳
+- 🎨 **可定制化**：Filament 的可定制化能力受限，难以满足复杂多样的展示需求
+- 🔧 **开发灵活性**：对于复杂、多样的展示和操作，使用 Filament 开发不够方便
+
+**数据兼容性**：V1.3.0 与 V1.2.1 的数据结构完全一致，可以无缝升级。
+
+---
+
 > 一个支持多节点部署、AI自动翻译、商品采集的现代化全球电商平台系统，支持多语言，多货币币种自动换算，结算。专为解决跨国电商运营难题而设计。
 
 > 代码已通过单元测试和静态分析,普通bug反馈请通过Issues提交；安全相关bug请通过Email(hello@teanary.com)提交
