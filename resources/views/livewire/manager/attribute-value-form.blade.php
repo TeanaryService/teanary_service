@@ -40,7 +40,7 @@
                                     <x-widgets.select 
                                         id="attributeId"
                                         wire="attributeId"
-                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($attributes)->map(function($attribute) use ($lang) {
+                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($attributeModels)->map(function($attribute) use ($lang) {
                                             $translation = $attribute->attributeTranslations->where('language_id', $lang?->id)->first();
                                             $attributeName = $translation ? $translation->name : ($attribute->attributeTranslations->first() ? $attribute->attributeTranslations->first()->name : $attribute->id);
                                             return ['value' => $attribute->id, 'label' => $attributeName];
