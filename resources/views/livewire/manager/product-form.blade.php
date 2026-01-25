@@ -19,6 +19,26 @@
 
 
                 <form wire:submit.prevent="save" class="space-y-6">
+                {{-- 图片（多图） --}}
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
+                        <h2 class="text-lg font-semibold text-gray-900">
+                            {{ __('manager.products.images') }}
+                        </h2>
+
+                        <x-widgets.image-upload
+                            :existing="$existingImages"
+                            :upload="$newImages"
+                            wire="newImages"
+                            accept="image/*"
+                            :multiple="true"
+                            :label="__('app.upload_images') ?? '上传图片'"
+                            error="newImages.*"
+                            :help="__('app.image_upload_hint') ?? '支持多图上传，单张不超过 2MB。'"
+                            removeExistingAction="removeProductImage"
+                            removeExistingConfirm="{{ __('app.confirm_delete') }}"
+                        />
+                    </div>
+                    
                     {{-- 基本信息 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -121,26 +141,6 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
-
-                    {{-- 图片（多图） --}}
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
-                        <h2 class="text-lg font-semibold text-gray-900">
-                            {{ __('manager.products.images') }}
-                        </h2>
-
-                        <x-widgets.image-upload
-                            :existing="$existingImages"
-                            :upload="$newImages"
-                            wire="newImages"
-                            accept="image/*"
-                            :multiple="true"
-                            :label="__('app.upload_images') ?? '上传图片'"
-                            error="newImages.*"
-                            :help="__('app.image_upload_hint') ?? '支持多图上传，单张不超过 2MB。'"
-                            removeExistingAction="removeProductImage"
-                            removeExistingConfirm="{{ __('app.confirm_delete') }}"
-                        />
                     </div>
 
                     {{-- 多语言 --}}
