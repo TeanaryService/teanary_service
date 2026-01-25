@@ -20,18 +20,18 @@
                     <h3 class="font-semibold mb-4">{{ __('app.quick_links') }}</h3>
                     <div class="grid grid-cols-2 gap-x-4">
                         <ul class="space-y-2.5">
-                            <li><a href="{{ locaRoute('home') }}" wire:navigate class="hover:text-tea-600 transition-colors duration-200">{{ __('app.home') }}</a>
+                            <li><a href="{{ locaRoute('home') }}" wire:navigate class="hover:text-teal-600 transition-colors duration-200">{{ __('app.home') }}</a>
                             </li>
                             <li><a href="{{ locaRoute('auth.login') }}" wire:navigate
-                                    class="hover:text-tea-600 transition-colors duration-200">{{ __('app.login') }}</a>
+                                    class="hover:text-teal-600 transition-colors duration-200">{{ __('app.login') }}</a>
                             </li>
                             <li><a href="{{ locaRoute('product') }}" wire:navigate
-                                    class="hover:text-tea-600 transition-colors duration-200">{{ __('app.categories') }}</a>
+                                    class="hover:text-teal-600 transition-colors duration-200">{{ __('app.categories') }}</a>
                             </li>
                             <li><a href="{{ locaRoute('article.index') }}" wire:navigate
-                                    class="hover:text-tea-600 transition-colors duration-200">{{ __('home.article.base_name') }}</a></li>
+                                    class="hover:text-teal-600 transition-colors duration-200">{{ __('home.article.base_name') }}</a></li>
                             <li><a href="{{ locaRoute('order.query') }}" wire:navigate
-                                    class="hover:text-tea-600 transition-colors duration-200">{{ __('orders.query_title') }}</a></li>
+                                    class="hover:text-teal-600 transition-colors duration-200">{{ __('orders.query_title') }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -82,15 +82,15 @@
                         &copy; {{ now()->year }} {{ config('app.name') }}. {{ __('app.rights_reserved') }}
                     </div>
                     <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-                        <a href="{{ locaRoute('teanary.open') }}" wire:navigate class="hover:text-tea-600 transition-colors duration-200">
+                        <a href="{{ locaRoute('teanary.open') }}" wire:navigate class="hover:text-teal-600 transition-colors duration-200">
                             {{ __('app.teanary_open_source') }}
                         </a>
                         <span class="hidden md:inline">|</span>
-                        <a href="https://github.com/TeanaryService/teanary_srvice" target="_blank" rel="noopener noreferrer" class="hover:text-tea-600 transition-colors duration-200">
+                        <a href="https://github.com/TeanaryService/teanary_srvice" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors duration-200">
                             GitHub
                         </a>
                         <span class="hidden md:inline">|</span>
-                        <a href="https://gitee.com/teanary/teanary_service" target="_blank" rel="noopener noreferrer" class="hover:text-tea-600 transition-colors duration-200">
+                        <a href="https://gitee.com/teanary/teanary_service" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors duration-200">
                             Gitee
                         </a>
                     </div>

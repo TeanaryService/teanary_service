@@ -58,7 +58,7 @@ class ManagerForm extends Component
 
             // 获取头像
             if ($manager->hasMedia('avatars')) {
-                $this->avatarUrl = $manager->getFirstMediaUrl('avatars', 'thumb');
+                $this->avatarUrl = first_media_url($manager, 'avatars', 'thumb');
             }
 
             // 更新验证规则，忽略当前记录
@@ -108,6 +108,7 @@ class ManagerForm extends Component
                 $manager->addMedia($this->avatar->getRealPath())
                     ->toMediaCollection('avatars');
                 $this->avatar = null;
+                $this->avatarUrl = first_media_url($manager, 'avatars', 'thumb');
             }
 
             $this->flashMessage('updated_successfully');
@@ -119,6 +120,7 @@ class ManagerForm extends Component
                 $manager->addMedia($this->avatar->getRealPath())
                     ->toMediaCollection('avatars');
                 $this->avatar = null;
+                $this->avatarUrl = first_media_url($manager, 'avatars', 'thumb');
             }
 
             $this->flashMessage('created_successfully');

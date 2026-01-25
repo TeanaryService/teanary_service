@@ -5,7 +5,7 @@
     $breadcrumbs = buildProductDetailBreadcrumbs($name);
 @endphp
 
-<div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 min-h-[70vh] bg-tea-50 tea-bg-texture">
+<div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 min-h-[70vh]">
     <x-widgets.breadcrumbs :items="$breadcrumbs" />
     <div class="flex flex-col lg:flex-row gap-8 items-start">
         {{-- 商品图片幻灯片 --}}
@@ -182,7 +182,7 @@
 
         {{-- 商品信息 --}}
         <div class="w-full lg:w-1/2 tea-card rounded-xl p-6">
-            <h1 class="text-3xl font-bold text-tea-700 mb-2 tea-title">{{ $name }}</h1>
+            <h1 class="text-3xl font-bold text-teal-700 mb-2 tea-title">{{ $name }}</h1>
             <div class="mb-2 text-gray-500">
                 @if ($categoryNames)
                     <span class="mr-2">{{ __('home.categories') }}:</span>
@@ -500,9 +500,9 @@
         <div class="flex flex-col lg:flex-row gap-6">
             {{-- 左侧：产品介绍 (2/3) --}}
             <div class="w-full lg:w-2/3 tea-card rounded-xl p-6">
-                <h2 class="text-2xl font-bold text-tea-700 mb-4">{{ __('home.product_description') }}</h2>
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">{{ __('home.product_description') }}</h2>
                 @if ($desc)
-                    <div class="prose max-w-none text-tea-800">
+                    <div class="prose max-w-none text-teal-800">
                         {!! $desc !!}
                     </div>
                 @else
@@ -512,7 +512,7 @@
 
             {{-- 右侧：茶友评价 (1/3) --}}
             <div class="w-full lg:w-1/3 tea-card rounded-xl p-6">
-                <h2 class="text-2xl font-bold text-tea-700 mb-4">{{ __('home.product_reviews') }}</h2>
+                <h2 class="text-2xl font-bold text-teal-700 mb-4">{{ __('home.product_reviews') }}</h2>
                 @livewire('components.product-reviews', ['productId' => $product->id], key('product-reviews-' . $product->id))
             </div>
         </div>

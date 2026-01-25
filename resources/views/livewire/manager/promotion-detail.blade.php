@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('promotions', __('app.manage') . ': ' . $promotionName, __('manager.promotions.label'), locaRoute('manager.promotions'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -118,7 +118,7 @@
                         <p class="text-sm text-gray-500 mb-4">{{ __('manager.promotion.user_groups_helper') }}</p>
                         
                         @if(count($selectedUserGroupIds) > 0)
-                            <div class="mb-4 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                            <div class="mb-4 p-3  border border-teal-200 rounded-lg">
                                 <p class="text-sm font-medium text-teal-800 mb-2">{{ __('manager.promotion.selected_user_groups') }}:</p>
                                 <div class="flex flex-wrap gap-2">
                                     @foreach($userGroups as $group)

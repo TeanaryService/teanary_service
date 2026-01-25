@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('carts', __('manager.carts.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -134,9 +134,9 @@
                                                 @php
                                                     $image = asset('logo.svg');
                                                     if ($item->productVariant) {
-                                                        $image = $item->productVariant->getFirstMediaUrl('image', 'thumb') ?: $image;
+                                                        $image = first_media_url($item->productVariant, 'image', 'thumb', $image) ?: $image;
                                                     } elseif ($item->product) {
-                                                        $image = $item->product->getFirstMediaUrl('images', 'thumb') ?: $image;
+                                                        $image = first_media_url($item->product, 'images', 'thumb', $image) ?: $image;
                                                     }
                                                 @endphp
                                                 <tr class="hover:bg-gray-50 transition-colors">

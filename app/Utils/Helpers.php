@@ -134,8 +134,15 @@ if (! function_exists('getProductDisplayData')) {
 
         // 获取产品的所有图片
         $images = $product->getMedia('images');
-        $firstImage = $images->first()?->getUrl('thumb') ?? $product->getFirstMediaUrl('images', 'thumb');
-        $secondImage = $images->count() > 1 ? $images->get(1)?->getUrl('thumb') : null;
+        $firstMedia = $images->first();
+        $firstImage = $firstMedia
+            ? ($firstMedia->hasGeneratedConversion('thumb') ? $firstMedia->getUrl('thumb') : $firstMedia->getUrl())
+            : ($product->getFirstMediaUrl('images', 'thumb') ?: $product->getFirstMediaUrl('images'));
+
+        $secondMedia = $images->count() > 1 ? $images->get(1) : null;
+        $secondImage = $secondMedia
+            ? ($secondMedia->hasGeneratedConversion('thumb') ? $secondMedia->getUrl('thumb') : $secondMedia->getUrl())
+            : null;
 
         $prices = $variants->pluck('price')->filter()->sort()->values();
         if ($prices->count() === 1) {
@@ -168,13 +175,54 @@ if (! function_exists('getArticleDisplayData')) {
         $translation = $article->articleTranslations->first();
         $title = $translation->title ?? 'Untitled';
         $summary = $translation->summary ?? '';
-        $image = $article->getFirstMediaUrl('image', 'thumb');
+        $image = first_media_url($article, 'image', 'thumb');
 
         return [
             'title' => $title,
             'summary' => $summary,
             'image' => $image,
         ];
+    }
+}
+
+if (! function_exists('first_media_url')) {
+    /**
+     * 获取首张媒体 URL：thumb 未生成则回退原图.
+     *
+     * @param  mixed  $model  支持 spatie/laravel-medialibrary 的模型（InteractsWithMedia）
+     */
+    function first_media_url($model, string $collection, string $conversion = 'thumb', ?string $fallback = null): ?string
+    {
+        if (! $model) {
+            return $fallback;
+        }
+
+        if (! method_exists($model, 'getFirstMedia')) {
+            return $fallback;
+        }
+
+        try {
+            $media = $model->getFirstMedia($collection);
+        } catch (\Throwable) {
+            $media = null;
+        }
+
+        if (! $media) {
+            if (method_exists($model, 'getFirstMediaUrl')) {
+                $original = $model->getFirstMediaUrl($collection);
+                if (! empty($original)) {
+                    return $original;
+                }
+            }
+
+            return $fallback;
+        }
+
+        if ($conversion && method_exists($media, 'hasGeneratedConversion') && $media->hasGeneratedConversion($conversion)) {
+            return $media->getUrl($conversion);
+        }
+
+        return $media->getUrl();
     }
 }
 

@@ -42,15 +42,6 @@
     background: linear-gradient(90deg, transparent, #3a9d3a, transparent);
     opacity: 0.6;
 }
-
-/* 茶文化背景纹理 */
-.tea-bg-texture {
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(58, 157, 58, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(138, 154, 122, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(184, 165, 133, 0.02) 0%, transparent 50%);
-}
-
 /* 全局优化 */
 body {
     color: #1f2937;

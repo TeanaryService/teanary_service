@@ -3,7 +3,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('attributes', $isEdit ? __('app.edit') : __('app.create'), __('manager.attributes.label'), locaRoute('manager.attributes'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         

@@ -196,7 +196,9 @@ class Checkout extends Component
                     'price' => $promo['final_price'],
                     'product_name' => $name,
                     'specs' => $specs,
-                    'image' => $variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'),
+                    'image' => first_media_url($variant, 'image', 'thumb', asset('logo.svg'))
+                        ?: first_media_url($product, 'images', 'thumb', asset('logo.svg'))
+                        ?: asset('logo.svg'),
                     'subtotal' => $promo['final_price'] * $item['qty'],
                     'promotion' => $promo['promotion'],
                     'original_price' => $variant->price,

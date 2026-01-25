@@ -123,11 +123,11 @@
                     <span class="font-medium">{{ __('index.quick_nav') }}</span>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4 flex-wrap">
-                    <a href="#tech-stack" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">🚀 {{ __('index.nav_tech_stack') }}</a>
-                    <a href="#features" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">🌟 {{ __('index.nav_features') }}</a>
-                    <a href="#demo" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">🎮 {{ __('index.nav_demo') }}</a>
-                    <a href="#pricing" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">💼 {{ __('index.nav_pricing') }}</a>
-                    <a href="#license" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-300 hover:scale-105 transform">📄 {{ __('index.nav_license') }}</a>
+                    <a href="#tech-stack" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover: transition-all duration-300 hover:scale-105 transform">🚀 {{ __('index.nav_tech_stack') }}</a>
+                    <a href="#features" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover: transition-all duration-300 hover:scale-105 transform">🌟 {{ __('index.nav_features') }}</a>
+                    <a href="#demo" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover: transition-all duration-300 hover:scale-105 transform">🎮 {{ __('index.nav_demo') }}</a>
+                    <a href="#pricing" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover: transition-all duration-300 hover:scale-105 transform">💼 {{ __('index.nav_pricing') }}</a>
+                    <a href="#license" class="px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:text-teal-600 hover: transition-all duration-300 hover:scale-105 transform">📄 {{ __('index.nav_license') }}</a>
                 </div>
             </div>
         </div>
@@ -369,7 +369,7 @@
                             <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         </a>
                         <a href="{{ locaRoute('manager.login') }}" target="_blank" rel="noopener noreferrer"
-                            class="group px-8 py-4 bg-white text-teal-600 border-2 border-teal-600 rounded-full font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 transform hover:bg-teal-50">
+                            class="group px-8 py-4 bg-white text-teal-600 border-2 border-teal-600 rounded-full font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 transform hover:">
                             <span class="flex items-center justify-center gap-2">
                             ⚙️ {{ __('index.demo_visit_admin') }}
                                 <svg class="w-5 h-5 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

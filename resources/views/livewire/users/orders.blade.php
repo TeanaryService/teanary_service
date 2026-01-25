@@ -13,7 +13,7 @@
     ];
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -96,8 +96,8 @@
                                 @foreach($order->orderItems->take(3) as $index => $item)
                                     @php
                                         $image = $item->productVariant
-                                            ? ($item->productVariant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'))
-                                            : ($item->product ? ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg')) : asset('logo.svg'));
+                                            ? (first_media_url($item->productVariant, 'image', 'thumb', asset('logo.svg')) ?: asset('logo.svg'))
+                                            : ($item->product ? (first_media_url($item->product, 'images', 'thumb', asset('logo.svg')) ?: asset('logo.svg')) : asset('logo.svg'));
                                         $specs = '';
                                         if ($item->productVariant && $item->productVariant->specificationValues) {
                                             $specs = $item->productVariant->specificationValues

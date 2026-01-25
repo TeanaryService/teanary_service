@@ -217,8 +217,8 @@
                                 @foreach($order->orderItems as $item)
                                     @php
                                         $image = $item->productVariant
-                                            ? ($item->productVariant->getFirstMediaUrl('image', 'thumb') ?: asset('logo.svg'))
-                                            : ($item->product ? ($item->product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg')) : asset('logo.svg'));
+                                            ? (first_media_url($item->productVariant, 'image', 'thumb', asset('logo.svg')) ?: asset('logo.svg'))
+                                            : ($item->product ? (first_media_url($item->product, 'images', 'thumb', asset('logo.svg')) ?: asset('logo.svg')) : asset('logo.svg'));
                                         $specs = '';
                                         if ($item->productVariant && $item->productVariant->specificationValues) {
                                             $specs = $item->productVariant->specificationValues

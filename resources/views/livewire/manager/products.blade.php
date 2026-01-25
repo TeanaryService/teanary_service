@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('products', __('manager.products.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -155,7 +155,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($product->hasMedia('images'))
                                                 <div class="w-16 h-16 flex-shrink-0">
-                                                    <img src="{{ $product->getFirstMediaUrl('images', 'thumb') }}" 
+                                                    <img src="{{ first_media_url($product, 'images', 'thumb') }}" 
                                                          alt="{{ $product->productTranslations->first()?->name ?? $product->slug }}"
                                                          class="w-full h-full object-cover rounded-lg">
                                                 </div>

@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('users', __('manager.users.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -124,7 +124,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($user->hasMedia('avatars'))
-                                                <img src="{{ $user->getFirstMediaUrl('avatars', 'thumb') }}" 
+                                                <img src="{{ first_media_url($user, 'avatars', 'thumb') }}" 
                                                      alt="{{ $user->name }}"
                                                      class="w-12 h-12 rounded-full object-cover">
                                             @else

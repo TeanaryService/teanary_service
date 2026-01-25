@@ -100,11 +100,9 @@ class ManageProductVariants extends Component
             $imageUrl = null;
             $media = $variant->getFirstMedia('image');
             if ($media) {
-                try {
-                    $imageUrl = $media->getUrl('thumb');
-                } catch (\Throwable) {
-                    $imageUrl = $media->getUrl();
-                }
+                $imageUrl = $media->hasGeneratedConversion('thumb')
+                    ? $media->getUrl('thumb')
+                    : $media->getUrl();
             }
 
             $this->skus[] = [

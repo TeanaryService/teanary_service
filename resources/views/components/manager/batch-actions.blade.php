@@ -18,9 +18,9 @@
 @endphp
 
 @if($hasSelected)
-    <div class="mb-4 p-4 bg-teal-50 border-2 border-teal-200 rounded-xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-200">
+    <div class="mb-4 p-4  border-2 border-teal-200 rounded-xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-200">
         <div class="flex items-center gap-3">
-            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-teal-500 text-white text-sm font-semibold shadow-sm">
+            <div class="flex items-center justify-center w-8 h-8 rounded-full 0 text-white text-sm font-semibold shadow-sm">
                 {{ $selectedCount }}
             </div>
             <span class="text-sm font-semibold text-teal-900">

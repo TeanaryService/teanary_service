@@ -115,6 +115,34 @@ class ProductForm extends Component
         $this->attributeValues = array_values($this->attributeValues);
     }
 
+    public function updatedNewImages(): void
+    {
+        if (empty($this->newImages)) {
+            return;
+        }
+
+        // 仅校验图片本身（不触发表单全量校验）
+        $this->validate(
+            ['newImages.*' => $this->rules['newImages.*']],
+            $this->messages
+        );
+
+        // 编辑已有商品时：选择文件后立即入库并刷新缩略图
+        if ($this->productId) {
+            $product = Product::findOrFail($this->productId);
+
+            foreach ($this->newImages as $upload) {
+                $product
+                    ->addMedia($upload->getRealPath())
+                    ->usingFileName($upload->getClientOriginalName())
+                    ->toMediaCollection('images');
+            }
+
+            // 清空临时文件，避免重复上传
+            $this->newImages = [];
+        }
+    }
+
     public function save()
     {
         $rules = $this->rules;

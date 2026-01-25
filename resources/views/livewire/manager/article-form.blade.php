@@ -3,7 +3,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('articles', $isEdit ? __('app.edit') : __('app.create'), __('manager.articles.label'), locaRoute('manager.articles'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -26,8 +26,9 @@
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {{-- 图片上传 --}}
                                 <div class="md:col-span-3">
-                                    <x-widgets.file-upload 
+                                    <x-widgets.image-upload 
                                         wire="image"
+                                        :upload="$image"
                                         accept="image/*"
                                         :preview="$imageUrl"
                                         previewSize="w-32 h-32"

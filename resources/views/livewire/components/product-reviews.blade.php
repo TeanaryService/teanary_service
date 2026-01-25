@@ -54,7 +54,7 @@
                 </x-widgets.form-container>
             </form>
         @else
-            <div class="mb-4 bg-teal-500 text-white rounded-lg p-6 shadow flex flex-col items-center gap gap-2">
+            <div class="mb-4 0 text-white rounded-lg p-6 shadow flex flex-col items-center gap gap-2 bg-teal-500">
                 <a href="{{ locaRoute('auth.login') }}" wire:navigate
                     class="font-semibold">{{ __('app.login') }}</a>
                 <a href="{{ locaRoute('auth.register') }}" wire:navigate

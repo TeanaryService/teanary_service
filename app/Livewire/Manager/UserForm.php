@@ -62,7 +62,7 @@ class UserForm extends Component
 
             // 获取头像
             if ($user->hasMedia('avatars')) {
-                $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
+                $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
             }
 
             // 更新验证规则，忽略当前记录
@@ -98,6 +98,7 @@ class UserForm extends Component
                 $user->addMedia($this->avatar->getRealPath())
                     ->toMediaCollection('avatars');
                 $this->avatar = null;
+                $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
             }
 
             $this->flashMessage('updated_successfully');
@@ -109,6 +110,7 @@ class UserForm extends Component
                 $user->addMedia($this->avatar->getRealPath())
                     ->toMediaCollection('avatars');
                 $this->avatar = null;
+                $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
             }
 
             $this->flashMessage('created_successfully');

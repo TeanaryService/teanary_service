@@ -30,7 +30,7 @@ class Profile extends Component
         $this->name = $user->name;
         $this->email = $user->email;
         if ($user->hasMedia('avatars')) {
-            $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
+            $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
         }
     }
 
@@ -79,7 +79,7 @@ class Profile extends Component
                 ->usingName($this->avatar->getClientOriginalName())
                 ->usingFileName($this->avatar->getClientOriginalName())
                 ->toMediaCollection('avatars');
-            $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
+            $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
             $this->avatar = null;
         }
 

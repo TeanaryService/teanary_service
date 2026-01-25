@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('products', $productId ? __('app.edit') . ' ' . __('manager.products.label') : __('app.create') . ' ' . __('manager.products.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-teal-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -129,24 +129,15 @@
                             {{ __('manager.products.images') }}
                         </h2>
 
-                        @if(!empty($existingImages))
-                            <div class="flex flex-wrap gap-3 mb-4">
-                                @foreach($existingImages as $img)
-                                    <div class="w-20 h-20 rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
-                                        <img src="{{ $img->getUrl('thumb') }}" alt="" class="w-full h-full object-cover">
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        <x-widgets.file-upload 
+                        <x-widgets.image-gallery-upload
+                            :existing="$existingImages"
+                            :uploads="$newImages"
                             wire="newImages"
                             accept="image/*"
-                            :multiple="false"
+                            :multiple="true"
                             :label="__('app.upload_images') ?? '上传图片'"
                             error="newImages.*"
                             :help="__('app.image_upload_hint') ?? '支持多图上传，单张不超过 2MB。'"
-                            :showPreview="false"
                         />
                     </div>
 

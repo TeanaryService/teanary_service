@@ -1,6 +1,6 @@
 <div class="bg-gray-50">
     {{-- Hero Banner --}}
-    <section class="w-full bg-teal-200 bg-gradient-to-br from-teal-200 via-gray-50 to-tea-50/30 py-20 md:py-28 relative overflow-hidden">
+    <section class="w-full bg-teal-200 bg-gradient-to-br from-teal-200 via-gray-50 to-teal-50/30 py-20 md:py-28 relative overflow-hidden">
         <!-- 茶文化装饰背景 -->
         <x-widgets.tea-background type="tea-garden" intensity="light" />
         
@@ -40,13 +40,13 @@
                     <img src="{{ asset('images/banner-tea.png') }}" alt="{{ __('home.hero_image_alt') }}"
                         class="w-full h-auto rounded-2xl shadow-2xl tea-float">
                     <!-- 茶文化装饰边框 -->
-                    <div class="absolute -inset-4 bg-gradient-to-r from-tea-200 via-bamboo-200 to-ceramic-200 rounded-3xl opacity-30 -z-10"></div>
+                    <div class="absolute -inset-4 bg-gradient-to-r from-teal-200 via-bamboo-200 to-ceramic-200 rounded-3xl opacity-30 -z-10"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <x-widgets.promotion-list class="px-6 md:px-8" parentClass="bg-tea-100 py-8 tea-bg-texture" />
+    <x-widgets.promotion-list class="px-6 md:px-8" parentClass="bg-teal-100 py-8" />
 
     {{-- Featured Products --}}
     <section class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8 py-20 md:py-24">
@@ -74,10 +74,10 @@
                         <div class="tea-card rounded-xl p-6 text-center">
                             <div class="relative mb-4">
                                 <img src="{{ $category['image_url'] }}" alt="{{ $category['name'] }}"
-                                    class="h-20 w-20 mx-auto object-cover rounded-full border-2 border-tea-200 group-hover:border-tea-400 transition-colors">
-                                <div class="absolute inset-0 rounded-full bg-tea-100 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                                    class="h-20 w-20 mx-auto object-cover rounded-full border-2 border-teal-200 group-hover:border-teal-400 transition-colors">
+                                <div class="absolute inset-0 rounded-full bg-teal-100 opacity-0 group-hover:opacity-20 transition-opacity"></div>
                             </div>
-                            <span class="text-tea-800 font-medium block group-hover:text-tea-600 transition-colors">{{ $category['name'] }}</span>
+                            <span class="text-teal-800 font-medium block group-hover:text-teal-600 transition-colors">{{ $category['name'] }}</span>
                         </div>
                     </a>
                 @endforeach
@@ -115,7 +115,7 @@
             <div class="hidden md:block md:w-1/2">
                 <div class="relative">
                     <img src="{{ asset('images/about-banner.jpg') }}" class="rounded-2xl shadow-2xl">
-                    <div class="absolute -inset-4 bg-gradient-to-r from-tea-200 via-bamboo-200 to-ceramic-200 rounded-3xl opacity-30 -z-10"></div>
+                    <div class="absolute -inset-4 bg-gradient-to-r from-teal-200 via-bamboo-200 to-ceramic-200 rounded-3xl opacity-30 -z-10"></div>
                 </div>
             </div>
         </div>

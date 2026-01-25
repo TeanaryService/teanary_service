@@ -67,7 +67,7 @@
                 @endauth
                 @guest('manager')
                     <a href="{{ locaRoute('manager.login') }}" wire:navigate
-                        class="hidden sm:flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-tea-600 font-medium transition-colors duration-200 tea-nav-item">
+                        class="hidden sm:flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-teal-600 font-medium transition-colors duration-200 tea-nav-item">
                         <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5" />
                         <span class="hidden md:block">{{ __('app.login') }}</span>
                     </a>
