@@ -120,6 +120,20 @@ class CategoryForm extends Component
         return $this->redirectWithMessage('manager.categories', 'created_successfully');
     }
 
+    public function removeImage(): void
+    {
+        $this->image = null;
+        $this->imageUrl = null;
+
+        if (! $this->categoryId) {
+            return;
+        }
+
+        $category = Category::findOrFail($this->categoryId);
+        $category->clearMediaCollection('image');
+        $this->imageUrl = null;
+    }
+
     public function render()
     {
         $languages = $this->getLanguages();

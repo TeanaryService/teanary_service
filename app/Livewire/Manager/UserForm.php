@@ -119,6 +119,21 @@ class UserForm extends Component
         return $this->redirectWithMessage('manager.users', $this->userId ? 'updated_successfully' : 'created_successfully');
     }
 
+    public function removeAvatar(): void
+    {
+        $this->avatar = null;
+
+        if (! $this->userId) {
+            $this->avatarUrl = null;
+
+            return;
+        }
+
+        $user = User::findOrFail($this->userId);
+        $user->clearMediaCollection('avatars');
+        $this->avatarUrl = null;
+    }
+
     public function render()
     {
         $userGroups = \App\Models\UserGroup::with('userGroupTranslations')->get();

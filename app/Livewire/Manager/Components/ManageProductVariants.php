@@ -9,7 +9,9 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
+use App\Services\LocaleCurrencyService;
 use App\Services\ProductVariantService;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -48,6 +50,14 @@ class ManageProductVariants extends Component
      */
     public array $skus = [];
 
+    /**
+     * 被手动删除（排除）的规格组合 key。
+     * 用于支持：在不改变规格选择（笛卡尔积不变）的情况下，删除某一行 SKU 后不要被 generateSkus() 重新生成出来。
+     *
+     * @var string[]
+     */
+    public array $excludedSkuKeys = [];
+
     public string $bulkPrice = '';
     public string $bulkCost = '';
     public string $bulkStock = '';
@@ -76,6 +86,9 @@ class ManageProductVariants extends Component
      */
     protected function loadExistingVariants(): void
     {
+        // 从数据库重新加载时，清空排除列表（以数据库为准）
+        $this->excludedSkuKeys = [];
+
         $this->selectedSpecifications = [];
         $this->skus = [];
 
@@ -212,6 +225,9 @@ class ManageProductVariants extends Component
         $newSkus = [];
         foreach ($combinations as $combination) {
             $key = $this->buildSpecValuesKey($combination);
+            if (in_array($key, $this->excludedSkuKeys, true)) {
+                continue;
+            }
             if (isset($existingByKey[$key])) {
                 $newSkus[] = $existingByKey[$key];
             } else {
@@ -232,6 +248,15 @@ class ManageProductVariants extends Component
         $this->skus = $newSkus;
     }
 
+    /**
+     * 重新生成 SKU：清空“排除列表”，恢复全部组合。
+     */
+    public function regenerateSkus(): void
+    {
+        $this->excludedSkuKeys = [];
+        $this->generateSkus();
+    }
+
     protected function buildSpecValuesKey(array $specValues): string
     {
         $parts = collect($specValues)
@@ -247,7 +272,8 @@ class ManageProductVariants extends Component
     {
         if (str_ends_with($key, '.image') && $value) {
             $parts = explode('.', $key);
-            $index = (int) $parts[1];
+            // $key 形如 "3.image"，第一段才是数组索引
+            $index = (int) ($parts[0] ?? 0);
             if (isset($this->skus[$index]) && $value) {
                 try {
                     $this->skus[$index]['image_url'] = $value->temporaryUrl();
@@ -256,6 +282,27 @@ class ManageProductVariants extends Component
                 }
             }
         }
+    }
+
+    public function removeSkuImage(int $index): void
+    {
+        if (! isset($this->skus[$index])) {
+            return;
+        }
+
+        $row = $this->skus[$index];
+
+        // 已保存到数据库：清空媒体库
+        if (! empty($row['id'])) {
+            $variant = ProductVariant::find((int) $row['id']);
+            if ($variant) {
+                $variant->clearMediaCollection('image');
+            }
+        }
+
+        // 清空当前行临时上传与预览
+        $this->skus[$index]['image'] = null;
+        $this->skus[$index]['image_url'] = null;
     }
 
     public function applyBulkUpdate(): void
@@ -322,7 +369,14 @@ class ManageProductVariants extends Component
             ->with(['specificationValues', 'media'])
             ->get();
 
-        $imageMap = [];
+        // 先把旧变体图片复制到临时目录（因为删除旧变体会级联删除媒体文件，原路径会失效）
+        $tmpDir = storage_path('app/tmp/variant-images');
+        if (! is_dir($tmpDir)) {
+            @mkdir($tmpDir, 0775, true);
+        }
+
+        $imageMap = []; // specKey => tmpFilePath
+        $tmpFiles = [];
         foreach ($existingVariants as $variant) {
             $key = $this->buildSpecValuesKey(
                 $variant->specificationValues->map(fn (SpecificationValue $sv) => [
@@ -334,39 +388,53 @@ class ManageProductVariants extends Component
             if ($media) {
                 $path = $media->getPath();
                 if ($path && file_exists($path)) {
-                    $imageMap[$key] = $path;
+                    $ext = pathinfo($path, PATHINFO_EXTENSION) ?: 'jpg';
+                    $tmpPath = rtrim($tmpDir, '/').'/'.Str::uuid().'.'.$ext;
+                    if (@copy($path, $tmpPath) && file_exists($tmpPath)) {
+                        $imageMap[$key] = $tmpPath;
+                        $tmpFiles[] = $tmpPath;
+                    }
                 }
             }
         }
 
-        foreach ($existingVariants as $variant) {
-            $variant->delete();
-        }
-
-        foreach ($this->skus as $row) {
-            $pivotData = [];
-            foreach ($row['specification_values'] as $sv) {
-                $pivotData[$sv['specification_value_id']] = [
-                    'specification_id' => $sv['specification_id'],
-                ];
+        try {
+            foreach ($existingVariants as $variant) {
+                $variant->delete();
             }
 
-            $variant = ProductVariant::create([
-                'product_id' => $this->productId,
-                'sku' => $row['sku'],
-                'price' => $row['price'] ?: null,
-                'cost' => $row['cost'] ?: null,
-                'stock' => $row['stock'] ?? 0,
-            ]);
-            $variant->syncSpecificationValues($pivotData);
+            foreach ($this->skus as $row) {
+                $pivotData = [];
+                foreach ($row['specification_values'] as $sv) {
+                    $pivotData[$sv['specification_value_id']] = [
+                        'specification_id' => $sv['specification_id'],
+                    ];
+                }
 
-            $key = $this->buildSpecValuesKey($row['specification_values']);
-            if (! empty($row['image'])) {
-                $variant->addMedia($row['image']->getRealPath())
-                    ->usingFileName($row['image']->getClientOriginalName())
-                    ->toMediaCollection('image');
-            } elseif (isset($imageMap[$key])) {
-                $variant->addMedia($imageMap[$key])->preservingOriginal()->toMediaCollection('image');
+                $variant = ProductVariant::create([
+                    'product_id' => $this->productId,
+                    'sku' => $row['sku'],
+                    'price' => $row['price'] ?: null,
+                    'cost' => $row['cost'] ?: null,
+                    'stock' => $row['stock'] ?? 0,
+                ]);
+                $variant->syncSpecificationValues($pivotData);
+
+                $key = $this->buildSpecValuesKey($row['specification_values']);
+                if (! empty($row['image'])) {
+                    $variant->addMedia($row['image']->getRealPath())
+                        ->usingFileName($row['image']->getClientOriginalName())
+                        ->toMediaCollection('image');
+                } elseif (isset($imageMap[$key]) && file_exists($imageMap[$key])) {
+                    $variant->addMedia($imageMap[$key])->preservingOriginal()->toMediaCollection('image');
+                }
+            }
+        } finally {
+            // 清理临时文件
+            foreach ($tmpFiles as $tmp) {
+                if (is_string($tmp) && file_exists($tmp)) {
+                    @unlink($tmp);
+                }
             }
         }
 
@@ -387,6 +455,10 @@ class ManageProductVariants extends Component
         }
 
         $sku = $this->skus[$index];
+        $specKey = $this->buildSpecValuesKey($sku['specification_values'] ?? []);
+        if ($specKey !== '' && ! in_array($specKey, $this->excludedSkuKeys, true)) {
+            $this->excludedSkuKeys[] = $specKey;
+        }
 
         // 如果变体已保存到数据库，则从数据库删除
         if (! empty($sku['id'])) {
@@ -396,12 +468,17 @@ class ManageProductVariants extends Component
             }
         }
 
-        // 从数组中移除
+        // 从数组中移除（不做重排、不重新生成笛卡尔积）
+        // 否则会触发整表重算/DOM 重排，容易出现“整表隐藏、刷新才恢复”的现象。
         unset($this->skus[$index]);
-        $this->skus = array_values($this->skus);
 
-        // 重新生成 SKU 列表，确保规格选择状态正确
-        $this->generateSkus();
+        // 同步批量选择状态（移除被删行的 index）
+        if (! empty($this->selectedSkus)) {
+            $this->selectedSkus = array_values(array_filter(
+                $this->selectedSkus,
+                fn ($i) => (int) $i !== (int) $index
+            ));
+        }
 
         $this->dispatch('flash-message', type: 'success', message: __('app.deleted_successfully'));
     }

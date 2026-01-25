@@ -35,6 +35,8 @@
                                         :label="__('manager.article.image')"
                                         error="image"
                                         :help="__('manager.article.image_helper')"
+                                        removeAction="removeImage"
+                                        removeConfirm="{{ __('app.confirm_delete') }}"
                                     />
                                 </div>
 

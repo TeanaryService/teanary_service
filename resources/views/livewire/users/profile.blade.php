@@ -42,6 +42,8 @@
                                     :label="__('app.upload_avatar')"
                                     error="avatar"
                                     :help="__('app.avatar_upload_hint')"
+                                    removeAction="removeAvatar"
+                                    removeConfirm="{{ __('app.confirm_delete') }}"
                                 />
                             </div>
 

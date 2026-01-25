@@ -35,6 +35,8 @@
                                         :label="__('manager.user.avatar')"
                                         error="avatar"
                                         :help="__('manager.user.avatar_helper')"
+                                        removeAction="removeAvatar"
+                                        removeConfirm="{{ __('app.confirm_delete') }}"
                                     />
                                 </div>
 

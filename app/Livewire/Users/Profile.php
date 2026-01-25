@@ -91,6 +91,18 @@ class Profile extends Component
         $this->password_confirmation = '';
     }
 
+    public function removeAvatar(): void
+    {
+        $user = Auth::user();
+        if (! $user) {
+            return;
+        }
+
+        $this->avatar = null;
+        $user->clearMediaCollection('avatars');
+        $this->avatarUrl = null;
+    }
+
     public function render()
     {
         return view('livewire.users.profile')->layout('components.layouts.app');

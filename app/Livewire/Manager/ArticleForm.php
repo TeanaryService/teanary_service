@@ -170,6 +170,20 @@ class ArticleForm extends Component
         return $this->redirectWithMessage('manager.articles', $this->articleId ? 'updated_successfully' : 'created_successfully');
     }
 
+    public function removeImage(): void
+    {
+        $this->image = null;
+        $this->imageUrl = null;
+
+        if (! $this->articleId) {
+            return;
+        }
+
+        $article = Article::findOrFail($this->articleId);
+        $article->clearMediaCollection('image');
+        $this->imageUrl = null;
+    }
+
     public function render()
     {
         $users = \App\Models\User::orderBy('name')->get();

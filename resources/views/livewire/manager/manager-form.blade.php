@@ -34,6 +34,8 @@
                                         previewSize="w-32 h-32 rounded-full"
                                         :label="__('manager.manager.avatar')"
                                         error="avatar"
+                                        removeAction="removeAvatar"
+                                        removeConfirm="{{ __('app.confirm_delete') }}"
                                     />
                                 </div>
 

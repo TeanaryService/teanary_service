@@ -42,7 +42,7 @@
 
                     {{-- 变体管理（笛卡尔积 SKU） --}}
                     @if($productId)
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 space-y-4">
                             @livewire(\App\Livewire\Manager\Components\ManageProductVariants::class, ['productId' => $productId], key('manage-product-variants-' . $productId))
                         </div>
                     @endif
@@ -129,15 +129,17 @@
                             {{ __('manager.products.images') }}
                         </h2>
 
-                        <x-widgets.image-gallery-upload
+                        <x-widgets.image-upload
                             :existing="$existingImages"
-                            :uploads="$newImages"
+                            :upload="$newImages"
                             wire="newImages"
                             accept="image/*"
                             :multiple="true"
                             :label="__('app.upload_images') ?? '上传图片'"
                             error="newImages.*"
                             :help="__('app.image_upload_hint') ?? '支持多图上传，单张不超过 2MB。'"
+                            removeExistingAction="removeProductImage"
+                            removeExistingConfirm="{{ __('app.confirm_delete') }}"
                         />
                     </div>
 

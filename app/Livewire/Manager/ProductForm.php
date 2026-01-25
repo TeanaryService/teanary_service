@@ -15,6 +15,7 @@ use App\Models\ProductTranslation;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductForm extends Component
 {
@@ -140,6 +141,25 @@ class ProductForm extends Component
 
             // 清空临时文件，避免重复上传
             $this->newImages = [];
+        }
+    }
+
+    public function removeProductImage(int $mediaId): void
+    {
+        if (! $this->productId) {
+            return;
+        }
+
+        $product = Product::findOrFail($this->productId);
+
+        /** @var Media|null $media */
+        $media = $product->media()
+            ->where('id', $mediaId)
+            ->where('collection_name', 'images')
+            ->first();
+
+        if ($media) {
+            $media->delete();
         }
     }
 

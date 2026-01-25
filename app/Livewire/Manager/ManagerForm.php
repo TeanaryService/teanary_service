@@ -129,6 +129,21 @@ class ManagerForm extends Component
         return $this->redirectWithMessage('manager.managers', $this->managerId ? 'updated_successfully' : 'created_successfully');
     }
 
+    public function removeAvatar(): void
+    {
+        $this->avatar = null;
+
+        if (! $this->managerId) {
+            $this->avatarUrl = null;
+
+            return;
+        }
+
+        $manager = Manager::findOrFail($this->managerId);
+        $manager->clearMediaCollection('avatars');
+        $this->avatarUrl = null;
+    }
+
     public function render()
     {
         return view('livewire.manager.manager-form')->layout('components.layouts.manager');
