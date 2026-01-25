@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('products', $productId ? __('app.edit') . ' ' . __('manager.products.label') : __('app.create') . ' ' . __('manager.products.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 bg-teal-50 tea-bg-texture">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -156,30 +156,65 @@
                             {{ __('manager.products.translations') }}
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            @foreach($languages as $language)
-                                <div class="space-y-3">
-                                    <x-widgets.form-field :label="__('manager.products.name') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.name'">
-                                        <x-widgets.input 
-                                            type="text"
-                                            wire="translations.{{ $language->id }}.name"
-                                            :error="'translations.' . $language->id . '.name'"
-                                        />
-                                    </x-widgets.form-field>
-                                    <x-widgets.form-field :label="__('manager.products.short_description') . ' (' . $language->name . ')'">
-                                        <x-widgets.textarea
-                                            wire="translations.{{ $language->id }}.short_description"
-                                            rows="2"
-                                        />
-                                    </x-widgets.form-field>
-                                    <x-widgets.form-field :label="__('manager.products.description') . ' (' . $language->name . ')'">
-                                        <x-widgets.textarea
-                                            wire="translations.{{ $language->id }}.description"
-                                            rows="4"
-                                        />
-                                    </x-widgets.form-field>
-                                </div>
-                            @endforeach
+                        @php
+                            $defaultLanguageId = $languages->first()?->id;
+                        @endphp
+
+                        <div
+                            x-data="{ activeLang: {{ (int) ($defaultLanguageId ?? 0) }} }"
+                            class="space-y-4"
+                        >
+                            {{-- Tabs --}}
+                            <div class="flex flex-wrap gap-2 border-b border-gray-200 pb-3">
+                                @foreach($languages as $language)
+                                    <x-widgets.button
+                                        type="button"
+                                        variant="secondary"
+                                        size="sm"
+                                        class="!rounded-lg !shadow-none hover:!shadow-none"
+                                        x-bind:class="activeLang === {{ (int) $language->id }}
+                                            ? '!bg-teal-600 text-white border-teal-600 hover:bg-teal-700 hover:border-teal-700'
+                                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300'"
+                                        x-on:click="activeLang = {{ (int) $language->id }}"
+                                    >
+                                        {{ $language->name }}
+                                    </x-widgets.button>
+                                @endforeach
+                            </div>
+
+                            {{-- Panels --}}
+                            <div class="space-y-4">
+                                @foreach($languages as $language)
+                                    <div
+                                        x-show="activeLang === {{ (int) $language->id }}"
+                                        x-cloak
+                                        class="space-y-3"
+                                        wire:key="product-translation-tab-{{ $language->id }}"
+                                    >
+                                        <x-widgets.form-field :label="__('manager.products.name')" :error="'translations.' . $language->id . '.name'">
+                                            <x-widgets.input
+                                                type="text"
+                                                wire="translations.{{ $language->id }}.name"
+                                                :error="'translations.' . $language->id . '.name'"
+                                            />
+                                        </x-widgets.form-field>
+
+                                        <x-widgets.form-field :label="__('manager.products.short_description')">
+                                            <x-widgets.textarea
+                                                wire="translations.{{ $language->id }}.short_description"
+                                                rows="2"
+                                            />
+                                        </x-widgets.form-field>
+
+                                        <x-widgets.form-field :label="__('manager.products.description')">
+                                            <x-widgets.textarea
+                                                wire="translations.{{ $language->id }}.description"
+                                                rows="4"
+                                            />
+                                        </x-widgets.form-field>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
 

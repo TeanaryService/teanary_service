@@ -48,7 +48,7 @@ class ProductForm extends Component
         'attributeValues.*.attribute_value_id' => 'nullable|integer',
         'categoryIds' => 'array',
         'categoryIds.*' => 'integer',
-        'translations.*.name' => 'required|max:255',
+        'translations.*.name' => 'nullable|string|max:255',
         'translations.*.short_description' => 'nullable|string',
         'translations.*.description' => 'nullable|string',
         'newImages.*' => 'image|max:2048',
@@ -59,7 +59,6 @@ class ProductForm extends Component
         'status.required' => '商品状态不能为空',
         'translationStatus.required' => '翻译状态不能为空',
         'sourceUrl.url' => '来源链接格式不正确',
-        'translations.*.name.required' => '商品名称不能为空',
         'translations.*.name.max' => '商品名称不能超过255个字符',
         'newImages.*.image' => '上传的文件必须是图片',
         'newImages.*.max' => '图片大小不能超过 2MB',
@@ -118,10 +117,6 @@ class ProductForm extends Component
 
     public function save()
     {
-        if (! $this->validateDefaultLanguage('name', '默认语言的商品名称不能为空')) {
-            return;
-        }
-
         $rules = $this->rules;
         $rules['slug'] = [
             'required',
