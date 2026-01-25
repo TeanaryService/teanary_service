@@ -1,71 +1,113 @@
 import './bootstrap';
 
-import pell from 'pell';
-import 'pell/dist/pell.css';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 
-/**
- * Pell rich-text editor helper for Alpine/Livewire.
- * - Reads initial HTML from a hidden <textarea>.
- * - Writes changes back to that <textarea> and dispatches input event (so Livewire picks it up).
- * - Idempotent: safe to call multiple times.
- */
-window.TeanyPell = {
+// Quill rich-text editor helper for Livewire (no Alpine required)
+window.TeanyQuill = {
     mount(editorEl, inputEl) {
         if (!editorEl || !inputEl) return;
-        const isMounted = editorEl.dataset.pellMounted === '1';
-        editorEl.dataset.pellMounted = '1';
+        // Lazy mount: skip hidden panels (language tabs)
+        if (editorEl.closest('.hidden')) return;
 
+        const uploadUrl = editorEl.dataset.uploadUrl || '';
         const minHeight = editorEl.dataset.minHeight || '240px';
 
-        if (!isMounted) {
-            pell.init({
-                element: editorEl,
-                defaultParagraphSeparator: 'p',
-                styleWithCSS: false,
-                actions: [
-                    'bold',
-                    'italic',
-                    'underline',
-                    'strikethrough',
-                    'heading1',
-                    'heading2',
-                    'paragraph',
-                    'quote',
-                    'unorderedlist',
-                    'orderedlist',
-                    'link',
-                ],
-                onChange: (html) => {
-                    const next = html ?? '';
-                    editorEl.dataset.lastHtml = next;
-                    inputEl.value = next;
-                    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+        let quill = editorEl.__teanyQuill;
+        if (!quill) {
+            const imageHandler = () => {
+                const picker = document.createElement('input');
+                picker.type = 'file';
+                picker.accept = 'image/*';
+                picker.style.display = 'none';
+                document.body.appendChild(picker);
+
+                picker.addEventListener('change', async () => {
+                    const file = picker.files && picker.files[0];
+                    document.body.removeChild(picker);
+                    if (!file) return;
+
+                    // Fallback: if no uploadUrl, ask URL
+                    if (!uploadUrl) {
+                        const url = window.prompt('请输入图片 URL');
+                        if (!url) return;
+                        const range = quill.getSelection(true);
+                        quill.insertEmbed(range.index, 'image', url, 'user');
+                        quill.setSelection(range.index + 1, 0, 'silent');
+                        return;
+                    }
+
+                    try {
+                        const fd = new FormData();
+                        fd.append('image', file);
+                        const resp = await window.axios.post(uploadUrl, fd, {
+                            headers: { 'Content-Type': 'multipart/form-data' },
+                        });
+                        const url = resp?.data?.url;
+                        if (!url) return;
+                        const range = quill.getSelection(true);
+                        quill.insertEmbed(range.index, 'image', url, 'user');
+                        quill.setSelection(range.index + 1, 0, 'silent');
+                    } catch (e) {
+                        console.error(e);
+                        window.alert('图片上传失败，请重试');
+                    }
+                });
+
+                picker.click();
+            };
+
+            quill = new Quill(editorEl, {
+                theme: 'snow',
+                modules: {
+                    toolbar: {
+                        container: [
+                            [{ header: [1, 2, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ list: 'ordered' }, { list: 'bullet' }],
+                            ['link', 'image'],
+                            ['clean'],
+                        ],
+                        handlers: {
+                            image: imageHandler,
+                        },
+                    },
                 },
             });
-        }
 
-        const contentEl = editorEl.querySelector('.pell-content');
-        if (contentEl) {
-            contentEl.style.minHeight = minHeight;
-            // 同步内容：Livewire 可能在 mount 之后才把 textarea.value 写进去
-            const current = contentEl.innerHTML || '';
-            const next = inputEl.value || '';
+            editorEl.__teanyQuill = quill;
+
+            // Initial content
+            quill.root.innerHTML = inputEl.value || '';
+            editorEl.dataset.lastHtml = quill.root.innerHTML || '';
+
+            quill.on('text-change', () => {
+                const html = quill.root.innerHTML || '';
+                editorEl.dataset.lastHtml = html;
+                inputEl.value = html;
+                inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+
+            // Styling
+            quill.root.style.minHeight = minHeight;
+        } else {
+            // Sync content after Livewire updates textarea
             const last = editorEl.dataset.lastHtml ?? '';
-            const isFocused = document.activeElement === contentEl || contentEl.contains(document.activeElement);
-
-            if (!isFocused && next !== last && next !== current) {
-                contentEl.innerHTML = next;
+            const next = inputEl.value || '';
+            if (!quill.hasFocus() && next !== last && next !== quill.root.innerHTML) {
+                quill.root.innerHTML = next;
                 editorEl.dataset.lastHtml = next;
             }
+            quill.root.style.minHeight = minHeight;
         }
     },
 
     scan() {
-        document.querySelectorAll('[data-teany-pell-editor]').forEach((editorEl) => {
+        document.querySelectorAll('[data-teany-quill-editor]').forEach((editorEl) => {
             const inputId = editorEl.dataset.inputId;
             if (!inputId) return;
             const inputEl = document.getElementById(inputId);
-            window.TeanyPell.mount(editorEl, inputEl);
+            window.TeanyQuill.mount(editorEl, inputEl);
         });
     },
 };
@@ -86,6 +128,8 @@ window.TeanyLangTabs = {
                 if (!lang) return;
                 root.dataset.activeLang = String(lang);
                 window.TeanyLangTabs.sync(root);
+                // mount editors inside newly-visible panel
+                window.TeanyQuill?.scan?.();
             });
         }
 
@@ -139,14 +183,14 @@ window.TeanyLangTabs = {
     },
 };
 
-// Auto-mount pell editors (no Alpine required)
+// Auto-mount editors (no Alpine required)
 const scheduleScan = (() => {
     let t = null;
     return () => {
         clearTimeout(t);
         t = setTimeout(() => {
-            window.TeanyPell.scan();
             window.TeanyLangTabs.scan();
+            window.TeanyQuill.scan();
         }, 0);
     };
 })();

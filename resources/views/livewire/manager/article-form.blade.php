@@ -150,11 +150,11 @@
                                             :error="'translations.' . $language->id . '.content'"
                                             help="支持HTML标签：&lt;p&gt;, &lt;h1&gt;-&lt;h6&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;img&gt;"
                                         >
-                                            <x-widgets.pell-editor
+                                            <x-widgets.quill-editor
                                                 id="content_{{ $language->id }}"
                                                 wire="defer=translations.{{ $language->id }}.content"
                                                 minHeight="320px"
-                                            >{!! $translations[$language->id]['content'] ?? '' !!}</x-widgets.pell-editor>
+                                            >{!! $translations[$language->id]['content'] ?? '' !!}</x-widgets.quill-editor>
                                         </x-widgets.form-field>
                                     </div>
                                 @endforeach

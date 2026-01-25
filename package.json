@@ -17,6 +17,6 @@
     },
     "dependencies": {
         "@tailwindcss/line-clamp": "^0.4.4",
-        "pell": "^1.0.6"
+        "quill": "^2.0.3"
     }
 }

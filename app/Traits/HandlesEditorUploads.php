@@ -60,8 +60,36 @@ trait HandlesEditorUploads
 
         return collect($srcs)
             ->map(function ($url) {
-                return str_replace(Storage::disk('public')->url(''), '', $url);
+                if (! is_string($url) || $url === '') {
+                    return null;
+                }
+
+                // 忽略 base64 内联图片
+                if (str_starts_with($url, 'data:')) {
+                    return null;
+                }
+
+                // 去掉 query/hash
+                $url = preg_replace('/[?#].*$/', '', $url) ?? $url;
+
+                // 取 URL path（兼容绝对 URL / 相对 URL）
+                $path = parse_url($url, PHP_URL_PATH) ?: $url;
+
+                // 统一处理 /storage/xxx → xxx（public disk）
+                if (str_contains($path, '/storage/')) {
+                    $path = (string) \Illuminate\Support\Str::of($path)->after('/storage/');
+                }
+
+                // 兼容 Storage::disk('public')->url('') 前缀
+                $publicBase = Storage::disk('public')->url('');
+                if ($publicBase && str_starts_with($url, $publicBase)) {
+                    $path = str_replace($publicBase, '', $url);
+                }
+
+                return ltrim($path, '/');
             })
+            ->filter()
+            ->values()
             ->toArray();
     }
 

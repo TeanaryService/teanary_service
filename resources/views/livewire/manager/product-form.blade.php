@@ -176,11 +176,11 @@
                                     </x-widgets.form-field>
 
                                     <x-widgets.form-field :label="__('manager.products.description')">
-                                        <x-widgets.pell-editor
+                                        <x-widgets.quill-editor
                                             id="product_description_{{ $language->id }}"
                                             wire="defer=translations.{{ $language->id }}.description"
                                             minHeight="280px"
-                                        >{!! $translations[$language->id]['description'] ?? '' !!}</x-widgets.pell-editor>
+                                        >{!! $translations[$language->id]['description'] ?? '' !!}</x-widgets.quill-editor>
                                     </x-widgets.form-field>
                                 </div>
                             @endforeach

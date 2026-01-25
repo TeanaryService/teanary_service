@@ -3,10 +3,11 @@
     'wire' => null, // e.g. "translations.1.content" or "defer=translations.1.content"
     'minHeight' => '240px',
     'class' => '',
+    'uploadUrl' => null,
 ])
 
 @php
-    $inputId = $id ?? 'pell-editor-' . uniqid();
+    $inputId = $id ?? 'quill-editor-' . uniqid();
 
     // Parse wire attribute (same convention as other widgets)
     $wireDirective = null;
@@ -19,15 +20,17 @@
         }
     }
 
-    $wrapperClass = trim('teany-pell border border-gray-200 rounded-xl overflow-hidden bg-white ' . $class);
+    $wrapperClass = trim('teany-quill border border-gray-200 rounded-xl overflow-hidden bg-white ' . $class);
+    $resolvedUploadUrl = $uploadUrl ?? locaRoute('manager.editor-uploads.image');
 @endphp
 
 <div class="space-y-2">
     <div wire:ignore class="{{ $wrapperClass }}">
         <div
-            data-teany-pell-editor
+            data-teany-quill-editor
             data-input-id="{{ $inputId }}"
             data-min-height="{{ $minHeight }}"
+            data-upload-url="{{ $resolvedUploadUrl }}"
         ></div>
     </div>
 
