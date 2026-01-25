@@ -150,65 +150,41 @@
                         </h2>
 
                         @php
-                            $defaultLanguageId = $languages->first()?->id;
+                            $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
                         @endphp
 
-                        <div
-                            x-data="{ activeLang: {{ (int) ($defaultLanguageId ?? 0) }} }"
-                            class="space-y-4"
-                        >
-                            {{-- Tabs --}}
-                            <div class="flex flex-wrap gap-2 border-b border-gray-200 pb-3">
-                                @foreach($languages as $language)
-                                    <x-widgets.button
-                                        type="button"
-                                        variant="secondary"
-                                        size="sm"
-                                        class="!rounded-lg !shadow-none hover:!shadow-none"
-                                        x-bind:class="activeLang === {{ (int) $language->id }}
-                                            ? '!bg-teal-600 text-white border-teal-600 hover:bg-teal-700 hover:border-teal-700'
-                                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300'"
-                                        x-on:click="activeLang = {{ (int) $language->id }}"
-                                    >
-                                        {{ $language->name }}
-                                    </x-widgets.button>
-                                @endforeach
-                            </div>
+                        <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
+                            @foreach($languages as $language)
+                                <div
+                                    data-teany-langpanel="{{ (int) $language->id }}"
+                                    class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
+                                    wire:key="product-translation-tab-{{ $language->id }}"
+                                >
+                                    <x-widgets.form-field :label="__('manager.products.name')" :error="'translations.' . $language->id . '.name'">
+                                        <x-widgets.input
+                                            type="text"
+                                            wire="translations.{{ $language->id }}.name"
+                                            :error="'translations.' . $language->id . '.name'"
+                                        />
+                                    </x-widgets.form-field>
 
-                            {{-- Panels --}}
-                            <div class="space-y-4">
-                                @foreach($languages as $language)
-                                    <div
-                                        x-show="activeLang === {{ (int) $language->id }}"
-                                        x-cloak
-                                        class="space-y-3"
-                                        wire:key="product-translation-tab-{{ $language->id }}"
-                                    >
-                                        <x-widgets.form-field :label="__('manager.products.name')" :error="'translations.' . $language->id . '.name'">
-                                            <x-widgets.input
-                                                type="text"
-                                                wire="translations.{{ $language->id }}.name"
-                                                :error="'translations.' . $language->id . '.name'"
-                                            />
-                                        </x-widgets.form-field>
+                                    <x-widgets.form-field :label="__('manager.products.short_description')">
+                                        <x-widgets.textarea
+                                            wire="translations.{{ $language->id }}.short_description"
+                                            rows="2"
+                                        />
+                                    </x-widgets.form-field>
 
-                                        <x-widgets.form-field :label="__('manager.products.short_description')">
-                                            <x-widgets.textarea
-                                                wire="translations.{{ $language->id }}.short_description"
-                                                rows="2"
-                                            />
-                                        </x-widgets.form-field>
-
-                                        <x-widgets.form-field :label="__('manager.products.description')">
-                                            <x-widgets.textarea
-                                                wire="translations.{{ $language->id }}.description"
-                                                rows="4"
-                                            />
-                                        </x-widgets.form-field>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
+                                    <x-widgets.form-field :label="__('manager.products.description')">
+                                        <x-widgets.pell-editor
+                                            id="product_description_{{ $language->id }}"
+                                            wire="defer=translations.{{ $language->id }}.description"
+                                            minHeight="280px"
+                                        >{!! $translations[$language->id]['description'] ?? '' !!}</x-widgets.pell-editor>
+                                    </x-widgets.form-field>
+                                </div>
+                            @endforeach
+                        </x-widgets.language-tabs>
                     </div>
 
                     <div class="flex gap-3">

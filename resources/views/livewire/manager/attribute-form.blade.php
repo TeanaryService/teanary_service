@@ -58,25 +58,34 @@
                         {{-- 翻译 --}}
                         <div>
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.attribute.translations') }}</h2>
-                            <div class="space-y-4">
+                            @php
+                                $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+                            @endphp
+
+                            <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
                                 @foreach($languages as $language)
-                                    <x-widgets.form-field 
-                                        :label="__('manager.attribute.name') . ' (' . $language->name . ')'"
-                                        :labelFor="'name_' . $language->id"
-                                        :required="$language->default"
-                                        :error="'translations.' . $language->id . '.name'"
-                                        :help="$language->default ? __('manager.attribute.name_helper') : null"
+                                    <div
+                                        data-teany-langpanel="{{ (int) $language->id }}"
+                                        class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
                                     >
-                                        <x-widgets.input 
-                                            type="text" 
-                                            id="name_{{ $language->id }}"
-                                            wire="translations.{{ $language->id }}.name"
-                                            placeholder="请输入属性名称"
+                                        <x-widgets.form-field 
+                                            :label="__('manager.attribute.name')"
+                                            :labelFor="'name_' . $language->id"
+                                            :required="$language->default"
                                             :error="'translations.' . $language->id . '.name'"
-                                        />
-                                    </x-widgets.form-field>
+                                            :help="$language->default ? __('manager.attribute.name_helper') : null"
+                                        >
+                                            <x-widgets.input 
+                                                type="text" 
+                                                id="name_{{ $language->id }}"
+                                                wire="translations.{{ $language->id }}.name"
+                                                placeholder="请输入属性名称"
+                                                :error="'translations.' . $language->id . '.name'"
+                                            />
+                                        </x-widgets.form-field>
+                                    </div>
                                 @endforeach
-                            </div>
+                            </x-widgets.language-tabs>
                         </div>
 
                         {{-- 操作按钮 --}}

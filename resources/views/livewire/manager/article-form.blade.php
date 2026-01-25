@@ -99,65 +99,66 @@
                         {{-- 翻译 --}}
                         <div>
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.article.translations') }}</h2>
-                            <div class="space-y-6">
+                            @php
+                                $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+                            @endphp
+
+                            <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
                                 @foreach($languages as $language)
-                                    <div class="border border-gray-200 rounded-lg p-6">
-                                        <h3 class="text-md font-semibold text-gray-900 mb-4">{{ $language->name }}</h3>
-                                        <div class="space-y-4">
-                                            {{-- 标题 --}}
-                                            <x-widgets.form-field 
-                                                :label="__('manager.article.title')"
-                                                :labelFor="'title_' . $language->id"
-                                                :required="$language->default"
+                                    <div
+                                        data-teany-langpanel="{{ (int) $language->id }}"
+                                        class="space-y-4 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
+                                    >
+                                        {{-- 标题 --}}
+                                        <x-widgets.form-field 
+                                            :label="__('manager.article.title')"
+                                            :labelFor="'title_' . $language->id"
+                                            :required="$language->default"
+                                            :error="'translations.' . $language->id . '.title'"
+                                        >
+                                            <x-widgets.input 
+                                                type="text" 
+                                                id="title_{{ $language->id }}"
+                                                wire="translations.{{ $language->id }}.title"
+                                                placeholder="请输入文章标题"
                                                 :error="'translations.' . $language->id . '.title'"
-                                            >
-                                                <x-widgets.input 
-                                                    type="text" 
-                                                    id="title_{{ $language->id }}"
-                                                    wire="translations.{{ $language->id }}.title"
-                                                    placeholder="请输入文章标题"
-                                                    :error="'translations.' . $language->id . '.title'"
-                                                />
-                                            </x-widgets.form-field>
+                                            />
+                                        </x-widgets.form-field>
 
-                                            {{-- 摘要 --}}
-                                            <x-widgets.form-field 
-                                                :label="__('manager.article.summary')"
-                                                :labelFor="'summary_' . $language->id"
-                                                :required="$language->default"
+                                        {{-- 摘要 --}}
+                                        <x-widgets.form-field 
+                                            :label="__('manager.article.summary')"
+                                            :labelFor="'summary_' . $language->id"
+                                            :required="$language->default"
+                                            :error="'translations.' . $language->id . '.summary'"
+                                            :help="$language->default ? __('manager.article.summary_helper') : null"
+                                        >
+                                            <x-widgets.textarea 
+                                                id="summary_{{ $language->id }}"
+                                                wire="translations.{{ $language->id }}.summary"
+                                                rows="3"
+                                                maxlength="500"
+                                                placeholder="请输入文章摘要"
                                                 :error="'translations.' . $language->id . '.summary'"
-                                                :help="$language->default ? __('manager.article.summary_helper') : null"
-                                            >
-                                                <x-widgets.textarea 
-                                                    id="summary_{{ $language->id }}"
-                                                    wire="translations.{{ $language->id }}.summary"
-                                                    rows="3"
-                                                    maxlength="500"
-                                                    placeholder="请输入文章摘要"
-                                                    :error="'translations.' . $language->id . '.summary'"
-                                                />
-                                            </x-widgets.form-field>
+                                            />
+                                        </x-widgets.form-field>
 
-                                            {{-- 内容 --}}
-                                            <x-widgets.form-field 
-                                                :label="__('manager.article.content')"
-                                                :labelFor="'content_' . $language->id"
-                                                :error="'translations.' . $language->id . '.content'"
-                                                help="支持HTML标签：&lt;p&gt;, &lt;h1&gt;-&lt;h6&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;img&gt;"
-                                            >
-                                                <x-widgets.textarea 
-                                                    id="content_{{ $language->id }}"
-                                                    wire="translations.{{ $language->id }}.content"
-                                                    rows="10"
-                                                    class="font-mono text-sm"
-                                                    placeholder="请输入文章内容（支持HTML）"
-                                                    :error="'translations.' . $language->id . '.content'"
-                                                />
-                                            </x-widgets.form-field>
-                                        </div>
+                                        {{-- 内容 --}}
+                                        <x-widgets.form-field 
+                                            :label="__('manager.article.content')"
+                                            :labelFor="'content_' . $language->id"
+                                            :error="'translations.' . $language->id . '.content'"
+                                            help="支持HTML标签：&lt;p&gt;, &lt;h1&gt;-&lt;h6&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;img&gt;"
+                                        >
+                                            <x-widgets.pell-editor
+                                                id="content_{{ $language->id }}"
+                                                wire="defer=translations.{{ $language->id }}.content"
+                                                minHeight="320px"
+                                            >{!! $translations[$language->id]['content'] ?? '' !!}</x-widgets.pell-editor>
+                                        </x-widgets.form-field>
                                     </div>
                                 @endforeach
-                            </div>
+                            </x-widgets.language-tabs>
                         </div>
 
                         {{-- 操作按钮 --}}

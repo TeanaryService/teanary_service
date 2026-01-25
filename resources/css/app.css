@@ -81,6 +81,35 @@ input:focus, textarea:focus, select:focus {
     ring-color: rgba(58, 157, 58, 0.5);
 }
 
+/* Pell 富文本编辑器（与 Tailwind 风格融合） */
+.teany-pell .pell-actionbar {
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 6px;
+    gap: 4px;
+}
+
+.teany-pell .pell-button {
+    border-radius: 10px;
+    padding: 6px 8px;
+    color: #374151;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.teany-pell .pell-button:hover {
+    background: rgba(20, 184, 166, 0.10);
+    color: #0f766e;
+}
+
+.teany-pell .pell-content {
+    padding: 12px;
+    outline: none;
+}
+
+.teany-pell .pell-content:focus {
+    box-shadow: inset 0 0 0 2px rgba(20, 184, 166, 0.25);
+}
+
 /* 茶文化卡片样式 */
 .tea-card {
     background: #ffffff;

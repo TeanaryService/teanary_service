@@ -33,17 +33,28 @@
                 {{ __('manager.specification_value.translations') }}
             </h2>
 
-            @foreach($languages as $language)
-                <x-widgets.form-field 
-                    :label="__('manager.specification_value.name') . ' (' . $language->name . ')'"
-                    error="translations.{{ $language->id }}.name"
-                >
-                    <x-widgets.input 
-                        wire="translations.{{ $language->id }}.name"
-                        error="translations.{{ $language->id }}.name"
-                    />
-                </x-widgets.form-field>
-            @endforeach
+            @php
+                $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+            @endphp
+
+            <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
+                @foreach($languages as $language)
+                    <div
+                        data-teany-langpanel="{{ (int) $language->id }}"
+                        class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
+                    >
+                        <x-widgets.form-field 
+                            :label="__('manager.specification_value.name')"
+                            error="translations.{{ $language->id }}.name"
+                        >
+                            <x-widgets.input 
+                                wire="translations.{{ $language->id }}.name"
+                                error="translations.{{ $language->id }}.name"
+                            />
+                        </x-widgets.form-field>
+                    </div>
+                @endforeach
+            </x-widgets.language-tabs>
         </div>
 
         <div class="flex gap-2">

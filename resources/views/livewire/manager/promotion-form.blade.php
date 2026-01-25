@@ -56,17 +56,24 @@
                             {{ __('manager.promotion.translations') }}
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @php
+                            $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+                        @endphp
+
+                        <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
                             @foreach($languages as $language)
-                                <div class="space-y-3">
-                                    <x-widgets.form-field :label="__('manager.promotion.name') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.name'">
+                                <div
+                                    data-teany-langpanel="{{ (int) $language->id }}"
+                                    class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
+                                >
+                                    <x-widgets.form-field :label="__('manager.promotion.name')" :error="'translations.' . $language->id . '.name'">
                                         <x-widgets.input 
                                             type="text"
                                             wire="translations.{{ $language->id }}.name"
                                             :error="'translations.' . $language->id . '.name'"
                                         />
                                     </x-widgets.form-field>
-                                    <x-widgets.form-field :label="__('manager.promotion.description') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.description'">
+                                    <x-widgets.form-field :label="__('manager.promotion.description')" :error="'translations.' . $language->id . '.description'">
                                         <x-widgets.textarea
                                             wire="translations.{{ $language->id }}.description"
                                             rows="3"
@@ -75,7 +82,7 @@
                                     </x-widgets.form-field>
                                 </div>
                             @endforeach
-                        </div>
+                        </x-widgets.language-tabs>
                     </div>
 
                     <div class="flex gap-3">
