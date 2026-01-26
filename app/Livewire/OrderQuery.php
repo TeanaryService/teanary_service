@@ -119,7 +119,7 @@ class OrderQuery extends Component
             $this->step = 2;
             $this->countdown = 60;
             $this->errorMessage = '';
-            session()->flash('success', __('orders.query_verification_code_sent', ['email' => $this->maskEmail($email)]));
+            $this->dispatch('flash-message', type: 'success', message: __('orders.query_verification_code_sent', ['email' => $this->maskEmail($email)]));
         } catch (\Exception $e) {
             $this->errorMessage = __('orders.query_send_code_failed');
             Log::error('发送订单查询验证码失败', [

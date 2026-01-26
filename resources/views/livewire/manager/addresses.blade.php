@@ -23,18 +23,6 @@
                     </x-slot:actions>
                 </x-widgets.page-header>
 
-                @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-100 p-4">
-                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                    </div>
-                @endif
-
-                @if (session()->has('error'))
-                    <div class="mb-4 rounded-md bg-red-50 p-4">
-                        <p class="text-sm font-medium text-red-800">{{ session('error') }}</p>
-                    </div>
-                @endif
-
                 {{-- 筛选器 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

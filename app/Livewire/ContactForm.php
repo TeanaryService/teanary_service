@@ -33,7 +33,7 @@ class ContactForm extends Component
         ]);
 
         $this->reset(['name', 'email', 'message']);
-        session()->flash('message', '消息已发送！');
+        $this->dispatch('flash-message', type: 'success', message: '消息已发送！');
     }
 
     public function render()

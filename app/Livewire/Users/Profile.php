@@ -83,7 +83,7 @@ class Profile extends Component
             $this->avatar = null;
         }
 
-        session()->flash('message', __('app.edit_user_success'));
+        $this->dispatch('flash-message', type: 'success', message: __('app.edit_user_success'));
 
         // 重置密码字段
         $this->current_password = '';

@@ -59,16 +59,6 @@
             </div>
         </div>
 
-        @if (session()->has('error'))
-            <div class="mb-3 rounded-md bg-red-50 p-3 text-xs text-red-700">
-                {{ session('error') }}
-            </div>
-        @endif
-        @if (session()->has('success'))
-            <div class="mb-3 rounded-md bg-teal-100 p-3 text-xs text-teal-800">
-                {{ session('success') }}
-            </div>
-        @endif
 
         @if(empty($skus))
             <p class="text-sm text-gray-500">

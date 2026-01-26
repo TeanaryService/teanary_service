@@ -48,7 +48,7 @@ class ProductReviews extends Component
         ]);
 
         $this->reset('rating', 'content', 'variantId');
-        session()->flash('review_submitted', __('app.review_submitted'));
+        $this->dispatch('flash-message', type: 'success', message: __('app.review_submitted'));
     }
 
     /**
