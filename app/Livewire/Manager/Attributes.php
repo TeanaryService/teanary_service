@@ -24,7 +24,7 @@ class Attributes extends Component
     use UsesLocaleCurrency;
 
     public string $filterIsFilterable = '';
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterIsFilterable(): void
     {
@@ -40,7 +40,7 @@ class Attributes extends Component
     {
         $this->search = '';
         $this->filterIsFilterable = '';
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -114,8 +114,8 @@ class Attributes extends Component
         }
 
         // 筛选：翻译状态
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);

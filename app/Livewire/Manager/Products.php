@@ -22,8 +22,8 @@ class Products extends Component
     use HasTranslatedNames;
     use UsesLocaleCurrency;
 
-    public array $filterStatus = [];
-    public array $filterTranslationStatus = [];
+    public ?string $filterStatus = null;
+    public ?string $filterTranslationStatus = null;
     public ?int $filterCategoryId = null;
     public bool $filterLowStock = false;
     public bool $filterOutOfStock = false;
@@ -56,8 +56,8 @@ class Products extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->filterStatus = [];
-        $this->filterTranslationStatus = [];
+        $this->filterStatus = null;
+        $this->filterTranslationStatus = null;
         $this->filterCategoryId = null;
         $this->filterLowStock = false;
         $this->filterOutOfStock = false;
@@ -112,13 +112,13 @@ class Products extends Component
         }
 
         // 状态筛选
-        if (! empty($this->filterStatus)) {
-            $query->whereIn('status', $this->filterStatus);
+        if ($this->filterStatus) {
+            $query->where('status', $this->filterStatus);
         }
 
         // 翻译状态筛选
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         // 分类筛选

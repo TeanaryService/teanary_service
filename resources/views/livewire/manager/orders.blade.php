@@ -44,8 +44,7 @@
                             <x-widgets.label>{{ __('manager.order.status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterStatus" 
-                                :options="$statusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($statusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                         <div>
@@ -98,7 +97,7 @@
                 <div class="space-y-6">
                     @forelse($orders as $order)
                         @php
-                            $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
+                            $orderCurrency = $order->currency;
                             $statusInfo = $statusConfig[$order->status->value] ?? $statusConfig['pending'];
                         @endphp
 
@@ -145,7 +144,11 @@
                                         <div class="text-right">
                                             <div class="text-xs text-gray-500 mb-0.5">{{ __('manager.order.total') }}</div>
                                             <div class="text-xl font-bold text-teal-600">
-                                                {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
+                                                @if($orderCurrency)
+                                                    {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
+                                                @else
+                                                    {{ number_format($order->total, 2) }}
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -202,12 +205,22 @@
                                                 @endif
                                                 <div class="flex items-center gap-4 text-xs text-gray-600">
                                                     <span>{{ __('orders.quantity') }}: <strong class="text-gray-900">{{ $item->qty }}</strong></span>
-                                                    <span>{{ __('orders.unit_price') }}: <strong class="text-gray-900">{{ $localeService->formatWithSymbol($item->price, $orderCurrency->code) }}</strong></span>
+                                                    <span>{{ __('orders.unit_price') }}: <strong class="text-gray-900">
+                                                        @if($orderCurrency)
+                                                            {{ $localeService->formatWithSymbol($item->price, $orderCurrency->code) }}
+                                                        @else
+                                                            {{ number_format($item->price, 2) }}
+                                                        @endif
+                                                    </strong></span>
                                                 </div>
                                             </div>
                                             <div class="flex-shrink-0 text-right">
                                                 <div class="text-sm font-bold text-gray-900">
-                                                    {{ $localeService->formatWithSymbol($item->price * $item->qty, $orderCurrency->code) }}
+                                                    @if($orderCurrency)
+                                                        {{ $localeService->formatWithSymbol($item->price * $item->qty, $orderCurrency->code) }}
+                                                    @else
+                                                        {{ number_format($item->price * $item->qty, 2) }}
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

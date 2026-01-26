@@ -44,8 +44,7 @@
                             <x-widgets.label>{{ __('manager.promotion.type') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterTypes" 
-                                :options="$typeOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($typeOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                         <div>
@@ -63,8 +62,7 @@
                             <x-widgets.label>{{ __('manager.promotion.translation_status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterTranslationStatus" 
-                                :options="$translationStatusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($translationStatusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                     </div>

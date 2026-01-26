@@ -51,8 +51,7 @@
                             <x-widgets.label>{{ __('manager.specification_value.translation_status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterTranslationStatus" 
-                                :options="$translationStatusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($translationStatusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                     </div>

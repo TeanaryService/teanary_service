@@ -44,16 +44,14 @@
                             <x-widgets.label>{{ __('manager.products.status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterStatus" 
-                                :options="$statusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($statusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                         <div>
                             <x-widgets.label>{{ __('manager.products.translation_status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterTranslationStatus" 
-                                :options="$translationStatusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($translationStatusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                         <div>

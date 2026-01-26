@@ -21,7 +21,7 @@ class AttributeValues extends Component
     use UsesLocaleCurrency;
 
     public ?int $filterAttributeId = null;
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterAttributeId(): void
     {
@@ -37,7 +37,7 @@ class AttributeValues extends Component
     {
         $this->search = '';
         $this->filterAttributeId = null;
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -82,8 +82,8 @@ class AttributeValues extends Component
         }
 
         // 筛选：翻译状态
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);
@@ -107,11 +107,20 @@ class AttributeValues extends Component
     {
         $lang = $this->getCurrentLanguage();
         $attributes = \App\Models\Attribute::with('attributeTranslations')->get();
+        
+        // 准备属性选项数据
+        $attributeOptions = collect($attributes)->map(function ($attribute) use ($lang) {
+            return [
+                'value' => $attribute->id,
+                'label' => $this->getAttributeName($attribute, $lang),
+            ];
+        })->toArray();
 
         return view('livewire.manager.attribute-values', [
             'attributeValues' => $this->attributeValues,
             'lang' => $lang,
             'attributes' => $attributes,
+            'attributeOptions' => $attributeOptions,
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');
     }

@@ -22,7 +22,7 @@ class Zones extends Component
 
     public ?int $filterCountryId = null;
     public string $filterActive = '';
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterCountryId(): void
     {
@@ -44,7 +44,7 @@ class Zones extends Component
         $this->search = '';
         $this->filterCountryId = null;
         $this->filterActive = '';
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -100,8 +100,8 @@ class Zones extends Component
         }
 
         // 筛选：翻译状态
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);

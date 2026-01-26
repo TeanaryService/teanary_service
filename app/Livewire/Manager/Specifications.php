@@ -20,7 +20,7 @@ class Specifications extends Component
     use HasTranslatedNames;
     use UsesLocaleCurrency;
 
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterTranslationStatus(): void
     {
@@ -30,7 +30,7 @@ class Specifications extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -68,8 +68,8 @@ class Specifications extends Component
             });
         }
 
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);

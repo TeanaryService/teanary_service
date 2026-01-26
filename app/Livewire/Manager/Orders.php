@@ -15,7 +15,7 @@ class Orders extends Component
     use HasSearchAndFilters;
     use UsesLocaleCurrency;
 
-    public array $filterStatus = [];
+    public ?string $filterStatus = null;
     public ?int $filterCurrencyId = null;
     public ?string $createdFrom = null;
     public ?string $createdUntil = null;
@@ -43,7 +43,7 @@ class Orders extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->filterStatus = [];
+        $this->filterStatus = null;
         $this->filterCurrencyId = null;
         $this->createdFrom = null;
         $this->createdUntil = null;
@@ -80,8 +80,8 @@ class Orders extends Component
         }
 
         // 筛选：订单状态
-        if (! empty($this->filterStatus)) {
-            $query->whereIn('status', $this->filterStatus);
+        if ($this->filterStatus) {
+            $query->where('status', $this->filterStatus);
         }
 
         // 筛选：货币

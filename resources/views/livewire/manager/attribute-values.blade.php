@@ -44,15 +44,14 @@
                             <x-widgets.label>{{ __('manager.attribute_value.attribute') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterAttributeId" 
-                                :options="[['value' => '', 'label' => __('app.all')], ...collect($attributes)->map(fn($attribute) => ['value' => $attribute->id, 'label' => $this->getAttributeName($attribute, $lang)])->toArray()]"
+                                :options="[['value' => '', 'label' => __('app.all')], ...$attributeOptions]"
                             />
                         </div>
                         <div>
                             <x-widgets.label>{{ __('manager.attribute_value.translation_status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterTranslationStatus" 
-                                :options="$translationStatusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($translationStatusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                     </div>

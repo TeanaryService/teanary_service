@@ -64,16 +64,24 @@ class UserForm extends Component
             if ($user->hasMedia('avatars')) {
                 $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
             }
-
-            // 更新验证规则，忽略当前记录
-            $this->rules['email'] = 'required|email|max:255|unique:users,email,'.$id;
-            $this->rules['password'] = 'nullable|min:8|confirmed';
-            $this->rules['passwordConfirmation'] = 'nullable';
         }
     }
 
     public function save()
     {
+        // 根据是否是编辑模式动态设置验证规则
+        if ($this->userId) {
+            // 编辑模式：邮箱需要忽略当前用户，密码可选
+            $this->rules['email'] = 'required|email|max:255|unique:users,email,'.$this->userId;
+            $this->rules['password'] = 'nullable|min:8|confirmed';
+            $this->rules['passwordConfirmation'] = 'nullable';
+        } else {
+            // 创建模式：邮箱必须唯一，密码必填
+            $this->rules['email'] = 'required|email|max:255|unique:users,email';
+            $this->rules['password'] = 'required|min:8|confirmed';
+            $this->rules['passwordConfirmation'] = 'required';
+        }
+        
         $this->validate();
 
         $data = [
