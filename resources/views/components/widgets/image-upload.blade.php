@@ -130,21 +130,24 @@
     @else
         {{-- 单图：头像/封面等 --}}
         @if($singlePreview)
-            <div class="inline-flex flex-col items-start gap-2">
-                <div class="{{ $previewSize }} overflow-hidden border-2 border-teal-100 shadow-md bg-gradient-to-br from-gray-50 to-gray-100 {{ str_contains($previewSize, 'rounded') ? '' : 'rounded-xl' }}">
+            <div class="inline-flex items-start">
+                <div class="relative {{ $previewSize }} overflow-hidden border-2 border-teal-100 shadow-md bg-gradient-to-br from-gray-50 to-gray-100 {{ str_contains($previewSize, 'rounded') ? '' : 'rounded-xl' }}">
                     <img src="{{ $singlePreview }}" alt="Preview" class="w-full h-full object-cover">
+                    
+                    @if($removeAction)
+                        <button
+                            type="button"
+                            class="absolute top-3 right-3 inline-flex items-center justify-center w-6 h-6 rounded-full bg-white/95 border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 shadow-sm transition-colors"
+                            wire:click="{{ $removeAction }}"
+                            @if($removeConfirm) wire:confirm="{{ $removeConfirm }}" @endif
+                            title="{{ __('app.delete') }}"
+                        >
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    @endif
                 </div>
-
-                @if($removeAction)
-                    <button
-                        type="button"
-                        class="text-xs font-medium text-red-600 hover:text-red-700"
-                        wire:click="{{ $removeAction }}"
-                        @if($removeConfirm) wire:confirm="{{ $removeConfirm }}" @endif
-                    >
-                        {{ __('app.delete') }}
-                    </button>
-                @endif
             </div>
         @elseif($variant === 'button')
             <div class="flex-shrink-0">

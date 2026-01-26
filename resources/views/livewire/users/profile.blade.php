@@ -14,6 +14,11 @@
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('app.profile') }}</h1>
                 </div>
 
+                @if (session()->has('message'))
+                    <div class="mb-4 rounded-md bg-teal-100 p-4">
+                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
+                    </div>
+                @endif
 
                 <form wire:submit="save">
                     <x-widgets.form-container>
