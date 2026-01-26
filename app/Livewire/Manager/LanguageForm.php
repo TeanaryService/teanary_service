@@ -36,9 +36,6 @@ class LanguageForm extends Component
             $this->code = $language->code;
             $this->name = $language->name;
             $this->default = $language->default;
-
-            // 更新验证规则，忽略当前记录
-            $this->rules['code'] = 'required|max:10|unique:languages,code,'.$id;
         }
     }
 
@@ -52,6 +49,15 @@ class LanguageForm extends Component
 
     public function save()
     {
+        // 根据是否是编辑模式动态设置验证规则
+        if ($this->languageId) {
+            // 编辑模式：语言代码需要忽略当前语言
+            $this->rules['code'] = 'required|max:10|unique:languages,code,'.$this->languageId;
+        } else {
+            // 创建模式：语言代码必须唯一
+            $this->rules['code'] = 'required|max:10|unique:languages,code';
+        }
+        
         $this->validate();
 
         $data = [

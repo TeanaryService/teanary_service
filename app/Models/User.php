@@ -124,7 +124,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function getAvatarUrl(): ?string
     {
-        return $this->getFirstMediaUrl(collectionName: 'avatars', conversionName: 'thumb');
+        return first_media_url($this, 'avatars', 'thumb');
     }
 
     public function registerMediaConversions(?Media $media = null): void

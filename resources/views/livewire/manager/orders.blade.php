@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('orders', __('manager.orders.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -23,11 +23,6 @@
                     </x-widgets.button>
                 </div>
 
-                @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-100 p-4">
-                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                    </div>
-                @endif
 
                 {{-- 筛选器 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
@@ -44,8 +39,7 @@
                             <x-widgets.label>{{ __('manager.order.status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterStatus" 
-                                :options="$statusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($statusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                         <div>
@@ -98,7 +92,7 @@
                 <div class="space-y-6">
                     @forelse($orders as $order)
                         @php
-                            $orderCurrency = $localeService->getCurrencies()->find($order->currency_id);
+                            $orderCurrency = $order->currency;
                             $statusInfo = $statusConfig[$order->status->value] ?? $statusConfig['pending'];
                         @endphp
 
@@ -145,7 +139,11 @@
                                         <div class="text-right">
                                             <div class="text-xs text-gray-500 mb-0.5">{{ __('manager.order.total') }}</div>
                                             <div class="text-xl font-bold text-teal-600">
-                                                {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
+                                                @if($orderCurrency)
+                                                    {{ $localeService->formatWithSymbol($order->total, $orderCurrency->code) }}
+                                                @else
+                                                    {{ number_format($order->total, 2) }}
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -160,9 +158,9 @@
                                             // 安全获取图片
                                             $image = asset('logo.svg');
                                             if ($item->productVariant) {
-                                                $image = $item->productVariant->getFirstMediaUrl('image', 'thumb') ?: $image;
+                                                $image = first_media_url($item->productVariant, 'image', 'thumb', $image) ?: $image;
                                             } elseif ($item->product) {
-                                                $image = $item->product->getFirstMediaUrl('images', 'thumb') ?: $image;
+                                                $image = first_media_url($item->product, 'images', 'thumb', $image) ?: $image;
                                             }
                                             
                                             // 安全获取规格
@@ -202,12 +200,22 @@
                                                 @endif
                                                 <div class="flex items-center gap-4 text-xs text-gray-600">
                                                     <span>{{ __('orders.quantity') }}: <strong class="text-gray-900">{{ $item->qty }}</strong></span>
-                                                    <span>{{ __('orders.unit_price') }}: <strong class="text-gray-900">{{ $localeService->formatWithSymbol($item->price, $orderCurrency->code) }}</strong></span>
+                                                    <span>{{ __('orders.unit_price') }}: <strong class="text-gray-900">
+                                                        @if($orderCurrency)
+                                                            {{ $localeService->formatWithSymbol($item->price, $orderCurrency->code) }}
+                                                        @else
+                                                            {{ number_format($item->price, 2) }}
+                                                        @endif
+                                                    </strong></span>
                                                 </div>
                                             </div>
                                             <div class="flex-shrink-0 text-right">
                                                 <div class="text-sm font-bold text-gray-900">
-                                                    {{ $localeService->formatWithSymbol($item->price * $item->qty, $orderCurrency->code) }}
+                                                    @if($orderCurrency)
+                                                        {{ $localeService->formatWithSymbol($item->price * $item->qty, $orderCurrency->code) }}
+                                                    @else
+                                                        {{ number_format($item->price * $item->qty, 2) }}
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

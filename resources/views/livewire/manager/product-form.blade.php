@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('products', $productId ? __('app.edit') . ' ' . __('manager.products.label') : __('app.create') . ' ' . __('manager.products.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -19,6 +19,26 @@
 
 
                 <form wire:submit.prevent="save" class="space-y-6">
+                {{-- 图片（多图） --}}
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
+                        <h2 class="text-lg font-semibold text-gray-900">
+                            {{ __('manager.products.images') }}
+                        </h2>
+
+                        <x-widgets.image-upload
+                            :existing="$existingImages"
+                            :upload="$newImages"
+                            wire="newImages"
+                            accept="image/*"
+                            :multiple="true"
+                            :label="__('app.upload_images') ?? '上传图片'"
+                            error="newImages.*"
+                            :help="__('app.image_upload_hint') ?? '支持多图上传，单张不超过 2MB。'"
+                            removeExistingAction="removeProductImage"
+                            removeExistingConfirm="{{ __('app.confirm_delete') }}"
+                        />
+                    </div>
+                    
                     {{-- 基本信息 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -42,7 +62,7 @@
 
                     {{-- 变体管理（笛卡尔积 SKU） --}}
                     @if($productId)
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 space-y-4">
                             @livewire(\App\Livewire\Manager\Components\ManageProductVariants::class, ['productId' => $productId], key('manage-product-variants-' . $productId))
                         </div>
                     @endif
@@ -123,64 +143,48 @@
                         </div>
                     </div>
 
-                    {{-- 图片（多图） --}}
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
-                        <h2 class="text-lg font-semibold text-gray-900">
-                            {{ __('manager.products.images') }}
-                        </h2>
-
-                        @if(!empty($existingImages))
-                            <div class="flex flex-wrap gap-3 mb-4">
-                                @foreach($existingImages as $img)
-                                    <div class="w-20 h-20 rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
-                                        <img src="{{ $img->getUrl('thumb') }}" alt="" class="w-full h-full object-cover">
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        <x-widgets.file-upload 
-                            wire="newImages"
-                            accept="image/*"
-                            :multiple="false"
-                            :label="__('app.upload_images') ?? '上传图片'"
-                            error="newImages.*"
-                            :help="__('app.image_upload_hint') ?? '支持多图上传，单张不超过 2MB。'"
-                            :showPreview="false"
-                        />
-                    </div>
-
                     {{-- 多语言 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <h2 class="text-lg font-semibold text-gray-900">
                             {{ __('manager.products.translations') }}
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @php
+                            $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+                        @endphp
+
+                        <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
                             @foreach($languages as $language)
-                                <div class="space-y-3">
-                                    <x-widgets.form-field :label="__('manager.products.name') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.name'">
-                                        <x-widgets.input 
+                                <div
+                                    data-teany-langpanel="{{ (int) $language->id }}"
+                                    class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
+                                    wire:key="product-translation-tab-{{ $language->id }}"
+                                >
+                                    <x-widgets.form-field :label="__('manager.products.name')" :error="'translations.' . $language->id . '.name'">
+                                        <x-widgets.input
                                             type="text"
                                             wire="translations.{{ $language->id }}.name"
                                             :error="'translations.' . $language->id . '.name'"
                                         />
                                     </x-widgets.form-field>
-                                    <x-widgets.form-field :label="__('manager.products.short_description') . ' (' . $language->name . ')'">
+
+                                    <x-widgets.form-field :label="__('manager.products.short_description')">
                                         <x-widgets.textarea
                                             wire="translations.{{ $language->id }}.short_description"
                                             rows="2"
                                         />
                                     </x-widgets.form-field>
-                                    <x-widgets.form-field :label="__('manager.products.description') . ' (' . $language->name . ')'">
-                                        <x-widgets.textarea
-                                            wire="translations.{{ $language->id }}.description"
-                                            rows="4"
-                                        />
+
+                                    <x-widgets.form-field :label="__('manager.products.description')">
+                                        <x-widgets.quill-editor
+                                            id="product_description_{{ $language->id }}"
+                                            wire="defer=translations.{{ $language->id }}.description"
+                                            minHeight="280px"
+                                        >{!! $translations[$language->id]['description'] ?? '' !!}</x-widgets.quill-editor>
                                     </x-widgets.form-field>
                                 </div>
                             @endforeach
-                        </div>
+                        </x-widgets.language-tabs>
                     </div>
 
                     <div class="flex gap-3">

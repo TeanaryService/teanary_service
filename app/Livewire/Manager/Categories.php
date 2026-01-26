@@ -23,7 +23,7 @@ class Categories extends Component
     use UsesLocaleCurrency;
 
     public ?int $filterParentId = null;
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterParentId(): void
     {
@@ -39,7 +39,7 @@ class Categories extends Component
     {
         $this->search = '';
         $this->filterParentId = null;
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -88,8 +88,8 @@ class Categories extends Component
         }
 
         // 筛选：翻译状态
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);

@@ -121,7 +121,7 @@ class Cart extends Component
 
         session()->put('checkout_items', $selectedItems);
 
-        return redirect()->route('checkout', ['locale' => $locale]);
+        return $this->redirect(route('checkout', ['locale' => $locale]), navigate: true);
     }
 
     /**
@@ -136,8 +136,10 @@ class Cart extends Component
         $variant = $item->productVariant;
         $name = $this->translatedField($product->productTranslations, $lang, 'name', $product->slug);
         $image = $variant
-            ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
-            : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
+            ? (first_media_url($variant, 'image', 'thumb', asset('logo.svg'))
+                ?: first_media_url($product, 'images', 'thumb', asset('logo.svg'))
+                ?: asset('logo.svg'))
+            : (first_media_url($product, 'images', 'thumb', asset('logo.svg')) ?: asset('logo.svg'));
         $specs = $variant ? $variant->specificationValues->map(function ($sv) use ($lang) {
             return $this->translatedField($sv->specificationValueTranslations, $lang, 'name', (string) $sv->id);
         })->implode(' / ') : '';

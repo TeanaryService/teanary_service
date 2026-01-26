@@ -14,7 +14,7 @@
     $checkboxId = $id ?? $name ?? uniqid('checkbox_');
     // 使用 teal 主题颜色，与整站其他组件风格一致
     // 统一样式：边框、焦点状态、hover 效果与 input/select 等组件保持一致
-    $baseClasses = 'w-4 h-4 text-teal-500 bg-white border-2 border-teal-100 rounded-lg focus:ring-2 focus:ring-teal-500/30 focus:ring-offset-0 focus:border-teal-500 checked:bg-teal-500 checked:border-teal-500 hover:border-teal-200 hover:shadow-sm transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:border-gray-200';
+    $baseClasses = 'w-4 h-4 text-teal-500 bg-white border-2 border-teal-100 rounded-lg focus:ring-2 focus:ring-teal-500/30 focus:ring-offset-0 focus:border-teal-500 checked:0 checked:border-teal-500 hover:border-teal-200 hover:shadow-sm transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:border-gray-200';
     $classes = trim($baseClasses . ' ' . $class);
     
     // 处理 wire 属性，支持 wire:model, wire:model.live, wire:click 等

@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('managers', __('manager.managers.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -23,11 +23,6 @@
                     </x-slot:actions>
                 </x-widgets.page-header>
 
-                @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-100 p-4">
-                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                    </div>
-                @endif
 
                 {{-- 筛选器 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
@@ -103,7 +98,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($manager->hasMedia('avatars'))
-                                                <img src="{{ $manager->getFirstMediaUrl('avatars', 'thumb') }}" 
+                                                <img src="{{ first_media_url($manager, 'avatars', 'thumb') }}" 
                                                      alt="{{ $manager->name }}"
                                                      class="w-12 h-12 rounded-full object-cover">
                                             @else
@@ -127,7 +122,12 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             @if($manager->token)
-                                                <code class="text-xs bg-gray-100 px-2 py-1 rounded font-mono">{{ \Illuminate\Support\Str::limit($manager->token, 20) }}</code>
+                                                <x-widgets.copy-to-clipboard 
+                                                    :value="$manager->token"
+                                                    :showFull="false"
+                                                    :maxLength="20"
+                                                    :compact="true"
+                                                />
                                             @else
                                                 <span class="text-gray-400">未生成</span>
                                             @endif

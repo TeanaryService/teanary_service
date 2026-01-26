@@ -38,20 +38,20 @@ class Notifications extends Component
         $notification = Auth::user()->notifications()->find($notificationId);
         if ($notification && $notification->unread()) {
             $notification->markAsRead();
-            session()->flash('message', __('notifications.marked_as_read'));
+            $this->dispatch('flash-message', type: 'success', message: __('notifications.marked_as_read'));
         }
     }
 
     public function markAllAsRead(): void
     {
         Auth::user()->unreadNotifications->markAsRead();
-        session()->flash('message', __('notifications.all_marked_as_read'));
+        $this->dispatch('flash-message', type: 'success', message: __('notifications.all_marked_as_read'));
     }
 
     public function deleteNotification(string $notificationId): void
     {
         Auth::user()->notifications()->find($notificationId)?->delete();
-        session()->flash('message', __('notifications.deleted'));
+        $this->dispatch('flash-message', type: 'success', message: __('notifications.deleted'));
     }
 
     public function render()

@@ -15,6 +15,7 @@ use App\Models\ProductTranslation;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductForm extends Component
 {
@@ -48,7 +49,7 @@ class ProductForm extends Component
         'attributeValues.*.attribute_value_id' => 'nullable|integer',
         'categoryIds' => 'array',
         'categoryIds.*' => 'integer',
-        'translations.*.name' => 'required|max:255',
+        'translations.*.name' => 'nullable|string|max:255',
         'translations.*.short_description' => 'nullable|string',
         'translations.*.description' => 'nullable|string',
         'newImages.*' => 'image|max:2048',
@@ -59,7 +60,6 @@ class ProductForm extends Component
         'status.required' => '商品状态不能为空',
         'translationStatus.required' => '翻译状态不能为空',
         'sourceUrl.url' => '来源链接格式不正确',
-        'translations.*.name.required' => '商品名称不能为空',
         'translations.*.name.max' => '商品名称不能超过255个字符',
         'newImages.*.image' => '上传的文件必须是图片',
         'newImages.*.max' => '图片大小不能超过 2MB',
@@ -116,12 +116,55 @@ class ProductForm extends Component
         $this->attributeValues = array_values($this->attributeValues);
     }
 
-    public function save()
+    public function updatedNewImages(): void
     {
-        if (! $this->validateDefaultLanguage('name', '默认语言的商品名称不能为空')) {
+        if (empty($this->newImages)) {
             return;
         }
 
+        // 仅校验图片本身（不触发表单全量校验）
+        $this->validate(
+            ['newImages.*' => $this->rules['newImages.*']],
+            $this->messages
+        );
+
+        // 编辑已有商品时：选择文件后立即入库并刷新缩略图
+        if ($this->productId) {
+            $product = Product::findOrFail($this->productId);
+
+            foreach ($this->newImages as $upload) {
+                $product
+                    ->addMedia($upload->getRealPath())
+                    ->usingFileName($upload->getClientOriginalName())
+                    ->toMediaCollection('images');
+            }
+
+            // 清空临时文件，避免重复上传
+            $this->newImages = [];
+        }
+    }
+
+    public function removeProductImage(int $mediaId): void
+    {
+        if (! $this->productId) {
+            return;
+        }
+
+        $product = Product::findOrFail($this->productId);
+
+        /** @var Media|null $media */
+        $media = $product->media()
+            ->where('id', $mediaId)
+            ->where('collection_name', 'images')
+            ->first();
+
+        if ($media) {
+            $media->delete();
+        }
+    }
+
+    public function save()
+    {
         $rules = $this->rules;
         $rules['slug'] = [
             'required',

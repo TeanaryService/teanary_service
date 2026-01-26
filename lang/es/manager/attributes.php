@@ -17,4 +17,6 @@ return [
     'is_filterable_helper' => 'Después de activar, se puede usar en el frontend para filtrar (por ejemplo, por origen, tipo de té, etc.).',
     'translations' => 'Traducciones multilingües',
     'name_helper' => 'Ingrese el nombre del atributo para diferentes idiomas.',
+    'batch_set_filterable' => 'Se establecieron :count atributos como filtrables',
+    'batch_set_not_filterable' => 'Se establecieron :count atributos como no filtrables',
 ];

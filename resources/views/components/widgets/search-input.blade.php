@@ -37,7 +37,7 @@
                 :placeholder="__('search.placeholder')"
                 class="!pl-11 !py-2.5 !text-sm"
             />
-            <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-tea-600 transition-colors">
+            <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors">
                 <x-heroicon-o-magnifying-glass class="w-5 h-5" />
             </button>
         </div>

@@ -112,8 +112,10 @@ class CartDropdown extends Component
         $variant = $item->productVariant;
         $name = $this->translatedField($product->productTranslations, $lang, 'name', $product->slug);
         $image = $variant
-            ? ($variant->getFirstMediaUrl('image', 'thumb') ?: $product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'))
-            : ($product->getFirstMediaUrl('images', 'thumb') ?: asset('logo.svg'));
+            ? (first_media_url($variant, 'image', 'thumb', asset('logo.svg'))
+                ?: first_media_url($product, 'images', 'thumb', asset('logo.svg'))
+                ?: asset('logo.svg'))
+            : (first_media_url($product, 'images', 'thumb', asset('logo.svg')) ?: asset('logo.svg'));
         $specs = $variant
             ? $variant->specificationValues
                 ->map(function ($sv) use ($lang) {

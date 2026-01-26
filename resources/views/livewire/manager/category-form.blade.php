@@ -3,7 +3,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('categories', $isEdit ? __('app.edit') : __('app.create'), __('manager.categories.label'), locaRoute('manager.categories'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -26,14 +26,17 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {{-- 图片上传 --}}
                                 <div class="md:col-span-3">
-                                    <x-widgets.file-upload 
+                                    <x-widgets.image-upload 
                                         wire="image"
+                                        :upload="$image"
                                         accept="image/*"
                                         :preview="$imageUrl"
                                         previewSize="w-32 h-32"
                                         :label="__('manager.category.image')"
                                         error="image"
                                         :help="__('manager.category.image_helper')"
+                                        removeAction="removeImage"
+                                        removeConfirm="{{ __('app.confirm_delete') }}"
                                     />
                                 </div>
 
@@ -93,25 +96,34 @@
                         {{-- 翻译 --}}
                         <div>
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.category.translations') }}</h2>
-                            <div class="space-y-4">
+                            @php
+                                $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+                            @endphp
+
+                            <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
                                 @foreach($languages as $language)
-                                    <x-widgets.form-field 
-                                        :label="__('manager.category.name') . ' (' . $language->name . ')'"
-                                        :labelFor="'name_' . $language->id"
-                                        :required="$language->default"
-                                        :error="'translations.' . $language->id . '.name'"
-                                        :help="$language->default ? __('manager.category.name_helper') : null"
+                                    <div
+                                        data-teany-langpanel="{{ (int) $language->id }}"
+                                        class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
                                     >
-                                        <x-widgets.input 
-                                            type="text" 
-                                            id="name_{{ $language->id }}"
-                                            wire="translations.{{ $language->id }}.name"
-                                            placeholder="请输入分类名称"
+                                        <x-widgets.form-field 
+                                            :label="__('manager.category.name')"
+                                            :labelFor="'name_' . $language->id"
+                                            :required="$language->default"
                                             :error="'translations.' . $language->id . '.name'"
-                                        />
-                                    </x-widgets.form-field>
+                                            :help="$language->default ? __('manager.category.name_helper') : null"
+                                        >
+                                            <x-widgets.input 
+                                                type="text" 
+                                                id="name_{{ $language->id }}"
+                                                wire="translations.{{ $language->id }}.name"
+                                                placeholder="请输入分类名称"
+                                                :error="'translations.' . $language->id . '.name'"
+                                            />
+                                        </x-widgets.form-field>
+                                    </div>
                                 @endforeach
-                            </div>
+                            </x-widgets.language-tabs>
                         </div>
 
                         {{-- 操作按钮 --}}

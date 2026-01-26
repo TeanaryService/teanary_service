@@ -30,7 +30,7 @@ class Profile extends Component
         $this->name = $user->name;
         $this->email = $user->email;
         if ($user->hasMedia('avatars')) {
-            $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
+            $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
         }
     }
 
@@ -79,16 +79,28 @@ class Profile extends Component
                 ->usingName($this->avatar->getClientOriginalName())
                 ->usingFileName($this->avatar->getClientOriginalName())
                 ->toMediaCollection('avatars');
-            $this->avatarUrl = $user->getFirstMediaUrl('avatars', 'thumb');
+            $this->avatarUrl = first_media_url($user, 'avatars', 'thumb');
             $this->avatar = null;
         }
 
-        session()->flash('message', __('app.edit_user_success'));
+        $this->dispatch('flash-message', type: 'success', message: __('app.edit_user_success'));
 
         // 重置密码字段
         $this->current_password = '';
         $this->password = '';
         $this->password_confirmation = '';
+    }
+
+    public function removeAvatar(): void
+    {
+        $user = Auth::user();
+        if (! $user) {
+            return;
+        }
+
+        $this->avatar = null;
+        $user->clearMediaCollection('avatars');
+        $this->avatarUrl = null;
     }
 
     public function render()

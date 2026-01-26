@@ -3,7 +3,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('orders', $isEdit ? __('app.edit') : __('app.create'), __('manager.orders.label'), locaRoute('manager.orders'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -29,18 +29,6 @@
                         {{ __('app.back') }}
                     </x-widgets.button>
                 </div>
-
-                @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-100 p-4">
-                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                    </div>
-                @endif
-
-                @if (session()->has('error'))
-                    <div class="mb-4 rounded-md bg-red-50 p-4">
-                        <p class="text-sm font-medium text-red-800">{{ session('error') }}</p>
-                    </div>
-                @endif
 
                 <form wire:submit="save">
                     {{-- 订单基本信息 --}}

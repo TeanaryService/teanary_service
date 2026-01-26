@@ -57,7 +57,7 @@
                 x-data="{ show: true }" 
                 x-show="show"
                 x-bind:class="{
-                    'bg-teal-50 border-teal-200 text-teal-900': msg.type === 'success',
+                    ' border-teal-200 text-teal-900': msg.type === 'success',
                     'bg-red-50 border-red-200 text-red-900': msg.type === 'error',
                     'bg-yellow-50 border-yellow-200 text-yellow-900': msg.type === 'warning',
                     'bg-blue-50 border-blue-200 text-blue-900': msg.type === 'info'

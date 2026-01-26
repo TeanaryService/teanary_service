@@ -48,9 +48,9 @@ class Register extends Component
         // 发送邮箱验证通知
         $user->sendEmailVerificationNotification();
 
-        session()->flash('message', __('auth.registration_success'));
+        $this->dispatch('flash-message', type: 'success', message: __('auth.registration_success'));
 
-        return redirect()->to(locaRoute('verification.notice'));
+        return $this->redirect(locaRoute('verification.notice'), navigate: true);
     }
 
     public function render()

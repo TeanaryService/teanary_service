@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('promotions', $promotionId ? __('app.edit') . ' ' . __('manager.promotions.label') : __('app.create') . ' ' . __('manager.promotions.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -17,11 +17,6 @@
                     </h1>
                 </div>
 
-                @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-100 p-4">
-                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                    </div>
-                @endif
 
                 <form wire:submit.prevent="save" class="space-y-6">
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
@@ -56,17 +51,24 @@
                             {{ __('manager.promotion.translations') }}
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @php
+                            $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+                        @endphp
+
+                        <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
                             @foreach($languages as $language)
-                                <div class="space-y-3">
-                                    <x-widgets.form-field :label="__('manager.promotion.name') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.name'">
+                                <div
+                                    data-teany-langpanel="{{ (int) $language->id }}"
+                                    class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
+                                >
+                                    <x-widgets.form-field :label="__('manager.promotion.name')" :error="'translations.' . $language->id . '.name'">
                                         <x-widgets.input 
                                             type="text"
                                             wire="translations.{{ $language->id }}.name"
                                             :error="'translations.' . $language->id . '.name'"
                                         />
                                     </x-widgets.form-field>
-                                    <x-widgets.form-field :label="__('manager.promotion.description') . ' (' . $language->name . ')'" :error="'translations.' . $language->id . '.description'">
+                                    <x-widgets.form-field :label="__('manager.promotion.description')" :error="'translations.' . $language->id . '.description'">
                                         <x-widgets.textarea
                                             wire="translations.{{ $language->id }}.description"
                                             rows="3"
@@ -75,7 +77,7 @@
                                     </x-widgets.form-field>
                                 </div>
                             @endforeach
-                        </div>
+                        </x-widgets.language-tabs>
                     </div>
 
                     <div class="flex gap-3">

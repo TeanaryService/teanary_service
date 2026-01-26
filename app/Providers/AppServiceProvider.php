@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,21 @@ class AppServiceProvider extends ServiceProvider
         // 配置 Order 路由模型绑定，支持 Snowflake ID
         Route::bind('order', function ($value) {
             return Order::findOrFail($value);
+        });
+
+        // 为 Livewire update 路由添加中间件，确保从 session 获取语言
+        $this->configureLivewireUpdateRoute();
+    }
+
+    /**
+     * 配置 Livewire update 路由，添加中间件以从 session 获取语言
+     */
+    protected function configureLivewireUpdateRoute(): void
+    {
+        Livewire::setUpdateRoute(function ($handle) {
+            $locale = getCurrentLocale();
+            return Route::post($locale . '/livewire/update', $handle)
+                ->middleware(['web', SetLocaleAndCurrency::class]);
         });
     }
 }

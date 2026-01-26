@@ -21,7 +21,7 @@ class SpecificationValues extends Component
     use UsesLocaleCurrency;
 
     public ?int $filterSpecificationId = null;
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterSpecificationId(): void
     {
@@ -37,7 +37,7 @@ class SpecificationValues extends Component
     {
         $this->search = '';
         $this->filterSpecificationId = null;
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -79,8 +79,8 @@ class SpecificationValues extends Component
             $query->where('specification_id', $this->filterSpecificationId);
         }
 
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);

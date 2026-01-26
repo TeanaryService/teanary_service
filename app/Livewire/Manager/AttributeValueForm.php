@@ -75,11 +75,12 @@ class AttributeValueForm extends Component
 
     public function render()
     {
-        $attributes = \App\Models\Attribute::with('attributeTranslations')->get();
+        // 注意：避免与 Blade 组件系统的 $attributes 变量名冲突
+        $attributeModels = \App\Models\Attribute::with('attributeTranslations')->get();
 
         return view('livewire.manager.attribute-value-form', [
             'languages' => $this->getLanguages(),
-            'attributes' => $attributes,
+            'attributeModels' => $attributeModels,
             'lang' => $this->getCurrentLanguage(),
             'translationStatusOptions' => TranslationStatusEnum::options(),
         ])->layout('components.layouts.manager');

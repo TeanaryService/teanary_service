@@ -35,11 +35,11 @@
         </div>
         
         <div class="p-4 md:p-5">
-            <h3 class="line-clamp-2 text-base md:text-lg font-semibold text-gray-900 mb-3 group-hover:text-tea-600 transition-colors duration-200 leading-snug">
+            <h3 class="line-clamp-2 text-base md:text-lg font-semibold text-gray-900 mb-3 group-hover:text-teal-600 transition-colors duration-200 leading-snug">
                 {{ $name }}
             </h3>
             @if ($priceText)
-                <p class="text-lg md:text-xl font-bold tea-price mb-3 group-hover:text-tea-700 transition-colors duration-200">
+                <p class="text-lg md:text-xl font-bold tea-price mb-3 group-hover:text-teal-700 transition-colors duration-200">
                     {{ $priceText }}
                 </p>
             @endif
@@ -49,7 +49,7 @@
             
             <!-- 多图提示 -->
             @if ($secondImage)
-                <div class="mt-2 flex items-center gap-1 text-xs text-tea-500 group-hover:text-tea-600 transition-colors duration-200">
+                <div class="mt-2 flex items-center gap-1 text-xs text-teal-500 group-hover:text-teal-600 transition-colors duration-200">
                     <x-heroicon-o-photo class="w-4 h-4" />
                     <span>{{ $images->count() }} {{ __('app.images') }}</span>
                 </div>

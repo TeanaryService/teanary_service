@@ -17,4 +17,6 @@ return [
     'is_filterable_helper' => '有効にすると、フロントエンドでフィルターに使用できます（例：産地、茶の種類などでフィルター）。',
     'translations' => '多言語翻訳',
     'name_helper' => '異なる言語ごとに属性名を入力してください。',
+    'batch_set_filterable' => ':count 個の属性をフィルター可能に設定しました',
+    'batch_set_not_filterable' => ':count 個の属性をフィルター不可に設定しました',
 ];

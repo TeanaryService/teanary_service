@@ -34,8 +34,8 @@ trait HandlesMediaUploads
      */
     protected function loadImageUrl(?object $model, string $collection = 'image', string $conversion = 'thumb'): void
     {
-        if ($model && $model->hasMedia($collection)) {
-            $this->imageUrl = $model->getFirstMediaUrl($collection, $conversion);
+        if ($model && method_exists($model, 'hasMedia') && $model->hasMedia($collection)) {
+            $this->imageUrl = first_media_url($model, $collection, $conversion);
         }
     }
 

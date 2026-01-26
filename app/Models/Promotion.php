@@ -72,7 +72,16 @@ class Promotion extends Model
      */
     public function syncProductVariants(array $ids, bool $detaching = true): array
     {
-        $changes = $this->productVariants()->sync($ids, $detaching);
+        // 获取所有变体的 product_id，构建 pivot 数据
+        $pivotData = [];
+        if (!empty($ids)) {
+            $variants = ProductVariant::whereIn('id', $ids)->get(['id', 'product_id']);
+            foreach ($variants as $variant) {
+                $pivotData[$variant->id] = ['product_id' => $variant->product_id];
+            }
+        }
+        
+        $changes = $this->productVariants()->sync($pivotData, $detaching);
 
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
@@ -123,6 +132,14 @@ class Promotion extends Model
      */
     public function attachProductVariant(int $productVariantId, array $pivotData = []): void
     {
+        // 如果没有提供 product_id，自动获取
+        if (!isset($pivotData['product_id'])) {
+            $variant = ProductVariant::find($productVariantId);
+            if ($variant) {
+                $pivotData['product_id'] = $variant->product_id;
+            }
+        }
+        
         $this->productVariants()->attach($productVariantId, $pivotData);
 
         // 手动触发 Pivot 模型的同步

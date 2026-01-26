@@ -67,8 +67,6 @@ class ArticleForm extends Component
             // 加载翻译（需要特殊处理 content 字段）
             $this->initializeTranslations($article, 'articleTranslations', ['title', 'summary', 'content']);
 
-            // 更新验证规则，忽略当前记录
-            $this->rules['slug'] = 'required|max:255|unique:articles,slug,'.$id;
         } else {
             // 初始化翻译数组
             $this->initializeTranslations(null, 'articleTranslations', ['title', 'summary', 'content']);
@@ -82,6 +80,15 @@ class ArticleForm extends Component
             return;
         }
 
+        // 根据是否是编辑模式动态设置验证规则
+        if ($this->articleId) {
+            // 编辑模式：slug 需要忽略当前文章
+            $this->rules['slug'] = 'required|max:255|unique:articles,slug,'.$this->articleId;
+        } else {
+            // 创建模式：slug 必须唯一
+            $this->rules['slug'] = 'required|max:255|unique:articles,slug';
+        }
+        
         $this->validate();
 
         $data = [
@@ -168,6 +175,20 @@ class ArticleForm extends Component
         }
 
         return $this->redirectWithMessage('manager.articles', $this->articleId ? 'updated_successfully' : 'created_successfully');
+    }
+
+    public function removeImage(): void
+    {
+        $this->image = null;
+        $this->imageUrl = null;
+
+        if (! $this->articleId) {
+            return;
+        }
+
+        $article = Article::findOrFail($this->articleId);
+        $article->clearMediaCollection('image');
+        $this->imageUrl = null;
     }
 
     public function render()

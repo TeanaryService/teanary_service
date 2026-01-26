@@ -2,7 +2,7 @@
     $breadcrumbs = buildUserCenterBreadcrumbs('profile', __('app.profile'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -13,7 +13,6 @@
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">{{ __('app.profile') }}</h1>
                 </div>
-
 
                 <form wire:submit="save">
                     <x-widgets.form-container>
@@ -31,9 +30,10 @@
                             {{-- 头像 --}}
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-3">{{ __('app.avatar') }}</label>
-                                <x-widgets.file-upload 
+                                <x-widgets.image-upload 
                                     id="avatar"
                                     wire="avatar"
+                                    :upload="$avatar"
                                     accept="image/jpeg,image/png,image/gif"
                                     :preview="$avatarUrl"
                                     previewSize="h-24 w-24 rounded-full"
@@ -41,6 +41,8 @@
                                     :label="__('app.upload_avatar')"
                                     error="avatar"
                                     :help="__('app.avatar_upload_hint')"
+                                    removeAction="removeAvatar"
+                                    removeConfirm="{{ __('app.confirm_delete') }}"
                                 />
                             </div>
 

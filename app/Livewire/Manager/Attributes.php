@@ -24,7 +24,7 @@ class Attributes extends Component
     use UsesLocaleCurrency;
 
     public string $filterIsFilterable = '';
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterIsFilterable(): void
     {
@@ -40,7 +40,7 @@ class Attributes extends Component
     {
         $this->search = '';
         $this->filterIsFilterable = '';
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -73,6 +73,25 @@ class Attributes extends Component
         $this->batchUpdateTranslationStatus(Attribute::class, $status, 'attributes.with.translations');
     }
 
+    public function batchSetFilterable(bool $isFilterable): void
+    {
+        if (empty($this->selectedItems)) {
+            return;
+        }
+
+        Attribute::whereIn('id', $this->selectedItems)
+            ->update(['is_filterable' => $isFilterable]);
+
+        Cache::forget('attributes.with.translations');
+
+        $message = $isFilterable 
+            ? __('manager.attribute.batch_set_filterable', ['count' => count($this->selectedItems)])
+            : __('manager.attribute.batch_set_not_filterable', ['count' => count($this->selectedItems)]);
+
+        $this->dispatch('flash-message', type: 'success', message: $message);
+        $this->clearSelection();
+    }
+
     // 使用自定义名称避免与 Livewire 内部 $attributes 属性冲突
     #[Computed]
     public function attributeList()
@@ -95,8 +114,8 @@ class Attributes extends Component
         }
 
         // 筛选：翻译状态
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);

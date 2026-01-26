@@ -43,6 +43,7 @@ use App\Livewire\Manager\ZoneForm;
 use App\Livewire\Manager\Zones;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Manager\EditorUploadController;
 
 Route::prefix('manager')->group(function () {
     // 认证路由（访客）
@@ -144,6 +145,10 @@ Route::prefix('manager')->group(function () {
         Route::livewire('users', Users::class)->name('manager.users');
         Route::livewire('users/create', UserForm::class)->name('manager.users.create');
         Route::livewire('users/{id}/edit', UserForm::class)->name('manager.users.edit');
+
+        // 富文本编辑器图片上传（Quill）
+        Route::post('editor-uploads/image', [EditorUploadController::class, 'storeImage'])
+            ->name('manager.editor-uploads.image');
 
         Route::post('logout', function () {
             // 只登出 manager guard

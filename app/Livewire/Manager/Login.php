@@ -27,7 +27,7 @@ class Login extends Component
     {
         // 如果已登录，重定向到首页
         if (Auth::guard('manager')->check()) {
-            redirect()->to(locaRoute('manager.dashboard'));
+            $this->redirect(locaRoute('manager.dashboard'), navigate: true);
         }
     }
 
@@ -46,7 +46,7 @@ class Login extends Component
 
         session()->regenerate();
 
-        return redirect()->intended(locaRoute('manager.dashboard'));
+        return $this->redirect(locaRoute('manager.dashboard'), navigate: true);
     }
 
     public function render()

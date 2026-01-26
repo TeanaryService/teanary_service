@@ -44,7 +44,7 @@ class Orders extends Component
             $this->flashMessage('operation_success');
             $this->resetPage();
         } else {
-            session()->flash('error', __('orders.cannot_cancel'));
+            $this->dispatch('flash-message', type: 'error', message: __('orders.cannot_cancel'));
         }
     }
 

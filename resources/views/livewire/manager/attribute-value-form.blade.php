@@ -3,7 +3,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('attribute-values', $isEdit ? __('app.edit') : __('app.create'), __('manager.attribute_values.label'), locaRoute('manager.attribute-values'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -17,11 +17,6 @@
                     </h1>
                 </div>
 
-                @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-100 p-4">
-                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                    </div>
-                @endif
 
                 <form wire:submit="save" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                     <div class="space-y-6">
@@ -40,7 +35,7 @@
                                     <x-widgets.select 
                                         id="attributeId"
                                         wire="attributeId"
-                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($attributes)->map(function($attribute) use ($lang) {
+                                        :options="[['value' => '', 'label' => __('app.select')], ...collect($attributeModels)->map(function($attribute) use ($lang) {
                                             $translation = $attribute->attributeTranslations->where('language_id', $lang?->id)->first();
                                             $attributeName = $translation ? $translation->name : ($attribute->attributeTranslations->first() ? $attribute->attributeTranslations->first()->name : $attribute->id);
                                             return ['value' => $attribute->id, 'label' => $attributeName];
@@ -69,25 +64,34 @@
                         {{-- 翻译 --}}
                         <div>
                             <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ __('manager.attribute_value.translations') }}</h2>
-                            <div class="space-y-4">
+                            @php
+                                $defaultLanguageId = $languages->firstWhere('default', true)?->id ?? $languages->first()?->id;
+                            @endphp
+
+                            <x-widgets.language-tabs :languages="$languages" :defaultId="$defaultLanguageId">
                                 @foreach($languages as $language)
-                                    <x-widgets.form-field 
-                                        :label="__('manager.attribute_value.name') . ' (' . $language->name . ')'"
-                                        :labelFor="'name_' . $language->id"
-                                        :required="$language->default"
-                                        :error="'translations.' . $language->id . '.name'"
-                                        :help="$language->default ? __('manager.attribute_value.name_helper') : null"
+                                    <div
+                                        data-teany-langpanel="{{ (int) $language->id }}"
+                                        class="space-y-3 {{ (int) $language->id === (int) ($defaultLanguageId ?? 0) ? '' : 'hidden' }}"
                                     >
-                                        <x-widgets.input 
-                                            type="text" 
-                                            id="name_{{ $language->id }}"
-                                            wire="translations.{{ $language->id }}.name"
-                                            placeholder="请输入属性值名称"
+                                        <x-widgets.form-field 
+                                            :label="__('manager.attribute_value.name')"
+                                            :labelFor="'name_' . $language->id"
+                                            :required="$language->default"
                                             :error="'translations.' . $language->id . '.name'"
-                                        />
-                                    </x-widgets.form-field>
+                                            :help="$language->default ? __('manager.attribute_value.name_helper') : null"
+                                        >
+                                            <x-widgets.input 
+                                                type="text" 
+                                                id="name_{{ $language->id }}"
+                                                wire="translations.{{ $language->id }}.name"
+                                                placeholder="请输入属性值名称"
+                                                :error="'translations.' . $language->id . '.name'"
+                                            />
+                                        </x-widgets.form-field>
+                                    </div>
                                 @endforeach
-                            </div>
+                            </x-widgets.language-tabs>
                         </div>
 
                         {{-- 操作按钮 --}}

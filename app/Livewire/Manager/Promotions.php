@@ -21,9 +21,9 @@ class Promotions extends Component
     use HasTranslatedNames;
     use UsesLocaleCurrency;
 
-    public array $filterTypes = [];
+    public ?string $filterTypes = null;
     public string $filterActive = '';
-    public array $filterTranslationStatus = [];
+    public ?string $filterTranslationStatus = null;
 
     public function updatingFilterTypes(): void
     {
@@ -43,9 +43,9 @@ class Promotions extends Component
     public function resetFilters(): void
     {
         $this->search = '';
-        $this->filterTypes = [];
+        $this->filterTypes = null;
         $this->filterActive = '';
-        $this->filterTranslationStatus = [];
+        $this->filterTranslationStatus = null;
         $this->resetPage();
     }
 
@@ -91,8 +91,8 @@ class Promotions extends Component
         }
 
         // 筛选：类型
-        if (! empty($this->filterTypes)) {
-            $query->whereIn('type', $this->filterTypes);
+        if ($this->filterTypes) {
+            $query->where('type', $this->filterTypes);
         }
 
         // 筛选：是否启用
@@ -101,8 +101,8 @@ class Promotions extends Component
         }
 
         // 筛选：翻译状态
-        if (! empty($this->filterTranslationStatus)) {
-            $query->whereIn('translation_status', $this->filterTranslationStatus);
+        if ($this->filterTranslationStatus) {
+            $query->where('translation_status', $this->filterTranslationStatus);
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(15);

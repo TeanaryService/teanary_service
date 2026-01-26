@@ -47,9 +47,6 @@ class CurrencyForm extends Component
             $this->symbol = $currency->symbol;
             $this->exchangeRate = $currency->exchange_rate;
             $this->default = $currency->default;
-
-            // 更新验证规则，忽略当前记录
-            $this->rules['code'] = 'required|max:10|unique:currencies,code,'.$id;
         }
     }
 
@@ -63,6 +60,15 @@ class CurrencyForm extends Component
 
     public function save()
     {
+        // 根据是否是编辑模式动态设置验证规则
+        if ($this->currencyId) {
+            // 编辑模式：货币代码需要忽略当前货币
+            $this->rules['code'] = 'required|max:10|unique:currencies,code,'.$this->currencyId;
+        } else {
+            // 创建模式：货币代码必须唯一
+            $this->rules['code'] = 'required|max:10|unique:currencies,code';
+        }
+        
         $this->validate();
 
         $data = [

@@ -3,7 +3,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('managers', $isEdit ? __('app.edit') : __('app.create'), __('manager.managers.label'), locaRoute('manager.managers'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -26,13 +26,16 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- 头像上传 --}}
                                 <div class="md:col-span-2">
-                                    <x-widgets.file-upload 
+                                    <x-widgets.image-upload 
                                         wire="avatar"
+                                        :upload="$avatar"
                                         accept="image/*"
                                         :preview="$avatarUrl"
                                         previewSize="w-32 h-32 rounded-full"
                                         :label="__('manager.manager.avatar')"
                                         error="avatar"
+                                        removeAction="removeAvatar"
+                                        removeConfirm="{{ __('app.confirm_delete') }}"
                                     />
                                 </div>
 
@@ -113,29 +116,31 @@
                                 {{-- API Token --}}
                                 @if($isEdit)
                                     <div>
-                                        <label for="token" class="block text-sm font-medium text-gray-700 mb-2">
-                                            API Token
-                                        </label>
-                                        <div class="flex gap-2">
-                                            <input 
-                                                type="text" 
-                                                id="token"
-                                                wire:model="token"
-                                                readonly
-                                                class="flex-1 rounded-lg border-gray-300 shadow-sm bg-gray-50 @error('token') border-red-300 @enderror"
-                                                placeholder="点击生成Token按钮生成"
-                                            />
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <label class="block text-sm font-medium text-gray-700">
+                                                API Token
+                                            </label>
                                             <x-widgets.button 
                                                 type="button"
                                                 wire:click="generateToken"
                                                 wire:confirm="确定要生成新的API Token吗？旧的Token将失效。"
-                                                class="text-sm"
+                                                class="text-xs"
+                                                variant="secondary"
                                             >
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                                                 </svg>
+                                                生成Token
                                             </x-widgets.button>
                                         </div>
+                                        @if($token)
+                                            <x-widgets.copy-to-clipboard 
+                                                :value="$token"
+                                                :showFull="true"
+                                            />
+                                        @else
+                                            <div class="text-sm text-gray-500 italic">点击"生成Token"按钮生成API Token</div>
+                                        @endif
                                         @error('token')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror

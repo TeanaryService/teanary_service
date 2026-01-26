@@ -60,9 +60,9 @@ class ResetPassword extends Component
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            session()->flash('message', __('passwords.reset'));
+            $this->dispatch('flash-message', type: 'success', message: __('passwords.reset'));
 
-            return redirect()->to(locaRoute('auth.login'));
+            return $this->redirect(locaRoute('auth.login'), navigate: true);
         }
 
         $this->addError('email', __($status));

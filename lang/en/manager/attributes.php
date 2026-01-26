@@ -17,4 +17,6 @@ return [
     'is_filterable_helper' => 'When checked, can be used for filtering on the frontend (e.g., filter by origin, tea type, etc.).',
     'translations' => 'Multi-language Translations',
     'name_helper' => 'Fill in the attribute name for different languages.',
+    'batch_set_filterable' => 'Set :count attributes as filterable',
+    'batch_set_not_filterable' => 'Set :count attributes as not filterable',
 ];

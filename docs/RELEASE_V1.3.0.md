@@ -218,7 +218,7 @@ V1.3.0 保持了所有原有功能，同时性能更好，操作更流畅：
 想要先体验一下？我们提供了在线演示：
 
 - **前端演示**: [https://demo.chatterup.fun:2003](https://demo.chatterup.fun:2003)
-- **后台管理**: [https://demo.chatterup.fun:2003/m](https://demo.chatterup.fun:2003/m)
+- **后台管理**: [https://demo.chatterup.fun:2003/en/manager](https://demo.chatterup.fun:2003/en/manager)
 
 **测试账号**:
 - 邮箱: `demo@demo.com`

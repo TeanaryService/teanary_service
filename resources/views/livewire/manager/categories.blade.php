@@ -2,7 +2,7 @@
     $breadcrumbs = buildManagerCenterBreadcrumbs('categories', __('manager.categories.label'));
 @endphp
 
-<div class="min-h-[70vh] mb-10 bg-tea-50 tea-bg-texture">
+<div class="min-h-[70vh] mb-10 ">
     <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
@@ -23,11 +23,6 @@
                     </x-slot:actions>
                 </x-widgets.page-header>
 
-                @if (session()->has('message'))
-                    <div class="mb-4 rounded-md bg-teal-100 p-4">
-                        <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                    </div>
-                @endif
 
                 {{-- 筛选器 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
@@ -51,8 +46,7 @@
                             <x-widgets.label>{{ __('manager.category.translation_status') }}</x-widgets.label>
                             <x-widgets.select 
                                 wire="live=filterTranslationStatus" 
-                                :options="$translationStatusOptions"
-                                :multiple="false"
+                                :options="[['value' => '', 'label' => __('app.all')], ...collect($translationStatusOptions)->map(fn($label, $value) => ['value' => $value, 'label' => $label])->toArray()]"
                             />
                         </div>
                     </div>
@@ -124,7 +118,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             @if($category->hasMedia('image'))
-                                                <img src="{{ $category->getFirstMediaUrl('image', 'thumb') }}" 
+                                                <img src="{{ first_media_url($category, 'image', 'thumb') }}" 
                                                      alt="{{ $this->getCategoryName($category, $lang) }}"
                                                      class="w-16 h-16 object-cover rounded-lg">
                                             @else

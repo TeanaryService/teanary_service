@@ -10,11 +10,6 @@
                 </p>
             </div>
             
-            @if (session()->has('message'))
-                <div class="rounded-md bg-teal-100 p-4">
-                    <p class="text-sm font-medium text-teal-800">{{ session('message') }}</p>
-                </div>
-            @endif
             
             <div class="mt-8 space-y-6">
                 <form method="POST" action="{{ route('verification.send', ['locale' => app()->getLocale()]) }}">

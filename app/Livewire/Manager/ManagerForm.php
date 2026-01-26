@@ -58,13 +58,8 @@ class ManagerForm extends Component
 
             // 获取头像
             if ($manager->hasMedia('avatars')) {
-                $this->avatarUrl = $manager->getFirstMediaUrl('avatars', 'thumb');
+                $this->avatarUrl = first_media_url($manager, 'avatars', 'thumb');
             }
-
-            // 更新验证规则，忽略当前记录
-            $this->rules['email'] = 'required|email|max:255|unique:managers,email,'.$id;
-            $this->rules['password'] = 'nullable|min:8|confirmed';
-            $this->rules['passwordConfirmation'] = 'nullable';
         }
     }
 
@@ -85,6 +80,19 @@ class ManagerForm extends Component
 
     public function save()
     {
+        // 根据是否是编辑模式动态设置验证规则
+        if ($this->managerId) {
+            // 编辑模式：邮箱需要忽略当前管理员，密码可选
+            $this->rules['email'] = 'required|email|max:255|unique:managers,email,'.$this->managerId;
+            $this->rules['password'] = 'nullable|min:8|confirmed';
+            $this->rules['passwordConfirmation'] = 'nullable';
+        } else {
+            // 创建模式：邮箱必须唯一，密码必填
+            $this->rules['email'] = 'required|email|max:255|unique:managers,email';
+            $this->rules['password'] = 'required|min:8|confirmed';
+            $this->rules['passwordConfirmation'] = 'required';
+        }
+        
         $this->validate();
 
         $data = [
@@ -108,6 +116,7 @@ class ManagerForm extends Component
                 $manager->addMedia($this->avatar->getRealPath())
                     ->toMediaCollection('avatars');
                 $this->avatar = null;
+                $this->avatarUrl = first_media_url($manager, 'avatars', 'thumb');
             }
 
             $this->flashMessage('updated_successfully');
@@ -119,12 +128,28 @@ class ManagerForm extends Component
                 $manager->addMedia($this->avatar->getRealPath())
                     ->toMediaCollection('avatars');
                 $this->avatar = null;
+                $this->avatarUrl = first_media_url($manager, 'avatars', 'thumb');
             }
 
             $this->flashMessage('created_successfully');
         }
 
         return $this->redirectWithMessage('manager.managers', $this->managerId ? 'updated_successfully' : 'created_successfully');
+    }
+
+    public function removeAvatar(): void
+    {
+        $this->avatar = null;
+
+        if (! $this->managerId) {
+            $this->avatarUrl = null;
+
+            return;
+        }
+
+        $manager = Manager::findOrFail($this->managerId);
+        $manager->clearMediaCollection('avatars');
+        $this->avatarUrl = null;
     }
 
     public function render()

@@ -353,7 +353,7 @@ class ProductDetail extends Component
             'qty' => $qty,
         ]]);
 
-        return redirect()->route('checkout', ['locale' => app()->getLocale()]);
+        return $this->redirect(route('checkout', ['locale' => app()->getLocale()]), navigate: true);
     }
 
     public function render()

@@ -43,7 +43,7 @@
             <div class="flex items-center gap-3">
                 <x-widgets.button 
                     type="button"
-                    wire:click="generateSkus"
+                    wire:click="regenerateSkus"
                     variant="secondary"
                     class="px-3 py-1.5 text-xs"
                 >
@@ -59,16 +59,6 @@
             </div>
         </div>
 
-        @if (session()->has('error'))
-            <div class="mb-3 rounded-md bg-red-50 p-3 text-xs text-red-700">
-                {{ session('error') }}
-            </div>
-        @endif
-        @if (session()->has('success'))
-            <div class="mb-3 rounded-md bg-teal-100 p-3 text-xs text-teal-800">
-                {{ session('success') }}
-            </div>
-        @endif
 
         @if(empty($skus))
             <p class="text-sm text-gray-500">
@@ -104,7 +94,16 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($skus as $index => $row)
-                            <tr>
+                            @php
+                                // 关键：给每行一个稳定的 key，避免删除/重排后 Livewire DOM 复用错误
+                                $specKey = collect($row['specification_values'] ?? [])
+                                    ->map(fn ($sv) => ((int) ($sv['specification_id'] ?? 0)).':'.((int) ($sv['specification_value_id'] ?? 0)))
+                                    ->sort()
+                                    ->values()
+                                    ->implode(',');
+                                $rowKey = !empty($row['id']) ? ('id-'.$row['id']) : ('spec-'.md5($specKey));
+                            @endphp
+                            <tr wire:key="sku-row-{{ $rowKey }}">
                                 <td class="px-3 py-2 align-top">
                                     @php
                                         $specGroups = collect($row['specification_values'])->groupBy('specification_id');
@@ -171,7 +170,20 @@
                                 <td class="px-3 py-2 align-top text-center">
                                     <div class="flex flex-col items-center gap-1">
                                         @if($row['image_url'])
-                                            <img src="{{ $row['image_url'] }}" alt="" class="w-10 h-10 rounded object-cover border">
+                                            <div class="relative">
+                                                <img src="{{ $row['image_url'] }}" alt="" class="w-10 h-10 rounded object-cover border">
+                                                <button
+                                                    type="button"
+                                                    class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 rounded-full bg-white border border-red-200 text-red-600 hover:bg-red-50 shadow-sm"
+                                                    wire:click="removeSkuImage({{ $index }})"
+                                                    wire:confirm="{{ __('app.confirm_delete') }}"
+                                                    title="{{ __('app.delete') }}"
+                                                >
+                                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         @endif
                                         <input type="file"
                                                wire:model="skus.{{ $index }}.image"
