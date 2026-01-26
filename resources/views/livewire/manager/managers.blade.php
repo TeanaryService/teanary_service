@@ -127,7 +127,12 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             @if($manager->token)
-                                                <code class="text-xs bg-gray-100 px-2 py-1 rounded font-mono">{{ \Illuminate\Support\Str::limit($manager->token, 20) }}</code>
+                                                <x-widgets.copy-to-clipboard 
+                                                    :value="$manager->token"
+                                                    :showFull="false"
+                                                    :maxLength="20"
+                                                    :compact="true"
+                                                />
                                             @else
                                                 <span class="text-gray-400">未生成</span>
                                             @endif

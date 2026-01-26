@@ -60,11 +60,6 @@ class ManagerForm extends Component
             if ($manager->hasMedia('avatars')) {
                 $this->avatarUrl = first_media_url($manager, 'avatars', 'thumb');
             }
-
-            // 更新验证规则，忽略当前记录
-            $this->rules['email'] = 'required|email|max:255|unique:managers,email,'.$id;
-            $this->rules['password'] = 'nullable|min:8|confirmed';
-            $this->rules['passwordConfirmation'] = 'nullable';
         }
     }
 
@@ -85,6 +80,19 @@ class ManagerForm extends Component
 
     public function save()
     {
+        // 根据是否是编辑模式动态设置验证规则
+        if ($this->managerId) {
+            // 编辑模式：邮箱需要忽略当前管理员，密码可选
+            $this->rules['email'] = 'required|email|max:255|unique:managers,email,'.$this->managerId;
+            $this->rules['password'] = 'nullable|min:8|confirmed';
+            $this->rules['passwordConfirmation'] = 'nullable';
+        } else {
+            // 创建模式：邮箱必须唯一，密码必填
+            $this->rules['email'] = 'required|email|max:255|unique:managers,email';
+            $this->rules['password'] = 'required|min:8|confirmed';
+            $this->rules['passwordConfirmation'] = 'required';
+        }
+        
         $this->validate();
 
         $data = [
