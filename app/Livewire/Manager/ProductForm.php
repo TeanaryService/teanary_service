@@ -248,8 +248,9 @@ class ProductForm extends Component
             $attributeValueOptions[$av->attribute_id][$av->id] = $name;
         }
 
-        $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) use ($service) {
+        $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) {
             $lang = $this->getCurrentLanguage();
+
             return [
                 'id' => $cat->id,
                 'name' => $this->translatedField($cat->categoryTranslations, $lang, 'name', (string) $cat->id),

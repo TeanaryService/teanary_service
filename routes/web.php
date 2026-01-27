@@ -38,7 +38,7 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
 
     // 引入用户相关路由
     require __DIR__.'/users.php';
-    
+
     // 引入管理员相关路由
     require __DIR__.'/manager.php';
 

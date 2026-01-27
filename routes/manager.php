@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Manager\EditorUploadController;
 use App\Http\Middleware\CustomRedirectIfAuthenticated;
 use App\Livewire\Manager\Addresses;
 use App\Livewire\Manager\AddressForm;
@@ -43,7 +44,6 @@ use App\Livewire\Manager\ZoneForm;
 use App\Livewire\Manager\Zones;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Manager\EditorUploadController;
 
 Route::prefix('manager')->group(function () {
     // 认证路由（访客）

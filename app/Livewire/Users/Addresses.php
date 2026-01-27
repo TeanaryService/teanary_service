@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Users;
 
+use App\Livewire\Traits\RequiresAuthentication;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\Zone;
-use App\Livewire\Traits\UsesLocaleCurrency;
-use App\Livewire\Traits\RequiresAuthentication;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -14,9 +14,9 @@ use Livewire\WithPagination;
 
 class Addresses extends Component
 {
-    use WithPagination;
-    use UsesLocaleCurrency;
     use RequiresAuthentication;
+    use UsesLocaleCurrency;
+    use WithPagination;
 
     public $showForm = false;
     public $addressId = null;

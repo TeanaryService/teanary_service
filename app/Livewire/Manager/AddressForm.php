@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Manager;
 
-use App\Models\Address;
 use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Address;
 use Livewire\Component;
 
 class AddressForm extends Component

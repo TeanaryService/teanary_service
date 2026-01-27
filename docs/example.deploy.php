@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Teanary 项目 Deployer 部署配置
- * 
+ * Teanary 项目 Deployer 部署配置.
+ *
  * 使用方法：
  * 1. 复制此文件到项目根目录：cp docs/example.deploy.php deploy.php
  * 2. 修改下面的配置（仓库地址、服务器信息等）

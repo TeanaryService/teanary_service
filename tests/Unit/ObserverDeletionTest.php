@@ -13,8 +13,6 @@ use App\Models\CategoryTranslation;
 use App\Models\Country;
 use App\Models\CountryTranslation;
 use App\Models\Product;
-use App\Models\ProductAttributeValue;
-use App\Models\ProductCategory;
 use App\Models\ProductReview;
 use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
@@ -33,8 +31,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * 测试 Observer 删除逻辑
- * 
+ * 测试 Observer 删除逻辑.
+ *
  * 确保删除主数据时，所有关联数据也被正确删除
  */
 class ObserverDeletionTest extends TestCase
@@ -42,14 +40,14 @@ class ObserverDeletionTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 测试：删除产品时，删除所有关联数据
+     * 测试：删除产品时，删除所有关联数据.
      */
     public function test_product_deletion_cascades_to_related_data()
     {
         // 创建产品及其关联数据
         $product = Product::factory()->create();
         $language = \App\Models\Language::factory()->create();
-        
+
         // 创建产品翻译
         $translation1 = ProductTranslation::factory()->create([
             'product_id' => $product->id,
@@ -107,7 +105,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除分类时，递归删除子分类和关联数据
+     * 测试：删除分类时，递归删除子分类和关联数据.
      */
     public function test_category_deletion_cascades_to_children_and_related_data()
     {
@@ -159,7 +157,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除属性时，删除属性值和关联数据
+     * 测试：删除属性时，删除属性值和关联数据.
      */
     public function test_attribute_deletion_cascades_to_attribute_values()
     {
@@ -210,7 +208,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除属性值时，删除关联数据
+     * 测试：删除属性值时，删除关联数据.
      */
     public function test_attribute_value_deletion_cascades_to_related_data()
     {
@@ -251,7 +249,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除规格时，删除规格值和关联数据
+     * 测试：删除规格时，删除规格值和关联数据.
      */
     public function test_specification_deletion_cascades_to_specification_values()
     {
@@ -302,7 +300,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除规格值时，删除关联数据
+     * 测试：删除规格值时，删除关联数据.
      */
     public function test_specification_value_deletion_cascades_to_related_data()
     {
@@ -343,7 +341,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除文章时，删除文章翻译
+     * 测试：删除文章时，删除文章翻译.
      */
     public function test_article_deletion_cascades_to_translations()
     {
@@ -373,7 +371,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除促销时，删除促销规则和关联数据
+     * 测试：删除促销时，删除促销规则和关联数据.
      */
     public function test_promotion_deletion_cascades_to_rules_and_related_data()
     {
@@ -424,7 +422,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除国家时，删除地区和关联数据
+     * 测试：删除国家时，删除地区和关联数据.
      */
     public function test_country_deletion_cascades_to_zones()
     {
@@ -465,7 +463,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除地区时，删除地区翻译
+     * 测试：删除地区时，删除地区翻译.
      */
     public function test_zone_deletion_cascades_to_translations()
     {
@@ -495,7 +493,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除产品变体时，删除关联数据
+     * 测试：删除产品变体时，删除关联数据.
      */
     public function test_product_variant_deletion_cascades_to_related_data()
     {
@@ -545,7 +543,7 @@ class ObserverDeletionTest extends TestCase
     }
 
     /**
-     * 测试：删除用户组时，删除关联数据
+     * 测试：删除用户组时，删除关联数据.
      */
     public function test_user_group_deletion_cascades_to_related_data()
     {

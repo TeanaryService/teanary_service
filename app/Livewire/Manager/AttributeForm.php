@@ -3,19 +3,19 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Attribute;
 use App\Models\AttributeTranslation;
-use App\Livewire\Traits\HandlesTranslations;
-use App\Livewire\Traits\UsesLocaleCurrency;
-use App\Livewire\Traits\HasNavigationRedirect;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class AttributeForm extends Component
 {
     use HandlesTranslations;
-    use UsesLocaleCurrency;
     use HasNavigationRedirect;
+    use UsesLocaleCurrency;
 
     public ?int $attributeId = null;
     public bool $isFilterable = false;
