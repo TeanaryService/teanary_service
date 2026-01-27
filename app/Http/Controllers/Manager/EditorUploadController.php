@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\EditorUpload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class EditorUploadController extends Controller
@@ -41,4 +40,3 @@ class EditorUploadController extends Controller
         ]);
     }
 }
-

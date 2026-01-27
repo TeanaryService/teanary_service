@@ -57,7 +57,7 @@ class LanguageForm extends Component
             // 创建模式：语言代码必须唯一
             $this->rules['code'] = 'required|max:10|unique:languages,code';
         }
-        
+
         $this->validate();
 
         $data = [

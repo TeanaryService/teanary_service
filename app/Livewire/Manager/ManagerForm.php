@@ -92,7 +92,7 @@ class ManagerForm extends Component
             $this->rules['password'] = 'required|min:8|confirmed';
             $this->rules['passwordConfirmation'] = 'required';
         }
-        
+
         $this->validate();
 
         $data = [

@@ -68,7 +68,7 @@ class CurrencyForm extends Component
             // 创建模式：货币代码必须唯一
             $this->rules['code'] = 'required|max:10|unique:currencies,code';
         }
-        
+
         $this->validate();
 
         $data = [

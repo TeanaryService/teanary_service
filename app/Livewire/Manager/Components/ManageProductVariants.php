@@ -446,7 +446,7 @@ class ManageProductVariants extends Component
     }
 
     /**
-     * 删除单个变体
+     * 删除单个变体.
      */
     public function deleteVariant(int $index): void
     {

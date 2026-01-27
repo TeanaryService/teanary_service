@@ -66,7 +66,6 @@ class ArticleForm extends Component
 
             // 加载翻译（需要特殊处理 content 字段）
             $this->initializeTranslations($article, 'articleTranslations', ['title', 'summary', 'content']);
-
         } else {
             // 初始化翻译数组
             $this->initializeTranslations(null, 'articleTranslations', ['title', 'summary', 'content']);
@@ -88,7 +87,7 @@ class ArticleForm extends Component
             // 创建模式：slug 必须唯一
             $this->rules['slug'] = 'required|max:255|unique:articles,slug';
         }
-        
+
         $this->validate();
 
         $data = [

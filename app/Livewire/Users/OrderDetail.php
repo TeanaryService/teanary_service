@@ -18,7 +18,6 @@ class OrderDetail extends Component
 
     public function mount($orderId = null)
     {
-
         $userId = Auth::id();
         if (! $userId) {
             abort(403, 'Unauthorized');

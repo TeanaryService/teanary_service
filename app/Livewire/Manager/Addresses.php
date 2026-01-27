@@ -61,6 +61,7 @@ class Addresses extends Component
         // 批量删除时需要检查订单关联
         if (empty($this->selectedItems)) {
             $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
+
             return;
         }
 
@@ -72,13 +73,13 @@ class Addresses extends Component
                 if ($address) {
                     $hasShippingOrders = \App\Models\Order::where('shipping_address_id', $address->id)->exists();
                     $hasBillingOrders = \App\Models\Order::where('billing_address_id', $address->id)->exists();
-                    
+
                     if ($hasShippingOrders || $hasBillingOrders) {
-                        $skipped++;
+                        ++$skipped;
                         continue;
                     }
                     $address->delete();
-                    $count++;
+                    ++$count;
                 }
             } catch (\Exception $e) {
                 // 忽略删除失败的项目

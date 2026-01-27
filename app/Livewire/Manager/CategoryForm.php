@@ -3,21 +3,21 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Traits\HandlesMediaUploads;
+use App\Livewire\Traits\HandlesTranslations;
+use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
-use App\Livewire\Traits\HandlesTranslations;
-use App\Livewire\Traits\HandlesMediaUploads;
-use App\Livewire\Traits\UsesLocaleCurrency;
-use App\Livewire\Traits\HasNavigationRedirect;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class CategoryForm extends Component
 {
-    use HandlesTranslations;
     use HandlesMediaUploads;
-    use UsesLocaleCurrency;
+    use HandlesTranslations;
     use HasNavigationRedirect;
+    use UsesLocaleCurrency;
 
     public ?int $categoryId = null;
     public ?int $parentId = null;
@@ -59,11 +59,6 @@ class CategoryForm extends Component
 
             // 加载翻译
             $this->initializeTranslations($category, 'categoryTranslations');
-
-            // 更新验证规则，忽略当前记录
-            $this->rules['slug'] = 'required|max:255|unique:categories,slug,'.$id;
-            // 不能选择自己作为父分类
-            $this->rules['parentId'] = 'nullable|exists:categories,id|not_in:'.$id;
         } else {
             // 初始化翻译数组
             $this->initializeTranslations(null, 'categoryTranslations');
@@ -77,11 +72,15 @@ class CategoryForm extends Component
             return;
         }
 
-        // 验证不能选择自己作为父分类
-        if ($this->categoryId && $this->parentId == $this->categoryId) {
-            $this->addError('parentId', '不能选择自己作为父分类');
-
-            return;
+        // 根据是否是编辑模式动态设置验证规则
+        if ($this->categoryId) {
+            // 编辑模式：slug 唯一但忽略当前记录，且不能选择自己作为父分类
+            $this->rules['slug'] = 'required|max:255|unique:categories,slug,'.$this->categoryId;
+            $this->rules['parentId'] = 'nullable|exists:categories,id|not_in:'.$this->categoryId;
+        } else {
+            // 创建模式：slug 必须唯一，父分类只做存在性校验
+            $this->rules['slug'] = 'required|max:255|unique:categories,slug';
+            $this->rules['parentId'] = 'nullable|exists:categories,id';
         }
 
         $this->validate();

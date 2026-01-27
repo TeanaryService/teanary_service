@@ -143,16 +143,16 @@ class Product extends Component
         if ($this->allAttributes instanceof \Illuminate\Support\Collection && $this->allAttributes->isNotEmpty()) {
             // 直接转换为数组，因为 Collection 中的每个元素已经是数组
             $attributesArray = $this->allAttributes->toArray();
-            
+
             // 过滤掉没有属性值的属性
             $attributesArray = array_filter($attributesArray, function ($attr) {
-                return is_array($attr) 
-                    && isset($attr['values']) 
-                    && is_array($attr['values']) 
-                    && !empty($attr['values']);
+                return is_array($attr)
+                    && isset($attr['values'])
+                    && is_array($attr['values'])
+                    && ! empty($attr['values']);
             });
         }
-        
+
         return view('livewire.product', [
             'categories' => $this->categories,
             'filterAttributes' => $attributesArray,

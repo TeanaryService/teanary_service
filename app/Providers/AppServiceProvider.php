@@ -48,7 +48,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Livewire::setUpdateRoute(function ($handle) {
             $locale = getCurrentLocale();
-            return Route::post($locale . '/livewire/update', $handle)
+
+            return Route::post($locale.'/livewire/update', $handle)
                 ->middleware(['web', SetLocaleAndCurrency::class]);
         });
     }

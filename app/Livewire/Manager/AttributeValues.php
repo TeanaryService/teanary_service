@@ -107,7 +107,7 @@ class AttributeValues extends Component
     {
         $lang = $this->getCurrentLanguage();
         $attributes = \App\Models\Attribute::with('attributeTranslations')->get();
-        
+
         // 准备属性选项数据
         $attributeOptions = collect($attributes)->map(function ($attribute) use ($lang) {
             return [

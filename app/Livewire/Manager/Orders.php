@@ -3,9 +3,9 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
-use App\Models\Order;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Order;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;

@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Manager;
 
-use App\Models\TrafficStatistic;
 use App\Livewire\Traits\HasSearchAndFilters;
+use App\Models\TrafficStatistic;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
 use Livewire\Component;

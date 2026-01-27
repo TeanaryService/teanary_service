@@ -3,7 +3,6 @@
 namespace App\Livewire\Traits;
 
 use App\Enums\TranslationStatusEnum;
-use App\Services\LocaleCurrencyService;
 
 /**
  * 提供翻译处理功能的 Trait.
@@ -62,7 +61,6 @@ trait HandlesTranslations
      *
      * @param  string  $field  字段名（默认 'name'）
      * @param  string  $errorMessage  错误消息
-     * @return bool
      */
     protected function validateDefaultLanguage(string $field = 'name', ?string $errorMessage = null): bool
     {

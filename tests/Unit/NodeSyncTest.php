@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 /**
- * 节点间同步测试
- * 
+ * 节点间同步测试.
+ *
  * 测试多节点环境下的数据同步逻辑
  */
 class NodeSyncTest extends TestCase
@@ -62,7 +62,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：创建产品时，应该为所有目标节点创建同步日志
+     * 测试：创建产品时，应该为所有目标节点创建同步日志.
      */
     public function test_product_creation_syncs_to_all_target_nodes()
     {
@@ -97,7 +97,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：更新产品时，应该为所有目标节点创建同步日志
+     * 测试：更新产品时，应该为所有目标节点创建同步日志.
      */
     public function test_product_update_syncs_to_all_target_nodes()
     {
@@ -105,7 +105,7 @@ class NodeSyncTest extends TestCase
         Config::set('sync.enabled', false);
         $product = Product::factory()->create();
         Config::set('sync.enabled', true);
-        
+
         // 清理可能存在的旧日志
         SyncLog::truncate();
         SyncStatus::truncate();
@@ -136,7 +136,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：删除产品时，应该为所有目标节点创建同步日志
+     * 测试：删除产品时，应该为所有目标节点创建同步日志.
      */
     public function test_product_deletion_syncs_to_all_target_nodes()
     {
@@ -177,7 +177,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：Pivot 表删除时，应该正确同步
+     * 测试：Pivot 表删除时，应该正确同步.
      */
     public function test_pivot_table_deletion_syncs_correctly()
     {
@@ -186,13 +186,13 @@ class NodeSyncTest extends TestCase
         $product = Product::factory()->create();
         $category = Category::factory()->create();
         Config::set('sync.enabled', true);
-        
+
         // 清理可能存在的日志
         SyncLog::truncate();
-        
+
         // 创建关联
         $product->productCategories()->attach($category->id);
-        
+
         // 获取 pivot 记录（在删除前获取）
         $pivot = ProductCategory::where('product_id', $product->id)
             ->where('category_id', $category->id)
@@ -213,7 +213,7 @@ class NodeSyncTest extends TestCase
             ->where('action', 'deleted')
             ->get();
         $this->assertGreaterThanOrEqual(2, $deletedLogs->count());
-        
+
         // 验证 payload 包含所有必要字段（用于复合键查找）
         $syncLog = SyncLog::where('target_node', 'node2')->first();
         $this->assertNotNull($syncLog);
@@ -224,7 +224,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：Pivot 表创建时，应该正确同步
+     * 测试：Pivot 表创建时，应该正确同步.
      */
     public function test_pivot_table_creation_syncs_correctly()
     {
@@ -233,13 +233,13 @@ class NodeSyncTest extends TestCase
         $product = Product::factory()->create();
         $category = Category::factory()->create();
         Config::set('sync.enabled', true);
-        
+
         // 清理可能存在的日志
         SyncLog::truncate();
-        
+
         // 创建关联
         $product->productCategories()->attach($category->id);
-        
+
         // 获取 pivot 记录
         $pivot = ProductCategory::where('product_id', $product->id)
             ->where('category_id', $category->id)
@@ -255,7 +255,7 @@ class NodeSyncTest extends TestCase
             ->where('action', 'created')
             ->get();
         $this->assertGreaterThanOrEqual(2, $createdLogs->count());
-        
+
         // 验证 payload 包含所有必要字段
         $syncLog = SyncLog::where('target_node', 'node2')->first();
         $this->assertNotNull($syncLog);
@@ -264,7 +264,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：批量同步到多个节点
+     * 测试：批量同步到多个节点.
      */
     public function test_batch_sync_to_multiple_nodes()
     {
@@ -284,7 +284,7 @@ class NodeSyncTest extends TestCase
 
         // 3个产品 × 2个目标节点 = 6条日志
         $this->assertDatabaseCount('sync_logs', 6);
-        
+
         // 验证每个产品都为每个节点创建了日志
         foreach ($products as $product) {
             $this->assertDatabaseHas('sync_logs', [
@@ -299,7 +299,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：接收批量同步数据时，应该正确处理来自不同节点的数据
+     * 测试：接收批量同步数据时，应该正确处理来自不同节点的数据.
      */
     public function test_receive_batch_sync_from_different_nodes()
     {
@@ -309,7 +309,7 @@ class NodeSyncTest extends TestCase
         $product1 = Product::factory()->make();
         $product1Data = $product1->toArray();
         $product1Data['id'] = $productId1;
-        if (!isset($product1Data['status'])) {
+        if (! isset($product1Data['status'])) {
             $product1Data['status'] = 'active';
         }
         unset($product1Data['product_variants'], $product1Data['product_translations']);
@@ -317,7 +317,7 @@ class NodeSyncTest extends TestCase
         $product2 = Product::factory()->make();
         $product2Data = $product2->toArray();
         $product2Data['id'] = $productId2;
-        if (!isset($product2Data['status'])) {
+        if (! isset($product2Data['status'])) {
             $product2Data['status'] = 'active';
         }
         unset($product2Data['product_variants'], $product2Data['product_translations']);
@@ -349,7 +349,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：同步状态应该正确更新，避免重复同步
+     * 测试：同步状态应该正确更新，避免重复同步.
      */
     public function test_sync_status_prevents_duplicate_syncs()
     {
@@ -364,10 +364,10 @@ class NodeSyncTest extends TestCase
 
         // 第一次同步
         $this->service->recordSync($product, 'updated', 'node1');
-        
+
         $syncLog = SyncLog::where('target_node', 'node2')->first();
         $this->assertNotNull($syncLog);
-        
+
         // 获取同步哈希
         $reflection = new \ReflectionClass($this->service);
         $generateHashMethod = $reflection->getMethod('generateSyncHash');
@@ -382,7 +382,7 @@ class NodeSyncTest extends TestCase
             'node2',
             $syncHash
         );
-        
+
         // 也为 node3 更新状态
         $syncLog3 = SyncLog::where('target_node', 'node3')->first();
         if ($syncLog3) {
@@ -411,7 +411,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：数据变更后，应该创建新的同步日志
+     * 测试：数据变更后，应该创建新的同步日志.
      */
     public function test_data_change_creates_new_sync_log()
     {
@@ -426,7 +426,7 @@ class NodeSyncTest extends TestCase
 
         // 第一次同步（更新前的状态）
         $this->service->recordSync($product, 'updated', 'node1');
-        
+
         $syncLog = SyncLog::where('target_node', 'node2')->first();
         $this->assertNotNull($syncLog);
         $syncHash1 = md5(json_encode($syncLog->payload, JSON_UNESCAPED_UNICODE));
@@ -437,11 +437,11 @@ class NodeSyncTest extends TestCase
         if ($syncLog3) {
             $syncLog3->markAsCompleted();
         }
-        
+
         $reflection = new \ReflectionClass($this->service);
         $generateHashMethod = $reflection->getMethod('generateSyncHash');
         $generateHashMethod->setAccessible(true);
-        
+
         // 使用第一次同步的哈希值更新状态
         $oldHash = $generateHashMethod->invoke($this->service, $product, 'updated');
         SyncStatus::updateSyncStatus(Product::class, $product->id, 'node2', $oldHash);
@@ -468,7 +468,7 @@ class NodeSyncTest extends TestCase
             ->where('action', 'updated')
             ->get();
         $this->assertCount(2, $newLogs, '数据变更后应该为所有目标节点创建新的同步日志');
-        
+
         $newSyncLog = SyncLog::where('target_node', 'node2')
             ->where('model_type', Product::class)
             ->where('model_id', $product->id)
@@ -476,13 +476,13 @@ class NodeSyncTest extends TestCase
             ->first();
         $this->assertNotNull($newSyncLog);
         $newHash = md5(json_encode($newSyncLog->payload, JSON_UNESCAPED_UNICODE));
-        
+
         // 哈希值应该不同
         $this->assertNotEquals($syncHash1, $newHash);
     }
 
     /**
-     * 测试：删除操作总是创建同步日志，即使哈希值相同
+     * 测试：删除操作总是创建同步日志，即使哈希值相同.
      */
     public function test_deleted_action_always_creates_sync_log()
     {
@@ -508,7 +508,7 @@ class NodeSyncTest extends TestCase
         Config::set('sync.enabled', false);
         $product->delete();
         Config::set('sync.enabled', true);
-        
+
         $this->service->recordSync($product, 'deleted', 'node1');
 
         // 应该创建删除日志（删除操作总是创建日志）
@@ -566,7 +566,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：接收同步时，应该禁用同步监听，避免死循环
+     * 测试：接收同步时，应该禁用同步监听，避免死循环.
      */
     public function test_receive_sync_disables_sync_listener()
     {
@@ -574,7 +574,7 @@ class NodeSyncTest extends TestCase
         $product = Product::factory()->make();
         $productData = $product->toArray();
         $productData['id'] = $productId;
-        if (!isset($productData['status'])) {
+        if (! isset($productData['status'])) {
             $productData['status'] = 'active';
         }
         unset($productData['product_variants'], $productData['product_translations']);
@@ -593,10 +593,10 @@ class NodeSyncTest extends TestCase
         $result = $this->service->receiveBatchSync($batchData);
 
         $this->assertEquals(1, $result['success']);
-        
+
         // 验证产品已创建
         $this->assertDatabaseCount('products', 1);
-        
+
         // 验证没有创建新的同步日志（因为同步监听被禁用）
         $this->assertDatabaseCount('sync_logs', 0);
     }
@@ -618,7 +618,7 @@ class NodeSyncTest extends TestCase
 
         // 创建关联
         $product->attributeValues()->attach($attributeValue->id, ['attribute_id' => $attribute->id]);
-        
+
         $pivot = ProductAttributeValue::where('product_id', $product->id)
             ->where('attribute_value_id', $attributeValue->id)
             ->first();
@@ -630,11 +630,11 @@ class NodeSyncTest extends TestCase
         // 验证 model_id 是哈希值（不是实际的数据库 ID）
         $syncLog = SyncLog::where('target_node', 'node2')->first();
         $this->assertNotNull($syncLog);
-        
+
         // model_id 应该是整数（哈希值转换而来）
         $this->assertIsInt($syncLog->model_id);
         $this->assertGreaterThan(0, $syncLog->model_id);
-        
+
         // 验证 payload 包含所有必要字段
         $this->assertIsArray($syncLog->payload);
         $this->assertArrayHasKey('product_id', $syncLog->payload);
@@ -643,16 +643,16 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：接收 Pivot 表删除时，应该正确删除
+     * 测试：接收 Pivot 表删除时，应该正确删除.
      */
     public function test_receive_pivot_table_deletion()
     {
         $product = Product::factory()->create();
         $category = Category::factory()->create();
-        
+
         // 创建关联
         $product->productCategories()->attach($category->id);
-        
+
         $pivot = ProductCategory::where('product_id', $product->id)
             ->where('category_id', $category->id)
             ->first();
@@ -677,7 +677,7 @@ class NodeSyncTest extends TestCase
         $result = $this->service->receiveBatchSync($batchData);
 
         $this->assertEquals(1, $result['success']);
-        
+
         // 验证关联已删除
         $this->assertDatabaseMissing('product_category', [
             'product_id' => $product->id,
@@ -686,7 +686,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：节点配置变更时，应该只同步到配置的节点
+     * 测试：节点配置变更时，应该只同步到配置的节点.
      */
     public function test_sync_only_to_configured_nodes()
     {
@@ -720,7 +720,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：当前节点不应该同步给自己
+     * 测试：当前节点不应该同步给自己.
      */
     public function test_current_node_excluded_from_target_nodes()
     {
@@ -760,7 +760,7 @@ class NodeSyncTest extends TestCase
     }
 
     /**
-     * 测试：同步失败时，应该正确记录错误
+     * 测试：同步失败时，应该正确记录错误.
      */
     public function test_sync_failure_records_error()
     {
@@ -824,7 +824,7 @@ class NodeSyncTest extends TestCase
         // 注意：syncBatchToRemote 会先标记为 processing，成功后才标记为 completed
         // 由于我们使用了 Http::fake，需要等待处理完成
         $this->assertContains($syncLog->status, ['completed', 'processing']);
-        
+
         // 如果状态是 completed，应该有 synced_at
         if ($syncLog->status === 'completed') {
             $this->assertNotNull($syncLog->synced_at);

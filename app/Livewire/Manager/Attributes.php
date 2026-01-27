@@ -84,7 +84,7 @@ class Attributes extends Component
 
         Cache::forget('attributes.with.translations');
 
-        $message = $isFilterable 
+        $message = $isFilterable
             ? __('manager.attribute.batch_set_filterable', ['count' => count($this->selectedItems)])
             : __('manager.attribute.batch_set_not_filterable', ['count' => count($this->selectedItems)]);
 
