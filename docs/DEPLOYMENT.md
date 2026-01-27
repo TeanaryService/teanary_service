@@ -420,8 +420,9 @@ php artisan view:cache
 
 - [多节点数据同步](SYNC.md) - 多节点配置指南
 - [系统架构](ARCHITECTURE.md) - 系统架构说明
-- [流量统计功能](TRAFFIC-STATISTICS.md) - 流量统计配置
+- [文档索引](README.md) - 查看完整文档目录
+- [Teanary Vision（英文）](VISION.md) - AI‑Native 愿景与设计方向
 
 ---
 
-**最后更新**: 2026-01-24
+**最后更新**: 2026-01-27
