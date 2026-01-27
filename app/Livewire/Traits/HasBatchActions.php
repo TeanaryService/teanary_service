@@ -39,37 +39,38 @@ trait HasBatchActions
     }
 
     /**
-     * 获取当前页的项目（需要在组件中实现）
+     * 获取当前页的项目（需要在组件中实现）.
      */
     abstract protected function getCurrentPageItems();
 
     /**
-     * 批量删除
+     * 批量删除.
      */
     protected function batchDelete(string $modelClass, ?string $cacheKey = null): void
     {
         if (empty($this->selectedItems)) {
             $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
+
             return;
         }
 
         $count = 0;
         $skipped = 0;
-        
+
         foreach ($this->selectedItems as $id) {
             try {
                 $model = $modelClass::find($id);
                 if ($model) {
                     // 检查是否有关联订单（如果模型有 orders 关系）
                     if (method_exists($model, 'orders') && $model->orders()->exists()) {
-                        $skipped++;
+                        ++$skipped;
                         continue; // 跳过有订单关联的
                     }
                     $model->delete();
-                    $count++;
+                    ++$count;
                 }
             } catch (\Exception $e) {
-                $skipped++;
+                ++$skipped;
                 // 记录错误但不中断流程
                 \Log::warning("批量删除失败: {$modelClass} ID {$id}", ['error' => $e->getMessage()]);
             }
@@ -86,7 +87,7 @@ trait HasBatchActions
         } else {
             $this->dispatch('flash-message', type: 'success', message: __('manager.batch.deleted_successfully', ['count' => $count]));
         }
-        
+
         $this->resetPage();
     }
 
@@ -97,6 +98,7 @@ trait HasBatchActions
     {
         if (empty($this->selectedItems)) {
             $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
+
             return;
         }
 
@@ -113,12 +115,13 @@ trait HasBatchActions
     }
 
     /**
-     * 批量设置内容状态（发布状态）
+     * 批量设置内容状态（发布状态）.
      */
     protected function batchUpdatePublishedStatus(string $modelClass, bool $isPublished, ?string $cacheKey = null): void
     {
         if (empty($this->selectedItems)) {
             $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
+
             return;
         }
 
@@ -142,6 +145,7 @@ trait HasBatchActions
     {
         if (empty($this->selectedItems)) {
             $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
+
             return;
         }
 
@@ -165,6 +169,7 @@ trait HasBatchActions
     {
         if (empty($this->selectedItems)) {
             $this->dispatch('flash-message', type: 'error', message: __('manager.batch.no_items_selected'));
+
             return;
         }
 
@@ -181,15 +186,15 @@ trait HasBatchActions
     }
 
     /**
-     * 检查是否有选中的项目
+     * 检查是否有选中的项目.
      */
     public function hasSelectedItems(): bool
     {
-        return !empty($this->selectedItems);
+        return ! empty($this->selectedItems);
     }
 
     /**
-     * 获取选中项目的数量
+     * 获取选中项目的数量.
      */
     public function getSelectedCount(): int
     {
@@ -197,7 +202,7 @@ trait HasBatchActions
     }
 
     /**
-     * 清除所有选择
+     * 清除所有选择.
      */
     public function clearSelection(): void
     {
@@ -206,7 +211,7 @@ trait HasBatchActions
     }
 
     /**
-     * 重置选择状态（在分页或筛选后调用）
+     * 重置选择状态（在分页或筛选后调用）.
      */
     public function resetSelection(): void
     {

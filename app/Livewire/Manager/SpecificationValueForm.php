@@ -3,9 +3,9 @@
 namespace App\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
-use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\HandlesTranslations;
 use App\Livewire\Traits\HasNavigationRedirect;
+use App\Livewire\Traits\HasTranslatedNames;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
 use App\Models\SpecificationValueTranslation;
@@ -13,9 +13,9 @@ use Livewire\Component;
 
 class SpecificationValueForm extends Component
 {
-    use HasTranslatedNames;
     use HandlesTranslations;
     use HasNavigationRedirect;
+    use HasTranslatedNames;
 
     public ?int $specificationValueId = null;
     public ?int $specificationId = null;
@@ -89,6 +89,7 @@ class SpecificationValueForm extends Component
     public function getSpecificationLabel(Specification $spec): string
     {
         $lang = $this->getCurrentLanguage();
+
         return $this->translatedField(
             $spec->specificationTranslations,
             $lang,

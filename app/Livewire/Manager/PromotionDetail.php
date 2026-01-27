@@ -6,7 +6,6 @@ use App\Enums\PromotionConditionTypeEnum;
 use App\Enums\PromotionDiscountTypeEnum;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
-use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Promotion;
 use App\Models\PromotionRule;
@@ -126,11 +125,13 @@ class PromotionDetail extends Component
     public function getUserGroupsProperty()
     {
         $lang = $this->getCurrentLanguage();
+
         return UserGroup::with('userGroupTranslations')
             ->get()
             ->map(function ($group) use ($lang) {
                 $trans = $group->userGroupTranslations->where('language_id', $lang->id)->first();
                 $name = $trans?->name ?? $group->userGroupTranslations->first()?->name ?? "ID: {$group->id}";
+
                 return [
                     'id' => $group->id,
                     'name' => $name,

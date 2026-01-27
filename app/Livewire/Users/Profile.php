@@ -2,16 +2,16 @@
 
 namespace App\Livewire\Users;
 
-use App\Livewire\Traits\RequiresAuthentication;
 use App\Livewire\Traits\HandlesMediaUploads;
+use App\Livewire\Traits\RequiresAuthentication;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Profile extends Component
 {
-    use RequiresAuthentication;
     use HandlesMediaUploads;
+    use RequiresAuthentication;
 
     public $name = '';
     public $email = '';
