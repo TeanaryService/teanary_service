@@ -22,7 +22,7 @@
 
 ---
 
-## AI 愿景与设计方向
+## AI 愿景、设计与共建
 
 - **Teanary Vision（英文）**：`VISION.md`  
   - AI‑Native 电商基础设施的愿景  
@@ -31,6 +31,10 @@
 - **Teanary 1.4 概览**  
   - 中文：根目录 `README.md`  
   - English：`READMEEN.md`  
+
+- **共建招募**：`COBUILDING.md`  
+  - 面向一线外贸从业者的共建说明  
+  - 参与方式与反馈如何进入 Teanary 设计  
 
 ---
 
