@@ -6,7 +6,7 @@
 > 
 > 欢迎加入我们的开发者社群讨论、反馈和协作！可通过右侧二维码扫描加入。
 > 
-> <img src="docs/images/teanary-ai-issues-qr.png" width="300" alt="Teanary+AI 原生 Issues 群聊二维码">
+> <img src="docs/images/wechat-group-qrcode.png" width="300" alt="Teanary+AI 原生 Issues 群聊二维码">
 
 ---
 
