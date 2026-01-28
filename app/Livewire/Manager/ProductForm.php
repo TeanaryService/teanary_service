@@ -113,7 +113,6 @@ class ProductForm extends Component
     public function removeAttributeValueRow(int $index): void
     {
         unset($this->attributeValues[$index]);
-        $this->attributeValues = array_values($this->attributeValues);
     }
 
     public function updatedNewImages(): void
