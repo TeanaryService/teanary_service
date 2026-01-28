@@ -105,7 +105,7 @@
 
                         <div class="space-y-3">
                             @foreach($attributeValues as $index => $row)
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-end" wire:key="product-attribute-row-{{ $index }}">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
                                             {{ __('manager.products.attribute') }}
