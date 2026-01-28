@@ -130,8 +130,8 @@ AGPL‑3.0
 
 感谢以下建议者为项目提供宝贵的意见和反馈：
 
-| 建议者 | 建议者 |
-| --- | --- |
+| 建议者 | 建议者 | 测试贡献者 |
+| --- | --- | --- |
 | <img src="docs/images/contributor/suggestion/仲秀.png" width="100" alt="仲秀"> | <img src="docs/images/contributor/suggestion/杨光.png" width="100" alt="杨光"> | <img src="docs/images/contributor/suggestion/懂普帝.jpg.png" width="100" alt="懂普帝"> |
 | **仲秀** | **杨光** | ** 懂普帝 ** |
 
