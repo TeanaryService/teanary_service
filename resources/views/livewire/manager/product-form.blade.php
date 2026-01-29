@@ -86,58 +86,50 @@
 
                     {{-- 属性 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <h2 class="text-lg font-semibold text-gray-900">
-                                {{ __('manager.products.attribute_values') }}
-                            </h2>
-                            <x-widgets.button 
-                                type="button"
-                                wire:click="addAttributeValueRow"
-                                variant="secondary"
-                                size="sm"
-                            >
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                </svg>
-                                {{ __('app.add') }}
-                            </x-widgets.button>
-                        </div>
+                        <h2 class="text-lg font-semibold text-gray-900">
+                            {{ __('manager.products.attribute_values') }}
+                        </h2>
 
-                        <div class="space-y-3">
-                            @foreach($attributeValues as $index => $row)
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-end" wire:key="product-attribute-row-{{ $index }}">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('manager.products.attribute') }}
-                                        </label>
-                                        <x-widgets.select 
-                                            wire="attributeValues.{{ $index }}.attribute_id"
-                                            :options="[['value' => '', 'label' => __('app.please_select')], ...collect($attributeOptions)->map(fn($name, $id) => ['value' => $id, 'label' => $name])->toArray()]"
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            @foreach($attributeList as $attribute)
+                                @php
+                                    $attrId = $attribute->id;
+                                    $attrName = $attributeOptions[$attrId] ?? (string) $attrId;
+                                    $isSelected = in_array($attrId, $selectedAttributes);
+                                    $values = $attributeValueOptions[$attrId] ?? [];
+                                @endphp
+                                <div class="border border-gray-200 rounded-lg p-4 space-y-3" wire:key="attribute-{{ $attrId }}">
+                                    {{-- 属性复选框 --}}
+                                    <div class="flex items-center">
+                                        <x-widgets.checkbox 
+                                            wire:model.live="selectedAttributes"
+                                            :value="$attrId"
+                                            :label="$attrName"
+                                            class="!gap-2"
                                         />
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            {{ __('manager.products.attribute_value') }}
-                                        </label>
-                                        @php
-                                            $attrId = $row['attribute_id'] ?? null;
-                                            $values = $attrId && isset($attributeValueOptions[$attrId]) ? $attributeValueOptions[$attrId] : [];
-                                        @endphp
-                                        <x-widgets.select 
-                                            wire="attributeValues.{{ $index }}.attribute_value_id"
-                                            :options="[['value' => '', 'label' => __('app.please_select')], ...collect($values)->map(fn($vname, $vid) => ['value' => $vid, 'label' => $vname])->toArray()]"
-                                        />
-                                    </div>
-                                    <div class="flex items-center md:justify-end">
-                                        <x-widgets.button 
-                                            type="button"
-                                            wire:click="removeAttributeValueRow({{ $index }})"
-                                            variant="danger-outline"
-                                            size="sm"
-                                        >
-                                            {{ __('app.delete') }}
-                                        </x-widgets.button>
-                                    </div>
+                                    
+                                    {{-- 属性值单选（默认显示） --}}
+                                    @if(!empty($values))
+                                        <div class="ml-2 pl-4 border-l-2 border-gray-200 space-y-2">
+                                            <label class="block text-sm font-medium text-gray-700">
+                                                {{ __('manager.products.attribute_value') }}
+                                            </label>
+                                            <div class="space-y-2">
+                                                @foreach($values as $valueId => $valueName)
+                                                    <label class="flex items-center gap-2 cursor-pointer">
+                                                        <input 
+                                                            type="radio" 
+                                                            wire:model.live="selectedAttributeValues.{{ $attrId }}"
+                                                            value="{{ $valueId }}"
+                                                            class="w-4 h-4 text-teal-600 border-gray-300 focus:ring-teal-500 focus:ring-2"
+                                                        />
+                                                        <span class="text-sm text-gray-700">{{ $valueName }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>

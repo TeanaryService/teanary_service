@@ -31,8 +31,11 @@ class ProductForm extends Component
     public string $status = '';
     public ?string $sourceUrl = null;
 
-    /** @var array<int, array{attribute_id: int|null, attribute_value_id: int|null}> */
-    public array $attributeValues = [];
+    /** @var int[] 选中的属性ID数组 */
+    public array $selectedAttributes = [];
+
+    /** @var array<int, int> 属性ID => 属性值ID 的映射 */
+    public array $selectedAttributeValues = [];
 
     /** @var int[] */
     public array $categoryIds = [];
@@ -45,8 +48,10 @@ class ProductForm extends Component
         'status' => 'required',
         'translationStatus' => 'required',
         'sourceUrl' => 'nullable|url|max:255',
-        'attributeValues.*.attribute_id' => 'nullable|integer',
-        'attributeValues.*.attribute_value_id' => 'nullable|integer',
+        'selectedAttributes' => 'array',
+        'selectedAttributes.*' => 'integer',
+        'selectedAttributeValues' => 'array',
+        'selectedAttributeValues.*' => 'nullable|integer',
         'categoryIds' => 'array',
         'categoryIds.*' => 'integer',
         'translations.*.name' => 'nullable|string|max:255',
@@ -82,37 +87,45 @@ class ProductForm extends Component
             $this->categoryIds = $product->productCategories->pluck('id')->all();
             $this->initializeTranslations($product, 'productTranslations', ['name', 'short_description', 'description']);
 
-            // 初始化属性值行（简单按照当前关联生成）
-            $this->attributeValues = [];
+            // 初始化属性值：从关联中提取
+            $this->selectedAttributes = [];
+            $this->selectedAttributeValues = [];
             foreach ($product->attributeValues as $av) {
-                $this->attributeValues[] = [
-                    'attribute_id' => $av->pivot->attribute_id ?? $av->attribute_id ?? null,
-                    'attribute_value_id' => $av->id,
-                ];
+                $attributeId = $av->pivot->attribute_id ?? $av->attribute_id ?? null;
+                if ($attributeId) {
+                    if (!in_array($attributeId, $this->selectedAttributes)) {
+                        $this->selectedAttributes[] = $attributeId;
+                    }
+                    $this->selectedAttributeValues[$attributeId] = $av->id;
+                }
             }
         } else {
             $this->initializeTranslations(null, 'productTranslations', ['name', 'short_description', 'description']);
 
-            $this->attributeValues = [
-                [
-                    'attribute_id' => null,
-                    'attribute_value_id' => null,
-                ],
-            ];
+            $this->selectedAttributes = [];
+            $this->selectedAttributeValues = [];
         }
     }
 
-    public function addAttributeValueRow(): void
+    public function updatedSelectedAttributes(): void
     {
-        $this->attributeValues[] = [
-            'attribute_id' => null,
-            'attribute_value_id' => null,
-        ];
+        // 当属性选择改变时，移除未选中属性对应的值
+        foreach ($this->selectedAttributeValues as $attributeId => $valueId) {
+            if (!in_array($attributeId, $this->selectedAttributes)) {
+                unset($this->selectedAttributeValues[$attributeId]);
+            }
+        }
     }
 
-    public function removeAttributeValueRow(int $index): void
+    public function updatedSelectedAttributeValues($value, $path): void
     {
-        unset($this->attributeValues[$index]);
+        // 当选择属性值时，自动选中对应的属性
+        if (str_starts_with($path, 'selectedAttributeValues.')) {
+            $attributeId = (int) str_replace('selectedAttributeValues.', '', $path);
+            if ($attributeId && !empty($value) && !in_array($attributeId, $this->selectedAttributes)) {
+                $this->selectedAttributes[] = $attributeId;
+            }
+        }
     }
 
     public function updatedNewImages(): void
@@ -196,16 +209,13 @@ class ProductForm extends Component
 
         // 同步属性值
         $syncAttributeValues = [];
-        foreach ($this->attributeValues as $row) {
-            if (! empty($row['attribute_id']) && ! empty($row['attribute_value_id'])) {
-                $attributeId = (int) $row['attribute_id'];
-                $attributeValueId = (int) $row['attribute_value_id'];
-                $syncAttributeValues[$attributeValueId] = ['attribute_id' => $attributeId];
+        foreach ($this->selectedAttributeValues as $attributeId => $attributeValueId) {
+            if (!empty($attributeId) && !empty($attributeValueId)) {
+                $syncAttributeValues[(int) $attributeValueId] = ['attribute_id' => (int) $attributeId];
             }
         }
-        if (! empty($syncAttributeValues)) {
-            $product->syncAttributeValues($syncAttributeValues);
-        }
+        // 使用空数组也会清空所有关联
+        $product->syncAttributeValues($syncAttributeValues);
 
         // 同步翻译
         $this->saveTranslations($product, ProductTranslation::class, 'product_id', ['name', 'short_description', 'description']);
@@ -229,9 +239,9 @@ class ProductForm extends Component
         $service = $this->getLocaleService();
         $lang = $this->getCurrentLanguage();
 
-        $attributes = Attribute::with('attributeTranslations')->get();
+        $attributeList = Attribute::with('attributeTranslations')->get();
         $attributeOptions = [];
-        foreach ($attributes as $attr) {
+        foreach ($attributeList as $attr) {
             $attributeOptions[$attr->id] = $this->translatedField(
                 $attr->attributeTranslations,
                 $lang,
@@ -266,7 +276,7 @@ class ProductForm extends Component
             'languages' => $this->getLanguages(),
             'statusOptions' => ProductStatusEnum::options(),
             'translationStatusOptions' => TranslationStatusEnum::options(),
-            'attributes' => $attributes,
+            'attributeList' => $attributeList,
             'attributeOptions' => $attributeOptions,
             'attributeValueOptions' => $attributeValueOptions,
             'categories' => $categories,
