@@ -115,7 +115,7 @@
                                             <label class="block text-sm font-medium text-gray-700">
                                                 {{ __('manager.products.attribute_value') }}
                                             </label>
-                                            <div class="space-y-2">
+                                            <div class="space-y-2 max-h-32 overflow-y-auto">
                                                 @foreach($values as $valueId => $valueName)
                                                     <label class="flex items-center gap-2 cursor-pointer">
                                                         <input 
