@@ -11,6 +11,6 @@ class ResizeImageAfterUpload
 {
     public function __invoke(MediaHasBeenAddedEvent $event): void
     {
-        ResizeUploadedImage::dispatch($event->media)->onQueue('low');
+        ResizeUploadedImage::dispatch($event->media);
     }
 }

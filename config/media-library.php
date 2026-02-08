@@ -39,7 +39,7 @@ return [
      * This queue will be used to generate derived and responsive images.
      * Leave empty to use the default queue.
      */
-    'queue_name' => env('MEDIA_QUEUE', 'low'),
+    'queue_name' => env('MEDIA_QUEUE', 'teanary'),
 
     /*
      * By default all conversions will be performed on a queue.
