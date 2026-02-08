@@ -113,6 +113,12 @@ task('deploy:post-publish', [
     'cleanup:unnecessary',
 ])->desc('发布后清理和优化');
 
+desc('将 public 目录设为仅 www 不可写（目录 755，文件 644，owner 可写）');
+task('deploy:public_readonly', function () {
+    cd('{{release_path}}');
+    run('find public -type d -exec chmod 755 {} \;');
+    run('find public -type f -exec chmod 644 {} \;');
+});
 // Hooks
 
 // 在安装 Composer 依赖后执行 NPM 构建
@@ -126,6 +132,8 @@ before('deploy:publish', function () {
 
 // 在发布后执行清理和优化
 after('deploy:publish', 'deploy:post-publish');
+
+after('deploy:symlink', 'deploy:public_readonly');
 
 // 部署成功后重启服务
 after('deploy:success', 'services:restart');
