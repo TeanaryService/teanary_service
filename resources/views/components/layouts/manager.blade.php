@@ -20,6 +20,9 @@
     <meta name="google" value="notranslate">
     <meta name="yandex-verification" content="14a451c112fe3a18" />
 
+    {{-- Hreflang 多语言 SEO --}}
+    <x-layouts.hreflang />
+
     {{-- SEO --}}
     @stack('seo')
 

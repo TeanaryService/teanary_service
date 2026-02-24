@@ -11,11 +11,11 @@ set('keep_releases', 3);
 // Shared files and directories
 add('shared_files', [
     '.env',
-    'public/sitemap.xml',
 ]);
 
 add('shared_dirs', [
     'storage',
+    'public/sitemap',
 ]);
 
 add('writable_dirs', [
