@@ -11,6 +11,7 @@ set('keep_releases', 3);
 // Shared files and directories
 add('shared_files', [
     '.env',
+    'public/robots.txt',
 ]);
 
 add('shared_dirs', [
