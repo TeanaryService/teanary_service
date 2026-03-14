@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Services\LocaleCurrencyService;
 use Closure;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class SetLocaleAndCurrency
 {
@@ -20,6 +21,9 @@ class SetLocaleAndCurrency
 
         session(['lang' => $locale]);
         app()->setLocale($locale);
+
+        // 让 route('livewire.update') 等带 {locale} 的路由能正确生成 URL
+        URL::defaults(['locale' => $locale]);
 
         // ------------------------------
         // 设置货币
