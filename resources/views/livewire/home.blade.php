@@ -70,6 +70,9 @@
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
                 @foreach ($categories as $category)
+                    @if (!is_array($category) || !isset($category['slug'], $category['name'], $category['image_url']))
+                        @continue
+                    @endif
                     <a href="{{ locaRoute('product', ['slug' => $category['slug']]) }}" wire:navigate class="group">
                         <div class="tea-card rounded-xl p-6 text-center">
                             <div class="relative mb-4">

@@ -18,6 +18,9 @@
 
                     <ul class="space-y-6">
                         @foreach ($promotions as $promotion)
+                            @if (!is_array($promotion) || !isset($promotion['name']))
+                                @continue
+                            @endif
                             <li
                                 class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
                                 <div class="flex-1">

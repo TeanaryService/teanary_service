@@ -20,8 +20,10 @@ class Home extends Component
 
     public function render()
     {
+        $categories = collect($this->categories)->filter(fn ($c) => is_array($c) && isset($c['slug'], $c['name'], $c['image_url']))->values();
+
         return view('livewire.home', [
-            'categories' => $this->categories,
+            'categories' => $categories,
         ]);
     }
 }

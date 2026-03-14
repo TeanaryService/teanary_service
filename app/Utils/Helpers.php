@@ -178,8 +178,8 @@ if (! function_exists('getArticleDisplayData')) {
         $image = first_media_url($article, 'image', 'thumb');
 
         return [
-            'title' => $title,
-            'summary' => $summary,
+            'title' => is_array($title) ? implode(' ', $title) : (string) $title,
+            'summary' => is_array($summary) ? implode(' ', $summary) : (string) $summary,
             'image' => $image,
         ];
     }

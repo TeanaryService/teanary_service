@@ -18,8 +18,8 @@ class RandomArticles extends Component
     {
         $this->limit = $limit;
 
-        if ($class) {
-            $this->class = $class;
+        if ($class !== null) {
+            $this->class = is_array($class) ? implode(' ', $class) : (string) $class;
         }
     }
 
