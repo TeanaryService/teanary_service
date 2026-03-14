@@ -31,6 +31,7 @@ class RandomProducts extends Component
             'media',
         ])
             ->active()
+            ->forWarehouse(session('warehouse_id'))
             ->inRandomOrder()
             ->take($this->limit)
             ->get();

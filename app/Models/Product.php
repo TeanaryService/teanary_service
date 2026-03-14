@@ -467,6 +467,19 @@ class Product extends Model implements HasMedia
         return $query->where('status', ProductStatusEnum::Active);
     }
 
+    /**
+     * 只查询属于指定仓库的商品（分仓过滤）.
+     * 若 $warehouseId 为 null 则不过滤.
+     */
+    public function scopeForWarehouse($query, $warehouseId)
+    {
+        if (! $warehouseId) {
+            return $query;
+        }
+
+        return $query->whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId));
+    }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')

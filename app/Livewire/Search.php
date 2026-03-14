@@ -27,18 +27,21 @@ class Search extends Component
         $langId = $this->getCurrentLanguage()?->id;
 
         if ($this->query) {
-            // 搜索商品
+            // 搜索商品（仅当前仓库）
+            $warehouseId = session('warehouse_id');
             $productIds = Product::search($this->query)->keys();
             $products = Product::with(['productTranslations', 'productVariants.media', 'media'])
                 ->active()
+                ->forWarehouse($warehouseId)
                 ->whereIn('id', $productIds)
                 ->take(5)
                 ->get();
 
-            // 如果没有搜索到商品,则随机显示5个
+            // 如果没有搜索到商品,则随机显示5个（当前仓库）
             if ($products->isEmpty()) {
                 $products = Product::with(['productTranslations', 'productVariants.media', 'media'])
                     ->active()
+                    ->forWarehouse($warehouseId)
                     ->inRandomOrder()
                     ->take(5)
                     ->get();
