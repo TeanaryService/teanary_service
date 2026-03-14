@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Middleware\SetLocaleAndCurrency;
 use App\Models\Order;
+use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -42,15 +43,32 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * 配置 Livewire update 路由，添加中间件以从 session 获取语言
+     * 配置 Livewire update 路由，支持多语言：使用 {locale} 参数，使任意语言前缀的 POST 都能匹配
+     * （此前仅注册了 boot 时的默认语言，导致 /ja/livewire/update 等返回 405）
      */
     protected function configureLivewireUpdateRoute(): void
     {
-        Livewire::setUpdateRoute(function ($handle) {
-            $locale = getCurrentLocale();
+        $supportedLocales = $this->getSupportedLocaleCodes();
 
-            return Route::post($locale.'/livewire/update', $handle)
+        Livewire::setUpdateRoute(function ($handle) use ($supportedLocales) {
+            return Route::post('{locale}/livewire/update', $handle)
+                ->where('locale', implode('|', $supportedLocales))
                 ->middleware(['web', SetLocaleAndCurrency::class]);
         });
+    }
+
+    /**
+     * 获取支持的语言代码列表（与 web.php 一致，迁移未执行时回退为 en）
+     */
+    protected function getSupportedLocaleCodes(): array
+    {
+        try {
+            $service = $this->app->make(LocaleCurrencyService::class);
+            $codes = $service->getLanguages()->pluck('code')->toArray();
+        } catch (\Throwable) {
+            $codes = [];
+        }
+
+        return empty($codes) ? ['en'] : $codes;
     }
 }
