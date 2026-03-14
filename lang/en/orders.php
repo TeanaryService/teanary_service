@@ -3,6 +3,7 @@
 return [
     'my_orders' => 'My Orders',
     'order_no' => 'Order Number',
+    'warehouse' => 'Warehouse',
     'total' => 'Order Total',
     'status_label' => 'Order Status',
     'view_details' => 'View Details',

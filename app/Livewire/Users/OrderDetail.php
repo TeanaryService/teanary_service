@@ -47,6 +47,7 @@ class OrderDetail extends Component
                 'shippingAddress.zone.zoneTranslations',
                 'billingAddress',
                 'currency',
+                'warehouse',
             ])
             ->findOrFail($id);
     }

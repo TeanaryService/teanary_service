@@ -28,6 +28,7 @@ class Orders extends Component
                 'orderItems.productVariant.media',
                 'orderItems.product.media',
                 'currency',
+                'warehouse',
             ])
             ->latest()
             ->paginate(10);

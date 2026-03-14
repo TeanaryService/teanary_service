@@ -3,6 +3,7 @@
 return [
     'my_orders' => '我的订单',
     'order_no' => '订单编号',
+    'warehouse' => '发货仓库',
     'total' => '订单金额',
     'status_label' => '订单状态',
     'view_details' => '查看详情',

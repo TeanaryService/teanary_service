@@ -25,30 +25,37 @@ class Cart extends Component
         $cart = app(CartService::class)->getCart();
         $promoService = app(\App\Services\PromotionService::class);
         $user = auth()->user();
-        $this->cartItems = $cart
+
+        $items = $cart
             ? $cart->cartItems()->with([
                 'product.productTranslations',
                 'productVariant.specificationValues.specificationValueTranslations',
                 'productVariant.media',
-            ])->get()->map(function ($item) use ($promoService, $user) {
-                if ($item->productVariant) {
-                    $promo = $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user);
-                    $item->final_price = (float) ($promo['final_price'] ?? $item->productVariant->price ?? 0);
-                    $item->promotion = $promo['promotion'] ?? null;
-                } else {
-                    $item->final_price = 0.0;
-                    $item->promotion = null;
-                }
-
-                return $item;
-            })
+            ])->get()
             : collect();
 
-        // if ($this->cartItems->isEmpty()) {
-        //     return redirect()->route('home', ['locale' => app()->getLocale()]);
-        // }
+        // 只显示当前仓库下的商品
+        $warehouseId = session('warehouse_id');
+        if ($warehouseId && $items->isNotEmpty()) {
+            $allowedProductIds = \App\Models\Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))->pluck('id')->toArray();
+            $items = $items->filter(fn ($item) => in_array($item->product_id, $allowedProductIds));
+        }
+
+        $this->cartItems = $items->map(function ($item) use ($promoService, $user) {
+            if ($item->productVariant) {
+                $promo = $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user);
+                $item->final_price = (float) ($promo['final_price'] ?? $item->productVariant->price ?? 0);
+                $item->promotion = $promo['promotion'] ?? null;
+            } else {
+                $item->final_price = 0.0;
+                $item->promotion = null;
+            }
+
+            return $item;
+        });
 
         $this->selected = $this->cartItems->pluck('id')->toArray();
+        $this->selectAll = true;
         $this->calcTotal();
     }
 
