@@ -6,7 +6,11 @@
 > 
 > 欢迎加入我们的开发者社群讨论、反馈和协作！可通过右侧二维码扫描加入。
 > 
+> <div style="display:flex; gap:1rem; flex-wrap: wrap;">
 > <img src="docs/images/wechat-group-qrcode.png" width="300" alt="Teanary+AI 原生 Issues 群聊二维码">
+> <img src="https://teanary.com/images/my-wechat.jpg" width="300" alt="xcalder">
+> </div>
+> 微信群二维码7天过期，实在麻烦，加我微信吧，我拉进群(加我说明来意)
 
 ---
 
