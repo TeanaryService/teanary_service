@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // 为 Livewire update 路由添加中间件，确保从 session 获取语言
-        // $this->configureLivewireUpdateRoute();
+        $this->configureLivewireUpdateRoute();
     }
 
     /**
