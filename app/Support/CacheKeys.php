@@ -22,4 +22,7 @@ class CacheKeys
 
     // 货币相关
     public const CURRENCIES_ALL = 'currencies.all';
+
+    // 仓库（分仓）相关
+    public const WAREHOUSES_ALL = 'warehouses.all';
 }

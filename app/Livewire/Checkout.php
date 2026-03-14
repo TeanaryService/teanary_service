@@ -424,6 +424,7 @@ class Checkout extends Component
             $order->total = $serverTotal; // 使用服务器端计算的值
             $order->status = OrderStatusEnum::Pending; // 直接设置，不来自用户输入
             $order->currency_id = $currency->id;
+            $order->warehouse_id = session('warehouse_id');
             $order->save();
 
             $this->dispatch('flash-message', type: 'success', message: __('app.order_created_successfully'));

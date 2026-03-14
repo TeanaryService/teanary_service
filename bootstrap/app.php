@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         //
-        // $middleware->append(SetLocaleAndCurrency::class);
+        $middleware->append(SetLocaleAndCurrency::class);
         // 替换 Laravel 默认的 auth 中间件
         $middleware->alias([
             'auth' => \App\Http\Middleware\CustomAuthenticate::class,

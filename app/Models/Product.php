@@ -407,6 +407,11 @@ class Product extends Model implements HasMedia
             ->using(\App\Models\ProductCategory::class);
     }
 
+    public function warehouses(): BelongsToMany
+    {
+        return $this->belongsToMany(Warehouse::class, 'product_warehouse');
+    }
+
     /**
      * 同步分类并触发同步.
      */

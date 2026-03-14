@@ -129,6 +129,12 @@
             'key' => 'currencies',
         ],
         [
+            'name' => __('manager.warehouses.label'),
+            'route' => 'manager.warehouses',
+            'icon' => 'heroicon-o-building-storefront',
+            'key' => 'warehouses',
+        ],
+        [
             'name' => __('manager.countries.label'),
             'route' => 'manager.countries',
             'icon' => 'heroicon-o-globe-alt',

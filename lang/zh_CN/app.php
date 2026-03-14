@@ -173,4 +173,7 @@ return [
     'recent_orders' => '最近订单',
     'order_id' => '订单编号',
     'status' => '状态',
+    'warehouse' => '分仓',
+    'default' => '默认',
+    'warehouse_checkout_empty' => '当前分仓下没有可结算的商品，请切换分仓或移除购物车中其它分仓的商品。',
 ];

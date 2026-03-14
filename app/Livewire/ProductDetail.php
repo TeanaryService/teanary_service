@@ -173,7 +173,7 @@ class ProductDetail extends Component
     {
         $lang = $this->getCurrentLanguage();
 
-        $this->product = Product::with([
+        $query = Product::with([
             'media',
             'productTranslations',
             'productVariants.specificationValues.specificationValueTranslations',
@@ -183,7 +183,13 @@ class ProductDetail extends Component
             'productCategories.categoryTranslations',
             'attributeValues.attributeValueTranslations',
             'attributeValues.attribute.attributeTranslations',
-        ])->active()->where('slug', $slug)->firstOrFail();
+        ])->active()->where('slug', $slug);
+
+        $warehouseId = session('warehouse_id');
+        if ($warehouseId) {
+            $query->whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId));
+        }
+        $this->product = $query->firstOrFail();
 
         $this->variants = $this->product->productVariants;
 

@@ -40,6 +40,8 @@ use App\Livewire\Manager\SpecificationValues;
 use App\Livewire\Manager\TrafficStatistics;
 use App\Livewire\Manager\UserForm;
 use App\Livewire\Manager\Users;
+use App\Livewire\Manager\WarehouseForm;
+use App\Livewire\Manager\Warehouses;
 use App\Livewire\Manager\ZoneForm;
 use App\Livewire\Manager\Zones;
 use Illuminate\Support\Facades\Auth;
@@ -66,6 +68,11 @@ Route::prefix('manager')->group(function () {
         Route::livewire('currencies', Currencies::class)->name('manager.currencies');
         Route::livewire('currencies/create', CurrencyForm::class)->name('manager.currencies.create');
         Route::livewire('currencies/{id}/edit', CurrencyForm::class)->name('manager.currencies.edit');
+
+        // 分仓（仓库）管理
+        Route::livewire('warehouses', Warehouses::class)->name('manager.warehouses');
+        Route::livewire('warehouses/create', WarehouseForm::class)->name('manager.warehouses.create');
+        Route::livewire('warehouses/{id}/edit', WarehouseForm::class)->name('manager.warehouses.edit');
 
         // 国家管理
         Route::livewire('countries', Countries::class)->name('manager.countries');

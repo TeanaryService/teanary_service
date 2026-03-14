@@ -50,6 +50,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CommerceSeeder::class);
 
+        $this->call(WarehouseSeeder::class);
+
         Artisan::call('scout:sync-index-settings');
     }
 

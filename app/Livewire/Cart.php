@@ -108,7 +108,6 @@ class Cart extends Component
     {
         $locale = app()->getLocale();
 
-        // 只传递必要的商品信息
         $selectedItems = $this->cartItems->whereIn('id', $this->selected)
             ->map(function ($item) {
                 return [
@@ -118,6 +117,21 @@ class Cart extends Component
                     'qty' => $item->qty,
                 ];
             })->toArray();
+
+        // 只保留属于当前仓库的商品
+        $warehouseId = session('warehouse_id');
+        if ($warehouseId) {
+            $allowedProductIds = \App\Models\Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))
+                ->pluck('id')
+                ->toArray();
+            $selectedItems = array_values(array_filter($selectedItems, fn ($item) => in_array($item['product_id'], $allowedProductIds)));
+        }
+
+        if (empty($selectedItems)) {
+            $this->dispatch('flash-message', type: 'warning', message: __('app.warehouse_checkout_empty'));
+
+            return;
+        }
 
         session()->put('checkout_items', $selectedItems);
 

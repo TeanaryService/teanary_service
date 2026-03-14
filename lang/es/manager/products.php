@@ -9,6 +9,8 @@ return [
     'status' => 'Estado',
     'translation_status' => 'Estado de traducción',
     'categories' => 'Categorías',
+    'warehouses' => 'Almacenes',
+    'warehouses_help' => 'Seleccione desde qué almacenes se puede enviar este producto; la tienda filtrará por almacén seleccionado y calculará el envío desde él.',
     'low_stock' => 'Stock bajo',
     'out_of_stock' => 'Sin stock',
     'price_range' => 'Rango de precios',

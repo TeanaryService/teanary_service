@@ -4,6 +4,7 @@ namespace App\Services\Shipping\Calculators;
 
 use App\Enums\ShippingMethodEnum;
 use App\Models\Address;
+use App\Models\Warehouse;
 use App\Services\LocaleCurrencyService;
 use App\Services\Shipping\Contracts\ShippingCalculatorInterface;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,7 @@ class SFExpressCalculator implements ShippingCalculatorInterface
         $this->zones = ShippingMethodEnum::SF_INTERNATIONAL->apiParams()['zones'];
     }
 
-    public function calculate(array $processedItems, ?Address $address): array
+    public function calculate(array $processedItems, ?Address $address, ?Warehouse $originWarehouse = null): array
     {
         if (! $address) {
             return [];
