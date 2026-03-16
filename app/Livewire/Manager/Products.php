@@ -177,6 +177,9 @@ class Products extends Component
             }
             $product->category_names_text = implode(', ', array_filter($names)) ?: '-';
 
+            // 当前语言下的商品名称（列表展示用）
+            $product->display_name = $this->translatedField($product->productTranslations, $lang, 'name', $product->slug);
+
             return $product;
         });
 

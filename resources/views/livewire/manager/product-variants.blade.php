@@ -12,8 +12,8 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ __('manager.product_variants.label') }} - 
-                        {{ $product->productTranslations->first()->name ?? $product->slug }}
+                        {{ __('manager.product_variants.label') }} -
+                        {{ $productDisplayName }}
                     </h1>
                     <p class="mt-1 text-sm text-gray-500">
                         SKU / {{ __('manager.product_variants.specification_values') }}

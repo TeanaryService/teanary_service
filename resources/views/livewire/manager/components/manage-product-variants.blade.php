@@ -113,16 +113,14 @@
                                             @php
                                                 $spec = \App\Models\Specification::with('specificationTranslations')->find($specId);
                                                 $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale());
-                                                $specTrans = $spec?->specificationTranslations->where('language_id', $lang?->id)->first();
-                                                $specName = $specTrans?->name ?? $spec?->specificationTranslations->first()->name ?? $specId;
+                                                $specName = $this->translatedField($spec?->specificationTranslations, $lang, 'name', (string) $specId);
                                             @endphp
                                             <div class="flex gap-1 flex-wrap">
                                                 <span class="font-medium text-gray-700">{{ $specName }}:</span>
                                                 @foreach($values as $v)
                                                     @php
                                                         $sv = \App\Models\SpecificationValue::with('specificationValueTranslations')->find($v['specification_value_id']);
-                                                        $valTrans = $sv?->specificationValueTranslations->where('language_id', $lang?->id)->first();
-                                                        $valName = $valTrans?->name ?? $sv?->specificationValueTranslations->first()->name ?? $v['specification_value_id'];
+                                                        $valName = $this->translatedField($sv?->specificationValueTranslations, $lang, 'name', (string) ($v['specification_value_id'] ?? ''));
                                                     @endphp
                                                     <span class="text-gray-700">{{ $valName }}</span>
                                                 @endforeach

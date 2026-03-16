@@ -12,8 +12,8 @@
             <div class="flex-1">
                 <div class="mb-6">
                     <h1 class="text-3xl font-bold text-gray-900">
-                        {{ __('manager.product_reviews.label') }} - 
-                        {{ $product->productTranslations->first()->name ?? $product->slug }}
+                        {{ __('manager.product_reviews.label') }} -
+                        {{ $product->productTranslations->where('language_id', $lang?->id)->first()?->name ?? $product->productTranslations->first()?->name ?? $product->slug }}
                     </h1>
                 </div>
 
