@@ -12,6 +12,11 @@ class LanguageObserver
         (new LocaleCurrencyService)->clearLanguagesCache();
     }
 
+    public function updated(Language $language)
+    {
+        (new LocaleCurrencyService)->clearLanguagesCache();
+    }
+
     public function deleted(Language $language)
     {
         (new LocaleCurrencyService)->clearLanguagesCache();
