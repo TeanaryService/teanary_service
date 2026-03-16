@@ -43,16 +43,19 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * 配置 Livewire update 路由，支持多语言：使用 {locale} 参数，使任意语言前缀的 POST 都能匹配
-     * （此前仅注册了 boot 时的默认语言，导致 /ja/livewire/update 等返回 405）
+     * 配置 Livewire update 路由，支持多语言。
+     *
+     * 注意：这里不要依赖「数据库中的语言列表」来限制路由的 {locale}，
+     * 否则在使用 route:cache 情况下，之后新增/修改语言 code 时正则不会更新，
+     * 会导致新语言前缀的 /{locale}/livewire/update 匹配失败。
+     * 我们改为接受任意 {locale}，由中间件 SetLocaleAndCurrency 自行处理合法性与回退。
      */
     protected function configureLivewireUpdateRoute(): void
     {
-        $supportedLocales = $this->getSupportedLocaleCodes();
-
-        Livewire::setUpdateRoute(function ($handle) use ($supportedLocales) {
+        Livewire::setUpdateRoute(function ($handle) {
             return Route::post('{locale}/livewire/update', $handle)
-                ->where('locale', implode('|', $supportedLocales))
+                // 这里不对 locale 进行具体枚举限制，仅限制字符格式，避免 route:cache 后语言变更失效
+                ->where('locale', '[A-Za-z0-9_-]+')
                 ->middleware(['web', SetLocaleAndCurrency::class]);
         });
     }
