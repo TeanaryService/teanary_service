@@ -6,8 +6,10 @@
 
 namespace App\Models;
 
+use App\Observers\ZoneTranslationObserver;
 use App\Traits\Syncable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Language $language
  * @property Zone $zone
  */
+#[ObservedBy([ZoneTranslationObserver::class])]
 class ZoneTranslation extends Model
 {
     use HasFactory;
