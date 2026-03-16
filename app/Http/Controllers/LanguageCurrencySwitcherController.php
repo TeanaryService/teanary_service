@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Services\LocaleCurrencyService;
+use App\Services\WarehouseService;
 use Illuminate\Http\Request;
 
 class LanguageCurrencySwitcherController extends Controller
 {
     public function __construct(
-        protected LocaleCurrencyService $localeCurrencyService
+        protected LocaleCurrencyService $localeCurrencyService,
+        protected WarehouseService $warehouseService
     ) {}
 
     public function update(Request $request)
@@ -18,7 +20,6 @@ class LanguageCurrencySwitcherController extends Controller
             if ($language) {
                 $request->session()->put('lang', $language->code);
             } else {
-                // 如果找不到语言，使用默认语言
                 $request->session()->put('lang', $this->localeCurrencyService->getDefaultLanguageCode());
             }
         }
@@ -28,12 +29,22 @@ class LanguageCurrencySwitcherController extends Controller
             if ($currency) {
                 $request->session()->put('currency', $currency->code);
             } else {
-                // 如果找不到货币，使用默认货币
                 $request->session()->put('currency', $this->localeCurrencyService->getDefaultCurrencyCode());
             }
         }
 
-        // 简单刷新上一个页面
+        if ($request->filled('warehouse_id')) {
+            $warehouseId = $request->input('warehouse_id');
+            $warehouse = $this->warehouseService->getWarehouseById($warehouseId);
+            if ($warehouse) {
+                $request->session()->put('warehouse_id', $warehouse->id);
+                // 切换仓库后清空购物车，避免跨仓混单
+                $request->session()->forget('cart_id');
+            } else {
+                $request->session()->put('warehouse_id', $this->warehouseService->getDefaultWarehouseId());
+            }
+        }
+
         return redirect()->back();
     }
 }

@@ -68,12 +68,17 @@ class Zone extends Model
     }
 
     /**
-     * 获取所有地区数据缓存(包含所有语言).
+     * 获取指定国家的地区数据缓存（按国家缓存，避免单条缓存过大超过 MySQL max_allowed_packet）.
+     *
+     * @return array<int, array{id: int, country_id: int, translations: array<int, string>, default_name: string}>
      */
-    public static function getCachedZones()
+    public static function getCachedZonesForCountry(int $countryId): array
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever('zones.with.translations', function () {
+        $key = \App\Support\CacheKeys::ZONES_BY_COUNTRY_PREFIX.$countryId;
+
+        return \Illuminate\Support\Facades\Cache::rememberForever($key, function () use ($countryId) {
             return static::with('zoneTranslations')
+                ->where('country_id', $countryId)
                 ->get()
                 ->map(function ($zone) {
                     return [
@@ -83,7 +88,7 @@ class Zone extends Model
                             ->mapWithKeys(function ($trans) {
                                 return [$trans->language_id => $trans->name];
                             })->toArray(),
-                        'default_name' => $zone->name,
+                        'default_name' => $zone->name ?? $zone->zoneTranslations->first()?->name ?? '',
                     ];
                 })
                 ->values()
@@ -94,13 +99,12 @@ class Zone extends Model
     /**
      * 从缓存获取指定国家和语言的地区列表.
      */
-    public static function getZonesByCountryAndLanguage(int $countryId, ?int $langId = null)
+    public static function getZonesByCountryAndLanguage(int $countryId, ?int $langId = null): array
     {
-        $zones = self::getCachedZones();
+        $zones = self::getCachedZonesForCountry($countryId);
         $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
         return collect($zones)
-            ->where('country_id', $countryId)
             ->map(function ($zone) use ($langId) {
                 return [
                     'id' => $zone['id'],
@@ -110,5 +114,13 @@ class Zone extends Model
             ->sortBy('name')
             ->values()
             ->toArray();
+    }
+
+    /**
+     * 清除指定国家的地区缓存（Zone/ZoneTranslation 变更时调用）.
+     */
+    public static function clearZoneCacheForCountry(int $countryId): void
+    {
+        \Illuminate\Support\Facades\Cache::forget(\App\Support\CacheKeys::ZONES_BY_COUNTRY_PREFIX.$countryId);
     }
 }

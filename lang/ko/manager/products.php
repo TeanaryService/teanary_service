@@ -9,6 +9,8 @@ return [
     'status' => '상태',
     'translation_status' => '번역 상태',
     'categories' => '카테고리',
+    'warehouses' => '창고',
+    'warehouses_help' => '이 제품을 배송할 수 있는 창고를 선택하세요. 스토어는 선택한 창고로 필터링하며 배송비를 해당 창고 기준으로 계산합니다.',
     'low_stock' => '재고 부족',
     'out_of_stock' => '재고 없음',
     'price_range' => '가격 범위',

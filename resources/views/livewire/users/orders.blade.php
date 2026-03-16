@@ -67,11 +67,21 @@
                                             <span class="text-sm font-medium text-gray-500">{{ __('orders.order_no') }}:</span>
                                             <span class="text-base font-bold text-gray-900">{{ $order->order_no }}</span>
                                         </div>
-                                        <div class="flex items-center gap-2 text-xs text-gray-500">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                            <span>{{ $order->created_at->format('Y-m-d H:i:s') }}</span>
+                                        <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
+                                            <span class="flex items-center gap-1">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                {{ $order->created_at->format('Y-m-d H:i:s') }}
+                                            </span>
+                                            @if($order->warehouse)
+                                                <span class="flex items-center gap-1 text-teal-600">
+                                                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                                    </svg>
+                                                    {{ __('orders.warehouse') }}: {{ $order->warehouse->name }}
+                                                </span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

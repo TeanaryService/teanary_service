@@ -9,6 +9,8 @@ return [
     'status' => 'Status',
     'translation_status' => 'Übersetzungsstatus',
     'categories' => 'Kategorien',
+    'warehouses' => 'Lager',
+    'warehouses_help' => 'Wählen Sie die Lager, von denen dieses Produkt versendet werden kann; der Shop filtert nach gewähltem Lager und berechnet den Versand davon.',
     'low_stock' => 'Niedriger Lagerbestand',
     'out_of_stock' => 'Nicht vorrätig',
     'price_range' => 'Preisspanne',

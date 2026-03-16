@@ -51,8 +51,16 @@ class Product extends Component
             }
         }
 
-        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues', 'media'])
+        $query = ProductModel::with(['productTranslations', 'productVariants.media', 'productCategories', 'attributeValues', 'warehouses', 'media'])
             ->active();
+
+        // 按当前仓库过滤：只显示该仓库下的商品
+        $warehouseId = session('warehouse_id');
+        if ($warehouseId) {
+            $query->whereHas('warehouses', function ($q) use ($warehouseId) {
+                $q->where('warehouses.id', $warehouseId);
+            });
+        }
 
         // 添加搜索条件
         if ($search) {

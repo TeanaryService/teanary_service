@@ -9,6 +9,8 @@ return [
     'status' => '状态',
     'translation_status' => '翻译状态',
     'categories' => '分类',
+    'warehouses' => '分仓（仓库）',
+    'warehouses_help' => '勾选该商品可从哪些仓库发货；前台将按用户所选分仓展示并计算邮费。',
     'low_stock' => '低库存',
     'out_of_stock' => '缺货',
     'price_range' => '价格区间',

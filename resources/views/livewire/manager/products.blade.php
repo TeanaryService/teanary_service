@@ -149,7 +149,7 @@
                                             @if($product->hasMedia('images'))
                                                 <div class="w-16 h-16 flex-shrink-0">
                                                     <img src="{{ first_media_url($product, 'images', 'thumb') }}" 
-                                                         alt="{{ $product->productTranslations->first()?->name ?? $product->slug }}"
+                                                         alt="{{ $product->display_name }}"
                                                          class="w-full h-full object-cover rounded-lg">
                                                 </div>
                                             @else
@@ -162,7 +162,7 @@
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-900">
                                             <div class="font-medium">
-                                                {{ $product->productTranslations->first()?->name ?? $product->slug }}
+                                                {{ $product->display_name }}
                                             </div>
                                             <div class="text-xs text-gray-500 mt-1">
                                                 <code class="bg-gray-100 rounded px-1 py-0.5">{{ $product->slug }}</code>

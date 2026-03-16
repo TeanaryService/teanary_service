@@ -12,7 +12,7 @@ class ZoneObserver
     public function created(Zone $zone): void
     {
         //
-        $this->clearZoneCache();
+        $this->clearZoneCache($zone);
     }
 
     /**
@@ -21,7 +21,7 @@ class ZoneObserver
     public function updated(Zone $zone): void
     {
         //
-        $this->clearZoneCache();
+        $this->clearZoneCache($zone);
     }
 
     /**
@@ -51,14 +51,14 @@ class ZoneObserver
     public function deleted(Zone $zone): void
     {
         //
-        $this->clearZoneCache();
+        $this->clearZoneCache($zone);
     }
 
     /**
-     * 清除所有语言下的地区缓存.
+     * 清除该地区所属国家的地区缓存（按国家缓存，只清除受影响国家）.
      */
-    protected function clearZoneCache(): void
+    protected function clearZoneCache(Zone $zone): void
     {
-        \Illuminate\Support\Facades\Cache::forget('zones.with.translations');
+        Zone::clearZoneCacheForCountry($zone->country_id);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\CartItem;
+use App\Models\Product;
 use App\Services\CartService;
 use App\Services\PromotionService;
 use Livewire\Component;
@@ -27,7 +28,17 @@ class CartDropdown extends Component
         $cart = app(CartService::class)->getCart();
         $service = app(PromotionService::class);
         $user = auth()->user();
-        $this->cartItems = $cart ? $cart->cartItems()->with(['product.productTranslations', 'productVariant.specificationValues.specificationValueTranslations', 'productVariant.media'])->get()->map(function ($item) use ($service, $user) {
+
+        $items = $cart ? $cart->cartItems()->with(['product.productTranslations', 'productVariant.specificationValues.specificationValueTranslations', 'productVariant.media'])->get() : collect();
+
+        // 只显示当前仓库下的商品
+        $warehouseId = session('warehouse_id');
+        if ($warehouseId && $items->isNotEmpty()) {
+            $allowedProductIds = Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))->pluck('id')->toArray();
+            $items = $items->filter(fn ($item) => in_array($item->product_id, $allowedProductIds));
+        }
+
+        $this->cartItems = $items->map(function ($item) use ($service, $user) {
             if ($item->productVariant) {
                 $promo = $service->calculateVariantPrice($item->productVariant, $item->qty, $user);
                 $item->final_price = (float) ($promo['final_price'] ?? $item->productVariant->price ?? 0);
@@ -38,7 +49,7 @@ class CartDropdown extends Component
             }
 
             return $item;
-        }) : collect();
+        });
         $this->cartTotal = $this->cartItems->sum(function ($item) {
             $price = $item->final_price ?? 0;
             if ($price <= 0 && $item->productVariant) {

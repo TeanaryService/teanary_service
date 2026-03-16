@@ -13,6 +13,7 @@ class FeaturedProducts extends Component
     {
         $this->products = Product::with(['productTranslations', 'productVariants.media', 'media'])
             ->active()
+            ->forWarehouse(session('warehouse_id'))
             ->latest('id')
             ->take(8)
             ->get();

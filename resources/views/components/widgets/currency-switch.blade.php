@@ -31,9 +31,11 @@
         </div>
     </div>
 
-    <form id="lang-currency-form" method="POST" action="{{ locaRoute('currency-switcher.update') }}" class="hidden">
-        @csrf
-        <input type="hidden" name="lang" id="lang-input">
-        <input type="hidden" name="currency" id="currency-input">
-    </form>
 </div>
+
+<form id="lang-currency-form" method="POST" action="{{ locaRoute('currency-switcher.update') }}" class="hidden">
+    @csrf
+    <input type="hidden" name="lang" id="lang-input" value="{{ session('lang') }}">
+    <input type="hidden" name="currency" id="currency-input" value="{{ session('currency') }}">
+    <input type="hidden" name="warehouse_id" id="warehouse-input" value="{{ session('warehouse_id') }}">
+</form>

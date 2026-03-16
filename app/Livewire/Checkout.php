@@ -6,6 +6,7 @@ use App\Enums\OrderStatusEnum;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\ProductVariant;
 use App\Services\PromotionService;
 use App\Services\ShippingService;
@@ -424,7 +425,19 @@ class Checkout extends Component
             $order->total = $serverTotal; // 使用服务器端计算的值
             $order->status = OrderStatusEnum::Pending; // 直接设置，不来自用户输入
             $order->currency_id = $currency->id;
+            $order->warehouse_id = session('warehouse_id');
             $order->save();
+
+            // 写入订单明细（OrderItem）
+            foreach ($this->processedItems as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product_id'],
+                    'product_variant_id' => $item['product_variant_id'],
+                    'qty' => (int) $item['qty'],
+                    'price' => (float) $item['price'],
+                ]);
+            }
 
             $this->dispatch('flash-message', type: 'success', message: __('app.order_created_successfully'));
 

@@ -40,6 +40,9 @@ class ProductForm extends Component
     /** @var int[] */
     public array $categoryIds = [];
 
+    /** @var int[] 选中的仓库（分仓）ID */
+    public array $warehouseIds = [];
+
     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile[] */
     public array $newImages = [];
 
@@ -54,6 +57,8 @@ class ProductForm extends Component
         'selectedAttributeValues.*' => 'nullable|integer',
         'categoryIds' => 'array',
         'categoryIds.*' => 'integer',
+        'warehouseIds' => 'array',
+        'warehouseIds.*' => 'integer',
         'translations.*.name' => 'nullable|string|max:255',
         'translations.*.short_description' => 'nullable|string',
         'translations.*.description' => 'nullable|string',
@@ -77,7 +82,7 @@ class ProductForm extends Component
 
         if ($id) {
             $this->productId = $id;
-            $product = Product::with(['productTranslations', 'productCategories', 'attributeValues'])->findOrFail($id);
+            $product = Product::with(['productTranslations', 'productCategories', 'attributeValues', 'warehouses'])->findOrFail($id);
 
             $this->slug = $product->slug;
             $this->status = $product->status->value;
@@ -85,6 +90,7 @@ class ProductForm extends Component
             $this->sourceUrl = $product->source_url;
 
             $this->categoryIds = $product->productCategories->pluck('id')->all();
+            $this->warehouseIds = $product->warehouses->pluck('id')->all();
             $this->initializeTranslations($product, 'productTranslations', ['name', 'short_description', 'description']);
 
             // 初始化属性值：从关联中提取
@@ -207,6 +213,9 @@ class ProductForm extends Component
         // 同步分类
         $product->syncProductCategories($this->categoryIds);
 
+        // 同步仓库（分仓）
+        $product->warehouses()->sync($this->warehouseIds);
+
         // 同步属性值
         $syncAttributeValues = [];
         foreach ($this->selectedAttributeValues as $attributeId => $attributeValueId) {
@@ -266,6 +275,8 @@ class ProductForm extends Component
             ];
         });
 
+        $warehouses = app(\App\Services\WarehouseService::class)->getWarehouses();
+
         $existingImages = [];
         if ($this->productId) {
             $product = Product::with('media')->find($this->productId);
@@ -280,6 +291,7 @@ class ProductForm extends Component
             'attributeOptions' => $attributeOptions,
             'attributeValueOptions' => $attributeValueOptions,
             'categories' => $categories,
+            'warehouses' => $warehouses,
             'existingImages' => $existingImages,
         ])->layout('components.layouts.manager');
     }

@@ -84,6 +84,26 @@
                         </div>
                     </div>
 
+                    {{-- 分仓（仓库） --}}
+                    @if($warehouses->isNotEmpty())
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
+                        <h2 class="text-lg font-semibold text-gray-900">
+                            {{ __('manager.products.warehouses') }}
+                        </h2>
+                        <p class="text-sm text-gray-500">{{ __('manager.products.warehouses_help') }}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            @foreach($warehouses as $wh)
+                                <x-widgets.checkbox
+                                    wire="warehouseIds"
+                                    :value="$wh->id"
+                                    :label="$wh->name . ($wh->is_default ? ' (' . __('app.default') . ')' : '')"
+                                    class="!gap-2"
+                                />
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     {{-- 属性 --}}
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
                         <h2 class="text-lg font-semibold text-gray-900">

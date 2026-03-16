@@ -182,4 +182,7 @@ return [
     'recent_orders' => 'Recent Orders',
     'order_id' => 'Order ID',
     'status' => 'Status',
+    'warehouse' => 'Warehouse',
+    'default' => 'Default',
+    'warehouse_checkout_empty' => 'No items from current warehouse to checkout. Please switch warehouse or remove items from other warehouses.',
 ];

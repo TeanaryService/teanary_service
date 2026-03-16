@@ -9,6 +9,8 @@ return [
     'status' => 'Status',
     'translation_status' => 'Translation Status',
     'categories' => 'Categories',
+    'warehouses' => 'Warehouses',
+    'warehouses_help' => 'Select which warehouses can ship this product; the store will filter by selected warehouse and calculate shipping from it.',
     'low_stock' => 'Low Stock',
     'out_of_stock' => 'Out of Stock',
     'price_range' => 'Price Range',

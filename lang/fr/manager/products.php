@@ -9,6 +9,8 @@ return [
     'status' => 'Statut',
     'translation_status' => 'Statut de traduction',
     'categories' => 'Catégories',
+    'warehouses' => 'Entrepôts',
+    'warehouses_help' => 'Cochez les entrepôts pouvant expédier ce produit ; la boutique filtre par entrepôt choisi et calcule les frais de port à partir de celui-ci.',
     'low_stock' => 'Stock faible',
     'out_of_stock' => 'Rupture de stock',
     'price_range' => 'Gamme de prix',

@@ -78,10 +78,13 @@ class ProductVariants extends Component
 
     public function render()
     {
-        $product = Product::findOrFail($this->productId);
+        $product = Product::with('productTranslations')->findOrFail($this->productId);
+        $lang = $this->getCurrentLanguage();
+        $productDisplayName = $this->translatedField($product->productTranslations, $lang, 'name', $product->slug);
 
         return view('livewire.manager.product-variants', [
             'product' => $product,
+            'productDisplayName' => $productDisplayName,
             'variants' => $this->variants,
         ])->layout('components.layouts.manager');
     }

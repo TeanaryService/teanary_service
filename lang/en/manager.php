@@ -58,6 +58,8 @@ return [
     'currency' => require __DIR__.'/manager/currencies.php',
     'languages' => require __DIR__.'/manager/languages.php',
     'language' => require __DIR__.'/manager/languages.php',
+    'warehouses' => require __DIR__.'/manager/warehouses.php',
+    'warehouse' => require __DIR__.'/manager/warehouse.php',
     'managers' => require __DIR__.'/manager/managers.php',
     'manager' => require __DIR__.'/manager/managers.php',
     'users' => require __DIR__.'/manager/users.php',

@@ -58,20 +58,20 @@ class ZoneTest extends TestCase
         $this->assertEquals('zone_id', $relation->getForeignKeyName());
     }
 
-    public function test_get_cached_zones()
+    public function test_get_cached_zones_for_country()
     {
         Cache::flush();
         $country = Country::factory()->create();
         $zone = Zone::factory()->create(['country_id' => $country->id]);
-        $translation = ZoneTranslation::factory()->create(['zone_id' => $zone->id]);
+        ZoneTranslation::factory()->create(['zone_id' => $zone->id]);
 
-        $zones = Zone::getCachedZones();
+        $zones = Zone::getCachedZonesForCountry($country->id);
 
         $this->assertIsArray($zones);
         $this->assertCount(1, $zones);
         $this->assertArrayHasKey('id', $zones[0]);
         $this->assertArrayHasKey('translations', $zones[0]);
-        $this->assertTrue(Cache::has('zones.with.translations'));
+        $this->assertTrue(Cache::has(\App\Support\CacheKeys::ZONES_BY_COUNTRY_PREFIX.$country->id));
     }
 
     public function test_get_zones_by_country_and_language()

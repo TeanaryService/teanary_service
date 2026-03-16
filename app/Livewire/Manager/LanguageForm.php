@@ -61,7 +61,8 @@ class LanguageForm extends Component
         $this->validate();
 
         $data = [
-            'code' => strtolower($this->code),
+            // 'code' => strtolower($this->code),
+            'code' => $this->code,
             'name' => $this->name,
             'default' => $this->default,
         ];

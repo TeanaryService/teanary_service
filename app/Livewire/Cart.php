@@ -25,30 +25,37 @@ class Cart extends Component
         $cart = app(CartService::class)->getCart();
         $promoService = app(\App\Services\PromotionService::class);
         $user = auth()->user();
-        $this->cartItems = $cart
+
+        $items = $cart
             ? $cart->cartItems()->with([
                 'product.productTranslations',
                 'productVariant.specificationValues.specificationValueTranslations',
                 'productVariant.media',
-            ])->get()->map(function ($item) use ($promoService, $user) {
-                if ($item->productVariant) {
-                    $promo = $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user);
-                    $item->final_price = (float) ($promo['final_price'] ?? $item->productVariant->price ?? 0);
-                    $item->promotion = $promo['promotion'] ?? null;
-                } else {
-                    $item->final_price = 0.0;
-                    $item->promotion = null;
-                }
-
-                return $item;
-            })
+            ])->get()
             : collect();
 
-        // if ($this->cartItems->isEmpty()) {
-        //     return redirect()->route('home', ['locale' => app()->getLocale()]);
-        // }
+        // 只显示当前仓库下的商品
+        $warehouseId = session('warehouse_id');
+        if ($warehouseId && $items->isNotEmpty()) {
+            $allowedProductIds = \App\Models\Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))->pluck('id')->toArray();
+            $items = $items->filter(fn ($item) => in_array($item->product_id, $allowedProductIds));
+        }
+
+        $this->cartItems = $items->map(function ($item) use ($promoService, $user) {
+            if ($item->productVariant) {
+                $promo = $promoService->calculateVariantPrice($item->productVariant, $item->qty, $user);
+                $item->final_price = (float) ($promo['final_price'] ?? $item->productVariant->price ?? 0);
+                $item->promotion = $promo['promotion'] ?? null;
+            } else {
+                $item->final_price = 0.0;
+                $item->promotion = null;
+            }
+
+            return $item;
+        });
 
         $this->selected = $this->cartItems->pluck('id')->toArray();
+        $this->selectAll = true;
         $this->calcTotal();
     }
 
@@ -108,7 +115,6 @@ class Cart extends Component
     {
         $locale = app()->getLocale();
 
-        // 只传递必要的商品信息
         $selectedItems = $this->cartItems->whereIn('id', $this->selected)
             ->map(function ($item) {
                 return [
@@ -118,6 +124,21 @@ class Cart extends Component
                     'qty' => $item->qty,
                 ];
             })->toArray();
+
+        // 只保留属于当前仓库的商品
+        $warehouseId = session('warehouse_id');
+        if ($warehouseId) {
+            $allowedProductIds = \App\Models\Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))
+                ->pluck('id')
+                ->toArray();
+            $selectedItems = array_values(array_filter($selectedItems, fn ($item) => in_array($item['product_id'], $allowedProductIds)));
+        }
+
+        if (empty($selectedItems)) {
+            $this->dispatch('flash-message', type: 'warning', message: __('app.warehouse_checkout_empty'));
+
+            return;
+        }
 
         session()->put('checkout_items', $selectedItems);
 

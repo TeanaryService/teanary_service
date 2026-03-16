@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Services\LocaleCurrencyService;
+use App\Services\WarehouseService;
 use Closure;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -36,6 +37,20 @@ class SetLocaleAndCurrency
         } else {
             // 如果表不存在或货币不存在，使用默认值
             Session::put('currency', $currencyCode ?: 'CNY');
+        }
+
+        // ------------------------------
+        // 设置当前仓库（分仓）
+        // ------------------------------
+        $warehouseService = new WarehouseService;
+        $warehouseId = Session::get('warehouse_id');
+        if ($warehouseId !== null) {
+            $warehouse = $warehouseService->getWarehouseById($warehouseId);
+            if (! $warehouse) {
+                Session::put('warehouse_id', $warehouseService->getDefaultWarehouseId());
+            }
+        } else {
+            Session::put('warehouse_id', $warehouseService->getDefaultWarehouseId());
         }
 
         return $next($request);

@@ -48,7 +48,6 @@ class Order extends Model
 {
     use HasFactory;
     use HasSnowflakeId;
-    use HasSnowflakeId;
     use Syncable;
 
     public static $snakeAttributes = false;
@@ -56,6 +55,7 @@ class Order extends Model
     protected $casts = [
         'user_id' => 'int',
         'currency_id' => 'int',
+        'warehouse_id' => 'int',
         'payment_method' => PaymentMethodEnum::class,
         'shipping_method' => ShippingMethodEnum::class,
         'shipping_address_id' => 'int',
@@ -68,13 +68,20 @@ class Order extends Model
         'user_id',
         'order_no',
         'currency_id',
+        'warehouse_id',
         'payment_method',
         'shipping_method',
         'shipping_address_id',
         'billing_address_id',
         'status',
         'total',
+        'shipping_fee',
     ];
+
+    public function warehouse(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
 
     public function shippingAddress(): BelongsTo
     {

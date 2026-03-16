@@ -85,6 +85,7 @@
 
                 <div class="flex items-center gap-2 md:gap-3 border-l border-gray-200 pl-3 md:pl-4">
                     <x-widgets.language-switch />
+                    <x-widgets.warehouse-switch />
                     <x-widgets.currency-switch />
                 </div>
             </div>

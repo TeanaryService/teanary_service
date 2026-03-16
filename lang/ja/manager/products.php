@@ -9,6 +9,8 @@ return [
     'status' => 'ステータス',
     'translation_status' => '翻訳ステータス',
     'categories' => 'カテゴリー',
+    'warehouses' => '倉庫',
+    'warehouses_help' => 'この商品を出荷できる倉庫を選択してください。ストアは選択した倉庫でフィルタし、送料をその倉庫から計算します。',
     'low_stock' => '在庫不足',
     'out_of_stock' => '在庫切れ',
     'price_range' => '価格帯',
