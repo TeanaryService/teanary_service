@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\ProductReviews;
 use App\Models\ProductReview;
 use Tests\Feature\LivewireTestCase;
 
@@ -16,7 +17,7 @@ class ProductReviewsTest extends LivewireTestCase
 
     public function test_product_reviews_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id]);
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id]);
         $component->assertSuccessful();
     }
 
@@ -26,7 +27,7 @@ class ProductReviewsTest extends LivewireTestCase
             'product_id' => $this->product->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id]);
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id]);
 
         $reviews = $component->get('reviews');
         $reviewIds = $reviews->pluck('id')->toArray();
@@ -39,7 +40,7 @@ class ProductReviewsTest extends LivewireTestCase
         $review1 = ProductReview::factory()->create(['product_id' => $this->product->id]);
         $review2 = ProductReview::factory()->create(['product_id' => $product2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id]);
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id]);
 
         $reviews = $component->get('reviews');
         $reviewIds = $reviews->pluck('id')->toArray();
@@ -58,7 +59,7 @@ class ProductReviewsTest extends LivewireTestCase
             'rating' => 3,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id])
             ->set('filterRating', [5]);
 
         $reviews = $component->get('reviews');
@@ -78,7 +79,7 @@ class ProductReviewsTest extends LivewireTestCase
             'is_approved' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id])
             ->set('filterApproved', '1');
 
         $reviews = $component->get('reviews');
@@ -94,7 +95,7 @@ class ProductReviewsTest extends LivewireTestCase
             'is_approved' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id])
             ->call('toggleApproved', $review->id);
 
         $review->refresh();
@@ -107,7 +108,7 @@ class ProductReviewsTest extends LivewireTestCase
             'product_id' => $this->product->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id])
             ->call('deleteReview', $review->id);
 
         $this->assertDatabaseMissing('product_reviews', ['id' => $review->id]);
@@ -115,7 +116,7 @@ class ProductReviewsTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\ProductReviews::class, ['productId' => $this->product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $this->product->id])
             ->set('search', 'test')
             ->set('filterRating', [5])
             ->set('filterApproved', '1')

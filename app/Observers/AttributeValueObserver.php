@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\AttributeValue;
+use Illuminate\Support\Facades\Cache;
 
 class AttributeValueObserver
 {
@@ -11,7 +12,7 @@ class AttributeValueObserver
      */
     protected function clearAttributeCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget('attributes.with.translations');
+        Cache::forget('attributes.with.translations');
     }
 
     /**

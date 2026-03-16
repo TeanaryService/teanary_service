@@ -8,6 +8,8 @@ namespace App\Models;
 
 use App\Enums\TranslationStatusEnum;
 use App\Observers\ZoneObserver;
+use App\Services\LocaleCurrencyService;
+use App\Support\CacheKeys;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class Zone.
@@ -74,9 +77,9 @@ class Zone extends Model
      */
     public static function getCachedZonesForCountry(int $countryId): array
     {
-        $key = \App\Support\CacheKeys::ZONES_BY_COUNTRY_PREFIX.$countryId;
+        $key = CacheKeys::ZONES_BY_COUNTRY_PREFIX.$countryId;
 
-        return \Illuminate\Support\Facades\Cache::rememberForever($key, function () use ($countryId) {
+        return Cache::rememberForever($key, function () use ($countryId) {
             return static::with('zoneTranslations')
                 ->where('country_id', $countryId)
                 ->get()
@@ -102,7 +105,7 @@ class Zone extends Model
     public static function getZonesByCountryAndLanguage(int $countryId, ?int $langId = null): array
     {
         $zones = self::getCachedZonesForCountry($countryId);
-        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $langId ?: app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
         return collect($zones)
             ->map(function ($zone) use ($langId) {
@@ -121,6 +124,6 @@ class Zone extends Model
      */
     public static function clearZoneCacheForCountry(int $countryId): void
     {
-        \Illuminate\Support\Facades\Cache::forget(\App\Support\CacheKeys::ZONES_BY_COUNTRY_PREFIX.$countryId);
+        Cache::forget(CacheKeys::ZONES_BY_COUNTRY_PREFIX.$countryId);
     }
 }

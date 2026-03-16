@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Manager\AttributeValues;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\AttributeValueTranslation;
@@ -19,7 +20,7 @@ class AttributeValuesTest extends LivewireTestCase
 
     public function test_attribute_values_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\AttributeValues::class);
+        $component = $this->livewire(AttributeValues::class);
         $component->assertSuccessful();
     }
 
@@ -29,7 +30,7 @@ class AttributeValuesTest extends LivewireTestCase
             'attribute_id' => $this->attribute->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\AttributeValues::class);
+        $component = $this->livewire(AttributeValues::class);
 
         $values = $component->get('attributeValues');
         $valueIds = $values->pluck('id')->toArray();
@@ -50,7 +51,7 @@ class AttributeValuesTest extends LivewireTestCase
             'name' => '其他值',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\AttributeValues::class)
+        $component = $this->livewire(AttributeValues::class)
             ->set('search', '测试');
 
         $values = $component->get('attributeValues');
@@ -65,7 +66,7 @@ class AttributeValuesTest extends LivewireTestCase
         $value1 = AttributeValue::factory()->create(['attribute_id' => $this->attribute->id]);
         $value2 = AttributeValue::factory()->create(['attribute_id' => $attribute2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\AttributeValues::class)
+        $component = $this->livewire(AttributeValues::class)
             ->set('filterAttributeId', $this->attribute->id);
 
         $values = $component->get('attributeValues');
@@ -78,7 +79,7 @@ class AttributeValuesTest extends LivewireTestCase
     {
         $value = AttributeValue::factory()->create(['attribute_id' => $this->attribute->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\AttributeValues::class)
+        $component = $this->livewire(AttributeValues::class)
             ->call('deleteAttributeValue', $value->id);
 
         $this->assertDatabaseMissing('attribute_values', ['id' => $value->id]);
@@ -86,7 +87,7 @@ class AttributeValuesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\AttributeValues::class)
+        $component = $this->livewire(AttributeValues::class)
             ->set('search', 'test')
             ->set('filterAttributeId', 1)
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value])

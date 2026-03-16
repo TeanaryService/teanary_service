@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Payment;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Payment\Checkout;
 use Tests\Feature\LivewireTestCase;
 
 class CheckoutTest extends LivewireTestCase
@@ -13,7 +14,7 @@ class CheckoutTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Payment\Checkout::class, ['orderId' => $order->id]);
+        $component = $this->livewire(Checkout::class, ['orderId' => $order->id]);
         $component->assertSuccessful();
     }
 
@@ -24,7 +25,7 @@ class CheckoutTest extends LivewireTestCase
             'order_no' => 'TEST-ORDER-001',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Payment\Checkout::class, ['orderId' => $order->id]);
+        $component = $this->livewire(Checkout::class, ['orderId' => $order->id]);
         $component->assertSuccessful();
     }
 
@@ -34,7 +35,7 @@ class CheckoutTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Payment\Checkout::class, ['orderId' => $order->id])
+        $component = $this->livewire(Checkout::class, ['orderId' => $order->id])
             ->call('processPayment');
 
         $component->assertSuccessful();
@@ -46,7 +47,7 @@ class CheckoutTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Payment\Checkout::class, ['orderId' => $order->id]);
+        $component = $this->livewire(Checkout::class, ['orderId' => $order->id]);
         $component->assertSuccessful();
     }
 }

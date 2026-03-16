@@ -1,5 +1,49 @@
 <?php
 
+use App\Models\Address;
+use App\Models\Article;
+use App\Models\ArticleTranslation;
+use App\Models\Attribute;
+use App\Models\AttributeTranslation;
+use App\Models\AttributeValue;
+use App\Models\AttributeValueTranslation;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Category;
+use App\Models\CategoryTranslation;
+use App\Models\Contact;
+use App\Models\Country;
+use App\Models\CountryTranslation;
+use App\Models\Currency;
+use App\Models\EditorUpload;
+use App\Models\Language;
+use App\Models\Manager;
+use App\Models\Media;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\OrderShipment;
+use App\Models\Product;
+use App\Models\ProductAttributeValue;
+use App\Models\ProductCategory;
+use App\Models\ProductReview;
+use App\Models\ProductTranslation;
+use App\Models\ProductVariant;
+use App\Models\ProductVariantSpecificationValue;
+use App\Models\Promotion;
+use App\Models\PromotionProductVariant;
+use App\Models\PromotionRule;
+use App\Models\PromotionTranslation;
+use App\Models\PromotionUserGroup;
+use App\Models\Specification;
+use App\Models\SpecificationTranslation;
+use App\Models\SpecificationValue;
+use App\Models\SpecificationValueTranslation;
+use App\Models\User;
+use App\Models\UserGroup;
+use App\Models\UserGroupTranslation;
+use App\Models\Zone;
+use App\Models\ZoneTranslation;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -44,71 +88,71 @@ return [
     // 需要同步的模型列表
     'sync_models' => [
         // 产品相关
-        \App\Models\Product::class,
-        \App\Models\ProductTranslation::class,
-        \App\Models\ProductVariant::class,
-        \App\Models\ProductReview::class,
-        \App\Models\ProductCategory::class,
-        \App\Models\ProductAttributeValue::class,
+        Product::class,
+        ProductTranslation::class,
+        ProductVariant::class,
+        ProductReview::class,
+        ProductCategory::class,
+        ProductAttributeValue::class,
 
         // 分类相关
-        \App\Models\Category::class,
-        \App\Models\CategoryTranslation::class,
+        Category::class,
+        CategoryTranslation::class,
 
         // 属性相关
-        \App\Models\Attribute::class,
-        \App\Models\AttributeTranslation::class,
-        \App\Models\AttributeValue::class,
-        \App\Models\AttributeValueTranslation::class,
+        Attribute::class,
+        AttributeTranslation::class,
+        AttributeValue::class,
+        AttributeValueTranslation::class,
 
         // 规格相关
-        \App\Models\Specification::class,
-        \App\Models\SpecificationTranslation::class,
-        \App\Models\SpecificationValue::class,
-        \App\Models\SpecificationValueTranslation::class,
-        \App\Models\ProductVariantSpecificationValue::class,
+        Specification::class,
+        SpecificationTranslation::class,
+        SpecificationValue::class,
+        SpecificationValueTranslation::class,
+        ProductVariantSpecificationValue::class,
 
         // 订单相关
-        \App\Models\Order::class,
-        \App\Models\OrderItem::class,
-        \App\Models\OrderShipment::class,
+        Order::class,
+        OrderItem::class,
+        OrderShipment::class,
 
         // 购物车相关
-        \App\Models\Cart::class,
-        \App\Models\CartItem::class,
+        Cart::class,
+        CartItem::class,
 
         // 促销相关
-        \App\Models\Promotion::class,
-        \App\Models\PromotionTranslation::class,
-        \App\Models\PromotionRule::class,
-        \App\Models\PromotionUserGroup::class,
-        \App\Models\PromotionProductVariant::class,
+        Promotion::class,
+        PromotionTranslation::class,
+        PromotionRule::class,
+        PromotionUserGroup::class,
+        PromotionProductVariant::class,
 
         // 文章相关
-        \App\Models\Article::class,
-        \App\Models\ArticleTranslation::class,
-        \App\Models\EditorUpload::class,
+        Article::class,
+        ArticleTranslation::class,
+        EditorUpload::class,
 
         // 用户相关
-        \App\Models\User::class,
-        \App\Models\UserGroup::class,
-        \App\Models\UserGroupTranslation::class,
-        \App\Models\Address::class,
+        User::class,
+        UserGroup::class,
+        UserGroupTranslation::class,
+        Address::class,
 
         // 基础数据
-        \App\Models\Currency::class,
-        \App\Models\Language::class,
-        \App\Models\Country::class,
-        \App\Models\CountryTranslation::class,
-        \App\Models\Zone::class,
-        \App\Models\ZoneTranslation::class,
+        Currency::class,
+        Language::class,
+        Country::class,
+        CountryTranslation::class,
+        Zone::class,
+        ZoneTranslation::class,
 
         // 其他
-        \App\Models\Contact::class,
-        \App\Models\Manager::class,
+        Contact::class,
+        Manager::class,
 
         // 媒体文件（图片、资源等）- 只同步表数据，不处理文件
-        \App\Models\Media::class,
+        Media::class,
     ],
 
     // 同步队列名称

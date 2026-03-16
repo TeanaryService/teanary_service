@@ -8,6 +8,7 @@ use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Attribute;
 use App\Models\AttributeValue;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -106,7 +107,7 @@ class AttributeValues extends Component
     public function render()
     {
         $lang = $this->getCurrentLanguage();
-        $attributes = \App\Models\Attribute::with('attributeTranslations')->get();
+        $attributes = Attribute::with('attributeTranslations')->get();
 
         // 准备属性选项数据
         $attributeOptions = collect($attributes)->map(function ($attribute) use ($lang) {

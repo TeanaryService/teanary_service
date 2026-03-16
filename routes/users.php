@@ -11,6 +11,8 @@ use App\Livewire\Users\Profile;
 use App\Livewire\Users\Register;
 use App\Livewire\Users\ResetPassword;
 use App\Models\User;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -45,13 +47,13 @@ Route::middleware(['auth', 'throttle:6,1'])->group(function () {
         return view('auth.verify-email');
     })->name('verification.notice');
 
-    Route::get('email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
+    Route::get('email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
 
         return redirect(locaRoute('home'))->with('message', __('auth.email_verified'));
     })->middleware('signed')->name('verification.verify');
 
-    Route::post('email/verification-notification', function (\Illuminate\Http\Request $request) {
+    Route::post('email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
 
         return back()->with('message', __('auth.verification_link_sent'));

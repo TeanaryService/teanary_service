@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Country;
 use App\Models\CountryTranslation;
+use App\Models\Language;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
@@ -74,7 +75,7 @@ class CountryTest extends TestCase
     public function test_get_countries_by_language()
     {
         Cache::flush();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
         $country = Country::factory()->create();
         $translation = CountryTranslation::factory()->create([
             'country_id' => $country->id,

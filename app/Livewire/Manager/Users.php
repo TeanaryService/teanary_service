@@ -8,6 +8,7 @@ use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\User;
+use App\Models\UserGroup;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -99,7 +100,7 @@ class Users extends Component
     public function render()
     {
         $lang = $this->getCurrentLanguage();
-        $userGroups = \App\Models\UserGroup::with('userGroupTranslations')->get();
+        $userGroups = UserGroup::with('userGroupTranslations')->get();
 
         return view('livewire.manager.users', [
             'users' => $this->users,

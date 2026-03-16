@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Livewire;
 
+use App\Livewire\OrderQuery;
 use App\Models\Address;
+use App\Models\Country;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Notification;
 use Tests\Feature\LivewireTestCase;
@@ -12,18 +14,18 @@ class OrderQueryTest extends LivewireTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->country = \App\Models\Country::factory()->create();
+        $this->country = Country::factory()->create();
     }
 
     public function test_order_query_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\OrderQuery::class);
+        $component = $this->livewire(OrderQuery::class);
         $component->assertSuccessful();
     }
 
     public function test_order_query_starts_at_step_one()
     {
-        $component = $this->livewire(\App\Livewire\OrderQuery::class);
+        $component = $this->livewire(OrderQuery::class);
         $component->assertSet('step', 1);
     }
 
@@ -51,7 +53,7 @@ class OrderQueryTest extends LivewireTestCase
         $this->assertNotNull($order->shippingAddress);
         $this->assertEquals('test@example.com', $order->shippingAddress->email);
 
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->set('orderNoOrEmail', $order->order_no)
             ->call('sendVerificationCode');
 
@@ -63,14 +65,14 @@ class OrderQueryTest extends LivewireTestCase
 
     public function test_send_verification_code_validates_order_no_required()
     {
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->call('sendVerificationCode')
             ->assertHasErrors(['orderNoOrEmail']);
     }
 
     public function test_send_verification_code_handles_order_not_found()
     {
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->set('orderNoOrEmail', 'NON-EXISTENT-ORDER')
             ->call('sendVerificationCode');
 
@@ -93,7 +95,7 @@ class OrderQueryTest extends LivewireTestCase
         ]);
 
         // 先发送验证码以设置缓存
-        $component1 = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component1 = $this->livewire(OrderQuery::class)
             ->set('orderNoOrEmail', $order->order_no)
             ->call('sendVerificationCode');
 
@@ -104,7 +106,7 @@ class OrderQueryTest extends LivewireTestCase
         $orderId = Cache::get("order_query_order_id_{$sessionId}");
         $code = Cache::get("order_query_verification_code_{$orderId}_{$sessionId}");
 
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->set('orderNoOrEmail', $order->order_no)
             ->set('verificationCode', $code)
             ->call('verifyCode');
@@ -115,14 +117,14 @@ class OrderQueryTest extends LivewireTestCase
 
     public function test_verify_code_validates_code_required()
     {
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->call('verifyCode')
             ->assertHasErrors(['verificationCode']);
     }
 
     public function test_verify_code_validates_code_size()
     {
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->set('verificationCode', '12345')
             ->call('verifyCode')
             ->assertHasErrors(['verificationCode']);
@@ -144,13 +146,13 @@ class OrderQueryTest extends LivewireTestCase
         ]);
 
         // 先发送验证码以设置缓存
-        $component1 = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component1 = $this->livewire(OrderQuery::class)
             ->set('orderNoOrEmail', $order->order_no)
             ->call('sendVerificationCode');
 
         $component1->assertSet('step', 2);
 
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->set('orderNoOrEmail', $order->order_no)
             ->set('verificationCode', '000000')
             ->call('verifyCode');
@@ -173,7 +175,7 @@ class OrderQueryTest extends LivewireTestCase
             'shipping_address_id' => $address->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\OrderQuery::class)
+        $component = $this->livewire(OrderQuery::class)
             ->set('orderNoOrEmail', $order->order_no)
             ->call('sendVerificationCode');
 

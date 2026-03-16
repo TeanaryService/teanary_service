@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Manager\Dashboard;
 use Tests\Feature\LivewireTestCase;
 
 class DashboardTest extends LivewireTestCase
@@ -15,7 +16,7 @@ class DashboardTest extends LivewireTestCase
 
     public function test_dashboard_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Dashboard::class);
+        $component = $this->livewire(Dashboard::class);
         $component->assertSuccessful();
     }
 
@@ -24,7 +25,7 @@ class DashboardTest extends LivewireTestCase
         $this->createUser();
         $this->createUser();
 
-        $component = $this->livewire(\App\Livewire\Manager\Dashboard::class);
+        $component = $this->livewire(Dashboard::class);
 
         $this->assertEquals(2, $component->get('totalUsers'));
     }
@@ -34,7 +35,7 @@ class DashboardTest extends LivewireTestCase
         $this->createOrder();
         $this->createOrder();
 
-        $component = $this->livewire(\App\Livewire\Manager\Dashboard::class);
+        $component = $this->livewire(Dashboard::class);
 
         $this->assertEquals(2, $component->get('totalOrders'));
     }
@@ -54,7 +55,7 @@ class DashboardTest extends LivewireTestCase
             'currency_id' => $currency->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Dashboard::class);
+        $component = $this->livewire(Dashboard::class);
 
         $this->assertGreaterThan(0, $component->get('totalRevenue'));
     }
@@ -74,7 +75,7 @@ class DashboardTest extends LivewireTestCase
             'currency_id' => $currency->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Dashboard::class);
+        $component = $this->livewire(Dashboard::class);
 
         $revenue = $component->get('totalRevenue');
         $this->assertGreaterThanOrEqual(100.00, $revenue);
@@ -86,7 +87,7 @@ class DashboardTest extends LivewireTestCase
         $order1 = $this->createOrder(['created_at' => now()->subDays(2)]);
         $order2 = $this->createOrder(['created_at' => now()->subDays(1)]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Dashboard::class);
+        $component = $this->livewire(Dashboard::class);
 
         $recentOrders = $component->get('recentOrders');
         $this->assertGreaterThanOrEqual(2, $recentOrders->count());
@@ -98,7 +99,7 @@ class DashboardTest extends LivewireTestCase
             $this->createOrder();
         }
 
-        $component = $this->livewire(\App\Livewire\Manager\Dashboard::class);
+        $component = $this->livewire(Dashboard::class);
 
         $recentOrders = $component->get('recentOrders');
         $this->assertLessThanOrEqual(5, $recentOrders->count());

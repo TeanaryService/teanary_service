@@ -2,6 +2,10 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 /**
  * 级联删除 Trait.
  *
@@ -39,20 +43,20 @@ trait CascadesDeletes
                 switch ($action) {
                     case 'delete':
                         // 级联删除关联记录
-                        if ($related instanceof \Illuminate\Database\Eloquent\Relations\HasMany) {
+                        if ($related instanceof HasMany) {
                             $related->get()->each(function ($item) {
                                 $item->delete();
                             });
-                        } elseif ($related instanceof \Illuminate\Database\Eloquent\Relations\BelongsToMany) {
+                        } elseif ($related instanceof BelongsToMany) {
                             $related->detach();
-                        } elseif ($related instanceof \Illuminate\Database\Eloquent\Relations\HasOne) {
+                        } elseif ($related instanceof HasOne) {
                             $related->delete();
                         }
                         break;
 
                     case 'null':
                         // 将外键设置为 null
-                        if ($related instanceof \Illuminate\Database\Eloquent\Relations\HasMany) {
+                        if ($related instanceof HasMany) {
                             $foreignKey = $related->getForeignKeyName();
                             $related->update([$foreignKey => null]);
                         }

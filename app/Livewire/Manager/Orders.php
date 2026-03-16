@@ -5,6 +5,7 @@ namespace App\Livewire\Manager;
 use App\Enums\OrderStatusEnum;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Currency;
 use App\Models\Order;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Computed;
@@ -116,7 +117,7 @@ class Orders extends Component
 
     public function render()
     {
-        $currencies = \App\Models\Currency::orderBy('name')->get();
+        $currencies = Currency::orderBy('name')->get();
 
         return view('livewire.manager.orders', [
             'orders' => $this->orders,

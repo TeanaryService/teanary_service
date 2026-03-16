@@ -5,7 +5,9 @@ namespace App\Livewire\Manager;
 use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Country;
 use App\Models\Warehouse;
+use App\Models\Zone;
 use App\Services\WarehouseService;
 use Livewire\Component;
 
@@ -80,7 +82,7 @@ class WarehouseForm extends Component
             return;
         }
         $lang = $this->getCurrentLanguage();
-        $zones = \App\Models\Zone::where('country_id', $this->countryId)
+        $zones = Zone::where('country_id', $this->countryId)
             ->with('zoneTranslations')
             ->get();
         $this->zones = [];
@@ -143,7 +145,7 @@ class WarehouseForm extends Component
 
     public function render()
     {
-        $countries = \App\Models\Country::getCountriesByLanguage($this->getCurrentLanguage()?->id);
+        $countries = Country::getCountriesByLanguage($this->getCurrentLanguage()?->id);
 
         return view('livewire.manager.warehouse-form', [
             'countries' => $countries,

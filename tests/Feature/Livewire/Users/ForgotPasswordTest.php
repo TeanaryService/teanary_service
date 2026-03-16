@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Users;
 
+use App\Livewire\Users\ForgotPassword;
 use Illuminate\Support\Facades\Password;
 use Tests\Feature\LivewireTestCase;
 
@@ -9,7 +10,7 @@ class ForgotPasswordTest extends LivewireTestCase
 {
     public function test_forgot_password_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Users\ForgotPassword::class);
+        $component = $this->livewire(ForgotPassword::class);
         $component->assertSuccessful();
     }
 
@@ -21,7 +22,7 @@ class ForgotPasswordTest extends LivewireTestCase
             ->once()
             ->andReturn(Password::RESET_LINK_SENT);
 
-        $component = $this->livewire(\App\Livewire\Users\ForgotPassword::class)
+        $component = $this->livewire(ForgotPassword::class)
             ->set('email', 'test@example.com')
             ->call('sendResetLink');
 
@@ -30,14 +31,14 @@ class ForgotPasswordTest extends LivewireTestCase
 
     public function test_forgot_password_validates_email_required()
     {
-        $component = $this->livewire(\App\Livewire\Users\ForgotPassword::class)
+        $component = $this->livewire(ForgotPassword::class)
             ->call('sendResetLink')
             ->assertHasErrors(['email']);
     }
 
     public function test_forgot_password_validates_email_format()
     {
-        $component = $this->livewire(\App\Livewire\Users\ForgotPassword::class)
+        $component = $this->livewire(ForgotPassword::class)
             ->set('email', 'invalid-email')
             ->call('sendResetLink')
             ->assertHasErrors(['email']);
@@ -49,7 +50,7 @@ class ForgotPasswordTest extends LivewireTestCase
             ->once()
             ->andReturn(Password::INVALID_USER);
 
-        $component = $this->livewire(\App\Livewire\Users\ForgotPassword::class)
+        $component = $this->livewire(ForgotPassword::class)
             ->set('email', 'nonexistent@example.com')
             ->call('sendResetLink')
             ->assertHasErrors(['email']);

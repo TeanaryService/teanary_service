@@ -9,6 +9,7 @@ use App\Models\AttributeTranslation;
 use App\Models\AttributeValue;
 use App\Models\AttributeValueTranslation;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\ProductVariant;
 use App\Models\Specification;
 use App\Models\SpecificationTranslation;
@@ -58,10 +59,10 @@ class ProductService
                 // 使用 syncWithoutDetaching 然后手动触发同步
                 $changes = $product->productCategories()->syncWithoutDetaching($categoryIds);
                 if (config('sync.enabled')) {
-                    $syncService = app(\App\Services\SyncService::class);
+                    $syncService = app(SyncService::class);
                     $currentNode = config('sync.node');
                     foreach ($changes['attached'] ?? [] as $categoryId) {
-                        $pivot = \App\Models\ProductCategory::where([
+                        $pivot = ProductCategory::where([
                             'product_id' => $product->id,
                             'category_id' => $categoryId,
                         ])->first();

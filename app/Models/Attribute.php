@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class Attribute.
@@ -68,7 +69,7 @@ class Attribute extends Model
      */
     public static function getCachedAttributes()
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever('attributes.with.translations', function () {
+        return Cache::rememberForever('attributes.with.translations', function () {
             return static::with([
                 'attributeTranslations',
                 'attributeValues.attributeValueTranslations',

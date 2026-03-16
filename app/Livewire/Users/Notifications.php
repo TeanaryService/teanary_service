@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Users;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -25,7 +26,7 @@ class Notifications extends Component
     {
         $user = Auth::user();
         if (! $user) {
-            return new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15, 1);
+            return new LengthAwarePaginator([], 0, 15, 1);
         }
 
         return $user->notifications()

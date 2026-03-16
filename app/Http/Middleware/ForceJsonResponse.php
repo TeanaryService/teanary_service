@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -11,7 +12,7 @@ class ForceJsonResponse
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -21,7 +22,7 @@ class ForceJsonResponse
         $response = $next($request);
 
         // 如果响应不是JSON格式，转换为JSON
-        if (! $response instanceof \Illuminate\Http\JsonResponse) {
+        if (! $response instanceof JsonResponse) {
             $contentType = $response->headers->get('Content-Type', '');
             if (! str_contains($contentType, 'application/json')) {
                 return response()->json([

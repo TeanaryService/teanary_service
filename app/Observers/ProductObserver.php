@@ -3,6 +3,9 @@
 namespace App\Observers;
 
 use App\Models\Product;
+use App\Models\ProductAttributeValue;
+use App\Models\ProductCategory;
+use App\Services\SyncService;
 use App\Traits\HandlesEditorUploads;
 
 class ProductObserver
@@ -52,11 +55,11 @@ class ProductObserver
         // 删除中间表关联（产品-分类）
         // 先获取要删除的记录，然后手动触发同步，最后删除
         if (config('sync.enabled')) {
-            $syncService = app(\App\Services\SyncService::class);
+            $syncService = app(SyncService::class);
             $currentNode = config('sync.node');
 
             // 获取所有产品分类关联
-            $productCategories = \App\Models\ProductCategory::where('product_id', $product->id)->get();
+            $productCategories = ProductCategory::where('product_id', $product->id)->get();
             foreach ($productCategories as $pivot) {
                 $syncService->recordSync($pivot, 'deleted', $currentNode);
             }
@@ -66,11 +69,11 @@ class ProductObserver
         // 删除中间表关联（产品-属性值）
         // 先获取要删除的记录，然后手动触发同步，最后删除
         if (config('sync.enabled')) {
-            $syncService = app(\App\Services\SyncService::class);
+            $syncService = app(SyncService::class);
             $currentNode = config('sync.node');
 
             // 获取所有产品属性值关联
-            $productAttributeValues = \App\Models\ProductAttributeValue::where('product_id', $product->id)->get();
+            $productAttributeValues = ProductAttributeValue::where('product_id', $product->id)->get();
             foreach ($productAttributeValues as $pivot) {
                 $syncService->recordSync($pivot, 'deleted', $currentNode);
             }

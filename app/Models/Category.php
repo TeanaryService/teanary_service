@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Enums\TranslationStatusEnum;
 use App\Observers\CategoryObserver;
+use App\Support\CacheKeys;
 use App\Traits\CascadesMediaDeletes;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -77,13 +79,13 @@ class Category extends Model implements HasMedia
     public function productCategories(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_category')
-            ->using(\App\Models\ProductCategory::class);
+            ->using(ProductCategory::class);
     }
 
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_category')
-            ->using(\App\Models\ProductCategory::class);
+            ->using(ProductCategory::class);
     }
 
     public function registerMediaConversions(?Media $media = null): void
@@ -103,7 +105,7 @@ class Category extends Model implements HasMedia
      */
     public static function getCachedCategories()
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS, function () {
+        return Cache::rememberForever(CacheKeys::CATEGORIES_WITH_TRANSLATIONS, function () {
             return static::with([
                 'categories.categories',
                 'media',
@@ -135,7 +137,7 @@ class Category extends Model implements HasMedia
     /**
      * 格式化分类（含递归子分类）.
      *
-     * @param  \App\Models\Category  $category
+     * @param  Category  $category
      */
     protected static function formatCategory($category, int $langId): array
     {

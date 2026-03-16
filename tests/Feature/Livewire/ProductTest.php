@@ -3,14 +3,20 @@
 namespace Tests\Feature\Livewire;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\Product;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Models\ProductTranslation;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Tests\Feature\LivewireTestCase;
 
 class ProductTest extends LivewireTestCase
 {
     public function test_product_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Product::class);
+        $component = $this->livewire(Product::class);
         $component->assertSuccessful();
     }
 
@@ -20,7 +26,7 @@ class ProductTest extends LivewireTestCase
             'status' => ProductStatusEnum::Active,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Product::class);
+        $component = $this->livewire(Product::class);
 
         // 验证组件成功渲染
         $component->assertSuccessful();
@@ -35,28 +41,28 @@ class ProductTest extends LivewireTestCase
         // 关联产品到分类
         $product1->productCategories()->attach($category->id);
 
-        $request = \Illuminate\Http\Request::create('/', 'GET', [
+        $request = Request::create('/', 'GET', [
             'slug' => $category->slug,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Product::class, [], $request);
+        $component = $this->livewire(Product::class, [], $request);
         $component->assertSuccessful();
     }
 
     public function test_product_page_handles_invalid_category()
     {
-        $request = \Illuminate\Http\Request::create('/', 'GET', [
+        $request = Request::create('/', 'GET', [
             'slug' => 'non-existent-category',
         ]);
 
         try {
-            $component = $this->livewire(\App\Livewire\Product::class, [], $request);
+            $component = $this->livewire(Product::class, [], $request);
             // 如果没有抛出异常，检查组件是否成功渲染（不应该成功）
             // 由于 abort(404) 在测试中可能不会抛出异常，我们检查组件状态
             $this->assertNotNull($component);
-        } catch (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e) {
+        } catch (NotFoundHttpException $e) {
             $this->assertTrue(true);
-        } catch (\Illuminate\Http\Exceptions\HttpResponseException $e) {
+        } catch (HttpResponseException $e) {
             // abort(404) 可能抛出 HttpResponseException
             $this->assertEquals(404, $e->getStatusCode());
         }
@@ -75,11 +81,11 @@ class ProductTest extends LivewireTestCase
             'name' => '测试商品',
         ]);
 
-        $request = \Illuminate\Http\Request::create('/', 'GET', [
+        $request = Request::create('/', 'GET', [
             'search' => '测试',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Product::class, [], $request);
+        $component = $this->livewire(Product::class, [], $request);
         $component->assertSuccessful();
     }
 
@@ -89,20 +95,20 @@ class ProductTest extends LivewireTestCase
             'status' => ProductStatusEnum::Active,
         ]);
 
-        $attribute = \App\Models\Attribute::factory()->create();
-        $attributeValue = \App\Models\AttributeValue::factory()->create([
+        $attribute = Attribute::factory()->create();
+        $attributeValue = AttributeValue::factory()->create([
             'attribute_id' => $attribute->id,
         ]);
 
         $product->attributeValues()->attach($attributeValue->id, ['attribute_id' => $attribute->id]);
 
-        $request = \Illuminate\Http\Request::create('/', 'GET', [
+        $request = Request::create('/', 'GET', [
             'attributes' => [
                 $attribute->id => [$attributeValue->id],
             ],
         ]);
 
-        $component = $this->livewire(\App\Livewire\Product::class, [], $request);
+        $component = $this->livewire(Product::class, [], $request);
         $component->assertSuccessful();
     }
 
@@ -115,7 +121,7 @@ class ProductTest extends LivewireTestCase
             'status' => ProductStatusEnum::Inactive,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Product::class);
+        $component = $this->livewire(Product::class);
         $component->assertSuccessful();
     }
 }

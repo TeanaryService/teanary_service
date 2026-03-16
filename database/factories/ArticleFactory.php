@@ -2,13 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Article;
 use App\Models\ArticleTranslation;
+use App\Models\User;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
+ * @extends Factory<Article>
  */
 class ArticleFactory extends Factory
 {
@@ -23,7 +25,7 @@ class ArticleFactory extends Factory
             //
             'slug' => Str::random(10),
             'is_published' => 1,
-            'user_id' => \App\Models\User::factory(),
+            'user_id' => User::factory(),
         ];
     }
 

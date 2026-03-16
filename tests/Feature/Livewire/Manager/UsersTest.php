@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Users;
 use App\Models\UserGroup;
 use Tests\Feature\LivewireTestCase;
 
@@ -15,7 +16,7 @@ class UsersTest extends LivewireTestCase
 
     public function test_users_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Users::class);
+        $component = $this->livewire(Users::class);
         $component->assertSuccessful();
     }
 
@@ -23,7 +24,7 @@ class UsersTest extends LivewireTestCase
     {
         $user = $this->createUser();
 
-        $component = $this->livewire(\App\Livewire\Manager\Users::class);
+        $component = $this->livewire(Users::class);
 
         $users = $component->get('users');
         $userIds = $users->pluck('id')->toArray();
@@ -35,7 +36,7 @@ class UsersTest extends LivewireTestCase
         $user1 = $this->createUser(['name' => 'John Doe']);
         $user2 = $this->createUser(['name' => 'Jane Smith']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Users::class)
+        $component = $this->livewire(Users::class)
             ->set('search', 'John');
 
         $users = $component->get('users');
@@ -49,7 +50,7 @@ class UsersTest extends LivewireTestCase
         $user1 = $this->createUser(['email' => 'john@example.com']);
         $user2 = $this->createUser(['email' => 'jane@example.com']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Users::class)
+        $component = $this->livewire(Users::class)
             ->set('search', 'john@example.com');
 
         $users = $component->get('users');
@@ -64,7 +65,7 @@ class UsersTest extends LivewireTestCase
         $user1 = $this->createUser(['user_group_id' => $userGroup->id]);
         $user2 = $this->createUser();
 
-        $component = $this->livewire(\App\Livewire\Manager\Users::class)
+        $component = $this->livewire(Users::class)
             ->set('filterUserGroupId', $userGroup->id);
 
         $users = $component->get('users');
@@ -78,7 +79,7 @@ class UsersTest extends LivewireTestCase
         $verifiedUser = $this->createUser(['email_verified_at' => now()]);
         $unverifiedUser = $this->createUser(['email_verified_at' => null]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Users::class)
+        $component = $this->livewire(Users::class)
             ->set('filterEmailVerified', '1');
 
         $users = $component->get('users');
@@ -91,7 +92,7 @@ class UsersTest extends LivewireTestCase
     {
         $user = $this->createUser();
 
-        $component = $this->livewire(\App\Livewire\Manager\Users::class)
+        $component = $this->livewire(Users::class)
             ->call('deleteUser', $user->id);
 
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
@@ -99,7 +100,7 @@ class UsersTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Users::class)
+        $component = $this->livewire(Users::class)
             ->set('search', 'test')
             ->set('filterUserGroupId', 1)
             ->set('filterEmailVerified', '1')

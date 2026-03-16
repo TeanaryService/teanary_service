@@ -67,4 +67,5 @@ return [
 
     // 批量操作
     'batch' => require __DIR__.'/manager/batch.php',
+    'after_sales' => require __DIR__.'/manager/after_sales.php',
 ];

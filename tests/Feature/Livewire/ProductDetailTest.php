@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\ProductDetail;
 use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
 use App\Models\Specification;
@@ -26,7 +27,7 @@ class ProductDetailTest extends LivewireTestCase
         ]);
 
         // ProductDetail 组件需要 slug 参数
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug]);
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug]);
         $component->assertSuccessful();
     }
 
@@ -53,7 +54,7 @@ class ProductDetailTest extends LivewireTestCase
         ]);
 
         // ProductDetail 组件需要 slug 参数
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug]);
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug]);
         $component->assertSuccessful();
         $this->assertEquals($product->id, $component->get('product')->id);
     }
@@ -82,7 +83,7 @@ class ProductDetailTest extends LivewireTestCase
         ]);
 
         // ProductDetail 组件需要 slug 参数
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug]);
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug]);
         $component->assertSuccessful();
 
         $variants = $component->get('variants');
@@ -105,7 +106,7 @@ class ProductDetailTest extends LivewireTestCase
             'product_id' => $product->id,
             'language_id' => $language->id,
         ]);
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug])
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug])
             ->set('selectedVariantId', $variant->id);
 
         $component->assertSet('selectedVariantId', $variant->id);
@@ -122,7 +123,7 @@ class ProductDetailTest extends LivewireTestCase
             'product_id' => $product->id,
             'language_id' => $language->id,
         ]);
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug])
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug])
             ->set('qty', 5);
 
         $component->assertSet('qty', 5);
@@ -145,7 +146,7 @@ class ProductDetailTest extends LivewireTestCase
             'product_id' => $product->id,
             'language_id' => $language->id,
         ]);
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug])
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug])
             ->set('selectedVariantId', $variant->id)
             ->set('qty', 2)
             ->call('buyNow');
@@ -171,7 +172,7 @@ class ProductDetailTest extends LivewireTestCase
             'product_id' => $product->id,
             'language_id' => $language->id,
         ]);
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug])
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug])
             ->set('selectedVariantId', $variant->id)
             ->set('qty', 1)
             ->call('buyNow');
@@ -208,7 +209,7 @@ class ProductDetailTest extends LivewireTestCase
         ]);
 
         // ProductDetail 组件需要 slug 参数
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug]);
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug]);
         $component->assertSuccessful();
     }
 
@@ -228,7 +229,7 @@ class ProductDetailTest extends LivewireTestCase
             'product_id' => $product->id,
             'language_id' => $language->id,
         ]);
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $product->slug])
+        $component = $this->livewire(ProductDetail::class, ['slug' => $product->slug])
             ->set('selectedVariantId', $variant->id)
             ->set('qty', 10) // 超过库存
             ->call('buyNow');
@@ -248,7 +249,7 @@ class ProductDetailTest extends LivewireTestCase
             'product_id' => $activeProduct->id,
             'language_id' => $language->id,
         ]);
-        $component = $this->livewire(\App\Livewire\ProductDetail::class, ['slug' => $activeProduct->slug]);
+        $component = $this->livewire(ProductDetail::class, ['slug' => $activeProduct->slug]);
         $component->assertSuccessful();
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Manager\Articles;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
 use Tests\Feature\LivewireTestCase;
@@ -17,7 +18,7 @@ class ArticlesTest extends LivewireTestCase
 
     public function test_articles_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class);
+        $component = $this->livewire(Articles::class);
         $component->assertSuccessful();
     }
 
@@ -25,7 +26,7 @@ class ArticlesTest extends LivewireTestCase
     {
         $article = Article::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class);
+        $component = $this->livewire(Articles::class);
 
         $articles = $component->get('articles');
         $articleIds = $articles->pluck('id')->toArray();
@@ -46,7 +47,7 @@ class ArticlesTest extends LivewireTestCase
             'title' => '其他文章',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->set('search', '测试')
             ->assertSet('search', '测试');
 
@@ -72,7 +73,7 @@ class ArticlesTest extends LivewireTestCase
             'summary' => '其他摘要',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->set('search', '测试摘要');
 
         $articles = $component->get('articles');
@@ -86,7 +87,7 @@ class ArticlesTest extends LivewireTestCase
         $publishedArticle = Article::factory()->create(['is_published' => true]);
         $unpublishedArticle = Article::factory()->create(['is_published' => false]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->set('filterIsPublished', '1');
 
         $articles = $component->get('articles');
@@ -104,7 +105,7 @@ class ArticlesTest extends LivewireTestCase
             'translation_status' => TranslationStatusEnum::NotTranslated,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value]);
 
         $articles = $component->get('articles');
@@ -117,7 +118,7 @@ class ArticlesTest extends LivewireTestCase
     {
         $article = Article::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->call('deleteArticle', $article->id);
 
         $this->assertDatabaseMissing('articles', ['id' => $article->id]);
@@ -127,7 +128,7 @@ class ArticlesTest extends LivewireTestCase
     {
         $article = Article::factory()->create(['is_published' => false]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->call('togglePublish', $article->id);
 
         $article->refresh();
@@ -138,7 +139,7 @@ class ArticlesTest extends LivewireTestCase
     {
         $article = Article::factory()->create(['is_published' => true]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->call('togglePublish', $article->id);
 
         $article->refresh();
@@ -147,7 +148,7 @@ class ArticlesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->set('search', 'test')
             ->set('filterIsPublished', '1')
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value])
@@ -159,7 +160,7 @@ class ArticlesTest extends LivewireTestCase
 
     public function test_updating_search_resets_page()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Articles::class)
+        $component = $this->livewire(Articles::class)
             ->set('search', 'test');
 
         $component->assertSet('search', 'test');

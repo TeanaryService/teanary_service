@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Enums\TranslationStatusEnum;
 use App\Observers\CountryObserver;
+use App\Services\LocaleCurrencyService;
 use App\Traits\Syncable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class Country.
@@ -73,7 +75,7 @@ class Country extends Model
      */
     public static function getCachedCountries()
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever('countries.with.translations', function () {
+        return Cache::rememberForever('countries.with.translations', function () {
             return static::with('countryTranslations')
                 ->get()
                 ->map(function ($country) {
@@ -97,7 +99,7 @@ class Country extends Model
     public static function getCountriesByLanguage(?int $langId = null)
     {
         $countries = self::getCachedCountries();
-        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $langId ?: app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
         return collect($countries)->map(function ($country) use ($langId) {
             return [

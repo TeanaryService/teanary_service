@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Managers;
 use Tests\Feature\LivewireTestCase;
 
 class ManagersTest extends LivewireTestCase
@@ -14,7 +15,7 @@ class ManagersTest extends LivewireTestCase
 
     public function test_managers_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Managers::class);
+        $component = $this->livewire(Managers::class);
         $component->assertSuccessful();
     }
 
@@ -22,7 +23,7 @@ class ManagersTest extends LivewireTestCase
     {
         $manager = $this->createManager();
 
-        $component = $this->livewire(\App\Livewire\Manager\Managers::class);
+        $component = $this->livewire(Managers::class);
 
         $managers = $component->get('managers');
         $managerIds = $managers->pluck('id')->toArray();
@@ -34,7 +35,7 @@ class ManagersTest extends LivewireTestCase
         $manager1 = $this->createManager(['name' => 'John Manager']);
         $manager2 = $this->createManager(['name' => 'Jane Manager']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Managers::class)
+        $component = $this->livewire(Managers::class)
             ->set('search', 'John');
 
         $managers = $component->get('managers');
@@ -48,7 +49,7 @@ class ManagersTest extends LivewireTestCase
         $manager1 = $this->createManager(['email' => 'john@example.com']);
         $manager2 = $this->createManager(['email' => 'jane@example.com']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Managers::class)
+        $component = $this->livewire(Managers::class)
             ->set('search', 'john@example.com');
 
         $managers = $component->get('managers');
@@ -61,7 +62,7 @@ class ManagersTest extends LivewireTestCase
     {
         $manager = $this->createManager();
 
-        $component = $this->livewire(\App\Livewire\Manager\Managers::class)
+        $component = $this->livewire(Managers::class)
             ->call('deleteManager', $manager->id);
 
         $this->assertDatabaseMissing('managers', ['id' => $manager->id]);
@@ -71,7 +72,7 @@ class ManagersTest extends LivewireTestCase
     {
         $manager = $this->createManager(['token' => null]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Managers::class)
+        $component = $this->livewire(Managers::class)
             ->call('generateToken', $manager->id);
 
         $manager->refresh();
@@ -80,7 +81,7 @@ class ManagersTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Managers::class)
+        $component = $this->livewire(Managers::class)
             ->set('search', 'test')
             ->call('resetFilters')
             ->assertSet('search', '');

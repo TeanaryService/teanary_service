@@ -2,10 +2,13 @@
 
 namespace Tests\Unit;
 
-use App\Services\LocaleCurrencyService;
+use App\Http\Controllers\LanguageCurrencySwitcherController;
+use App\Models\Currency;
+use App\Models\Language;
+use App\Services\LocaleCurrencyService; // Use the concrete class
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Contracts\Cache\Store as CacheStoreContract;
-use Illuminate\Foundation\Testing\RefreshDatabase; // Use the concrete class
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store as SessionStore;
@@ -96,10 +99,10 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
     public function test_update_switches_language_and_currency_and_redirects_back()
     {
         // Arrange
-        $language = \App\Models\Language::factory()->create(['code' => 'fr', 'default' => false]);
-        $currency = \App\Models\Currency::factory()->create(['code' => 'EUR', 'default' => false]);
-        \App\Models\Language::factory()->create(['code' => 'en', 'default' => true]); // Default language
-        \App\Models\Currency::factory()->create(['code' => 'CNY', 'default' => true]); // Default currency
+        $language = Language::factory()->create(['code' => 'fr', 'default' => false]);
+        $currency = Currency::factory()->create(['code' => 'EUR', 'default' => false]);
+        Language::factory()->create(['code' => 'en', 'default' => true]); // Default language
+        Currency::factory()->create(['code' => 'CNY', 'default' => true]); // Default currency
 
         $request = Request::create('/en/some-page', 'POST', [
             'lang' => 'fr',
@@ -125,7 +128,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
             ->with('currency', 'EUR')
             ->once();
 
-        $controller = new \App\Http\Controllers\LanguageCurrencySwitcherController($this->localeCurrencyService);
+        $controller = new LanguageCurrencySwitcherController($this->localeCurrencyService);
 
         // Act
         $response = $controller->update($request);
@@ -138,8 +141,8 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
     public function test_update_uses_default_language_and_currency_if_invalid_provided()
     {
         // Arrange
-        $defaultLanguage = \App\Models\Language::factory()->create(['code' => 'en', 'default' => true]);
-        $defaultCurrency = \App\Models\Currency::factory()->create(['code' => 'CNY', 'default' => true]);
+        $defaultLanguage = Language::factory()->create(['code' => 'en', 'default' => true]);
+        $defaultCurrency = Currency::factory()->create(['code' => 'CNY', 'default' => true]);
 
         $request = Request::create('/en/some-page', 'POST', [
             'lang' => 'invalid-lang',
@@ -171,7 +174,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
             ->with('currency', 'CNY')
             ->once();
 
-        $controller = new \App\Http\Controllers\LanguageCurrencySwitcherController($this->localeCurrencyService);
+        $controller = new LanguageCurrencySwitcherController($this->localeCurrencyService);
 
         // Act
         $response = $controller->update($request);
@@ -184,9 +187,9 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
     public function test_update_only_switches_language()
     {
         // Arrange
-        $language = \App\Models\Language::factory()->create(['code' => 'fr', 'default' => false]);
-        \App\Models\Language::factory()->create(['code' => 'en', 'default' => true]);
-        \App\Models\Currency::factory()->create(['code' => 'CNY', 'default' => true]);
+        $language = Language::factory()->create(['code' => 'fr', 'default' => false]);
+        Language::factory()->create(['code' => 'en', 'default' => true]);
+        Currency::factory()->create(['code' => 'CNY', 'default' => true]);
 
         $request = Request::create('/en/some-page', 'POST', [
             'lang' => 'fr',
@@ -205,7 +208,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
             ->with('lang', 'fr')
             ->once();
 
-        $controller = new \App\Http\Controllers\LanguageCurrencySwitcherController($this->localeCurrencyService);
+        $controller = new LanguageCurrencySwitcherController($this->localeCurrencyService);
 
         // Act
         $response = $controller->update($request);
@@ -218,9 +221,9 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
     public function test_update_only_switches_currency()
     {
         // Arrange
-        $currency = \App\Models\Currency::factory()->create(['code' => 'EUR', 'default' => false]);
-        \App\Models\Language::factory()->create(['code' => 'en', 'default' => true]);
-        \App\Models\Currency::factory()->create(['code' => 'CNY', 'default' => true]);
+        $currency = Currency::factory()->create(['code' => 'EUR', 'default' => false]);
+        Language::factory()->create(['code' => 'en', 'default' => true]);
+        Currency::factory()->create(['code' => 'CNY', 'default' => true]);
 
         $request = Request::create('/en/some-page', 'POST', [
             'currency' => 'EUR',
@@ -239,7 +242,7 @@ class LanguageCurrencySwitcherControllerTest extends TestCase
             ->with('currency', 'EUR')
             ->once();
 
-        $controller = new \App\Http\Controllers\LanguageCurrencySwitcherController($this->localeCurrencyService);
+        $controller = new LanguageCurrencySwitcherController($this->localeCurrencyService);
 
         // Act
         $response = $controller->update($request);

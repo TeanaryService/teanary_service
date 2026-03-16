@@ -15,16 +15,16 @@
     $statusInfo = $order ? ($statusConfig[$order->status->value] ?? $statusConfig['pending']) : $statusConfig['pending'];
 @endphp
 
-<div class="min-h-[70vh] mb-10 ">
-    <div class="w-full max-w-screen 2xl:max-w-[75vw] mx-auto px-6 md:px-8">
+<div class="min-h-[70vh] mb-10">
+    <div class="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <x-widgets.breadcrumbs :items="$breadcrumbs" />
         
-        <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
             <x-users.sidebar active="orders" />
             
             <div class="flex-1">
                 <div class="mb-6">
-                    <h1 class="text-3xl font-bold text-gray-900">{{ __('orders.order_details') }}</h1>
+                    <h1 class="text-2xl lg:text-3xl font-bold text-gray-900">{{ __('orders.order_details') }}</h1>
                 </div>
 
         @if($order && $order->id)
@@ -80,9 +80,9 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- 左侧：商品信息 -->
-                <div class="lg:col-span-2 space-y-6">
+            <div class="grid grid-cols-1 xl:grid-cols-5 gap-6">
+                <!-- 左侧：商品信息 + 配送 + 售后记录 -->
+                <div class="xl:col-span-3 space-y-6">
                     <!-- 商品列表 -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                         <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
@@ -123,7 +123,7 @@
                                     <div class="flex gap-4">
                                         <div class="flex-shrink-0">
                                             <img src="{{ $image }}" alt="{{ $productName }}" 
-                                                 class="w-24 h-24 rounded-lg object-cover border border-gray-200 bg-gray-50">
+                                                 class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover border border-gray-200 bg-gray-50">
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <h4 class="text-base font-semibold text-gray-900 mb-1">
@@ -132,15 +132,26 @@
                                             @if($specs)
                                                 <p class="text-sm text-gray-500 mb-3">{{ $specs }}</p>
                                             @endif
-                                            <div class="flex items-center gap-6 text-sm text-gray-600">
+                                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-sm text-gray-600">
                                                 <span>{{ __('orders.quantity') }}: <strong class="text-gray-900">{{ $item->qty }}</strong></span>
                                                 <span>{{ __('orders.unit_price') }}: <strong class="text-gray-900">{{ $localeService->formatWithSymbol($item->price, $orderCurrency->code) }}</strong></span>
                                             </div>
                                         </div>
-                                        <div class="flex-shrink-0 text-right">
+                                        <div class="flex-shrink-0 text-right space-y-2">
                                             <div class="text-lg font-bold text-gray-900">
                                                 {{ $localeService->formatWithSymbol($item->price * $item->qty, $orderCurrency->code) }}
                                             </div>
+                                            @if(in_array($order->status->value, ['paid','shipped','completed']))
+                                                <x-widgets.button
+                                                    type="button"
+                                                    size="sm"
+                                                    variant="secondary"
+                                                    wire:click="openAfterSaleDialog('item', {{ $item->id }})"
+                                                    class="w-full mt-1"
+                                                >
+                                                    申请售后
+                                                </x-widgets.button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -184,10 +195,65 @@
                             </div>
                         </div>
                     @endif
-                </div>
 
+                    {{-- 售后记录（用户侧可见） --}}
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-semibold text-gray-900">售后记录</h2>
+                        </div>
+
+                        @php
+                            $afterSales = $order->afterSales()->latest()->get();
+                            $statusLabels = [
+                                'pending' => '待审核',
+                                'approved' => '已通过',
+                                'rejected' => '已拒绝',
+                                'in_return' => '退货中',
+                                'completed' => '已完成',
+                                'canceled' => '已取消',
+                            ];
+                        @endphp
+
+                        @if($afterSales->isEmpty())
+                            <p class="text-sm text-gray-500">该订单暂无售后记录。</p>
+                        @else
+                            <div class="space-y-3 max-h-64 overflow-y-auto">
+                                @foreach($afterSales as $afterSale)
+                                    <div class="border rounded-lg px-4 py-3 text-sm">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <div class="text-gray-700">
+                                                <span class="font-medium">售后单号：</span>#{{ $afterSale->id }}
+                                            </div>
+                                            <div class="text-xs text-gray-500">
+                                                {{ $afterSale->created_at?->format('Y-m-d H:i') }}
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-wrap items-center gap-3 mb-2">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-800">
+                                                类型：{{ $afterSale->type === 'refund_only' ? '仅退款' : ($afterSale->type === 'refund_and_return' ? '退货退款' : '换货') }}
+                                            </span>
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-teal-50 text-teal-700">
+                                                状态：{{ $statusLabels[$afterSale->status] ?? $afterSale->status }}
+                                            </span>
+                                        </div>
+                                        @if($afterSale->reason)
+                                            <p class="text-gray-700">
+                                                <span class="font-medium">理由：</span>{{ $afterSale->reason }}
+                                            </p>
+                                        @endif
+                                        @if($afterSale->description)
+                                            <p class="text-gray-700 mt-1">
+                                                <span class="font-medium">说明：</span>{{ $afterSale->description }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
                 <!-- 右侧：订单信息 -->
-                <div class="space-y-6">
+                <div class="xl:col-span-2 space-y-6">
                     <!-- 收货地址 -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                         <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
@@ -284,23 +350,95 @@
                                 </x-widgets.button>
                             @endif
 
-                            <x-widgets.button 
-                                href="{{ locaRoute('auth.orders') }}" 
-                                wire:navigate
-                                variant="secondary"
-                                class="w-full px-4 py-3"
-                            >
-                                {{ __('app.back_to_orders') }}
-                            </x-widgets.button>
+                            <div class="flex flex-col gap-2">
+                                @if(in_array($order->status->value, ['paid','shipped','completed','after_sale']))
+                                    <x-widgets.button 
+                                        type="button"
+                                        wire:click="openAfterSaleDialog('order')"
+                                        variant="secondary"
+                                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-3"
+                                    >
+                                        整单申请售后
+                                    </x-widgets.button>
+                                @endif
+
+                                <x-widgets.button 
+                                    href="{{ locaRoute('auth.orders') }}" 
+                                    wire:navigate
+                                    variant="secondary"
+                                    class="w-full px-4 py-3"
+                                >
+                                    {{ __('app.back_to_orders') }}
+                                </x-widgets.button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+        {{-- 售后申请弹窗 --}}
+        @if($this->showAfterSaleDialog)
+            <div class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 transform transition-all duration-300 scale-100">
+                    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h2 class="text-lg font-semibold text-gray-900">
+                            售后申请
+                        </h2>
+                        <button class="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-1 rounded-full hover:bg-gray-100" wire:click="$set('showAfterSaleDialog', false)">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="px-6 py-4 space-y-4">
+                        <p class="text-sm text-gray-600 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
+                            请填写本次售后的理由和说明，这些信息会提交给客服一起处理。
+                        </p>
+                        <x-widgets.form-field label="售后理由（必填）" labelFor="afterSaleReason">
+                            <x-widgets.input
+                                id="afterSaleReason"
+                                type="text"
+                                wire="afterSaleReason"
+                                placeholder="例如：商品有质量问题 / 与描述不符"
+                                class="w-full"
+                            />
+                        </x-widgets.form-field>
+
+                        <x-widgets.form-field label="详细说明（选填）" labelFor="afterSaleDescription">
+                            <x-widgets.textarea
+                                id="afterSaleDescription"
+                                wire="afterSaleDescription"
+                                rows="4"
+                                placeholder="请尽可能详细描述问题，便于客服处理"
+                                class="w-full resize-none"
+                            />
+                        </x-widgets.form-field>
+                    </div>
+                    <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-end gap-3 bg-gray-50 rounded-b-2xl">
+                        <x-widgets.button
+                            type="button"
+                            variant="secondary"
+                            wire:click="$set('showAfterSaleDialog', false)"
+                            class="px-4 py-2"
+                        >
+                            {{ __('app.cancel') }}
+                        </x-widgets.button>
+                        <x-widgets.button
+                            type="button"
+                            wire:click="confirmAfterSale"
+                            class="px-4 py-2"
+                        >
+                            {{ __('app.confirm') }}
+                        </x-widgets.button>
+                    </div>
+                </div>
             </div>
-        </div>
         @endif
-    </div>
-</div>
+
+        @endif
+            </div> {{-- flex-1 --}}
+        </div> {{-- flex row --}}
+    </div> {{-- container --}}
+</div> {{-- min-h --}}
 
 <x-seo-meta title="{{ __('orders.order_details') }}" />

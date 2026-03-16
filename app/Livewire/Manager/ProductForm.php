@@ -10,10 +10,13 @@ use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductTranslation;
+use App\Services\WarehouseService;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -43,7 +46,7 @@ class ProductForm extends Component
     /** @var int[] 选中的仓库（分仓）ID */
     public array $warehouseIds = [];
 
-    /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile[] */
+    /** @var TemporaryUploadedFile[] */
     public array $newImages = [];
 
     public array $rules = [
@@ -99,7 +102,7 @@ class ProductForm extends Component
             foreach ($product->attributeValues as $av) {
                 $attributeId = $av->pivot->attribute_id ?? $av->attribute_id ?? null;
                 if ($attributeId) {
-                    if (!in_array($attributeId, $this->selectedAttributes)) {
+                    if (! in_array($attributeId, $this->selectedAttributes)) {
                         $this->selectedAttributes[] = $attributeId;
                     }
                     $this->selectedAttributeValues[$attributeId] = $av->id;
@@ -117,7 +120,7 @@ class ProductForm extends Component
     {
         // 当属性选择改变时，移除未选中属性对应的值
         foreach ($this->selectedAttributeValues as $attributeId => $valueId) {
-            if (!in_array($attributeId, $this->selectedAttributes)) {
+            if (! in_array($attributeId, $this->selectedAttributes)) {
                 unset($this->selectedAttributeValues[$attributeId]);
             }
         }
@@ -128,7 +131,7 @@ class ProductForm extends Component
         // 当选择属性值时，自动选中对应的属性
         if (str_starts_with($path, 'selectedAttributeValues.')) {
             $attributeId = (int) str_replace('selectedAttributeValues.', '', $path);
-            if ($attributeId && !empty($value) && !in_array($attributeId, $this->selectedAttributes)) {
+            if ($attributeId && ! empty($value) && ! in_array($attributeId, $this->selectedAttributes)) {
                 $this->selectedAttributes[] = $attributeId;
             }
         }
@@ -219,7 +222,7 @@ class ProductForm extends Component
         // 同步属性值
         $syncAttributeValues = [];
         foreach ($this->selectedAttributeValues as $attributeId => $attributeValueId) {
-            if (!empty($attributeId) && !empty($attributeValueId)) {
+            if (! empty($attributeId) && ! empty($attributeValueId)) {
                 $syncAttributeValues[(int) $attributeValueId] = ['attribute_id' => (int) $attributeId];
             }
         }
@@ -266,7 +269,7 @@ class ProductForm extends Component
             $attributeValueOptions[$av->attribute_id][$av->id] = $name;
         }
 
-        $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) {
+        $categories = Category::with('categoryTranslations')->get()->map(function ($cat) {
             $lang = $this->getCurrentLanguage();
 
             return [
@@ -275,7 +278,7 @@ class ProductForm extends Component
             ];
         });
 
-        $warehouses = app(\App\Services\WarehouseService::class)->getWarehouses();
+        $warehouses = app(WarehouseService::class)->getWarehouses();
 
         $existingImages = [];
         if ($this->productId) {

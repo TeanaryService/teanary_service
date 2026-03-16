@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Currencies;
 use Tests\Feature\LivewireTestCase;
 
 class CurrenciesTest extends LivewireTestCase
@@ -14,7 +15,7 @@ class CurrenciesTest extends LivewireTestCase
 
     public function test_currencies_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Currencies::class);
+        $component = $this->livewire(Currencies::class);
         $component->assertSuccessful();
     }
 
@@ -22,7 +23,7 @@ class CurrenciesTest extends LivewireTestCase
     {
         $currency = $this->createCurrency();
 
-        $component = $this->livewire(\App\Livewire\Manager\Currencies::class);
+        $component = $this->livewire(Currencies::class);
 
         $currencies = $component->get('currencies');
         $currencyIds = $currencies->pluck('id')->toArray();
@@ -34,7 +35,7 @@ class CurrenciesTest extends LivewireTestCase
         $currency1 = $this->createCurrency(['code' => 'USD']);
         $currency2 = $this->createCurrency(['code' => 'EUR']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Currencies::class)
+        $component = $this->livewire(Currencies::class)
             ->set('search', 'USD');
 
         $currencies = $component->get('currencies');
@@ -48,7 +49,7 @@ class CurrenciesTest extends LivewireTestCase
         $currency1 = $this->createCurrency(['name' => 'US Dollar']);
         $currency2 = $this->createCurrency(['name' => 'Euro']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Currencies::class)
+        $component = $this->livewire(Currencies::class)
             ->set('search', 'Dollar');
 
         $currencies = $component->get('currencies');
@@ -62,7 +63,7 @@ class CurrenciesTest extends LivewireTestCase
         $defaultCurrency = $this->createCurrency(['default' => true]);
         $nonDefaultCurrency = $this->createCurrency(['default' => false]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Currencies::class)
+        $component = $this->livewire(Currencies::class)
             ->set('filterDefault', '1');
 
         $currencies = $component->get('currencies');
@@ -75,7 +76,7 @@ class CurrenciesTest extends LivewireTestCase
     {
         $currency = $this->createCurrency();
 
-        $component = $this->livewire(\App\Livewire\Manager\Currencies::class)
+        $component = $this->livewire(Currencies::class)
             ->call('deleteCurrency', $currency->id);
 
         $this->assertDatabaseMissing('currencies', ['id' => $currency->id]);
@@ -83,7 +84,7 @@ class CurrenciesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Currencies::class)
+        $component = $this->livewire(Currencies::class)
             ->set('search', 'test')
             ->set('filterDefault', '1')
             ->call('resetFilters')

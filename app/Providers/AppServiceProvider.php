@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Http\Middleware\SetLocaleAndCurrency;
+use App\Models\Media;
 use App\Models\Order;
+use App\Observers\MediaObserver;
 use App\Services\LocaleCurrencyService;
+use App\Services\SnowflakeService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -18,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // 将 SnowflakeService 注册为单例，确保所有模型使用同一个实例
         // 这样可以保证序列号的连续性，避免 ID 冲突
-        $this->app->singleton(\App\Services\SnowflakeService::class, function ($app) {
-            return new \App\Services\SnowflakeService;
+        $this->app->singleton(SnowflakeService::class, function ($app) {
+            return new SnowflakeService;
         });
     }
 
@@ -30,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // 注册 Media Observer 用于同步
         if (config('sync.enabled')) {
-            \App\Models\Media::observe(\App\Observers\MediaObserver::class);
+            Media::observe(MediaObserver::class);
         }
 
         // 配置 Order 路由模型绑定，支持 Snowflake ID
@@ -61,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * 获取支持的语言代码列表（与 web.php 一致，迁移未执行时回退为 en）
+     * 获取支持的语言代码列表（与 web.php 一致，迁移未执行时回退为 en）.
      */
     protected function getSupportedLocaleCodes(): array
     {

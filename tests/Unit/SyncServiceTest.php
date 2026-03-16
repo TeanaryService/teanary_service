@@ -3,11 +3,13 @@
 namespace Tests\Unit;
 
 use App\Enums\ProductStatusEnum;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\SyncLog;
 use App\Models\SyncStatus;
 use App\Services\SnowflakeService;
 use App\Services\SyncService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
@@ -515,7 +517,7 @@ class SyncServiceTest extends TestCase
 
         Config::set('sync.enabled', false);
         $product = Product::factory()->create();
-        $category = \App\Models\Category::factory()->create();
+        $category = Category::factory()->create();
         Config::set('sync.enabled', true);
 
         // 只同步 Product，不同步 Category
@@ -666,7 +668,7 @@ class SyncServiceTest extends TestCase
     {
         Config::set('sync.sync_models', [
             Product::class,
-            \App\Models\Category::class,
+            Category::class,
         ]);
 
         $productId = app(SnowflakeService::class)->nextId();
@@ -679,7 +681,7 @@ class SyncServiceTest extends TestCase
         unset($productData['product_variants'], $productData['product_translations']);
 
         $categoryId = app(SnowflakeService::class)->nextId();
-        $category = \App\Models\Category::factory()->make();
+        $category = Category::factory()->make();
         $categoryData = $category->toArray();
         $categoryData['id'] = $categoryId;
 
@@ -693,7 +695,7 @@ class SyncServiceTest extends TestCase
                 'timestamp' => now()->toIso8601String(),
             ],
             [
-                'model_type' => \App\Models\Category::class,
+                'model_type' => Category::class,
                 'model_id' => $categoryId,
                 'action' => 'created',
                 'payload' => $categoryData,
@@ -1002,8 +1004,8 @@ class SyncServiceTest extends TestCase
             'updated_at' => '2024-01-01T00:00:00+00:00',
         ];
         $parseTimestampsMethod->invokeArgs($this->service, [&$payload1]);
-        $this->assertInstanceOf(\Carbon\Carbon::class, $payload1['created_at']);
-        $this->assertInstanceOf(\Carbon\Carbon::class, $payload1['updated_at']);
+        $this->assertInstanceOf(Carbon::class, $payload1['created_at']);
+        $this->assertInstanceOf(Carbon::class, $payload1['updated_at']);
 
         // 测试 Y-m-d H:i:s 格式
         $payload2 = [
@@ -1011,7 +1013,7 @@ class SyncServiceTest extends TestCase
             'updated_at' => '2024-01-01 00:00:00',
         ];
         $parseTimestampsMethod->invokeArgs($this->service, [&$payload2]);
-        $this->assertInstanceOf(\Carbon\Carbon::class, $payload2['created_at']);
+        $this->assertInstanceOf(Carbon::class, $payload2['created_at']);
     }
 
     /**

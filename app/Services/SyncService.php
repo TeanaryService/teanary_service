@@ -2,13 +2,34 @@
 
 namespace App\Services;
 
+use App\Jobs\PerformMediaConversionsJob;
+use App\Models\ArticleTranslation;
+use App\Models\AttributeTranslation;
+use App\Models\AttributeValueTranslation;
+use App\Models\CategoryTranslation;
+use App\Models\CountryTranslation;
+use App\Models\Media;
+use App\Models\ProductTranslation;
+use App\Models\PromotionTranslation;
+use App\Models\SpecificationTranslation;
+use App\Models\SpecificationValueTranslation;
 use App\Models\SyncLog;
 use App\Models\SyncStatus;
+use App\Models\UserGroupTranslation;
+use App\Models\ZoneTranslation;
+use App\Observers\MediaObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 /**
  * 数据同步服务.
@@ -46,7 +67,7 @@ class SyncService
 
         $syncHash = $this->generateSyncHash($model, $action);
         // Pivot 表没有主键，使用 payload 哈希值作为 model_id
-        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of($modelType, Pivot::class);
         $modelId = $isPivot ? $this->generatePivotModelId($payload) : $model->id;
 
         // 为每个目标节点创建同步日志
@@ -119,11 +140,11 @@ class SyncService
      * 批量同步到远程节点
      * 将多条记录打包成一个请求，大幅提升效率.
      *
-     * @param  \Illuminate\Support\Collection  $syncLogs  待同步的日志集合
+     * @param  Collection  $syncLogs  待同步的日志集合
      * @param  string  $targetNode  目标节点
      * @return array ['success' => int, 'failed' => int, 'errors' => array]
      */
-    public function syncBatchToRemote(\Illuminate\Support\Collection $syncLogs, string $targetNode): array
+    public function syncBatchToRemote(Collection $syncLogs, string $targetNode): array
     {
         if ($syncLogs->isEmpty()) {
             return ['success' => 0, 'failed' => 0, 'errors' => []];
@@ -230,8 +251,8 @@ class SyncService
 
         // Media 类型放在最后处理，确保关联的 model 已经同步完成
         uksort($groupedByModelType, function ($a, $b) {
-            $isMediaA = $a === \App\Models\Media::class;
-            $isMediaB = $b === \App\Models\Media::class;
+            $isMediaA = $a === Media::class;
+            $isMediaB = $b === Media::class;
             if ($isMediaA && ! $isMediaB) {
                 return 1;
             }
@@ -333,17 +354,17 @@ class SyncService
     protected function isTranslationModel(string $modelType): bool
     {
         $translationModels = [
-            \App\Models\ProductTranslation::class,
-            \App\Models\CategoryTranslation::class,
-            \App\Models\AttributeTranslation::class,
-            \App\Models\AttributeValueTranslation::class,
-            \App\Models\SpecificationTranslation::class,
-            \App\Models\SpecificationValueTranslation::class,
-            \App\Models\PromotionTranslation::class,
-            \App\Models\ArticleTranslation::class,
-            \App\Models\CountryTranslation::class,
-            \App\Models\ZoneTranslation::class,
-            \App\Models\UserGroupTranslation::class,
+            ProductTranslation::class,
+            CategoryTranslation::class,
+            AttributeTranslation::class,
+            AttributeValueTranslation::class,
+            SpecificationTranslation::class,
+            SpecificationValueTranslation::class,
+            PromotionTranslation::class,
+            ArticleTranslation::class,
+            CountryTranslation::class,
+            ZoneTranslation::class,
+            UserGroupTranslation::class,
         ];
 
         return in_array($modelType, $translationModels);
@@ -361,17 +382,17 @@ class SyncService
     protected function hasRequiredTranslationFields(string $modelType, array $payload): bool
     {
         $requiredFields = [
-            \App\Models\ProductTranslation::class => ['name'],
-            \App\Models\CategoryTranslation::class => ['name'],
-            \App\Models\AttributeTranslation::class => ['name'],
-            \App\Models\AttributeValueTranslation::class => ['name'],
-            \App\Models\SpecificationTranslation::class => ['name'],
-            \App\Models\SpecificationValueTranslation::class => ['name'],
-            \App\Models\PromotionTranslation::class => ['name'],
-            \App\Models\ArticleTranslation::class => ['title'],
-            \App\Models\CountryTranslation::class => ['name'],
-            \App\Models\ZoneTranslation::class => ['name'],
-            \App\Models\UserGroupTranslation::class => ['name'],
+            ProductTranslation::class => ['name'],
+            CategoryTranslation::class => ['name'],
+            AttributeTranslation::class => ['name'],
+            AttributeValueTranslation::class => ['name'],
+            SpecificationTranslation::class => ['name'],
+            SpecificationValueTranslation::class => ['name'],
+            PromotionTranslation::class => ['name'],
+            ArticleTranslation::class => ['title'],
+            CountryTranslation::class => ['name'],
+            ZoneTranslation::class => ['name'],
+            UserGroupTranslation::class => ['name'],
         ];
 
         $fields = $requiredFields[$modelType] ?? [];
@@ -401,7 +422,7 @@ class SyncService
      */
     protected function preparePayload(Model $model, string $action): array
     {
-        $isPivot = is_subclass_of(get_class($model), \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of(get_class($model), Pivot::class);
 
         if ($action === 'deleted') {
             // Pivot 表删除时需要所有字段用于复合键查找
@@ -467,12 +488,12 @@ class SyncService
     protected function createModel(string $modelType, int $modelId, array $payload): ?Model
     {
         // Media 模型需要移除非数据库字段
-        if ($modelType === \App\Models\Media::class) {
+        if ($modelType === Media::class) {
             $payload = $this->cleanMediaPayload($payload);
         }
 
         // Pivot 表使用复合键，单独处理
-        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of($modelType, Pivot::class);
         if ($isPivot) {
             return $this->createPivotModel($modelType, $payload);
         }
@@ -522,12 +543,12 @@ class SyncService
     protected function updateModel(string $modelType, int $modelId, array $payload): ?Model
     {
         // Media 模型需要移除非数据库字段
-        if ($modelType === \App\Models\Media::class) {
+        if ($modelType === Media::class) {
             $payload = $this->cleanMediaPayload($payload);
         }
 
         // Pivot 表使用复合键，单独处理
-        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of($modelType, Pivot::class);
         if ($isPivot) {
             return $this->updatePivotModel($modelType, $payload);
         }
@@ -554,7 +575,7 @@ class SyncService
         $this->parseTimestampsInPayload($updatePayload);
 
         // Media 模型使用 withoutEvents 禁用所有事件（防止死循环）
-        if ($modelType === \App\Models\Media::class) {
+        if ($modelType === Media::class) {
             $model->withoutEvents(function () use ($model, $updatePayload) {
                 $model->update($updatePayload);
             });
@@ -623,7 +644,7 @@ class SyncService
             if ($existingModel) {
                 // Pivot 表没有主键，使用查询构建器直接删除
                 $tableName = $existingModel->getTable();
-                $query = \Illuminate\Support\Facades\DB::table($tableName);
+                $query = DB::table($tableName);
 
                 // 使用所有字段构建查询条件（复合键）
                 foreach ($cleanPayload as $field => $value) {
@@ -729,16 +750,16 @@ class SyncService
      *
      * 此方法在同步接收过程中调用，需要禁用 Media 同步以避免死循环.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      * @param  array  $payload  同步数据（包含 original_url）
      */
     protected function downloadAndSaveMediaFile(
-        \App\Models\Media $media,
+        Media $media,
         array $payload
     ): void {
         // 禁用 Media 同步，防止文件下载和转换过程中触发同步导致死循环
-        $wasDisabled = \App\Observers\MediaObserver::$syncDisabled;
-        \App\Observers\MediaObserver::$syncDisabled = true;
+        $wasDisabled = MediaObserver::$syncDisabled;
+        MediaObserver::$syncDisabled = true;
 
         try {
             $downloadUrl = $payload['original_url'] ?? $payload['file_url'] ?? null;
@@ -773,7 +794,7 @@ class SyncService
             ]);
         } finally {
             // 恢复之前的同步状态
-            \App\Observers\MediaObserver::$syncDisabled = $wasDisabled;
+            MediaObserver::$syncDisabled = $wasDisabled;
         }
     }
 
@@ -789,7 +810,7 @@ class SyncService
      */
     protected function deleteModel(string $modelType, int $modelId, array $payload = []): void
     {
-        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of($modelType, Pivot::class);
         if ($isPivot) {
             // Pivot 表使用复合键删除
             $this->deletePivotModel($modelType, $payload);
@@ -825,7 +846,7 @@ class SyncService
             $tableName = $modelInstance->getTable();
 
             // 使用查询构建器直接删除（Pivot 表没有主键，不能使用模型的 delete() 方法）
-            $query = \Illuminate\Support\Facades\DB::table($tableName);
+            $query = DB::table($tableName);
 
             // 使用所有字段构建查询条件（复合键）
             foreach ($cleanPayload as $field => $value) {
@@ -896,9 +917,9 @@ class SyncService
         }
 
         // Media 模型使用 Observer 的静态属性
-        if ($modelType === \App\Models\Media::class
-            || is_subclass_of($modelType, \App\Models\Media::class)) {
-            \App\Observers\MediaObserver::$syncDisabled = true;
+        if ($modelType === Media::class
+            || is_subclass_of($modelType, Media::class)) {
+            MediaObserver::$syncDisabled = true;
         } else {
             // 其他模型使用 Trait 的静态属性
             $modelType::$syncDisabled = true;
@@ -916,9 +937,9 @@ class SyncService
             return;
         }
 
-        if ($modelType === \App\Models\Media::class
-            || is_subclass_of($modelType, \App\Models\Media::class)) {
-            \App\Observers\MediaObserver::$syncDisabled = false;
+        if ($modelType === Media::class
+            || is_subclass_of($modelType, Media::class)) {
+            MediaObserver::$syncDisabled = false;
         } else {
             $modelType::$syncDisabled = false;
         }
@@ -964,7 +985,7 @@ class SyncService
 
         // Pivot 表：由于使用哈希值作为 model_id，相同数据会生成相同的 model_id
         // 所以可以使用 SyncStatus 来检查是否需要同步
-        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of($modelType, Pivot::class);
         if ($isPivot) {
             // 对于 Pivot 表，使用 SyncStatus 检查（基于 model_id 和 sync_hash）
             return SyncStatus::needsSync($modelType, $modelId, $targetNode, $syncHash);
@@ -1146,7 +1167,7 @@ class SyncService
      *
      * @param  array  $batchData  批量数据
      * @param  array  $remoteConfig  远程节点配置
-     * @return \Illuminate\Http\Client\Response HTTP 响应
+     * @return Response HTTP 响应
      */
     protected function sendBatchSyncRequest(array $batchData, array $remoteConfig)
     {
@@ -1168,13 +1189,13 @@ class SyncService
      *
      * 根据返回结果更新同步日志状态，统计成功和失败数量.
      *
-     * @param  \Illuminate\Support\Collection  $syncLogs  同步日志集合
+     * @param  Collection  $syncLogs  同步日志集合
      * @param  array  $result  远程节点返回的结果
      * @param  string  $targetNode  目标节点
      * @return array ['success' => int, 'failed' => int, 'errors' => array]
      */
     protected function handleBatchSyncResult(
-        \Illuminate\Support\Collection $syncLogs,
+        Collection $syncLogs,
         array $result,
         string $targetNode
     ): array {
@@ -1237,7 +1258,7 @@ class SyncService
         }
 
         // Pivot 表不需要更新同步状态（没有主键，无法通过 ID 查找）
-        $isPivot = is_subclass_of($syncLog->model_type, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of($syncLog->model_type, Pivot::class);
         if ($isPivot) {
             return;
         }
@@ -1315,7 +1336,7 @@ class SyncService
             return false;
         }
 
-        $isPivot = is_subclass_of($modelType, \Illuminate\Database\Eloquent\Relations\Pivot::class);
+        $isPivot = is_subclass_of($modelType, Pivot::class);
         if ($isPivot) {
             // Pivot 表：创建操作时，如果记录已存在，跳过（避免重复）
             if ($action === 'created') {
@@ -1360,7 +1381,7 @@ class SyncService
             case 'created':
                 $model = $this->createModel($modelType, $modelId, $payload);
                 // Media 模型需要下载文件并生成缩略图
-                if ($model && $model instanceof \App\Models\Media) {
+                if ($model && $model instanceof Media) {
                     $this->downloadAndSaveMediaFile($model, $payload);
                 }
                 break;
@@ -1368,7 +1389,7 @@ class SyncService
             case 'updated':
                 $model = $this->updateModel($modelType, $modelId, $payload);
                 // Media 模型需要下载文件并生成缩略图
-                if ($model && $model instanceof \App\Models\Media) {
+                if ($model && $model instanceof Media) {
                     $this->downloadAndSaveMediaFile($model, $payload);
                 }
                 break;
@@ -1412,7 +1433,7 @@ class SyncService
      */
     protected function addMediaFileInfo(array &$payload, Model $model): void
     {
-        if ($model instanceof \App\Models\Media) {
+        if ($model instanceof Media) {
             $payload['original_url'] = $model->getUrl();
         }
     }
@@ -1440,13 +1461,13 @@ class SyncService
      * 使用指数退避策略重试，最多重试 3 次.
      * 对于图片文件，会验证文件有效性.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      * @param  string  $downloadUrl  下载 URL
      *
      * @throws \Exception 下载失败时抛出异常
      */
     protected function downloadAndSaveFile(
-        \App\Models\Media $media,
+        Media $media,
         string $downloadUrl
     ): void {
         $timeout = config('sync.media_download_timeout', 900);
@@ -1530,17 +1551,17 @@ class SyncService
     /**
      * 保存媒体文件到磁盘.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      * @param  string  $fileContent  文件内容
      *
      * @throws \Exception 文件保存失败
      */
     protected function saveMediaFile(
-        \App\Models\Media $media,
+        Media $media,
         string $fileContent
     ): void {
         $disk = $media->disk ?? config('media-library.disk_name', 'public');
-        $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
+        $diskInstance = Storage::disk($disk);
         $filePath = $this->getMediaFilePath($media);
         $directory = dirname($filePath);
 
@@ -1563,13 +1584,13 @@ class SyncService
      *
      * 使用 Spatie Media Library 的 PathGenerator 生成正确的路径.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      * @return string 文件相对路径
      */
-    protected function getMediaFilePath(\App\Models\Media $media): string
+    protected function getMediaFilePath(Media $media): string
     {
         $fileName = $media->file_name ?? $media->name ?? 'file';
-        $pathGeneratorFactory = app(\Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory::class);
+        $pathGeneratorFactory = app(PathGeneratorFactory::class);
         $pathGenerator = $pathGeneratorFactory->create($media);
         $directory = rtrim($pathGenerator->getPath($media), '/');
 
@@ -1579,26 +1600,26 @@ class SyncService
     /**
      * 检查 Media 文件是否已存在.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      * @return bool 文件是否存在
      */
-    protected function mediaFileExists(\App\Models\Media $media): bool
+    protected function mediaFileExists(Media $media): bool
     {
         $disk = $media->disk ?? config('media-library.disk_name', 'public');
 
-        return \Illuminate\Support\Facades\Storage::disk($disk)->exists($this->getMediaFilePath($media));
+        return Storage::disk($disk)->exists($this->getMediaFilePath($media));
     }
 
     /**
      * 获取 Media 文件大小.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      * @return int|null 文件大小（字节），文件不存在返回 null
      */
-    protected function getMediaFileSize(\App\Models\Media $media): ?int
+    protected function getMediaFileSize(Media $media): ?int
     {
         $disk = $media->disk ?? config('media-library.disk_name', 'public');
-        $diskInstance = \Illuminate\Support\Facades\Storage::disk($disk);
+        $diskInstance = Storage::disk($disk);
         $filePath = $this->getMediaFilePath($media);
 
         return $diskInstance->exists($filePath) ? $diskInstance->size($filePath) : null;
@@ -1610,13 +1631,13 @@ class SyncService
      * 此方法在同步接收过程中调用，Media 同步应该已经被禁用.
      * 使用自定义的 Job 包装器，在执行时禁用 Media 同步，防止死循环.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      */
-    protected function triggerMediaConversions(\App\Models\Media $media): void
+    protected function triggerMediaConversions(Media $media): void
     {
         // 确保 Media 同步被禁用（防止转换过程中触发同步导致死循环）
-        $wasDisabled = \App\Observers\MediaObserver::$syncDisabled;
-        \App\Observers\MediaObserver::$syncDisabled = true;
+        $wasDisabled = MediaObserver::$syncDisabled;
+        MediaObserver::$syncDisabled = true;
 
         try {
             $media->refresh();
@@ -1631,7 +1652,7 @@ class SyncService
             }
 
             // 获取 conversions collection
-            $conversions = \Spatie\MediaLibrary\Conversions\ConversionCollection::createForMedia($media);
+            $conversions = ConversionCollection::createForMedia($media);
             if ($conversions->isEmpty()) {
                 return;
             }
@@ -1640,7 +1661,7 @@ class SyncService
             $queueConnection = config('media-library.queue_connection_name');
             $queueName = config('media-library.queue_name', 'default');
 
-            dispatch(new \App\Jobs\PerformMediaConversionsJob($conversions, $media))
+            dispatch(new PerformMediaConversionsJob($conversions, $media))
                 ->onConnection($queueConnection ?: config('queue.default'))
                 ->onQueue($queueName);
 
@@ -1657,7 +1678,7 @@ class SyncService
             ]);
         } finally {
             // 恢复之前的同步状态
-            \App\Observers\MediaObserver::$syncDisabled = $wasDisabled;
+            MediaObserver::$syncDisabled = $wasDisabled;
         }
     }
 
@@ -1666,10 +1687,10 @@ class SyncService
      *
      * 用于 Media 转换时获取关联的模型实例.
      *
-     * @param  \App\Models\Media  $media  Media 模型实例
+     * @param  Media  $media  Media 模型实例
      * @return Model|null 关联的模型实例，未找到返回 null
      */
-    protected function getMediaModel(\App\Models\Media $media): ?Model
+    protected function getMediaModel(Media $media): ?Model
     {
         $modelType = $media->model_type;
         $modelId = $media->model_id;

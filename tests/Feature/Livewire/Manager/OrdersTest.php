@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Manager\Orders;
 use Tests\Feature\LivewireTestCase;
 
 class OrdersTest extends LivewireTestCase
@@ -15,7 +16,7 @@ class OrdersTest extends LivewireTestCase
 
     public function test_orders_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class);
+        $component = $this->livewire(Orders::class);
 
         $component->assertSuccessful();
     }
@@ -26,7 +27,7 @@ class OrdersTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class);
+        $component = $this->livewire(Orders::class);
 
         $orders = $component->get('orders');
         $orderIds = $orders->pluck('id')->toArray();
@@ -39,7 +40,7 @@ class OrdersTest extends LivewireTestCase
         $order2 = $this->createOrder();
 
         // 使用实际生成的订单号进行搜索
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->set('search', $order1->order_no);
 
         $orders = $component->get('orders');
@@ -56,7 +57,7 @@ class OrdersTest extends LivewireTestCase
         $order1 = $this->createOrder(['user_id' => $user1->id]);
         $order2 = $this->createOrder(['user_id' => $user2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->set('search', 'John');
 
         $orders = $component->get('orders');
@@ -70,7 +71,7 @@ class OrdersTest extends LivewireTestCase
         $pendingOrder = $this->createOrder(['status' => OrderStatusEnum::Pending]);
         $completedOrder = $this->createOrder(['status' => OrderStatusEnum::Completed]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->set('filterStatus', [OrderStatusEnum::Pending->value]);
 
         $orders = $component->get('orders');
@@ -86,7 +87,7 @@ class OrdersTest extends LivewireTestCase
         $order1 = $this->createOrder(['currency_id' => $currency1->id]);
         $order2 = $this->createOrder(['currency_id' => $currency2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->set('filterCurrencyId', $currency1->id);
 
         $orders = $component->get('orders');
@@ -100,7 +101,7 @@ class OrdersTest extends LivewireTestCase
         $order1 = $this->createOrder(['created_at' => now()->subDays(5)]);
         $order2 = $this->createOrder(['created_at' => now()->subDays(2)]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->set('createdFrom', now()->subDays(3)->format('Y-m-d'))
             ->set('createdUntil', now()->format('Y-m-d'));
 
@@ -111,7 +112,7 @@ class OrdersTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->set('search', 'test')
             ->set('filterStatus', [OrderStatusEnum::Pending->value])
             ->set('filterCurrencyId', 1)

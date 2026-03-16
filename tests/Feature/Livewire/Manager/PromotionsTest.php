@@ -4,6 +4,7 @@ namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\PromotionTypeEnum;
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Manager\Promotions;
 use App\Models\Promotion;
 use App\Models\PromotionTranslation;
 use Tests\Feature\LivewireTestCase;
@@ -18,7 +19,7 @@ class PromotionsTest extends LivewireTestCase
 
     public function test_promotions_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class);
+        $component = $this->livewire(Promotions::class);
         $component->assertSuccessful();
     }
 
@@ -26,7 +27,7 @@ class PromotionsTest extends LivewireTestCase
     {
         $promotion = Promotion::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class);
+        $component = $this->livewire(Promotions::class);
 
         $promotions = $component->get('promotions');
         $promotionIds = $promotions->pluck('id')->toArray();
@@ -50,7 +51,7 @@ class PromotionsTest extends LivewireTestCase
             'name' => '其他促销',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class)
+        $component = $this->livewire(Promotions::class)
             ->set('search', '测试');
 
         $promotions = $component->get('promotions');
@@ -64,7 +65,7 @@ class PromotionsTest extends LivewireTestCase
         $promotion1 = Promotion::factory()->create(['type' => PromotionTypeEnum::Coupon]);
         $promotion2 = Promotion::factory()->create(['type' => PromotionTypeEnum::Automatic]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class)
+        $component = $this->livewire(Promotions::class)
             ->set('filterTypes', [PromotionTypeEnum::Coupon->value]);
 
         $promotions = $component->get('promotions');
@@ -78,7 +79,7 @@ class PromotionsTest extends LivewireTestCase
         $activePromotion = Promotion::factory()->create(['active' => true]);
         $inactivePromotion = Promotion::factory()->create(['active' => false]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class)
+        $component = $this->livewire(Promotions::class)
             ->set('filterActive', '1');
 
         $promotions = $component->get('promotions');
@@ -96,7 +97,7 @@ class PromotionsTest extends LivewireTestCase
             'translation_status' => TranslationStatusEnum::NotTranslated,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class)
+        $component = $this->livewire(Promotions::class)
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value]);
 
         $promotions = $component->get('promotions');
@@ -109,7 +110,7 @@ class PromotionsTest extends LivewireTestCase
     {
         $promotion = Promotion::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class)
+        $component = $this->livewire(Promotions::class)
             ->call('deletePromotion', $promotion->id);
 
         $this->assertDatabaseMissing('promotions', ['id' => $promotion->id]);
@@ -117,7 +118,7 @@ class PromotionsTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Promotions::class)
+        $component = $this->livewire(Promotions::class)
             ->set('search', 'test')
             ->set('filterTypes', [PromotionTypeEnum::Coupon->value])
             ->set('filterActive', '1')

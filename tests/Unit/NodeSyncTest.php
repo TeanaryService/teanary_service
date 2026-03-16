@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Enums\ProductStatusEnum;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Category;
@@ -10,6 +11,7 @@ use App\Models\ProductAttributeValue;
 use App\Models\ProductCategory;
 use App\Models\SyncLog;
 use App\Models\SyncStatus;
+use App\Services\SnowflakeService;
 use App\Services\SyncService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
@@ -110,7 +112,7 @@ class NodeSyncTest extends TestCase
         SyncLog::truncate();
         SyncStatus::truncate();
 
-        $product->status = \App\Enums\ProductStatusEnum::Inactive;
+        $product->status = ProductStatusEnum::Inactive;
         $product->save();
 
         $this->service->recordSync($product, 'updated', 'node1');
@@ -303,8 +305,8 @@ class NodeSyncTest extends TestCase
      */
     public function test_receive_batch_sync_from_different_nodes()
     {
-        $productId1 = app(\App\Services\SnowflakeService::class)->nextId();
-        $productId2 = app(\App\Services\SnowflakeService::class)->nextId();
+        $productId1 = app(SnowflakeService::class)->nextId();
+        $productId2 = app(SnowflakeService::class)->nextId();
 
         $product1 = Product::factory()->make();
         $product1Data = $product1->toArray();
@@ -452,7 +454,7 @@ class NodeSyncTest extends TestCase
 
         // 更新产品（禁用同步避免自动触发）
         Config::set('sync.enabled', false);
-        $product->status = \App\Enums\ProductStatusEnum::Inactive;
+        $product->status = ProductStatusEnum::Inactive;
         $product->save();
         Config::set('sync.enabled', true);
 
@@ -570,7 +572,7 @@ class NodeSyncTest extends TestCase
      */
     public function test_receive_sync_disables_sync_listener()
     {
-        $productId = app(\App\Services\SnowflakeService::class)->nextId();
+        $productId = app(SnowflakeService::class)->nextId();
         $product = Product::factory()->make();
         $productData = $product->toArray();
         $productData['id'] = $productId;

@@ -4,6 +4,7 @@ namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\OrderStatusEnum;
 use App\Enums\ShippingMethodEnum;
+use App\Livewire\Manager\OrderDetail;
 use App\Models\OrderShipment;
 use Tests\Feature\LivewireTestCase;
 
@@ -19,7 +20,7 @@ class OrderDetailTest extends LivewireTestCase
     {
         $order = $this->createOrder();
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id]);
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id]);
         $component->assertSuccessful();
     }
 
@@ -30,7 +31,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id]);
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id]);
         $component->assertSuccessful();
         $this->assertEquals($order->id, $component->get('order')->id);
     }
@@ -41,7 +42,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id])
             ->call('updateStatus', OrderStatusEnum::Paid->value);
 
         $order->refresh();
@@ -54,7 +55,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Paid,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id])
             ->set('shippingMethod', ShippingMethodEnum::SF_INTERNATIONAL->value)
             ->set('trackingNumber', 'TRACK123')
             ->set('notes', 'Test notes')
@@ -75,7 +76,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Paid,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id])
             ->set('shippingMethod', ShippingMethodEnum::SF_INTERNATIONAL->value)
             ->set('trackingNumber', 'TRACK123')
             ->call('createShipment');
@@ -91,7 +92,7 @@ class OrderDetailTest extends LivewireTestCase
             'order_id' => $order->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id])
             ->call('deleteShipment', $shipment->id);
 
         $this->assertDatabaseMissing('order_shipments', ['id' => $shipment->id]);
@@ -101,7 +102,7 @@ class OrderDetailTest extends LivewireTestCase
     {
         $order = $this->createOrder();
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id])
             ->call('createShipment')
             ->assertHasErrors(['shippingMethod']);
     }
@@ -110,7 +111,7 @@ class OrderDetailTest extends LivewireTestCase
     {
         $order = $this->createOrder();
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id])
             ->call('toggleShipmentForm')
             ->assertSet('showShipmentForm', true)
             ->call('toggleShipmentForm')
@@ -121,7 +122,7 @@ class OrderDetailTest extends LivewireTestCase
     {
         $order = $this->createOrder();
 
-        $component = $this->livewire(\App\Livewire\Manager\OrderDetail::class, ['id' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['id' => $order->id])
             ->set('shippingMethod', ShippingMethodEnum::SF_INTERNATIONAL->value)
             ->set('trackingNumber', 'TRACK123')
             ->set('notes', 'Test notes')

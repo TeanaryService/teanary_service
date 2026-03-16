@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\Search;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
 use App\Models\ProductTranslation;
@@ -12,13 +13,13 @@ class SearchTest extends LivewireTestCase
 {
     public function test_search_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Search::class);
+        $component = $this->livewire(Search::class);
         $component->assertSuccessful();
     }
 
     public function test_search_with_empty_query()
     {
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '');
 
         $component->assertSuccessful();
@@ -37,7 +38,7 @@ class SearchTest extends LivewireTestCase
             'name' => '测试商品',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '测试');
 
         $component->assertSuccessful();
@@ -52,7 +53,7 @@ class SearchTest extends LivewireTestCase
             'title' => '测试文章',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '测试');
 
         $component->assertSuccessful();
@@ -76,7 +77,7 @@ class SearchTest extends LivewireTestCase
             'title' => '测试文章',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '测试');
 
         $component->assertSuccessful();
@@ -103,7 +104,7 @@ class SearchTest extends LivewireTestCase
             'name' => '非活跃商品',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '商品');
 
         $component->assertSuccessful();
@@ -123,7 +124,7 @@ class SearchTest extends LivewireTestCase
             'title' => '未发布文章',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '文章');
 
         $component->assertSuccessful();
@@ -144,7 +145,7 @@ class SearchTest extends LivewireTestCase
             ]);
         }
 
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '测试');
 
         $component->assertSuccessful();
@@ -164,7 +165,7 @@ class SearchTest extends LivewireTestCase
             'name' => '其他商品',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Search::class)
+        $component = $this->livewire(Search::class)
             ->set('query', '不存在的搜索词');
 
         $component->assertSuccessful();

@@ -58,7 +58,7 @@ class SpecificationValue extends Model
     {
         return $this->belongsToMany(ProductVariant::class, 'product_variant_specification_value')
             ->withPivot('specification_id')
-            ->using(\App\Models\ProductVariantSpecificationValue::class);
+            ->using(ProductVariantSpecificationValue::class);
     }
 
     public function specificationValueTranslations(): HasMany

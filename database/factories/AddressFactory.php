@@ -2,10 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Address;
+use App\Models\Country;
+use App\Models\User;
+use App\Models\Zone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Address>
+ * @extends Factory<Address>
  */
 class AddressFactory extends Factory
 {
@@ -17,7 +21,7 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::factory(),
+            'user_id' => User::factory(),
             'firstname' => fake()->firstName(),
             'lastname' => fake()->lastName(),
             'email' => fake()->safeEmail(),
@@ -27,8 +31,8 @@ class AddressFactory extends Factory
             'address_2' => fake()->optional()->streetAddress(),
             'city' => fake()->city(),
             'postcode' => fake()->postcode(),
-            'country_id' => \App\Models\Country::factory(),
-            'zone_id' => \App\Models\Zone::factory(),
+            'country_id' => Country::factory(),
+            'zone_id' => Zone::factory(),
         ];
     }
 }

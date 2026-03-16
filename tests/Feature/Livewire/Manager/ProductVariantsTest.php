@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\ProductVariants;
 use App\Models\ProductVariant;
 use Tests\Feature\LivewireTestCase;
 
@@ -16,7 +17,7 @@ class ProductVariantsTest extends LivewireTestCase
 
     public function test_product_variants_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\ProductVariants::class, ['productId' => $this->product->id]);
+        $component = $this->livewire(ProductVariants::class, ['productId' => $this->product->id]);
         $component->assertSuccessful();
     }
 
@@ -26,7 +27,7 @@ class ProductVariantsTest extends LivewireTestCase
             'product_id' => $this->product->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductVariants::class, ['productId' => $this->product->id]);
+        $component = $this->livewire(ProductVariants::class, ['productId' => $this->product->id]);
 
         $variants = $component->get('variants');
         $variantIds = $variants->pluck('id')->toArray();
@@ -39,7 +40,7 @@ class ProductVariantsTest extends LivewireTestCase
         $variant1 = ProductVariant::factory()->create(['product_id' => $this->product->id]);
         $variant2 = ProductVariant::factory()->create(['product_id' => $product2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductVariants::class, ['productId' => $this->product->id]);
+        $component = $this->livewire(ProductVariants::class, ['productId' => $this->product->id]);
 
         $variants = $component->get('variants');
         $variantIds = $variants->pluck('id')->toArray();
@@ -58,7 +59,7 @@ class ProductVariantsTest extends LivewireTestCase
             'sku' => 'SKU-002',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductVariants::class, ['productId' => $this->product->id])
+        $component = $this->livewire(ProductVariants::class, ['productId' => $this->product->id])
             ->set('search', 'SKU-001');
 
         $variants = $component->get('variants');
@@ -73,7 +74,7 @@ class ProductVariantsTest extends LivewireTestCase
             'product_id' => $this->product->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\ProductVariants::class, ['productId' => $this->product->id])
+        $component = $this->livewire(ProductVariants::class, ['productId' => $this->product->id])
             ->call('deleteVariant', $variant->id);
 
         $this->assertDatabaseMissing('product_variants', ['id' => $variant->id]);

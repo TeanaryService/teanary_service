@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Enums\ShippingMethodEnum;
 use App\Models\Address;
+use App\Models\Warehouse;
 use App\Services\Shipping\ShippingCalculatorFactory;
-use App\Services\WarehouseService;
 
 class ShippingService
 {
@@ -34,7 +34,7 @@ class ShippingService
         return $methods;
     }
 
-    protected function getCurrentWarehouse(): ?\App\Models\Warehouse
+    protected function getCurrentWarehouse(): ?Warehouse
     {
         $warehouseId = session('warehouse_id');
         if (! $warehouseId) {

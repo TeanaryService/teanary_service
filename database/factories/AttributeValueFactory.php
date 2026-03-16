@@ -8,7 +8,7 @@ use App\Models\AttributeValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AttributeValue>
+ * @extends Factory<AttributeValue>
  */
 class AttributeValueFactory extends Factory
 {

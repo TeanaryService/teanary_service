@@ -9,6 +9,7 @@ use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Category;
 use App\Models\CategoryTranslation;
+use App\Support\CacheKeys;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
@@ -101,7 +102,7 @@ class CategoryForm extends Component
             // 更新翻译
             $this->saveTranslations($category, CategoryTranslation::class, 'category_id');
 
-            Cache::forget(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+            Cache::forget(CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
             $this->flashMessage('updated_successfully');
         } else {
             $category = Category::create($data);
@@ -112,7 +113,7 @@ class CategoryForm extends Component
             // 创建翻译
             $this->saveTranslations($category, CategoryTranslation::class, 'category_id');
 
-            Cache::forget(\App\Support\CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
+            Cache::forget(CacheKeys::CATEGORIES_WITH_TRANSLATIONS);
             $this->flashMessage('created_successfully');
         }
 

@@ -5,6 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified as Middleware;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 
 class CustomEnsureEmailIsVerified extends Middleware
@@ -17,9 +20,9 @@ class CustomEnsureEmailIsVerified extends Middleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  string|null  $redirectToRoute
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|null
+     * @return Response|RedirectResponse|null
      */
     public function handle($request, Closure $next, $redirectToRoute = null)
     {

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Components;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\Components\RecommendProducts;
 use Tests\Feature\LivewireTestCase;
 
 class RecommendProductsTest extends LivewireTestCase
@@ -15,7 +16,7 @@ class RecommendProductsTest extends LivewireTestCase
         $category = $this->createCategory();
         $product->productCategories()->attach($category->id);
 
-        $component = $this->livewire(\App\Livewire\Components\RecommendProducts::class, [
+        $component = $this->livewire(RecommendProducts::class, [
             'currentProductId' => $product->id,
             'categoryIds' => [$category->id],
         ]);
@@ -34,7 +35,7 @@ class RecommendProductsTest extends LivewireTestCase
         $product1->productCategories()->attach($category->id);
         $product2->productCategories()->attach($category->id);
 
-        $component = $this->livewire(\App\Livewire\Components\RecommendProducts::class, [
+        $component = $this->livewire(RecommendProducts::class, [
             'currentProductId' => $product1->id,
             'categoryIds' => [$category->id],
         ])
@@ -56,7 +57,7 @@ class RecommendProductsTest extends LivewireTestCase
         $product1->productCategories()->attach($category->id);
         $product2->productCategories()->attach($category->id);
 
-        $component = $this->livewire(\App\Livewire\Components\RecommendProducts::class, [
+        $component = $this->livewire(RecommendProducts::class, [
             'currentProductId' => $product1->id,
             'categoryIds' => [$category->id],
         ])
@@ -75,7 +76,7 @@ class RecommendProductsTest extends LivewireTestCase
         $category = $this->createCategory();
         $product->productCategories()->attach($category->id);
 
-        $component = $this->livewire(\App\Livewire\Components\RecommendProducts::class, [
+        $component = $this->livewire(RecommendProducts::class, [
             'currentProductId' => $product->id,
             'categoryIds' => [$category->id],
         ])
@@ -97,7 +98,7 @@ class RecommendProductsTest extends LivewireTestCase
         $activeProduct->productCategories()->attach($category->id);
         $inactiveProduct->productCategories()->attach($category->id);
 
-        $component = $this->livewire(\App\Livewire\Components\RecommendProducts::class, [
+        $component = $this->livewire(RecommendProducts::class, [
             'currentProductId' => $activeProduct->id,
             'categoryIds' => [$category->id],
         ])

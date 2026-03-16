@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Payment;
 
+use App\Enums\PaymentMethodEnum;
 use App\Models\Order;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +32,7 @@ class Checkout extends Component
             $order = Order::where('id', $this->orderId)->firstOrFail();
             $order->name = config('app.name').__('app.order_items');
 
-            if (! $order->payment_method instanceof \App\Enums\PaymentMethodEnum) {
+            if (! $order->payment_method instanceof PaymentMethodEnum) {
                 throw new \RuntimeException('Invalid payment method');
             }
 

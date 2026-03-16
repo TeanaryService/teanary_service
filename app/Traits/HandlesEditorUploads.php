@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\EditorUpload;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait HandlesEditorUploads
 {
@@ -77,7 +78,7 @@ trait HandlesEditorUploads
 
                 // 统一处理 /storage/xxx → xxx（public disk）
                 if (str_contains($path, '/storage/')) {
-                    $path = (string) \Illuminate\Support\Str::of($path)->after('/storage/');
+                    $path = (string) Str::of($path)->after('/storage/');
                 }
 
                 // 兼容 Storage::disk('public')->url('') 前缀

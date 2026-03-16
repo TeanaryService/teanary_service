@@ -3,8 +3,11 @@
 namespace App\Livewire;
 
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Attribute;
+use App\Models\Category;
 use App\Models\Product as ProductModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Product extends Component
@@ -18,7 +21,7 @@ class Product extends Component
 
     private $attributeFilters = [];
 
-    /** @var \Illuminate\Support\Collection */
+    /** @var Collection */
     private $allAttributes;
 
     public function mount(Request $request)
@@ -28,8 +31,8 @@ class Product extends Component
         $this->attributeFilters = $request->input('attributes', []);
 
         $langId = $this->getCurrentLanguage()?->id;
-        $this->categories = \App\Models\Category::getCategoriesForLanguage($langId);
-        $this->allAttributes = \App\Models\Attribute::getAttributesForLanguage($langId);
+        $this->categories = Category::getCategoriesForLanguage($langId);
+        $this->allAttributes = Attribute::getAttributesForLanguage($langId);
 
         if ($slug) {
             $category = $this->categories->where('slug', $slug)->first();
@@ -148,7 +151,7 @@ class Product extends Component
         // 确保 attributes 是数组格式
         // getAttributesForLanguage 返回的 Collection 中每个元素已经是数组格式
         $attributesArray = [];
-        if ($this->allAttributes instanceof \Illuminate\Support\Collection && $this->allAttributes->isNotEmpty()) {
+        if ($this->allAttributes instanceof Collection && $this->allAttributes->isNotEmpty()) {
             // 直接转换为数组，因为 Collection 中的每个元素已经是数组
             $attributesArray = $this->allAttributes->toArray();
 

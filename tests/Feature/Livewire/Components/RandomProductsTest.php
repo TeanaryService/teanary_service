@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Components;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\Components\RandomProducts;
 use App\Models\Product;
 use Tests\Feature\LivewireTestCase;
 
@@ -10,7 +11,7 @@ class RandomProductsTest extends LivewireTestCase
 {
     public function test_random_products_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Components\RandomProducts::class);
+        $component = $this->livewire(RandomProducts::class);
         $component->assertSuccessful();
     }
 
@@ -20,7 +21,7 @@ class RandomProductsTest extends LivewireTestCase
             'status' => ProductStatusEnum::Active,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\RandomProducts::class);
+        $component = $this->livewire(RandomProducts::class);
         $component->assertSuccessful();
     }
 
@@ -33,7 +34,7 @@ class RandomProductsTest extends LivewireTestCase
             'status' => ProductStatusEnum::Inactive,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\RandomProducts::class);
+        $component = $this->livewire(RandomProducts::class);
         $component->assertSuccessful();
     }
 
@@ -44,13 +45,13 @@ class RandomProductsTest extends LivewireTestCase
             'status' => ProductStatusEnum::Active,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\RandomProducts::class, ['limit' => 4]);
+        $component = $this->livewire(RandomProducts::class, ['limit' => 4]);
         $component->assertSuccessful();
     }
 
     public function test_random_products_can_customize_class()
     {
-        $component = $this->livewire(\App\Livewire\Components\RandomProducts::class, [
+        $component = $this->livewire(RandomProducts::class, [
             'limit' => 4,
             'class' => 'custom-grid-class',
         ]);

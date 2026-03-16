@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Traits;
 
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
 /**
@@ -16,7 +17,7 @@ trait HandlesMediaUploads
     /**
      * 上传的图片文件.
      *
-     * @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile|null
+     * @var TemporaryUploadedFile|null
      */
     public $image = null;
 

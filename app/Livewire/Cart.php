@@ -5,7 +5,9 @@ namespace App\Livewire;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\CartItem;
+use App\Models\Product;
 use App\Services\CartService;
+use App\Services\PromotionService;
 use Livewire\Component;
 
 class Cart extends Component
@@ -23,7 +25,7 @@ class Cart extends Component
     public function mount()
     {
         $cart = app(CartService::class)->getCart();
-        $promoService = app(\App\Services\PromotionService::class);
+        $promoService = app(PromotionService::class);
         $user = auth()->user();
 
         $items = $cart
@@ -37,7 +39,7 @@ class Cart extends Component
         // 只显示当前仓库下的商品
         $warehouseId = session('warehouse_id');
         if ($warehouseId && $items->isNotEmpty()) {
-            $allowedProductIds = \App\Models\Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))->pluck('id')->toArray();
+            $allowedProductIds = Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))->pluck('id')->toArray();
             $items = $items->filter(fn ($item) => in_array($item->product_id, $allowedProductIds));
         }
 
@@ -128,7 +130,7 @@ class Cart extends Component
         // 只保留属于当前仓库的商品
         $warehouseId = session('warehouse_id');
         if ($warehouseId) {
-            $allowedProductIds = \App\Models\Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))
+            $allowedProductIds = Product::whereHas('warehouses', fn ($q) => $q->where('warehouses.id', $warehouseId))
                 ->pluck('id')
                 ->toArray();
             $selectedItems = array_values(array_filter($selectedItems, fn ($item) => in_array($item['product_id'], $allowedProductIds)));

@@ -3,9 +3,12 @@
 namespace Tests\Feature\Livewire\Users;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Users\OrderDetail;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\Feature\LivewireTestCase;
 
 class OrderDetailTest extends LivewireTestCase
@@ -17,10 +20,10 @@ class OrderDetailTest extends LivewireTestCase
         // 在测试环境中，abort(403) 可能不会抛出异常，而是返回 403 响应
         // 检查组件是否成功渲染（不应该成功）
         try {
-            $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id]);
+            $component = $this->livewire(OrderDetail::class, ['orderId' => $order->id]);
             // 如果没有抛出异常，检查组件状态
             $this->assertNull($component->get('order'), 'Order should not be loaded for unauthenticated user');
-        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+        } catch (HttpException $e) {
             $this->assertEquals(403, $e->getStatusCode());
         } catch (\Exception $e) {
             // 其他异常也可以接受（如 403 响应）
@@ -38,7 +41,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id]);
+        $component = $this->livewire(OrderDetail::class, ['orderId' => $order->id]);
         $component->assertSuccessful();
     }
 
@@ -52,8 +55,8 @@ class OrderDetailTest extends LivewireTestCase
             'user_id' => $user2->id,
         ]);
 
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
-        $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id]);
+        $this->expectException(ModelNotFoundException::class);
+        $this->livewire(OrderDetail::class, ['orderId' => $order->id]);
     }
 
     public function test_order_detail_displays_order_information()
@@ -67,7 +70,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id]);
+        $component = $this->livewire(OrderDetail::class, ['orderId' => $order->id]);
         $component->assertSuccessful();
         $this->assertEquals($order->id, $component->get('order')->id);
     }
@@ -84,7 +87,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['orderId' => $order->id])
             ->call('cancelOrder');
 
         $order->refresh();
@@ -101,7 +104,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Completed,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['orderId' => $order->id])
             ->call('cancelOrder');
 
         $order->refresh();
@@ -118,7 +121,7 @@ class OrderDetailTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id])
+        $component = $this->livewire(OrderDetail::class, ['orderId' => $order->id])
             ->call('payOrder');
 
         // 验证重定向
@@ -145,7 +148,7 @@ class OrderDetailTest extends LivewireTestCase
             'price' => 100.00,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => $order->id]);
+        $component = $this->livewire(OrderDetail::class, ['orderId' => $order->id]);
         $component->assertSuccessful();
 
         $order = $component->get('order');
@@ -162,7 +165,7 @@ class OrderDetailTest extends LivewireTestCase
         ]);
 
         // 测试字符串形式的 Snowflake ID
-        $component = $this->livewire(\App\Livewire\Users\OrderDetail::class, ['orderId' => (string) $order->id]);
+        $component = $this->livewire(OrderDetail::class, ['orderId' => (string) $order->id]);
         $component->assertSuccessful();
     }
 }

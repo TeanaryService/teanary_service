@@ -2,15 +2,17 @@
 
 namespace Tests\Feature\Livewire;
 
+use App\Livewire\ArticleList;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
+use Illuminate\Http\Request;
 use Tests\Feature\LivewireTestCase;
 
 class ArticleListTest extends LivewireTestCase
 {
     public function test_article_list_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\ArticleList::class);
+        $component = $this->livewire(ArticleList::class);
         $component->assertSuccessful();
     }
 
@@ -19,7 +21,7 @@ class ArticleListTest extends LivewireTestCase
         $publishedArticle = Article::factory()->create(['is_published' => true]);
         $unpublishedArticle = Article::factory()->create(['is_published' => false]);
 
-        $component = $this->livewire(\App\Livewire\ArticleList::class);
+        $component = $this->livewire(ArticleList::class);
         $component->assertSuccessful();
     }
 
@@ -37,11 +39,11 @@ class ArticleListTest extends LivewireTestCase
             'title' => '其他文章',
         ]);
 
-        $request = \Illuminate\Http\Request::create('/', 'GET', [
+        $request = Request::create('/', 'GET', [
             'search' => '测试',
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleList::class, [], $request);
+        $component = $this->livewire(ArticleList::class, [], $request);
         $component->assertSuccessful();
     }
 
@@ -50,7 +52,7 @@ class ArticleListTest extends LivewireTestCase
         $publishedArticle = Article::factory()->create(['is_published' => true]);
         $unpublishedArticle = Article::factory()->create(['is_published' => false]);
 
-        $component = $this->livewire(\App\Livewire\ArticleList::class);
+        $component = $this->livewire(ArticleList::class);
         $component->assertSuccessful();
     }
 
@@ -65,7 +67,7 @@ class ArticleListTest extends LivewireTestCase
             'created_at' => now()->subDays(1),
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleList::class);
+        $component = $this->livewire(ArticleList::class);
         $component->assertSuccessful();
     }
 
@@ -74,7 +76,7 @@ class ArticleListTest extends LivewireTestCase
         // 创建超过10篇文章（默认分页大小）
         Article::factory()->count(15)->create(['is_published' => true]);
 
-        $component = $this->livewire(\App\Livewire\ArticleList::class);
+        $component = $this->livewire(ArticleList::class);
         $component->assertSuccessful();
     }
 
@@ -88,7 +90,7 @@ class ArticleListTest extends LivewireTestCase
             'summary' => '文章摘要',
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleList::class);
+        $component = $this->livewire(ArticleList::class);
         $component->assertSuccessful();
     }
 }

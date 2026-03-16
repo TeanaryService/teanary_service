@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Languages;
 use Tests\Feature\LivewireTestCase;
 
 class LanguagesTest extends LivewireTestCase
@@ -14,7 +15,7 @@ class LanguagesTest extends LivewireTestCase
 
     public function test_languages_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Languages::class);
+        $component = $this->livewire(Languages::class);
         $component->assertSuccessful();
     }
 
@@ -22,7 +23,7 @@ class LanguagesTest extends LivewireTestCase
     {
         $language = $this->createLanguage();
 
-        $component = $this->livewire(\App\Livewire\Manager\Languages::class);
+        $component = $this->livewire(Languages::class);
 
         $languages = $component->get('languages');
         $languageIds = $languages->pluck('id')->toArray();
@@ -35,7 +36,7 @@ class LanguagesTest extends LivewireTestCase
         $language1 = $this->createLanguage(['code' => 'test_en_search']);
         $language2 = $this->createLanguage(['code' => 'test_fr_search']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Languages::class)
+        $component = $this->livewire(Languages::class)
             ->set('search', 'test_en');
 
         $languages = $component->get('languages');
@@ -49,7 +50,7 @@ class LanguagesTest extends LivewireTestCase
         $language1 = $this->createLanguage(['name' => 'English']);
         $language2 = $this->createLanguage(['name' => '中文']);
 
-        $component = $this->livewire(\App\Livewire\Manager\Languages::class)
+        $component = $this->livewire(Languages::class)
             ->set('search', 'English');
 
         $languages = $component->get('languages');
@@ -63,7 +64,7 @@ class LanguagesTest extends LivewireTestCase
         $defaultLanguage = $this->createLanguage(['default' => true]);
         $nonDefaultLanguage = $this->createLanguage(['default' => false]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Languages::class)
+        $component = $this->livewire(Languages::class)
             ->set('filterDefault', '1');
 
         $languages = $component->get('languages');
@@ -76,7 +77,7 @@ class LanguagesTest extends LivewireTestCase
     {
         $language = $this->createLanguage();
 
-        $component = $this->livewire(\App\Livewire\Manager\Languages::class)
+        $component = $this->livewire(Languages::class)
             ->call('deleteLanguage', $language->id);
 
         $this->assertDatabaseMissing('languages', ['id' => $language->id]);
@@ -84,7 +85,7 @@ class LanguagesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Languages::class)
+        $component = $this->livewire(Languages::class)
             ->set('search', 'test')
             ->set('filterDefault', '1')
             ->call('resetFilters')

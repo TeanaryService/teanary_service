@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Carts;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
 use Tests\Feature\LivewireTestCase;
 
@@ -17,7 +19,7 @@ class CartsTest extends LivewireTestCase
 
     public function test_carts_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class);
+        $component = $this->livewire(Carts::class);
         $component->assertSuccessful();
     }
 
@@ -25,7 +27,7 @@ class CartsTest extends LivewireTestCase
     {
         $cart = Cart::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class);
+        $component = $this->livewire(Carts::class);
 
         $carts = $component->get('carts');
         $cartIds = $carts->pluck('id')->toArray();
@@ -39,7 +41,7 @@ class CartsTest extends LivewireTestCase
         $cart1 = Cart::factory()->create(['user_id' => $user1->id]);
         $cart2 = Cart::factory()->create(['user_id' => $user2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class)
+        $component = $this->livewire(Carts::class)
             ->set('search', (string) $user1->id);
 
         $carts = $component->get('carts');
@@ -55,7 +57,7 @@ class CartsTest extends LivewireTestCase
         $cart1 = Cart::factory()->create(['user_id' => $user1->id]);
         $cart2 = Cart::factory()->create(['user_id' => $user2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class)
+        $component = $this->livewire(Carts::class)
             ->set('search', 'John');
 
         $carts = $component->get('carts');
@@ -74,12 +76,12 @@ class CartsTest extends LivewireTestCase
         $variant2 = ProductVariant::factory()->create(['product_id' => $product2->id]);
 
         $language = $this->createLanguage();
-        \App\Models\ProductTranslation::factory()->create([
+        ProductTranslation::factory()->create([
             'product_id' => $product1->id,
             'language_id' => $language->id,
             'name' => '测试商品1',
         ]);
-        \App\Models\ProductTranslation::factory()->create([
+        ProductTranslation::factory()->create([
             'product_id' => $product2->id,
             'language_id' => $language->id,
             'name' => '其他商品',
@@ -96,7 +98,7 @@ class CartsTest extends LivewireTestCase
             'product_variant_id' => $variant2->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class)
+        $component = $this->livewire(Carts::class)
             ->set('search', '测试');
 
         $carts = $component->get('carts');
@@ -119,7 +121,7 @@ class CartsTest extends LivewireTestCase
             'product_variant_id' => $variant->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class)
+        $component = $this->livewire(Carts::class)
             ->set('filterHasItems', '1');
 
         $carts = $component->get('carts');
@@ -132,7 +134,7 @@ class CartsTest extends LivewireTestCase
     {
         $cart = Cart::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class)
+        $component = $this->livewire(Carts::class)
             ->call('deleteCart', $cart->id);
 
         $this->assertDatabaseMissing('carts', ['id' => $cart->id]);
@@ -140,7 +142,7 @@ class CartsTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Carts::class)
+        $component = $this->livewire(Carts::class)
             ->set('search', 'test')
             ->set('filterHasItems', '1')
             ->call('resetFilters')

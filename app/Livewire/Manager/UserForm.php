@@ -6,6 +6,7 @@ use App\Livewire\Traits\HandlesMediaUploads;
 use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\User;
+use App\Models\UserGroup;
 use Livewire\Component;
 
 class UserForm extends Component
@@ -144,7 +145,7 @@ class UserForm extends Component
 
     public function render()
     {
-        $userGroups = \App\Models\UserGroup::with('userGroupTranslations')->get();
+        $userGroups = UserGroup::with('userGroupTranslations')->get();
 
         return view('livewire.manager.user-form', [
             'userGroups' => $userGroups,

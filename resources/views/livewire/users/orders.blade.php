@@ -86,10 +86,20 @@
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-4">
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border {{ $statusInfo['color'] }}">
-                                        <x-dynamic-component :component="$statusInfo['icon']" class="w-3.5 h-3.5" />
-                                        {{ $order->status->label() }}
-                                    </span>
+                                    <div class="flex flex-col items-start gap-1">
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border {{ $statusInfo['color'] }}">
+                                            <x-dynamic-component :component="$statusInfo['icon']" class="w-3.5 h-3.5" />
+                                            {{ $order->status->label() }}
+                                        </span>
+                                        @if(in_array($order->status->value, ['after_sale','after_sale_done']))
+                                            <span class="inline-flex items-center gap-1.5 text-[11px] text-orange-600">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                                                </svg>
+                                                {{ $order->status->value === 'after_sale' ? '该订单有售后处理中，点击查看详情' : '该订单的售后已处理完成' }}
+                                            </span>
+                                        @endif
+                                    </div>
                                     <div class="text-right">
                                         <div class="text-xs text-gray-500 mb-0.5">{{ __('orders.total') }}</div>
                                         <div class="text-xl font-bold text-teal-600">

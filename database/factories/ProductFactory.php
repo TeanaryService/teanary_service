@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Enums\ProductStatusEnum;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {
@@ -18,7 +20,7 @@ class ProductFactory extends Factory
     {
         return [
             'slug' => 'product-'.fake()->unique()->slug(),
-            'status' => \App\Enums\ProductStatusEnum::Active,
+            'status' => ProductStatusEnum::Active,
         ];
     }
 }

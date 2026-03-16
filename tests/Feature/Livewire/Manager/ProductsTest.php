@@ -3,6 +3,8 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\Manager\Products;
+use App\Models\ProductTranslation;
 use Tests\Feature\LivewireTestCase;
 
 class ProductsTest extends LivewireTestCase
@@ -15,7 +17,7 @@ class ProductsTest extends LivewireTestCase
 
     public function test_products_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Products::class);
+        $component = $this->livewire(Products::class);
 
         $component->assertSuccessful();
     }
@@ -26,7 +28,7 @@ class ProductsTest extends LivewireTestCase
             'status' => ProductStatusEnum::Active,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Products::class);
+        $component = $this->livewire(Products::class);
 
         $products = $component->get('products');
         $productIds = $products->pluck('id')->toArray();
@@ -40,18 +42,18 @@ class ProductsTest extends LivewireTestCase
 
         // 创建产品翻译
         $language = $this->createLanguage();
-        \App\Models\ProductTranslation::factory()->create([
+        ProductTranslation::factory()->create([
             'product_id' => $product1->id,
             'language_id' => $language->id,
             'name' => '测试商品1',
         ]);
-        \App\Models\ProductTranslation::factory()->create([
+        ProductTranslation::factory()->create([
             'product_id' => $product2->id,
             'language_id' => $language->id,
             'name' => '其他商品',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Products::class)
+        $component = $this->livewire(Products::class)
             ->set('search', '测试')
             ->assertSet('search', '测试');
 
@@ -65,7 +67,7 @@ class ProductsTest extends LivewireTestCase
         $activeProduct = $this->createProduct(['status' => ProductStatusEnum::Active]);
         $inactiveProduct = $this->createProduct(['status' => ProductStatusEnum::Inactive]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Products::class)
+        $component = $this->livewire(Products::class)
             ->set('filterStatus', [ProductStatusEnum::Active->value])
             ->assertSet('filterStatus', [ProductStatusEnum::Active->value]);
 
@@ -84,7 +86,7 @@ class ProductsTest extends LivewireTestCase
         // 关联产品到分类
         $product1->productCategories()->attach($category->id);
 
-        $component = $this->livewire(\App\Livewire\Manager\Products::class)
+        $component = $this->livewire(Products::class)
             ->set('filterCategoryId', $category->id);
 
         $products = $component->get('products');
@@ -96,7 +98,7 @@ class ProductsTest extends LivewireTestCase
     {
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Manager\Products::class)
+        $component = $this->livewire(Products::class)
             ->call('deleteProduct', $product->id);
 
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
@@ -104,7 +106,7 @@ class ProductsTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Products::class)
+        $component = $this->livewire(Products::class)
             ->set('search', 'test')
             ->set('filterStatus', [ProductStatusEnum::Active->value])
             ->set('filterCategoryId', 1)
@@ -116,7 +118,7 @@ class ProductsTest extends LivewireTestCase
 
     public function test_updating_search_resets_page()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Products::class)
+        $component = $this->livewire(Products::class)
             ->set('search', 'test');
 
         // 验证页面已重置（通过检查分页状态）

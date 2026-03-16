@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Enums\PromotionTypeEnum;
+use App\Models\Promotion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Promotion>
+ * @extends Factory<Promotion>
  */
 class PromotionFactory extends Factory
 {
@@ -17,7 +19,7 @@ class PromotionFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => \App\Enums\PromotionTypeEnum::Automatic,
+            'type' => PromotionTypeEnum::Automatic,
             'active' => true,
             'starts_at' => now()->subDay(),
             'ends_at' => now()->addDays(30),

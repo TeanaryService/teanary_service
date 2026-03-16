@@ -2,10 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Enums\PromotionConditionTypeEnum;
+use App\Enums\PromotionDiscountTypeEnum;
+use App\Models\Promotion;
+use App\Models\PromotionRule;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PromotionRule>
+ * @extends Factory<PromotionRule>
  */
 class PromotionRuleFactory extends Factory
 {
@@ -17,10 +21,10 @@ class PromotionRuleFactory extends Factory
     public function definition(): array
     {
         return [
-            'promotion_id' => \App\Models\Promotion::factory(),
-            'condition_type' => \App\Enums\PromotionConditionTypeEnum::OrderTotalMin,
+            'promotion_id' => Promotion::factory(),
+            'condition_type' => PromotionConditionTypeEnum::OrderTotalMin,
             'condition_value' => 100.0,
-            'discount_type' => \App\Enums\PromotionDiscountTypeEnum::Fixed,
+            'discount_type' => PromotionDiscountTypeEnum::Fixed,
             'discount_value' => 10.0,
         ];
     }

@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Livewire\Users;
 
+use App\Livewire\Users\Profile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\Feature\LivewireTestCase;
 
 class ProfileTest extends LivewireTestCase
@@ -14,10 +16,10 @@ class ProfileTest extends LivewireTestCase
         // 在测试环境中，abort(403) 可能不会抛出异常，而是返回 403 响应
         // 检查组件是否成功渲染（不应该成功）
         try {
-            $component = $this->livewire(\App\Livewire\Users\Profile::class);
+            $component = $this->livewire(Profile::class);
             // 如果没有抛出异常，检查组件状态
             $this->assertEmpty($component->get('name'), 'Name should be empty for unauthenticated user');
-        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+        } catch (HttpException $e) {
             $this->assertEquals(403, $e->getStatusCode());
         } catch (\Exception $e) {
             // 其他异常也可以接受（如 403 响应）
@@ -30,7 +32,7 @@ class ProfileTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class);
+        $component = $this->livewire(Profile::class);
         $component->assertSuccessful();
     }
 
@@ -42,7 +44,7 @@ class ProfileTest extends LivewireTestCase
         ]);
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->assertSet('name', 'John Doe')
             ->assertSet('email', 'john@example.com');
     }
@@ -52,7 +54,7 @@ class ProfileTest extends LivewireTestCase
         $user = $this->createUser(['name' => 'Old Name']);
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->set('name', 'New Name')
             ->call('save');
 
@@ -67,7 +69,7 @@ class ProfileTest extends LivewireTestCase
         ]);
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->set('current_password', 'old-password')
             ->set('password', 'new-password-123')
             ->set('password_confirmation', 'new-password-123')
@@ -84,7 +86,7 @@ class ProfileTest extends LivewireTestCase
         ]);
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->set('current_password', 'wrong-password')
             ->set('password', 'new-password-123')
             ->set('password_confirmation', 'new-password-123')
@@ -100,7 +102,7 @@ class ProfileTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->set('current_password', 'password')
             ->set('password', 'new-password-123')
             ->set('password_confirmation', 'different-password')
@@ -113,7 +115,7 @@ class ProfileTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->set('current_password', 'password')
             ->set('password', 'short')
             ->set('password_confirmation', 'short')
@@ -126,7 +128,7 @@ class ProfileTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->set('name', '')
             ->call('save')
             ->assertHasErrors(['name']);
@@ -141,7 +143,7 @@ class ProfileTest extends LivewireTestCase
 
         $file = UploadedFile::fake()->image('avatar.jpg', 200, 200);
 
-        $component = $this->livewire(\App\Livewire\Users\Profile::class)
+        $component = $this->livewire(Profile::class)
             ->set('avatar', $file)
             ->call('save');
 

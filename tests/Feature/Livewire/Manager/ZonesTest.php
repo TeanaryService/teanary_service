@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Manager\Zones;
 use App\Models\Country;
 use App\Models\Zone;
 use App\Models\ZoneTranslation;
@@ -19,7 +20,7 @@ class ZonesTest extends LivewireTestCase
 
     public function test_zones_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Zones::class);
+        $component = $this->livewire(Zones::class);
         $component->assertSuccessful();
     }
 
@@ -27,7 +28,7 @@ class ZonesTest extends LivewireTestCase
     {
         $zone = Zone::factory()->create(['country_id' => $this->country->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Zones::class);
+        $component = $this->livewire(Zones::class);
 
         $zones = $component->get('zones');
         $zoneIds = $zones->pluck('id')->toArray();
@@ -48,7 +49,7 @@ class ZonesTest extends LivewireTestCase
             'name' => '其他地区',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Zones::class)
+        $component = $this->livewire(Zones::class)
             ->set('search', '测试');
 
         $zones = $component->get('zones');
@@ -63,7 +64,7 @@ class ZonesTest extends LivewireTestCase
         $zone1 = Zone::factory()->create(['country_id' => $this->country->id]);
         $zone2 = Zone::factory()->create(['country_id' => $country2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Zones::class)
+        $component = $this->livewire(Zones::class)
             ->set('filterCountryId', $this->country->id);
 
         $zones = $component->get('zones');
@@ -83,7 +84,7 @@ class ZonesTest extends LivewireTestCase
             'active' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Zones::class)
+        $component = $this->livewire(Zones::class)
             ->set('filterActive', '1');
 
         $zones = $component->get('zones');
@@ -96,7 +97,7 @@ class ZonesTest extends LivewireTestCase
     {
         $zone = Zone::factory()->create(['country_id' => $this->country->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Zones::class)
+        $component = $this->livewire(Zones::class)
             ->call('deleteZone', $zone->id);
 
         $this->assertDatabaseMissing('zones', ['id' => $zone->id]);
@@ -104,7 +105,7 @@ class ZonesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Zones::class)
+        $component = $this->livewire(Zones::class)
             ->set('search', 'test')
             ->set('filterCountryId', 1)
             ->set('filterActive', '1')

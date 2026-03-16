@@ -67,4 +67,5 @@ return [
 
     // Massenoperationen
     'batch' => require __DIR__.'/manager/batch.php',
+    'after_sales' => require __DIR__.'/manager/after_sales.php',
 ];

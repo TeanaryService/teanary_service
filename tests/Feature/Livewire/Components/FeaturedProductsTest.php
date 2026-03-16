@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Components;
 
 use App\Enums\ProductStatusEnum;
+use App\Livewire\Components\FeaturedProducts;
 use App\Models\Product;
 use Tests\Feature\LivewireTestCase;
 
@@ -10,7 +11,7 @@ class FeaturedProductsTest extends LivewireTestCase
 {
     public function test_featured_products_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Components\FeaturedProducts::class);
+        $component = $this->livewire(FeaturedProducts::class);
         $component->assertSuccessful();
     }
 
@@ -20,7 +21,7 @@ class FeaturedProductsTest extends LivewireTestCase
             'status' => ProductStatusEnum::Active,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\FeaturedProducts::class);
+        $component = $this->livewire(FeaturedProducts::class);
         $component->assertSuccessful();
 
         $products = $component->get('products');
@@ -37,7 +38,7 @@ class FeaturedProductsTest extends LivewireTestCase
             'status' => ProductStatusEnum::Inactive,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\FeaturedProducts::class);
+        $component = $this->livewire(FeaturedProducts::class);
 
         $products = $component->get('products');
         $productIds = $products->pluck('id')->toArray();
@@ -52,7 +53,7 @@ class FeaturedProductsTest extends LivewireTestCase
             'status' => ProductStatusEnum::Active,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\FeaturedProducts::class);
+        $component = $this->livewire(FeaturedProducts::class);
 
         $products = $component->get('products');
         $this->assertLessThanOrEqual(8, $products->count());
@@ -69,7 +70,7 @@ class FeaturedProductsTest extends LivewireTestCase
             'created_at' => now()->subDays(1),
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\FeaturedProducts::class);
+        $component = $this->livewire(FeaturedProducts::class);
 
         $products = $component->get('products');
         $productIds = $products->pluck('id')->toArray();

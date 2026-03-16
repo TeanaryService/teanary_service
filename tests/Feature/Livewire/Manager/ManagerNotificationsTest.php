@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Notifications;
+use App\Notifications\OrderCancelledNotification;
 use Tests\Feature\LivewireTestCase;
 
 class ManagerNotificationsTest extends LivewireTestCase
@@ -14,7 +16,7 @@ class ManagerNotificationsTest extends LivewireTestCase
 
     public function test_notifications_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Notifications::class);
+        $component = $this->livewire(Notifications::class);
         $component->assertSuccessful();
     }
 
@@ -23,11 +25,11 @@ class ManagerNotificationsTest extends LivewireTestCase
         $manager = auth()->guard('manager')->user();
 
         // 创建通知
-        $manager->notify(new \App\Notifications\OrderCancelledNotification(
+        $manager->notify(new OrderCancelledNotification(
             $this->createOrder()
         ));
 
-        $component = $this->livewire(\App\Livewire\Manager\Notifications::class);
+        $component = $this->livewire(Notifications::class);
 
         $notifications = $component->get('notifications');
         $this->assertGreaterThan(0, $notifications->count());
@@ -38,14 +40,14 @@ class ManagerNotificationsTest extends LivewireTestCase
         $manager = auth()->guard('manager')->user();
 
         // 创建未读通知
-        $manager->notify(new \App\Notifications\OrderCancelledNotification(
+        $manager->notify(new OrderCancelledNotification(
             $this->createOrder()
         ));
 
         // 确保有未读通知
         $this->assertGreaterThan(0, $manager->unreadNotifications->count());
 
-        $component = $this->livewire(\App\Livewire\Manager\Notifications::class);
+        $component = $this->livewire(Notifications::class);
 
         // 验证所有通知已标记为已读（mount 方法中会自动标记）
         $manager->refresh();
@@ -56,7 +58,7 @@ class ManagerNotificationsTest extends LivewireTestCase
     {
         $manager = auth()->guard('manager')->user();
 
-        $manager->notify(new \App\Notifications\OrderCancelledNotification(
+        $manager->notify(new OrderCancelledNotification(
             $this->createOrder()
         ));
 
@@ -66,7 +68,7 @@ class ManagerNotificationsTest extends LivewireTestCase
             $notification->markAsUnread();
         }
 
-        $component = $this->livewire(\App\Livewire\Manager\Notifications::class)
+        $component = $this->livewire(Notifications::class)
             ->call('markAsRead', $notification->id);
 
         $notification->refresh();
@@ -79,7 +81,7 @@ class ManagerNotificationsTest extends LivewireTestCase
 
         // 创建多个未读通知
         for ($i = 0; $i < 3; ++$i) {
-            $manager->notify(new \App\Notifications\OrderCancelledNotification(
+            $manager->notify(new OrderCancelledNotification(
                 $this->createOrder()
             ));
         }
@@ -88,7 +90,7 @@ class ManagerNotificationsTest extends LivewireTestCase
         $manager->notifications()->update(['read_at' => null]);
         $manager->refresh();
 
-        $component = $this->livewire(\App\Livewire\Manager\Notifications::class)
+        $component = $this->livewire(Notifications::class)
             ->call('markAllAsRead');
 
         $manager->refresh();
@@ -99,14 +101,14 @@ class ManagerNotificationsTest extends LivewireTestCase
     {
         $manager = auth()->guard('manager')->user();
 
-        $manager->notify(new \App\Notifications\OrderCancelledNotification(
+        $manager->notify(new OrderCancelledNotification(
             $this->createOrder()
         ));
 
         $notification = $manager->notifications()->first();
         $notificationId = $notification->id;
 
-        $component = $this->livewire(\App\Livewire\Manager\Notifications::class)
+        $component = $this->livewire(Notifications::class)
             ->call('deleteNotification', $notificationId);
 
         $this->assertDatabaseMissing('notifications', ['id' => $notificationId]);

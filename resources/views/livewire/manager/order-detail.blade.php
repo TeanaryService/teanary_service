@@ -208,6 +208,79 @@
                     </div>
                 </div>
 
+                {{-- 售后记录简要 --}}
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">售后记录</h2>
+                        <x-widgets.button
+                            href="{{ locaRoute('manager.after-sales') }}"
+                            wire:navigate
+                            variant="secondary"
+                            class="inline-flex items-center gap-2"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582M20 20v-5h-.581M5 9a7.003 7.003 0 0111.618-3.808L19 9M5 15a7.003 7.003 0 0011.618 3.808L19 15" />
+                            </svg>
+                            查看全部售后
+                        </x-widgets.button>
+                    </div>
+
+                    @php
+                        $afterSales = $order->afterSales()->latest()->take(5)->get();
+                    @endphp
+
+                    @if($afterSales->isEmpty())
+                        <p class="text-sm text-gray-500">该订单暂无售后记录。</p>
+                    @else
+                        <div class="space-y-3">
+                            @foreach($afterSales as $afterSale)
+                                <div class="flex items-center justify-between text-sm">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-gray-500">#{{ $afterSale->id }}</span>
+                                        <span class="text-gray-700">
+                                            @php
+                                                $typeLabels = [
+                                                    'refund_only' => '仅退款',
+                                                    'refund_and_return' => '退货退款',
+                                                    'exchange' => '换货',
+                                                ];
+                                            @endphp
+                                            {{ $typeLabels[$afterSale->type] ?? $afterSale->type }}
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        @php
+                                            $statusLabels = [
+                                                'pending' => '待审核',
+                                                'approved' => '已通过',
+                                                'rejected' => '已拒绝',
+                                                'in_return' => '退货中',
+                                                'completed' => '已完成',
+                                                'canceled' => '已取消',
+                                            ];
+                                            $statusColors = [
+                                                'pending' => 'bg-yellow-100 text-yellow-800',
+                                                'approved' => 'bg-blue-100 text-blue-800',
+                                                'rejected' => 'bg-red-100 text-red-800',
+                                                'in_return' => 'bg-purple-100 text-purple-800',
+                                                'completed' => 'bg-green-100 text-green-800',
+                                                'canceled' => 'bg-gray-100 text-gray-800',
+                                            ];
+                                            $status = $afterSale->status;
+                                        @endphp
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$status] ?? 'bg-gray-100 text-gray-800' }}">
+                                            {{ $statusLabels[$status] ?? $status }}
+                                        </span>
+                                        <span class="text-gray-400 text-xs">
+                                            {{ $afterSale->created_at?->format('Y-m-d H:i') }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
                 {{-- 发货记录 --}}
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="flex items-center justify-between mb-4">

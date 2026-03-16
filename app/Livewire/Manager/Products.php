@@ -9,6 +9,7 @@ use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
@@ -191,7 +192,7 @@ class Products extends Component
         $lang = $this->getCurrentLanguage();
 
         // 分类选项（用于筛选）
-        $categories = \App\Models\Category::with('categoryTranslations')->get()->map(function ($cat) use ($lang) {
+        $categories = Category::with('categoryTranslations')->get()->map(function ($cat) use ($lang) {
             return [
                 'id' => $cat->id,
                 'name' => $this->translatedField($cat->categoryTranslations, $lang, 'name', (string) $cat->id),

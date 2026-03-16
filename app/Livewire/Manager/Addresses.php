@@ -8,6 +8,8 @@ use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Address;
+use App\Models\Country;
+use App\Models\Order;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -38,8 +40,8 @@ class Addresses extends Component
         $address = Address::findOrFail($id);
 
         // 检查是否有关联订单（作为收货地址或账单地址）
-        $hasShippingOrders = \App\Models\Order::where('shipping_address_id', $address->id)->exists();
-        $hasBillingOrders = \App\Models\Order::where('billing_address_id', $address->id)->exists();
+        $hasShippingOrders = Order::where('shipping_address_id', $address->id)->exists();
+        $hasBillingOrders = Order::where('billing_address_id', $address->id)->exists();
 
         if ($hasShippingOrders || $hasBillingOrders) {
             $this->dispatch('flash-message', type: 'error', message: __('manager.addresses.cannot_delete_has_orders'));
@@ -71,8 +73,8 @@ class Addresses extends Component
             try {
                 $address = Address::find($id);
                 if ($address) {
-                    $hasShippingOrders = \App\Models\Order::where('shipping_address_id', $address->id)->exists();
-                    $hasBillingOrders = \App\Models\Order::where('billing_address_id', $address->id)->exists();
+                    $hasShippingOrders = Order::where('shipping_address_id', $address->id)->exists();
+                    $hasBillingOrders = Order::where('billing_address_id', $address->id)->exists();
 
                     if ($hasShippingOrders || $hasBillingOrders) {
                         ++$skipped;
@@ -177,7 +179,7 @@ class Addresses extends Component
     public function render()
     {
         $lang = $this->getCurrentLanguage();
-        $countries = \App\Models\Country::with('countryTranslations')->get();
+        $countries = Country::with('countryTranslations')->get();
 
         return view('livewire.manager.addresses', [
             'addresses' => $this->addresses,

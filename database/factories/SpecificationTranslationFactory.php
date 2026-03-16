@@ -8,7 +8,7 @@ use App\Models\SpecificationTranslation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SpecificationTranslation>
+ * @extends Factory<SpecificationTranslation>
  */
 class SpecificationTranslationFactory extends Factory
 {

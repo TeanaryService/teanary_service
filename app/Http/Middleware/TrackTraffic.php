@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\LocaleCurrencyService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +14,7 @@ class TrackTraffic
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -123,7 +124,7 @@ class TrackTraffic
     protected function getSupportedLocales(): array
     {
         try {
-            $service = app(\App\Services\LocaleCurrencyService::class);
+            $service = app(LocaleCurrencyService::class);
 
             return $service->getLanguages()->pluck('code')->toArray() ?: ['en'];
         } catch (\Exception $e) {

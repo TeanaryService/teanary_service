@@ -4,6 +4,7 @@ use App\Http\Controllers\Manager\EditorUploadController;
 use App\Http\Middleware\CustomRedirectIfAuthenticated;
 use App\Livewire\Manager\Addresses;
 use App\Livewire\Manager\AddressForm;
+use App\Livewire\Manager\AfterSaleList;
 use App\Livewire\Manager\ArticleForm;
 use App\Livewire\Manager\Articles;
 use App\Livewire\Manager\AttributeForm;
@@ -26,6 +27,7 @@ use App\Livewire\Manager\ManagerForm;
 use App\Livewire\Manager\Managers;
 use App\Livewire\Manager\Notifications;
 use App\Livewire\Manager\OrderDetail;
+use App\Livewire\Manager\OrderForm;
 use App\Livewire\Manager\Orders;
 use App\Livewire\Manager\ProductForm;
 use App\Livewire\Manager\ProductReviews;
@@ -139,9 +141,12 @@ Route::prefix('manager')->group(function () {
 
         // 订单管理
         Route::livewire('orders', Orders::class)->name('manager.orders');
-        Route::livewire('orders/create', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.create');
-        Route::livewire('orders/{id}/edit', \App\Livewire\Manager\OrderForm::class)->name('manager.orders.edit');
+        Route::livewire('orders/create', OrderForm::class)->name('manager.orders.create');
+        Route::livewire('orders/{id}/edit', OrderForm::class)->name('manager.orders.edit');
         Route::livewire('orders/{id}', OrderDetail::class)->name('manager.orders.detail');
+
+        // 售后管理
+        Route::livewire('after-sales', AfterSaleList::class)->name('manager.after-sales');
 
         // 管理员管理
         Route::livewire('managers', Managers::class)->name('manager.managers');

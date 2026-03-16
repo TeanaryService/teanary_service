@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Login;
 use Illuminate\Support\Facades\Auth;
 use Tests\Feature\LivewireTestCase;
 
@@ -9,7 +10,7 @@ class ManagerLoginTest extends LivewireTestCase
 {
     public function test_login_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Login::class);
+        $component = $this->livewire(Login::class);
         $component->assertSuccessful();
     }
 
@@ -20,7 +21,7 @@ class ManagerLoginTest extends LivewireTestCase
             'password' => bcrypt('password'),
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'manager@example.com')
             ->set('password', 'password')
             ->call('login');
@@ -36,7 +37,7 @@ class ManagerLoginTest extends LivewireTestCase
             'password' => bcrypt('password'),
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'manager@example.com')
             ->set('password', 'wrong-password')
             ->call('login')
@@ -47,7 +48,7 @@ class ManagerLoginTest extends LivewireTestCase
 
     public function test_login_validates_email_required()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('password', 'password')
             ->call('login')
             ->assertHasErrors(['email']);
@@ -55,7 +56,7 @@ class ManagerLoginTest extends LivewireTestCase
 
     public function test_login_validates_password_required()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'manager@example.com')
             ->call('login')
             ->assertHasErrors(['password']);
@@ -63,7 +64,7 @@ class ManagerLoginTest extends LivewireTestCase
 
     public function test_login_validates_email_format()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'invalid-email')
             ->set('password', 'password')
             ->call('login')
@@ -77,7 +78,7 @@ class ManagerLoginTest extends LivewireTestCase
             'password' => bcrypt('password'),
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'manager@example.com')
             ->set('password', 'password')
             ->set('remember', true)
@@ -92,7 +93,7 @@ class ManagerLoginTest extends LivewireTestCase
         $this->actingAs($manager, 'manager');
 
         try {
-            $component = $this->livewire(\App\Livewire\Manager\Login::class);
+            $component = $this->livewire(Login::class);
             // 如果组件正常返回，检查是否被重定向
             if ($component->response) {
                 $this->assertNotNull($component->response);

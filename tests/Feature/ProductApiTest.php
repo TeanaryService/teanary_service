@@ -4,10 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Language;
+use App\Models\Manager;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ProductApiTest extends TestCase
@@ -21,8 +23,8 @@ class ProductApiTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->token = \Illuminate\Support\Str::random(60);
-        $this->manager = \App\Models\Manager::factory()->create([
+        $this->token = Str::random(60);
+        $this->manager = Manager::factory()->create([
             'token' => $this->token,
         ]);
         $this->language = Language::factory()->create(['code' => 'zh_CN']);

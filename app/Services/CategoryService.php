@@ -23,7 +23,7 @@ class CategoryService
         if (! $category) {
             // 使用 withoutEvents 避免触发观察者事件，防止ID冲突
             // 但需要手动生成 ID，因为 withoutEvents 会禁用 HasSnowflakeId 的 creating 事件
-            $categoryId = app(\App\Services\SnowflakeService::class)->nextId();
+            $categoryId = app(SnowflakeService::class)->nextId();
             $category = Category::withoutEvents(function () use ($categoryData, $categoryId) {
                 $category = new Category([
                     'slug' => $categoryData['slug'],

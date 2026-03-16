@@ -8,6 +8,7 @@ use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Country;
 use App\Models\Zone;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -124,7 +125,7 @@ class Zones extends Component
     public function render()
     {
         $lang = $this->getCurrentLanguage();
-        $countries = \App\Models\Country::with('countryTranslations')->get();
+        $countries = Country::with('countryTranslations')->get();
 
         return view('livewire.manager.zones', [
             'zones' => $this->zones,

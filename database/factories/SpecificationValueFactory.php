@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Enums\TranslationStatusEnum;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SpecificationValue>
+ * @extends Factory<SpecificationValue>
  */
 class SpecificationValueFactory extends Factory
 {
@@ -22,7 +23,7 @@ class SpecificationValueFactory extends Factory
     {
         return [
             'specification_id' => Specification::factory(),
-            'translation_status' => \App\Enums\TranslationStatusEnum::NotTranslated,
+            'translation_status' => TranslationStatusEnum::NotTranslated,
         ];
     }
 
@@ -32,7 +33,7 @@ class SpecificationValueFactory extends Factory
     public function complete(): static
     {
         return $this->state(fn (array $attributes) => [
-            'translation_status' => \App\Enums\TranslationStatusEnum::Translated,
+            'translation_status' => TranslationStatusEnum::Translated,
         ]);
     }
 }

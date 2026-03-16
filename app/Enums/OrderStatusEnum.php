@@ -66,7 +66,8 @@ enum OrderStatusEnum: string
      */
     public function canRequestAfterSale(): bool
     {
-        return in_array($this, [self::Shipped, self::Completed]);
+        // 已发货 / 已完成 / 正在售后处理中 允许继续发起售后
+        return in_array($this, [self::Paid, self::Shipped, self::Completed, self::AfterSale]);
     }
 
     /**

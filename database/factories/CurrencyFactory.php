@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Currency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Currency>
+ * @extends Factory<Currency>
  */
 class CurrencyFactory extends Factory
 {
@@ -42,7 +43,7 @@ class CurrencyFactory extends Factory
         // 检查代码是否已存在，如果存在则重新生成
         $maxAttempts = 10;
         $attempts = 0;
-        while ($attempts < $maxAttempts && \App\Models\Currency::where('code', $code)->exists()) {
+        while ($attempts < $maxAttempts && Currency::where('code', $code)->exists()) {
             $unique = microtime(true).random_int(1000, 9999).uniqid('', true);
             $hash = md5($unique);
             $letters = preg_replace('/[^A-Z]/', '', strtoupper($hash));

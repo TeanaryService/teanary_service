@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Manager\SpecificationValues;
 use App\Models\Specification;
 use App\Models\SpecificationValue;
 use App\Models\SpecificationValueTranslation;
@@ -19,7 +20,7 @@ class SpecificationValuesTest extends LivewireTestCase
 
     public function test_specification_values_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\SpecificationValues::class);
+        $component = $this->livewire(SpecificationValues::class);
         $component->assertSuccessful();
     }
 
@@ -29,7 +30,7 @@ class SpecificationValuesTest extends LivewireTestCase
             'specification_id' => $this->specification->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\SpecificationValues::class);
+        $component = $this->livewire(SpecificationValues::class);
 
         $values = $component->get('specificationValues');
         $valueIds = $values->pluck('id')->toArray();
@@ -50,7 +51,7 @@ class SpecificationValuesTest extends LivewireTestCase
             'name' => '其他值',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\SpecificationValues::class)
+        $component = $this->livewire(SpecificationValues::class)
             ->set('search', '测试');
 
         $values = $component->get('specificationValues');
@@ -65,7 +66,7 @@ class SpecificationValuesTest extends LivewireTestCase
         $value1 = SpecificationValue::factory()->create(['specification_id' => $this->specification->id]);
         $value2 = SpecificationValue::factory()->create(['specification_id' => $specification2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\SpecificationValues::class)
+        $component = $this->livewire(SpecificationValues::class)
             ->set('filterSpecificationId', $this->specification->id);
 
         $values = $component->get('specificationValues');
@@ -78,7 +79,7 @@ class SpecificationValuesTest extends LivewireTestCase
     {
         $value = SpecificationValue::factory()->create(['specification_id' => $this->specification->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\SpecificationValues::class)
+        $component = $this->livewire(SpecificationValues::class)
             ->call('deleteSpecificationValue', $value->id);
 
         $this->assertDatabaseMissing('specification_values', ['id' => $value->id]);
@@ -86,7 +87,7 @@ class SpecificationValuesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\SpecificationValues::class)
+        $component = $this->livewire(SpecificationValues::class)
             ->set('search', 'test')
             ->set('filterSpecificationId', 1)
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value])

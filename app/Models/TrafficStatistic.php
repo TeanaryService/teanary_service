@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasSnowflakeId;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,9 +20,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $is_bot 是否为爬虫
  * @property string|null $spider_source 爬虫来源（如google、bing等）
  * @property int $count 访问次数（同一分钟内相同路径的访问次数）
- * @property \Carbon\Carbon $stat_date 统计日期（精确到分钟）
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property Carbon $stat_date 统计日期（精确到分钟）
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class TrafficStatistic extends Model
 {

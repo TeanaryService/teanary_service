@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Country;
+use App\Models\Zone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Zone>
+ * @extends Factory<Zone>
  */
 class ZoneFactory extends Factory
 {
@@ -17,7 +19,7 @@ class ZoneFactory extends Factory
     public function definition(): array
     {
         return [
-            'country_id' => \App\Models\Country::factory(),
+            'country_id' => Country::factory(),
             'code' => fake()->unique()->regexify('[A-Z]{2,3}'),
             'active' => true,
         ];

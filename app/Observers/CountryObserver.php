@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Country;
+use Illuminate\Support\Facades\Cache;
 
 class CountryObserver
 {
@@ -56,6 +57,6 @@ class CountryObserver
      */
     protected function clearCountryCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget('countries.with.translations');
+        Cache::forget('countries.with.translations');
     }
 }

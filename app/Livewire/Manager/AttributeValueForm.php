@@ -5,6 +5,7 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Livewire\Traits\HandlesTranslations;
 use App\Livewire\Traits\HasNavigationRedirect;
+use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\AttributeValueTranslation;
 use Livewire\Component;
@@ -76,7 +77,7 @@ class AttributeValueForm extends Component
     public function render()
     {
         // 注意：避免与 Blade 组件系统的 $attributes 变量名冲突
-        $attributeModels = \App\Models\Attribute::with('attributeTranslations')->get();
+        $attributeModels = Attribute::with('attributeTranslations')->get();
 
         return view('livewire.manager.attribute-value-form', [
             'languages' => $this->getLanguages(),

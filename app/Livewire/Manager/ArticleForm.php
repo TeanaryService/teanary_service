@@ -9,6 +9,7 @@ use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
+use App\Models\User;
 use App\Traits\HandlesEditorUploads;
 use Livewire\Component;
 
@@ -192,7 +193,7 @@ class ArticleForm extends Component
 
     public function render()
     {
-        $users = \App\Models\User::orderBy('name')->get();
+        $users = User::orderBy('name')->get();
 
         return view('livewire.manager.article-form', [
             'languages' => $this->getLanguages(),

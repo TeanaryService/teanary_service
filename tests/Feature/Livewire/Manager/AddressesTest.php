@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Manager;
 
+use App\Livewire\Manager\Addresses;
 use App\Models\Address;
 use App\Models\Country;
 use Tests\Feature\LivewireTestCase;
@@ -17,7 +18,7 @@ class AddressesTest extends LivewireTestCase
 
     public function test_addresses_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class);
+        $component = $this->livewire(Addresses::class);
         $component->assertSuccessful();
     }
 
@@ -27,7 +28,7 @@ class AddressesTest extends LivewireTestCase
             'country_id' => $this->country->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class);
+        $component = $this->livewire(Addresses::class);
 
         $addresses = $component->get('addresses');
         $addressIds = $addresses->pluck('id')->toArray();
@@ -47,7 +48,7 @@ class AddressesTest extends LivewireTestCase
             'country_id' => $this->country->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('search', (string) $user1->id);
 
         $addresses = $component->get('addresses');
@@ -69,7 +70,7 @@ class AddressesTest extends LivewireTestCase
             'country_id' => $this->country->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('search', 'John');
 
         $addresses = $component->get('addresses');
@@ -89,7 +90,7 @@ class AddressesTest extends LivewireTestCase
             'country_id' => $this->country->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('search', 'Main St');
 
         $addresses = $component->get('addresses');
@@ -104,7 +105,7 @@ class AddressesTest extends LivewireTestCase
         $address1 = Address::factory()->create(['country_id' => $this->country->id]);
         $address2 = Address::factory()->create(['country_id' => $country2->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('filterCountryId', $this->country->id);
 
         $addresses = $component->get('addresses');
@@ -119,7 +120,7 @@ class AddressesTest extends LivewireTestCase
             'country_id' => $this->country->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->call('deleteAddress', $address->id);
 
         $this->assertDatabaseMissing('addresses', ['id' => $address->id]);
@@ -135,7 +136,7 @@ class AddressesTest extends LivewireTestCase
             'shipping_address_id' => $address->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->call('deleteAddress', $address->id);
 
         $this->assertDatabaseHas('addresses', ['id' => $address->id]);
@@ -151,7 +152,7 @@ class AddressesTest extends LivewireTestCase
             'billing_address_id' => $address->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->call('deleteAddress', $address->id);
 
         $this->assertDatabaseHas('addresses', ['id' => $address->id]);
@@ -159,7 +160,7 @@ class AddressesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('search', 'test')
             ->set('filterCountryId', 1)
             ->call('resetFilters')

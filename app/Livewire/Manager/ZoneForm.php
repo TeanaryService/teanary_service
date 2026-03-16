@@ -5,6 +5,7 @@ namespace App\Livewire\Manager;
 use App\Enums\TranslationStatusEnum;
 use App\Livewire\Traits\HandlesTranslations;
 use App\Livewire\Traits\HasNavigationRedirect;
+use App\Models\Country;
 use App\Models\Zone;
 use App\Models\ZoneTranslation;
 use Livewire\Component;
@@ -85,7 +86,7 @@ class ZoneForm extends Component
 
     public function render()
     {
-        $countries = \App\Models\Country::with('countryTranslations')->get();
+        $countries = Country::with('countryTranslations')->get();
 
         return view('livewire.manager.zone-form', [
             'languages' => $this->getLanguages(),

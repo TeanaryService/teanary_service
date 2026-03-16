@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Manager\Countries;
 use App\Models\Country;
 use App\Models\CountryTranslation;
 use Tests\Feature\LivewireTestCase;
@@ -17,7 +18,7 @@ class CountriesTest extends LivewireTestCase
 
     public function test_countries_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Countries::class);
+        $component = $this->livewire(Countries::class);
         $component->assertSuccessful();
     }
 
@@ -25,7 +26,7 @@ class CountriesTest extends LivewireTestCase
     {
         $country = Country::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Countries::class);
+        $component = $this->livewire(Countries::class);
 
         $countries = $component->get('countries');
         $countryIds = $countries->pluck('id')->toArray();
@@ -46,7 +47,7 @@ class CountriesTest extends LivewireTestCase
             'name' => '其他国家',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Countries::class)
+        $component = $this->livewire(Countries::class)
             ->set('search', '测试');
 
         $countries = $component->get('countries');
@@ -60,7 +61,7 @@ class CountriesTest extends LivewireTestCase
         $activeCountry = Country::factory()->create(['active' => true]);
         $inactiveCountry = Country::factory()->create(['active' => false]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Countries::class)
+        $component = $this->livewire(Countries::class)
             ->set('filterActive', '1');
 
         $countries = $component->get('countries');
@@ -78,7 +79,7 @@ class CountriesTest extends LivewireTestCase
             'translation_status' => TranslationStatusEnum::NotTranslated,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Countries::class)
+        $component = $this->livewire(Countries::class)
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value]);
 
         $countries = $component->get('countries');
@@ -91,7 +92,7 @@ class CountriesTest extends LivewireTestCase
     {
         $country = Country::factory()->create();
 
-        $component = $this->livewire(\App\Livewire\Manager\Countries::class)
+        $component = $this->livewire(Countries::class)
             ->call('deleteCountry', $country->id);
 
         $this->assertDatabaseMissing('countries', ['id' => $country->id]);
@@ -99,7 +100,7 @@ class CountriesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Countries::class)
+        $component = $this->livewire(Countries::class)
             ->set('search', 'test')
             ->set('filterActive', '1')
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value])

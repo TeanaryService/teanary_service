@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ProductStatusEnum;
+use App\Enums\PromotionConditionTypeEnum;
+use App\Enums\PromotionDiscountTypeEnum;
+use App\Enums\PromotionTypeEnum;
 use App\Models\Attribute;
 use App\Models\AttributeTranslation;
 use App\Models\AttributeValue;
@@ -11,6 +15,7 @@ use App\Models\CategoryTranslation;
 use App\Models\Currency;
 use App\Models\Language;
 use App\Models\Product;
+use App\Models\ProductReview;
 use App\Models\ProductTranslation;
 use App\Models\ProductVariant;
 use App\Models\Promotion;
@@ -218,7 +223,7 @@ class FullSeeder extends Seeder
             // 创建产品 (SPU)
             $product = Product::create([
                 'slug' => 'product-'.$i,
-                'status' => \App\Enums\ProductStatusEnum::default(),
+                'status' => ProductStatusEnum::default(),
             ]);
             // 添加图片
             $this->attachRandomImages(model: $product);
@@ -277,10 +282,10 @@ class FullSeeder extends Seeder
             }
 
             // 添加 5-10 个评价
-            $users = \App\Models\User::all();
+            $users = User::all();
 
             collect(range(1, rand(5, 10)))->each(function () use ($product, $users) {
-                $review = \App\Models\ProductReview::create([
+                $review = ProductReview::create([
                     'product_id' => $product->id,
                     'user_id' => $users->isNotEmpty() ? $users->random()->id : null,
                     'rating' => rand(1, 5),
@@ -298,7 +303,7 @@ class FullSeeder extends Seeder
          * Promotions.
          */
         $promotions = collect([
-            ['type' => \App\Enums\PromotionTypeEnum::Coupon],
+            ['type' => PromotionTypeEnum::Coupon],
         ])->map(function ($promo) use ($languages, $userGroups, $products) {
             $promotion = Promotion::create(array_merge($promo, [
                 'starts_at' => now()->subDays(5),
@@ -317,9 +322,9 @@ class FullSeeder extends Seeder
 
             $promotionRule = PromotionRule::create([
                 'promotion_id' => $promotion->id,
-                'condition_type' => \App\Enums\PromotionConditionTypeEnum::OrderTotalMin,
+                'condition_type' => PromotionConditionTypeEnum::OrderTotalMin,
                 'condition_value' => 50,
-                'discount_type' => \App\Enums\PromotionDiscountTypeEnum::Fixed,
+                'discount_type' => PromotionDiscountTypeEnum::Fixed,
                 'discount_value' => 10,
             ]);
             // 添加图片

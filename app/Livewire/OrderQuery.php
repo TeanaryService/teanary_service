@@ -6,6 +6,7 @@ use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Order;
 use App\Notifications\OrderQueryVerificationCode;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -98,7 +99,7 @@ class OrderQuery extends Component
             // 创建一个临时对象用于发送邮件
             $notifiable = new class
             {
-                use \Illuminate\Notifications\Notifiable;
+                use Notifiable;
 
                 public $email;
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -39,7 +40,7 @@ class MediaService
     protected function downloadImageFromUrl(string $url): string
     {
         try {
-            /** @var \Illuminate\Http\Client\Response $response */
+            /** @var Response $response */
             $response = Http::timeout(30)->get($url);
 
             if ($response->status() !== 200) {
@@ -59,7 +60,7 @@ class MediaService
             }
 
             return $imageContent;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("下载图片失败: {$e->getMessage()}");
         }
     }

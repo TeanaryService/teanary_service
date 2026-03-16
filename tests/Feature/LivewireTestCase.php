@@ -2,6 +2,16 @@
 
 namespace Tests\Feature;
 
+use App\Models\ArticleTranslation;
+use App\Models\Category;
+use App\Models\CategoryTranslation;
+use App\Models\Currency;
+use App\Models\Language;
+use App\Models\Manager;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductTranslation;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -23,7 +33,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createUser(array $attributes = [])
     {
-        return \App\Models\User::factory()->create($attributes);
+        return User::factory()->create($attributes);
     }
 
     /**
@@ -31,7 +41,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createManager(array $attributes = [])
     {
-        return \App\Models\Manager::factory()->create($attributes);
+        return Manager::factory()->create($attributes);
     }
 
     /**
@@ -39,7 +49,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createProduct(array $attributes = [])
     {
-        return \App\Models\Product::factory()->create($attributes);
+        return Product::factory()->create($attributes);
     }
 
     /**
@@ -47,7 +57,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createOrder(array $attributes = [])
     {
-        return \App\Models\Order::factory()->create($attributes);
+        return Order::factory()->create($attributes);
     }
 
     /**
@@ -55,7 +65,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createCategory(array $attributes = [])
     {
-        return \App\Models\Category::factory()->create($attributes);
+        return Category::factory()->create($attributes);
     }
 
     /**
@@ -63,7 +73,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createLanguage(array $attributes = [])
     {
-        return \App\Models\Language::factory()->create($attributes);
+        return Language::factory()->create($attributes);
     }
 
     /**
@@ -71,7 +81,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createCategoryTranslation(array $attributes = [])
     {
-        return \App\Models\CategoryTranslation::factory()->create($attributes);
+        return CategoryTranslation::factory()->create($attributes);
     }
 
     /**
@@ -79,7 +89,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createProductTranslation(array $attributes = [])
     {
-        return \App\Models\ProductTranslation::factory()->create($attributes);
+        return ProductTranslation::factory()->create($attributes);
     }
 
     /**
@@ -87,7 +97,7 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createArticleTranslation(array $attributes = [])
     {
-        return \App\Models\ArticleTranslation::factory()->create($attributes);
+        return ArticleTranslation::factory()->create($attributes);
     }
 
     /**
@@ -95,6 +105,6 @@ abstract class LivewireTestCase extends TestCase
      */
     protected function createCurrency(array $attributes = [])
     {
-        return \App\Models\Currency::factory()->create($attributes);
+        return Currency::factory()->create($attributes);
     }
 }

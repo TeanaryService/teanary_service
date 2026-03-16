@@ -2,19 +2,21 @@
 
 namespace Tests\Feature\Livewire\Components;
 
+use App\Livewire\Components\CookieConsent;
+use Illuminate\Http\Request;
 use Tests\Feature\LivewireTestCase;
 
 class CookieConsentTest extends LivewireTestCase
 {
     public function test_cookie_consent_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Components\CookieConsent::class);
+        $component = $this->livewire(CookieConsent::class);
         $component->assertSuccessful();
     }
 
     public function test_cookie_consent_shows_when_no_cookie()
     {
-        $component = $this->livewire(\App\Livewire\Components\CookieConsent::class);
+        $component = $this->livewire(CookieConsent::class);
         $component->assertSet('show', true);
     }
 
@@ -24,10 +26,10 @@ class CookieConsentTest extends LivewireTestCase
         cookie()->queue('cookie_consent', '1', 60 * 24 * 365);
 
         // 模拟请求中的 cookie
-        $request = \Illuminate\Http\Request::create('/');
+        $request = Request::create('/');
         $request->cookies->set('cookie_consent', '1');
 
-        $component = $this->livewire(\App\Livewire\Components\CookieConsent::class, [], $request);
+        $component = $this->livewire(CookieConsent::class, [], $request);
         // mount 方法会检查 request()->cookies->has('cookie_consent')
         // 由于测试环境可能无法正确传递 cookie，我们验证组件能正常渲染即可
         $component->assertSuccessful();
@@ -35,7 +37,7 @@ class CookieConsentTest extends LivewireTestCase
 
     public function test_user_can_accept_cookies()
     {
-        $component = $this->livewire(\App\Livewire\Components\CookieConsent::class)
+        $component = $this->livewire(CookieConsent::class)
             ->call('accept')
             ->assertSet('show', false);
     }

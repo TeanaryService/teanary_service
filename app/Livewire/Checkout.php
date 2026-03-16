@@ -5,9 +5,13 @@ namespace App\Livewire;
 use App\Enums\OrderStatusEnum;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Address;
+use App\Models\Country;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
+use App\Models\Zone;
+use App\Services\PaymentService;
 use App\Services\PromotionService;
 use App\Services\ShippingService;
 use Illuminate\Support\Str;
@@ -91,7 +95,7 @@ class Checkout extends Component
         $this->processCheckoutItems();
 
         // 订单促销处理
-        $orderModel = new \App\Models\Order;
+        $orderModel = new Order;
         $orderModel->user_id = auth()->id();
         $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
             return (object) [
@@ -109,7 +113,7 @@ class Checkout extends Component
 
         // 使用缓存获取国家列表
         $lang = $this->getCurrentLanguage();
-        $this->countries = \App\Models\Country::getCountriesByLanguage($lang?->id);
+        $this->countries = Country::getCountriesByLanguage($lang?->id);
 
         // 如果已有地址的国家ID，加载对应的地区数据
         if (! empty($this->address['country_id'])) {
@@ -137,13 +141,13 @@ class Checkout extends Component
         $relations = ['country.countryTranslations', 'zone.zoneTranslations'];
 
         if (auth()->check()) {
-            $this->addresses = \App\Models\Address::with($relations)
+            $this->addresses = Address::with($relations)
                 ->where('user_id', auth()->id())
                 ->where('deleted', false)
                 ->get();
             $this->shippingAddress = $this->addresses->first()?->id;
         } else {
-            $this->addresses = \App\Models\Address::with($relations)
+            $this->addresses = Address::with($relations)
                 ->where('session_id', session()->getId())
                 ->where('deleted', false)
                 ->get();
@@ -218,7 +222,7 @@ class Checkout extends Component
         }
 
         $lang = $this->getCurrentLanguage();
-        $this->zones = \App\Models\Zone::getZonesByCountryAndLanguage($value, $lang?->id);
+        $this->zones = Zone::getZonesByCountryAndLanguage($value, $lang?->id);
 
         // 重置地区选择
         $this->address['zone_id'] = '';
@@ -257,7 +261,7 @@ class Checkout extends Component
         if ($this->shippingAddress && $this->addresses) {
             $address = $this->addresses->where('id', $this->shippingAddress)->first();
         }
-        $this->paymentMethods = app(\App\Services\PaymentService::class)->getAvailableMethods($address);
+        $this->paymentMethods = app(PaymentService::class)->getAvailableMethods($address);
     }
 
     protected function updateShippingMethods()
@@ -277,7 +281,7 @@ class Checkout extends Component
 
     protected function recalculateOrderTotal()
     {
-        $orderModel = new \App\Models\Order;
+        $orderModel = new Order;
         $orderModel->user_id = auth()->id();
         $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
             return (object) [
@@ -297,7 +301,7 @@ class Checkout extends Component
 
         // 根据国家设置邮编验证规则
         if ($this->address['country_id']) {
-            $country = \App\Models\Country::find($this->address['country_id']);
+            $country = Country::find($this->address['country_id']);
             $rules['address.postcode'] = $country && $country->postcode_required
                 ? 'required|string|max:20'
                 : 'nullable|string|max:20';
@@ -305,7 +309,7 @@ class Checkout extends Component
 
         // 根据国家设置地区验证规则
         $countryId = $this->address['country_id'] ?? null;
-        $zones = $countryId ? \App\Models\Zone::getZonesByCountryAndLanguage((int) $countryId) : [];
+        $zones = $countryId ? Zone::getZonesByCountryAndLanguage((int) $countryId) : [];
         if (! empty($zones)) {
             $rules['address.zone_id'] = 'required|exists:zones,id';
         } else {
@@ -325,7 +329,7 @@ class Checkout extends Component
             $data['user_id'] = auth()->id();
         }
 
-        $address = \App\Models\Address::create($data);
+        $address = Address::create($data);
 
         $this->loadAddresses();
         $this->shippingAddress = $address->id;
@@ -398,7 +402,7 @@ class Checkout extends Component
             $serverShippingFee = $shippingMethodData['fee'] ?? 0;
 
             // 2. 重新计算订单促销和总价
-            $orderModel = new \App\Models\Order;
+            $orderModel = new Order;
             $orderModel->user_id = auth()->id();
             $orderModel->orderItems = collect($this->processedItems)->map(function ($item) {
                 return (object) [

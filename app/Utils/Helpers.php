@@ -1,6 +1,7 @@
 <?php
 
 use App\Services\LocaleCurrencyService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 if (! function_exists('isImage')) {
@@ -45,7 +46,7 @@ if (! function_exists('getCurrentLocale')) {
 
         // 如果 locale 不在支持的语言列表中，使用默认语言
         if ($locale) {
-            $service = app(\App\Services\LocaleCurrencyService::class);
+            $service = app(LocaleCurrencyService::class);
             $supportedLocales = $service->getLanguages()->pluck('code')->toArray();
             if (! empty($supportedLocales) && ! in_array($locale, $supportedLocales)) {
                 $locale = $service->getDefaultLanguageCode();
@@ -54,7 +55,7 @@ if (! function_exists('getCurrentLocale')) {
 
         // 如果还是没有 locale，使用默认值
         if (! $locale) {
-            $service = app(\App\Services\LocaleCurrencyService::class);
+            $service = app(LocaleCurrencyService::class);
             $locale = $service->getDefaultLanguageCode();
         }
 
@@ -121,8 +122,8 @@ if (! function_exists('getProductDisplayData')) {
     function getProductDisplayData($product): array
     {
         $locale = session('lang');
-        $lang = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode($locale);
-        $currencyService = app(\App\Services\LocaleCurrencyService::class);
+        $lang = app(LocaleCurrencyService::class)->getLanguageByCode($locale);
+        $currencyService = app(LocaleCurrencyService::class);
         $currencyCode = session('currency');
 
         $translation = $product->productTranslations->where('language_id', $lang?->id)->first();
@@ -203,7 +204,7 @@ if (! function_exists('first_media_url')) {
 
         try {
             $media = $model->getFirstMedia($collection);
-        } catch (\Throwable) {
+        } catch (Throwable) {
             $media = null;
         }
 
@@ -416,10 +417,10 @@ if (! function_exists('buildProductBreadcrumbs')) {
     /**
      * 构建产品页面面包屑（用于 product 组件）.
      */
-    function buildProductBreadcrumbs(?int $categoryId = null, array|\Illuminate\Support\Collection $categories = []): array
+    function buildProductBreadcrumbs(?int $categoryId = null, array|Collection $categories = []): array
     {
         // 如果是 Collection，转换为数组
-        if ($categories instanceof \Illuminate\Support\Collection) {
+        if ($categories instanceof Collection) {
             $categories = $categories->toArray();
         }
 

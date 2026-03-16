@@ -8,6 +8,7 @@ use App\Livewire\Traits\HasDeleteAction;
 use App\Livewire\Traits\HasSearchAndFilters;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
+use App\Models\Specification;
 use App\Models\SpecificationValue;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -103,7 +104,7 @@ class SpecificationValues extends Component
     public function render()
     {
         $lang = $this->getCurrentLanguage();
-        $specifications = \App\Models\Specification::with('specificationTranslations')->get();
+        $specifications = Specification::with('specificationTranslations')->get();
 
         return view('livewire.manager.specification-values', [
             'specificationValues' => $this->specificationValues,

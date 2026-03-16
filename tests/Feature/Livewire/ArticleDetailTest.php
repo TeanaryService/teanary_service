@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Livewire;
 
+use App\Livewire\ArticleDetail;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\Feature\LivewireTestCase;
 
 class ArticleDetailTest extends LivewireTestCase
@@ -15,7 +17,7 @@ class ArticleDetailTest extends LivewireTestCase
             'is_published' => true,
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleDetail::class, ['slug' => 'test-article']);
+        $component = $this->livewire(ArticleDetail::class, ['slug' => 'test-article']);
         $component->assertSuccessful();
     }
 
@@ -32,7 +34,7 @@ class ArticleDetailTest extends LivewireTestCase
             'content' => '文章内容',
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleDetail::class, ['slug' => 'test-article']);
+        $component = $this->livewire(ArticleDetail::class, ['slug' => 'test-article']);
         $component->assertSuccessful();
         $this->assertEquals($article->id, $component->get('article')->id);
     }
@@ -48,17 +50,17 @@ class ArticleDetailTest extends LivewireTestCase
             'is_published' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleDetail::class, ['slug' => 'published-article']);
+        $component = $this->livewire(ArticleDetail::class, ['slug' => 'published-article']);
         $component->assertSuccessful();
 
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
-        $this->livewire(\App\Livewire\ArticleDetail::class, ['slug' => 'unpublished-article']);
+        $this->expectException(ModelNotFoundException::class);
+        $this->livewire(ArticleDetail::class, ['slug' => 'unpublished-article']);
     }
 
     public function test_article_detail_handles_invalid_slug()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
-        $this->livewire(\App\Livewire\ArticleDetail::class, ['slug' => 'non-existent-article']);
+        $this->expectException(ModelNotFoundException::class);
+        $this->livewire(ArticleDetail::class, ['slug' => 'non-existent-article']);
     }
 
     public function test_article_detail_loads_translations()
@@ -75,7 +77,7 @@ class ArticleDetailTest extends LivewireTestCase
             'content' => '文章内容',
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleDetail::class, ['slug' => 'test-article']);
+        $component = $this->livewire(ArticleDetail::class, ['slug' => 'test-article']);
         $component->assertSuccessful();
 
         $article = $component->get('article');
@@ -89,7 +91,7 @@ class ArticleDetailTest extends LivewireTestCase
             'is_published' => true,
         ]);
 
-        $component = $this->livewire(\App\Livewire\ArticleDetail::class, ['slug' => 'test-article']);
+        $component = $this->livewire(ArticleDetail::class, ['slug' => 'test-article']);
         $component->assertSuccessful();
     }
 }

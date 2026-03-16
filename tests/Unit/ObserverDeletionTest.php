@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\CategoryTranslation;
 use App\Models\Country;
 use App\Models\CountryTranslation;
+use App\Models\Language;
 use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\ProductTranslation;
@@ -46,7 +47,7 @@ class ObserverDeletionTest extends TestCase
     {
         // 创建产品及其关联数据
         $product = Product::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建产品翻译
         $translation1 = ProductTranslation::factory()->create([
@@ -111,7 +112,7 @@ class ObserverDeletionTest extends TestCase
     {
         // 创建父分类
         $parentCategory = Category::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建子分类
         $childCategory1 = Category::factory()->create(['parent_id' => $parentCategory->id]);
@@ -162,7 +163,7 @@ class ObserverDeletionTest extends TestCase
     public function test_attribute_deletion_cascades_to_attribute_values()
     {
         $attribute = Attribute::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建属性翻译
         $translation = AttributeTranslation::factory()->create([
@@ -215,7 +216,7 @@ class ObserverDeletionTest extends TestCase
         // 创建属性值（先创建属性）
         $attribute = Attribute::factory()->create();
         $attributeValue = AttributeValue::factory()->create(['attribute_id' => $attribute->id]);
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建属性值翻译
         $translation = AttributeValueTranslation::factory()->create([
@@ -254,7 +255,7 @@ class ObserverDeletionTest extends TestCase
     public function test_specification_deletion_cascades_to_specification_values()
     {
         $specification = Specification::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建规格翻译
         $translation = SpecificationTranslation::factory()->create([
@@ -307,7 +308,7 @@ class ObserverDeletionTest extends TestCase
         // 创建规格值（先创建规格）
         $specification = Specification::factory()->create();
         $specificationValue = SpecificationValue::factory()->create(['specification_id' => $specification->id]);
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建规格值翻译
         $translation = SpecificationValueTranslation::factory()->create([
@@ -346,10 +347,10 @@ class ObserverDeletionTest extends TestCase
     public function test_article_deletion_cascades_to_translations()
     {
         $article = Article::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建文章翻译（使用不同的语言避免唯一约束冲突）
-        $language2 = \App\Models\Language::factory()->create();
+        $language2 = Language::factory()->create();
         $translation1 = ArticleTranslation::factory()->create([
             'article_id' => $article->id,
             'language_id' => $language->id,
@@ -376,7 +377,7 @@ class ObserverDeletionTest extends TestCase
     public function test_promotion_deletion_cascades_to_rules_and_related_data()
     {
         $promotion = Promotion::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建促销规则
         $rule1 = PromotionRule::factory()->create(['promotion_id' => $promotion->id]);
@@ -427,7 +428,7 @@ class ObserverDeletionTest extends TestCase
     public function test_country_deletion_cascades_to_zones()
     {
         $country = Country::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建国家翻译
         $translation = CountryTranslation::factory()->create([
@@ -468,10 +469,10 @@ class ObserverDeletionTest extends TestCase
     public function test_zone_deletion_cascades_to_translations()
     {
         $zone = Zone::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建地区翻译（使用不同的语言避免唯一约束冲突）
-        $language2 = \App\Models\Language::factory()->create();
+        $language2 = Language::factory()->create();
         $translation1 = ZoneTranslation::factory()->create([
             'zone_id' => $zone->id,
             'language_id' => $language->id,
@@ -548,7 +549,7 @@ class ObserverDeletionTest extends TestCase
     public function test_user_group_deletion_cascades_to_related_data()
     {
         $userGroup = UserGroup::factory()->create();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
 
         // 创建用户组翻译（手动创建，因为没有 Factory）
         $translation = UserGroupTranslation::create([

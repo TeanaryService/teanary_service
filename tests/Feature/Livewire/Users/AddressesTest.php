@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Livewire\Users;
 
+use App\Livewire\Users\Addresses;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\Zone;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\Feature\LivewireTestCase;
 
 class AddressesTest extends LivewireTestCase
@@ -20,9 +22,9 @@ class AddressesTest extends LivewireTestCase
     public function test_addresses_page_requires_authentication()
     {
         try {
-            $this->livewire(\App\Livewire\Users\Addresses::class);
+            $this->livewire(Addresses::class);
             $this->fail('Expected redirect or exception was not thrown');
-        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+        } catch (HttpException $e) {
             $this->assertEquals(403, $e->getStatusCode());
         } catch (\Exception $e) {
             // 如果抛出其他异常也可以接受
@@ -35,7 +37,7 @@ class AddressesTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class);
+        $component = $this->livewire(Addresses::class);
         $component->assertSuccessful();
     }
 
@@ -51,7 +53,7 @@ class AddressesTest extends LivewireTestCase
             'deleted' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class);
+        $component = $this->livewire(Addresses::class);
 
         $addresses = $component->get('addresses');
         $addressIds = $addresses->pluck('id')->toArray();
@@ -71,7 +73,7 @@ class AddressesTest extends LivewireTestCase
             'deleted' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class);
+        $component = $this->livewire(Addresses::class);
 
         $addresses = $component->get('addresses');
         $addressIds = $addresses->pluck('id')->toArray();
@@ -83,7 +85,7 @@ class AddressesTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('email', 'test@example.com')
             ->set('firstname', 'John')
             ->set('lastname', 'Doe')
@@ -122,7 +124,7 @@ class AddressesTest extends LivewireTestCase
             'deleted' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->call('editAddress', $address->id);
 
         // 验证编辑表单已加载
@@ -157,7 +159,7 @@ class AddressesTest extends LivewireTestCase
             'deleted' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->call('deleteAddress', $address->id);
 
         // 地址使用软删除，检查 deleted 字段是否为 true
@@ -171,7 +173,7 @@ class AddressesTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->call('saveAddress')
             ->assertHasErrors(['email', 'firstname', 'lastname', 'telephone', 'address_1', 'city', 'postcode', 'country_id', 'zone_id']);
     }
@@ -181,7 +183,7 @@ class AddressesTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('email', 'invalid-email')
             ->set('firstname', 'John')
             ->set('lastname', 'Doe')
@@ -200,7 +202,7 @@ class AddressesTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Addresses::class)
+        $component = $this->livewire(Addresses::class)
             ->set('country_id', $this->country->id)
             ->assertSet('zone_id', '');
 

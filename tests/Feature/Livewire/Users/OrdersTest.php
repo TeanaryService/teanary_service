@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire\Users;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Users\Orders;
 use Illuminate\Support\Facades\Notification;
 use Tests\Feature\LivewireTestCase;
 
@@ -13,7 +14,7 @@ class OrdersTest extends LivewireTestCase
         $user = $this->createUser();
         $this->actingAs($user);
 
-        $component = $this->livewire(\App\Livewire\Users\Orders::class);
+        $component = $this->livewire(Orders::class);
         $component->assertSuccessful();
     }
 
@@ -27,7 +28,7 @@ class OrdersTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->assertSuccessful();
 
         $component->assertSee($order->order_no);
@@ -43,7 +44,7 @@ class OrdersTest extends LivewireTestCase
 
         $this->actingAs($user1);
 
-        $component = $this->livewire(\App\Livewire\Users\Orders::class);
+        $component = $this->livewire(Orders::class);
 
         $orders = $component->get('orders');
         $orderIds = $orders->pluck('id')->toArray();
@@ -63,7 +64,7 @@ class OrdersTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->call('cancelOrder', $order->id);
 
         $order->refresh();
@@ -80,7 +81,7 @@ class OrdersTest extends LivewireTestCase
             'status' => OrderStatusEnum::Completed,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->call('cancelOrder', $order->id);
 
         $order->refresh();
@@ -97,7 +98,7 @@ class OrdersTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Orders::class)
+        $component = $this->livewire(Orders::class)
             ->call('payOrder', $order->id);
 
         // 验证重定向（使用 locaRoute 生成的路由）

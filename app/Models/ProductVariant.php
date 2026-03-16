@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use App\Observers\ProductVariantObserver;
+use App\Services\SyncService;
 use App\Traits\CascadesMediaDeletes;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
@@ -102,21 +103,21 @@ class ProductVariant extends Model implements HasMedia
     {
         return $this->belongsToMany(Specification::class, 'product_variant_specification_value')
             ->withPivot('specification_value_id')
-            ->using(\App\Models\ProductVariantSpecificationValue::class);
+            ->using(ProductVariantSpecificationValue::class);
     }
 
     public function specificationValues(): BelongsToMany
     {
         return $this->belongsToMany(SpecificationValue::class, 'product_variant_specification_value')
             ->withPivot('specification_id')
-            ->using(\App\Models\ProductVariantSpecificationValue::class);
+            ->using(ProductVariantSpecificationValue::class);
     }
 
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product_variant')
             ->withPivot(['product_id', 'product_variant_id', 'promotion_id'])
-            ->using(\App\Models\PromotionProductVariant::class);
+            ->using(PromotionProductVariant::class);
     }
 
     /**
@@ -135,7 +136,7 @@ class ProductVariant extends Model implements HasMedia
 
             // 获取要删除的完整记录
             if (! empty($idsToDelete)) {
-                $pivotsToDelete = \App\Models\ProductVariantSpecificationValue::where('product_variant_id', $this->id)
+                $pivotsToDelete = ProductVariantSpecificationValue::where('product_variant_id', $this->id)
                     ->whereIn('specification_value_id', $idsToDelete)
                     ->get()
                     ->keyBy('specification_value_id');
@@ -146,12 +147,12 @@ class ProductVariant extends Model implements HasMedia
 
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
-            $syncService = app(\App\Services\SyncService::class);
+            $syncService = app(SyncService::class);
             $currentNode = config('sync.node');
 
             // 处理新增的记录
             foreach ($changes['attached'] ?? [] as $specificationValueId => $pivotData) {
-                $pivot = \App\Models\ProductVariantSpecificationValue::where([
+                $pivot = ProductVariantSpecificationValue::where([
                     'product_variant_id' => $this->id,
                     'specification_value_id' => $specificationValueId,
                     'specification_id' => $pivotData['specification_id'] ?? null,
@@ -164,7 +165,7 @@ class ProductVariant extends Model implements HasMedia
 
             // 处理更新的记录
             foreach ($changes['updated'] ?? [] as $specificationValueId => $pivotData) {
-                $pivot = \App\Models\ProductVariantSpecificationValue::where([
+                $pivot = ProductVariantSpecificationValue::where([
                     'product_variant_id' => $this->id,
                     'specification_value_id' => $specificationValueId,
                     'specification_id' => $pivotData['specification_id'] ?? null,
@@ -182,7 +183,7 @@ class ProductVariant extends Model implements HasMedia
                     $syncService->recordSync($pivot, 'deleted', $currentNode);
                 } else {
                     // 如果找不到完整记录，使用部分信息创建（作为后备方案）
-                    $pivot = new \App\Models\ProductVariantSpecificationValue([
+                    $pivot = new ProductVariantSpecificationValue([
                         'product_variant_id' => $this->id,
                         'specification_value_id' => $specificationValueId,
                     ]);

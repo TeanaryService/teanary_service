@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire;
 
+use App\Livewire\Checkout;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\ProductVariant;
@@ -20,7 +21,7 @@ class CheckoutTest extends LivewireTestCase
     public function test_checkout_redirects_when_no_items()
     {
         try {
-            $component = $this->livewire(\App\Livewire\Checkout::class);
+            $component = $this->livewire(Checkout::class);
             // 应该重定向到购物车
             $this->assertNotNull($component);
         } catch (\Exception $e) {
@@ -48,7 +49,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class);
+        $component = $this->livewire(Checkout::class);
         $component->assertSuccessful();
     }
 
@@ -71,7 +72,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class);
+        $component = $this->livewire(Checkout::class);
         $component->assertSuccessful();
         $this->assertGreaterThan(0, $component->get('total'));
     }
@@ -98,7 +99,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class)
+        $component = $this->livewire(Checkout::class)
             ->set('shippingAddress', $address->id);
 
         $component->assertSet('shippingAddress', $address->id);
@@ -126,7 +127,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class)
+        $component = $this->livewire(Checkout::class)
             ->set('billingAddress', $address->id);
 
         $component->assertSet('billingAddress', $address->id);
@@ -148,7 +149,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class)
+        $component = $this->livewire(Checkout::class)
             ->set('showAddressForm', true)
             ->set('address.firstname', 'John')
             ->set('address.lastname', 'Doe')
@@ -189,7 +190,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class)
+        $component = $this->livewire(Checkout::class)
             ->set('shippingAddress', $address->id)
             ->set('paymentMethod', 'paypal');
 
@@ -218,7 +219,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class)
+        $component = $this->livewire(Checkout::class)
             ->set('shippingAddress', $address->id)
             ->set('shippingMethod', 'standard');
 
@@ -241,7 +242,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class)
+        $component = $this->livewire(Checkout::class)
             ->set('showAddressForm', true)
             ->set('address', [
                 'firstname' => '',
@@ -272,7 +273,7 @@ class CheckoutTest extends LivewireTestCase
             ],
         ]]);
 
-        $component = $this->livewire(\App\Livewire\Checkout::class)
+        $component = $this->livewire(Checkout::class)
             ->set('showAddressForm', true)
             ->set('address.country_id', $this->country->id);
 

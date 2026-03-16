@@ -11,7 +11,7 @@ class CurrencyObserver
     public function saved(Currency $currency)
     {
         (new LocaleCurrencyService)->clearCurrenciesCache();
-        Artisan::call('app:update-ecb');
+        // Artisan::call('app:update-ecb');
     }
 
     public function updated(Currency $currency)

@@ -8,6 +8,7 @@ use App\Livewire\Traits\HandlesTranslations;
 use App\Livewire\Traits\HasNavigationRedirect;
 use App\Models\Promotion;
 use App\Models\PromotionTranslation;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class PromotionForm extends Component
@@ -70,8 +71,8 @@ class PromotionForm extends Component
         $data = [
             'type' => PromotionTypeEnum::from($this->type),
             'translation_status' => TranslationStatusEnum::from($this->translationStatus),
-            'starts_at' => $this->startsAt ? new \Carbon\Carbon($this->startsAt) : null,
-            'ends_at' => $this->endsAt ? new \Carbon\Carbon($this->endsAt) : null,
+            'starts_at' => $this->startsAt ? new Carbon($this->startsAt) : null,
+            'ends_at' => $this->endsAt ? new Carbon($this->endsAt) : null,
             'active' => $this->active,
         ];
 

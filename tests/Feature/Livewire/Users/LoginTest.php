@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Users;
 
+use App\Livewire\Users\Login;
 use Illuminate\Support\Facades\Auth;
 use Tests\Feature\LivewireTestCase;
 
@@ -9,7 +10,7 @@ class LoginTest extends LivewireTestCase
 {
     public function test_login_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Users\Login::class);
+        $component = $this->livewire(Login::class);
 
         $component->assertSuccessful();
     }
@@ -21,7 +22,7 @@ class LoginTest extends LivewireTestCase
             'password' => bcrypt('password'),
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'test@example.com')
             ->set('password', 'password')
             ->call('login');
@@ -37,7 +38,7 @@ class LoginTest extends LivewireTestCase
             'password' => bcrypt('password'),
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'test@example.com')
             ->set('password', 'wrong-password')
             ->call('login')
@@ -48,7 +49,7 @@ class LoginTest extends LivewireTestCase
 
     public function test_login_validates_email_required()
     {
-        $component = $this->livewire(\App\Livewire\Users\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('password', 'password')
             ->call('login')
             ->assertHasErrors(['email']);
@@ -56,7 +57,7 @@ class LoginTest extends LivewireTestCase
 
     public function test_login_validates_password_required()
     {
-        $component = $this->livewire(\App\Livewire\Users\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'test@example.com')
             ->call('login')
             ->assertHasErrors(['password']);
@@ -64,7 +65,7 @@ class LoginTest extends LivewireTestCase
 
     public function test_login_validates_email_format()
     {
-        $component = $this->livewire(\App\Livewire\Users\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'invalid-email')
             ->set('password', 'password')
             ->call('login')
@@ -78,7 +79,7 @@ class LoginTest extends LivewireTestCase
             'password' => bcrypt('password'),
         ]);
 
-        $component = $this->livewire(\App\Livewire\Users\Login::class)
+        $component = $this->livewire(Login::class)
             ->set('email', 'test@example.com')
             ->set('password', 'password')
             ->set('remember', true)

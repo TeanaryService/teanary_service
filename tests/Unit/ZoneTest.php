@@ -3,8 +3,10 @@
 namespace Tests\Unit;
 
 use App\Models\Country;
+use App\Models\Language;
 use App\Models\Zone;
 use App\Models\ZoneTranslation;
+use App\Support\CacheKeys;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,13 +73,13 @@ class ZoneTest extends TestCase
         $this->assertCount(1, $zones);
         $this->assertArrayHasKey('id', $zones[0]);
         $this->assertArrayHasKey('translations', $zones[0]);
-        $this->assertTrue(Cache::has(\App\Support\CacheKeys::ZONES_BY_COUNTRY_PREFIX.$country->id));
+        $this->assertTrue(Cache::has(CacheKeys::ZONES_BY_COUNTRY_PREFIX.$country->id));
     }
 
     public function test_get_zones_by_country_and_language()
     {
         Cache::flush();
-        $language = \App\Models\Language::factory()->create();
+        $language = Language::factory()->create();
         $country = Country::factory()->create();
         $zone = Zone::factory()->create(['country_id' => $country->id]);
         $translation = ZoneTranslation::factory()->create([

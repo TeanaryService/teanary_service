@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Currency;
 use App\Models\Language;
 use App\Services\LocaleCurrencyService;
+use App\Support\CacheKeys;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
@@ -28,7 +29,7 @@ class LocaleCurrencyServiceTest extends TestCase
         $result = $this->service->getLanguages();
 
         $this->assertCount(1, $result);
-        $this->assertTrue(Cache::has(\App\Support\CacheKeys::LANGUAGES_ALL));
+        $this->assertTrue(Cache::has(CacheKeys::LANGUAGES_ALL));
     }
 
     public function test_get_currencies()
@@ -38,27 +39,27 @@ class LocaleCurrencyServiceTest extends TestCase
         $result = $this->service->getCurrencies();
 
         $this->assertCount(1, $result);
-        $this->assertTrue(Cache::has(\App\Support\CacheKeys::CURRENCIES_ALL));
+        $this->assertTrue(Cache::has(CacheKeys::CURRENCIES_ALL));
     }
 
     public function test_clear_languages_cache()
     {
-        Cache::put(\App\Support\CacheKeys::LANGUAGES_ALL, collect([]));
-        $this->assertTrue(Cache::has(\App\Support\CacheKeys::LANGUAGES_ALL));
+        Cache::put(CacheKeys::LANGUAGES_ALL, collect([]));
+        $this->assertTrue(Cache::has(CacheKeys::LANGUAGES_ALL));
 
         $this->service->clearLanguagesCache();
 
-        $this->assertFalse(Cache::has(\App\Support\CacheKeys::LANGUAGES_ALL));
+        $this->assertFalse(Cache::has(CacheKeys::LANGUAGES_ALL));
     }
 
     public function test_clear_currencies_cache()
     {
-        Cache::put(\App\Support\CacheKeys::CURRENCIES_ALL, collect([]));
-        $this->assertTrue(Cache::has(\App\Support\CacheKeys::CURRENCIES_ALL));
+        Cache::put(CacheKeys::CURRENCIES_ALL, collect([]));
+        $this->assertTrue(Cache::has(CacheKeys::CURRENCIES_ALL));
 
         $this->service->clearCurrenciesCache();
 
-        $this->assertFalse(Cache::has(\App\Support\CacheKeys::CURRENCIES_ALL));
+        $this->assertFalse(Cache::has(CacheKeys::CURRENCIES_ALL));
     }
 
     public function test_get_language_by_code()
@@ -116,7 +117,7 @@ class LocaleCurrencyServiceTest extends TestCase
 
         $this->assertTrue($result);
         $this->assertEquals(7.5, $currency->fresh()->exchange_rate);
-        $this->assertFalse(Cache::has(\App\Support\CacheKeys::CURRENCIES_ALL));
+        $this->assertFalse(Cache::has(CacheKeys::CURRENCIES_ALL));
     }
 
     public function test_set_rate_returns_false_when_currency_not_found()

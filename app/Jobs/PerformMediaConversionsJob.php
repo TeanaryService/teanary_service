@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Media;
+use App\Observers\MediaObserver;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob as BasePerformConversionsJob;
 
 /**
@@ -36,18 +38,18 @@ class PerformMediaConversionsJob implements ShouldQueue
     public function handle(): void
     {
         // 禁用 Media 同步，防止转换过程中更新 Media 模型时触发同步
-        $wasDisabled = \App\Observers\MediaObserver::$syncDisabled;
-        \App\Observers\MediaObserver::$syncDisabled = true;
+        $wasDisabled = MediaObserver::$syncDisabled;
+        MediaObserver::$syncDisabled = true;
 
         try {
             // 使用 Spatie 的原始 Job 来处理转换
             // PerformConversionsJob 的 handle 方法需要 FileManipulator 参数
-            $fileManipulator = app(\Spatie\MediaLibrary\Conversions\FileManipulator::class);
+            $fileManipulator = app(FileManipulator::class);
             $baseJob = new BasePerformConversionsJob($this->conversions, $this->media);
             $baseJob->handle($fileManipulator);
         } finally {
             // 恢复之前的同步状态
-            \App\Observers\MediaObserver::$syncDisabled = $wasDisabled;
+            MediaObserver::$syncDisabled = $wasDisabled;
         }
     }
 

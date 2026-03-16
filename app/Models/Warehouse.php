@@ -6,6 +6,7 @@ use App\Traits\HasSnowflakeId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * 仓库（分仓）.
@@ -66,6 +67,11 @@ class Warehouse extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_warehouse');
+    }
+
+    public function afterSales(): HasMany
+    {
+        return $this->hasMany(AfterSale::class);
     }
 
     /**

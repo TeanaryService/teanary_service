@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Language;
+use App\Models\Manager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -30,8 +32,8 @@ class ArticleApiTest extends TestCase
      */
     public function test_can_create_article()
     {
-        $token = \Illuminate\Support\Str::random(60);
-        $user = \App\Models\Manager::factory()->create([
+        $token = Str::random(60);
+        $user = Manager::factory()->create([
             'token' => $token,
         ]);
         $language = Language::factory()->create(['code' => 'en']);

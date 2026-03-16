@@ -9,6 +9,7 @@ namespace App\Models;
 use App\Enums\PromotionTypeEnum;
 use App\Enums\TranslationStatusEnum;
 use App\Observers\PromotionObserver;
+use App\Services\SyncService;
 use App\Traits\HasSnowflakeId;
 use App\Traits\Syncable;
 use Carbon\Carbon;
@@ -64,7 +65,7 @@ class Promotion extends Model
     {
         return $this->belongsToMany(ProductVariant::class, 'promotion_product_variant')
             ->withPivot(['product_id', 'product_variant_id', 'promotion_id'])
-            ->using(\App\Models\PromotionProductVariant::class);
+            ->using(PromotionProductVariant::class);
     }
 
     /**
@@ -85,12 +86,12 @@ class Promotion extends Model
 
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
-            $syncService = app(\App\Services\SyncService::class);
+            $syncService = app(SyncService::class);
             $currentNode = config('sync.node');
 
             // 处理新增的记录
             foreach ($changes['attached'] ?? [] as $productVariantId => $pivotData) {
-                $pivot = \App\Models\PromotionProductVariant::where([
+                $pivot = PromotionProductVariant::where([
                     'promotion_id' => $this->id,
                     'product_variant_id' => $productVariantId,
                     'product_id' => $pivotData['product_id'] ?? null,
@@ -103,7 +104,7 @@ class Promotion extends Model
 
             // 处理更新的记录
             foreach ($changes['updated'] ?? [] as $productVariantId => $pivotData) {
-                $pivot = \App\Models\PromotionProductVariant::where([
+                $pivot = PromotionProductVariant::where([
                     'promotion_id' => $this->id,
                     'product_variant_id' => $productVariantId,
                     'product_id' => $pivotData['product_id'] ?? null,
@@ -116,7 +117,7 @@ class Promotion extends Model
 
             // 处理删除的记录
             foreach ($changes['detached'] ?? [] as $productVariantId) {
-                $pivot = new \App\Models\PromotionProductVariant([
+                $pivot = new PromotionProductVariant([
                     'promotion_id' => $this->id,
                     'product_variant_id' => $productVariantId,
                 ]);
@@ -144,10 +145,10 @@ class Promotion extends Model
 
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
-            $syncService = app(\App\Services\SyncService::class);
+            $syncService = app(SyncService::class);
             $currentNode = config('sync.node');
 
-            $pivot = \App\Models\PromotionProductVariant::where([
+            $pivot = PromotionProductVariant::where([
                 'promotion_id' => $this->id,
                 'product_variant_id' => $productVariantId,
                 'product_id' => $pivotData['product_id'] ?? null,
@@ -167,7 +168,7 @@ class Promotion extends Model
         $ids = is_array($productVariantIds) ? $productVariantIds : [$productVariantIds];
 
         // 在删除前获取要删除的记录
-        $pivotsToDelete = \App\Models\PromotionProductVariant::where('promotion_id', $this->id)
+        $pivotsToDelete = PromotionProductVariant::where('promotion_id', $this->id)
             ->whereIn('product_variant_id', $ids)
             ->get();
 
@@ -175,7 +176,7 @@ class Promotion extends Model
 
         // 手动触发 Pivot 模型的同步
         if (config('sync.enabled')) {
-            $syncService = app(\App\Services\SyncService::class);
+            $syncService = app(SyncService::class);
             $currentNode = config('sync.node');
 
             foreach ($pivotsToDelete as $pivot) {

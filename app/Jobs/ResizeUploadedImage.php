@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Image\Enums\Constraint;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class ResizeUploadedImage implements ShouldQueue
 {
@@ -30,7 +32,7 @@ class ResizeUploadedImage implements ShouldQueue
     public function failed(\Throwable $exception): void
     {
         // 如果是因为模型不存在导致的失败，记录警告但不抛出异常
-        if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+        if ($exception instanceof ModelNotFoundException) {
             Log::warning('图片调整任务失败：Media 模型不存在', [
                 'media_id' => $this->media->id ?? null,
                 'error' => $exception->getMessage(),
@@ -61,7 +63,7 @@ class ResizeUploadedImage implements ShouldQueue
         $this->media->refresh();
 
         // 使用 PathGeneratorFactory 获取正确的相对路径
-        $pathGeneratorFactory = app(\Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory::class);
+        $pathGeneratorFactory = app(PathGeneratorFactory::class);
         $pathGenerator = $pathGeneratorFactory->create($this->media);
         $directory = $pathGenerator->getPath($this->media);
         $fileName = $this->media->file_name ?? $this->media->name ?? 'file';

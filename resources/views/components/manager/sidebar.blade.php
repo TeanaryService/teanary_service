@@ -30,6 +30,12 @@
             'key' => 'orders',
         ],
         [
+            'name' => __('manager.after_sales.label'),
+            'route' => 'manager.after-sales',
+            'icon' => 'heroicon-o-arrow-path-rounded-square',
+            'key' => 'after-sales',
+        ],
+        [
             'name' => __('manager.promotions.label'),
             'route' => 'manager.promotions',
             'icon' => 'heroicon-o-gift-top',

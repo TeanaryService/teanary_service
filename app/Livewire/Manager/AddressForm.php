@@ -6,6 +6,9 @@ use App\Livewire\Traits\HasNavigationRedirect;
 use App\Livewire\Traits\HasTranslatedNames;
 use App\Livewire\Traits\UsesLocaleCurrency;
 use App\Models\Address;
+use App\Models\Country;
+use App\Models\User;
+use App\Models\Zone;
 use Livewire\Component;
 
 class AddressForm extends Component
@@ -91,7 +94,7 @@ class AddressForm extends Component
         if ($this->countryId) {
             $lang = $this->getCurrentLanguage();
 
-            $zones = \App\Models\Zone::where('country_id', $this->countryId)
+            $zones = Zone::where('country_id', $this->countryId)
                 ->with('zoneTranslations')
                 ->get();
 
@@ -142,8 +145,8 @@ class AddressForm extends Component
 
     public function render()
     {
-        $users = \App\Models\User::orderBy('name')->get();
-        $countries = \App\Models\Country::with('countryTranslations')->get();
+        $users = User::orderBy('name')->get();
+        $countries = Country::with('countryTranslations')->get();
 
         return view('livewire.manager.address-form', [
             'users' => $users,

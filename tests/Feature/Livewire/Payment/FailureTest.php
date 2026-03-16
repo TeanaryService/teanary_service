@@ -3,6 +3,9 @@
 namespace Tests\Feature\Livewire\Payment;
 
 use App\Enums\OrderStatusEnum;
+use App\Livewire\Payment\Failure;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Tests\Feature\LivewireTestCase;
 
 class FailureTest extends LivewireTestCase
@@ -13,11 +16,11 @@ class FailureTest extends LivewireTestCase
             'status' => OrderStatusEnum::Pending,
         ]);
 
-        $request = \Illuminate\Http\Request::create('/', 'GET', [
+        $request = Request::create('/', 'GET', [
             'orderId' => $order->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Payment\Failure::class, [], $request);
+        $component = $this->livewire(Failure::class, [], $request);
         $component->assertSuccessful();
     }
 
@@ -28,17 +31,17 @@ class FailureTest extends LivewireTestCase
             'order_no' => 'TEST-ORDER-001',
         ]);
 
-        $request = \Illuminate\Http\Request::create('/', 'GET', [
+        $request = Request::create('/', 'GET', [
             'orderId' => $order->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Payment\Failure::class, [], $request);
+        $component = $this->livewire(Failure::class, [], $request);
         $component->assertSuccessful();
     }
 
     public function test_payment_failure_handles_missing_order()
     {
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
-        $this->livewire(\App\Livewire\Payment\Failure::class, ['orderId' => 999999999]);
+        $this->expectException(ModelNotFoundException::class);
+        $this->livewire(Failure::class, ['orderId' => 999999999]);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\ProductVariant;
 use App\Models\Promotion;
 use App\Models\PromotionRule;
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class PromotionService
@@ -34,7 +35,7 @@ class PromotionService
 
         $finalPrice = $basePrice;
         $appliedPromotion = null;
-        $langId = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
         foreach ($promotions as $promotion) {
             // 优先用缓存
@@ -85,7 +86,7 @@ class PromotionService
 
         $finalTotal = $baseTotal;
         $appliedPromotion = null;
-        $langId = app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
 
         foreach ($promotions as $promotion) {
             // 优先用缓存
@@ -123,11 +124,11 @@ class PromotionService
     /**
      * 总缓存所有促销（含翻译、规则、userGroups），永久缓存.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public static function getAllPromotionsCached()
     {
-        return \Illuminate\Support\Facades\Cache::rememberForever('promotions.all', function () {
+        return Cache::rememberForever('promotions.all', function () {
             return Promotion::with([
                 'promotionTranslations',
                 'promotionRules',
@@ -140,12 +141,12 @@ class PromotionService
     /**
      * 获取可用促销信息列表（用于广告），从总缓存筛选.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function getAvailablePromotions(?User $user = null, ?int $langId = null)
     {
         $now = now();
-        $langId = $langId ?: app(\App\Services\LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
+        $langId = $langId ?: app(LocaleCurrencyService::class)->getLanguageByCode(app()->getLocale())?->id;
         $userGroupId = $user?->user_group_id;
 
         return static::getAllPromotionsCached()->filter(function ($promotion) use ($now, $userGroupId) {
@@ -214,7 +215,7 @@ class PromotionService
      */
     public static function clearPromotionCache()
     {
-        \Illuminate\Support\Facades\Cache::forget('promotions.all');
+        Cache::forget('promotions.all');
     }
 
     /**

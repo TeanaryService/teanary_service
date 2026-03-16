@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\LanguageCurrencySwitcherController;
 use App\Http\Middleware\SetLocaleAndCurrency;
+use App\Http\Middleware\TrackTraffic;
 use App\Livewire\ArticleDetail;
 use App\Livewire\ArticleList;
 use App\Livewire\Cart;
@@ -14,6 +16,7 @@ use App\Livewire\Payment\Failure;
 use App\Livewire\Payment\Success;
 use App\Livewire\Product;
 use App\Livewire\ProductDetail;
+use App\Livewire\Search;
 use App\Services\LocaleCurrencyService;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +36,7 @@ if (empty($supportedLocales)) {
 }
 
 // 路由组
-Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Middleware\TrackTraffic::class])->group(function () {
+Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, TrackTraffic::class])->group(function () {
     Route::livewire('index.html', IndexPage::class)->name('teanary.open');
 
     // 引入用户相关路由
@@ -42,7 +45,7 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
     // 引入管理员相关路由
     require __DIR__.'/manager.php';
 
-    Route::post('/currency-switcher/update', [\App\Http\Controllers\LanguageCurrencySwitcherController::class, 'update'])
+    Route::post('/currency-switcher/update', [LanguageCurrencySwitcherController::class, 'update'])
         ->name('currency-switcher.update');
 
     Route::livewire('/', Home::class)->name('home');
@@ -59,7 +62,7 @@ Route::prefix('{locale}')->middleware([SetLocaleAndCurrency::class, \App\Http\Mi
     Route::livewire('articles', ArticleList::class)->name('article.index');
     Route::livewire('articles/{slug}', ArticleDetail::class)->name('article.show');
 
-    Route::livewire('/search', \App\Livewire\Search::class)->name('search');
+    Route::livewire('/search', Search::class)->name('search');
 
     Route::livewire('order-query', OrderQuery::class)->name('order.query');
 

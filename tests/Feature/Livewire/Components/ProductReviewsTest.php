@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Components;
 
+use App\Livewire\Components\ProductReviews;
 use App\Models\ProductReview;
 use Tests\Feature\LivewireTestCase;
 
@@ -11,7 +12,7 @@ class ProductReviewsTest extends LivewireTestCase
     {
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id]);
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id]);
         $component->assertSuccessful();
     }
 
@@ -27,7 +28,7 @@ class ProductReviewsTest extends LivewireTestCase
             'is_approved' => false,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id]);
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id]);
         $component->assertSuccessful();
     }
 
@@ -38,7 +39,7 @@ class ProductReviewsTest extends LivewireTestCase
 
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id])
             ->set('rating', 5)
             ->set('content', 'This is a great product!')
             ->call('submit');
@@ -59,7 +60,7 @@ class ProductReviewsTest extends LivewireTestCase
 
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id])
             ->set('rating', '')
             ->set('content', 'This is a great product!')
             ->call('submit')
@@ -73,7 +74,7 @@ class ProductReviewsTest extends LivewireTestCase
 
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id])
             ->set('rating', 5)
             ->call('submit')
             ->assertHasErrors(['content']);
@@ -86,7 +87,7 @@ class ProductReviewsTest extends LivewireTestCase
 
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id])
             ->set('rating', 5)
             ->set('content', 'Hi')
             ->call('submit')
@@ -100,7 +101,7 @@ class ProductReviewsTest extends LivewireTestCase
 
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id])
             ->set('rating', 6)
             ->set('content', 'This is a great product!')
             ->call('submit')
@@ -111,7 +112,7 @@ class ProductReviewsTest extends LivewireTestCase
     {
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id])
             ->set('rating', 5)
             ->set('content', 'This is a great product!')
             ->call('submit');
@@ -129,7 +130,7 @@ class ProductReviewsTest extends LivewireTestCase
 
         $product = $this->createProduct();
 
-        $component = $this->livewire(\App\Livewire\Components\ProductReviews::class, ['productId' => $product->id])
+        $component = $this->livewire(ProductReviews::class, ['productId' => $product->id])
             ->set('rating', 5)
             ->set('content', 'This is a great product!')
             ->call('submit')

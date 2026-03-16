@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Traits;
 
+use Illuminate\Http\RedirectResponse;
+use Livewire\Features\SupportRedirects\Redirector;
+
 /**
  * 提供导航重定向功能的 Trait.
  *
@@ -14,7 +17,7 @@ trait HasNavigationRedirect
      *
      * @param  string  $route  路由名称
      * @param  string  $messageKey  消息键（默认 'created_successfully'）
-     * @return \Illuminate\Http\RedirectResponse|\Livewire\Features\SupportRedirects\Redirector
+     * @return RedirectResponse|Redirector
      */
     protected function redirectWithMessage(string $route, string $messageKey = 'created_successfully')
     {

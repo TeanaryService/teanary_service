@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Livewire\Components;
 
+use App\Livewire\Components\CartDropdown;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\ProductVariant;
@@ -11,7 +12,7 @@ class CartDropdownTest extends LivewireTestCase
 {
     public function test_cart_dropdown_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Components\CartDropdown::class);
+        $component = $this->livewire(CartDropdown::class);
         $component->assertSuccessful();
     }
 
@@ -31,7 +32,7 @@ class CartDropdownTest extends LivewireTestCase
             'qty' => 2,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\CartDropdown::class);
+        $component = $this->livewire(CartDropdown::class);
         $component->assertSuccessful();
     }
 
@@ -54,7 +55,7 @@ class CartDropdownTest extends LivewireTestCase
             'qty' => 2,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\CartDropdown::class);
+        $component = $this->livewire(CartDropdown::class);
         $component->assertSuccessful();
         $this->assertGreaterThan(0, $component->get('cartTotal'));
     }
@@ -68,7 +69,7 @@ class CartDropdownTest extends LivewireTestCase
         $product = $this->createProduct();
         $variant = ProductVariant::factory()->create(['product_id' => $product->id]);
 
-        $component = $this->livewire(\App\Livewire\Components\CartDropdown::class)
+        $component = $this->livewire(CartDropdown::class)
             ->call('addToCart', $product->id, $variant->id, 1);
 
         $this->assertDatabaseHas('cart_items', [
@@ -94,7 +95,7 @@ class CartDropdownTest extends LivewireTestCase
             'qty' => 1,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\CartDropdown::class)
+        $component = $this->livewire(CartDropdown::class)
             ->call('updateQty', $cartItem->id, 3);
 
         $cartItem->refresh();
@@ -116,7 +117,7 @@ class CartDropdownTest extends LivewireTestCase
             'product_variant_id' => $variant->id,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\CartDropdown::class)
+        $component = $this->livewire(CartDropdown::class)
             ->call('removeItem', $cartItem->id);
 
         $this->assertDatabaseMissing('cart_items', ['id' => $cartItem->id]);
@@ -138,7 +139,7 @@ class CartDropdownTest extends LivewireTestCase
             'qty' => 1,
         ]);
 
-        $component = $this->livewire(\App\Livewire\Components\CartDropdown::class)
+        $component = $this->livewire(CartDropdown::class)
             ->call('updateQty', $cartItem->id, 0);
 
         $this->assertDatabaseMissing('cart_items', ['id' => $cartItem->id]);

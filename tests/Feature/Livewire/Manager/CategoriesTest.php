@@ -3,6 +3,8 @@
 namespace Tests\Feature\Livewire\Manager;
 
 use App\Enums\TranslationStatusEnum;
+use App\Livewire\Manager\Categories;
+use App\Models\CategoryTranslation;
 use Tests\Feature\LivewireTestCase;
 
 class CategoriesTest extends LivewireTestCase
@@ -15,7 +17,7 @@ class CategoriesTest extends LivewireTestCase
 
     public function test_categories_page_can_be_rendered()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class);
+        $component = $this->livewire(Categories::class);
         $component->assertSuccessful();
     }
 
@@ -23,7 +25,7 @@ class CategoriesTest extends LivewireTestCase
     {
         $category = $this->createCategory();
 
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class);
+        $component = $this->livewire(Categories::class);
 
         $categories = $component->get('categories');
         $categoryIds = $categories->pluck('id')->toArray();
@@ -36,16 +38,16 @@ class CategoriesTest extends LivewireTestCase
         $category2 = $this->createCategory();
 
         // 创建分类翻译
-        \App\Models\CategoryTranslation::factory()->create([
+        CategoryTranslation::factory()->create([
             'category_id' => $category1->id,
             'name' => '测试分类1',
         ]);
-        \App\Models\CategoryTranslation::factory()->create([
+        CategoryTranslation::factory()->create([
             'category_id' => $category2->id,
             'name' => '其他分类',
         ]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class)
+        $component = $this->livewire(Categories::class)
             ->set('search', '测试')
             ->assertSet('search', '测试');
 
@@ -61,7 +63,7 @@ class CategoriesTest extends LivewireTestCase
         $childCategory = $this->createCategory(['parent_id' => $parentCategory->id]);
         $rootCategory = $this->createCategory(['parent_id' => null]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class)
+        $component = $this->livewire(Categories::class)
             ->set('filterParentId', $parentCategory->id);
 
         $categories = $component->get('categories');
@@ -76,7 +78,7 @@ class CategoriesTest extends LivewireTestCase
         $parentCategory = $this->createCategory(['parent_id' => null]);
         $childCategory = $this->createCategory(['parent_id' => $parentCategory->id]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class)
+        $component = $this->livewire(Categories::class)
             ->set('filterParentId', 0); // 0 表示根分类
 
         $categories = $component->get('categories');
@@ -90,7 +92,7 @@ class CategoriesTest extends LivewireTestCase
         $category1 = $this->createCategory(['translation_status' => TranslationStatusEnum::Translated]);
         $category2 = $this->createCategory(['translation_status' => TranslationStatusEnum::NotTranslated]);
 
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class)
+        $component = $this->livewire(Categories::class)
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value]);
 
         $categories = $component->get('categories');
@@ -103,7 +105,7 @@ class CategoriesTest extends LivewireTestCase
     {
         $category = $this->createCategory();
 
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class)
+        $component = $this->livewire(Categories::class)
             ->call('deleteCategory', $category->id);
 
         $this->assertDatabaseMissing('categories', ['id' => $category->id]);
@@ -111,7 +113,7 @@ class CategoriesTest extends LivewireTestCase
 
     public function test_reset_filters_clears_all_filters()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class)
+        $component = $this->livewire(Categories::class)
             ->set('search', 'test')
             ->set('filterParentId', 1)
             ->set('filterTranslationStatus', [TranslationStatusEnum::Translated->value])
@@ -123,7 +125,7 @@ class CategoriesTest extends LivewireTestCase
 
     public function test_updating_search_resets_page()
     {
-        $component = $this->livewire(\App\Livewire\Manager\Categories::class)
+        $component = $this->livewire(Categories::class)
             ->set('search', 'test');
 
         $component->assertSet('search', 'test');
